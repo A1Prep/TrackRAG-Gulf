@@ -1,0 +1,24 @@
+.venv/
+.venv-*/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.idea/
+.vscode/
+.env
+.env.*
+*.pem
+*.key
+
+# Local inputs, experiment outputs and model weights
+data/
+models/
+checkpoints/
+outputs/
+runs/
+wandb/
+*.safetensors
+*.pt
+*.pth
+*.ckpt
+*.onnx

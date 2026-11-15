@@ -232,12 +232,21 @@ def answer_question(question, evidence, run_dir):
         track_id = item["interval"]["track_id"]
         start, end = item["interval"]["start_frame"], item["interval"]["end_frame"]
         rows = [row for row in observations if row["track_id"] == track_id and start <= row["frame_id"] <= end]
-        facts.append({"evidence_id": item["evidence_id"], "interval": item["interval"], "history": history_facts(rows, first_frame) if rows else None})
+        history = history_facts(rows, first_frame) if rows else None
+        if history is not None and len(rows) > 1:
+            dx, dy = history["center_displacement_xy_pixels"]
+            history["net_image_motion"] = {
+                "horizontal": "left" if dx < 0 else "right" if dx > 0 else "unchanged",
+                "vertical": "up" if dy < 0 else "down" if dy > 0 else "unchanged",
+                "dominant_axis": "horizontal" if abs(dx) > abs(dy) else "vertical" if abs(dy) > abs(dx) else "equal",
+            }
+        facts.append({"evidence_id": item["evidence_id"], "interval": item["interval"], "history": history})
     prompt = (
         "Answer the question from these cited scene images, selected object views and observed track facts. "
         "Images include a full scene and, for tracked objects, an enlarged view of the same processed image. "
         "Never turn image-relative movement into physical speed, intent or road maneuvers. "
         "Image growth alone does not prove physical approach or acceleration. Use the supplied size fields for width/height; box coordinates are not dimensions. "
+        "For direction questions report the computed net_image_motion, including the dominant image axis and any relevant secondary movement. "
         "The query frame is the latest allowed time, not a requirement that every object be observed at that exact frame. Earlier history remains usable. "
         "Preserve identity across time. Similar-looking objects with different track IDs remain distinct; do not assign an ID to an incidental scene object without visual support. "
         "First observed means first annotation, not proof of first visibility or entry. Annotation gaps do not prove absence. "

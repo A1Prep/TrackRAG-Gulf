@@ -120,6 +120,7 @@ class TemporalTests(unittest.TestCase):
 
     def write_run(self):
         rows = [observation(f) for f in (1, 3, 5)] + [observation(6, 999, class_name="FutureSecret")]
+        rows[0]["bbox_xyxy"] = [8, 6, 24, 19]
         (self.root / "tracks.jsonl").write_text("".join(json.dumps(r) + "\n" for r in rows), encoding="utf-8")
         (self.root / "run.json").write_text(json.dumps({"first_frame_id": 1}), encoding="utf-8")
 
@@ -134,6 +135,9 @@ class TemporalTests(unittest.TestCase):
         facts = json.loads(prompt.split("Observed facts: ", 1)[1])
         self.assertEqual(facts[0]["history"]["last_observed_frame"], 3)
         self.assertEqual(facts[0]["history"]["observed_frames"], 2)
+        self.assertEqual(facts[0]["history"]["net_image_motion"], {
+            "horizontal": "left", "vertical": "up", "dominant_axis": "horizontal",
+        })
         self.assertNotIn("FutureSecret", prompt)
         self.assertIn("exact first entry is not established", actual["answer"])
         self.assertEqual(actual["cited_evidence_ids"], ["E1"])

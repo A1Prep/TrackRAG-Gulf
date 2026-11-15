@@ -37,6 +37,8 @@ The checker imports the selected modules and tests their function signatures wit
 
 All image boxes use original-image coordinates. Intervals include their first and last frame. A track ID belongs to a recording and source. The answerer receives image paths relative to `run_dir`. An answered result needs text and citations to supplied evidence. A missing observation, an unavailable model and a valid finding of insufficient evidence have distinct outcomes.
 
+Scene evidence uses `track_id: null`, an exact frame (`start_frame == end_frame`), and an image with `bbox_xyxy: null`. This supports signs, lighting and current-frame presence or absence without inventing a vehicle identity. Existing tracked intervals retain integer IDs and boxes. Task 3 answerers and Task 4 retrievers must accept this optional scene representation when connecting their modules. A scene in a predicted-source run does not require vehicle-ID association for scoring.
+
 ## Run on actual footage
 
 After the selected adapters are available:
@@ -97,3 +99,5 @@ The development adapter supplies annotated tracks only. It delegates to Arjun's 
 A real run used 150 original training frames from `video_054604`, Arjun's reader, 2,681 human-labeled boxes and the TF-IDF baseline. Gemini 3.8 Flash timed out on the first live request. Gemini 3.5 Flash-Lite completed all four subsequent development questions. It answered that the yellow bus, track 46, grows in the image and cited the selected frames. It returned insufficient evidence for the entry question, driver phone use and speed in kilometres per hour. The entry question remains unresolved and is retained for review of the retrieved context.
 
 These four development questions provide a working application check. They are not an accuracy estimate or a substitute for independent annotation and held-out evaluation. The local run folder preserves the exact processed images and model receipts.
+
+The later bus investigation and 36-question development bank are documented in [temporal-evidence.md](temporal-evidence.md). The newer explicit trial adapter is `tools.temporal_trial_adapters`. It adds visual evidence selection, full-history candidates, exact scene snapshots and privacy-masked object crops. The original TF-IDF adapter remains available for comparisons.

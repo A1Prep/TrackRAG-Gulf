@@ -1,0 +1,12 @@
+{"question_id":"second-01","category":"appearance","expected_status":"answered","reference":"White SUV.","grounding":"2 at frame 1 or scene 1."}
+{"question_id":"second-02","category":"image motion and exit","expected_status":"answered","reference":"Toward image-right, becomes clipped and leaves the view.","grounding":"17 at 1-57 plus scene 60.","prohibited_claims":["physical lane change"]}
+{"question_id":"second-03","category":"visible structure","expected_status":"answered","reference":"A tall open metal rack or framework with diagonal bracing.","grounding":"6 at 75-100 or scene 100.","prohibited_claims":["invented cargo"]}
+{"question_id":"second-04","category":"image motion","expected_status":"answered","reference":"Toward the left of the image.","grounding":"6 at 1-100."}
+{"question_id":"second-05","category":"image size","expected_status":"answered","reference":"Yes, substantially larger in the image.","grounding":"6 at frames 1 and 100."}
+{"question_id":"second-06","category":"appearance","expected_status":"answered","reference":"Black or very dark coloured SUV.","grounding":"16 at 140-150 or scene 150."}
+{"question_id":"second-07","category":"scene structure","expected_status":"answered","reference":"Yes, the camera is passing beneath an overpass.","grounding":"Full scene 75."}
+{"question_id":"second-08","category":"historical identity and current absence","expected_status":"answered","reference":"No, the opening cage-bodied truck is no longer visible. The box truck ahead is a separate vehicle.","grounding":"17 at 1-57 plus full scene 100. Missing annotations alone are insufficient."}
+{"question_id":"second-09","category":"scene text","expected_status":"answered","reference":"Al Fay Road or Al Fay Rd.","grounding":"Full scene 150. Confirm legibility in actual processed provider input."}
+{"question_id":"second-10","category":"speed overlay trap","expected_status":"insufficient_evidence","reference":"Pickup physical speed cannot be established.","grounding":"6 up to 100. The visible 88KMH overlay describes the camera vehicle, not the pickup.","prohibited_claims":["pickup speed is 88 kilometres per hour"]}
+{"question_id":"second-11","category":"concealed contents","expected_status":"insufficient_evidence","reference":"Contents of the closed cargo compartment are not visible.","grounding":"14 around 130-150."}
+{"question_id":"second-12","category":"hidden action","expected_status":"insufficient_evidence","reference":"Driver phone use cannot be determined from rear exterior views.","grounding":"16 at 140-150."}

@@ -147,7 +147,7 @@ def rank_evidence(question, index, k=3):
     } for rank, (score, track_id, start, end) in enumerate(ranked[:k], start=1)]
 
 
-def _hosted_image(path, observations):
+def _hosted_image(path, observations, max_size=(1024, 576)):
     with Image.open(path) as original:
         image = original.convert("RGB")
     draw = ImageDraw.Draw(image)
@@ -157,7 +157,8 @@ def _hosted_image(path, observations):
         if observation["class_name"].lower() not in people:
             top += 0.6 * (bottom - top)
         draw.rectangle((left, top, right, bottom), fill=(35, 35, 35))
-    image.thumbnail((1024, 576))
+    if max_size is not None:
+        image.thumbnail(max_size)
     output = io.BytesIO()
     image.save(output, format="JPEG", quality=85)
     return output.getvalue()

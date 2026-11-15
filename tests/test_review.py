@@ -98,6 +98,42 @@ class ReviewTests(unittest.TestCase):
         result = self.read_result(self.run_review(answer_question=answer))
         self.assertEqual(result["answer"]["cited_evidence_ids"], [result["evidence"][0]["evidence_id"]])
 
+    def test_scene_evidence_preserves_the_exact_frame_without_a_fake_box(self):
+        self.rank_evidence.side_effect = lambda *args, **kwargs: [dict(
+            self.interval, track_id=None, start_frame=5, end_frame=5,
+        )]
+        result_path = self.run_review()
+        evidence = self.read_result(result_path)["evidence"][0]
+        self.assertIsNone(evidence["interval"]["track_id"])
+        self.assertEqual(len(evidence["images"]), 1)
+        image = evidence["images"][0]
+        self.assertEqual(image["frame_id"], 5)
+        self.assertIsNone(image["bbox_xyxy"])
+        with Image.open(result_path.parent / image["image_path"]) as actual:
+            self.assertEqual(actual.getpixel((4, 5)), (5, 0, 0))
+        self.assertNotIn(6, self.recording.requested)
+
+    def test_scene_evidence_cannot_reference_a_time_range_or_future_frame(self):
+        for start, end in ((1, 5), (6, 6)):
+            with self.subTest(start=start, end=end):
+                self.rank_evidence.side_effect = lambda *args, **kwargs: [dict(
+                    self.interval, track_id=None, start_frame=start, end_frame=end,
+                )]
+                with self.assertRaises(ValueError):
+                    self.run_review()
+                self.assertFalse((self.root / "run").exists())
+
+    def test_repeated_evidence_reuses_the_same_exported_image(self):
+        second = dict(self.question, question_id="q2", question="What colour is it?")
+        result_path = review_recording(
+            self.recording, [self.question, second], source="annotated",
+            load_tracks=self.load_tracks, build_index=self.build_index,
+            rank_evidence=self.rank_evidence, output_dir=self.root / "run",
+        )
+        results = read_jsonl(result_path)
+        self.assertEqual(results[0]["evidence"][0]["images"], results[1]["evidence"][0]["images"])
+        self.assertEqual(len(list((result_path.parent / "evidence").rglob("*.png"))), 3)
+
     def test_unknown_citation_is_an_error(self):
         answerer = Mock(return_value={"answer_status": "answered", "answer": "Bus.", "cited_evidence_ids": ["E9"]})
         result = self.read_result(self.run_review(answer_question=answerer))

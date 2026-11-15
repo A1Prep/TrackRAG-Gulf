@@ -67,7 +67,8 @@ def _validate_interval(
         raise ValueError("Retrieved evidence belongs to a different recording or source")
     start = _integer(interval["start_frame"], "start_frame")
     end = _integer(interval["end_frame"], "end_frame")
-    _integer(interval["track_id"], "track_id")
+    if interval["track_id"] is not None:
+        _integer(interval["track_id"], "track_id")
     if start > end or end > question["query_frame"]:
         raise ValueError("Retrieved evidence has a reversed interval or uses future frames")
     if type(interval["rank"]) is not int or interval["rank"] != rank:
@@ -83,7 +84,6 @@ def _resolve_evidence(
     source: TrackSource,
     tracks: dict[int, dict[int, TrackObservation]],
     run_dir: Path,
-    question_number: int,
 ) -> list[Evidence]:
     if len(intervals) > 3:
         raise ValueError("Retriever returned more than the requested three results")
@@ -91,10 +91,16 @@ def _resolve_evidence(
     for rank, interval in enumerate(intervals, start=1):
         _validate_interval(interval, question, source, rank)
         observations = tracks.get(interval["track_id"], {})
-        available = sorted(
-            frame_id for frame_id in observations
-            if interval["start_frame"] <= frame_id <= interval["end_frame"]
-        )
+        if interval["track_id"] is None:
+            # Scene references are exact snapshots. A missing frame is never substituted.
+            if interval["start_frame"] != interval["end_frame"]:
+                raise ValueError("Scene evidence must reference one exact frame")
+            available = [interval["start_frame"]]
+        else:
+            available = sorted(
+                frame_id for frame_id in observations
+                if interval["start_frame"] <= frame_id <= interval["end_frame"]
+            )
         if not available:
             raise ValueError("Retrieved interval has no observed box for its track")
         evidence_id = f"E{rank}"
@@ -107,22 +113,25 @@ def _resolve_evidence(
                 question["recording_id"], frame_id,
             ):
                 raise ValueError("Frame lookup returned a different recording or frame")
-            box = observations[frame_id]["bbox_xyxy"]
-            if len(box) != 4 or not all(math.isfinite(value) for value in box):
+            box = observations[frame_id]["bbox_xyxy"] if observations else None
+            if box is not None and (len(box) != 4 or not all(math.isfinite(value) for value in box)):
                 raise ValueError("A box must have four finite coordinates")
-            left, top, right, bottom = box
-            if not (0 <= left < right <= frame["width"] and 0 <= top < bottom <= frame["height"]):
-                raise ValueError(f"Box for track {interval['track_id']} is outside frame {frame_id}")
-            relative_path = Path("evidence") / f"question-{question_number:04d}" / evidence_id / f"{frame_id}.png"
+            if box is not None:
+                left, top, right, bottom = box
+                if not (0 <= left < right <= frame["width"] and 0 <= top < bottom <= frame["height"]):
+                    raise ValueError(f"Box for track {interval['track_id']} is outside frame {frame_id}")
+            track_name = "scene" if interval["track_id"] is None else f"track-{interval['track_id']}"
+            relative_path = Path("evidence") / track_name / f"{frame_id}.png"
             destination = run_dir / relative_path
             destination.parent.mkdir(parents=True, exist_ok=True)
-            with Image.open(frame["image_path"]) as original:
-                if original.size != (frame["width"], frame["height"]):
-                    raise ValueError(f"Image dimensions disagree with frame metadata for {frame_id}")
-                marked = original.convert("RGB")
-                draw = ImageDraw.Draw(marked)
-                draw.rectangle(box, outline=(255, 0, 0), width=2)
-                marked.save(destination)
+            if not destination.exists():
+                with Image.open(frame["image_path"]) as original:
+                    if original.size != (frame["width"], frame["height"]):
+                        raise ValueError(f"Image dimensions disagree with frame metadata for {frame_id}")
+                    marked = original.convert("RGB")
+                    if box is not None:
+                        ImageDraw.Draw(marked).rectangle(box, outline=(255, 0, 0), width=2)
+                    marked.save(destination)
             images.append({
                 "frame_id": frame_id,
                 "bbox_xyxy": box,
@@ -201,6 +210,7 @@ def review_recording(
         run_dir.mkdir()
         metadata = {
             "recording_id": recording.recording_id, "source": source,
+            "first_frame_id": next(recording.iter_frames())["frame_id"],
             "recording_adapter": f"{type(recording).__module__}.{type(recording).__name__}",
             "question_count": len(questions), "observation_count": len(observations),
             "configuration": run_metadata or {},
@@ -210,10 +220,10 @@ def review_recording(
             for observation in observations:
                 exported.write(json.dumps(observation, allow_nan=False) + "\n")
         with (run_dir / "results.jsonl").open("w", encoding="utf-8", newline="\n") as results:
-            for number, question in enumerate(questions, start=1):
+            for question in questions:
                 intervals = deepcopy(list(rank_evidence(deepcopy(question), index, k=3)))
                 evidence = _resolve_evidence(
-                    recording, intervals, question, source, by_track, run_dir, number,
+                    recording, intervals, question, source, by_track, run_dir,
                 )
                 result: ReviewResult = {
                     "question": dict(question), "source": source, "evidence": evidence,

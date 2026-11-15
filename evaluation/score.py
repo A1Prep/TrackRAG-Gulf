@@ -200,7 +200,11 @@ def score_results(
         if not isinstance(alternatives, list) or bool(alternatives) != answerable:
             raise ValueError("Answerable questions need evidence; unanswerable questions use an empty list")
         for alternative in alternatives:
-            _track_id(alternative["track_id"])
+            if alternative["track_id"] is None:
+                if alternative["start_frame"] != alternative["end_frame"]:
+                    raise ValueError("Scene gold evidence requires one exact frame")
+            else:
+                _track_id(alternative["track_id"])
             _interval(alternative["start_frame"], alternative["end_frame"])
             if alternative["end_frame"] > query_frame:
                 raise ValueError(f"Gold evidence uses future frames for {question_id}")
@@ -228,14 +232,18 @@ def score_results(
                 candidate = item["interval"]
                 if type(candidate["rank"]) is not int or candidate["rank"] != rank or candidate["source"] != source:
                     raise ValueError("Evidence ranks or sources are inconsistent")
-                _track_id(candidate["track_id"])
+                if candidate["track_id"] is None:
+                    if candidate["start_frame"] != candidate["end_frame"]:
+                        raise ValueError("Scene evidence requires one exact frame")
+                else:
+                    _track_id(candidate["track_id"])
                 if candidate["recording_id"] != question["recording_id"] or candidate["end_frame"] > query_frame:
                     raise ValueError("Evidence belongs to another recording or uses future frames")
                 _interval(candidate["start_frame"], candidate["end_frame"])
-                if source == "predicted" and (not predicted_boxes or not annotated_boxes):
+                if source == "predicted" and candidate["track_id"] is not None and (not predicted_boxes or not annotated_boxes):
                     raise ValueError("Scoring predicted IDs requires predicted and annotated track observations")
                 identity = candidate["track_id"]
-                if source == "predicted":
+                if source == "predicted" and candidate["track_id"] is not None:
                     identity, overlap, association_status = _match_predicted_track(
                         candidate, predicted_boxes, annotated_boxes, box_iou,
                     )
@@ -248,7 +256,8 @@ def score_results(
                 for alternative in alternatives:
                     if _temporal_iou(candidate, alternative) < temporal_iou:
                         continue
-                    if identity == alternative["track_id"]:
+                    same_identity = identity == alternative["track_id"] and (identity is not None or candidate["track_id"] is None)
+                    if same_identity:
                         matches.append(rank)
                         break
         top1 = 1 in matches

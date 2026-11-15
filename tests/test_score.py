@@ -130,11 +130,38 @@ class ScoreTests(unittest.TestCase):
                 column, score, status = _resolve_assignment(weights, row)
                 self.assertEqual((column, status), (expected_column, expected_status))
 
-    def test_unmatched_prediction_cannot_match_a_missing_gold_identity(self):
+    def test_scene_gold_rejects_a_time_range(self):
         reference = gold_row("q")
         reference["acceptable_evidence"][0]["track_id"] = None
-        with self.assertRaisesRegex(ValueError, "Track IDs"):
+        with self.assertRaisesRegex(ValueError, "Scene gold"):
             score_results([result_row("q", [interval()])], [reference])
+
+    def test_scene_evidence_matches_exact_frame_for_either_source_without_tracks(self):
+        reference = gold_row("q")
+        reference["acceptable_evidence"] = [{"track_id": None, "start_frame": 5, "end_frame": 5}]
+        for source in ("annotated", "predicted"):
+            with self.subTest(source=source):
+                result = result_row("q", [interval(track=None, start=5, end=5, source=source)], source=source)
+                self.assertEqual(score_results([result], [reference])["counts"]["top1_correct"], 1)
+                result["evidence"][0]["interval"].update(start_frame=4, end_frame=4)
+                self.assertEqual(score_results([result], [reference])["counts"]["top1_correct"], 0)
+
+    def test_unmatched_prediction_is_not_scene_evidence(self):
+        reference = gold_row("q")
+        reference["acceptable_evidence"] = [{"track_id": None, "start_frame": 5, "end_frame": 5}]
+        result = result_row("q", [interval(track=99, start=5, end=5, source="predicted")], source="predicted")
+        scores = score_results(
+            [result], [reference],
+            annotated_tracks=[observation(7, 5, (0, 0, 10, 10), "annotated")],
+            predicted_tracks=[observation(99, 5, (20, 20, 30, 30), "predicted")],
+        )
+        self.assertEqual(scores["counts"]["top1_correct"], 0)
+        self.assertEqual(scores["predicted_track_matching"]["unmatched"], 1)
+
+    def test_scene_result_rejects_a_time_range(self):
+        result = result_row("q", [interval(track=None)])
+        with self.assertRaisesRegex(ValueError, "Scene evidence"):
+            score_results([result], [gold_row("q")])
 
     def test_predicted_future_boxes_cannot_help_match_an_earlier_interval(self):
         annotated = [observation(7, frame, (0, 0, 10, 10), "annotated") for frame in (1, 2, 30)]

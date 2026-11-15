@@ -176,6 +176,7 @@ def review_recording(
     rank_evidence: Callable[..., Iterable[RankedInterval]],
     output_dir: Path,
     answer_question: Callable[[Question, list[Evidence], Path], Answer] | None = None,
+    run_metadata: dict | None = None,
 ) -> Path:
     """Publish one run after all evidence files and JSON records have been written.
 
@@ -198,6 +199,13 @@ def review_recording(
     with tempfile.TemporaryDirectory(prefix=".trackrag-", dir=output_dir.parent) as temporary:
         run_dir = Path(temporary) / "run"
         run_dir.mkdir()
+        metadata = {
+            "recording_id": recording.recording_id, "source": source,
+            "recording_adapter": f"{type(recording).__module__}.{type(recording).__name__}",
+            "question_count": len(questions), "observation_count": len(observations),
+            "configuration": run_metadata or {},
+        }
+        (run_dir / "run.json").write_text(json.dumps(metadata, indent=2, allow_nan=False) + "\n", encoding="utf-8")
         with (run_dir / "tracks.jsonl").open("w", encoding="utf-8", newline="\n") as exported:
             for observation in observations:
                 exported.write(json.dumps(observation, allow_nan=False) + "\n")

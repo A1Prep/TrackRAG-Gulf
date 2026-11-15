@@ -1,6 +1,6 @@
 # Running and connecting Task 5
 
-The reviewer joins the other tasks through the records in `trackrag/contracts.py`. It writes a completed run containing `results.jsonl`, the observations used in `tracks.jsonl`, and marked evidence images. Image paths are relative to the run folder, so the folder can be moved intact.
+The reviewer joins the other tasks through the records in `trackrag/contracts.py`. It writes a completed run containing `run.json`, `results.jsonl`, the observations used in `tracks.jsonl`, and marked evidence images. Image paths are relative to the run folder, so the folder can be moved intact.
 
 ## Set up and test
 
@@ -8,9 +8,10 @@ Use Python 3.11 or newer. From the repository root on Windows:
 
 ```powershell
 py -3.11 -m venv .venv
-.\.venv\Scripts\python.exe -m pip install -r requirements-review.txt
+.\.venv\Scripts\python.exe -m pip install -r requirements-integration.txt
 .\.venv\Scripts\python.exe -m unittest discover -s tests -p "test_review*.py" -v
 .\.venv\Scripts\python.exe -m unittest discover -s tests -p "test_score*.py" -v
+.\.venv\Scripts\python.exe -m pytest tests/test_emt.py -q
 ```
 
 On Linux, create the environment with `python3 -m venv .venv` and use `.venv/bin/python` for the remaining commands. GitHub runs the same Task 5 tests on Windows and Linux. The process tests generate temporary images and small substitute modules. They exercise the production commands and saved files. Real EMT accuracy and live-model behavior need separate runs.
@@ -63,3 +64,36 @@ The scorer counts answerable questions with a correct first result and a correct
 Predicted IDs are associated against all competing annotated tracks from the same recording and retrieved interval. The scorer maximizes total mean box overlap with a one-to-one assignment. Missing observations contribute zero and pairs below `--box-iou` are ineligible. If excluding a selected pair gives an equal global optimum within `1e-9`, the identity is ambiguous. An unmatched prediction is also ambiguous if it can take a positive match in another equal optimum. Matched, unmatched and ambiguous counts remain visible. Temporal overlap uses inclusive frame IoU. The default thresholds are 0.5; select thresholds on development recordings before final evaluation.
 
 The remaining real integration checks are runs with genuine EMT readers, detector output, reviewed questions and retrieval, followed by live answering with approved inputs. Preserve those outcomes separately from automated wiring checks.
+
+## Try real EMT footage while the task modules are in progress
+
+An explicit development adapter is available as `tools.emt_trial_adapters`. It reads EMT's human labels and ranks descriptions of observed track histories with TF-IDF text similarity. Selecting this adapter lets the same reviewer command process original footage now. The default command continues to load the task modules listed above. The adapter checker displays the selected module so its readiness is clear.
+
+Prepare a contiguous 15-second training interval once:
+
+```sh
+python -m tools.prepare_emt_clip --data-root data/emt-development --recording video_054604 --frames 150
+```
+
+The downloader streams a bounded prefix of the pinned official release. It writes original JPEGs, a recording manifest and human observations. It keeps both the HTTP range request and a client-side byte limit. Choose another data-root directory if an interval is already prepared. The source is [KuAvLab/EMT](https://huggingface.co/datasets/KuAvLab/EMT).
+
+The four development questions used in the real trial are in `experiments/emt-development-questions.jsonl`. Copy that file and change its question text to try another question. For this prepared interval, query frame 150 is 14.9 seconds after the annotated recording origin. Run:
+
+```sh
+python -m trackrag review --data-root data/emt-development --recording video_054604 --questions experiments/emt-development-questions.jsonl --source annotated --answerer none --adapters tools.emt_trial_adapters --out runs/my-emt-trial
+python -m tools.review_report --run runs/my-emt-trial
+```
+
+Open `report.html` in the run folder. It shows the question, answer status, cited evidence and marked original-size images. The run's `run.json` records its source and selected adapter module. Change the question file and select a new output folder to try another run.
+
+For an authorized hosted trial, set `GEMINI_API_KEY`, select `--answerer gemini`, and optionally set `TRACKRAG_TRIAL_MODEL`. The default is `gemini-3.8-flash`. The hosted adapter masks labeled people and lower portions of labeled vehicles, then resizes images to at most 1024 by 576. This is partial masking and can miss unlabeled details. Inspect the processed inputs for the chosen recording and obtain authorization before sending footage to the provider. The `hosted` folder preserves processed images and a receipt with the actual model ID, frame IDs, token usage and response. Keys are never written to the receipt.
+
+The completed live trial selected `TRACKRAG_TRIAL_MODEL=gemini-3.5-flash-lite` after the preferred endpoint timed out. On PowerShell, set `$env:TRACKRAG_TRIAL_MODEL='gemini-3.5-flash-lite'` to reproduce that model choice.
+
+The development adapter supplies annotated tracks only. It delegates to Arjun's `trackrag.emt` reader for the original split-first EMT layout, and also accepts the prepared manifest layout. Its retrieval ranking and live answer behavior are development results. Fine-tuned detector, tracker and Qwen comparisons still use the task implementations and held-out experiments.
+
+## Recorded trial
+
+A real run used 150 original training frames from `video_054604`, Arjun's reader, 2,681 human-labeled boxes and the TF-IDF baseline. Gemini 3.8 Flash timed out on the first live request. Gemini 3.5 Flash-Lite completed all four subsequent development questions. It answered that the yellow bus, track 46, grows in the image and cited the selected frames. It returned insufficient evidence for the entry question, driver phone use and speed in kilometres per hour. The entry question remains unresolved and is retained for review of the retrieved context.
+
+These four development questions provide a working application check. They are not an accuracy estimate or a substitute for independent annotation and held-out evaluation. The local run folder preserves the exact processed images and model receipts.

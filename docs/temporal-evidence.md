@@ -45,4 +45,33 @@ There are 26 expected-answerable cases, 9 expected abstentions and one manually 
 
 An earlier compact-context Gemini 3.5 Flash-Lite pilot delivered all 36 result rows, including four protocol errors. Independent review graded the 35 ordinary cases as 23 clean passes, 3 qualified and 9 failures. The bus-entry question was reviewed separately. Failures included a missed grey SUV, a wrong green-truck ID, confusion between the opening cage truck and a later pickup, fabricated box dimensions and rejection of usable historical motorbike observations. This prompted the richer visual selector, explicit geometric facts and output recovery described above. These pilot grades are development observations, not a general accuracy estimate.
 
+## Model comparison limits
+
+The complete development cohort uses explicitly requested and provider-reported `gemini-3.5-flash-lite`. The larger-endpoint attempts requested `gemini-3.5-flash` and `gemini-3.6-flash`; completed receipts reported `gemini-3.6-flash`. Nine answers completed before the account's free daily limit of 20 requests for that model stopped the comparison. These counts refer to provider requests, not questions; selection, drafting and review each use a request before retries or repairs.
+
+Two `gemini-3.8-flash` answer attempts did not deliver usable answers here. One returned malformed JSON and another timed out after increasing the output budget and request timeout. This is an availability/response-format observation for these calls, not a model-quality ranking. The uneven model runs do not support declaring a best model.
+
+A targeted six-question `gemini-3.7-flash` diagnostic was also attempted. Its first evidence-selection request timed out at 120 seconds, so that comparison produced no completed answer cohort. No quality score is assigned to it.
+
+The smaller model remains a development baseline. A correct output schema, a model critique and passing integration tests do not guarantee factual answers. Use the saved per-question review notes to see remaining model limitations, and repeat the bank with the selected fine-tuned answerer rather than treating this trial as final deployment validation.
+
+## Recorded final cohort
+
+The fixed code in commit `5676635` was tested in `runs/temporal-final-a-05` and `runs/temporal-final-b-05`. The separate reviews are saved in `experiments/reviews/temporal-final-first.jsonl` and `temporal-final-second.jsonl`, with the recording run identified on every row.
+
+| Independent development review | Cases |
+| --- | ---: |
+| Clean content-and-evidence pass | 29 |
+| Qualified or incomplete answer | 3 |
+| Failure | 3 |
+| Ambiguous bus-entry diagnostic, judged manually | 1 |
+
+The 35 ordinary cases include a false colour abstention (`temporal-07`), a wrong pickup identity and direction (`second-04`), and one HTTP 429 provider failure (`second-11`). Qualified cases retain an incomplete clearer-view comparison (`temporal-03`), inconsistent uncertainty/citations for a correct absence statement (`temporal-18`), and an unnecessary Arabic sign transcription error alongside the correct English name (`second-09`). These weaknesses are not fixed answers or hidden scoring exclusions.
+
+Exact frame comparison 117–150 and the historical motorbike's dominant leftward movement now receive the correct bounded evidence and derived measurements. The original bus-entry response gives track 46 and explicitly withholds a proven edge crossing. Its first annotation at 70 must not be read as proof of first appearance.
+
+The final first-pass cohort contains 35 usable model responses and one provider error. A later same-code availability replay of the second recording (`runs/temporal-final-b-06`) did not recover the failure and produced three quota errors. Provider receipts identify the account's 500-request daily free limit for Flash-Lite. The first-pass cohort is retained consistently rather than selecting favourable answers from different runs.
+
+All 99 local automated tests passed, including 31 subtests. Windows and Linux CI also passed on the same code. These checks verify adapter boundaries, exact scene evidence, temporal cutoffs, image coordinates, scoring and recovery behavior. They do not certify language-model correctness. The independent grades are AI-assisted and require student verification.
+
 The remaining assessment integration needs genuine detector predictions, the teammates' retrieval/answering adapters, the selected fine-tuned model and independently reviewed held-out questions. These annotated-data experiments do not establish the performance of those future components.

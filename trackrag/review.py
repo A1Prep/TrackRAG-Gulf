@@ -4,6 +4,7 @@ import json
 import math
 import tempfile
 from collections.abc import Callable, Iterable, Sequence
+from copy import deepcopy
 from pathlib import Path
 from typing import Any
 
@@ -141,11 +142,11 @@ def _answer(
         return {"answer_status": "not_requested", "answer": None, "cited_evidence_ids": []}
     if not evidence:
         return {"answer_status": "insufficient_evidence", "answer": None, "cited_evidence_ids": []}
+    valid_ids = {item["evidence_id"] for item in evidence}
     try:
-        answer = answer_question(question, evidence, run_dir)
+        answer = answer_question(deepcopy(question), deepcopy(evidence), run_dir)
         status = answer["answer_status"]
         citations = answer["cited_evidence_ids"]
-        valid_ids = {item["evidence_id"] for item in evidence}
         if status not in {"answered", "insufficient_evidence", "error"}:
             raise ValueError("Answerer returned an unsupported status")
         if not isinstance(citations, list) or any(citation not in valid_ids for citation in citations):
@@ -186,13 +187,13 @@ def review_recording(
     output_dir = Path(output_dir).absolute()
     if output_dir.exists():
         raise FileExistsError(f"Output directory already exists: {output_dir}. Choose a new run directory.")
-    questions = list(questions)
+    questions = deepcopy(list(questions))
     if not questions:
         raise ValueError("The question file contains no questions")
     _validate_questions(recording, questions)
-    observations = list(load_tracks(recording))
+    observations = deepcopy(list(load_tracks(recording)))
     by_track = _observations_by_track(recording, observations, source)
-    index = build_index(recording, observations)
+    index = build_index(recording, deepcopy(observations))
     output_dir.parent.mkdir(parents=True, exist_ok=True)
     with tempfile.TemporaryDirectory(prefix=".trackrag-", dir=output_dir.parent) as temporary:
         run_dir = Path(temporary) / "run"
@@ -202,7 +203,7 @@ def review_recording(
                 exported.write(json.dumps(observation, allow_nan=False) + "\n")
         with (run_dir / "results.jsonl").open("w", encoding="utf-8", newline="\n") as results:
             for number, question in enumerate(questions, start=1):
-                intervals = list(rank_evidence(question, index, k=3))
+                intervals = deepcopy(list(rank_evidence(deepcopy(question), index, k=3)))
                 evidence = _resolve_evidence(
                     recording, intervals, question, source, by_track, run_dir, number,
                 )

@@ -12,7 +12,7 @@ from unittest.mock import Mock, patch
 from PIL import Image
 
 from evaluation.score import read_jsonl, score_results
-from trackrag.__main__ import main
+from trackrag.__main__ import check_adapters, main
 from trackrag.review import review_recording
 
 
@@ -103,6 +103,39 @@ class ReviewTests(unittest.TestCase):
         result = self.read_result(self.run_review(answer_question=answerer))
         self.assertEqual(result["answer"]["answer_status"], "error")
         self.assertEqual(result["answer"]["cited_evidence_ids"], [])
+
+    def test_ranker_cannot_change_the_original_query_time(self):
+        def mutate(question, index, k):
+            question["query_frame"] = 6
+            return [dict(self.interval, end_frame=6)]
+
+        self.rank_evidence.side_effect = mutate
+        with self.assertRaisesRegex(ValueError, "future"):
+            self.run_review()
+        self.assertEqual(self.question["query_frame"], 5)
+        self.assertFalse((self.root / "run").exists())
+
+    def test_answerer_cannot_invent_evidence_or_change_saved_frames(self):
+        def mutate(question, evidence, run_dir):
+            question["query_frame"] = 6
+            evidence[0]["images"][0]["frame_id"] = 6
+            evidence.append(dict(evidence[0], evidence_id="E9"))
+            return {"answer_status": "answered", "answer": "Bus.", "cited_evidence_ids": ["E9"]}
+
+        result = self.read_result(self.run_review(answer_question=mutate))
+        self.assertEqual(result["answer"]["answer_status"], "error")
+        self.assertEqual(result["question"]["query_frame"], 5)
+        self.assertEqual([item["evidence_id"] for item in result["evidence"]], ["E1"])
+        self.assertEqual(result["evidence"][0]["images"][0]["frame_id"], 1)
+
+    def test_index_builder_cannot_rewrite_exported_observations(self):
+        def mutate(recording, tracks):
+            tracks[0]["bbox_xyxy"] = (-1, -1, -1, -1)
+            return "index"
+
+        self.build_index.side_effect = mutate
+        result = self.read_result(self.run_review())
+        self.assertEqual(result["evidence"][0]["images"][0]["bbox_xyxy"], [4, 5, 20, 18])
 
     def test_provider_timeout_does_not_hide_remaining_questions(self):
         answerer = Mock(side_effect=[
@@ -226,6 +259,62 @@ class ReviewTests(unittest.TestCase):
                 ])
         self.assertEqual(code, 1)
         self.assertIn("Task 2", stderr.getvalue())
+
+    def test_adapter_check_reports_all_missing_interfaces(self):
+        with patch("trackrag.__main__.import_module", side_effect=ModuleNotFoundError("not merged")):
+            report = check_adapters("predicted", "gemini")
+        self.assertFalse(report["ready"])
+        self.assertEqual(len(report["adapters"]), 6)
+        self.assertTrue(all(item["status"] == "unavailable" for item in report["adapters"]))
+
+    def test_adapter_check_rejects_incompatible_signature_without_running_it(self):
+        function = Mock()
+        wrong_signature = lambda: []
+        module = SimpleNamespace(
+            open_recording=function, load_questions=function, build_index=function,
+            rank_evidence=wrong_signature, load_annotated_tracks=function,
+        )
+        with patch("trackrag.__main__.import_module", return_value=module):
+            report = check_adapters("annotated", "none")
+        self.assertFalse(report["ready"])
+        failed = [item for item in report["adapters"] if item["status"] == "unavailable"]
+        self.assertEqual([item["function"] for item in failed], ["trackrag.retrieval.rank_evidence"])
+        function.assert_not_called()
+
+    def test_cli_reports_runtime_adapter_failure_without_traceback(self):
+        module = SimpleNamespace(
+            open_recording=Mock(return_value=self.recording),
+            load_questions=Mock(return_value=[self.question]),
+            predict_tracks=Mock(side_effect=RuntimeError("detector failed")),
+            build_index=Mock(), rank_evidence=Mock(),
+        )
+        with patch("trackrag.__main__.import_module", return_value=module):
+            with redirect_stderr(io.StringIO()) as stderr:
+                code = main([
+                    "review", "--data-root", str(self.root), "--recording", "recording-a",
+                    "--questions", "q.jsonl", "--source", "predicted", "--out", str(self.root / "run"),
+                ])
+        self.assertEqual(code, 1)
+        self.assertIn("detector failed", stderr.getvalue())
+        self.assertNotIn("Traceback", stderr.getvalue())
+        self.assertFalse((self.root / "run").exists())
+
+    def test_cli_rejects_a_loader_returning_the_wrong_selected_recording(self):
+        module = SimpleNamespace(
+            open_recording=Mock(return_value=self.recording),
+            load_questions=Mock(return_value=[self.question]),
+            predict_tracks=Mock(), build_index=Mock(), rank_evidence=Mock(),
+        )
+        with patch("trackrag.__main__.import_module", return_value=module):
+            with redirect_stderr(io.StringIO()) as stderr:
+                code = main([
+                    "review", "--data-root", str(self.root), "--recording", "recording-b",
+                    "--questions", "q.jsonl", "--source", "predicted", "--out", str(self.root / "run"),
+                ])
+        self.assertEqual(code, 1)
+        self.assertIn("different recording", stderr.getvalue())
+        module.predict_tracks.assert_not_called()
+        module.load_questions.assert_not_called()
 
 
 if __name__ == "__main__":

@@ -8,7 +8,7 @@ from contextlib import redirect_stdout
 from pathlib import Path
 
 from evaluation.__main__ import main
-from evaluation.score import score_results
+from evaluation.score import _resolve_assignment, score_results
 
 
 def gold_row(question_id, answerable=True):
@@ -87,6 +87,54 @@ class ScoreTests(unittest.TestCase):
         result = result_row("q", [interval(track=99, source="predicted")], source="predicted")
         scores = score_results([result], [gold_row("q")], annotated_tracks=annotated, predicted_tracks=predicted)
         self.assertEqual(scores["counts"]["top1_correct"], 0)
+
+    def test_nearby_wrong_vehicle_does_not_receive_gold_identity(self):
+        annotated = [
+            observation(7, frame, (0, 0, 10, 10), "annotated") for frame in range(1, 6)
+        ] + [
+            observation(8, frame, (1, 0, 11, 10), "annotated") for frame in range(1, 6)
+        ]
+        predicted = [observation(99, frame, (1, 0, 11, 10), "predicted") for frame in range(1, 6)]
+        result = result_row("q", [interval(track=99, source="predicted")], source="predicted")
+        scores = score_results([result], [gold_row("q")], annotated_tracks=annotated, predicted_tracks=predicted)
+        self.assertEqual(scores["counts"]["top1_correct"], 0)
+        self.assertEqual(scores["questions"][0]["track_matches"][0]["annotated_track_id"], 8)
+
+    def test_duplicate_predictions_are_reported_as_ambiguous(self):
+        annotated = [observation(7, frame, (0, 0, 10, 10), "annotated") for frame in range(1, 6)]
+        predicted = [
+            observation(track, frame, (0, 0, 10, 10), "predicted")
+            for track in (99, 100) for frame in range(1, 6)
+        ]
+        for track_id in (99, 100):
+            with self.subTest(track_id=track_id):
+                result = result_row("q", [interval(track=track_id, source="predicted")], source="predicted")
+                scores = score_results([result], [gold_row("q")], annotated_tracks=annotated, predicted_tracks=predicted)
+                self.assertEqual(scores["counts"]["top1_correct"], 0)
+                self.assertEqual(scores["predicted_track_matching"]["ambiguous"], 1)
+
+    def test_global_assignment_uses_competitors_and_detects_global_ties(self):
+        cases = [
+            ([[0.8, 0.1], [0.9, 1.0]], 0, 0, "matched"),
+            ([[0.9, 0.9], [0.9, 0.1]], 0, 1, "matched"),
+            ([[0.9, 0.8], [0.8, 0.7]], 0, None, "ambiguous"),
+            ([[1.0], [1.0]], 0, None, "ambiguous"),
+            ([[1.0], [1.0]], 1, None, "ambiguous"),
+            ([[1.0], [0.6]], 1, None, "unmatched"),
+            ([[0.0]], 0, None, "unmatched"),
+            ([], 0, None, "unmatched"),
+            ([[]], 0, None, "unmatched"),
+        ]
+        for weights, row, expected_column, expected_status in cases:
+            with self.subTest(weights=weights):
+                column, score, status = _resolve_assignment(weights, row)
+                self.assertEqual((column, status), (expected_column, expected_status))
+
+    def test_unmatched_prediction_cannot_match_a_missing_gold_identity(self):
+        reference = gold_row("q")
+        reference["acceptable_evidence"][0]["track_id"] = None
+        with self.assertRaisesRegex(ValueError, "Track IDs"):
+            score_results([result_row("q", [interval()])], [reference])
 
     def test_predicted_future_boxes_cannot_help_match_an_earlier_interval(self):
         annotated = [observation(7, frame, (0, 0, 10, 10), "annotated") for frame in (1, 2, 30)]

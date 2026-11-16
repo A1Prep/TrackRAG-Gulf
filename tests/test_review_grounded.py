@@ -112,6 +112,15 @@ class GroundedTests(unittest.TestCase):
             ranked=grounded._select_evidence(self.question,grounded.build_index(self.recording,self.rows),self.root/'selection.json')
         self.assertEqual((ranked[0]['start_frame'],ranked[0]['end_frame']),(1,5))
 
+    def test_three_valid_selected_identities_are_rejected_instead_of_truncated(self):
+        rows=self.rows+[dict(self.rows[0],track_id=track) for track in (8,9)]
+        def reply(parts,schema,role,receipt_path=None,metadata=None,**kwargs):
+            value={'selected':['T7','T8','T9'],'requested_frame_ids':[]}
+            kwargs['validate'](value)
+            return value
+        with patch.object(grounded,'request_json',side_effect=reply),self.assertRaisesRegex(ValueError,'invalid or duplicate'):
+            grounded._select_evidence(self.question,grounded.build_index(self.recording,rows),self.root/'invalid.json')
+
     def test_future_rows_cannot_change_stable_candidate_tokens_or_gallery_metadata(self):
         index=grounded.build_index(self.recording,self.rows)
         before=grounded.candidates_at_query(self.question,index)
@@ -198,6 +207,28 @@ class GroundedTests(unittest.TestCase):
             return expected
         with patch.object(grounded,'request_json',side_effect=reply):
             self.assertEqual(grounded.answer_question(question,evidence,directory),expected)
+
+    def test_abstention_explanation_review_is_fresh_and_preserves_original(self):
+        original_reply=self.reply
+        initial={'answer_status':'insufficient_evidence','answer':'The seat was masked.','cited_evidence_ids':[]}
+        final={'answer_status':'insufficient_evidence','answer':'The supplied views do not establish the requested action.','cited_evidence_ids':[]}
+        review_calls=[]
+        def reply(parts,schema,role,receipt_path=None,metadata=None,**kwargs):
+            if role=='evidence selection':
+                return original_reply(parts,schema,role,receipt_path,metadata,**kwargs)
+            response=initial if role=='grounded answer' else final
+            kwargs['validate'](response)
+            review_calls.append((role,kwargs['use_cache']))
+            Path(receipt_path).write_text(json.dumps({'model':'test-model','role':role,'cached':False,
+                 'request_status':'completed','response':response,**metadata}))
+            return response
+        self.reply=reply
+        directory,row=self.run_case()
+        self.assertEqual(row['answer'],final)
+        self.assertEqual(review_calls,[('grounded answer',False),('abstention explanation review',False)])
+        draft=json.loads(next(directory.glob('hosted/*/draft-receipt.json')).read_text())
+        self.assertEqual(draft['response'],initial)
+        audit_run(directory,{'q':self.question})
 
 
 if __name__=='__main__':

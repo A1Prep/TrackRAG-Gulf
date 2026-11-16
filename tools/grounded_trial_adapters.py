@@ -379,7 +379,32 @@ def answer_question(question,evidence,run_dir):
     schema={'type':'OBJECT','required':['answer_status','answer','cited_evidence_ids'],'properties':{
         'answer_status':{'type':'STRING','enum':['answered','insufficient_evidence']},
         'answer':{'type':'STRING'},'cited_evidence_ids':{'type':'ARRAY','items':{'type':'STRING'}}}}
-    return request_json(parts,schema,'grounded answer',hosted/'receipt.json',{
+    receipt_path=hosted/'receipt.json'
+    request_metadata={
         'question_id':question['question_id'],'recording_id':question['recording_id'],
         'query_frame':question['query_frame'],'sent':sent,'sent_frame_inventory':inventory,
-    },validate=validate,repair_once=True,use_cache=False,max_output_tokens=2048)
+    }
+    response=request_json(parts,schema,'grounded answer',receipt_path,request_metadata,
+                          validate=validate,repair_once=True,use_cache=False,max_output_tokens=2048)
+    if response['answer_status']=='insufficient_evidence':
+        # The classification can be correct while its explanation invents why
+        # a detail is unavailable. Preserve the original and check that claim
+        # against the same pixels/facts, without changing the classification.
+        shutil.copyfile(receipt_path,hosted/'draft-receipt.json')
+        review_parts=[*parts,{'text':
+            'Check the factual support of this abstention explanation using the supplied images and facts. '
+            'Keep answer_status insufficient_evidence and cited_evidence_ids empty. '
+            'Write one concise sentence stating only which requested fact the supplied views do not establish. '
+            'Remove invented causes such as a particular window or seat being masked, invisible or occluded. '
+            'The processing masks labelled people/riders and lower vehicle regions; it does not label or mask semantic windows or seats. '
+            'Do not add new facts or try to answer an unsupported question. '
+            f'Original response: {json.dumps(response)}'}]
+        review_schema=deepcopy(schema)
+        review_schema['properties']['answer_status']['enum']=['insufficient_evidence']
+        def validate_review(value):
+            validate(value)
+            if value['answer_status']!='insufficient_evidence':
+                raise ValueError('This pass checks only the abstention explanation, not its classification')
+        response=request_json(review_parts,review_schema,'abstention explanation review',receipt_path,
+                              request_metadata,validate=validate_review,repair_once=True,use_cache=False,max_output_tokens=2048)
+    return response

@@ -239,10 +239,10 @@ def review_recording(
         # Retry only native sharing/access errors; a persistent failure stays an
         # error and an existing destination is never overwritten.
         for attempt,delay in enumerate((0,0.05,0.15,0.3)):
-            if output_dir.exists():
-                raise FileExistsError(f"Output directory was created during review: {output_dir}")
             if delay:
                 time.sleep(delay)
+            if output_dir.exists():
+                raise FileExistsError(f"Output directory was created during review: {output_dir}")
             try:
                 run_dir.rename(output_dir)
                 break

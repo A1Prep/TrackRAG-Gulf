@@ -105,7 +105,7 @@ def _tokens(text):
     return Counter(synonyms.get(token, token) for token in re.findall(r"[a-z]+", text.lower()) if token not in stop)
 
 
-def rank_evidence(question, index, k=3):
+def _rank_track_evidence(question, index, k=3):
     recording = index["recording"]
     if question["recording_id"] != recording.recording_id:
         raise ValueError("Question and search index belong to different recordings")
@@ -152,6 +152,40 @@ def rank_evidence(question, index, k=3):
     } for rank, (score, track_id, start, end) in enumerate(ranked[:k], start=1)]
 
 
+def rank_evidence(question, index, k=3):
+    """Keep lexical matches; otherwise supply one zero-score current scene.
+
+    Scene fallback supplies visual context, not a semantic match or an answer.
+    It uses no question-specific rules, future observations, or gold key.
+    """
+    if type(k) is not int or k < 0:
+        raise ValueError("k must be a nonnegative integer")
+    ranked = _rank_track_evidence(question, index, k)
+    if ranked or k == 0:
+        return ranked
+    # Future-only tracks must not enable a fallback that a prefix run lacks.
+    sources = {row["source"] for rows in index["tracks"].values() for row in rows
+               if row["frame_id"] <= question["query_frame"]}
+    if not sources:
+        return []
+    frame = index["recording"].get_frame(question["query_frame"])
+    if (frame["recording_id"], frame["frame_id"]) != (question["recording_id"], question["query_frame"]):
+        raise ValueError("Scene lookup returned a different recording or frame")
+    return [{"recording_id": question["recording_id"], "source": next(iter(sources)),
+             "track_id": None, "start_frame": question["query_frame"],
+             "end_frame": question["query_frame"], "rank": 1, "score": 0.0}]
+
+
+def explain_retrieval(question, index, k=3):
+    """Pure diagnostics, separate from the shared RankedInterval fields."""
+    ranked = rank_evidence(question, index, k)
+    context = bool(ranked) and all(row["track_id"] is None and row["score"] == 0 for row in ranked)
+    return {"mode": "scene_context_fallback" if context else "lexical_tracks" if ranked else "empty",
+            "answerability": "not_assessed", "intervals": ranked,
+            "note": "No lexical track match; the current scene supplies context only" if context else
+                    "No evidence was selected" if not ranked else "Text similarity over observed track descriptions"}
+
+
 def _hosted_image(path, observations, max_size=(1024, 576)):
     with Image.open(path) as original:
         image = original.convert("RGB")
@@ -177,9 +211,16 @@ def answer_question(question, evidence, run_dir):
         raise ValueError("GEMINI_API_KEY is required for live trial answers")
     model = os.environ.get("TRACKRAG_TRIAL_MODEL", "gemini-3.8-flash")
     observations = _read_jsonl(run_dir / "tracks.jsonl")
+    has_scene = any(item["interval"]["track_id"] is None for item in evidence)
+    scene_context = any(item["interval"]["track_id"] is None and item["interval"].get("score") == 0 for item in evidence)
+    image_description = "Tracked images highlight the selected road user. Scene images have no selected road user. " if has_scene else "Each image highlights the road user belonging to its evidence ID. "
+    context_warning = (
+        "A zero-score scene fallback supplies context after text search found no match; it does not establish the requested fact. "
+        "Dashcam telemetry describes the camera vehicle, not another road user's speed. "
+    ) if scene_context else ""
     prompt = (
         "Answer the reviewer's question using only the supplied observed frames. "
-        "Each image highlights the road user belonging to its evidence ID. "
+        + image_description + context_warning +
         "The images show positions in a moving camera's view; do not turn pixel motion into physical speed. "
         "Only state what the images establish. Hidden details or missing measurements require insufficient_evidence. "
         "Identify the evidence IDs supporting every answered result. "
@@ -198,8 +239,9 @@ def answer_question(question, evidence, run_dir):
             payload = _hosted_image(run_dir / frame["image_path"], matching)
             name = f"{item['evidence_id']}-{frame['frame_id']}.jpg"
             (hosted / name).write_bytes(payload)
+            context_label = " Zero-score scene context; relevance unverified." if item["interval"]["track_id"] is None and item["interval"].get("score") == 0 else ""
             parts.extend([
-                {"text": f"Evidence {item['evidence_id']}, track {item['interval']['track_id']}, frame {frame['frame_id']}."},
+                {"text": f"Evidence {item['evidence_id']}, track {item['interval']['track_id']}, frame {frame['frame_id']}." + context_label},
                 {"inlineData": {"mimeType": "image/jpeg", "data": base64.b64encode(payload).decode("ascii")}},
             ])
             sent.append({"evidence_id": item["evidence_id"], "frame_id": frame["frame_id"], "image": name})

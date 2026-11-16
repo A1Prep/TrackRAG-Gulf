@@ -94,6 +94,8 @@ The completed live trial selected `TRACKRAG_TRIAL_MODEL=gemini-3.5-flash-lite` a
 
 The development adapter loads annotated tracks. Its index also accepts supplied predicted observations, preserving their IDs and source; it does not supply a detector. It delegates to Arjun's `trackrag.emt` reader for the original split-first EMT layout, and also accepts the prepared manifest layout. Its retrieval ranking and live answer behavior are development results. Fine-tuned detector, tracker and Qwen comparisons still use the task implementations and held-out experiments.
 
+When lexical track search has no match, the development adapter supplies one zero-score query-frame scene as context. Reports keep that fallback separate from lexical matches and answer support; see [scene-context-follow-up.md](scene-context-follow-up.md). Existing nonempty lexical rankings are preserved.
+
 ## Recorded trial
 
 A real run used 150 original training frames from `video_054604`, Arjun's reader, 2,681 human-labeled boxes and the TF-IDF baseline. Gemini 3.8 Flash timed out on the first live request. Gemini 3.5 Flash-Lite completed all four subsequent development questions. It answered that the yellow bus, track 46, grows in the image and cited the selected frames. It returned insufficient evidence for the entry question, driver phone use and speed in kilometres per hour. The entry question remains unresolved and is retained for review of the retrieved context.

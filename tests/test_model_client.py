@@ -81,8 +81,9 @@ def test_invalid_json_is_a_validation_error_after_http_success(tmp_path):
         http.close()
 
 
-def test_nonfinite_provider_json_preserves_error_receipt_and_raw_text(tmp_path):
-    raw='{"answer_status":"answered","answer":NaN,"cited_evidence_ids":["E1"]}'
+@pytest.mark.parametrize('constant',['NaN','1e999'])
+def test_nonfinite_provider_json_preserves_error_receipt_and_raw_text(tmp_path,constant):
+    raw='{"answer_status":"answered","answer":'+constant+',"cited_evidence_ids":["E1"]}'
     model,question,evidence,calls,http=setup_client(tmp_path,reply=raw)
     image=evidence[0]['images'][0]
     image['image_path']='processed.png'

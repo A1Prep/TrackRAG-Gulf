@@ -103,6 +103,7 @@ class GeminiAnswerModel:
             result = json.loads(cleaned,parse_constant=_reject_constant)
             if not isinstance(result, dict):
                 raise ValueError('Gemini response must be a JSON object')
+            json.dumps(result,allow_nan=False)
             self.last_receipt['response'] = result
             return result
         except Exception as error:

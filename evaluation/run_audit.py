@@ -170,7 +170,7 @@ def audit_run(directory, expected):
         if status != "answered" and citations:
             raise ValueError("An unanswered result cannot claim supporting citations")
         hosted = directory / "hosted" / sha256(qid.encode()).hexdigest()
-        for name in ("draft-receipt.json", "receipt.json"):
+        for name in ("selection-receipt.json", "draft-receipt.json", "receipt.json"):
             path = hosted / name
             if not path.exists():
                 continue
@@ -178,6 +178,24 @@ def audit_run(directory, expected):
             receipt = read_object(path)
             if receipt.get("question_id", qid) != qid:
                 raise ValueError("Provider receipt belongs to a different question")
+            if name == "selection-receipt.json":
+                if receipt.get("returned_intervals") != [item["interval"] for item in row["evidence"]]:
+                    raise ValueError("Selection trace disagrees with saved evidence intervals")
+                for view in receipt.get("selection_images", []):
+                    if integer(view["frame_id"], "selection frame_id") > question["query_frame"]:
+                        raise ValueError("Selector received a future scene")
+                    processed = local_asset(hosted, view["image"])
+                    verify_image(processed)
+                    record_file(processed, "selector_input")
+                for gallery in receipt.get("identity_images", []):
+                    for identity in gallery["identities"]:
+                        frame = integer(identity["frame_id"], "gallery frame_id")
+                        track = integer(identity["track_id"], "gallery track_id")
+                        if frame > question["query_frame"] or (track, frame) not in observations:
+                            raise ValueError("Selector gallery uses future or unavailable identity observations")
+                    processed = local_asset(hosted, gallery["image"])
+                    verify_image(processed)
+                    record_file(processed, "selector_input")
             if name == "receipt.json":
                 if receipt.get("request_status") == "error" and status != "error":
                     raise ValueError("Delivered answer contradicts its failed final provider receipt")

@@ -3,6 +3,7 @@
 import json
 import math
 import tempfile
+import time
 from collections.abc import Callable, Iterable, Sequence
 from copy import deepcopy
 from pathlib import Path
@@ -186,6 +187,7 @@ def review_recording(
     output_dir: Path,
     answer_question: Callable[[Question, list[Evidence], Path], Answer] | None = None,
     run_metadata: dict | None = None,
+    export_retrieval: Callable[[Question, Any, Path], None] | None = None,
 ) -> Path:
     """Publish one run after all evidence files and JSON records have been written.
 
@@ -225,11 +227,26 @@ def review_recording(
                 evidence = _resolve_evidence(
                     recording, intervals, question, source, by_track, run_dir,
                 )
+                if export_retrieval is not None:
+                    export_retrieval(deepcopy(question), index, run_dir)
                 result: ReviewResult = {
                     "question": dict(question), "source": source, "evidence": evidence,
                     "answer": _answer(question, evidence, run_dir, answer_question),
                 }
                 results.write(json.dumps(result, allow_nan=False) + "\n")
         # Publish the images and their references together. Incomplete runs are removed.
-        run_dir.rename(output_dir)
+        # Windows indexers may briefly hold a just-written image/receipt open.
+        # Retry only native sharing/access errors; a persistent failure stays an
+        # error and an existing destination is never overwritten.
+        for attempt,delay in enumerate((0,0.05,0.15,0.3)):
+            if delay:
+                time.sleep(delay)
+            if output_dir.exists():
+                raise FileExistsError(f"Output directory was created during review: {output_dir}")
+            try:
+                run_dir.rename(output_dir)
+                break
+            except PermissionError as error:
+                if getattr(error,'winerror',None) not in {5,32,33} or attempt==3:
+                    raise
     return output_dir / "results.jsonl"

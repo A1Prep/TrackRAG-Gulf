@@ -1,10 +1,13 @@
 """Falsification and handoff checks using synthetic images, without model calls."""
 
 import json
+import io
+import os
 import subprocess
 import sys
 import tempfile
 import unittest
+import urllib.error
 from pathlib import Path
 from unittest.mock import patch
 
@@ -272,6 +275,44 @@ class RetrievalVerificationTests(unittest.TestCase):
         self.assertEqual(report["status"], "failed")
         self.assertEqual(report["recordings"][0]["status"], "failed")
         self.assertEqual(report["recordings"][1]["status"], "passed")
+
+    def test_live_batch_preserves_two_real_handoffs_with_http_replaced(self):
+        from tools.live_trial import main as live_main
+        def wire(request,**kwargs):
+            body=json.loads(request.data)
+            required=body['generationConfig']['responseSchema']['required']
+            response={'selected':[body['generationConfig']['responseSchema']['properties']['selected']['items']['enum'][0]],'requested_frame_ids':[]} if 'selected' in required else {
+                'answer_status':'answered','answer':'The bus.','cited_evidence_ids':['E1']}
+            return io.BytesIO(json.dumps({'modelVersion':'test-model','candidates':[{'content':{'parts':[{'text':json.dumps(response)}]}}]}).encode())
+        output=self.root/'live-mocked'
+        with patch.dict(os.environ,{'GEMINI_API_KEY':'unused-test-key','TRACKRAG_TRIAL_CACHE':str(self.root/'model-cache')}):
+            with patch('urllib.request.urlopen',side_effect=wire):
+                status=live_main(['--data-root',str(self.data),'--questions',str(self.question_path),
+                                  '--adapters','tools.grounded_trial_adapters','--model','test-model',
+                                  '--min-interval','0','--out',str(output)])
+        self.assertEqual(status,0)
+        summary=json.loads((output/'summary.json').read_text())
+        self.assertTrue(summary['all_planned_cases_have_fresh_responses'])
+        self.assertEqual(len(summary['cases']),2)
+        self.assertEqual(sum(event['role']=='answer' for case in summary['cases'] for event in case['attempts'][0]['provider']['events']),2)
+
+    def test_live_batch_retains_quota_error_body_and_stops_before_second_case(self):
+        from tools.live_trial import main as live_main
+        provider={'error':{'status':'RESOURCE_EXHAUSTED','message':'Daily limit',
+                           'details':[{'violations':[{'quotaId':'RequestsPerDay'}]}]}}
+        def limited(request,**kwargs):
+            raise urllib.error.HTTPError('https://example.invalid',429,'limit',{},io.BytesIO(json.dumps(provider).encode()))
+        output=self.root/'live-limited'
+        with patch.dict(os.environ,{'GEMINI_API_KEY':'unused-test-key','TRACKRAG_TRIAL_CACHE':str(self.root/'model-cache')}):
+            with patch('urllib.request.urlopen',side_effect=limited) as network:
+                status=live_main(['--data-root',str(self.data),'--questions',str(self.question_path),
+                                  '--adapters','tools.grounded_trial_adapters','--model','test-model',
+                                  '--min-interval','0','--out',str(output)])
+        self.assertEqual(status,1)
+        self.assertEqual(network.call_count,1)
+        summary=json.loads((output/'summary.json').read_text())
+        self.assertEqual(summary['unattempted_question_ids'],['rec_b'])
+        self.assertIn('Daily provider limit',summary['stop_reason'])
 
     def test_saved_file_missing_recording_is_inconclusive_even_with_scene_results(self):
         path = self.root / "predictions.jsonl"

@@ -1,0 +1,68 @@
+{
+  "version": 1,
+  "name": "Fresh Gemini answer and evidence development comparison",
+  "purpose": "development",
+  "questions": [
+    "../temporal-development-questions.jsonl",
+    "../temporal-second-questions.jsonl"
+  ],
+  "manual_question_ids": [
+    "temporal-01"
+  ],
+  "reference_variant": "tfidf-baseline",
+  "notes": [
+    "Both recordings and all questions are development data using human annotations, not trained detector outputs or held-out accuracy.",
+    "Reviews are independent AI-assisted judgments; student/human verification remains pending. Joint grades require acceptable answer content/status and target evidence; raw QA grades are also preserved.",
+    "The baseline combines the newly requested31-question live trial with the previous five live scene checks. Two of the31 had only HTTP503 outcomes. These errors remain in the fixed cohort.",
+    "All36 grounded-v1 answers completed as fresh responses using requested and provider-reported gemini-3.5-flash-lite. This frozen complete cohort executed source80aaa0d; later fixes are separate focused tests.",
+    "Multiple components changed: visual selection, derived facts, image views and endpoint handling. Differences do not establish a causal training effect.",
+    "The latest source has no complete live rerun: a daily500-request free-tier quota stopped pilot07 after successful selection but before its answer.",
+    "Raw run folders/images remain local and ignored by Git. Review bindings hash the exact results and all audited artifacts. No gold answer key is used for inference or this offline QA comparison."
+  ],
+  "variants": [
+    {
+      "id": "tfidf-baseline",
+      "label": "Simple TF-IDF baseline (31 fresh trials plus prior5)",
+      "runs": [
+        {
+          "directory": "../../runs/task5-live-comparison-01/baseline/recording-01",
+          "review": {
+            "path": "../../runs/task5-live-comparison-01/baseline/review-01/review.jsonl",
+            "results_sha256": "ba087d5b11467df62f18d591604b53ba70a307cacc7583f58f08ca9c82aa8eb0",
+            "artifacts": "../../runs/task5-live-comparison-01/baseline/review-01/artifacts.json"
+          }
+        },
+        {
+          "directory": "../../runs/task5-live-comparison-01/baseline/recording-02",
+          "review": {
+            "path": "../../runs/task5-live-comparison-01/baseline/review-02/review.jsonl",
+            "results_sha256": "fbd5a747d7231b0e916494b4588c5cd5b734042181e1063aae35527f15134dd6",
+            "artifacts": "../../runs/task5-live-comparison-01/baseline/review-02/artifacts.json"
+          }
+        }
+      ]
+    },
+    {
+      "id": "grounded-v1",
+      "label": "Frozen grounded v1 (36 fresh live answers)",
+      "runs": [
+        {
+          "directory": "../../runs/task5-live-comparison-01/grounded-v1/recording-01",
+          "review": {
+            "path": "../../runs/task5-live-comparison-01/grounded-v1/review-01/review.jsonl",
+            "results_sha256": "f9f89a5f0ee75d001c134c9049f740e17fa14ac22d6e7134b40dbc4ea0394407",
+            "artifacts": "../../runs/task5-live-comparison-01/grounded-v1/review-01/artifacts.json"
+          }
+        },
+        {
+          "directory": "../../runs/task5-live-comparison-01/grounded-v1/recording-02",
+          "review": {
+            "path": "../../runs/task5-live-comparison-01/grounded-v1/review-02/review.jsonl",
+            "results_sha256": "0216e271fb0c8c586fb2403e6f30f3489c9eeead6b4d5e6c854b542446bcbe67",
+            "artifacts": "../../runs/task5-live-comparison-01/grounded-v1/review-02/artifacts.json"
+          }
+        }
+      ]
+    }
+  ]
+}

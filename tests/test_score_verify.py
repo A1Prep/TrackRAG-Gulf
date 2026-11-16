@@ -135,6 +135,14 @@ class RetrievalVerificationTests(unittest.TestCase):
         self.assertEqual(report["positive_temporal_comparisons"], 0)
         self.assertEqual(report["empty_temporal_comparisons"], 3)
 
+    def test_zero_score_scene_context_is_separate_from_retrieval_matches(self):
+        report = self.check(rank_evidence, build_index,
+                            questions=[dict(self.questions[0], question="Is there an overpass?")])
+        self.assertEqual(report["status"], "passed")
+        self.assertEqual(report["ranking_kind_counts"], {"zero_score_scene_context": 1})
+        self.assertEqual(report["context_temporal_comparisons"], 3)
+        self.assertEqual(report["positive_temporal_comparisons"], 3)
+
     def test_end_of_recording_query_has_no_positive_temporal_check(self):
         report = self.check(questions=[dict(self.questions[0], query_frame=4)])
         self.assertEqual(report["status"], "inconclusive")

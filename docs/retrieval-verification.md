@@ -40,6 +40,8 @@ For queries before the final available frame, the runner compares:
 
 Comparisons preserve raw IDs, source, frame spans, rank and scores. Only scores have a configurable finite tolerance, default `1e-6` applied as both absolute and relative tolerance. Stable empty outputs are reported separately from positive checks. A query at the last frame has no future-input test. Unstable repeat/rebuild controls or wrapper-dependent behavior make the affected comparison inconclusive.
 
+The report separately counts zero-score scene contexts and their temporal comparisons. These can provide images when lexical search has no match, but they do not establish a relevant match or an answer. See the [five-question follow-up](scene-context-follow-up.md) for the current development-baseline behavior and regression protocol.
+
 The tests include deliberately leaky adapters, so a failure to notice future observations or future pixels would break the software checks. Passing these perturbations is still not proof of no leakage: hidden caches or an untested dependency can mask it. Use isolated or correctly invalidated caches for real models. Frozen observations may themselves reflect future-dependent tracking; these checks do not establish Task 1's causality.
 
 ## Read the results

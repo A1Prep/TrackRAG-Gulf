@@ -46,7 +46,8 @@ def write_report(run_dir):
                 images.append(f'<div><a href="{url}" target="_blank"><img src="{url}" alt="{description}" loading="lazy"><span>{label}</span></a>{model_input}</div>')
             subject = "Full scene" if interval["track_id"] is None else f"Track {interval['track_id']}"
             title = f"{item['evidence_id']} · {subject} · Frames {interval['start_frame']}–{interval['end_frame']}"
-            references.append(f'<div class="evidence" id="{anchors[item["evidence_id"]]}"><h3>{html.escape(title)}</h3><div class="frames">{"".join(images)}</div></div>')
+            context_note = '<p>Scene context only: relevance and answerability have not been established.</p>' if interval["track_id"] is None and interval.get("score") == 0 else ""
+            references.append(f'<div class="evidence" id="{anchors[item["evidence_id"]]}"><h3>{html.escape(title)}</h3>{context_note}<div class="frames">{"".join(images)}</div></div>')
         evidence = "".join(references) or '<p>No evidence was returned.</p>'
         sections.append(f'<section id="question-{number}"><h2>{question}</h2><p class="status">{status}</p><p class="answer">{answer}</p>{citations}{evidence}</section>')
     model = html.escape(", ".join(sorted(models)) or "No successful hosted answer call")
@@ -58,7 +59,7 @@ def write_report(run_dir):
         metadata = json.loads((run_dir / "run.json").read_text(encoding="utf-8"))
         configuration = metadata["configuration"].get("adapter_module", "")
     method = {
-        "tools.emt_trial_adapters": "Development baseline using labeled track history",
+        "tools.emt_trial_adapters": "Development baseline using track descriptions and scene context",
         "tools.temporal_trial_adapters": "Development trial using semantic evidence selection and labeled track history",
     }.get(configuration, "Recording review")
     sources = sources.replace("annotated", "human-labeled").replace("predicted", "model-predicted")

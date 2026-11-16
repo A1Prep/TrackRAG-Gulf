@@ -27,6 +27,16 @@ def _error(error):
     return {"error_type": type(error).__name__, "detail": str(error)[:2000]}
 
 
+def _ranking_kind(result):
+    if "intervals" not in result:
+        return "invalid"
+    if not result["intervals"]:
+        return "empty"
+    if all(row["track_id"] is None and row["score"] == 0 for row in result["intervals"]):
+        return "zero_score_scene_context"
+    return "retrieved"
+
+
 def _rank(question, index, rank_evidence, source, observations, frames):
     ranked = None
     try:
@@ -96,7 +106,7 @@ def check_recording(recording, questions, observations, source, build_index, ran
     for question in questions:
         qid = question["question_id"]
         base = original[qid]["first"]
-        cases[qid] = {"question": question, "baseline": base, "checks": {
+        cases[qid] = {"question": question, "baseline": base, "ranking_kind": _ranking_kind(base), "checks": {
             "repeat_control": _comparison(base, original[qid]["repeat"], tolerance, control=True),
             "rebuild_control": _comparison(base, rebuilt[qid]["first"], tolerance, control=True),
         }}
@@ -153,6 +163,9 @@ def check_recording(recording, questions, observations, source, build_index, ran
         "source": source, "status": status, "questions": list(cases.values()), "check_counts": dict(counts),
         "question_count": len(questions), "frame_count": len(frames), "observation_count": len(rows),
         "nonempty_rankings": sum(bool(c["baseline"].get("intervals")) for c in cases.values()),
+        "ranking_kind_counts": dict(Counter(c["ranking_kind"] for c in cases.values())),
+        "context_temporal_comparisons": sum(c["ranking_kind"] == "zero_score_scene_context" and c["checks"].get(name, {}).get("status") == "passed"
+                                             for c in cases.values() for name in ("future_observations", "prefix_only", "future_pixels")),
         "positive_temporal_comparisons": temporal_positive, "empty_temporal_comparisons": empty,
         "input_content_sha256": sha256(json.dumps({"frames": content, "observations": rows}, sort_keys=True, allow_nan=False).encode()).hexdigest(),
     }, rows
@@ -161,10 +174,10 @@ def check_recording(recording, questions, observations, source, build_index, ran
 def markdown_report(report):
     lines = ["# Retrieval integration checks", "", f"Result: **{report['status']}**. Track source: **{report['source']}**.", "", report["scope"], "",
              f"Question loader: `{report['question_loader']}`. Retrieval module: `{report['retrieval_module']}`.", "",
-             "| Recording | Status | Questions | Nonempty rankings | Positive temporal checks | Stable-empty checks |",
-             "| --- | --- | ---: | ---: | ---: | ---: |"]
+             "| Recording | Status | Questions | Nonempty rankings | Zero-score scene contexts | Nonempty temporal checks (context subset) | Stable-empty checks |",
+             "| --- | --- | ---: | ---: | ---: | ---: | ---: |"]
     for item in report["recordings"]:
-        lines.append(f"| {_md(item['recording_id'])} | {item['status']} | {item.get('question_count',0)} | {item.get('nonempty_rankings',0)} | {item.get('positive_temporal_comparisons',0)} | {item.get('empty_temporal_comparisons',0)} |")
+        lines.append(f"| {_md(item['recording_id'])} | {item['status']} | {item.get('question_count',0)} | {item.get('nonempty_rankings',0)} | {item.get('ranking_kind_counts',{}).get('zero_score_scene_context',0)} | {item.get('positive_temporal_comparisons',0)} ({item.get('context_temporal_comparisons',0)}) | {item.get('empty_temporal_comparisons',0)} |")
     lines += ["", f"Detector adapter called: **{report['detector_adapter_called']}**. Observation origin: {_md(report['observation_origin'])}.", ""]
     for item in report["recordings"]:
         lines += [f"## {_md(item['recording_id'])}", ""]
@@ -176,6 +189,8 @@ def markdown_report(report):
             lines.append(f"Evidence export: `{item['run_directory']}` (answers are not requested).")
         for case in item.get("questions", []):
             findings = [f"{key}: {value['status']}" for key, value in case["checks"].items() if value["status"] != "passed"]
+            if case.get("ranking_kind") == "zero_score_scene_context":
+                findings.insert(0, "zero-score scene context; semantic relevance and answerability unassessed")
             if findings:
                 lines.append(f"- {_md(case['question']['question_id'])}: " + "; ".join(findings))
         lines.append("")
@@ -218,6 +233,7 @@ def verify_suite(data_root, question_paths, source, output_dir, *, retrieval_mod
         "recordings": [], "two_recordings_exercised": False,
         "limitations": [
             "These checks do not measure detection, tracking, retrieval or answer accuracy. Gold scoring stays separate.",
+            "Zero-score scene contexts are counted separately. A nonempty fallback or passing temporal control does not establish a relevant match or answer.",
             "Only the shared Recording protocol is proxied. Wrapper-dependent or unstable controls are inconclusive, not proof of leakage.",
             "Passing perturbations cannot prove absence of leakage. Hidden/global caches can mask changes; use isolated or correctly invalidated model caches.",
             "Saved or frozen observations may already contain future-dependent detector/tracker output. Task 1 causality is not tested.",

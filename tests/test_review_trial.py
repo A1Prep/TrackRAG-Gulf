@@ -11,7 +11,8 @@ from unittest.mock import patch
 from PIL import Image
 
 from tools.emt_trial_adapters import (
-    _hosted_image, answer_question, build_index, load_annotated_tracks, open_recording, rank_evidence,
+    _hosted_image, _rank_track_evidence, answer_question, build_index, explain_retrieval,
+    load_annotated_tracks, open_recording, rank_evidence,
 )
 from tools.prepare_emt_clip import _BoundedStream, prepare_clip
 from tools.review_report import write_report
@@ -65,6 +66,65 @@ class TrialTests(unittest.TestCase):
         self.assertEqual(rank_evidence(question, index)[0]["track_id"], 8)
         with self.assertRaises(ValueError):
             rank_evidence(dict(question, recording_id="elsewhere"), index)
+
+    def test_scene_only_terms_get_current_frame_without_a_fabricated_track(self):
+        index = build_index(self.recording, self.tracks)
+        for text in ("What lettering is printed on that sign?", "Are we beneath an overpass?",
+                     "What structure is mounted above the pickup's bed?", "xylophone nebula"):
+            with self.subTest(text=text):
+                details = explain_retrieval(dict(self.question, question=text), index)
+                self.assertEqual(details["mode"], "scene_context_fallback")
+                self.assertEqual(details["answerability"], "not_assessed")
+                self.assertEqual(details["intervals"], [{
+                    "recording_id": self.recording.recording_id, "source": "annotated", "track_id": None,
+                    "start_frame": 3, "end_frame": 3, "rank": 1, "score": 0.0,
+                }])
+
+    def test_lexical_matches_keep_exact_intervals_order_and_scores(self):
+        index = build_index(self.recording, self.tracks)
+        original = _rank_track_evidence(self.question, index)
+        self.assertTrue(original)
+        self.assertEqual(rank_evidence(self.question, index), original)
+        self.assertEqual(explain_retrieval(self.question, index)["mode"], "lexical_tracks")
+
+    def test_scene_fallback_uses_past_source_and_stays_stable_after_future_changes(self):
+        question = dict(self.question, question="Is there an overpass?")
+        predicted = [dict(row, source="predicted", track_id=99) for row in self.tracks]
+        full = rank_evidence(question, build_index(self.recording, predicted))
+        prefix = [row for row in predicted if row["frame_id"] <= 3]
+        changed = prefix + [dict(row, track_id=100, class_name="Car") for row in predicted if row["frame_id"] > 3]
+        self.assertEqual(full, rank_evidence(question, build_index(self.recording, prefix)))
+        self.assertEqual(full, rank_evidence(question, build_index(self.recording, changed)))
+        self.assertEqual(full[0]["source"], "predicted")
+
+    def test_future_only_observations_cannot_enable_scene_fallback(self):
+        question = dict(self.question, question="What lettering is printed?")
+        for tracks in ([], [row for row in self.tracks if row["frame_id"] > 3]):
+            with self.subTest(tracks=tracks):
+                details = explain_retrieval(question, build_index(self.recording, tracks))
+                self.assertEqual(details["mode"], "empty")
+                self.assertEqual(details["intervals"], [])
+
+    def test_scene_lookup_never_substitutes_a_nearby_frame(self):
+        question = dict(self.question, question="What lettering is printed?", query_frame=99)
+        with self.assertRaises(KeyError):
+            rank_evidence(question, build_index(self.recording, self.tracks))
+
+    def test_scene_fallback_respects_zero_k_and_rejects_invalid_k(self):
+        question = dict(self.question, question="What lettering is printed?")
+        index = build_index(self.recording, self.tracks)
+        self.assertEqual(rank_evidence(question, index, k=0), [])
+        for k in (-1, True, 1.5):
+            with self.subTest(k=k), self.assertRaises(ValueError):
+                rank_evidence(question, index, k=k)
+
+    def test_scene_diagnostics_ignore_question_id_and_do_not_mutate_inputs(self):
+        question = dict(self.question, question="What lettering is printed?")
+        index = build_index(self.recording, self.tracks)
+        before = json.dumps(question, sort_keys=True), json.dumps(index["tracks"], sort_keys=True)
+        result = explain_retrieval(question, index)
+        self.assertEqual(result, explain_retrieval(dict(question, question_id="unseen-id"), index))
+        self.assertEqual(before, (json.dumps(question, sort_keys=True), json.dumps(index["tracks"], sort_keys=True)))
 
     def test_hosted_processing_masks_lower_vehicle_region(self):
         payload = _hosted_image(self.image, [self.tracks[0]])
@@ -126,9 +186,31 @@ class TrialTests(unittest.TestCase):
         request = network.call_args.args[0]
         payload = json.loads(request.data)
         self.assertEqual(payload["contents"][0]["parts"][-2]["text"], "Evidence E1, track 7, frame 3.")
+        self.assertIn("Each image highlights the road user", payload["contents"][0]["parts"][0]["text"])
+        self.assertNotIn("zero-score scene", payload["contents"][0]["parts"][0]["text"])
         receipts = list((self.root / "hosted").glob("*/receipt.json"))
         self.assertEqual(len(receipts), 1)
         self.assertNotIn("unit-test-key", receipts[0].read_text())
+
+    def test_scene_answer_payload_labels_context_and_camera_telemetry_without_upload(self):
+        (self.root / "image.png").write_bytes(self.image.read_bytes())
+        (self.root / "tracks.jsonl").write_text(json.dumps(self.tracks[2]) + "\n")
+        evidence = self.evidence()
+        evidence[0]["interval"].update(track_id=None, score=0.0)
+        evidence[0]["images"][0]["bbox_xyxy"] = None
+        response = {"candidates": [{"content": {"parts": [{"text": json.dumps({
+            "answer_status": "insufficient_evidence", "answer": "Not measurable", "cited_evidence_ids": [],
+        })}]}}]}
+        with patch.dict("os.environ", {"GEMINI_API_KEY": "unit-test-key"}):
+            with patch("tools.emt_trial_adapters.urllib.request.urlopen", return_value=io.BytesIO(json.dumps(response).encode())) as network:
+                answer = answer_question(self.question, evidence, self.root)
+        parts = json.loads(network.call_args.args[0].data)["contents"][0]["parts"]
+        self.assertEqual(answer["answer_status"], "insufficient_evidence")
+        self.assertIn("does not establish the requested fact", parts[0]["text"])
+        self.assertIn("camera vehicle", parts[0]["text"])
+        self.assertIn("Zero-score scene context", parts[-2]["text"])
+        receipt = next((self.root / "hosted").glob("*/receipt.json"))
+        self.assertNotIn("unit-test-key", receipt.read_text())
 
     def test_http_failure_is_distinguishable_from_insufficient_evidence(self):
         (self.root / "image.png").write_bytes(self.image.read_bytes())
@@ -169,6 +251,13 @@ class TrialTests(unittest.TestCase):
         path.write_text(json.dumps(result) + "\n")
         report = write_report(self.root).read_text()
         self.assertIn('Cited evidence <a href="#question-1-evidence-1">E2</a>', report)
+
+    def test_report_keeps_zero_score_scene_context_distinct_from_answer_support(self):
+        result = {"question": self.question, "source": "annotated", "evidence": [{
+            "evidence_id": "E1", "interval": {"track_id": None, "start_frame": 3, "end_frame": 3, "score": 0.0}, "images": [],
+        }], "answer": {"answer_status": "not_requested", "answer": None, "cited_evidence_ids": []}}
+        (self.root / "results.jsonl").write_text(json.dumps(result) + "\n")
+        self.assertIn("Scene context only: relevance and answerability have not been established", write_report(self.root).read_text())
 
     def test_download_bound_is_enforced_even_if_server_ignores_range(self):
         stream = _BoundedStream(io.BytesIO(b"0123456789"), 4)

@@ -105,3 +105,5 @@ The later bus investigation and 36-question development bank are documented in [
 ## Compare saved experiments
 
 Use `python -m evaluation compare --manifest <COMPARISON.json> --out <NEW_DIRECTORY>` to compare multiple recordings and conditions without calling a model. It audits saved evidence and review bindings, preserves missing/error cases, and writes JSON and Markdown summaries. See [task5-comparisons.md](task5-comparisons.md) for the manifest and review formats, historical development comparison and final-model evaluation protocol.
+
+The grounding investigation, retained model regressions and release gate are tracked in [temporal-regressions.md](temporal-regressions.md). Complete small-model trials and the stronger reviewer's quota-limited result are recorded separately from passing software checks.

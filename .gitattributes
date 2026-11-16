@@ -1,0 +1,3 @@
+# Preserve the frozen control bank's byte fingerprints on Windows and Linux.
+experiments/temporal-control-*.jsonl text eol=lf
+experiments/temporal-control-protocol.json text eol=lf

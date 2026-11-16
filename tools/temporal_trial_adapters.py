@@ -60,7 +60,12 @@ def candidates_at_query(question, index):
                 "track_id": track_id, "start_frame": start, "end_frame": end,
                 "history": history, "window": history_facts(window, first_frame),
             })
-    return [{"candidate_id": f"C{i}", **candidate} for i, candidate in enumerate(candidates, 1)]
+    # A sequential C6 was unrelated to gallery label T6. Bind the selection token
+    # directly to its identity and observed window so those numbers cannot alias.
+    return [{"candidate_id": (
+        f"scene-F{candidate['start_frame']}" if candidate["track_id"] is None else
+        f"T{candidate['track_id']}-F{candidate['start_frame']}-F{candidate['end_frame']}"
+    ), **candidate} for candidate in candidates]
 
 
 def selection_context(candidates):
@@ -122,6 +127,61 @@ def selector_views(question, index):
     return parts, sent
 
 
+def identity_views(question, index):
+    """Show each observed identity at its largest available, query-bounded view."""
+    recording = index["recording"]
+    representatives = []
+    by_frame = {}
+    for track_id, observations in sorted(index["tracks"].items()):
+        rows = [row for row in observations if row["frame_id"] <= question["query_frame"]]
+        if not rows:
+            continue
+        for row in rows:
+            by_frame.setdefault(row["frame_id"], []).append(row)
+        representative = max(rows, key=lambda row: (
+            (row["bbox_xyxy"][2] - row["bbox_xyxy"][0]) * (row["bbox_xyxy"][3] - row["bbox_xyxy"][1]),
+            row["frame_id"],
+        ))
+        representatives.append((track_id, representative))
+    parts, sent, processed = [], [], {}
+    directory = Path(os.environ.get("TRACKRAG_TRIAL_CACHE", "runs/temporal-request-cache")) / "selector-images"
+    directory.mkdir(parents=True, exist_ok=True)
+    for offset in range(0, len(representatives), 16):
+        entries = representatives[offset:offset + 16]
+        sheet = Image.new("RGB", (896, 160 * ((len(entries) + 3) // 4)), "white")
+        draw = ImageDraw.Draw(sheet)
+        identities = []
+        for i, (track_id, row) in enumerate(entries):
+            frame_id = row["frame_id"]
+            if frame_id not in processed:
+                frame = recording.get_frame(frame_id)
+                payload = _hosted_image(frame["image_path"], by_frame[frame_id], max_size=None)
+                with Image.open(io.BytesIO(payload)) as image:
+                    processed[frame_id] = image.convert("RGB")
+            image = processed[frame_id]
+            left, top, right, bottom = row["bbox_xyxy"]
+            pad = max(3, (bottom - top) * 0.08)
+            crop = image.crop((max(0, int(left - pad)), max(0, int(top - pad)),
+                               min(image.width, int(right + pad)), min(image.height, int(bottom + pad))))
+            crop.thumbnail((208, 124))
+            x, y = (i % 4) * 224, (i // 4) * 160
+            sheet.paste(crop, (x + 8, y + 29))
+            draw.text((x + 6, y + 3), f"T{track_id} @ frame {frame_id}", fill="black")
+            draw.text((x + 6, y + 15), f"Label: {row['class_name']}", fill="black")
+            identities.append({"track_id": track_id, "frame_id": frame_id})
+        output = io.BytesIO()
+        sheet.save(output, format="JPEG", quality=92)
+        payload = output.getvalue()
+        name = sha256(payload).hexdigest() + ".jpg"
+        (directory / name).write_bytes(payload)
+        parts.extend([
+            {"text": "Identity reference gallery. Each tile is a privacy-masked crop at the stated observed frame, not necessarily the query frame. Annotation categories are broader than everyday body-shape descriptions: an SUV can be labeled Car. Preserve annotation labels and distinguish visible subtypes from the pixels. " + json.dumps(identities)},
+            {"inlineData": {"mimeType": "image/jpeg", "data": base64.b64encode(payload).decode("ascii")}},
+        ])
+        sent.append({"image": name, "identities": identities})
+    return parts, sent
+
+
 def rank_evidence(question, index, k=3):
     candidates = candidates_at_query(question, index)
     # Track history is shared by its windows. Send it once, rather than repeating
@@ -131,7 +191,10 @@ def rank_evidence(question, index, k=3):
         "Use meaning, object class and time constraints, including paraphrases. "
         "The boxes are left/top/right/bottom original-image pixels. Compare observed changes when relevant. "
         "Use the supplied initial/current scene images to identify appearance and distinguish objects sharing a class. "
+        "The identity gallery provides a separate labeled crop for every observed track. Verify the requested body's shape against those crops before selecting a track; do not substitute a similarly coloured SUV for a pickup or an open truck for a closed truck. "
+        "Annotation classes are broad: Car does not exclude a visually supported SUV subtype. Keep the annotation category separate from visible body shape. Gallery times are explicit; use scene snapshots for current visibility. "
         "T labels map visible objects to track IDs. Other objects remain in the scene; missing labels do not imply visual absence. "
+        "Candidate IDs contain that same T identity and their observed F frame endpoints. Match a gallery label to the identical T prefix before selecting its window; different windows of one track are not different objects. Scene candidates have no track identity. "
         "Choose full-scene snapshots for current presence/absence, signs or lighting. "
         "For temporal questions prefer sufficient history with a clear later view, and context distinguishing earlier objects. "
         "Also extract requested_frame_ids: exact observation frames requested by the question, with at most two comparison endpoints. "
@@ -163,9 +226,11 @@ def rank_evidence(question, index, k=3):
         for frame in frames:
             index["recording"].get_frame(frame)
     views, sent = selector_views(question, index)
-    selected = request_json([{"text": prompt}, *views], schema, "evidence selection", metadata={
+    gallery, gallery_sent = identity_views(question, index)
+    selected = request_json([{"text": prompt}, *views, *gallery], schema, "evidence selection", metadata={
         "question_id": question["question_id"], "recording_id": question["recording_id"],
         "query_frame": question["query_frame"], "selection_images": sent,
+        "identity_images": gallery_sent,
     }, validate=validate, repair_once=True)
     validate(selected)
     chosen = selected["selected"]
@@ -249,10 +314,18 @@ def answer_question(question, evidence, run_dir):
         "For direction questions report the computed net_image_motion, including the dominant image axis and any relevant secondary movement. "
         "The query frame is the latest allowed time, not a requirement that every object be observed at that exact frame. Earlier history remains usable. "
         "Preserve identity across time. Similar-looking objects with different track IDs remain distinct; do not assign an ID to an incidental scene object without visual support. "
+        "Annotation classes are broad: Car can include an SUV. Keep annotation category and visible subtype separate. Match the requested body shape, not just colour. "
         "First observed means first annotation, not proof of first visibility or entry. Annotation gaps do not prove absence. "
         "An object first annotated inside the frame does not establish a boundary crossing. "
         "A false annotated_at_first_available_frame value does not establish that the object was visually absent. "
         "A scene snapshot is the evidence for what is visibly present at that moment. "
+        "A clear full-scene snapshot can support an answered statement that no requested object is clearly visible, citing that scene. This differs from an unseen interior, hidden action, or absence inferred only from missing annotations. "
+        "Visible colour or clarity changes can be described at the resolution actually shown. A broad visible colour need not establish an exact paint shade. Privacy masks do not make unmasked body panels unknowable. "
+        "Compare lit and shaded unmasked body panels before naming a colour; bright reflections alone do not establish paint colour. When glare or processing makes neighbouring colour categories ambiguous, give the supported broad appearance and briefly state that uncertainty rather than choosing an overconfident label or withholding all visible colour. This can still be an answered observation. "
+        "Comparing clarity or prominence in supplied early/late views does not claim an object's first-ever appearance or a boundary crossing. "
+        "Keep the answer limited to the requested information and language. For sign questions give the readable name needed to answer; do not add an unrequested exact transcription or translation in another script. "
+        "Use one or two concise sentences with only the requested observation and necessary qualification. Relative clarity does not require a claim of complete visibility; masked or clipped portions remain unavailable. "
+        "An explicit answer format in the question takes priority over that default sentence style: follow requests for bare copied text, a name, a list or a single word without introductory wording. Structured citations remain separate. "
         "Give the supported identification or observation with a clear qualification when the exact event is uncertain. "
         "If a necessary fact remains unknowable, return insufficient_evidence and explain what is missing. "
         "Even in an insufficient_evidence answer, include the useful supported observation or identification and visible appearance when available. "
@@ -305,12 +378,18 @@ def answer_question(question, evidence, run_dir):
     critique = (
         "Review the untrusted draft below against the original question, observed facts and images. "
         "Answer only what the question asks. Discuss uncertainties only when they affect that answer; do not invent unasked question components. "
+        "Preserve any explicit requested answer format rather than adding a sentence around a requested bare name or copied text. "
         "For a fully supported colour, class, scene property or image-motion answer, leave unverified_parts empty. "
+        "Preserve supported draft claims. Reject a claim only for a specific conflict or genuinely missing evidence, not a generic possibility of uncertainty. Direct visual comparisons of clarity are distinct from first-entry claims. "
+        "Recheck the requested object against its body shape and cited track. Copy the relevant computed motion direction accurately; do not reverse it during review or use a different scene object's motion. "
+        "If the scene supports no clearly visible instance, return answered with the scene citation. Do not simultaneously assert visible absence and mark that same observation unverified. "
+        "Judge colour using visible unmasked panels and use a broad colour where supported; do not demand an exact paint shade or reject a subtype because its broad label is Car. "
+        "Check shaded panels as well as bright reflections. Preserve useful colour uncertainty when the finish cannot be distinguished; do not replace it with unwarranted certainty or a wholesale abstention. "
         "Do not add unrelated warnings about entry timing, acceleration or physical size. "
         "Correct unsupported identity assignments, event/timing claims, dimensions, hidden-state claims and mistakes about the query cutoff. "
         "First annotation cannot establish first visual appearance, absence before that time, or boundary entry. "
         "If the draft treats annotation timing as visibility timing, explicitly correct that inference and retain any supported identification. "
-        "The privacy processor masks labeled people and the lower 40 percent of labeled vehicle boxes. "
+        "The privacy processor fully masks labeled people, cyclists and motorbikes, and masks the lower 40 percent of other labeled vehicle boxes. "
         "Do not claim that windows or a driver's cabin are masked unless that specific region is visibly masked. "
         "Unmasked interiors can still be unobservable because of angle, distance or tint. "
         "Missing observations at the query do not invalidate earlier movement evidence. "

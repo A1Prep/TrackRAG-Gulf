@@ -1,0 +1,6 @@
+{"question_id":"control-b-01","recording_id":"video_054907","query_frame":100,"question":"Between frames 1 and 100, do the white SUV seen on the left at the beginning and the white pickup with the metal rack shift in the same horizontal image direction or in opposite directions? Give left or right for each."}
+{"question_id":"control-b-02","recording_id":"video_054907","query_frame":100,"question":"At frame 100, is the white vehicle with the metal rack on the left an open-bed pickup or a closed box truck?"}
+{"question_id":"control-b-03","recording_id":"video_054907","query_frame":150,"question":"Is the rack-equipped white pickup from earlier still visible anywhere in frame 150?"}
+{"question_id":"control-b-04","recording_id":"video_054907","query_frame":150,"question":"How many people are inside the black SUV on the right at frame 150?"}
+{"question_id":"control-b-05","recording_id":"video_054907","query_frame":150,"question":"At frame 150, copy only the English city name below 'Sh Mohammed Bin Zayed Rd' on the large blue sign. Do not add Arabic text."}
+{"question_id":"control-b-06","recording_id":"video_054907","query_frame":150,"question":"From frame 50 to frame 150, does the black SUV on the right become larger or smaller in the image?"}

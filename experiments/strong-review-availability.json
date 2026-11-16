@@ -1,0 +1,69 @@
+{
+  "scope": "Stronger-reviewer availability experiment; no complete-cohort quality score",
+  "expected_questions": 48,
+  "status_counts": {
+    "answered": 19,
+    "insufficient_evidence": 0,
+    "error": 29
+  },
+  "terminal_provider_quota_failures": 1,
+  "locally_suppressed_reviews": 28,
+  "requested_and_reported_review_models": [
+    [
+      "gemini-3.6-flash",
+      "gemini-3.6-flash"
+    ]
+  ],
+  "observed_account_limits": {
+    "requests_per_minute": 5,
+    "requests_per_day": 20
+  },
+  "terminal_question_id": "temporal-19",
+  "terminal_request_sha256": "95da208ebbd7dfdfcbfa816ed1d6e7a753f922b4c54b9ab99db15ac5d210b540",
+  "quality_score": null,
+  "notes": [
+    "Selections are frozen from the second complete Lite cohort. Drafts use Flash-Lite; final review requests Flash3.6.",
+    "The completed rows include exact-request cache reuse. A provider request is not the same as a completed question.",
+    "Unavailable rows remain errors; they were not converted into abstentions or replaced with favourable earlier answers.",
+    "The quota circuit suppresses subsequent unavailable review uploads while allowing exact cached requests to return.",
+    "These are previously seen development recordings with annotated tracks, not detector/trained-reranker or held-out results."
+  ],
+  "runs": [
+    {
+      "run": "runs\\task5-regressions\\strong-cohort\\first-run",
+      "questions": 24,
+      "statuses": {
+        "answered": 18,
+        "insufficient_evidence": 0,
+        "error": 6
+      }
+    },
+    {
+      "run": "runs\\task5-regressions\\strong-cohort\\second-run",
+      "questions": 12,
+      "statuses": {
+        "answered": 1,
+        "insufficient_evidence": 0,
+        "error": 11
+      }
+    },
+    {
+      "run": "runs\\task5-regressions\\strong-cohort\\control-first-run",
+      "questions": 6,
+      "statuses": {
+        "answered": 0,
+        "insufficient_evidence": 0,
+        "error": 6
+      }
+    },
+    {
+      "run": "runs\\task5-regressions\\strong-cohort\\control-second-run",
+      "questions": 6,
+      "statuses": {
+        "answered": 0,
+        "insufficient_evidence": 0,
+        "error": 6
+      }
+    }
+  ]
+}

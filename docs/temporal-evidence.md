@@ -53,7 +53,7 @@ Two `gemini-3.8-flash` answer attempts did not deliver usable answers here. One 
 
 A targeted six-question `gemini-3.7-flash` diagnostic was also attempted. Its first evidence-selection request timed out at 120 seconds, so that comparison produced no completed answer cohort. No quality score is assigned to it.
 
-The smaller model remains a development baseline. A correct output schema, a model critique and passing integration tests do not guarantee factual answers. Use the saved per-question review notes to see remaining model limitations, and repeat the bank with the selected fine-tuned answerer rather than treating this trial as final deployment validation.
+The smaller model remains a development baseline. A correct output schema, a model critique and passing integration tests do not guarantee factual answers. Use the saved per-question review notes to see remaining model limitations, and repeat evaluation with the completed NLP pipeline, including the trained Qwen reranker and configured answer generator, rather than treating this trial as final deployment validation. The assessed training roles and completion evidence are defined in [assessment-alignment.md](assessment-alignment.md).
 
 ## Recorded final cohort
 

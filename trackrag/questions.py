@@ -75,7 +75,7 @@ def load_questions(path: str | Path) -> list[Question]:
 
     questions = []
 
-    with Path(path).open("r", encoding="utf-8") as file:
+    with Path(path).open("r", encoding="utf-8-sig") as file:
         for line_number, line in enumerate(file, start=1):
 
             if not line.strip():
@@ -88,14 +88,15 @@ def load_questions(path: str | Path) -> list[Question]:
                     f"Invalid JSON on line {line_number}: {error.msg}"
                 ) from error
 
-            questions.append(record)
+            questions.append(validate_question(record, line_number))
 
     return validate_questions(questions)
 
 
 def validate_evidence(question: Question, evidence: list[Evidence]) -> None:
-    """Reject evidence that does not belong to the question's time boundary."""
+    """Check recording, time and scene coherence; Task 5 checks saved artifacts."""
 
+    validate_question(question)
     seen_ids = set()
 
     for item in evidence:
@@ -115,8 +116,14 @@ def validate_evidence(question: Question, evidence: list[Evidence]) -> None:
         start = interval["start_frame"]
         end = interval["end_frame"]
 
+        if type(start) is not int or type(end) is not int:
+            raise ValueError(f"{evidence_id}: Frame endpoints must be integers.")
         if start < 0 or end < start:
             raise ValueError(f"{evidence_id}: Invalid frame interval.")
+
+        scene = interval["track_id"] is None
+        if scene and start != end:
+            raise ValueError(f"{evidence_id}: Scene evidence requires one exact frame.")
 
         if end > question["query_frame"]:
             raise ValueError(
@@ -125,6 +132,13 @@ def validate_evidence(question: Question, evidence: list[Evidence]) -> None:
 
         for image in item["images"]:
             frame_id = image["frame_id"]
+
+            if type(frame_id) is not int or frame_id < 0:
+                raise ValueError(f"{evidence_id}: Image frame must be a nonnegative integer.")
+            if scene and image["bbox_xyxy"] is not None:
+                raise ValueError(f"{evidence_id}: A scene image cannot have a vehicle box.")
+            if not scene and image["bbox_xyxy"] is None:
+                raise ValueError(f"{evidence_id}: A tracked image requires a vehicle box.")
 
             if frame_id < start or frame_id > end:
                 raise ValueError(

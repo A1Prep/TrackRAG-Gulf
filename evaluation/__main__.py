@@ -16,9 +16,12 @@ def main(argv=None):
     if argv and argv[0] == "review-template":
         from .review_template import main as template_main
         return template_main(argv[1:])
+    if argv and argv[0] == "verify-retrieval":
+        from .verify_retrieval import main as verify_main
+        return verify_main(argv[1:])
     parser = argparse.ArgumentParser(
         description="Score saved evidence retrieval without calling a model.",
-        epilog="Other commands: python -m evaluation compare --help; python -m evaluation review-template --help",
+        epilog="Other commands: compare, review-template, verify-retrieval (use COMMAND --help)",
     )
     parser.add_argument("--results", required=True, type=Path, help="results.jsonl from a review run")
     parser.add_argument("--gold", required=True, type=Path, help="Gold JSONL with acceptable_evidence alternatives")

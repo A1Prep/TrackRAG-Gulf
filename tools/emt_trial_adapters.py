@@ -1,8 +1,8 @@
 """A selectable baseline for real EMT trials while the task modules are developed.
 
-Reads original human labels, searches descriptions derived from those labels, and
-optionally calls Gemini on selected, privacy-processed frames. It supplies no
-predicted detector tracks and uses no gold answers in retrieval or generation.
+Reads original human labels or supplied predictions, searches observed track
+descriptions, and optionally calls Gemini. It supplies no detector and uses no
+gold answers in retrieval or generation.
 """
 
 import base64
@@ -69,12 +69,17 @@ def load_questions(path):
 
 def build_index(recording, tracks):
     grouped = defaultdict(list)
+    sources = set()
     for observation in tracks:
-        if observation["recording_id"] != recording.recording_id or observation["source"] != "annotated":
-            raise ValueError("The trial index accepts one recording's annotated tracks")
+        if observation["recording_id"] != recording.recording_id or observation["source"] not in {"annotated", "predicted"}:
+            raise ValueError("The trial index accepts one recording and a valid track source")
+        sources.add(observation["source"])
+        if len(sources) > 1:
+            raise ValueError("The trial index cannot mix annotated and predicted tracks")
         grouped[observation["track_id"]].append(observation)
     return {
         "recording": recording,
+        "source": next(iter(sources), None),
         "tracks": {key: sorted(rows, key=lambda row: row["frame_id"]) for key, rows in grouped.items()},
     }
 
@@ -142,7 +147,7 @@ def rank_evidence(question, index, k=3):
             ranked.append((score, track_id, start, end))
     ranked.sort(key=lambda row: (-row[0], row[1], row[2], row[3]))
     return [{
-        "recording_id": recording.recording_id, "source": "annotated", "track_id": track_id,
+        "recording_id": recording.recording_id, "source": index["source"], "track_id": track_id,
         "start_frame": start, "end_frame": end, "rank": rank, "score": score,
     } for rank, (score, track_id, start, end) in enumerate(ranked[:k], start=1)]
 

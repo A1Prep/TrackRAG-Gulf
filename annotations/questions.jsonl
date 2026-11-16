@@ -1,0 +1,10 @@
+
+{"question_id":"EMT_204647_Q001","recording_id":"video_204647","query_frame":205,"question":"At frame 205, how many pedestrians are visible near the pedestrian crossing?"}
+{"question_id":"EMT_204647_Q002","recording_id":"video_204647","query_frame":411,"question":"How many pedestrians are annotated in frame 411?"}
+{"question_id":"EMT_204647_Q003","recording_id":"video_204647","query_frame":205,"question":"Is a small motorised vehicle visible at the right edge of frame 205?"}
+{"question_id":"EMT_204647_Q004","recording_id":"video_204647","query_frame":294,"question":"Does pedestrian track 33 appear in each of frames 205, 230, 260 and 294?"}
+{"question_id":"EMT_204647_Q005","recording_id":"video_204647","query_frame":435,"question":"Which pedestrian track IDs are present in both frame 411 and frame 435?"}
+{"question_id":"EMT_204647_Q006","recording_id":"video_204647","query_frame":294,"question":"Does the same small motorised vehicle track appear in frames 205, 230, 260 and 294?"}
+{"question_id":"EMT_204647_Q007","recording_id":"video_204647","query_frame":1600,"question":"Is the same emergency vehicle track annotated in both frame 1581 and frame 1600?"}
+{"question_id":"EMT_204647_Q008","recording_id":"video_204647","query_frame":205,"question":"What is the name or identity of either pedestrian visible in frame 205?"}
+{"question_id":"EMT_204647_Q009","recording_id":"video_204647","query_frame":294,"question":"What destination are the pedestrians travelling to?"}

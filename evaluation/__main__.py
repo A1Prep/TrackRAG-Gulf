@@ -9,7 +9,17 @@ from .score import read_jsonl, score_results
 
 
 def main(argv=None):
-    parser = argparse.ArgumentParser(description="Score saved evidence retrieval without calling a model.")
+    argv = list(sys.argv[1:] if argv is None else argv)
+    if argv and argv[0] == "compare":
+        from .compare import main as compare_main
+        return compare_main(argv[1:])
+    if argv and argv[0] == "review-template":
+        from .review_template import main as template_main
+        return template_main(argv[1:])
+    parser = argparse.ArgumentParser(
+        description="Score saved evidence retrieval without calling a model.",
+        epilog="Other commands: python -m evaluation compare --help; python -m evaluation review-template --help",
+    )
     parser.add_argument("--results", required=True, type=Path, help="results.jsonl from a review run")
     parser.add_argument("--gold", required=True, type=Path, help="Gold JSONL with acceptable_evidence alternatives")
     parser.add_argument("--temporal-iou", type=float, default=0.5, help="Inclusive frame-interval overlap, selected on development data")

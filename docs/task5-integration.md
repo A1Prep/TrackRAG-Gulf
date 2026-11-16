@@ -101,3 +101,7 @@ A real run used 150 original training frames from `video_054604`, Arjun's reader
 These four development questions provide a working application check. They are not an accuracy estimate or a substitute for independent annotation and held-out evaluation. The local run folder preserves the exact processed images and model receipts.
 
 The later bus investigation and 36-question development bank are documented in [temporal-evidence.md](temporal-evidence.md). The newer explicit trial adapter is `tools.temporal_trial_adapters`. It adds visual evidence selection, full-history candidates, exact scene snapshots and privacy-masked object crops. The original TF-IDF adapter remains available for comparisons.
+
+## Compare saved experiments
+
+Use `python -m evaluation compare --manifest <COMPARISON.json> --out <NEW_DIRECTORY>` to compare multiple recordings and conditions without calling a model. It audits saved evidence and review bindings, preserves missing/error cases, and writes JSON and Markdown summaries. See [task5-comparisons.md](task5-comparisons.md) for the manifest and review formats, historical development comparison and final-model evaluation protocol.

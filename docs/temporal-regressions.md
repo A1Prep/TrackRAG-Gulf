@@ -34,6 +34,8 @@ The current quota receipt indicates a reset around 2026-11-16 08:00 UTC, or noon
 
 Twelve new questions were prepared through independent inspection of original and privacy-processed images, then checked by a second reviewer before any new model output. The question files are `experiments/temporal-control-questions.jsonl` and `experiments/temporal-control-second-questions.jsonl`; their separate `*-rubric.jsonl` files never enter inference. `experiments/temporal-control-protocol.json` records the pre-output file fingerprints and frozen inference commit.
 
+Git preserves LF line endings for these frozen files so Windows checkout conversion does not invalidate their byte fingerprints.
+
 The controls cover two distinct nearby objects, opposing horizontal movement, visible SUV/pickup body shape, current absence, hidden occupancy, English-only OCR, image growth and unknowable physical speed. Current-absence references were checked in the images rather than inferred from annotation endings. These are additional development controls on previously seen clips, not held-out assessment questions or proof of general model accuracy.
 
 ## Complete the same-model rerun

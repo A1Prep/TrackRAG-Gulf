@@ -164,6 +164,39 @@ class TemporalTests(unittest.TestCase):
         self.assertEqual([item["frame_id"] for item in sent], [1, 5])
         self.assertEqual(sum("inlineData" in part for part in parts), 2)
 
+    def test_identity_gallery_uses_largest_observation_without_future_pixels_or_tracks(self):
+        requested = []
+        original = self.recording.get_frame
+        self.recording.get_frame = lambda frame: (requested.append(frame), original(frame))[1]
+        index = {"recording": self.recording, "tracks": {
+            11: [observation(1, 11, bbox_xyxy=[4, 5, 9, 10]), observation(3, 11),
+                 observation(6, 11, bbox_xyxy=[1, 1, 31, 23])],
+            99: [observation(6, 99, class_name="FutureSecret")],
+        }}
+        parts, sent = temporal.identity_views(self.question, index)
+        self.assertEqual(requested, [3])
+        self.assertEqual(sent[0]["identities"], [{"track_id": 11, "frame_id": 3}])
+        self.assertNotIn("FutureSecret", json.dumps(parts))
+        self.assertIn("not necessarily the query frame", parts[0]["text"])
+
+    def test_identity_gallery_masks_all_observed_people_before_cropping(self):
+        index = {"recording": self.recording, "tracks": {
+            11: [observation(3, 11)], 12: [observation(3, 12, class_name="Person")],
+        }}
+        with patch.object(temporal, "_hosted_image", wraps=temporal._hosted_image) as processor:
+            _, sent = temporal.identity_views(self.question, index)
+        self.assertEqual(processor.call_count, 1)
+        self.assertEqual({r["track_id"] for r in processor.call_args.args[1]}, {11, 12})
+        self.assertIsNone(processor.call_args.kwargs["max_size"])
+        self.assertEqual(len(sent[0]["identities"]), 2)
+
+    def test_identity_gallery_does_not_truncate_tracks_beyond_scene_label_limit(self):
+        index = {"recording": self.recording, "tracks": {t: [observation(2, t)] for t in range(41, 76)}}
+        parts, sent = temporal.identity_views(self.question, index)
+        identities = [r for sheet in sent for r in sheet["identities"]]
+        self.assertEqual([r["track_id"] for r in identities], list(range(41, 76)))
+        self.assertEqual(sum("inlineData" in part for part in parts), 3)
+
 
 class RequestTests(unittest.TestCase):
     def setUp(self):
@@ -196,6 +229,13 @@ class RequestTests(unittest.TestCase):
         self.assertTrue(receipt["cached"])
         self.assertEqual(receipt["question_id"], "new")
         self.assertNotIn("unused-test-key", (self.root / "b.json").read_text())
+
+    def test_sampling_uses_documented_provider_default_and_records_it(self):
+        with patch.object(client.urllib.request, "urlopen", return_value=self.wire({"selected": ["C1"]})) as network:
+            self.call(receipt_path=self.root / "receipt.json", validate=self.validate)
+        sent = json.loads(network.call_args.args[0].data)
+        self.assertNotIn("temperature", sent["generationConfig"])
+        self.assertEqual(json.loads((self.root / "receipt.json").read_text())["sampling"], "provider_default")
 
     def test_invalid_model_output_is_never_cached_as_success(self):
         with patch.object(client.urllib.request, "urlopen", side_effect=lambda *a, **k: self.wire({"selected": ["C999"]})) as network:
@@ -241,6 +281,31 @@ class RequestTests(unittest.TestCase):
         receipt = json.loads((self.root / "receipt.json").read_text())
         self.assertEqual(receipt["request_status"], "completed")
         self.assertEqual(receipt["failed_attempts"][0]["http_status"], 429)
+        self.assertNotIn("failure_class", receipt)
+        self.assertNotIn("http_status", receipt)
+
+    def test_daily_quota_is_explicit_never_retried_or_cached_as_an_answer(self):
+        provider = {"error": {"message": "Requests per day limit exceeded", "details": []}}
+        limited = urllib.error.HTTPError("https://example.invalid", 429, "quota", {}, io.BytesIO(json.dumps(provider).encode()))
+        with patch.object(client.urllib.request, "urlopen", side_effect=limited) as network:
+            with patch.object(client.time, "sleep") as pause:
+                with self.assertRaisesRegex(client.ProviderQuotaError, "daily quota exhausted"):
+                    self.call(receipt_path=self.root / "quota.json", repair_once=True)
+        self.assertEqual(network.call_count, 1)
+        pause.assert_not_called()
+        receipt = json.loads((self.root / "quota.json").read_text())
+        self.assertEqual(receipt["request_status"], "error")
+        self.assertEqual(receipt["failure_class"], "daily_quota")
+        self.assertEqual(receipt["http_status"], 429)
+        self.assertEqual(list((self.root / "cache").glob("*.json")), [])
+
+    def test_retry_after_header_and_exponential_delay_are_respected(self):
+        first = urllib.error.HTTPError("https://example.invalid", 429, "temporary", {"Retry-After": "7"}, io.BytesIO(b'{}'))
+        second = urllib.error.HTTPError("https://example.invalid", 503, "temporary", {}, io.BytesIO(b'{}'))
+        with patch.object(client.urllib.request, "urlopen", side_effect=[first, second, self.wire({"selected": ["C1"]})]):
+            with patch.object(client.time, "sleep") as pause:
+                self.call(validate=self.validate)
+        self.assertEqual([call.args[0] for call in pause.call_args_list], [7.0, 4])
 
     def test_format_repair_is_bounded_and_preserves_original_failure(self):
         with patch.object(client.urllib.request, "urlopen", side_effect=[

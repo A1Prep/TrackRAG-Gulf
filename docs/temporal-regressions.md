@@ -21,7 +21,7 @@ Transient provider limits retain bounded retries, respect a numeric `Retry-After
 
 ## Verification status
 
-- Full local software suite: 128 tests and 42 subtests passed. The six added tests cover identity-gallery bounds/coverage/privacy, daily quota behavior, retry timing and provider-default sampling. They are software checks, not six freshly passed model answers.
+- Full local software suite: 129 tests and 44 subtests passed. The added tests cover identity-gallery bounds/coverage/privacy, daily quota behavior, retry timing provider-default sampling and identity-token stability when unrelated tracks are inserted. They are software checks, not model-answer pass counts.
 - Offline real-data input audit: all 36 questions passed at 11 distinct recording/query cutoffs. Every observed identity was represented, and all candidate/gallery/scene frames remained bounded.
 - An intermediate same-model trial completed `temporal-03`, then hit the daily 500-request limit while selecting evidence for `temporal-07`. The multi-question run did not publish an incomplete result folder. Its successful first question was recovered from the exact validated request cache through the normal reviewer entry point with networking blocked; the recovery made zero network attempts.
 - Independent inspection supports the recovered bus identity and clarity comparison. Its extra “fully visible” wording is unnecessary; the latest concise-answer instruction addresses that scope. This recovered output predates the final sampling/instruction changes and is not verification of the final code's full cohort.
@@ -32,7 +32,7 @@ The current quota receipt indicates a reset around 2026-11-16 08:00 UTC, or noon
 
 ## Additional development controls
 
-Twelve new questions were prepared through independent inspection of original and privacy-processed images, then checked by a second reviewer before any new model output. The question files are `experiments/temporal-control-questions.jsonl` and `experiments/temporal-control-second-questions.jsonl`; their separate `*-rubric.jsonl` files never enter inference. `experiments/temporal-control-protocol.json` records the pre-output file fingerprints and frozen inference commit.
+Twelve new questions were prepared through independent inspection of original and privacy-processed images, then checked by a second reviewer before the first complete 48-question rerun and before any control output. The question files are `experiments/temporal-control-questions.jsonl` and `experiments/temporal-control-second-questions.jsonl`; their separate `*-rubric.jsonl` files never enter inference. `experiments/temporal-control-protocol.json` records the pre-output file fingerprints and initial frozen inference commit. Later source revisions reuse these as development checks, not fresh held-out data.
 
 Git preserves LF line endings for these frozen files so Windows checkout conversion does not invalidate their byte fingerprints.
 
@@ -68,3 +68,9 @@ python -m evaluation compare --manifest experiments/comparisons/emt-grounding-re
 That manifest references the planned full-run paths, which do not exist until the commands succeed. Its revised condition initially has no review binding and therefore cannot produce a content pass fraction. No retrieval answer key is supplied, so retrieval remains unscored. Report every gain, loss, abstention and availability failure on the same cohort. These tuned development questions still require separate held-out assessment later.
 
 While live testing is unavailable, the team can review answer keys and supply real Task 1/3/4 modules and training artifacts. Task 5's final integration requires genuine detector predictions and the trained reranker; these annotated-track diagnostics do not measure those unfinished components.
+
+## First complete rerun and follow-up
+
+All 48 first-revision questions completed without a final provider error. Independent evidence inspection found five original problem cases sound, while pickup-motion retrieval still highlighted van 1 rather than pickup 6. Its correct leftward wording could be supported incidentally by the full scenes, illustrating why answer correctness alone cannot establish correct retrieval. Opening-car colour also became categorical despite glare/masking ambiguity. Raw outputs and judgments are retained.
+
+The next revision uses candidate tokens containing the actual track and observed frame window. The first-revision selector returned `C6`, an ordinal candidate for van 1, while the gallery label `T6` denotes the pickup. Encoding identity in the token removes that numeric alias without supplying the desired answer. A separate general calibration instruction compares shaded/lit panels and preserves useful colour uncertainty. The same 48 questions will be rerun; completion is not claimed before their results are reviewed.

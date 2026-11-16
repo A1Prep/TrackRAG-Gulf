@@ -58,15 +58,14 @@ class TemporalTests(unittest.TestCase):
         index = {"recording": self.recording, "tracks": {7: [observation(2), observation(4)]}}
         candidates = temporal.candidates_at_query(self.question, index)
         target = next(c for c in candidates if c["track_id"] == 7 and c["start_frame"] == 2 and c["end_frame"] == 4)
-        with patch.object(temporal, "request_json", return_value={"selected": ["C2", target["candidate_id"]], "requested_frame_ids": []}):
+        with patch.object(temporal, "request_json", return_value={"selected": ["scene-F5", target["candidate_id"]], "requested_frame_ids": []}):
             ranked = temporal.rank_evidence(self.question, index)
         self.assertEqual([(r["track_id"], r["start_frame"], r["end_frame"]) for r in ranked], [(None, 5, 5), (7, 2, 4)])
 
     def test_requested_comparison_frames_replace_a_coarse_candidate_window(self):
-        index = {"recording": self.recording, "tracks": {7: [observation(2), observation(4)]}}
+        index = {"recording": self.recording, "tracks": {7: [observation(2), observation(4), observation(5)]}}
         candidates = temporal.candidates_at_query(self.question, index)
         target = next(c for c in candidates if c["track_id"] == 7)
-        index["tracks"][7].append(observation(5))
         with patch.object(temporal, "request_json", return_value={
             "selected": [target["candidate_id"]], "requested_frame_ids": [2, 4],
         }):
@@ -88,12 +87,24 @@ class TemporalTests(unittest.TestCase):
         index = {"recording": self.recording, "tracks": {7: [observation(f) for f in range(1, 61)]}}
         tracks = [c for c in temporal.candidates_at_query(question, index) if c["track_id"] == 7]
         with patch.object(temporal, "request_json", return_value={
-            "selected": [tracks[0]["candidate_id"], tracks[1]["candidate_id"], "C2"],
+            "selected": [tracks[0]["candidate_id"], tracks[1]["candidate_id"], "scene-F60"],
             "requested_frame_ids": [20, 40],
         }):
             ranked = temporal.rank_evidence(question, index)
         self.assertEqual([(x["track_id"], x["start_frame"], x["end_frame"], x["rank"]) for x in ranked],
                          [(7, 20, 40, 1), (None, 60, 60, 2)])
+
+    def test_identity_selection_is_stable_when_an_earlier_unrelated_track_is_inserted(self):
+        target = [observation(1, 42), observation(5, 42)]
+        for extra in ({}, {3: [observation(1, 3), observation(5, 3)]}):
+            with self.subTest(extra_tracks=list(extra)):
+                index = {"recording": self.recording, "tracks": {42: target, **extra}}
+                with patch.object(temporal, "request_json", return_value={
+                    "selected": ["T42-F1-F5", "scene-F5"], "requested_frame_ids": [1, 5],
+                }):
+                    ranked = temporal.rank_evidence(self.question, index)
+                self.assertEqual([(r["track_id"], r["start_frame"], r["end_frame"]) for r in ranked],
+                                 [(42, 1, 5), (None, 5, 5)])
 
     def test_past_motion_changes_selector_context_even_when_full_history_endpoints_agree(self):
         question = dict(self.question, query_frame=60)

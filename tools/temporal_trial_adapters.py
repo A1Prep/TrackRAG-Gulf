@@ -60,7 +60,12 @@ def candidates_at_query(question, index):
                 "track_id": track_id, "start_frame": start, "end_frame": end,
                 "history": history, "window": history_facts(window, first_frame),
             })
-    return [{"candidate_id": f"C{i}", **candidate} for i, candidate in enumerate(candidates, 1)]
+    # A sequential C6 was unrelated to gallery label T6. Bind the selection token
+    # directly to its identity and observed window so those numbers cannot alias.
+    return [{"candidate_id": (
+        f"scene-F{candidate['start_frame']}" if candidate["track_id"] is None else
+        f"T{candidate['track_id']}-F{candidate['start_frame']}-F{candidate['end_frame']}"
+    ), **candidate} for candidate in candidates]
 
 
 def selection_context(candidates):
@@ -189,6 +194,7 @@ def rank_evidence(question, index, k=3):
         "The identity gallery provides a separate labeled crop for every observed track. Verify the requested body's shape against those crops before selecting a track; do not substitute a similarly coloured SUV for a pickup or an open truck for a closed truck. "
         "Annotation classes are broad: Car does not exclude a visually supported SUV subtype. Keep the annotation category separate from visible body shape. Gallery times are explicit; use scene snapshots for current visibility. "
         "T labels map visible objects to track IDs. Other objects remain in the scene; missing labels do not imply visual absence. "
+        "Candidate IDs contain that same T identity and their observed F frame endpoints. Match a gallery label to the identical T prefix before selecting its window; different windows of one track are not different objects. Scene candidates have no track identity. "
         "Choose full-scene snapshots for current presence/absence, signs or lighting. "
         "For temporal questions prefer sufficient history with a clear later view, and context distinguishing earlier objects. "
         "Also extract requested_frame_ids: exact observation frames requested by the question, with at most two comparison endpoints. "
@@ -315,6 +321,7 @@ def answer_question(question, evidence, run_dir):
         "A scene snapshot is the evidence for what is visibly present at that moment. "
         "A clear full-scene snapshot can support an answered statement that no requested object is clearly visible, citing that scene. This differs from an unseen interior, hidden action, or absence inferred only from missing annotations. "
         "Visible colour or clarity changes can be described at the resolution actually shown. A broad visible colour need not establish an exact paint shade. Privacy masks do not make unmasked body panels unknowable. "
+        "Compare lit and shaded unmasked body panels before naming a colour; bright reflections alone do not establish paint colour. When glare or processing makes neighbouring colour categories ambiguous, give the supported broad appearance and briefly state that uncertainty rather than choosing an overconfident label or withholding all visible colour. This can still be an answered observation. "
         "Comparing clarity or prominence in supplied early/late views does not claim an object's first-ever appearance or a boundary crossing. "
         "Keep the answer limited to the requested information and language. For sign questions give the readable name needed to answer; do not add an unrequested exact transcription or translation in another script. "
         "Use one or two concise sentences with only the requested observation and necessary qualification. Relative clarity does not require a claim of complete visibility; masked or clipped portions remain unavailable. "
@@ -375,6 +382,7 @@ def answer_question(question, evidence, run_dir):
         "Recheck the requested object against its body shape and cited track. Copy the relevant computed motion direction accurately; do not reverse it during review or use a different scene object's motion. "
         "If the scene supports no clearly visible instance, return answered with the scene citation. Do not simultaneously assert visible absence and mark that same observation unverified. "
         "Judge colour using visible unmasked panels and use a broad colour where supported; do not demand an exact paint shade or reject a subtype because its broad label is Car. "
+        "Check shaded panels as well as bright reflections. Preserve useful colour uncertainty when the finish cannot be distinguished; do not replace it with unwarranted certainty or a wholesale abstention. "
         "Do not add unrelated warnings about entry timing, acceleration or physical size. "
         "Correct unsupported identity assignments, event/timing claims, dimensions, hidden-state claims and mistakes about the query cutoff. "
         "First annotation cannot establish first visual appearance, absence before that time, or boundary entry. "

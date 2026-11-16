@@ -8,7 +8,7 @@ Use Python 3.11 or newer. From the repository root on Windows:
 
 ```powershell
 py -3.11 -m venv .venv
-.\.venv\Scripts\python.exe -m pip install -r requirements-integration.txt
+.\.venv\Scripts\python.exe -m pip install -r requirements-hosted.txt
 .\.venv\Scripts\python.exe -m unittest discover -s tests -p "test_review*.py" -v
 .\.venv\Scripts\python.exe -m unittest discover -s tests -p "test_score*.py" -v
 .\.venv\Scripts\python.exe -m pytest tests -q
@@ -110,6 +110,6 @@ Use `python -m evaluation compare --manifest <COMPARISON.json> --out <NEW_DIRECT
 
 ## Verify incoming retrieval and saved predictions
 
-Aditi's Task 3 question loader is integrated. It accepts only the four public question fields, rejects duplicate IDs and answer-key fields, and accepts Windows UTF-8 BOM files. The Task 3 answerer is still separate.
+Aditi's Task 3 loader and answerer are integrated. The loader accepts only the four public question fields, rejects duplicate IDs and answer-key fields, and accepts Windows UTF-8 BOM files. The answerer validates source/time/citations and saves its actual processed inputs and provider outcomes. Use `--retrieval-adapter tools.emt_trial_adapters` to connect the team's answerer while the trained retriever is being supplied; the selected stages remain named in the run configuration. See [Task 3 integration and candidate-key review](task3-integration.md).
 
 Use `python -m evaluation verify-retrieval --help` for the integration checks in [retrieval-verification.md](retrieval-verification.md). The runner checks original frame/box coordinates, raw retrieval outputs, repeated runs, and changes to future observations and images. It also accepts saved detector predictions so integration can run without loading Task 1's model. The explicit TF-IDF adapter allows an offline check now; genuine detector and Qwen results must be tested when those tasks arrive.

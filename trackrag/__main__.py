@@ -27,7 +27,7 @@ def _adapter(module_name, function_name, task, adapter_module=None):
     return function
 
 
-def check_adapters(source, answerer, adapter_module=None):
+def check_adapters(source, answerer, adapter_module=None, *, retrieval_adapter=None, answer_adapter=None):
     """Check callable signatures without opening footage or running any models."""
     requirements = [
         ("trackrag.emt", "open_recording", 2, (Path("."), "recording"), {}),
@@ -43,16 +43,17 @@ def check_adapters(source, answerer, adapter_module=None):
         requirements.append(("trackrag.answering", "answer_question", 3, ({}, [], Path(".")), {}))
     checks = []
     for module, name, task, positional, keyword in requirements:
-        selected_module = adapter_module or module
+        selected_module = (retrieval_adapter if task==4 else answer_adapter if name=='answer_question' else None) or adapter_module or module
         check = {"task": task, "function": f"{selected_module}.{name}", "status": "ready"}
         try:
-            function = _adapter(module, name, task, adapter_module)
+            function = _adapter(module, name, task, selected_module)
             inspect.signature(function).bind(*positional, **keyword)
         except (AdapterUnavailable, TypeError, ValueError) as error:
             check.update(status="unavailable", detail=str(error))
         checks.append(check)
     return {
         "source": source, "answerer": answerer, "adapter_module": adapter_module,
+        "retrieval_adapter":retrieval_adapter,"answer_adapter":answer_adapter,
         "ready": all(check["status"] == "ready" for check in checks), "adapters": checks,
     }
 
@@ -68,13 +69,17 @@ def main(argv=None):
     review.add_argument("--answerer", choices=("none", "gemini"), default="none")
     review.add_argument("--out", type=Path, required=True, help="A new run directory for results.jsonl, tracks.jsonl and images")
     review.add_argument("--adapters", help="Optional module supplying development adapters")
+    review.add_argument('--retrieval-adapter',help='Override only Task 4 retrieval; keep the actual reader and answerer')
+    review.add_argument('--answer-adapter',help='Override only answer_question, including when using legacy --adapters')
     check = commands.add_parser("check-adapters", help="Report missing modules or incompatible function signatures")
     check.add_argument("--source", choices=("annotated", "predicted"), required=True)
     check.add_argument("--answerer", choices=("none", "gemini"), default="none")
     check.add_argument("--adapters", help="Optional module supplying development adapters")
+    check.add_argument('--retrieval-adapter')
+    check.add_argument('--answer-adapter')
     args = parser.parse_args(argv)
     if args.command == "check-adapters":
-        report = check_adapters(args.source, args.answerer, args.adapters)
+        report = check_adapters(args.source,args.answerer,args.adapters,retrieval_adapter=args.retrieval_adapter,answer_adapter=args.answer_adapter)
         print(json.dumps(report, indent=2))
         return 0 if report["ready"] else 1
     try:
@@ -86,11 +91,12 @@ def main(argv=None):
             load_tracks = _adapter("trackrag.emt", "load_annotated_tracks", 2, args.adapters)
         else:
             load_tracks = _adapter("trackrag.vision", "predict_tracks", 1, args.adapters)
-        build_index = _adapter("trackrag.retrieval", "build_index", 4, args.adapters)
-        rank_evidence = _adapter("trackrag.retrieval", "rank_evidence", 4, args.adapters)
+        retrieval_module=args.retrieval_adapter or args.adapters
+        build_index = _adapter("trackrag.retrieval", "build_index", 4, retrieval_module)
+        rank_evidence = _adapter("trackrag.retrieval", "rank_evidence", 4, retrieval_module)
         answer_question = None
         if args.answerer == "gemini":
-            answer_question = _adapter("trackrag.answering", "answer_question", 3, args.adapters)
+            answer_question = _adapter("trackrag.answering", "answer_question", 3, args.answer_adapter or args.adapters)
         recording = open_recording(args.data_root, args.recording)
         if recording.recording_id != args.recording:
             raise ValueError("Recording loader returned a different recording than requested")
@@ -98,7 +104,9 @@ def main(argv=None):
             recording, load_questions(args.questions),
             source=args.source, load_tracks=load_tracks, build_index=build_index,
             rank_evidence=rank_evidence, answer_question=answer_question, output_dir=args.out,
-            run_metadata={"adapter_module": args.adapters or "task_modules", "answerer": args.answerer},
+            run_metadata={"adapter_module":args.adapters or 'task_modules','answerer':args.answerer,
+                          'retrieval_adapter':retrieval_module or 'trackrag.retrieval',
+                          'answer_adapter':(args.answer_adapter or args.adapters or 'trackrag.answering') if answer_question else None},
         )
     except Exception as error:
         print(f"Review failed: {type(error).__name__}: {error}", file=sys.stderr)

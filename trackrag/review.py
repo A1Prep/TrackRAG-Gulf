@@ -3,6 +3,7 @@
 import json
 import math
 import tempfile
+import time
 from collections.abc import Callable, Iterable, Sequence
 from copy import deepcopy
 from pathlib import Path
@@ -14,6 +15,7 @@ from .contracts import (
     Answer, Evidence, Question, RankedInterval, Recording, ReviewResult,
     TrackObservation, TrackSource,
 )
+from .evidence_time import requested_frame_ids
 
 
 def _integer(value: Any, name: str) -> int:
@@ -106,8 +108,11 @@ def _resolve_evidence(
         evidence_id = f"E{rank}"
         images = []
         # Show the beginning, middle and end of the observations, including short tracks.
-        for position in sorted({0, (len(available) - 1) // 2, len(available) - 1}):
-            frame_id = available[position]
+        selected_frames={available[position] for position in {0,(len(available)-1)//2,len(available)-1}}
+        # Exact requested observations matter for discontiguous questions such
+        # as presence in four named frames. An interval alone cannot prove them.
+        selected_frames.update(set(requested_frame_ids(question['question']))&set(available))
+        for frame_id in sorted(selected_frames):
             frame = recording.get_frame(frame_id)
             if (frame["recording_id"], frame["frame_id"]) != (
                 question["recording_id"], frame_id,
@@ -158,7 +163,8 @@ def _answer(
         citations = answer["cited_evidence_ids"]
         if status not in {"answered", "insufficient_evidence", "error"}:
             raise ValueError("Answerer returned an unsupported status")
-        if not isinstance(citations, list) or any(citation not in valid_ids for citation in citations):
+        if (not isinstance(citations, list) or any(not isinstance(citation,str) or citation not in valid_ids for citation in citations)
+                or len(set(citations))!=len(citations)):
             raise ValueError("Answerer cited evidence that was not supplied")
         if answer["answer"] is not None and not isinstance(answer["answer"], str):
             raise ValueError("Answer text must be a string or null")
@@ -231,5 +237,17 @@ def review_recording(
                 }
                 results.write(json.dumps(result, allow_nan=False) + "\n")
         # Publish the images and their references together. Incomplete runs are removed.
-        run_dir.rename(output_dir)
+        # Native Windows scanners may briefly lock the completed directory.
+        # Never retry unrelated errors or overwrite a concurrent destination.
+        for attempt,delay in enumerate((0,0.05,0.15,0.3)):
+            if delay:
+                time.sleep(delay)
+            if output_dir.exists():
+                raise FileExistsError('Output was created during review; choose a fresh directory')
+            try:
+                run_dir.rename(output_dir)
+                break
+            except PermissionError as error:
+                if getattr(error,'winerror',None) not in {5,32,33} or attempt==3:
+                    raise
     return output_dir / "results.jsonl"

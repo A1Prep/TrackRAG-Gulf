@@ -19,9 +19,12 @@ def main(argv=None):
     if argv and argv[0] == "verify-retrieval":
         from .verify_retrieval import main as verify_main
         return verify_main(argv[1:])
+    if argv and argv[0]=='prepare-annotations':
+        from .prepare_annotations import main as prepare_main
+        return prepare_main(argv[1:])
     parser = argparse.ArgumentParser(
         description="Score saved evidence retrieval without calling a model.",
-        epilog="Other commands: compare, review-template, verify-retrieval (use COMMAND --help)",
+        epilog="Other commands: compare, review-template, verify-retrieval, prepare-annotations (use COMMAND --help)",
     )
     parser.add_argument("--results", required=True, type=Path, help="results.jsonl from a review run")
     parser.add_argument("--gold", required=True, type=Path, help="Gold JSONL with acceptable_evidence alternatives")

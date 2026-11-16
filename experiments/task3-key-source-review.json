@@ -1,0 +1,291 @@
+{
+  "scope": "Independent AI-assisted annotation-only check of contributor key; no source images, external calls, hosted inference or human review.",
+  "contributor_commit": "4efa77577a5457a07356b486b0288ab8cf2e75bc",
+  "dataset": "KuAvLab/EMT",
+  "dataset_revision": "4418cec01b03c6f797cadb06c9405843a30988e2",
+  "archive_member": "EMT/annotations/test/video_204647.txt",
+  "inputs": [
+    {
+      "path": "data/emt-task3-source/source.json",
+      "sha256": "cf714dd6576fb0745b98e3a2cf48423218e243c417bf8a0281229e9848de21ed"
+    },
+    {
+      "path": "data/emt-task3-source/annotations/test/video_204647.txt",
+      "sha256": "fb6f1f86fff0e1c0bc439a61dc4fe8d75a090f6688e6c15123bed13baad52ba9"
+    },
+    {
+      "path": "annotations/questions.jsonl",
+      "sha256": "95500dad5d68604e72dc31f9aa983f7079eeb6c29e5d575046985fd1b8b74384"
+    },
+    {
+      "path": "annotations/answer_key.jsonl",
+      "sha256": "59d7ce7dad10c8a666f2c5def52913224b240ba6637668815a4ebb8bb2bc0f87"
+    },
+    {
+      "path": "evaluation/prepare_annotations.py",
+      "sha256": "149dbf2e68a33b724d95582b313c2db5a1333b60318c439c85322dc0be2c064a"
+    },
+    {
+      "path": "splits/task2_manifest.json",
+      "sha256": "49f763b5fe4d0a0ccf770e837d04cb1dd209654449d1e3d812838e476e89f491"
+    }
+  ],
+  "frame_policy": "Each question used only its named frames at or before its query frame. Where no frame was named, the query frame was inspected. Later observations were excluded.",
+  "visual_evidence_reviewed": false,
+  "independent_human_review": false,
+  "recording_partition": {
+    "video_204647": "test"
+  },
+  "checks": [
+    {
+      "question_id": "EMT_204647_Q001",
+      "query_frame": 205,
+      "checked_frame_ids": [
+        205
+      ],
+      "observed_non_car_classes_by_frame": {
+        "205": {
+          "Pedestrian": [
+            33,
+            34
+          ],
+          "Small_motorised_vehicle": [
+            35
+          ]
+        }
+      },
+      "scope": "annotation_agrees_visual_pending",
+      "note": "Two annotated pedestrians (33, 34). Visible count and proximity to a crossing need the image."
+    },
+    {
+      "question_id": "EMT_204647_Q002",
+      "query_frame": 411,
+      "checked_frame_ids": [
+        411
+      ],
+      "observed_non_car_classes_by_frame": {
+        "411": {
+          "Pedestrian": [
+            33,
+            37,
+            39,
+            40,
+            41
+          ]
+        }
+      },
+      "scope": "annotation_agrees",
+      "note": "Exactly five annotated pedestrians (33, 37, 39, 40, 41)."
+    },
+    {
+      "question_id": "EMT_204647_Q003",
+      "query_frame": 205,
+      "checked_frame_ids": [
+        205
+      ],
+      "observed_non_car_classes_by_frame": {
+        "205": {
+          "Pedestrian": [
+            33,
+            34
+          ],
+          "Small_motorised_vehicle": [
+            35
+          ]
+        }
+      },
+      "scope": "annotation_agrees_visual_pending",
+      "note": "Small_motorised_vehicle 35 has box x=2484.6435..2560. Right-edge geometry is consistent; visible appearance needs pixels."
+    },
+    {
+      "question_id": "EMT_204647_Q004",
+      "query_frame": 294,
+      "checked_frame_ids": [
+        205,
+        230,
+        260,
+        294
+      ],
+      "observed_non_car_classes_by_frame": {
+        "205": {
+          "Pedestrian": [
+            33,
+            34
+          ],
+          "Small_motorised_vehicle": [
+            35
+          ]
+        },
+        "230": {
+          "Pedestrian": [
+            33,
+            34
+          ],
+          "Small_motorised_vehicle": [
+            35
+          ]
+        },
+        "260": {
+          "Pedestrian": [
+            33
+          ],
+          "Small_motorised_vehicle": [
+            35
+          ]
+        },
+        "294": {
+          "Pedestrian": [
+            33,
+            34
+          ],
+          "Small_motorised_vehicle": [
+            35
+          ]
+        }
+      },
+      "scope": "annotation_agrees",
+      "note": "Pedestrian 33 is present in each of the four named frames."
+    },
+    {
+      "question_id": "EMT_204647_Q005",
+      "query_frame": 435,
+      "checked_frame_ids": [
+        411,
+        435
+      ],
+      "observed_non_car_classes_by_frame": {
+        "411": {
+          "Pedestrian": [
+            33,
+            37,
+            39,
+            40,
+            41
+          ]
+        },
+        "435": {
+          "Pedestrian": [
+            37,
+            39,
+            40,
+            41
+          ]
+        }
+      },
+      "scope": "annotation_agrees",
+      "note": "The exact pedestrian ID intersection is 37, 39, 40, 41. Track 33 occurs only at the earlier of the two frames."
+    },
+    {
+      "question_id": "EMT_204647_Q006",
+      "query_frame": 294,
+      "checked_frame_ids": [
+        205,
+        230,
+        260,
+        294
+      ],
+      "observed_non_car_classes_by_frame": {
+        "205": {
+          "Pedestrian": [
+            33,
+            34
+          ],
+          "Small_motorised_vehicle": [
+            35
+          ]
+        },
+        "230": {
+          "Pedestrian": [
+            33,
+            34
+          ],
+          "Small_motorised_vehicle": [
+            35
+          ]
+        },
+        "260": {
+          "Pedestrian": [
+            33
+          ],
+          "Small_motorised_vehicle": [
+            35
+          ]
+        },
+        "294": {
+          "Pedestrian": [
+            33,
+            34
+          ],
+          "Small_motorised_vehicle": [
+            35
+          ]
+        }
+      },
+      "scope": "annotation_agrees",
+      "note": "Small_motorised_vehicle 35 is annotated in each of the four named frames."
+    },
+    {
+      "question_id": "EMT_204647_Q007",
+      "query_frame": 1600,
+      "checked_frame_ids": [
+        1581,
+        1600
+      ],
+      "observed_non_car_classes_by_frame": {
+        "1581": {
+          "Emergency_vehicle": [
+            86
+          ]
+        },
+        "1600": {
+          "Emergency_vehicle": [
+            86
+          ]
+        }
+      },
+      "scope": "annotation_agrees",
+      "note": "Emergency_vehicle 86 is annotated at both named frames."
+    },
+    {
+      "question_id": "EMT_204647_Q008",
+      "query_frame": 205,
+      "checked_frame_ids": [
+        205
+      ],
+      "observed_non_car_classes_by_frame": {
+        "205": {
+          "Pedestrian": [
+            33,
+            34
+          ],
+          "Small_motorised_vehicle": [
+            35
+          ]
+        }
+      },
+      "scope": "annotations_do_not_supply_requested_information",
+      "note": "Names and personal identities are not fields in the track-label source. This is an abstention candidate; footage has not been inspected."
+    },
+    {
+      "question_id": "EMT_204647_Q009",
+      "query_frame": 294,
+      "checked_frame_ids": [
+        294
+      ],
+      "observed_non_car_classes_by_frame": {
+        "294": {
+          "Pedestrian": [
+            33,
+            34
+          ],
+          "Small_motorised_vehicle": [
+            35
+          ]
+        }
+      },
+      "scope": "annotations_do_not_supply_requested_information",
+      "note": "Intended destination is not a field in the track-label source. This is an abstention candidate; footage has not been inspected."
+    }
+  ],
+  "preparation_review": "The actual scorer accepts the joined diagnostic key. A single alternative suffices for a retrieval hit; complete ID sets, counts and all requested frames require separate review. QA verification fields start pending. Negative probes rejected a future key interval and ambiguous multi-track/multi-interval input. The preparation tool validates key intervals; it does not attest to the inference runtime's cutoff handling or verify pixels or semantics."
+}

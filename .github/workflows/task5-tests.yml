@@ -46,8 +46,9 @@ jobs:
       - run: python -m pip install -r requirements-integration.txt
       - run: python -m unittest discover -s tests -p "test_review*.py" -v
       - run: python -m unittest discover -s tests -p "test_score*.py" -v
-      - run: python -m pytest tests/test_emt.py -q
+      - run: python -m pytest tests/test_emt.py tests/test_questions.py -q
       - run: python -m trackrag --help
       - run: python -m evaluation --help
       - run: python -m evaluation compare --help
       - run: python -m evaluation review-template --help
+      - run: python -m evaluation verify-retrieval --help

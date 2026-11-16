@@ -11,7 +11,7 @@ py -3.11 -m venv .venv
 .\.venv\Scripts\python.exe -m pip install -r requirements-integration.txt
 .\.venv\Scripts\python.exe -m unittest discover -s tests -p "test_review*.py" -v
 .\.venv\Scripts\python.exe -m unittest discover -s tests -p "test_score*.py" -v
-.\.venv\Scripts\python.exe -m pytest tests/test_emt.py -q
+.\.venv\Scripts\python.exe -m pytest tests -q
 ```
 
 On Linux, create the environment with `python3 -m venv .venv` and use `.venv/bin/python` for the remaining commands. GitHub runs the same Task 5 tests on Windows and Linux. The process tests generate temporary images and small substitute modules. They exercise the production commands and saved files. Real EMT accuracy and live-model behavior need separate runs.
@@ -92,7 +92,7 @@ For an authorized hosted trial, set `GEMINI_API_KEY`, select `--answerer gemini`
 
 The completed live trial selected `TRACKRAG_TRIAL_MODEL=gemini-3.5-flash-lite` after the preferred endpoint timed out. On PowerShell, set `$env:TRACKRAG_TRIAL_MODEL='gemini-3.5-flash-lite'` to reproduce that model choice.
 
-The development adapter supplies annotated tracks only. It delegates to Arjun's `trackrag.emt` reader for the original split-first EMT layout, and also accepts the prepared manifest layout. Its retrieval ranking and live answer behavior are development results. Fine-tuned detector, tracker and Qwen comparisons still use the task implementations and held-out experiments.
+The development adapter loads annotated tracks. Its index also accepts supplied predicted observations, preserving their IDs and source; it does not supply a detector. It delegates to Arjun's `trackrag.emt` reader for the original split-first EMT layout, and also accepts the prepared manifest layout. Its retrieval ranking and live answer behavior are development results. Fine-tuned detector, tracker and Qwen comparisons still use the task implementations and held-out experiments.
 
 ## Recorded trial
 
@@ -105,3 +105,9 @@ The later bus investigation and 36-question development bank are documented in [
 ## Compare saved experiments
 
 Use `python -m evaluation compare --manifest <COMPARISON.json> --out <NEW_DIRECTORY>` to compare multiple recordings and conditions without calling a model. It audits saved evidence and review bindings, preserves missing/error cases, and writes JSON and Markdown summaries. See [task5-comparisons.md](task5-comparisons.md) for the manifest and review formats, historical development comparison and final-model evaluation protocol.
+
+## Verify incoming retrieval and saved predictions
+
+Aditi's Task 3 question loader is integrated. It accepts only the four public question fields, rejects duplicate IDs and answer-key fields, and accepts Windows UTF-8 BOM files. The Task 3 answerer is still separate.
+
+Use `python -m evaluation verify-retrieval --help` for the integration checks in [retrieval-verification.md](retrieval-verification.md). The runner checks original frame/box coordinates, raw retrieval outputs, repeated runs, and changes to future observations and images. It also accepts saved detector predictions so integration can run without loading Task 1's model. The explicit TF-IDF adapter allows an offline check now; genuine detector and Qwen results must be tested when those tasks arrive.

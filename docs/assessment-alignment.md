@@ -75,6 +75,6 @@ The README was deliberately cleared during initial setup. It must be completed f
 
 ## Current verified status
 
-The integrated `main` branch contains the EMT reader, reviewer, scoring, explicit development adapters, question banks and small real-data trials. The 99 automated tests check application boundaries and reproducibility. The 36 Gemini development cases provide error analysis using human-labeled tracks, with known failures and qualifications retained.
+The integrated code contains the EMT reader, Task 3 question loader, reviewer, scoring, explicit development adapters, question banks and small real-data trials. The 171 automated tests check application boundaries and reproducibility. The 36 Gemini development cases provide error analysis using human-labeled tracks, with known failures and qualifications retained. The [retrieval verification command](retrieval-verification.md) adds offline contract and future-input checks; those are not answer-accuracy scores.
 
 No CV or Qwen fine-tuning run has been integrated and verified here. Do not claim a teammate has or has not trained privately without checking their artifacts. The training milestones above remain incomplete until the actual configuration, trained weights, logs and evaluation are supplied and exercised through the project interfaces. The current development bank is not final held-out assessment evidence.

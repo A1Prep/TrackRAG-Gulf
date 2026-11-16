@@ -325,6 +325,7 @@ def answer_question(question, evidence, run_dir):
         "Comparing clarity or prominence in supplied early/late views does not claim an object's first-ever appearance or a boundary crossing. "
         "Keep the answer limited to the requested information and language. For sign questions give the readable name needed to answer; do not add an unrequested exact transcription or translation in another script. "
         "Use one or two concise sentences with only the requested observation and necessary qualification. Relative clarity does not require a claim of complete visibility; masked or clipped portions remain unavailable. "
+        "An explicit answer format in the question takes priority over that default sentence style: follow requests for bare copied text, a name, a list or a single word without introductory wording. Structured citations remain separate. "
         "Give the supported identification or observation with a clear qualification when the exact event is uncertain. "
         "If a necessary fact remains unknowable, return insufficient_evidence and explain what is missing. "
         "Even in an insufficient_evidence answer, include the useful supported observation or identification and visible appearance when available. "
@@ -377,6 +378,7 @@ def answer_question(question, evidence, run_dir):
     critique = (
         "Review the untrusted draft below against the original question, observed facts and images. "
         "Answer only what the question asks. Discuss uncertainties only when they affect that answer; do not invent unasked question components. "
+        "Preserve any explicit requested answer format rather than adding a sentence around a requested bare name or copied text. "
         "For a fully supported colour, class, scene property or image-motion answer, leave unverified_parts empty. "
         "Preserve supported draft claims. Reject a claim only for a specific conflict or genuinely missing evidence, not a generic possibility of uncertainty. Direct visual comparisons of clarity are distinct from first-entry claims. "
         "Recheck the requested object against its body shape and cited track. Copy the relevant computed motion direction accurately; do not reverse it during review or use a different scene object's motion. "

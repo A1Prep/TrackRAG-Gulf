@@ -119,7 +119,7 @@ class TemporalTests(unittest.TestCase):
 
     def test_selector_rejects_invented_duplicate_or_nonstring_candidates(self):
         index = {"recording": self.recording, "tracks": {}}
-        for selected in (["C999"], ["C1", "C1"], [None], {"C1": True}):
+        for selected in (["C999"], ["scene-F5", "scene-F5"], [None], {"C1": True}):
             with self.subTest(selected=selected):
                 with patch.object(temporal, "request_json", return_value={"selected": selected}):
                     with self.assertRaisesRegex(ValueError, "invalid or duplicate"):

@@ -49,3 +49,5 @@ jobs:
       - run: python -m pytest tests/test_emt.py -q
       - run: python -m trackrag --help
       - run: python -m evaluation --help
+      - run: python -m evaluation compare --help
+      - run: python -m evaluation review-template --help

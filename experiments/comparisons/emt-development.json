@@ -1,0 +1,63 @@
+{
+  "version": 1,
+  "name": "EMT development pipeline comparison",
+  "purpose": "development",
+  "questions": [
+    "../temporal-development-questions.jsonl",
+    "../temporal-second-questions.jsonl"
+  ],
+  "manual_question_ids": [
+    "temporal-01"
+  ],
+  "reference_variant": "compact-pilot",
+  "notes": [
+    "Both conditions use real EMT images and human-labeled tracks, not detector predictions.",
+    "Several pipeline components changed: evidence selection, image views, derived facts and answer review. Differences do not isolate a training effect.",
+    "Question and review development used these clips. This is not a held-out accuracy estimate.",
+    "Reviews are independent AI-assisted assessments with student verification pending.",
+    "No retrieval answer key is supplied for this historical comparison; answer-review counts must not be described as retrieval accuracy.",
+    "Historical run folders and processed images remain local and are not included in the repository. Manifest review bindings identify these exact saved result files."
+  ],
+  "variants": [
+    {
+      "id": "compact-pilot",
+      "label": "Earlier compact-context Gemini prototype",
+      "runs": [
+        {
+          "directory": "../../runs/temporal-broad-a-02",
+          "review": {
+            "path": "../reviews/temporal-pilot-first.jsonl",
+            "results_sha256": "39806244bc3b029f07387c8bd6b0b735cffe1080168f45f7bcd4d4e63d444d9f"
+          }
+        },
+        {
+          "directory": "../../runs/temporal-broad-b-01",
+          "review": {
+            "path": "../reviews/temporal-pilot-second.jsonl",
+            "results_sha256": "642b7d836138b7fac4aeb503297cd4c1c56e4f5f0262a40230cbf330135870b5"
+          }
+        }
+      ]
+    },
+    {
+      "id": "temporal-reference",
+      "label": "Temporal Gemini development reference",
+      "runs": [
+        {
+          "directory": "../../runs/temporal-final-a-05",
+          "review": {
+            "path": "../reviews/temporal-final-first.jsonl",
+            "results_sha256": "f36e44b744879c4c955fcdfb0d48273ed5c9a71e5bf2d5a3bdd270163f49f76f"
+          }
+        },
+        {
+          "directory": "../../runs/temporal-final-b-05",
+          "review": {
+            "path": "../reviews/temporal-final-second.jsonl",
+            "results_sha256": "8e9372ce01a62fae21b8cf90d7fc9c0ede040990519c487def318f85664f0628"
+          }
+        }
+      ]
+    }
+  ]
+}

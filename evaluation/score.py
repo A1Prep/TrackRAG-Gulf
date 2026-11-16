@@ -17,9 +17,6 @@ import math
 from collections.abc import Iterable
 from pathlib import Path
 
-from scipy.optimize import linear_sum_assignment
-
-
 def read_jsonl(path: Path) -> list[dict]:
     rows = []
     with Path(path).open(encoding="utf-8-sig") as stream:
@@ -104,6 +101,10 @@ def _resolve_assignment(weights, row):
     """Resolve one row against all competitors, allowing unmatched predictions."""
     if not weights or not weights[0]:
         return None, 0.0, "unmatched"
+    # Only predicted-ID association needs SciPy. Plain artifact comparison,
+    # annotated scoring and CLI help should not initialize its native libraries.
+    from scipy.optimize import linear_sum_assignment
+
     # One dummy column per row lets all predictions remain unmatched if necessary.
     matrix = [values + [0.0] * len(weights) for values in weights]
     rows, columns = linear_sum_assignment(matrix, maximize=True)

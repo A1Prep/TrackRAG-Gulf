@@ -87,6 +87,34 @@ class ReviewTests(unittest.TestCase):
                 self.assertEqual(marked.getpixel((0, 0)), (image["frame_id"], 0, 0))
         self.assertNotIn(6, self.recording.requested)
 
+    def test_transient_windows_publish_lock_retries_without_rewriting_results(self):
+        rename=Path.rename
+        attempts=[]
+        def flaky(path,target):
+            attempts.append((path,target))
+            if len(attempts)==1:
+                error=PermissionError('simulated Windows sharing lock')
+                error.winerror=32
+                raise error
+            return rename(path,target)
+        with patch.object(Path,'rename',flaky),patch('trackrag.review.time.sleep') as pause:
+            result=self.run_review()
+        self.assertEqual(len(attempts),2)
+        pause.assert_called_once_with(0.05)
+        self.assertEqual(self.read_result(result)['question'],self.question)
+
+    def test_publish_does_not_replace_destination_created_during_retry(self):
+        error=PermissionError('simulated Windows sharing lock')
+        error.winerror=32
+        target=self.root/'run'
+        with patch.object(Path,'rename',side_effect=error) as rename:
+            with patch('trackrag.review.time.sleep',side_effect=lambda delay:target.mkdir()):
+                with self.assertRaises(FileExistsError):
+                    self.run_review()
+        self.assertEqual(rename.call_count,1)
+        self.assertTrue(target.is_dir())
+        self.assertEqual(list(target.iterdir()),[])
+
     def test_answerer_can_open_exact_cited_images(self):
         def answer(question, evidence, run_dir):
             for item in evidence:

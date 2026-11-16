@@ -2,6 +2,7 @@
 """Privacy processing for images sent to hosted vision models."""
 
 from pathlib import Path
+import math
 
 import cv2
 
@@ -92,11 +93,15 @@ def anonymize_image(
     image_path: str | Path,
     output_path: str | Path,
     pedestrian_boxes=None,
+    vehicle_boxes=None,
+    max_size=(1024, 576),
 ) -> dict:
     """Create a privacy-processed image without modifying the original."""
 
     image_path = Path(image_path)
     output_path = Path(output_path)
+    if output_path.resolve() == image_path.resolve():
+        raise ValueError('Privacy processing must not overwrite its input')
 
     if not image_path.is_file():
         raise FileNotFoundError(
@@ -110,10 +115,28 @@ def anonymize_image(
             f"Could not read image: {image_path}"
         )
 
-    image, pedestrian_count = blur_pedestrians(
-        image,
-        pedestrian_boxes or [],
-    )
+    # Match the established hosted-trial policy: opaque person/rider regions
+    # and the lower 40 percent of every observed vehicle, before resizing.
+    height,width=image.shape[:2]
+    counts=[]
+    for boxes,lower_only in ((pedestrian_boxes or [],False),(vehicle_boxes or [],True)):
+        count=0
+        for box in boxes:
+            if len(box)!=4 or not all(math.isfinite(value) for value in box):
+                raise ValueError('Privacy boxes require four finite coordinates')
+            left,top,right,bottom=box
+            if not (0<=left<right<=width and 0<=top<bottom<=height):
+                raise ValueError('Privacy box is outside the original image')
+            if lower_only:
+                top+=0.6*(bottom-top)
+            cv2.rectangle(image,(math.floor(left),math.floor(top)),
+                          (math.ceil(right)-1,math.ceil(bottom)-1),(35,35,35),-1)
+            count+=1
+        counts.append(count)
+    if max_size is not None:
+        scale=min(1,max_size[0]/width,max_size[1]/height)
+        if scale<1:
+            image=cv2.resize(image,(max(1,int(width*scale)),max(1,int(height*scale))),interpolation=cv2.INTER_AREA)
 
     output_path.parent.mkdir(parents=True, exist_ok=True)
 
@@ -126,7 +149,11 @@ def anonymize_image(
 
     return {
         "output_path": output_path,
-        "pedestrians_blurred": pedestrian_count,
+        "people_regions_masked": counts[0],
+        "lower_vehicle_regions_masked": counts[1],
+        "original_size_wh": [width,height],
+        "processed_size_wh": [image.shape[1],image.shape[0]],
+        "policy": "opaque observed people/riders and lower40percent vehicles; resize after masking",
         "faces_blurred": 0,
         "plate_candidates_blurred": 0,
     }

@@ -35,16 +35,20 @@ def test_model_timeout_returns_error(monkeypatch, tmp_path):
     )
 
     class TimeoutModel:
+        calls=0
         def generate(self, question, evidence):
+            self.calls+=1
             raise TimeoutError("Simulated network timeout")
 
+    model=TimeoutModel()
     result = answer_question(
         question=question,
         evidence=evidence,
         run_dir=tmp_path,
-        model=TimeoutModel(),
+        model=model,
     )
 
     assert result["answer_status"] == "error"
-    assert result["answer"] is None
+    assert result["answer"]=='TimeoutError: Simulated network timeout'
     assert result["cited_evidence_ids"] == []
+    assert model.calls==1

@@ -6,6 +6,7 @@ from hashlib import sha256
 from pathlib import Path, PureWindowsPath
 
 from PIL import Image
+from trackrag.evidence_time import requested_frame_ids
 
 from .score import read_jsonl
 
@@ -136,8 +137,14 @@ def audit_run(directory, expected):
             else:
                 integer(track_id, "track_id")
             images = item["images"]
-            if not isinstance(images, list) or not 1 <= len(images) <= 3:
-                raise ValueError("Each evidence interval requires one to three saved images")
+            requested=set(requested_frame_ids(question['question']))
+            if not isinstance(images,list) or not 1<=len(images)<=3+len(requested):
+                raise ValueError('Each interval allows three representative images plus explicitly requested frames')
+            if len(images)>3:
+                available=sorted(frame for track,frame in observations if track==track_id and start<=frame<=end)
+                representatives={available[position] for position in {0,(len(available)-1)//2,len(available)-1}} if available else set()
+                if not {image['frame_id'] for image in images}.issubset(representatives|requested):
+                    raise ValueError('Extra evidence images must be explicitly requested frames')
             seen_frames = set()
             for image in images:
                 frame = integer(image["frame_id"], "image frame_id")
@@ -196,6 +203,8 @@ def audit_run(directory, expected):
                     raise ValueError("Provider receipt references future or unsupplied evidence")
                 processed = local_asset(hosted, sent["image"])
                 verify_image(processed)
+                if sent.get('sha256') is not None and sent['sha256']!=fingerprint(processed):
+                    raise ValueError('Processed provider input differs from the saved sent-byte hash')
                 record_file(processed, "provider_input")
             record_file(path, "provider_receipt")
             receipt_rows.append({key: receipt.get(key) for key in ("model", "reported_model", "role", "request_status", "cached")})

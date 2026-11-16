@@ -88,6 +88,10 @@ def main(argv=None):
             load_tracks = _adapter("trackrag.vision", "predict_tracks", 1, args.adapters)
         build_index = _adapter("trackrag.retrieval", "build_index", 4, args.adapters)
         rank_evidence = _adapter("trackrag.retrieval", "rank_evidence", 4, args.adapters)
+        retrieval_module = import_module(args.adapters or "trackrag.retrieval")
+        export_retrieval = getattr(retrieval_module, "export_retrieval", None)
+        if export_retrieval is not None and not callable(export_retrieval):
+            raise AdapterUnavailable("Optional export_retrieval adapter must be callable")
         answer_question = None
         if args.answerer == "gemini":
             answer_question = _adapter("trackrag.answering", "answer_question", 3, args.adapters)
@@ -99,6 +103,7 @@ def main(argv=None):
             source=args.source, load_tracks=load_tracks, build_index=build_index,
             rank_evidence=rank_evidence, answer_question=answer_question, output_dir=args.out,
             run_metadata={"adapter_module": args.adapters or "task_modules", "answerer": args.answerer},
+            export_retrieval=export_retrieval,
         )
     except Exception as error:
         print(f"Review failed: {type(error).__name__}: {error}", file=sys.stderr)

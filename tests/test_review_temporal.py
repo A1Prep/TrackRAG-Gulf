@@ -206,6 +206,18 @@ class RequestTests(unittest.TestCase):
         self.assertEqual(list((self.root / "cache").glob("*.json")), [])
         self.assertEqual(json.loads((self.root / "error.json").read_text())["request_status"], "error")
 
+    def test_fresh_mode_ignores_cached_answer_and_stays_fresh_on_repair(self):
+        with patch.object(client.urllib.request,'urlopen',side_effect=[
+            self.wire({'selected':['C1']}),self.wire({'selected':['C999']}),self.wire({'selected':['C1']}),
+        ]) as network:
+            self.call(validate=self.validate,max_output_tokens=2048)
+            result=self.call(validate=self.validate,repair_once=True,use_cache=False,max_output_tokens=2048)
+        self.assertEqual(result,{'selected':['C1']})
+        self.assertEqual(network.call_count,3)
+        payload=json.loads(network.call_args.args[0].data)
+        self.assertEqual(payload['generationConfig']['maxOutputTokens'],2048)
+        self.assertEqual(len(list((self.root/'cache').glob('*.json'))),1)
+
     def test_invalid_cached_result_is_revalidated_and_replaced(self):
         with patch.object(client.urllib.request, "urlopen", side_effect=lambda *a, **k: self.wire({"selected": ["C1"]})) as network:
             self.call(validate=self.validate)
@@ -253,6 +265,8 @@ class RequestTests(unittest.TestCase):
         original = self.root / "cache/errors" / (receipt["repair_of_request_sha256"] + ".json")
         self.assertEqual(json.loads(original.read_text())["response"], {"selected": ["C999"]})
         self.assertEqual(receipt["request_status"], "completed")
+        self.assertEqual(receipt['validation_repair']['rejected_receipt']['request_status'],'error')
+        self.assertEqual(receipt['validation_repair']['rejected_receipt']['response'],{'selected':['C999']})
 
 
 if __name__ == "__main__":

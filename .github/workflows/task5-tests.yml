@@ -52,3 +52,4 @@ jobs:
       - run: python -m evaluation compare --help
       - run: python -m evaluation review-template --help
       - run: python -m evaluation verify-retrieval --help
+      - run: python -m tools.live_trial --help

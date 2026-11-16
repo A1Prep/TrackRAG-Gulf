@@ -24,7 +24,8 @@ def _save_json(path, value):
             temporary.unlink(missing_ok=True)
 
 
-def request_json(parts, schema, role, receipt_path=None, metadata=None, *, validate=None, repair_once=False):
+def request_json(parts, schema, role, receipt_path=None, metadata=None, *, validate=None, repair_once=False,
+                 use_cache=True, max_output_tokens=None):
     key = os.environ.get("GEMINI_API_KEY")
     if not key:
         raise ValueError("GEMINI_API_KEY is required for the semantic trial")
@@ -32,8 +33,8 @@ def request_json(parts, schema, role, receipt_path=None, metadata=None, *, valid
     timeout = float(os.environ.get("TRACKRAG_TRIAL_TIMEOUT_SECONDS", "90"))
     if not 1 <= timeout <= 600:
         raise ValueError("TRACKRAG_TRIAL_TIMEOUT_SECONDS must be between 1 and 600")
-    max_output = int(os.environ.get("TRACKRAG_TRIAL_MAX_OUTPUT_TOKENS", "3072"))
-    if not 256 <= max_output <= 65536:
+    max_output = int(os.environ.get("TRACKRAG_TRIAL_MAX_OUTPUT_TOKENS", "3072")) if max_output_tokens is None else max_output_tokens
+    if type(max_output) is not int or not 256 <= max_output <= 65536:
         raise ValueError("TRACKRAG_TRIAL_MAX_OUTPUT_TOKENS must be between 256 and 65536")
     body = {"contents": [{"role": "user", "parts": parts}], "generationConfig": {
         "temperature": 0, "maxOutputTokens": max_output,
@@ -44,7 +45,7 @@ def request_json(parts, schema, role, receipt_path=None, metadata=None, *, valid
     cache_dir.mkdir(parents=True, exist_ok=True)
     cached = cache_dir / f"{signature}.json"
     receipt = {"model": model, "role": role, "request_sha256": signature, "max_output_tokens": max_output, **(metadata or {})}
-    if cached.is_file():
+    if use_cache and cached.is_file():
         try:
             stored = json.loads(cached.read_text(encoding="utf-8"))
             response = stored["response"]
@@ -123,12 +124,15 @@ def request_json(parts, schema, role, receipt_path=None, metadata=None, *, valid
             }
             return request_json(
                 [*parts, correction], schema, role, receipt_path,
-                {**(metadata or {}), "repair_of_request_sha256": signature}, validate=validate,
+                {**(metadata or {}), "repair_of_request_sha256": signature,
+                 "validation_repair": {"error": str(error)[:2000], "rejected_receipt": receipt}}, validate=validate,
+                use_cache=use_cache, max_output_tokens=max_output_tokens,
             )
         raise
     receipt.update(request_status="completed", cached=False, response=response, usage=raw.get("usageMetadata"),
                    reported_model=raw.get("modelVersion"), response_id=raw.get("responseId"))
-    _save_json(cached, receipt)
+    if use_cache:
+        _save_json(cached, receipt)
     if receipt_path:
         _save_json(receipt_path, receipt)
     return response

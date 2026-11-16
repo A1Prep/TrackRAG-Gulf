@@ -186,6 +186,7 @@ def review_recording(
     output_dir: Path,
     answer_question: Callable[[Question, list[Evidence], Path], Answer] | None = None,
     run_metadata: dict | None = None,
+    export_retrieval: Callable[[Question, Any, Path], None] | None = None,
 ) -> Path:
     """Publish one run after all evidence files and JSON records have been written.
 
@@ -225,6 +226,8 @@ def review_recording(
                 evidence = _resolve_evidence(
                     recording, intervals, question, source, by_track, run_dir,
                 )
+                if export_retrieval is not None:
+                    export_retrieval(deepcopy(question), index, run_dir)
                 result: ReviewResult = {
                     "question": dict(question), "source": source, "evidence": evidence,
                     "answer": _answer(question, evidence, run_dir, answer_question),

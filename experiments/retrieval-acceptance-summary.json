@@ -1,0 +1,98 @@
+{
+  "version": 1,
+  "scope": "Offline integration and temporal falsification on development data; no answer model, gold key, trained detector or Qwen model was used.",
+  "executed_code_commit": "ed1bec1fba9825d305b52df196fd9ac7a3c25bb0",
+  "command": "python -m evaluation verify-retrieval --data-root data/emt-official --questions experiments/temporal-development-questions.jsonl experiments/temporal-second-questions.jsonl --source annotated --retrieval-module tools.emt_trial_adapters --out runs/task5-retrieval-acceptance-02",
+  "retrieval_module": "tools.emt_trial_adapters",
+  "question_loader": "trackrag.questions.load_questions",
+  "observation_origin": "Task 2 annotated observations",
+  "detector_adapter_called": false,
+  "status": "passed_with_gaps",
+  "question_inputs": [
+    {
+      "path": "experiments/temporal-development-questions.jsonl",
+      "sha256": "af907b3bda35ec311fd0e20d6f0a3a2bf0f66f3a4b69367915d583e63bcbc769"
+    },
+    {
+      "path": "experiments/temporal-second-questions.jsonl",
+      "sha256": "2dc223ebf820185418ef2ab7b5fa693a19691fb7e7c0da6322d8353046fd3433"
+    }
+  ],
+  "local_report": "runs/task5-retrieval-acceptance-02/report.json",
+  "local_report_sha256": "5cc77c3c4415d086c7909f230e37e936c8e7327dfb0649fcf14c52f0337517e9",
+  "byte_identical_exported_artifacts_against_first_run": 104,
+  "recordings": [
+    {
+      "recording_id": "video_054604",
+      "source": "annotated",
+      "status": "passed_with_gaps",
+      "question_count": 24,
+      "frame_count": 150,
+      "observation_count": 2681,
+      "nonempty_rankings": 23,
+      "positive_temporal_comparisons": 36,
+      "empty_temporal_comparisons": 0,
+      "input_content_sha256": "e5b499ac679d0c5fa8e03a78ca08e7097d92c1ddb0afda2d4c400f14d0ac7630",
+      "check_counts": {
+        "passed": 118,
+        "not_applicable": 12,
+        "stable_empty": 2
+      },
+      "empty_question_ids": [
+        "temporal-16"
+      ],
+      "final_frame_question_ids": [
+        "temporal-01",
+        "temporal-02",
+        "temporal-03",
+        "temporal-04",
+        "temporal-05",
+        "temporal-16",
+        "temporal-17",
+        "temporal-20",
+        "temporal-21",
+        "temporal-22",
+        "temporal-23",
+        "temporal-24"
+      ]
+    },
+    {
+      "recording_id": "video_054907",
+      "source": "annotated",
+      "status": "passed_with_gaps",
+      "question_count": 12,
+      "frame_count": 150,
+      "observation_count": 2844,
+      "nonempty_rankings": 8,
+      "positive_temporal_comparisons": 15,
+      "empty_temporal_comparisons": 9,
+      "input_content_sha256": "f3779640bbccc123a949590b04ec730f415200b40b4a16fa9e37ce9f7afea84e",
+      "check_counts": {
+        "passed": 48,
+        "stable_empty": 20,
+        "not_applicable": 4
+      },
+      "empty_question_ids": [
+        "second-03",
+        "second-07",
+        "second-10",
+        "second-11"
+      ],
+      "final_frame_question_ids": [
+        "second-06",
+        "second-09",
+        "second-11",
+        "second-12"
+      ]
+    }
+  ],
+  "limitations": [
+    "These checks do not measure detection, tracking, retrieval or answer accuracy. Gold scoring stays separate.",
+    "Only the shared Recording protocol is proxied. Wrapper-dependent or unstable controls are inconclusive, not proof of leakage.",
+    "Passing perturbations cannot prove absence of leakage. Hidden/global caches can mask changes; use isolated or correctly invalidated model caches.",
+    "Saved or frozen observations may already contain future-dependent detector/tracker output. Task 1 causality is not tested.",
+    "Stable-empty outputs and cutoffs with no future frames remain explicit and do not count as positive temporal comparisons.",
+    "The runner does not call an answerer. A selected retrieval or detector adapter can load models or contact services; the explicit TF-IDF module runs locally.",
+    "Synthetic future images/observations are test controls, not detector predictions or measured driving performance."
+  ]
+}

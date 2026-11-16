@@ -47,3 +47,16 @@ The tests include deliberately leaky adapters, so a failure to notice future obs
 Open `report.md` for the summary or `report.json` for raw baseline rankings and failed comparisons. Invalid returned rankings retain a bounded diagnostic representation, including nonfinite values that cannot be serialized as valid intervals. A structurally valid baseline is exported into `runs/recording-01`, etc., using the ordinary evidence writer and saved-artifact audit. These exports replay the captured baseline without running retrieval again. Answers have status `not_requested`. Empty or failing runs stay visible, and failures in one recording do not prevent the other recording being checked. A mixed cohort with last-frame queries or stable-empty temporal results is `passed_with_gaps`; a cohort without any positive temporal comparison is inconclusive.
 
 The command exits `0` for `passed` or `passed_with_gaps`, `1` for a failure, and `2` for an inconclusive suite. A passing status describes only the checks performed. It is not a model-quality gate. Retain the report and inspect gaps; then use the separate gold scorer and human answer reviews for accuracy.
+
+## Recorded development check
+
+The final run used code commit `ed1bec1fba9825d305b52df196fd9ac7a3c25bb0` and the command above with output `runs/task5-retrieval-acceptance-02`. The [committed summary](../experiments/retrieval-acceptance-summary.json) records the exact command, input/content hashes, gaps and local report hash. Original images and run folders stay outside Git.
+
+| Recording | Original frames / labeled boxes | Questions | Nonempty rankings | Positive temporal comparisons | Stable-empty temporal comparisons |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| video_054604 | 150 / 2,681 | 24 | 23 | 36 | 0 |
+| video_054907 | 150 / 2,844 | 12 | 8 | 15 | 9 |
+
+Both recordings returned `passed_with_gaps`, with no contract or temporal-perturbation failure. Five questions produced empty rankings. Sixteen final-frame queries had no future test. The 51 positive comparisons cover 17 earlier queries, with three perturbations each; they are not 51 independently reviewed questions. All 104 exported result, observation, metadata and image files were byte-identical to the first run. Representative marked images from both recordings were inspected for frame/box export.
+
+These runs use human labels and the local TF-IDF development baseline. No answer model was called, and retrieval relevance/answer accuracy was not scored. The full software suite passes 171 tests and 58 subtests; independent review ran 49 focused tests and 16 subtests without a remaining blocking issue. Windows and Linux CI also passed. Genuine detector/tracker predictions, the fine-tuned Qwen retriever, Task 3 answerer and reviewed held-out questions are the next integration inputs.

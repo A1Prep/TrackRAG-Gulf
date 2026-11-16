@@ -101,6 +101,8 @@ class GroundedTests(unittest.TestCase):
         context=grounded.selection_context(candidates)
         self.assertEqual(context['tracks'][0]['candidate_id'],'T7')
         self.assertNotIn('windows',context['tracks'][0])
+        self.assertAlmostEqual(candidates[0]['history']['first_image_area_fraction'],16*13/(32*24))
+        self.assertEqual(candidates[0]['history']['first_image_center_xy_fraction'],[12/32,11.5/24])
 
     def test_single_selector_timestamp_keeps_the_identity_history(self):
         def reply(parts,schema,role,receipt_path=None,metadata=None,**kwargs):

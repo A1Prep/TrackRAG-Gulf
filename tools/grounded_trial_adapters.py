@@ -44,6 +44,11 @@ def candidates_at_query(question, index):
         rows=[row for row in observations if row['frame_id']<=question['query_frame']]
         if rows:
             history=history_facts(rows,first)
+            for label,row in (('first',rows[0]),('last',rows[-1])):
+                frame=recording.get_frame(row['frame_id'])
+                left,top,right,bottom=row['bbox_xyxy']
+                history[label+'_image_area_fraction']=(right-left)*(bottom-top)/(frame['width']*frame['height'])
+                history[label+'_image_center_xy_fraction']=[(left+right)/2/frame['width'],(top+bottom)/2/frame['height']]
             candidates.append({'candidate_id':f'T{track}','track_id':track,'start_frame':rows[0]['frame_id'],
                                'end_frame':rows[-1]['frame_id'],'history':history,'window':history})
     return candidates
@@ -75,12 +80,14 @@ def identity_views(question, index):
             row["frame_id"],
         ))
         representatives.append((track_id, representative))
+    representatives.sort(key=lambda item: (
+        -(item[1]['bbox_xyxy'][2]-item[1]['bbox_xyxy'][0])*(item[1]['bbox_xyxy'][3]-item[1]['bbox_xyxy'][1]),item[0]))
     parts, sent, processed = [], [], {}
     directory = Path(os.environ.get("TRACKRAG_TRIAL_CACHE", "runs/temporal-request-cache")) / "selector-images"
     directory.mkdir(parents=True, exist_ok=True)
     for offset in range(0, len(representatives), 16):
         entries = representatives[offset:offset + 16]
-        sheet = Image.new("RGB", (896, 160 * ((len(entries) + 3) // 4)), "white")
+        sheet = Image.new("RGB", (896, 176 * ((len(entries) + 3) // 4)), "white")
         draw = ImageDraw.Draw(sheet)
         identities = []
         for i, (track_id, row) in enumerate(entries):
@@ -96,11 +103,13 @@ def identity_views(question, index):
             crop = image.crop((max(0, int(left - pad)), max(0, int(top - pad)),
                                min(image.width, int(right + pad)), min(image.height, int(bottom + pad))))
             crop.thumbnail((208, 124))
-            x, y = (i % 4) * 224, (i // 4) * 160
+            x, y = (i % 4) * 224, (i // 4) * 176
             sheet.paste(crop, (x + 8, y + 29))
             draw.text((x + 6, y + 3), f"T{track_id} @ frame {frame_id}", fill="black")
             draw.text((x + 6, y + 15), f"Label: {row['class_name']}", fill="black")
-            identities.append({"track_id": track_id, "frame_id": frame_id})
+            fraction=(right-left)*(bottom-top)/(image.width*image.height)
+            draw.text((x+6,y+158),f'Original box: {fraction:.1%} of scene',fill='black')
+            identities.append({"track_id": track_id, "frame_id": frame_id,'box_area_fraction':fraction})
         output = io.BytesIO()
         sheet.save(output, format="JPEG", quality=92)
         payload = output.getvalue()
@@ -129,6 +138,8 @@ def _select_evidence(question, index, receipt_path, k=3):
         "T labels map visible objects to track IDs. Other objects remain in the scene; missing labels do not imply visual absence. "
         "Candidate IDs are exactly the T labels in the gallery. Each identity occurs once and includes its full observable history. Choose identities first; do not choose a different vehicle merely because a partial window resembles a requested time. "
         "When similarly coloured or structured vehicles match, use class, body shape, original pixel scale and requested time together. A shared accessory alone does not establish identity. "
+        "Use normalized original-image area and center at the first/last observation to interpret apparent size and position; a large gallery crop does not mean that object filled the original scene. "
+        "Prefer recall when a description could match similar-looking objects: include both best plausible identities for the answerer to disambiguate with their actual histories, rather than guessing only one. "
         "The caller always supplies the current full scene. For signs, lighting or current visible presence/absence, return an empty selected list if no particular tracked identity is needed. "
         "For temporal questions select the same identity whose history supports the comparison. "
         "Also extract requested_frame_ids: exact observation frames requested by the question, with at most two comparison endpoints. "

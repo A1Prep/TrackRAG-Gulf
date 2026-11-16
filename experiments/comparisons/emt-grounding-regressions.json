@@ -1,7 +1,5 @@
 {
   "version": 1,
-  "name": "EMT grounding regression comparison",
-  "purpose": "development",
   "questions": [
     "../temporal-development-questions.jsonl",
     "../temporal-second-questions.jsonl"
@@ -9,47 +7,89 @@
   "manual_question_ids": [
     "temporal-01"
   ],
+  "name": "EMT grounding investigation: complete retained cohorts",
+  "purpose": "development",
   "reference_variant": "temporal-reference",
-  "notes": [
-    "Same fixed 36-question development cohort. Existing question IDs, texts, query frames and separate rubrics are unchanged.",
-    "All runs use human-labeled tracks, not detector predictions. This is not held-out or fine-tuned model accuracy.",
-    "The revision changes identity views, grounding instructions and sampling settings; differences do not isolate one causal effect.",
-    "Historical review labels are AI-assisted with student validation pending. New outputs require fresh content review, including previous passes.",
-    "The revised run paths are planned and do not exist until successful full reruns. No new review bindings are supplied in advance; unreviewed answers cannot receive a pass fraction.",
-    "Raw images and run folders remain local. Retrieval remains unscored without a separate answer key."
-  ],
   "variants": [
     {
       "id": "temporal-reference",
-      "label": "Temporal Gemini development reference",
+      "label": "Earlier reference (blinded re-review)",
       "runs": [
         {
           "directory": "../../runs/temporal-final-a-05",
           "review": {
-            "path": "../reviews/temporal-final-first.jsonl",
-            "results_sha256": "f36e44b744879c4c955fcdfb0d48273ed5c9a71e5bf2d5a3bdd270163f49f76f"
+            "path": "../reviews/temporal-grounding-2-reference-first.jsonl",
+            "results_sha256": "f36e44b744879c4c955fcdfb0d48273ed5c9a71e5bf2d5a3bdd270163f49f76f",
+            "artifacts": "../../runs/task5-review-packets/first/artifacts.json"
           }
         },
         {
           "directory": "../../runs/temporal-final-b-05",
           "review": {
-            "path": "../reviews/temporal-final-second.jsonl",
-            "results_sha256": "8e9372ce01a62fae21b8cf90d7fc9c0ede040990519c487def318f85664f0628"
+            "path": "../reviews/temporal-grounding-2-reference-second.jsonl",
+            "results_sha256": "8e9372ce01a62fae21b8cf90d7fc9c0ede040990519c487def318f85664f0628",
+            "artifacts": "../../runs/task5-review-packets/second/artifacts.json"
           }
         }
       ]
     },
     {
-      "id": "grounding-revision",
-      "label": "Identity-gallery grounding revision (fresh review required)",
+      "id": "gallery-revision",
+      "label": "First gallery revision (known remaining grounding issue)",
       "runs": [
         {
-          "directory": "../../runs/temporal-regression-a-full-01"
+          "directory": "../../runs/temporal-regression-a-full-01",
+          "review": {
+            "path": "../reviews/temporal-grounding-1-revision-first.jsonl",
+            "results_sha256": "e45468f8d819fc8e132d8303f1d3b8443ecb4e5515b2133af404dae91313a9aa",
+            "artifacts": "../../runs/task5-regressions/full-first-review/artifacts.json"
+          }
         },
         {
-          "directory": "../../runs/temporal-regression-b-full-01"
+          "directory": "../../runs/temporal-regression-b-full-01",
+          "review": {
+            "path": "../reviews/temporal-grounding-1-revision-second.jsonl",
+            "results_sha256": "aebab824bf5e9ceedb38cb33bea265a1b687f99b0e6f29bbc93d3ec536aa61d9",
+            "artifacts": "../../runs/task5-regressions/full-second-review/artifacts.json"
+          }
+        }
+      ]
+    },
+    {
+      "id": "bound-identity-revision",
+      "label": "Explicit identity tokens and calibrated answer instructions",
+      "runs": [
+        {
+          "directory": "../../runs/temporal-regression-a-full-02",
+          "review": {
+            "path": "../reviews/temporal-grounding-2-revision-first.jsonl",
+            "results_sha256": "e6f201be0d82b020b5554bfd9c64939ad13b728c55157821479097d05eecb4a9",
+            "artifacts": "../../runs/task5-regressions/revision2/full-first-review/artifacts.json"
+          }
+        },
+        {
+          "directory": "../../runs/temporal-regression-b-full-02",
+          "review": {
+            "path": "../reviews/temporal-grounding-2-revision-second.jsonl",
+            "results_sha256": "99ba65579a8e0563ea61d3ebce709bc85e70bf2b0f190951db9e9ec6106f4525",
+            "artifacts": "../../runs/task5-regressions/revision2/full-second-review/artifacts.json"
+          }
         }
       ]
     }
+  ],
+  "notes": [
+    "Question files and references are unchanged; A/B labels were randomized independently per question and source/model labels hidden from paired reviewers.",
+    "Grades remain AI-assisted with human verification pending. These are previously seen development clips and annotated tracks, not held-out/trained-model results.",
+    "Changes include visual selection, general grounding instructions and provider-default sampling; differences do not establish one causal effect.",
+    "In the first gallery revision, QA passes were rescued by incidental full-scene pixels: the pickup-motion question still highlighted van1. That note concerns the first revision; the latest revision correctly selects pickup6.",
+    "The first revision retains an overconfident light-car colour and some control failures. All original and revised outputs are preserved.",
+    "The initial grade categories were rechecked while still blinded against the predeclared uncertainty/confidence definitions; raw initial judgments remain local.",
+    "No separate retrieval answer key is supplied; content passes are not ranking accuracy.",
+    "The latest complete small-model cohort fixes the original six QA cases and pickup identity, but introduces four previous-pass losses. It is not regression-free and remains in draft.",
+    "The twelve separately frozen development controls are reviewed outside this original35-question ordinary denominator; their latest results are12passes.",
+    "Stronger-reviewer diagnostics use saved selection and are not substituted into either complete cohort. Their full-cohort verification is separate.",
+    "The same reference was re-reviewed independently in both paired rounds; baseline grade labels agree question-by-question.",
+    "The latest supplemental second-02 retrieval still highlights pickup6 rather than opening cage truck17; correct direction words do not establish correct target selection."
   ]
 }

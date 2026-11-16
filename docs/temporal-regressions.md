@@ -1,76 +1,102 @@
-# Grounding regression investigation
+# Temporal grounding regression results
 
-This work investigates the three regressions and three remaining failures in the 36-question annotated-track development cohort. The question files and separate rubrics are unchanged. No question IDs, reference answers, expected colours, sign text or vehicle IDs are used as inference rules.
+The six originally flagged questions now have correct answers and relevant identities in the latest complete development run. The wider regression check still fails the release gate, so PR11 remains a draft. The main branch has not been replaced with this experimental revision.
 
-## Causes and changes
+## What changed
 
-| Case | Observed defect | General change |
-| --- | --- | --- |
-| `temporal-03` | Review removed a supported increase in visual clarity as if it were an unproven entry event. | Distinguish visible appearance comparisons from entry claims; preserve supported draft observations and keep answers concise. |
-| `temporal-07` | Broad annotation class `Car` was treated as excluding an SUV, and visible upper-body colour was rejected because other regions were masked. | Keep annotation category separate from visual subtype; judge broad colour from visible panels. |
-| `temporal-18` | The text stated visible absence while status/limitations withheld that same observation and supplied no citation. | Use the exact scene for visible presence/absence; distinguish this from hidden activity or absence inferred from missing labels. |
-| `second-04` | Selection confused the pickup with an SUV; review then reversed that SUV's computed motion. | Add labeled identity galleries, resolve body shape before attaching motion, and preserve the relevant computed direction. |
-| `second-09` | A correct English road name was accompanied by an unnecessary, incorrect Arabic transcription. | Answer at the requested language and granularity; avoid unsolicited OCR claims. |
-| `second-11` | A real daily request limit stopped the answer, and retrieval selected the wrong vehicle. | Improve identity grounding; classify quota exhaustion explicitly as an availability error, with no fabricated evidence verdict. |
+- A query-bounded identity gallery shows every observed track at its largest available view, with the actual frame and track label. The existing privacy masks are applied before cropping.
+- Selection tokens now contain the actual identity and observed window, such as `T42-F1-F5`, rather than unrelated ordinal labels. In one earlier miss, `C6` selected van 1 while gallery label `T6` denoted the intended pickup. This removes an avoidable ambiguity without claiming to establish the model's reasoning.
+- General instructions distinguish broad annotation classes from visible subtypes, current visible absence from hidden states, image observations from world motion, and requested OCR from extra transcription. They preserve supported draft claims, allow sensible colour uncertainty and give explicit answer formats priority.
+- Daily quota exhaustion remains an availability error. Transient limits receive bounded retries, numeric Retry-After handling and accurate receipts. Provider-default sampling is recorded following [Google's current guidance](https://aistudio.google.com/docs/troubleshooting).
 
-The selector now sees a separate tile for every track observed by the query cutoff, rather than relying only on labels on the 24 largest objects in two crowded scenes. Each tile uses the largest available observed box and labels its actual frame. Gallery times can precede the query, so the initial/current scenes remain the source for current visibility. The existing processor fully masks labeled people, cyclists and motorbikes and masks the lower 40 percent of other vehicle boxes before cropping. No future observations or pixels are used.
+No reference answers, expected colours, sign names or question-ID branches were added to inference. Public question files contain only their four interface fields. References remain separate scoring inputs.
 
-Sampling now uses the provider default and records that choice in the receipt. This follows [Google's current sampling guidance](https://aistudio.google.com/docs/troubleshooting). Requests with the old temperature override have different cache signatures. These pipeline and sampling changes do not isolate a single causal effect.
+## Complete small-model runs
 
-Transient provider limits retain bounded retries, respect a numeric `Retry-After` header and use exponential delays. Daily limits are not retried immediately or converted into successful abstentions. Receipts retain the HTTP code, classification, indicated delay and failed attempts. Daily availability still depends on the provider's quota; [Google documents the quota/reset policy](https://aistudio.google.com/docs/rate-limits).
+All conditions use real EMT images, human-labeled tracks, the same question records and the requested/reported Gemini 3.5 Flash-Lite model. The references were independently reviewed against original and processed images. The later rounds randomized A/B labels per question and hid model/revision identity. Core question/reference records are unchanged; Windows line endings can differ. These are previously seen development recordings, not held-out accuracy or trained-detector/reranker results.
 
-## Verification status
+| Complete condition | Clean | Qualified | Failed | Manual diagnostic |
+| --- | ---: | ---: | ---: | ---: |
+| Earlier reference |29|3|3|1|
+| First gallery revision |34|1|0|1|
+| Latest explicit-identity revision |31|2|2|1|
 
-- Full local software suite: 129 tests and 44 subtests passed. The added tests cover identity-gallery bounds/coverage/privacy, daily quota behavior, retry timing provider-default sampling and identity-token stability when unrelated tracks are inserted. They are software checks, not model-answer pass counts.
-- Offline real-data input audit: all 36 questions passed at 11 distinct recording/query cutoffs. Every observed identity was represented, and all candidate/gallery/scene frames remained bounded.
-- An intermediate same-model trial completed `temporal-03`, then hit the daily 500-request limit while selecting evidence for `temporal-07`. The multi-question run did not publish an incomplete result folder. Its successful first question was recovered from the exact validated request cache through the normal reviewer entry point with networking blocked; the recovery made zero network attempts.
-- Independent inspection supports the recovered bus identity and clarity comparison. Its extra “fully visible” wording is unnecessary; the latest concise-answer instruction addresses that scope. This recovered output predates the final sampling/instruction changes and is not verification of the final code's full cohort.
-- A separately labeled `gemini-3.8-flash` diagnostic with 16,384 output tokens and a 90-second request timeout failed in evidence selection after a transient 503 and a timeout. It produced no answer-quality result and does not replace the same-model regression comparison.
-- The final five affected answers and all previous passes still need a fresh run and content review. Keep the change in draft until that is complete.
+The first revision's high QA count concealed a wrong pickup target: incidental full-scene pixels supported correct wording while the highlighted vehicle was van 1. It was not accepted as a complete fix. The latest revision corrects that identity, but loses four previous clean passes: two qualifications and two factual failures. All original and revised outputs are retained; favourable answers were not combined into a synthetic cohort.
 
-The current quota receipt indicates a reset around 2026-11-16 08:00 UTC, or noon Dubai time. This is a recorded provider indication, not an assurance of subsequent availability.
+Both paired rounds assign the same reference grade to every question. Grades remain AI-assisted with human validation pending. Multiple pipeline and sampling changes prevent attributing differences to one isolated cause. There is no separate formal retrieval key here, so these counts must not be called ranking accuracy.
 
-## Additional development controls
+## Original six cases
 
-Twelve new questions were prepared through independent inspection of original and privacy-processed images, then checked by a second reviewer before the first complete 48-question rerun and before any control output. The question files are `experiments/temporal-control-questions.jsonl` and `experiments/temporal-control-second-questions.jsonl`; their separate `*-rubric.jsonl` files never enter inference. `experiments/temporal-control-protocol.json` records the pre-output file fingerprints and initial frozen inference commit. Later source revisions reuse these as development checks, not fresh held-out data.
+| Question | Latest finding |
+| --- | --- |
+| `temporal-03` | Correct bus 46 and cited70-150 history showing increased clarity. |
+| `temporal-07` | Correct grey SUV 8 at exact frame 30, supported by visible panels. |
+| `temporal-18` | Correct current absence statement with scene 30 citation. |
+| `second-04` | Correct leftward image motion and pickup 6 evidence over frames 1-100. |
+| `second-09` | Correct Al Fay Rd, with no incorrect added Arabic transcription. |
+| `second-11` | Correct closed truck 14 at 150; contents appropriately remain unknowable. |
 
-Git preserves LF line endings for these frozen files so Windows checkout conversion does not invalidate their byte fingerprints.
+## Remaining regressions and grounding defects
 
-The controls cover two distinct nearby objects, opposing horizontal movement, visible SUV/pickup body shape, current absence, hidden occupancy, English-only OCR, image growth and unknowable physical speed. Current-absence references were checked in the images rather than inferred from annotation endings. These are additional development controls on previously seen clips, not held-out assessment questions or proof of general model accuracy.
+| Question | Remaining issue |
+| --- | --- |
+| `temporal-06` | Identifies bus 2 but unnecessarily withholds the supported image-edge movement as if it required a proven road manoeuvre. Qualified. |
+| `temporal-10` | Categorical white overstates confidence against the silver/light-grey reference under glare and masking. Qualified; human colour-reference validation is needed. |
+| `temporal-11` | Falsely abstains on which car appears largest despite usable scene/car 7 evidence. Failed. |
+| `second-08` | Invents a remaining portion of the opening cage truck at 100, where the original truck is absent. Failed. |
+| `second-02` | Correct direction words, but selected E1 highlights pickup 6 rather than cage truck 17. Incidental scene pixels support the words. This is a separate retrieval defect, not evidence of correct target selection. |
 
-## Complete the same-model rerun
+The predeclared manual bus-entry diagnostic remains outside the 35 ordinary-question denominator. Exact first visibility/edge entry is unproven, and the latest answer also adds an incorrect net-motion claim. Its exclusion does not turn that answer into a pass; the raw output and review remain visible.
 
-With the existing authorized dataset and configured API key, use fresh run directories:
+## Twelve additional controls
+
+The new question/reference files are `experiments/temporal-control-questions.jsonl`, `temporal-control-rubric.jsonl`, `temporal-control-second-questions.jsonl` and `temporal-control-second-rubric.jsonl`. The protocol records their hashes before their first model outputs and the initial inference commit. Two reviewers checked the reference imagery, including actual visible absence rather than annotation endings. Git preserves LF for these files so their byte fingerprints survive Windows/Linux checkout.
+
+| Control condition | Clean | Qualified | Failed |
+| --- | ---: | ---: | ---: |
+| First gallery revision |9|2|1|
+| Latest revision |12|0|0|
+
+They cover opposing vehicle movements, body types, relative position, visible absence, hidden occupancy, unknown physical speed, English-only OCR and image growth. Later code revisions used them as development checks. They are not fresh held-out assessment evidence. Human review packets retain blank grades separately from the AI-assisted judgments.
+
+## Stronger-reviewer check and confirmed quota limit
+
+A separate diagnostic retained the latest selected evidence and used Lite drafting with Gemini 3.6 Flash final review. It corrected largest-car identity and truck absence on the four targeted cases. Image-exit qualification and colour confidence remained; the largest-car answer also added white as a descriptor. This does not establish a causal model ranking or a clean full-cohort result.
+
+The full 48-question stronger-review attempt retained 19 answered rows and 29 unavailable error rows. The terminal receipt first reported the 5-request minute limit, then the 20-request daily limit. After that terminal failure, 28 subsequent review requests were suppressed locally; exact cached requests could still return. No unavailable result became an abstention or a favourable older answer. Provider requests and completed questions are different counts. See `experiments/strong-review-availability.json` and [Google's quota policy](https://aistudio.google.com/docs/rate-limits).
+
+Full-cohort quality of that stronger configuration is therefore unverified. The four diagnostic outputs are separate in `experiments/strong-review-diagnostic.jsonl`; they were not substituted into either complete small-model cohort. Their exploratory orchestration and raw run folders remain local.
+
+## Software and artifact checks
+
+The local suite passed 129 tests and 44 subtests; Windows and Linux CI passed. Checks cover future-frame isolation, complete identity-gallery coverage, masks before crops, identity-token stability under unrelated-track insertion, valid duplicate rejection, exact requested endpoints, citation validation, retry/quota behavior and saved-run comparison integrity. Offline input checks covered all 48 question inputs. Independent audit validated 10 run folders and reproduced the comparison JSON/Markdown from the saved inputs.
+
+These checks verify program behavior and stored consistency. They do not certify model-answer correctness. No detector or Qwen fine-tuning was performed by these trials.
+
+## Reproduce the latest complete condition
+
+Set the existing authorized key and pin the requested model. Use new output directories; these names are already occupied on the development machine.
 
 ```powershell
 $env:TRACKRAG_TRIAL_MODEL='gemini-3.5-flash-lite'
-$env:TRACKRAG_TRIAL_MAX_OUTPUT_TOKENS='3072'
-$env:TRACKRAG_TRIAL_TIMEOUT_SECONDS='90'
-python -m trackrag review --data-root data/emt-official --recording video_054604 --questions experiments/temporal-development-questions.jsonl --source annotated --answerer gemini --adapters tools.temporal_trial_adapters --out runs/temporal-regression-a-full-01
-python -m trackrag review --data-root data/emt-official --recording video_054907 --questions experiments/temporal-second-questions.jsonl --source annotated --answerer gemini --adapters tools.temporal_trial_adapters --out runs/temporal-regression-b-full-01
-python -m evaluation review-template --run runs/temporal-regression-a-full-01 --out runs/task5-regressions/full-first-review
-python -m evaluation review-template --run runs/temporal-regression-b-full-01 --out runs/task5-regressions/full-second-review
+python -m trackrag review --data-root data/emt-official --recording video_054604 --questions experiments/temporal-development-questions.jsonl --source annotated --answerer gemini --adapters tools.temporal_trial_adapters --out runs/my-grounding-first
+python -m trackrag review --data-root data/emt-official --recording video_054907 --questions experiments/temporal-second-questions.jsonl --source annotated --answerer gemini --adapters tools.temporal_trial_adapters --out runs/my-grounding-second
 ```
 
-Run the additional controls separately so the original paired-comparison denominator remains unchanged:
+Run the two control banks separately through the same command. Export ungraded human packets with `python -m evaluation review-template --run <RUN> --out <NEW_PACKET>`. Inspect every new answer against the unchanged reference and actual cited images; do not copy older grades to changed outputs.
+
+The supplied retained-cohort comparison needs its local run files, which are excluded from Git:
 
 ```sh
-python -m trackrag review --data-root data/emt-official --recording video_054604 --questions experiments/temporal-control-questions.jsonl --source annotated --answerer gemini --adapters tools.temporal_trial_adapters --out runs/temporal-control-a-01
-python -m trackrag review --data-root data/emt-official --recording video_054907 --questions experiments/temporal-control-second-questions.jsonl --source annotated --answerer gemini --adapters tools.temporal_trial_adapters --out runs/temporal-control-b-01
+python -m evaluation compare --manifest experiments/comparisons/emt-grounding-regressions.json --out runs/my-grounding-comparison
 ```
 
-Review every answer against the unchanged separate rubric and actual cited images, including previous passes. Fill the blank review rows; do not copy old grades to changed answers. Paste the exported run bindings into the revised condition in `experiments/comparisons/emt-grounding-regressions.json`, then run:
+The experiment source commits and local run-source snapshots distinguish the retained conditions. The latest complete generation used `ec747a3`; the first complete gallery revision used the same inference source as `cdf0bb6` before identity-token/calibration changes.
 
-```sh
-python -m evaluation compare --manifest experiments/comparisons/emt-grounding-regressions.json --out runs/task5-regressions/full-comparison-01
-```
+## Next integration gate
 
-That manifest references the planned full-run paths, which do not exist until the commands succeed. Its revised condition initially has no review binding and therefore cannot produce a content pass fraction. No retrieval answer key is supplied, so retrieval remains unscored. Report every gain, loss, abstention and availability failure on the same cohort. These tuned development questions still require separate held-out assessment later.
+1. Obtain enough availability for a complete evaluation of the chosen stronger answer backend. Keep the same cases, preserve all failures and check highlighted identities separately from answer wording before promoting a configuration.
+2. Have Tasks 1, 3 and 4 implementations supplied as PRs, including the trained detector and trained Qwen artifacts/configuration. The current repository readiness check still lacks those normal adapters; private teammate work is not assessed here.
+3. Human-review the answer references, especially colour and edge-entry ambiguity, and reserve a separate recording excluded from training and this debugging. Then run the real trained pipeline with both annotated and genuine predicted tracks.
 
-While live testing is unavailable, the team can review answer keys and supply real Task 1/3/4 modules and training artifacts. Task 5's final integration requires genuine detector predictions and the trained reranker; these annotated-track diagnostics do not measure those unfinished components.
-
-## First complete rerun and follow-up
-
-All 48 first-revision questions completed without a final provider error. Independent evidence inspection found five original problem cases sound, while pickup-motion retrieval still highlighted van 1 rather than pickup 6. Its correct leftward wording could be supported incidentally by the full scenes, illustrating why answer correctness alone cannot establish correct retrieval. Opening-car colour also became categorical despite glare/masking ambiguity. Raw outputs and judgments are retained.
-
-The next revision uses candidate tokens containing the actual track and observed frame window. The first-revision selector returned `C6`, an ordinal candidate for van 1, while the gallery label `T6` denotes the pickup. Encoding identity in the token removes that numeric alias without supplying the desired answer. A separate general calibration instruction compares shaded/lit panels and preserves useful colour uncertainty. The same 48 questions will be rerun; completion is not claimed before their results are reviewed.
+Task 5's framework and comparison preparation are built; final model integration, held-out evaluation and the requested no-regression release gate remain open. The assessment training roles are defined in [assessment-alignment.md](assessment-alignment.md).

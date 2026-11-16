@@ -30,6 +30,12 @@ Transient provider limits retain bounded retries, respect a numeric `Retry-After
 
 The current quota receipt indicates a reset around 2026-11-16 08:00 UTC, or noon Dubai time. This is a recorded provider indication, not an assurance of subsequent availability.
 
+## Additional development controls
+
+Twelve new questions were prepared through independent inspection of original and privacy-processed images, then checked by a second reviewer before any new model output. The question files are `experiments/temporal-control-questions.jsonl` and `experiments/temporal-control-second-questions.jsonl`; their separate `*-rubric.jsonl` files never enter inference. `experiments/temporal-control-protocol.json` records the pre-output file fingerprints and frozen inference commit.
+
+The controls cover two distinct nearby objects, opposing horizontal movement, visible SUV/pickup body shape, current absence, hidden occupancy, English-only OCR, image growth and unknowable physical speed. Current-absence references were checked in the images rather than inferred from annotation endings. These are additional development controls on previously seen clips, not held-out assessment questions or proof of general model accuracy.
+
 ## Complete the same-model rerun
 
 With the existing authorized dataset and configured API key, use fresh run directories:
@@ -42,6 +48,13 @@ python -m trackrag review --data-root data/emt-official --recording video_054604
 python -m trackrag review --data-root data/emt-official --recording video_054907 --questions experiments/temporal-second-questions.jsonl --source annotated --answerer gemini --adapters tools.temporal_trial_adapters --out runs/temporal-regression-b-full-01
 python -m evaluation review-template --run runs/temporal-regression-a-full-01 --out runs/task5-regressions/full-first-review
 python -m evaluation review-template --run runs/temporal-regression-b-full-01 --out runs/task5-regressions/full-second-review
+```
+
+Run the additional controls separately so the original paired-comparison denominator remains unchanged:
+
+```sh
+python -m trackrag review --data-root data/emt-official --recording video_054604 --questions experiments/temporal-control-questions.jsonl --source annotated --answerer gemini --adapters tools.temporal_trial_adapters --out runs/temporal-control-a-01
+python -m trackrag review --data-root data/emt-official --recording video_054907 --questions experiments/temporal-control-second-questions.jsonl --source annotated --answerer gemini --adapters tools.temporal_trial_adapters --out runs/temporal-control-b-01
 ```
 
 Review every answer against the unchanged separate rubric and actual cited images, including previous passes. Fill the blank review rows; do not copy old grades to changed answers. Paste the exported run bindings into the revised condition in `experiments/comparisons/emt-grounding-regressions.json`, then run:

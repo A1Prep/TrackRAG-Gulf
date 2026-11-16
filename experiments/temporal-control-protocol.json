@@ -1,0 +1,19 @@
+{
+  "version": 1,
+  "scope": "Additional development controls on previously seen clips; not held-out assessment",
+  "frozen_before_model_outputs": true,
+  "frozen_utc": "2026-11-16T07:31:40.134394+00:00",
+  "inference_commit": "cdf0bb6e5e188a5d58ad7f07d5b8a9bcce93df84",
+  "sha256": {
+    "experiments/temporal-control-questions.jsonl": "579524edce5cb7dbdfad854f101b6084d8491db8ccea35ad4965179db95ea029",
+    "experiments/temporal-control-rubric.jsonl": "c2c34c6daae15f0a6831fe5b9ba5ac5a9d8abd41943e16d350b9d12addfd987d",
+    "experiments/temporal-control-second-questions.jsonl": "2025478ddbf917e4512fa4e677ab3d312e968c462ee57b0050c34efa2235979b",
+    "experiments/temporal-control-second-rubric.jsonl": "9a47a629ee7dd36be4fc04f6a26120db337f4c1e8b8acdbae094411a5af9cb0f"
+  },
+  "question_count": 12,
+  "notes": [
+    "References were prepared by independent inspection of original and privacy-processed images and tracks, without new model outputs.",
+    "Only the four-field question files are inference inputs. Rubrics remain separate.",
+    "Human validation of reference answers is still required."
+  ]
+}

@@ -1,0 +1,6 @@
+{"question_id":"control-a-01","recording_id":"video_054604","query_frame":120,"question":"At frame 120, which is farther left in the image: the yellow bus or the green container truck?"}
+{"question_id":"control-a-02","recording_id":"video_054604","query_frame":30,"question":"At frame 30, does the large grey vehicle on the left have the visible body style of an SUV or a sedan?"}
+{"question_id":"control-a-03","recording_id":"video_054604","query_frame":150,"question":"Is the green container truck seen at frame 120 still visible in frame 150?"}
+{"question_id":"control-a-04","recording_id":"video_054604","query_frame":150,"question":"At frame 150, copy only the English street name on the large blue exit sign. Do not add a translation or text in another language."}
+{"question_id":"control-a-05","recording_id":"video_054604","query_frame":150,"question":"From frame 120 to frame 150, does the yellow bus occupy more or less of the image?"}
+{"question_id":"control-a-06","recording_id":"video_054604","query_frame":120,"question":"At frame 120, what is the green container truck's speed in kilometres per hour?"}

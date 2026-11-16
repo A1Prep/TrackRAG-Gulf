@@ -86,7 +86,7 @@ def selection_context(candidates):
     return {"full_scenes": scenes, "tracks": list(tracks.values())}
 
 
-def selector_views(question, index):
+def selector_views(question, index, *, identity_label=None):
     """Initial/current masked scenes make appearance-based selection possible."""
     recording = index["recording"]
     first_frame = next(recording.iter_frames())["frame_id"]
@@ -105,7 +105,7 @@ def selector_views(question, index):
         for row in prominent:
             left, top, right, bottom = row["bbox_xyxy"]
             draw.rectangle((left*sx, top*sy, right*sx, bottom*sy), outline=(0, 255, 255), width=1)
-            label = f"T{row['track_id']}"
+            label = identity_label(row['track_id']) if identity_label else f"T{row['track_id']}"
             x, y = left*sx, max(0, top*sy-12)
             draw.rectangle((x, y, x+7*len(label), y+12), fill="black")
             draw.text((x, y), label, fill="white")
@@ -115,7 +115,7 @@ def selector_views(question, index):
         name = sha256(payload).hexdigest() + ".jpg"
         (directory / name).write_bytes(payload)
         parts.extend([
-            {"text": f"Masked full scene at frame {frame_id}; T labels denote annotated track IDs, only the 24 largest labeled objects are marked."},
+            {"text": f"Masked full scene at frame {frame_id}; object labels match the candidate catalog, only the 24 largest labeled objects are marked."},
             {"inlineData": {"mimeType": "image/jpeg", "data": base64.b64encode(payload).decode("ascii")}},
         ])
         sent.append({"frame_id": frame_id, "image": name, "width": marked.width, "height": marked.height})

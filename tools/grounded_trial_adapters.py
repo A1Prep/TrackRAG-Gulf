@@ -20,7 +20,7 @@ from tools.emt_trial_adapters import (
     load_questions, open_recording,
 )
 from tools.temporal_trial_adapters import (
-    history_facts, selection_context as _selection_context, selector_views, _attention_image,
+    history_facts, selection_context as _selection_context, selector_views as _selector_views, _attention_image,
 )
 from tools.trial_gemini import request_json
 
@@ -32,6 +32,16 @@ def build_index(recording, tracks):
     index=_build_index(recording, rows)
     index['selection_traces']={}
     return index
+
+
+def identity_token(recording_id, track_id):
+    """Stable display aliases keep numeric identity IDs separate from times."""
+    digest=sha256(f'{recording_id}:annotated:{track_id}'.encode()).hexdigest()[:12]
+    return 'V'+digest.translate(str.maketrans('0123456789abcdef','ABCDEFGHIJKLMNOP'))
+
+
+def selector_views(question, index):
+    return _selector_views(question,index,identity_label=lambda track:identity_token(question['recording_id'],track))
 
 
 def candidates_at_query(question, index):
@@ -49,8 +59,10 @@ def candidates_at_query(question, index):
                 left,top,right,bottom=row['bbox_xyxy']
                 history[label+'_image_area_fraction']=(right-left)*(bottom-top)/(frame['width']*frame['height'])
                 history[label+'_image_center_xy_fraction']=[(left+right)/2/frame['width'],(top+bottom)/2/frame['height']]
-            candidates.append({'candidate_id':f'T{track}','track_id':track,'start_frame':rows[0]['frame_id'],
+            candidates.append({'candidate_id':identity_token(recording.recording_id,track),'track_id':track,'start_frame':rows[0]['frame_id'],
                                'end_frame':rows[-1]['frame_id'],'history':history,'window':history})
+    if len({row['candidate_id'] for row in candidates})!=len(candidates):
+        raise ValueError('Identity display alias collision')
     return candidates
 
 
@@ -61,6 +73,7 @@ def selection_context(candidates):
         history['first_box_area_pixels2']=history['first_size_wh_pixels'][0]*history['first_size_wh_pixels'][1]
         history['last_box_area_pixels2']=history['last_size_wh_pixels'][0]*history['last_size_wh_pixels'][1]
         track['candidate_id']=track.pop('windows')[0]['candidate_id']
+        track.pop('track_id')
     return context
 
 
@@ -105,18 +118,19 @@ def identity_views(question, index):
             crop.thumbnail((208, 124))
             x, y = (i % 4) * 224, (i // 4) * 176
             sheet.paste(crop, (x + 8, y + 29))
-            draw.text((x + 6, y + 3), f"T{track_id} @ frame {frame_id}", fill="black")
+            token=identity_token(recording.recording_id,track_id)
+            draw.text((x + 6, y + 3), f"{token} @ frame {frame_id}", fill="black")
             draw.text((x + 6, y + 15), f"Label: {row['class_name']}", fill="black")
             fraction=(right-left)*(bottom-top)/(image.width*image.height)
             draw.text((x+6,y+158),f'Original box: {fraction:.1%} of scene',fill='black')
-            identities.append({"track_id": track_id, "frame_id": frame_id,'box_area_fraction':fraction})
+            identities.append({"track_id": track_id, "candidate_id":token,"frame_id": frame_id,'box_area_fraction':fraction})
         output = io.BytesIO()
         sheet.save(output, format="JPEG", quality=92)
         payload = output.getvalue()
         name = sha256(payload).hexdigest() + ".jpg"
         (directory / name).write_bytes(payload)
         parts.extend([
-            {"text": "Identity reference gallery. Each tile is a privacy-masked crop at the stated observed frame, not necessarily the query frame. Annotation categories are broader than everyday body-shape descriptions: an SUV can be labeled Car. Preserve annotation labels and distinguish visible subtypes from the pixels. " + json.dumps(identities)},
+            {"text": "Identity reference gallery. Each tile is a privacy-masked crop at the stated observed frame, not necessarily the query frame. Annotation categories are broader than everyday body-shape descriptions: an SUV can be labeled Car. Preserve annotation labels and distinguish visible subtypes from the pixels. " + json.dumps([{key:value for key,value in row.items() if key!='track_id'} for row in identities])},
             {"inlineData": {"mimeType": "image/jpeg", "data": base64.b64encode(payload).decode("ascii")}},
         ])
         sent.append({"image": name, "identities": identities})
@@ -135,8 +149,8 @@ def _select_evidence(question, index, receipt_path, k=3):
         "The identity gallery provides a separate labeled crop for every observed track. Verify the requested body's shape against those crops before selecting a track; do not substitute a similarly coloured SUV for a pickup or an open truck for a closed truck. "
         "Annotation classes are broad: Car does not exclude a visually supported SUV subtype. Keep the annotation category separate from visible body shape. Gallery times are explicit; use scene snapshots for current visibility. "
         "Gallery crops are resized independently. Compare original-pixel box areas and dimensions at the requested time when assessing apparent size; crop magnification is not physical size. "
-        "T labels map visible objects to track IDs. Other objects remain in the scene; missing labels do not imply visual absence. "
-        "Candidate IDs are exactly the T labels in the gallery. Each identity occurs once and includes its full observable history. Choose identities first; do not choose a different vehicle merely because a partial window resembles a requested time. "
+        "Opaque object labels match the catalog, scene and gallery; the labels carry no semantic or temporal meaning. Other objects remain in the scene; missing labels do not imply visual absence. "
+        "Candidate IDs are exactly the object labels in the gallery. Each identity occurs once and includes its full observable history. Choose identities first; do not choose a different vehicle merely because a partial window resembles a requested time. "
         "When similarly coloured or structured vehicles match, use class, body shape, original pixel scale and requested time together. A shared accessory alone does not establish identity. "
         "Use normalized original-image area and center at the first/last observation to interpret apparent size and position; a large gallery crop does not mean that object filled the original scene. "
         "Prefer recall when a description could match similar-looking objects: include both best plausible identities for the answerer to disambiguate with their actual histories, rather than guessing only one. "
@@ -177,6 +191,7 @@ def _select_evidence(question, index, receipt_path, k=3):
         "question_id": question["question_id"], "recording_id": question["recording_id"],
         "query_frame": question["query_frame"], "selection_images": sent,
         "identity_images": gallery_sent,
+        "candidate_identities": [{'candidate_id':row['candidate_id'],'track_id':row['track_id']} for row in candidates],
     }, validate=validate, repair_once=True, receipt_path=receipt_path,
         model_override=os.environ.get('TRACKRAG_SELECTION_MODEL'))
     validate(selected)

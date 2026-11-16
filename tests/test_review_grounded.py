@@ -44,7 +44,7 @@ class GroundedTests(unittest.TestCase):
 
     def reply(self,parts,schema,role,receipt_path=None,metadata=None,**kwargs):
         self.calls.append((role,parts,kwargs))
-        response={'selected':['T7'],'requested_frame_ids':[2,5]} if role=='evidence selection' else {
+        response={'selected':[grounded.identity_token('a',7)],'requested_frame_ids':[2,5]} if role=='evidence selection' else {
             'answer_status':'answered','answer':'The annotated motorcycle grows between frames2 and5.','cited_evidence_ids':['E1']}
         kwargs['validate'](response)
         if receipt_path:
@@ -97,16 +97,18 @@ class GroundedTests(unittest.TestCase):
         rows=[dict(self.rows[0],frame_id=number) for number in range(1,61)]
         question=dict(self.question,query_frame=60)
         candidates=grounded.candidates_at_query(question,grounded.build_index(recording,rows))
-        self.assertEqual([(row['candidate_id'],row['start_frame'],row['end_frame']) for row in candidates],[('T7',1,60)])
+        self.assertEqual([(row['candidate_id'],row['start_frame'],row['end_frame']) for row in candidates],[(grounded.identity_token('a',7),1,60)])
         context=grounded.selection_context(candidates)
-        self.assertEqual(context['tracks'][0]['candidate_id'],'T7')
+        self.assertEqual(context['tracks'][0]['candidate_id'],grounded.identity_token('a',7))
+        self.assertNotIn('track_id',context['tracks'][0])
+        self.assertFalse(any(char.isdigit() for char in context['tracks'][0]['candidate_id']))
         self.assertNotIn('windows',context['tracks'][0])
         self.assertAlmostEqual(candidates[0]['history']['first_image_area_fraction'],16*13/(32*24))
         self.assertEqual(candidates[0]['history']['first_image_center_xy_fraction'],[12/32,11.5/24])
 
     def test_single_selector_timestamp_keeps_the_identity_history(self):
         def reply(parts,schema,role,receipt_path=None,metadata=None,**kwargs):
-            value={'selected':['T7'],'requested_frame_ids':[5]}
+            value={'selected':[grounded.identity_token('a',7)],'requested_frame_ids':[5]}
             kwargs['validate'](value)
             Path(receipt_path).write_text(json.dumps({'request_status':'completed','response':value}))
             return value
@@ -117,7 +119,7 @@ class GroundedTests(unittest.TestCase):
     def test_three_valid_selected_identities_are_rejected_instead_of_truncated(self):
         rows=self.rows+[dict(self.rows[0],track_id=track) for track in (8,9)]
         def reply(parts,schema,role,receipt_path=None,metadata=None,**kwargs):
-            value={'selected':['T7','T8','T9'],'requested_frame_ids':[]}
+            value={'selected':[grounded.identity_token('a',track) for track in (7,8,9)],'requested_frame_ids':[]}
             kwargs['validate'](value)
             return value
         with patch.object(grounded,'request_json',side_effect=reply),self.assertRaisesRegex(ValueError,'invalid or duplicate'):
@@ -126,7 +128,7 @@ class GroundedTests(unittest.TestCase):
     def test_future_rows_cannot_change_stable_candidate_tokens_or_gallery_metadata(self):
         index=grounded.build_index(self.recording,self.rows)
         before=grounded.candidates_at_query(self.question,index)
-        self.assertEqual([c['candidate_id'] for c in before],['T7'])
+        self.assertEqual([c['candidate_id'] for c in before],[grounded.identity_token('a',7)])
         index['tracks'][999]=[dict(self.rows[-1],track_id=999,class_name='FutureSecret')]
         self.assertEqual(before,grounded.candidates_at_query(self.question,index))
         _,sent=grounded.identity_views(self.question,index)

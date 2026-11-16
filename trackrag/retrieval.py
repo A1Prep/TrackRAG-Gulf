@@ -1,10 +1,11 @@
-"""Task 4's retrieval interface and baseline configuration.
+"""Task 4's causal track-window index and deterministic text-search baseline.
 
 The index builder validates, snapshots and groups track observations, then divides
-histories into short sliding windows. Ranking is not implemented yet;
-rank_evidence raises NotImplementedError rather than report a successful search.
+histories into short sliding windows. candidate_windows rebuilds those windows
+from observations at or before a question's cutoff. rank_evidence matches text
+features from those permitted windows and returns up to three ranked intervals.
 
-The intended baseline uses short track windows described by class, image location
+The baseline uses short track windows described by class, image location
 and image-space movement. It needs no detector, language model or GPU. Defaults
 are starting values, not settings validated against real recordings.
 
@@ -23,15 +24,41 @@ Temporal policy for the implementation:
   restrict observations to frame_id <= question['query_frame']. Rebuild crossing
   windows from that prefix. Future observations must not affect even the scores.
 
-The planned text baseline combines class, location and movement match scores
-with the configured weights. No full-recording text statistics may affect an
-earlier query. Ties use ascending (start_frame, end_frame, track_id), after sorting
-by descending score. Ranking details and their tests belong to later steps.
+Text policy:
+* Describe each window using its most frequent normalized class label (lexical
+  tie break), mean normalized box center in image thirds, and observed motion.
+  Horizontal thirds are left/center/right; vertical thirds are top/middle/bottom.
+  A coordinate exactly at 1/3 or 2/3 belongs to the middle or final third.
+* With two or more observations, a center range exceeding 2% of width or height
+  means moving; otherwise stationary. Net displacement exceeding that threshold
+  gives leftward/rightward/upward/downward. A single observation has unknown
+  motion. A returning trajectory is moving even with zero net displacement.
+* Entering/exiting are image-space proxies: the first and last boxes cross a 5%
+  edge margin, with center displacement over 2% inward/outward at that same edge.
+  First appearance, disappearance and tracking gaps alone imply no event.
+  Motion and edge comparisons allow 1e-12 normalized units for floating rounding.
+* Lowercase/tokenize labels and questions, normalize common class plurals and a
+  fixed motion/location vocabulary. Direction phrases such as 'moving left' are
+  motion terms, not position terms. These rules apply to every question.
+* Class match C is the fraction of dominant-label tokens found in the question.
+  Location L and motion M each measure the fraction of requested terms matched
+  in their own feature group; an unrequested group scores zero. The final score
+  is (class_weight*C + location_weight*L + movement_weight*M) / sum(weights).
+  This fixed weighted overlap is in [0, 1], not a probability or confidence.
+* Omit zero-score windows. Sort by descending score, then ascending
+  (start_frame, end_frame, track_id). Keep overlapping but distinct intervals;
+  do not force different vehicles. No corpus statistics or future data are used.
+
+This English lexical baseline does not interpret negation, intent, physical
+speed, colors or visual appearance. Entry/exit cues and numeric defaults are
+heuristics that require evaluation on reviewed questions and real tracks.
 """
 
+from collections import Counter
 from collections.abc import Iterable, Iterator, Mapping
 from dataclasses import dataclass
 import math
+import re
 from types import MappingProxyType
 
 from .contracts import Question, RankedInterval, Recording, TrackObservation, TrackSource
@@ -51,7 +78,7 @@ class RetrievalConfig:
 
     Feature weights default to class:location:movement = 2:1:1. A zero weight
     disables that feature; at least one weight must be positive. All weights and
-    their sum must be finite, so a later weighted score can be normalized safely.
+    their sum must be finite, so the weighted score can be normalized safely.
     The configuration is immutable; create another instance to change settings.
     """
 
@@ -94,11 +121,12 @@ class TrackWindow:
 
     start_frame and end_frame are inclusive original IDs of actual observations,
     which may be narrower than the configured window span. No missing boxes are
-    interpolated. observations is nonempty and ordered by frame_id; its records
-    share the index's owned snapshots and must not be mutated by consumers.
+    interpolated. observations is nonempty and ordered by frame_id. Windows stored
+    in an index share its owned snapshots and must not be mutated by consumers.
+    candidate_windows instead returns copies isolated from the stored index.
 
-    This is an internal retrieval record, without a score or rank. Task 5 will
-    receive RankedInterval records only after question-specific ranking exists.
+    This is an internal retrieval record, without a score or rank. Task 5 receives
+    RankedInterval records from rank_evidence.
     """
 
     recording_id: str
@@ -120,9 +148,9 @@ class RetrievalIndex:
 
     windows contains unranked candidates for the complete supplied histories,
     ordered by full track identity, then start/end frame. Raw histories remain
-    available to rebuild candidates at a question's cutoff before computing any
-    descriptions or scores. The stored full-recording windows are not yet safe
-    query-specific results. source is None only for an empty index.
+    available for candidate_windows to rebuild candidates at a question's cutoff
+    before computing any descriptions or scores. The stored full-recording windows
+    are not query-specific results. source is None only for an empty index.
 
     The wrapper and history mapping prevent structural edits; they do not freeze
     the shared dictionary record types or recording. Consumers must not mutate
@@ -280,8 +308,8 @@ def build_index(
     config.stride_frames, retaining short and partial tails. Empty windows and
     exact duplicate observed intervals are omitted. Bounds refer to actual frames.
 
-    These candidates cover the full input; a later query must rebuild windows
-    from histories truncated at query_frame before deriving descriptions/scores.
+    These candidates cover the full input; use candidate_windows for a question's
+    permitted history before deriving descriptions or scores.
     """
     if config is None:
         config = RetrievalConfig()
@@ -333,24 +361,270 @@ def build_index(
     )
 
 
+def _validate_question(question: Question, index: RetrievalIndex) -> int:
+    """Validate public question fields and return the inclusive frame cutoff."""
+    if not isinstance(question, Mapping):
+        raise ValueError("question must be a mapping with the four public Question fields")
+    required = Question.__required_keys__
+    missing = required - question.keys()
+    if missing:
+        raise ValueError(f"Question is missing fields: {', '.join(sorted(missing))}")
+    if question.keys() - required:
+        raise ValueError("Question must contain only the four public fields, without gold labels")
+    for field in ("question_id", "recording_id", "question"):
+        value = question[field]
+        if not isinstance(value, str) or not value.strip():
+            raise ValueError(f"{field} must be a nonempty string")
+    if question["recording_id"] != index.recording.recording_id:
+        raise ValueError("Question recording_id does not match the indexed recording")
+    query_frame = question["query_frame"]
+    if type(query_frame) is not int or query_frame < 0:
+        raise ValueError("query_frame must be a nonnegative integer")
+    return query_frame
+
+
+def candidate_windows(question: Question, index: RetrievalIndex) -> tuple[TrackWindow, ...]:
+    """Return all unranked windows using only observations up to query_frame.
+
+    Validate the question even for an empty index. The cutoff is a temporal bound;
+    it need not coincide with an observed or available frame. The reviewer checks
+    whether its selected query frame can be opened. This function needs no image
+    or frame lookups and also works before the first observation or in a gap.
+
+    Truncate each ordered history BEFORE splitting gaps and generating windows.
+    Do not clip or filter index.windows: a crossing window's observations and
+    partial tails must be rebuilt, with duplicate removal applied to the prefix.
+    Future-only tracks produce no candidates. Output order follows track identity
+    and window bounds, not relevance; scoring and top-k selection are separate.
+
+    Each eligible observation is copied once per call (boxes are immutable tuples).
+    The question and index are not modified, and calls in any chronological order
+    are independent. Changes to returned records cannot alter subsequent queries.
+    Descriptions and scoring consume only these permitted candidates.
+    """
+    query_frame = _validate_question(question, index)
+    windows: list[TrackWindow] = []
+    for history in index.histories.values():
+        eligible: list[TrackObservation] = []
+        for row in history:
+            if row["frame_id"] > query_frame:
+                break
+            eligible.append(row.copy())
+        windows.extend(_track_windows(tuple(eligible), index.config))
+    return tuple(windows)
+
+
+_CLASS_ALIASES = {
+    "buses": "bus", "cars": "car", "trucks": "truck", "vans": "van",
+    "bicycles": "bicycle", "bikes": "bicycle", "bike": "bicycle",
+    "motorcycles": "motorcycle", "motorbikes": "motorcycle", "motorbike": "motorcycle",
+    "pedestrians": "pedestrian", "people": "person", "persons": "person",
+    "vehicles": "vehicle", "automobiles": "car", "automobile": "car",
+}
+_LOCATION_ALIASES = {
+    "left": "left", "right": "right", "center": "center", "centre": "center",
+    "top": "top", "upper": "top", "middle": "middle",
+    "bottom": "bottom", "lower": "bottom",
+}
+_MOTION_VERBS = frozenset((
+    "move", "moves", "moving", "moved", "heading", "going",
+    "travel", "travels", "traveling", "travelling", "drive", "drives", "driving",
+))
+_DIRECTIONS = {
+    "left": "leftward", "right": "rightward", "up": "upward", "down": "downward",
+}
+_DIRECTION_PHRASES = {
+    **_DIRECTIONS,
+    **{word: direction for direction in _DIRECTIONS.values()
+       for word in (direction, direction + "s")},
+}
+_MOTION_ALIASES = {
+    **{word: "moving" for word in _MOTION_VERBS},
+    **{word: "stationary" for word in (
+        "stationary", "stopped", "stopping", "stop", "parked", "standing", "still",
+    )},
+    **{word: "entering" for word in ("enter", "enters", "entered", "entering")},
+    **{word: "exiting" for word in (
+        "exit", "exits", "exited", "exiting", "leave", "leaves", "leaving",
+    )},
+    **{word: direction for direction in _DIRECTIONS.values()
+       for word in (direction, direction + "s")},
+    "up": "upward", "down": "downward",
+}
+_MOVEMENT_THRESHOLD = 0.02
+_EDGE_MARGIN = 0.05
+
+
+@dataclass(frozen=True)
+class _TextFeatures:
+    """Canonical keyword descriptions, kept separate to distinguish place/motion."""
+
+    class_terms: frozenset[str]
+    location_terms: frozenset[str]
+    movement_terms: frozenset[str]
+
+
+def _tokens(text: str) -> list[str]:
+    """Normalize case, punctuation and shared class vocabulary without a model."""
+    return [_CLASS_ALIASES.get(word, word)
+            for word in re.findall(r"[^\W_]+", text.casefold())]
+
+
+def _question_features(text: str) -> _TextFeatures:
+    """Parse generic direction phrases before standalone position/motion words."""
+    tokens = _tokens(text)
+    classes: set[str] = set()
+    locations: set[str] = set()
+    movements: set[str] = set()
+    position = 0
+    while position < len(tokens):
+        word = tokens[position]
+        # 'moving [to/toward/towards] [the] left', and analogous directions.
+        if word in _MOTION_VERBS:
+            end = position + 1
+            if end < len(tokens) and tokens[end] in ("to", "toward", "towards"):
+                end += 1
+            if end < len(tokens) and tokens[end] == "the":
+                end += 1
+            if end < len(tokens) and tokens[end] in _DIRECTION_PHRASES:
+                movements.add(_DIRECTION_PHRASES[tokens[end]])
+                position = end + 1
+                continue
+        # Also recognize adjectives such as 'left-moving bus'.
+        if (word in _DIRECTION_PHRASES and position + 1 < len(tokens)
+                and tokens[position + 1] in _MOTION_VERBS):
+            movements.add(_DIRECTION_PHRASES[word])
+            position += 2
+            continue
+        if word in _LOCATION_ALIASES:
+            locations.add(_LOCATION_ALIASES[word])
+        elif word in _MOTION_ALIASES:
+            movements.add(_MOTION_ALIASES[word])
+        else:
+            classes.add(word)
+        position += 1
+    return _TextFeatures(frozenset(classes), frozenset(locations), frozenset(movements))
+
+
+def _above_threshold(value: float, threshold: float) -> bool:
+    """Keep exact pixel boundaries stable after normalized floating arithmetic."""
+    return value > threshold and not math.isclose(value, threshold, rel_tol=0, abs_tol=1e-12)
+
+
+def _describe_window(
+    window: TrackWindow, recording: Recording, dimensions: dict[int, tuple[int, int]],
+) -> _TextFeatures:
+    """Derive text only from this permitted window; share metadata lookups per call."""
+    labels: Counter[str] = Counter()
+    boxes: list[tuple[float, float, float, float]] = []
+    for row in window.observations:
+        labels[" ".join(_tokens(row["class_name"]))] += 1
+        frame_id = row["frame_id"]
+        if frame_id not in dimensions:
+            dimensions[frame_id] = _frame_dimensions(recording, frame_id)
+        width, height = dimensions[frame_id]
+        left, top, right, bottom = row["bbox_xyxy"]
+        boxes.append((left / width, top / height, right / width, bottom / height))
+    label = min(labels, key=lambda name: (-labels[name], name))
+    xs = [(left + right) / 2 for left, _, right, _ in boxes]
+    ys = [(top + bottom) / 2 for _, top, _, bottom in boxes]
+    mean_x, mean_y = math.fsum(xs) / len(xs), math.fsum(ys) / len(ys)
+
+    def third(value: float) -> int:
+        return 0 if value < 1 / 3 else 1 if value < 2 / 3 else 2
+
+    locations = frozenset((
+        ("left", "center", "right")[third(mean_x)],
+        ("top", "middle", "bottom")[third(mean_y)],
+    ))
+    movements: set[str] = set()
+    if len(boxes) >= 2:
+        dx, dy = xs[-1] - xs[0], ys[-1] - ys[0]
+        if _above_threshold(max(max(xs) - min(xs), max(ys) - min(ys)), _MOVEMENT_THRESHOLD):
+            movements.add("moving")
+        else:
+            movements.add("stationary")
+        for delta, negative, positive in ((dx, "leftward", "rightward"),
+                                          (dy, "upward", "downward")):
+            if _above_threshold(abs(delta), _MOVEMENT_THRESHOLD):
+                movements.add(positive if delta > 0 else negative)
+        first, last = boxes[0], boxes[-1]
+        first_edges = (first[0], first[1], 1 - first[2], 1 - first[3])
+        last_edges = (last[0], last[1], 1 - last[2], 1 - last[3])
+        for before, after, inward in zip(first_edges, last_edges, (dx, dy, -dx, -dy)):
+            before_inside = _above_threshold(before, _EDGE_MARGIN)
+            after_inside = _above_threshold(after, _EDGE_MARGIN)
+            if (not before_inside and after_inside
+                    and _above_threshold(inward, _MOVEMENT_THRESHOLD)):
+                movements.add("entering")
+            if (before_inside and not after_inside
+                    and _above_threshold(-inward, _MOVEMENT_THRESHOLD)):
+                movements.add("exiting")
+    return _TextFeatures(frozenset(label.split()), locations, frozenset(movements))
+
+
+def _text_score(query: _TextFeatures, description: _TextFeatures, config: RetrievalConfig) -> float:
+    """Fixed weighted overlap; no learned parameters or recording-wide statistics."""
+    def coverage(requested: frozenset[str], observed: frozenset[str]) -> float:
+        return len(requested & observed) / len(requested) if requested else 0.0
+
+    scores = (
+        coverage(description.class_terms, query.class_terms),
+        coverage(query.location_terms, description.location_terms),
+        coverage(query.movement_terms, description.movement_terms),
+    )
+    weights = (config.class_weight, config.location_weight, config.movement_weight)
+    total = sum(float(weight) for weight in weights)
+    return sum(float(weight) * score for weight, score in zip(weights, scores)) / total
+
+
 def rank_evidence(
     question: Question,
     index: RetrievalIndex,
     k: int = 3,
 ) -> list[RankedInterval]:
-    """Return at most k intervals for the question (not implemented yet).
+    """Return up to k intervals ranked by class, location and image-motion text.
 
-    The implementation will accept integer k from 0 through 3 (excluding bool).
-    k=0, an empty index, or no eligible observations will return an empty list.
-    Invalid k or a question for another recording will raise ValueError.
+    Accept integer k from 0 through 3 (excluding bool). Validate the question and
+    rebuild candidates using candidate_windows before scoring. k=0, an empty
+    index, no eligible observations or no positive text match returns []. Invalid k
+    or invalid questions raise ValueError, including when k=0 or the index is empty.
 
     Only the four public Question fields are retrieval inputs; gold answers and
     acceptable evidence are not. Use observations at or before query_frame for
     candidate construction, descriptions and scoring, even with a complete index.
     Repeated calls, including out-of-order query times, must not change the index.
 
-    Returned records will preserve recording/source/track identity and original,
-    inclusive observed frame bounds, with finite scores and ranks 1 through n.
+    Descriptions and weighted overlap follow the module's documented text policy.
+    Ties use ascending (start_frame, end_frame, track_id). Results preserve
+    recording/source/track identity and original inclusive observed frame bounds,
+    with finite scores in [0, 1] and ranks 1 through n. Metadata is looked up at most
+    once per eligible frame per call; image pixels are never opened. Only positive
+    scores are returned, so fewer than k results is normal. A class-only exact
+    match scores 0.5 under default weights, regardless of other indexed vehicles.
     Task 5 owns evidence image export; Task 3 owns answering.
     """
-    raise NotImplementedError("Task 4 evidence ranking is not implemented yet")
+    if type(k) is not int or not 0 <= k <= 3:
+        raise ValueError("k must be an integer from 0 through 3")
+    windows = candidate_windows(question, index)
+    if k == 0 or not windows:
+        return []
+    query = _question_features(question["question"])
+    dimensions: dict[int, tuple[int, int]] = {}
+    scored: list[tuple[float, TrackWindow]] = []
+    for window in windows:
+        description = _describe_window(window, index.recording, dimensions)
+        score = _text_score(query, description, index.config)
+        if score > 0:
+            scored.append((score, window))
+    scored.sort(key=lambda item: (
+        -item[0], item[1].start_frame, item[1].end_frame, item[1].track_id,
+    ))
+    return [
+        {
+            "recording_id": window.recording_id, "source": window.source,
+            "track_id": window.track_id, "start_frame": window.start_frame,
+            "end_frame": window.end_frame, "rank": rank, "score": score,
+        }
+        for rank, (score, window) in enumerate(scored[:k], start=1)
+    ]

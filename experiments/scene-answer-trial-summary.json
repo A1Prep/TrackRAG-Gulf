@@ -1,0 +1,495 @@
+{
+  "version": 1,
+  "scope": "Five selected development cases following a missing-context fix. No held-out accuracy or full answer-regression score.",
+  "executed_code_commit": "5c3a56c2f82fa9855413e294b70c8cc03f2cdecf",
+  "requested_model": "gemini-3.5-flash-lite",
+  "observation_source": "Task 2 human-labeled observations; no trained detector or Qwen model used",
+  "live_model_call_count": 5,
+  "unattempted_question_ids": [],
+  "answer_status_counts": {
+    "answered": 3,
+    "insufficient_evidence": 2
+  },
+  "local_trial_summary_sha256": "4c2d9545a9a029f379416c4920100fc67762a6fc044160ebabaa9c703c8eeb9f",
+  "review": {
+    "type": "AI-assisted independent review",
+    "human_validated": false,
+    "reviewed_case_count": 5,
+    "cases_matching_development_expectations": 5,
+    "scope": "Selected development cases only; no held-out accuracy estimate or fresh verification of the other31 live answers."
+  },
+  "cases": [
+    {
+      "question": {
+        "question_id": "temporal-16",
+        "recording_id": "video_054604",
+        "query_frame": 150,
+        "question": "What street name is printed on the blue exit sign visible near the end?"
+      },
+      "answer": {
+        "answer_status": "answered",
+        "answer": "The street name printed on the blue exit sign is Hessa St.",
+        "cited_evidence_ids": [
+          "E1"
+        ]
+      },
+      "evidence": [
+        {
+          "evidence_id": "E1",
+          "interval": {
+            "recording_id": "video_054604",
+            "source": "annotated",
+            "track_id": null,
+            "start_frame": 150,
+            "end_frame": 150,
+            "rank": 1,
+            "score": 0.0
+          },
+          "images": [
+            {
+              "frame_id": 150,
+              "bbox_xyxy": null,
+              "image_path": "evidence/scene/150.png"
+            }
+          ]
+        }
+      ],
+      "run_directory": "runs/task5-scene-live-01/temporal-16",
+      "requested_model": "gemini-3.5-flash-lite",
+      "provider_usage": {
+        "promptTokenCount": 1310,
+        "candidatesTokenCount": 52,
+        "totalTokenCount": 1362,
+        "promptTokensDetails": [
+          {
+            "modality": "TEXT",
+            "tokenCount": 210
+          },
+          {
+            "modality": "IMAGE",
+            "tokenCount": 1100
+          }
+        ],
+        "serviceTier": "standard"
+      },
+      "artifact_fingerprints": [
+        {
+          "path": "runs/task5-scene-live-01/temporal-16/run.json",
+          "role": "run.json",
+          "sha256": "2e7e1d0a1c1f3f25aa22576517e89ee73a751585b5af1e478d8e822bd17f2c74"
+        },
+        {
+          "path": "runs/task5-scene-live-01/temporal-16/results.jsonl",
+          "role": "results.jsonl",
+          "sha256": "9b559597e4e309e23a922677bcbeb4e3dd2bb89e633864e352748a66534dfc44"
+        },
+        {
+          "path": "runs/task5-scene-live-01/temporal-16/tracks.jsonl",
+          "role": "tracks.jsonl",
+          "sha256": "502d605dc87f983ba79df5b872cd34e168a108a11dbd36b3dfafedb972f42f93"
+        },
+        {
+          "path": "runs/task5-scene-live-01/temporal-16/evidence/scene/150.png",
+          "role": "evidence_image",
+          "sha256": "8756908773b834370d58d6d3331dc91b75d515797049af31c73c2005123dcf71"
+        },
+        {
+          "path": "runs/task5-scene-live-01/temporal-16/hosted/f9251e7166f12c457ed3a1af8170b1b6c95483c08c02a1aac3f8dd30dad92756/E1-150.jpg",
+          "role": "provider_input",
+          "sha256": "e172a1098fc310add6bfc1d673768459307c0fc2f8e2d5ecb4d6e99474e20d8f"
+        },
+        {
+          "path": "runs/task5-scene-live-01/temporal-16/hosted/f9251e7166f12c457ed3a1af8170b1b6c95483c08c02a1aac3f8dd30dad92756/receipt.json",
+          "role": "provider_receipt",
+          "sha256": "b4beda8cc0bf69e29fb8596090b350d8e86fbb8e1c41f4fbe1396fbe79393eec"
+        }
+      ],
+      "independent_review": {
+        "grade": "pass",
+        "note": "Hessa St is readable in processed scene150; E1 is correctly cited."
+      }
+    },
+    {
+      "question": {
+        "question_id": "second-03",
+        "recording_id": "video_054907",
+        "query_frame": 100,
+        "question": "What distinctive structure is mounted above the white pickup's bed?"
+      },
+      "answer": {
+        "answer_status": "answered",
+        "answer": "A metal cage-like or rack structure is mounted above the white pickup's bed.",
+        "cited_evidence_ids": [
+          "E1"
+        ]
+      },
+      "evidence": [
+        {
+          "evidence_id": "E1",
+          "interval": {
+            "recording_id": "video_054907",
+            "source": "annotated",
+            "track_id": null,
+            "start_frame": 100,
+            "end_frame": 100,
+            "rank": 1,
+            "score": 0.0
+          },
+          "images": [
+            {
+              "frame_id": 100,
+              "bbox_xyxy": null,
+              "image_path": "evidence/scene/100.png"
+            }
+          ]
+        }
+      ],
+      "run_directory": "runs/task5-scene-live-01/second-03",
+      "requested_model": "gemini-3.5-flash-lite",
+      "provider_usage": {
+        "promptTokenCount": 1308,
+        "candidatesTokenCount": 56,
+        "totalTokenCount": 1364,
+        "promptTokensDetails": [
+          {
+            "modality": "IMAGE",
+            "tokenCount": 1100
+          },
+          {
+            "modality": "TEXT",
+            "tokenCount": 208
+          }
+        ],
+        "serviceTier": "standard"
+      },
+      "artifact_fingerprints": [
+        {
+          "path": "runs/task5-scene-live-01/second-03/run.json",
+          "role": "run.json",
+          "sha256": "41836185c8877c7ea0c4ad2f156786faade72aab767ecbd94b69e55c03a539d3"
+        },
+        {
+          "path": "runs/task5-scene-live-01/second-03/results.jsonl",
+          "role": "results.jsonl",
+          "sha256": "3c59c584bc9dbf1db733be1e266098d7a08ca7df21c42df5bc4a0565ba1c876e"
+        },
+        {
+          "path": "runs/task5-scene-live-01/second-03/tracks.jsonl",
+          "role": "tracks.jsonl",
+          "sha256": "212dc750601322a7c55d4e4cd80d53575406f839ca763ad30d1b3ad172ac6aa0"
+        },
+        {
+          "path": "runs/task5-scene-live-01/second-03/evidence/scene/100.png",
+          "role": "evidence_image",
+          "sha256": "17449f5af1528be90acf1147f2adb2d375178b9cb7df7e530ca4af6180407d7a"
+        },
+        {
+          "path": "runs/task5-scene-live-01/second-03/hosted/198ce192720aa213a5a5f1a0f9f869bb5d3b12ad76a0cdaa1f6fc19af50bcc1c/E1-100.jpg",
+          "role": "provider_input",
+          "sha256": "1868a15ef18e4789532eccfeac6e0870de577b739dc22c33dd0f24ad43d9ee1a"
+        },
+        {
+          "path": "runs/task5-scene-live-01/second-03/hosted/198ce192720aa213a5a5f1a0f9f869bb5d3b12ad76a0cdaa1f6fc19af50bcc1c/receipt.json",
+          "role": "provider_receipt",
+          "sha256": "26b02f8eeccae5539adf7b59a3980e0af1e772c23119e809f705c00deec8c4e8"
+        }
+      ],
+      "independent_review": {
+        "grade": "pass",
+        "note": "Visible metal rack/framework supports the answer; E1 is correctly cited."
+      }
+    },
+    {
+      "question": {
+        "question_id": "second-07",
+        "recording_id": "video_054907",
+        "query_frame": 75,
+        "question": "Is there an overpass directly above the roadway in the current frame?"
+      },
+      "answer": {
+        "answer_status": "answered",
+        "answer": "Yes, there is an overpass directly above the roadway in frame 75.",
+        "cited_evidence_ids": [
+          "E1"
+        ]
+      },
+      "evidence": [
+        {
+          "evidence_id": "E1",
+          "interval": {
+            "recording_id": "video_054907",
+            "source": "annotated",
+            "track_id": null,
+            "start_frame": 75,
+            "end_frame": 75,
+            "rank": 1,
+            "score": 0.0
+          },
+          "images": [
+            {
+              "frame_id": 75,
+              "bbox_xyxy": null,
+              "image_path": "evidence/scene/75.png"
+            }
+          ]
+        }
+      ],
+      "run_directory": "runs/task5-scene-live-01/second-07",
+      "requested_model": "gemini-3.5-flash-lite",
+      "provider_usage": {
+        "promptTokenCount": 1307,
+        "candidatesTokenCount": 55,
+        "totalTokenCount": 1362,
+        "promptTokensDetails": [
+          {
+            "modality": "TEXT",
+            "tokenCount": 207
+          },
+          {
+            "modality": "IMAGE",
+            "tokenCount": 1100
+          }
+        ],
+        "serviceTier": "standard"
+      },
+      "artifact_fingerprints": [
+        {
+          "path": "runs/task5-scene-live-01/second-07/run.json",
+          "role": "run.json",
+          "sha256": "41836185c8877c7ea0c4ad2f156786faade72aab767ecbd94b69e55c03a539d3"
+        },
+        {
+          "path": "runs/task5-scene-live-01/second-07/results.jsonl",
+          "role": "results.jsonl",
+          "sha256": "66b5941ed664cd5b3eea2aa6bc531ef079895a867a526e76d5e5c9983e451475"
+        },
+        {
+          "path": "runs/task5-scene-live-01/second-07/tracks.jsonl",
+          "role": "tracks.jsonl",
+          "sha256": "212dc750601322a7c55d4e4cd80d53575406f839ca763ad30d1b3ad172ac6aa0"
+        },
+        {
+          "path": "runs/task5-scene-live-01/second-07/evidence/scene/75.png",
+          "role": "evidence_image",
+          "sha256": "adf297afbbed0743cb9318634976c4e183813c5fe96b5c62d13c5be206cc67ff"
+        },
+        {
+          "path": "runs/task5-scene-live-01/second-07/hosted/59c11bdf4593ebf32e72784ac4f6bc5c48af53a32c0b0f787e3b9764c5227f05/E1-75.jpg",
+          "role": "provider_input",
+          "sha256": "e1879be4ef82eba3a612475bf8d04e16f1930b57970757c74ef83c900e0d78d7"
+        },
+        {
+          "path": "runs/task5-scene-live-01/second-07/hosted/59c11bdf4593ebf32e72784ac4f6bc5c48af53a32c0b0f787e3b9764c5227f05/receipt.json",
+          "role": "provider_receipt",
+          "sha256": "545f813ea357c4c7cbc07cc8b14c01e58cdc8b6ed96d348a98e12c60d146c6b2"
+        }
+      ],
+      "independent_review": {
+        "grade": "pass",
+        "note": "Processed scene75 shows the overpass above the roadway; E1 is correctly cited."
+      }
+    },
+    {
+      "question": {
+        "question_id": "second-10",
+        "recording_id": "video_054907",
+        "query_frame": 100,
+        "question": "What is the white pickup's actual speed in kilometres per hour?"
+      },
+      "answer": {
+        "answer_status": "insufficient_evidence",
+        "answer": "The provided image only shows visual context and dashcam telemetry indicating the camera vehicle's speed, but it does not establish the actual physical speed in kilometers per hour of the white pickup.",
+        "cited_evidence_ids": []
+      },
+      "evidence": [
+        {
+          "evidence_id": "E1",
+          "interval": {
+            "recording_id": "video_054907",
+            "source": "annotated",
+            "track_id": null,
+            "start_frame": 100,
+            "end_frame": 100,
+            "rank": 1,
+            "score": 0.0
+          },
+          "images": [
+            {
+              "frame_id": 100,
+              "bbox_xyxy": null,
+              "image_path": "evidence/scene/100.png"
+            }
+          ]
+        }
+      ],
+      "run_directory": "runs/task5-scene-live-01/second-10",
+      "requested_model": "gemini-3.5-flash-lite",
+      "provider_usage": {
+        "promptTokenCount": 1309,
+        "candidatesTokenCount": 69,
+        "totalTokenCount": 1378,
+        "promptTokensDetails": [
+          {
+            "modality": "TEXT",
+            "tokenCount": 209
+          },
+          {
+            "modality": "IMAGE",
+            "tokenCount": 1100
+          }
+        ],
+        "serviceTier": "standard"
+      },
+      "artifact_fingerprints": [
+        {
+          "path": "runs/task5-scene-live-01/second-10/run.json",
+          "role": "run.json",
+          "sha256": "41836185c8877c7ea0c4ad2f156786faade72aab767ecbd94b69e55c03a539d3"
+        },
+        {
+          "path": "runs/task5-scene-live-01/second-10/results.jsonl",
+          "role": "results.jsonl",
+          "sha256": "50b9af7d1218bac5a36a178da6ceb551556b68be49388609341216a626b73f16"
+        },
+        {
+          "path": "runs/task5-scene-live-01/second-10/tracks.jsonl",
+          "role": "tracks.jsonl",
+          "sha256": "212dc750601322a7c55d4e4cd80d53575406f839ca763ad30d1b3ad172ac6aa0"
+        },
+        {
+          "path": "runs/task5-scene-live-01/second-10/evidence/scene/100.png",
+          "role": "evidence_image",
+          "sha256": "17449f5af1528be90acf1147f2adb2d375178b9cb7df7e530ca4af6180407d7a"
+        },
+        {
+          "path": "runs/task5-scene-live-01/second-10/hosted/2ed3091272c560313abaecec1cda861eda4d3efd28f3a58f7a978eca2ea331a6/E1-100.jpg",
+          "role": "provider_input",
+          "sha256": "1868a15ef18e4789532eccfeac6e0870de577b739dc22c33dd0f24ad43d9ee1a"
+        },
+        {
+          "path": "runs/task5-scene-live-01/second-10/hosted/2ed3091272c560313abaecec1cda861eda4d3efd28f3a58f7a978eca2ea331a6/receipt.json",
+          "role": "provider_receipt",
+          "sha256": "3a301cc2d5a917b6484b2ce9c683f7957c0082db5e0eb37ecb4ad6c0204ffcf6"
+        }
+      ],
+      "independent_review": {
+        "grade": "pass",
+        "note": "Correct abstention: camera-vehicle telemetry does not establish pickup speed."
+      }
+    },
+    {
+      "question": {
+        "question_id": "second-11",
+        "recording_id": "video_054907",
+        "query_frame": 150,
+        "question": "What cargo is inside the closed box truck ahead?"
+      },
+      "answer": {
+        "answer_status": "insufficient_evidence",
+        "answer": "The cargo inside the closed box truck cannot be determined from the provided image because the truck's cargo area is completely enclosed and hidden from view.",
+        "cited_evidence_ids": []
+      },
+      "evidence": [
+        {
+          "evidence_id": "E1",
+          "interval": {
+            "recording_id": "video_054907",
+            "source": "annotated",
+            "track_id": null,
+            "start_frame": 150,
+            "end_frame": 150,
+            "rank": 1,
+            "score": 0.0
+          },
+          "images": [
+            {
+              "frame_id": 150,
+              "bbox_xyxy": null,
+              "image_path": "evidence/scene/150.png"
+            }
+          ]
+        }
+      ],
+      "run_directory": "runs/task5-scene-live-01/second-11",
+      "requested_model": "gemini-3.5-flash-lite",
+      "provider_usage": {
+        "promptTokenCount": 1305,
+        "candidatesTokenCount": 61,
+        "totalTokenCount": 1366,
+        "promptTokensDetails": [
+          {
+            "modality": "IMAGE",
+            "tokenCount": 1100
+          },
+          {
+            "modality": "TEXT",
+            "tokenCount": 205
+          }
+        ],
+        "serviceTier": "standard"
+      },
+      "artifact_fingerprints": [
+        {
+          "path": "runs/task5-scene-live-01/second-11/run.json",
+          "role": "run.json",
+          "sha256": "41836185c8877c7ea0c4ad2f156786faade72aab767ecbd94b69e55c03a539d3"
+        },
+        {
+          "path": "runs/task5-scene-live-01/second-11/results.jsonl",
+          "role": "results.jsonl",
+          "sha256": "99a55f618f41547d741be12d151a5ad7e187fea95e410b419b4a0e4dc6e78d2c"
+        },
+        {
+          "path": "runs/task5-scene-live-01/second-11/tracks.jsonl",
+          "role": "tracks.jsonl",
+          "sha256": "212dc750601322a7c55d4e4cd80d53575406f839ca763ad30d1b3ad172ac6aa0"
+        },
+        {
+          "path": "runs/task5-scene-live-01/second-11/evidence/scene/150.png",
+          "role": "evidence_image",
+          "sha256": "7f34a3262c82cfb98e298a8014c3028bbd6807681a563e5a9d15f20e25c89296"
+        },
+        {
+          "path": "runs/task5-scene-live-01/second-11/hosted/2e372f4acfc4fc8e90d0a570a5cb7004748c584a8e08ef430bd9d9fc490f6dc1/E1-150.jpg",
+          "role": "provider_input",
+          "sha256": "bbf01057282451400e1af2d6202431216198a690949cfa6ebaa3128c63baa3e0"
+        },
+        {
+          "path": "runs/task5-scene-live-01/second-11/hosted/2e372f4acfc4fc8e90d0a570a5cb7004748c584a8e08ef430bd9d9fc490f6dc1/receipt.json",
+          "role": "provider_receipt",
+          "sha256": "1a2a239069ca297af9e28cdf7ecc36be5934bbba5a06c80538abd1057b563172"
+        }
+      ],
+      "independent_review": {
+        "grade": "pass",
+        "note": "Correct abstention: the closed cargo compartment conceals its contents."
+      }
+    }
+  ],
+  "limitations": [
+    "Cases were chosen because they previously had empty retrieval; this is development diagnosis, not unbiased final accuracy.",
+    "The other31 tracked request bodies/evidence were unchanged, but their live answers were not replayed.",
+    "The provider receipt records the requested model; no separate provider-reported model revision was captured.",
+    "Real trained detector/tracker and Qwen reranker integration and independent held-out evaluation remain required."
+  ],
+  "question_inputs": [
+    {
+      "path": "experiments/temporal-development-questions.jsonl",
+      "sha256": "af907b3bda35ec311fd0e20d6f0a3a2bf0f66f3a4b69367915d583e63bcbc769"
+    },
+    {
+      "path": "experiments/temporal-second-questions.jsonl",
+      "sha256": "2dc223ebf820185418ef2ab7b5fa693a19691fb7e7c0da6322d8353046fd3433"
+    }
+  ],
+  "request_settings": {
+    "temperature": 0,
+    "max_output_tokens": 2048,
+    "processed_image_max_size": [
+      1024,
+      576
+    ],
+    "model_selection": "TRACKRAG_TRIAL_MODEL=gemini-3.5-flash-lite",
+    "run_method": "Five one-question production review_recording calls, starts at least13seconds apart, stopping after first provider/application error; selected public EMT frames use the existing privacy processing."
+  }
+}

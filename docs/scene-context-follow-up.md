@@ -49,6 +49,22 @@ The original 36 questions retain 31 lexical results and gain five zero-score sce
 
 All 31 previous result records and 98 cited image files are unchanged. Comparing the old and new answer-request builders on these same inputs produced 31 byte-identical provider request bodies with HTTP mocked. This verifies unchanged inputs, not unchanged model answers. No live model call was made.
 
-The five new scene exports are pixel-identical to their original frames. Four unique processed inputs were generated locally using the actual privacy/resize function, at 1024 by 576, without uploading them. The processed sign and pickup frames were inspected: the Hessa St lettering and metal framework remain visible. The overpass is visible in the original query-frame export. Actual answer generation remains unverified for this revision; the speed and concealed-cargo facts remain unestablished.
+The five new scene exports are pixel-identical to their original frames. Four unique processed inputs were generated locally using the actual privacy/resize function, at 1024 by 576, without uploading them during the offline check. The processed sign and pickup frames were inspected: the Hessa St lettering and metal framework remain visible. The overpass is visible in the original query-frame export. Those offline checks did not test answer generation; the subsequent live check is recorded below. The speed and concealed-cargo facts remain unestablished.
 
 The full local suite passes 181 tests and 67 subtests. Independent review passes 12 focused tests and nine subtests, with no blocking finding; Windows/Linux CI passed on the implementation. The local `report.html` files in each recording's run folder show the evidence and context-only warnings.
+
+## Subsequent bounded live check
+
+The five new scene cases were then tested through the production reviewer and actual hosted answer adapter, using code `5c3a56c2f82fa9855413e294b70c8cc03f2cdecf` and explicitly selecting `TRACKRAG_TRIAL_MODEL=gemini-3.5-flash-lite`. Five requests completed, with starts spaced at least 13 seconds apart. Only the authorized, privacy-processed public EMT scene frames were sent. The [live trial summary](../experiments/scene-answer-trial-summary.json) preserves the questions, answers, provider usage, source revision, request settings and hashes for results, evidence, processed inputs and receipts.
+
+| Case | Delivered result | Status / citations |
+| --- | --- | --- |
+| temporal-16 | Hessa St | Answered, E1 |
+| second-03 | Metal cage-like/rack structure above the pickup bed | Answered, E1 |
+| second-07 | Overpass directly above the roadway in frame 75 | Answered, E1 |
+| second-10 | Actual pickup speed is not established by camera-vehicle telemetry | Insufficient evidence, no citations |
+| second-11 | Cargo is concealed by the closed compartment | Insufficient evidence, no citations |
+
+An independent AI-assisted reviewer inspected the saved answers and processed images against the development references. All five had supported factual/status/citation outcomes, and all five passed the artifact auditor. This is not human validation or held-out accuracy: the cases were selected because their earlier searches were empty. The other 31 live answers were not replayed; their evidence and request bodies were verified unchanged in the offline regression.
+
+The legacy provider receipt captures the requested model but not a separate provider-reported revision. These runs use human annotations and the simple development retriever. The trained detector/tracker, Qwen reranker, Task 3 answerer and independent evaluation remain the next integration work. For reproduction, select each saved four-field question from the existing banks and run the standard `trackrag review` command for its recording with `--source annotated --answerer gemini --adapters tools.emt_trial_adapters`, the explicit model environment setting above, and a fresh output directory. Respect the provider's current limits.

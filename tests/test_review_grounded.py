@@ -15,9 +15,9 @@ from trackrag.review import review_recording
 
 class Frames:
     recording_id='a'
-    def __init__(self,root):
+    def __init__(self,root,count=6):
         self.frames={}
-        for number in range(1,7):
+        for number in range(1,count+1):
             path=root/f'{number}.png'
             Image.new('RGB',(32,24),(number,40,80)).save(path)
             self.frames[number]={'recording_id':'a','frame_id':number,'width':32,'height':24,
@@ -44,7 +44,7 @@ class GroundedTests(unittest.TestCase):
 
     def reply(self,parts,schema,role,receipt_path=None,metadata=None,**kwargs):
         self.calls.append((role,parts,kwargs))
-        response={'selected':['T7-F1-F5'],'requested_frame_ids':[2,5]} if role=='evidence selection' else {
+        response={'selected':['T7'],'requested_frame_ids':[2,5]} if role=='evidence selection' else {
             'answer_status':'answered','answer':'The annotated motorcycle grows between frames2 and5.','cited_evidence_ids':['E1']}
         kwargs['validate'](response)
         if receipt_path:
@@ -90,10 +90,32 @@ class GroundedTests(unittest.TestCase):
             ranked=grounded.rank_evidence(question,index)
         self.assertEqual((ranked[0]['start_frame'],ranked[0]['end_frame']),(1,5))
 
+    def test_identity_catalog_does_not_multiply_a_long_history_into_windows(self):
+        directory=self.root/'long'
+        directory.mkdir()
+        recording=Frames(directory,count=60)
+        rows=[dict(self.rows[0],frame_id=number) for number in range(1,61)]
+        question=dict(self.question,query_frame=60)
+        candidates=grounded.candidates_at_query(question,grounded.build_index(recording,rows))
+        self.assertEqual([(row['candidate_id'],row['start_frame'],row['end_frame']) for row in candidates],[('T7',1,60)])
+        context=grounded.selection_context(candidates)
+        self.assertEqual(context['tracks'][0]['candidate_id'],'T7')
+        self.assertNotIn('windows',context['tracks'][0])
+
+    def test_single_selector_timestamp_keeps_the_identity_history(self):
+        def reply(parts,schema,role,receipt_path=None,metadata=None,**kwargs):
+            value={'selected':['T7'],'requested_frame_ids':[5]}
+            kwargs['validate'](value)
+            Path(receipt_path).write_text(json.dumps({'request_status':'completed','response':value}))
+            return value
+        with patch.object(grounded,'request_json',side_effect=reply):
+            ranked=grounded._select_evidence(self.question,grounded.build_index(self.recording,self.rows),self.root/'selection.json')
+        self.assertEqual((ranked[0]['start_frame'],ranked[0]['end_frame']),(1,5))
+
     def test_future_rows_cannot_change_stable_candidate_tokens_or_gallery_metadata(self):
         index=grounded.build_index(self.recording,self.rows)
         before=grounded.candidates_at_query(self.question,index)
-        self.assertTrue(all(c['candidate_id'].startswith(('T7-F','scene-F')) for c in before))
+        self.assertEqual([c['candidate_id'] for c in before],['T7'])
         index['tracks'][999]=[dict(self.rows[-1],track_id=999,class_name='FutureSecret')]
         self.assertEqual(before,grounded.candidates_at_query(self.question,index))
         _,sent=grounded.identity_views(self.question,index)

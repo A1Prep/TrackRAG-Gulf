@@ -21,7 +21,6 @@ from tools.emt_trial_adapters import (
 )
 from tools.temporal_trial_adapters import (
     history_facts, selection_context as _selection_context, selector_views, _attention_image,
-    candidates_at_query as _candidates,
 )
 from tools.trial_gemini import request_json
 
@@ -36,10 +35,18 @@ def build_index(recording, tracks):
 
 
 def candidates_at_query(question, index):
-    return [dict(row, candidate_id=(
-        f"scene-F{row['start_frame']}" if row['track_id'] is None else
-        f"T{row['track_id']}-F{row['start_frame']}-F{row['end_frame']}"
-    )) for row in _candidates(question,index)]
+    recording=index['recording']
+    if question['recording_id']!=recording.recording_id:
+        raise ValueError('Question and index belong to different recordings')
+    first=next(recording.iter_frames())['frame_id']
+    candidates=[]
+    for track,observations in sorted(index['tracks'].items()):
+        rows=[row for row in observations if row['frame_id']<=question['query_frame']]
+        if rows:
+            history=history_facts(rows,first)
+            candidates.append({'candidate_id':f'T{track}','track_id':track,'start_frame':rows[0]['frame_id'],
+                               'end_frame':rows[-1]['frame_id'],'history':history,'window':history})
+    return candidates
 
 
 def selection_context(candidates):
@@ -48,6 +55,7 @@ def selection_context(candidates):
         history=track['history']
         history['first_box_area_pixels2']=history['first_size_wh_pixels'][0]*history['first_size_wh_pixels'][1]
         history['last_box_area_pixels2']=history['last_size_wh_pixels'][0]*history['last_size_wh_pixels'][1]
+        track['candidate_id']=track.pop('windows')[0]['candidate_id']
     return context
 
 
@@ -111,7 +119,7 @@ def _select_evidence(question, index, receipt_path, k=3):
     # Track history is shared by its windows. Send it once, rather than repeating
     # the same history for every overlapping candidate and spending the quota.
     prompt = (
-        "Select up to three evidence candidates for a driving-footage question. Do not answer it. "
+        "Select up to two observed road-user identities for a driving-footage question. Do not answer it. "
         "Use meaning, object class and time constraints, including paraphrases. "
         "The boxes are left/top/right/bottom original-image pixels. Compare observed changes when relevant. "
         "Use the supplied initial/current scene images to identify appearance and distinguish objects sharing a class. "
@@ -119,9 +127,10 @@ def _select_evidence(question, index, receipt_path, k=3):
         "Annotation classes are broad: Car does not exclude a visually supported SUV subtype. Keep the annotation category separate from visible body shape. Gallery times are explicit; use scene snapshots for current visibility. "
         "Gallery crops are resized independently. Compare original-pixel box areas and dimensions at the requested time when assessing apparent size; crop magnification is not physical size. "
         "T labels map visible objects to track IDs. Other objects remain in the scene; missing labels do not imply visual absence. "
-        "Candidate IDs contain that same T identity and their observed F frame endpoints. Match a gallery label to the identical T prefix before selecting its window; different windows of one track are not different objects. Scene candidates have no track identity. "
-        "Choose full-scene snapshots for current presence/absence, signs or lighting. "
-        "For temporal questions prefer sufficient history with a clear later view, and context distinguishing earlier objects. "
+        "Candidate IDs are exactly the T labels in the gallery. Each identity occurs once and includes its full observable history. Choose identities first; do not choose a different vehicle merely because a partial window resembles a requested time. "
+        "When similarly coloured or structured vehicles match, use class, body shape, original pixel scale and requested time together. A shared accessory alone does not establish identity. "
+        "The caller always supplies the current full scene. For signs, lighting or current visible presence/absence, return an empty selected list if no particular tracked identity is needed. "
+        "For temporal questions select the same identity whose history supports the comparison. "
         "Also extract requested_frame_ids: exact observation frames requested by the question, with at most two comparison endpoints. "
         "For a comparison against the beginning, use the first available frame as its opening endpoint. "
         "For general history questions without specific endpoints, return []. Do not confuse track IDs with frame IDs. "
@@ -132,13 +141,13 @@ def _select_evidence(question, index, receipt_path, k=3):
         f"Candidates: {json.dumps(selection_context(candidates))}"
     )
     schema = {"type": "OBJECT", "required": ["selected", "requested_frame_ids"], "properties": {
-        "selected": {"type": "ARRAY", "maxItems": k, "items": {"type": "STRING", "enum": [row["candidate_id"] for row in candidates]}},
+        "selected": {"type": "ARRAY", "maxItems": min(2,k), "items": {"type": "STRING", "enum": [row["candidate_id"] for row in candidates]}},
         "requested_frame_ids": {"type": "ARRAY", "maxItems": 2, "items": {"type": "INTEGER"}},
     }}
     lookup = {row["candidate_id"]: row for row in candidates}
     def validate(response):
         chosen = response.get("selected")
-        if (not isinstance(chosen, list) or len(chosen) > k
+        if (not isinstance(chosen, list) or len(chosen) > min(2,k)
                 or any(not isinstance(value, str) or value not in lookup for value in chosen)
                 or len(set(chosen)) != len(chosen)):
             raise ValueError("Selector returned invalid or duplicate evidence candidates")
@@ -166,7 +175,7 @@ def _select_evidence(question, index, receipt_path, k=3):
     for candidate_id in chosen:
         candidate = lookup[candidate_id]
         start, end = candidate["start_frame"], candidate["end_frame"]
-        if candidate["track_id"] is not None and requested:
+        if candidate["track_id"] is not None and len(requested)>1:
             observed = {row["frame_id"] for row in index["tracks"][candidate["track_id"]] if row["frame_id"] <= question["query_frame"]}
             if all(frame in observed for frame in requested):
                 start, end = requested[0], requested[-1]
@@ -217,12 +226,17 @@ def rank_evidence(question,index,k=3):
         trace={'question_id':question['question_id'],'role':'explicit track reference lookup','request_status':'not_requested',
                'selection_images':[],'identity_images':[],'requested_track_ids':references}
     else:
-        cache_root=Path(os.environ.get('TRACKRAG_TRIAL_CACHE','runs/temporal-request-cache'))
-        cache_root.mkdir(parents=True,exist_ok=True)
-        with tempfile.TemporaryDirectory(prefix='trackrag-selection-',dir=cache_root) as temporary:
-            receipt=Path(temporary)/'receipt.json'
-            selected=_select_evidence(question,index,receipt)
-            trace=json.loads(receipt.read_text(encoding='utf-8'))
+        if not candidates_at_query(question,index):
+            selected=[]
+            trace={'question_id':question['question_id'],'role':'empty identity catalog lookup','request_status':'not_requested',
+                   'selection_images':[],'identity_images':[]}
+        else:
+            cache_root=Path(os.environ.get('TRACKRAG_TRIAL_CACHE','runs/temporal-request-cache'))
+            cache_root.mkdir(parents=True,exist_ok=True)
+            with tempfile.TemporaryDirectory(prefix='trackrag-selection-',dir=cache_root) as temporary:
+                receipt=Path(temporary)/'receipt.json'
+                selected=_select_evidence(question,index,receipt)
+                trace=json.loads(receipt.read_text(encoding='utf-8'))
     # Merge selected windows of one identity. Different windows are not different
     # vehicles, and should not consume every evidence slot.
     grouped={}

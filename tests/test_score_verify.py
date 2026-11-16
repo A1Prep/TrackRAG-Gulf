@@ -281,7 +281,7 @@ class RetrievalVerificationTests(unittest.TestCase):
         def wire(request,**kwargs):
             body=json.loads(request.data)
             required=body['generationConfig']['responseSchema']['required']
-            response={'selected':['T7-F1-F2'],'requested_frame_ids':[]} if 'selected' in required else {
+            response={'selected':['T7'],'requested_frame_ids':[]} if 'selected' in required else {
                 'answer_status':'answered','answer':'The bus.','cited_evidence_ids':['E1']}
             return io.BytesIO(json.dumps({'modelVersion':'test-model','candidates':[{'content':{'parts':[{'text':json.dumps(response)}]}}]}).encode())
         output=self.root/'live-mocked'

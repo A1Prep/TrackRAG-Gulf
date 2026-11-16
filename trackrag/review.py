@@ -3,6 +3,7 @@
 import json
 import math
 import tempfile
+import time
 from collections.abc import Callable, Iterable, Sequence
 from copy import deepcopy
 from pathlib import Path
@@ -234,5 +235,18 @@ def review_recording(
                 }
                 results.write(json.dumps(result, allow_nan=False) + "\n")
         # Publish the images and their references together. Incomplete runs are removed.
-        run_dir.rename(output_dir)
+        # Windows indexers may briefly hold a just-written image/receipt open.
+        # Retry only native sharing/access errors; a persistent failure stays an
+        # error and an existing destination is never overwritten.
+        for attempt,delay in enumerate((0,0.05,0.15,0.3)):
+            if output_dir.exists():
+                raise FileExistsError(f"Output directory was created during review: {output_dir}")
+            if delay:
+                time.sleep(delay)
+            try:
+                run_dir.rename(output_dir)
+                break
+            except PermissionError as error:
+                if getattr(error,'winerror',None) not in {5,32,33} or attempt==3:
+                    raise
     return output_dir / "results.jsonl"

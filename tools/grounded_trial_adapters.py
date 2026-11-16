@@ -142,6 +142,7 @@ def _select_evidence(question, index, receipt_path, k=3):
         "Prefer recall when a description could match similar-looking objects: include both best plausible identities for the answerer to disambiguate with their actual histories, rather than guessing only one. "
         "The caller always supplies the current full scene. For signs, lighting or current visible presence/absence, return an empty selected list if no particular tracked identity is needed. "
         "For temporal questions select the same identity whose history supports the comparison. "
+        "The query frame is a cutoff, not a requirement that a target remains visible then. Earlier histories remain valid when a vehicle leaves before the cutoff; do not substitute a currently visible lookalike just to obtain a box at the final frame. The caller supplies the current scene separately. "
         "Also extract requested_frame_ids: exact observation frames requested by the question, with at most two comparison endpoints. "
         "For a comparison against the beginning, use the first available frame as its opening endpoint. "
         "For general history questions without specific endpoints, return []. Do not confuse track IDs with frame IDs. "

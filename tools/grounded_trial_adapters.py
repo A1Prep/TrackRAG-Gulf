@@ -156,7 +156,8 @@ def _select_evidence(question, index, receipt_path, k=3):
         "question_id": question["question_id"], "recording_id": question["recording_id"],
         "query_frame": question["query_frame"], "selection_images": sent,
         "identity_images": gallery_sent,
-    }, validate=validate, repair_once=True, receipt_path=receipt_path)
+    }, validate=validate, repair_once=True, receipt_path=receipt_path,
+        model_override=os.environ.get('TRACKRAG_SELECTION_MODEL'))
     validate(selected)
     chosen = selected["selected"]
     ranked = []
@@ -233,7 +234,7 @@ def rank_evidence(question,index,k=3):
         else:
             key=('track',track)
             observed={row['frame_id'] for row in index['tracks'][track] if row['frame_id']<=question['query_frame']}
-            if requested and all(frame in observed and frame<=question['query_frame'] for frame in requested):
+            if len(requested)>1 and all(frame in observed and frame<=question['query_frame'] for frame in requested):
                 interval=dict(interval,start_frame=min(requested),end_frame=max(requested))
         if key in grouped:
             grouped[key]['start_frame']=min(grouped[key]['start_frame'],interval['start_frame'])
@@ -294,16 +295,22 @@ def answer_question(question,evidence,run_dir):
                 history['last_box_touches_image_edge']={
                     'left':matched[-1]['bbox_xyxy'][0]<=1,'right':matched[-1]['bbox_xyxy'][2]>=width-1,
                     'top':matched[-1]['bbox_xyxy'][1]<=1,'bottom':matched[-1]['bbox_xyxy'][3]>=height-1}
-        facts.append({'evidence_id':item['evidence_id'],'interval':interval,'observed_facts':history})
+        facts.append({'evidence_id':item['evidence_id'],'interval':interval,
+                      'kind':'full scene' if interval['track_id'] is None else 'tracked identity',
+                      'observed_facts':history})
     prompt=(
         'Answer the driving-footage question using only these supplied scene views and observed facts. '
         'Track classes and boxes are human annotations in this development run. They can establish annotation class and image-relative motion even when a small subject is privacy-masked; say when you rely on those facts. '
         'A full-scene evidence ID has no selected vehicle identity. A track evidence ID refers only to its highlighted/cropped identity. Cite the evidence that actually supports the requested object, not a nearby similar vehicle. '
-        'The inventory lists the exact image frames supplied. Do not assert a requested endpoint or current presence/absence unless those times are supported by the cited inventory. A zero-score current scene supplies context, not a confidence score. '
-        'Use box widths/heights and computed center displacement for image growth and direction. Never infer physical speed, lane changes, intentions or passenger counts from image motion. Dashcam telemetry describes the camera vehicle. '
+        'The inventory lists the exact image frames supplied. Do not assert a requested endpoint or current presence/absence unless those times are supported by the cited inventory. '
+        'A full-scene image is direct visual evidence at its labelled frame, even without object annotations or a highlighted track. It can support visible presence or absence, sign text and lighting. Do not require annotations to inspect visible scene content. '
+        'A zero-score scene was added automatically; the score does not invalidate its pixels or indicate that its contents are unknown. Visible absence means the requested object is not visibly present, not that hidden objects cannot exist. '
+        'Use box widths/heights and computed center displacement for image growth and direction. Never infer physical speed, lane changes, intentions or passenger counts from image motion. Image growth alone does not establish physical approach, distance change or acceleration. Dashcam telemetry describes the camera vehicle. '
         'First annotation is not first visibility or proof of entry. Missing annotations do not prove absence. Describe visible clipping or image-edge motion without inventing a physical maneuver. '
         'Describe visible colour/appearance and qualify uncertain paint colour under glare, masking or poor resolution. Avoid unsupported precision. '
-        'For hidden, masked, future or unmeasured facts return insufficient_evidence with a brief specific explanation and no citations. Do not treat every visual question as unanswerable just because exact physical measurements are unavailable. '
+        'Lower vehicle regions and labelled people were privacy-masked. Do not invent that a particular window or interior was masked unless the image establishes it. '
+        'For hidden, masked, future or unmeasured facts return insufficient_evidence with a brief specific explanation and no citations. Explain what the views do not resolve without inventing a cause. Do not treat every visual question as unanswerable just because exact physical measurements are unavailable. '
+        'Answer the asked property concisely; avoid unnecessary mechanisms, physical claims or precision. '
         'Return JSON answer_status (answered or insufficient_evidence), nonempty answer text, and cited_evidence_ids. '
         f"Query cutoff: {question['query_frame']}. Question: {question['question']}\n"
         f'Sent image inventory: {json.dumps(inventory)}\nObserved evidence facts: {json.dumps(facts)}'

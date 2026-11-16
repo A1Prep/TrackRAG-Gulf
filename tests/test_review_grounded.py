@@ -80,6 +80,16 @@ class GroundedTests(unittest.TestCase):
         self.assertEqual([role for role,_,_ in self.calls],['grounded answer'])
         audit_run(directory,{'q':question})
 
+    def test_single_explicit_frame_does_not_erase_selector_comparison_start(self):
+        question=dict(self.question,question='Does it grow between the beginning and frame5?')
+        index=grounded.build_index(self.recording,self.rows)
+        def select(question,index,receipt_path,k=3):
+            Path(receipt_path).write_text(json.dumps({'question_id':'q','request_status':'completed'}))
+            return [{'recording_id':'a','source':'annotated','track_id':7,'start_frame':1,'end_frame':5,'rank':1,'score':1.0}]
+        with patch.object(grounded,'_select_evidence',side_effect=select):
+            ranked=grounded.rank_evidence(question,index)
+        self.assertEqual((ranked[0]['start_frame'],ranked[0]['end_frame']),(1,5))
+
     def test_future_rows_cannot_change_stable_candidate_tokens_or_gallery_metadata(self):
         index=grounded.build_index(self.recording,self.rows)
         before=grounded.candidates_at_query(self.question,index)

@@ -26,6 +26,7 @@ def main(argv=None):
     parser.add_argument('--questions',type=Path,nargs='+',required=True)
     parser.add_argument('--adapters',required=True)
     parser.add_argument('--model',required=True)
+    parser.add_argument('--selection-model',help='Optional separate Gemini model for evidence selection')
     parser.add_argument('--out',type=Path,required=True)
     parser.add_argument('--include',nargs='+')
     parser.add_argument('--exclude',nargs='+',default=[])
@@ -44,6 +45,8 @@ def main(argv=None):
         parser.error('No questions remain')
     module=import_module(args.adapters)
     os.environ['TRACKRAG_TRIAL_MODEL']=args.model
+    if args.selection_model:
+        os.environ['TRACKRAG_SELECTION_MODEL']=args.selection_model
     if not os.environ.get('GEMINI_API_KEY'):
         parser.error('GEMINI_API_KEY is required')
     args.out.mkdir(parents=True)
@@ -53,6 +56,7 @@ def main(argv=None):
         revision=None
     summary={'version':1,'scope':'Fresh annotated development cohort; no held-out accuracy claim',
              'executed_code_commit':revision,'adapter_module':args.adapters,'requested_model':args.model,
+             'selection_model':os.environ.get('TRACKRAG_SELECTION_MODEL',args.model),
              'adapter_file_sha256':fingerprint(module.__file__),
              'question_inputs':[{'path':str(path.resolve()),'sha256':fingerprint(path)} for path in args.questions],
              'planned_questions':questions,'cases':[],'unattempted_question_ids':[q['question_id'] for q in questions]}

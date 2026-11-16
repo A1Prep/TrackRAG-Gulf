@@ -25,11 +25,11 @@ def _save_json(path, value):
 
 
 def request_json(parts, schema, role, receipt_path=None, metadata=None, *, validate=None, repair_once=False,
-                 use_cache=True, max_output_tokens=None):
+                 use_cache=True, max_output_tokens=None, model_override=None):
     key = os.environ.get("GEMINI_API_KEY")
     if not key:
         raise ValueError("GEMINI_API_KEY is required for the semantic trial")
-    model = os.environ.get("TRACKRAG_TRIAL_MODEL", "gemini-3.5-flash-lite")
+    model = model_override or os.environ.get("TRACKRAG_TRIAL_MODEL", "gemini-3.5-flash-lite")
     timeout = float(os.environ.get("TRACKRAG_TRIAL_TIMEOUT_SECONDS", "90"))
     if not 1 <= timeout <= 600:
         raise ValueError("TRACKRAG_TRIAL_TIMEOUT_SECONDS must be between 1 and 600")
@@ -126,7 +126,7 @@ def request_json(parts, schema, role, receipt_path=None, metadata=None, *, valid
                 [*parts, correction], schema, role, receipt_path,
                 {**(metadata or {}), "repair_of_request_sha256": signature,
                  "validation_repair": {"error": str(error)[:2000], "rejected_receipt": receipt}}, validate=validate,
-                use_cache=use_cache, max_output_tokens=max_output_tokens,
+                use_cache=use_cache, max_output_tokens=max_output_tokens, model_override=model_override,
             )
         raise
     receipt.update(request_status="completed", cached=False, response=response, usage=raw.get("usageMetadata"),

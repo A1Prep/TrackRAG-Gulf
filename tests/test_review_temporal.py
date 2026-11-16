@@ -218,6 +218,16 @@ class RequestTests(unittest.TestCase):
         self.assertEqual(payload['generationConfig']['maxOutputTokens'],2048)
         self.assertEqual(len(list((self.root/'cache').glob('*.json'))),1)
 
+    def test_explicit_stage_model_uses_its_own_request_and_cache_identity(self):
+        with patch.object(client.urllib.request,'urlopen',side_effect=lambda *a,**k:self.wire({'selected':['C1']})) as network:
+            self.call(model_override='selector-model',receipt_path=self.root/'selector.json')
+            self.call(model_override='answer-model',receipt_path=self.root/'answer.json')
+            self.call(model_override='selector-model')
+        self.assertEqual(network.call_count,2)
+        self.assertIn('/selector-model:',network.call_args_list[0].args[0].full_url)
+        self.assertIn('/answer-model:',network.call_args_list[1].args[0].full_url)
+        self.assertEqual(json.loads((self.root/'selector.json').read_text())['model'],'selector-model')
+
     def test_invalid_cached_result_is_revalidated_and_replaced(self):
         with patch.object(client.urllib.request, "urlopen", side_effect=lambda *a, **k: self.wire({"selected": ["C1"]})) as network:
             self.call(validate=self.validate)

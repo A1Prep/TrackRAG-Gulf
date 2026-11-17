@@ -87,7 +87,7 @@ def describe(candidate,recording,*,temporal=True):
         ratio=(right-left)*(bottom-top)/((c-a)*(d-b))
         growth='larger growing' if ratio>1.2 else 'smaller shrinking' if ratio<.8 else 'stable image size'
         gaps=sum(y['frame_id']-x['frame_id']-1 for x,y in zip(rows,rows[1:]))
-        text+=f'Observed image motion: {motion_x}, {motion_y}; {growth}. Observations: {len(rows)}, missing frames inside history: {gaps}. First annotation is not proof of entry or prior absence. '
+        text+=f'Observed image motion: {motion_x}, {motion_y}; {growth}. Observations: {len(rows)}, missing frames inside history: {gaps}. First observation is not proof of entry or prior absence. '
     return text+'Colour, body subtype and hidden states are not supplied by the observation labels.'
 
 

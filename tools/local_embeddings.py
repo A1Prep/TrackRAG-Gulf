@@ -11,7 +11,7 @@ from pathlib import Path
 
 
 class LocalEmbeddings:
-    def __init__(self,url,model_sha256,cache_path,*,batch_size=8):
+    def __init__(self,url,model_sha256,cache_path,*,batch_size=8,runtime_id='llama-b12359-vulkan-last-v1'):
         parsed=urllib.parse.urlparse(url)
         if parsed.scheme!='http' or parsed.hostname not in {'127.0.0.1','localhost','::1'}:
             raise ValueError('The benchmark client accepts a local model server only')
@@ -20,6 +20,7 @@ class LocalEmbeddings:
         self.url=url.rstrip('/')
         self.model_sha256=model_sha256
         self.batch_size=batch_size
+        self.runtime_id=runtime_id
         Path(cache_path).parent.mkdir(parents=True,exist_ok=True)
         self.cache=sqlite3.connect(cache_path)
         self.cache.execute('CREATE TABLE IF NOT EXISTS vectors(key TEXT PRIMARY KEY,text TEXT,vector BLOB,dimensions INTEGER,seconds REAL)')
@@ -31,7 +32,7 @@ class LocalEmbeddings:
         result={}
         missing={}
         for text in texts:
-            key=sha256((self.model_sha256+'|last-pooling|'+text).encode()).hexdigest()
+            key=sha256((self.model_sha256+'|'+self.runtime_id+'|last-pooling|'+text).encode()).hexdigest()
             stored=self.cache.execute('SELECT vector,dimensions FROM vectors WHERE key=?',(key,)).fetchone()
             if stored:
                 values=array.array('f')
@@ -81,3 +82,6 @@ class LocalEmbeddings:
         if any(len(doc)!=len(q) for doc in vectors[1:]):
             raise ValueError('Embedding dimensions disagree')
         return [sum(a*b for a,b in zip(q,doc)) for doc in vectors[1:]]
+
+    def close(self):
+        self.cache.close()

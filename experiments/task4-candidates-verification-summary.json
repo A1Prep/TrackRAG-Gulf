@@ -1,0 +1,84 @@
+{
+  "version": 1,
+  "recorded_at_utc": "2026-11-17T17:41:26.769724+00:00",
+  "scope": "Task 4 candidate coverage, representation and exact temporal stability on two development questions with original EMT frame references and human annotations. No ranking model or relevance score.",
+  "base_commit": "1885051d8187321946978b1e4dae8c3ed93f828a",
+  "source_files_sha256": {
+    "trackrag/retrieval_candidates.py": "4b60add5e7a03b122aeeef755253c786945bb26ee94f44217e6ebafa157c9566",
+    "tests/test_retrieval_candidates.py": "fa14230fd8d9385f177825232417ecd506d967bc5dd9da693e66bd3008d6f7f4"
+  },
+  "python_version": "3.14.7",
+  "schema_version": "trackrag.candidates.v1",
+  "cases": [
+    {
+      "question": {
+        "question_id": "temporal-09",
+        "recording_id": "video_054604",
+        "query_frame": 30,
+        "question": "Does the grey SUV become larger in the image over its earlier observations?"
+      },
+      "source": "annotated",
+      "recording_adapter": "trackrag.emt.EMTRecording",
+      "candidate_counts": {
+        "track_history": 31,
+        "track_window": 28,
+        "scene": 2
+      },
+      "permitted_histories": 31,
+      "permitted_observations": 436,
+      "unavailable_scene_frames": [],
+      "excluded_future_frame_requests": [],
+      "metadata_sha256": "c9cdf90459378fbc0670f9789f9e6316ef9ae158a3cb933e6a942c7a46ace028",
+      "local_packet": "runs/task4-candidates-verification-01/temporal-09-candidates.json",
+      "packet_sha256": "1db2ce627029dc368aad8c521856e40889c70c6095da6ace66c525a21008725d",
+      "all_projected_candidates_pass_task5_contract": true,
+      "exact_packet_comparisons": {
+        "wrapper_control": "passed",
+        "changed_future_observations": "passed",
+        "prefix_only": "passed",
+        "changed_future_image_references": "passed"
+      },
+      "lexical_ranking_unchanged": true,
+      "lexical_ranking_remains_empty": true
+    },
+    {
+      "question": {
+        "question_id": "second-07",
+        "recording_id": "video_054907",
+        "query_frame": 75,
+        "question": "Is there an overpass directly above the roadway in the current frame?"
+      },
+      "source": "annotated",
+      "recording_adapter": "trackrag.emt.EMTRecording",
+      "candidate_counts": {
+        "track_history": 40,
+        "track_window": 127,
+        "scene": 2
+      },
+      "permitted_histories": 40,
+      "permitted_observations": 1268,
+      "unavailable_scene_frames": [],
+      "excluded_future_frame_requests": [],
+      "metadata_sha256": "41e4b5344b84068840087c2316b1e3f3ea4d1f3551042484f759b6f45947a00c",
+      "local_packet": "runs/task4-candidates-verification-01/second-07-candidates.json",
+      "packet_sha256": "760763e39246c034c834bcee84a8a4c29346774aca420138700a34dee78aabf4",
+      "all_projected_candidates_pass_task5_contract": true,
+      "exact_packet_comparisons": {
+        "wrapper_control": "passed",
+        "changed_future_observations": "passed",
+        "prefix_only": "passed",
+        "changed_future_image_references": "passed"
+      },
+      "lexical_ranking_unchanged": true,
+      "lexical_ranking_remains_empty": true
+    }
+  ],
+  "limitations": [
+    "Cases were selected from existing development questions with empty lexical rankings, not held-out evaluation.",
+    "A complete candidate pool and query-frame scene do not establish that any candidate supports an answer.",
+    "References point to original images; no visual embeddings, captions, OCR, Qwen or live answering were generated.",
+    "Metadata fingerprints exclude image paths and do not hash image bytes; the local packet file hash includes its paths.",
+    "Future-image controls changed references, not image understanding; candidate generation does not itself read image pixels.",
+    "The actual EMT metadata accessor can decode images internally. This test does not measure performance or detection accuracy."
+  ]
+}

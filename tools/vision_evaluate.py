@@ -9,7 +9,8 @@ Inputs per recording in RUN: <rec>.tracks.jsonl (TrackObservation rows), <rec>.d
 (per-frame pipeline detections with scores, written by ``python -m trackrag.vision predict``) and
 <rec>.provenance.json (evaluated frame ids and image size). Labels are read from
 LABELS/annotations/<split>/<rec>.txt; rows whose class is not one of the 9 EMT classes are skipped
-and boxes are clipped to the image.
+and boxes are clipped to the image. With --tracking-only, detections are never opened and
+detection metrics, detector-to-track coverage and detection hashes are omitted.
 
 Rules (identical for every model):
 * Frames: exactly the frames listed in the prediction provenance.
@@ -31,11 +32,13 @@ import contextlib
 import hashlib
 import io
 import json
+import math
 import sys
 from collections import Counter, defaultdict
 from pathlib import Path
 
 from tools.vision_prepare_dataset import parse_label_rows
+from tools.vision_saved_adapters import load_track_artifact, validated_box
 from trackrag.vision.classes import EMT_CLASSES, GROUP_OF, GROUPS
 from trackrag.vision.geometry import clip_box
 
@@ -56,10 +59,12 @@ def read_jsonl(path: Path) -> list[dict]:
         return [json.loads(line) for line in stream if line.strip()]
 
 
-def load_recording(pred_dir: Path, labels_root: Path, split: str, recording: str) -> dict:
+def load_recording(pred_dir: Path, labels_root: Path, split: str, recording: str,
+                   tracking_only: bool = False) -> dict:
     provenance = json.loads((pred_dir / f"{recording}.provenance.json").read_text(encoding="utf-8"))
-    frames = [int(f) for f in provenance["frame_ids"]]
-    width, height = provenance["first_frame_size"]
+    track_rows, frames, size, tracks_sha = load_track_artifact(
+        pred_dir / f"{recording}.tracks.jsonl", provenance, recording)
+    width, height = size
     label_path = labels_root / "annotations" / split / f"{recording}.txt"
     gt: dict[int, list] = defaultdict(list)
     skipped = Counter()
@@ -74,22 +79,47 @@ def load_recording(pred_dir: Path, labels_root: Path, split: str, recording: str
         if clipped is not None:
             gt[frame].append((track, name, clipped))
     detections: dict[int, list] = defaultdict(list)
-    for row in read_jsonl(pred_dir / f"{recording}.detections.jsonl"):
-        if (row["width"], row["height"]) != (width, height):
-            raise ValueError(f"{recording}: frame size changed inside the recording")
-        for d in row["mapped"]:
-            detections[int(row["frame_id"])].append((tuple(d["bbox_xyxy"]), float(d["score"]), d["class_name"]))
+    files = {"tracks.jsonl": tracks_sha, "provenance.json": sha256(pred_dir / f"{recording}.provenance.json"),
+             "labels": sha256(label_path)}
+    if not tracking_only:
+        detection_path = pred_dir / f"{recording}.detections.jsonl"
+        payload = detection_path.read_bytes()
+        seen_frames = set()
+        for row in [json.loads(line) for line in payload.decode("utf-8").splitlines() if line.strip()]:
+            if not isinstance(row, dict):
+                raise ValueError("Detection frame must be an object")
+            frame_id = row.get("frame_id")
+            if (row.get("recording_id") != recording or row.get("source", "predicted") != "predicted"
+                    or type(frame_id) is not int or frame_id not in wanted):
+                raise ValueError("Detection row has a foreign recording, source or frame")
+            if frame_id in seen_frames:
+                raise ValueError("Duplicate detection frame")
+            seen_frames.add(frame_id)
+            if (type(row.get("width")) is not int or type(row.get("height")) is not int
+                    or (row["width"], row["height"]) != (width, height)):
+                raise ValueError(f"{recording}: frame size changed inside the recording")
+            if not isinstance(row.get("mapped"), list):
+                raise ValueError("Detection frame requires a mapped detections list (possibly empty)")
+            for detection in row["mapped"]:
+                if not isinstance(detection, dict):
+                    raise ValueError("Mapped detection must be an object")
+                score = detection.get("score")
+                if type(score) not in (int, float) or not math.isfinite(score) or not 0 <= score <= 1:
+                    raise ValueError("Detection score must be finite and within [0, 1]")
+                if detection.get("class_name") not in EMT_CLASSES:
+                    raise ValueError("Mapped detection uses an unknown EMT class")
+                box = validated_box(detection.get("bbox_xyxy"), width, height)
+                detections[frame_id].append((box, float(score), detection["class_name"]))
+        if seen_frames != wanted:
+            raise ValueError("Detection frame coverage differs from provenance, including empty frames")
+        files["detections.jsonl"] = hashlib.sha256(payload).hexdigest()
     tracks: dict[int, list] = defaultdict(list)
-    for row in read_jsonl(pred_dir / f"{recording}.tracks.jsonl"):
-        if row["recording_id"] != recording or row["source"] != "predicted":
-            raise ValueError(f"{recording}: foreign or non-predicted track rows")
-        tracks[int(row["frame_id"])].append((int(row["track_id"]), row["class_name"], tuple(row["bbox_xyxy"])))
-    if provenance.get("observations") is not None and sum(map(len, tracks.values())) != provenance["observations"]:
-        raise ValueError(f"{recording}: tracks.jsonl row count differs from provenance (incomplete file?)")
+    for row in track_rows:
+        tracks[row["frame_id"]].append((row["track_id"], row["class_name"], row["bbox_xyxy"]))
     return {"recording": recording, "frames": frames, "size": (width, height), "gt": gt,
             "detections": detections, "tracks": tracks, "skipped_gt": dict(skipped), "provenance": provenance,
-            "files": {name: sha256(pred_dir / f"{recording}.{name}") for name in
-                      ("tracks.jsonl", "detections.jsonl", "provenance.json")} | {"labels": sha256(label_path)}}
+            "files": files}
+
 
 
 def _label(name: str, granularity: str) -> str:
@@ -246,18 +276,22 @@ def track_coverage(recordings: list[dict], score: float = OPERATING_SCORE) -> di
 
 
 def evaluate(pred_dir: Path, labels_root: Path, split: str, recordings: list[str], tracking_only: bool = False) -> dict:
-    data = [load_recording(pred_dir, labels_root, split, recording) for recording in recordings]
+    if not recordings or len(set(recordings)) != len(recordings):
+        raise ValueError("Evaluation requires unique recording IDs")
+    data = [load_recording(pred_dir, labels_root, split, recording, tracking_only) for recording in recordings]
     result = {
         "version": 1, "pred_dir": str(pred_dir), "split": split, "recordings": recordings,
+        "tracking_only": tracking_only,
         "identity_hashes": sorted({d["provenance"].get("identity_hash") for d in data}),
         "frames": {d["recording"]: len(d["frames"]) for d in data},
         "skipped_gt_rows": {d["recording"]: d["skipped_gt"] for d in data},
         "inputs_sha256": {d["recording"]: d["files"] for d in data},
         "rules": {"match_iou": MATCH_IOU, "operating_score": OPERATING_SCORE, "coco_scale_long_side": LONG_SIDE,
                   "coco_max_dets": [1, 10, 100], "motp": "mean (1 - IoU), lower is better"},
-        "tracking": tracking(data), "track_coverage": track_coverage(data),
+        "tracking": tracking(data),
     }
     if not tracking_only:
+        result["track_coverage"] = track_coverage(data)
         result["detection"] = {granularity: coco_detection(data, granularity) for granularity in ("agnostic", "group", "class")}
         result["detection_per_recording"] = {d["recording"]: coco_detection([d], "agnostic")["summary"] for d in data}
         result["operating_point"] = operating_point(data)
@@ -275,7 +309,8 @@ def brief(result: dict) -> str:
             s = result["detection"][granularity]["summary"]
             lines.append(f"detection ({granularity}): AP {s['AP']:.3f}  AP50 {s['AP50']:.3f}  "
                          f"AP_small {s['AP_small']:.3f}  AP_medium {s['AP_medium']:.3f}  AP_large {s['AP_large']:.3f}")
-    lines.append(f"track coverage of score>=0.4 detections: {result['track_coverage']['coverage']}")
+    if "track_coverage" in result:
+        lines.append(f"track coverage of score>=0.4 detections: {result['track_coverage']['coverage']}")
     return "\n".join(lines)
 
 

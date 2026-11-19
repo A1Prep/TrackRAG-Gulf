@@ -206,12 +206,15 @@ def test_checkpoint_hash_is_verified_before_any_model_library(tmp_path):
 
 
 def _save_predictions(folder, recording, rows, config):
+    import hashlib
+
     folder.mkdir(parents=True, exist_ok=True)
     with (folder / f"{recording.recording_id}.tracks.jsonl").open("w") as out:
         for row in rows:
             out.write(json.dumps(row) + "\n")
     (folder / f"{recording.recording_id}.provenance.json").write_text(json.dumps({
-        "recording_id": recording.recording_id, "identity_hash": config.identity_hash(),
+        "version": 1, "recording_id": recording.recording_id, "identity_hash": config.identity_hash(),
+        "tracks_sha256": hashlib.sha256((folder / f"{recording.recording_id}.tracks.jsonl").read_bytes()).hexdigest(),
         "frame_ids": recording.frame_ids, "first_frame_size": list(SIZE), "observations": len(rows)}))
 
 
@@ -232,7 +235,7 @@ def test_saved_prediction_adapter_prefix_and_identity(tmp_path):
     # A truncated tracks file is refused.
     tracks = tmp_path / "pred" / "rec.tracks.jsonl"
     tracks.write_text("\n".join(tracks.read_text().splitlines()[:3]) + "\n")
-    with pytest.raises(ValueError, match="row count|sha256"):
+    with pytest.raises(ValueError, match="sha256"):
         saved.predict_tracks(prefix, directory=tmp_path / "pred", config=config)
 
 

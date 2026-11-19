@@ -15,8 +15,11 @@ output is online: rows for frame t never depend on later frames.
 
 from __future__ import annotations
 
+import hashlib
 import json
+import math
 import os
+import re
 from pathlib import Path
 
 from trackrag.answering import answer_question  # noqa: F401  (re-exported real Task 3 answerer)
@@ -27,11 +30,73 @@ from trackrag.retrieval import build_index, rank_evidence  # noqa: F401  (re-exp
 SAVED_ENV = "TRACKRAG_SAVED_PREDICTIONS"
 
 
+def validated_frame_ids(values) -> list[int]:
+    if (not isinstance(values, list) or not values
+            or any(type(value) is not int or value < 0 for value in values)
+            or values != sorted(set(values))):
+        raise ValueError("Frame IDs must be nonempty, unique, increasing nonnegative integers")
+    return values
+
+
+def validated_box(values, width, height) -> tuple[float, float, float, float]:
+    if (not isinstance(values, (list, tuple)) or len(values) != 4
+            or any(type(v) not in (int, float) or not math.isfinite(v) for v in values)):
+        raise ValueError("Prediction boxes require four finite numeric coordinates")
+    left, top, right, bottom = values
+    if not 0 <= left < right <= width or not 0 <= top < bottom <= height:
+        raise ValueError("Prediction box lies outside the original image or has no area")
+    return tuple(float(v) for v in values)
+
+
+def load_track_artifact(tracks_path, provenance, recording_id):
+    """Verify the complete serialized artifact before selecting an available prefix."""
+    from trackrag.vision.classes import EMT_CLASSES
+
+    if provenance.get("recording_id") != recording_id:
+        raise ValueError("Saved provenance belongs to another recording")
+    if not isinstance(provenance.get("identity_hash"), str) or not re.fullmatch(
+            r"[0-9a-f]{64}", provenance["identity_hash"]):
+        raise ValueError("Saved provenance requires a valid identity_hash")
+    expected_sha = provenance.get("tracks_sha256")
+    if not isinstance(expected_sha, str) or not re.fullmatch(r"[0-9a-f]{64}", expected_sha):
+        raise ValueError("Saved provenance requires a valid tracks_sha256")
+    frames = validated_frame_ids(provenance.get("frame_ids"))
+    for name, expected in (("frames", len(frames)), ("first_frame", frames[0]), ("last_frame", frames[-1])):
+        if name in provenance and (type(provenance[name]) is not int or provenance[name] != expected):
+            raise ValueError(f"Provenance {name} disagrees with frame_ids")
+    size = provenance.get("first_frame_size")
+    if (not isinstance(size, list) or len(size) != 2
+            or any(type(v) is not int or v <= 0 for v in size)):
+        raise ValueError("Provenance requires positive original image dimensions")
+    payload = Path(tracks_path).read_bytes()
+    actual_sha = hashlib.sha256(payload).hexdigest()
+    if actual_sha != expected_sha:
+        raise ValueError("Tracks sha256 differs from provenance")
+    rows = [json.loads(line) for line in payload.decode("utf-8").splitlines() if line.strip()]
+    if type(provenance.get("observations")) is not int or len(rows) != provenance["observations"]:
+        raise ValueError("Tracks row count differs from provenance['observations']")
+    known_frames, seen = set(frames), set()
+    for row in rows:
+        if (not isinstance(row, dict)
+                or row.get("recording_id") != recording_id or row.get("source") != "predicted"
+                or type(row.get("frame_id")) is not int or row["frame_id"] not in known_frames
+                or type(row.get("track_id")) is not int or row["track_id"] < 0):
+            raise ValueError("Track row has a foreign source, recording, frame or invalid identity")
+        key = (row["frame_id"], row["track_id"])
+        if key in seen:
+            raise ValueError("Duplicate track observation in a frame")
+        seen.add(key)
+        if row.get("class_name") not in EMT_CLASSES:
+            raise ValueError("Track row uses an unknown EMT class")
+        row["bbox_xyxy"] = validated_box(row.get("bbox_xyxy"), *size)
+    return rows, frames, size, actual_sha
+
+
 def _recording_frame_ids(recording) -> list[int]:
     ids = getattr(recording, "frame_ids", None)
     if ids is None:
         ids = [frame["frame_id"] for frame in recording.iter_frames()]
-    return [int(frame_id) for frame_id in ids]
+    return validated_frame_ids(list(ids))
 
 
 def predict_tracks(recording, *, directory=None, config=None):
@@ -50,36 +115,15 @@ def predict_tracks(recording, *, directory=None, config=None):
     if provenance.get("identity_hash") != active.identity_hash():
         raise ValueError(f"Saved predictions in {folder} were made with identity {provenance.get('identity_hash')}, "
                          f"but the active vision config {active.name!r} has identity {active.identity_hash()}")
-    if provenance.get("recording_id") != recording_id:
-        raise ValueError("Saved provenance belongs to another recording")
-    predicted = [int(frame_id) for frame_id in provenance["frame_ids"]]
+    rows, predicted, size, _ = load_track_artifact(tracks_path, provenance, recording_id)
     available = _recording_frame_ids(recording)
-    if not available or predicted[: len(available)] != available:
-        span = f"{predicted[0]}-{predicted[-1]}" if predicted else "none"
-        raise ValueError(f"{recording_id}: the recording's frames are not a prefix of the predicted frames: "
-                         f"predictions cover frames {span} ({len(predicted)} frames) but the recording has "
-                         f"{len(available)} frames from {available[:1]}")
-    payload = tracks_path.read_bytes()
-    expected_sha = provenance.get("tracks_sha256")
-    if expected_sha is not None:
-        import hashlib
-
-        if hashlib.sha256(payload).hexdigest() != expected_sha:
-            raise ValueError(f"{tracks_path} changed after it was written (sha256 differs from provenance)")
-    if sum(1 for line in payload.decode("utf-8").splitlines() if line.strip()) != provenance.get("observations"):
-        raise ValueError(f"{tracks_path} row count differs from provenance['observations'] (incomplete file?)")
-    first = recording.get_frame(available[0])
-    if [first["width"], first["height"]] != provenance.get("first_frame_size"):
-        raise ValueError(f"{recording_id}: frame size differs from the size the predictions were made on")
+    if predicted[:len(available)] != available:
+        raise ValueError(f"{recording_id}: the recording's frames are not a prefix of the predicted frames")
+    for frame_id in available:
+        frame = recording.get_frame(frame_id)
+        if frame["recording_id"] != recording_id or frame["frame_id"] != frame_id:
+            raise ValueError("Available frame metadata belongs to another recording or frame")
+        if [frame["width"], frame["height"]] != size:
+            raise ValueError(f"{recording_id}: frame size differs from prediction provenance")
     last = available[-1]
-    rows = []
-    for line in tracks_path.read_text(encoding="utf-8").splitlines():
-        if not line.strip():
-            continue
-        row = json.loads(line)
-        if row.get("recording_id") != recording_id or row.get("source") != "predicted":
-            raise ValueError("Saved predictions mix recordings or sources")
-        if row["frame_id"] <= last:
-            row["bbox_xyxy"] = tuple(float(value) for value in row["bbox_xyxy"])
-            rows.append(row)
-    return rows
+    return [row for row in rows if row["frame_id"] <= last]

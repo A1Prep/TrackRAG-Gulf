@@ -1,5 +1,6 @@
 """Metric sanity for tools/vision_evaluate.py (runs where motmetrics and pycocotools are installed)."""
 
+import hashlib
 import json
 
 import pytest
@@ -33,7 +34,9 @@ def _write_run(tmp_path, rows_by_frame, size=(2560, 1440), shift=0.0, drop_track
     (run / "rec.tracks.jsonl").write_text("".join(json.dumps(r) + "\n" for r in tracks))
     (run / "rec.detections.jsonl").write_text("".join(json.dumps(r) + "\n" for r in detections))
     (run / "rec.provenance.json").write_text(json.dumps({
-        "frame_ids": frames, "first_frame_size": list(size), "observations": len(tracks), "identity_hash": "x"}))
+        "version": 1, "recording_id": "rec", "frame_ids": frames, "first_frame_size": list(size),
+        "observations": len(tracks), "identity_hash": "a" * 64,
+        "tracks_sha256": hashlib.sha256((run / "rec.tracks.jsonl").read_bytes()).hexdigest()}))
     return run, tmp_path / "labels"
 
 
@@ -66,5 +69,9 @@ def test_track_rows_must_match_provenance_count(tmp_path):
     run, labels = _write_run(tmp_path, SCENE)
     lines = (run / "rec.tracks.jsonl").read_text().splitlines()
     (run / "rec.tracks.jsonl").write_text("\n".join(lines[:5]) + "\n")
+    provenance_path = run / "rec.provenance.json"
+    provenance = json.loads(provenance_path.read_text())
+    provenance["tracks_sha256"] = hashlib.sha256((run / "rec.tracks.jsonl").read_bytes()).hexdigest()
+    provenance_path.write_text(json.dumps(provenance))
     with pytest.raises(ValueError, match="row count"):
         ve.evaluate(run, labels, "test", ["rec"])

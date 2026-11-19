@@ -1,0 +1,116 @@
+{
+  "version": 2,
+  "mode": "full",
+  "resume": false,
+  "dataset": "/content/ds_v1",
+  "dataset_counts": {
+    "train": {
+      "images": 3799,
+      "annotations": 66763
+    },
+    "valid": {
+      "images": 720,
+      "annotations": 15441
+    }
+  },
+  "base_weights": {
+    "path": "/content/models/rf-detr-large-2026.pth",
+    "md5": "5cb72153541cbcb9aa6efa26222acc75",
+    "sha256": "0f4e20e19a99c0f8a62b5685f57f6c8b5c371c59081feda6752a0561a79ccf38"
+  },
+  "train_options": {
+    "dataset_dir": "/content/ds_v1",
+    "output_dir": "/content/runs/ft01",
+    "class_names": [
+      "Pedestrian",
+      "Cyclist",
+      "Motorbike",
+      "Car",
+      "Small_motorised_vehicle",
+      "Medium_vehicle",
+      "Large_vehicle",
+      "Bus",
+      "Emergency_vehicle"
+    ],
+    "epochs": 30,
+    "batch_size": 8,
+    "grad_accum_steps": 2,
+    "lr": 0.0001,
+    "lr_encoder": 0.00015,
+    "augmentation_backend": "torchvision",
+    "seed": 42,
+    "checkpoint_interval": 1000,
+    "early_stopping": false,
+    "run_test": false,
+    "log_per_class_metrics": true,
+    "num_workers": 4,
+    "tensorboard": true,
+    "progress_bar": "tqdm",
+    "device": "cuda"
+  },
+  "model_options": {
+    "resolution": 704,
+    "device": "cuda",
+    "gradient_checkpointing": false
+  },
+  "code_zip": {
+    "path": "/content/drive/MyDrive/task1/code/trackrag-task1-code.zip",
+    "sha256": "767c1cc4edbe9dfe821b74c69304a675f4e65b8f1b754362719748f6da8f410d"
+  },
+  "environment": {
+    "python": "3.13.16",
+    "platform": "Linux-6.6.159+-x86_64-with-glibc2.39",
+    "torch": "2.14.1+cu130",
+    "torchvision": "0.29.1+cu130",
+    "rfdetr": "1.12.1",
+    "pytorch_lightning": "2.6.6",
+    "transformers": "5.22.1",
+    "supervision": "0.31.7",
+    "albumentations": "2.0.8",
+    "numpy": "2.4.6",
+    "pillow": "11.3.0",
+    "ultralytics": "8.4.215",
+    "cuda_available": true,
+    "cuda": "13.0",
+    "gpu": "NVIDIA L4"
+  },
+  "started_utc": "20261118T191404Z",
+  "finished_utc": "20261118T205715Z",
+  "finished_normally": true,
+  "resolved_train_config": {
+    "batch_size": 8,
+    "grad_accum_steps": 2,
+    "epochs": 30,
+    "seed": 42,
+    "augmentation_backend": "torchvision",
+    "amp_dtype": "auto",
+    "lr": 0.0001,
+    "lr_encoder": 0.00015
+  },
+  "selected_checkpoint": {
+    "path": "/content/runs/ft01/checkpoint_best_total.pth",
+    "kind": "checkpoint_best_total.pth",
+    "sha256": "9ea96f1050f1d3375c5cf0f25a086cd5bb9c6a290fa5fdc009804d9a31181d95",
+    "class_names": [
+      "Pedestrian",
+      "Cyclist",
+      "Motorbike",
+      "Car",
+      "Small_motorised_vehicle",
+      "Medium_vehicle",
+      "Large_vehicle",
+      "Bus",
+      "Emergency_vehicle"
+    ]
+  },
+  "has_last_ckpt": true,
+  "last_ckpt_progress": {
+    "epoch": 29,
+    "global_step": 7140
+  },
+  "drive_sync": {
+    "copies": 41,
+    "errors": []
+  },
+  "seconds": 6192.0
+}

@@ -1,0 +1,10 @@
+# Task 1 evaluation environment: tools/vision_evaluate.py and tools/vision_figures.py (separate from the model
+# environment because motmetrics 1.4.0 needs numpy < 2).
+numpy==1.26.4
+pandas==2.2.3
+motmetrics==1.4.0
+pycocotools==2.0.11
+scipy==1.13.1
+matplotlib==3.9.2
+pillow
+pytest

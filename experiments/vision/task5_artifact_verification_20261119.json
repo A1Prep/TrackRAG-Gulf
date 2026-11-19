@@ -1,0 +1,659 @@
+{
+  "version": 1,
+  "verified_date": "2026-11-19",
+  "original_task1_commit": "6ea0e126ef77aa1e9b9c0f1746896a0b2b238e29",
+  "source_integrity_fix_commit": "ef6e90b",
+  "scope": "Uploaded trained artifacts, independent tracking recomputation, fresh image-only prefix inference and evidence export. No new training or answer-model calls.",
+  "checkpoint": {
+    "model_name": "RFDETRLarge",
+    "rfdetr_version": "1.12.1",
+    "global_step": 952,
+    "pytorch-lightning_version": "2.6.6",
+    "best_total_source": "ema",
+    "class_names": [
+      "Pedestrian",
+      "Cyclist",
+      "Motorbike",
+      "Car",
+      "Small_motorised_vehicle",
+      "Medium_vehicle",
+      "Large_vehicle",
+      "Bus",
+      "Emergency_vehicle"
+    ],
+    "model_tensor_count": 510,
+    "sha256": "9ea96f1050f1d3375c5cf0f25a086cd5bb9c6a290fa5fdc009804d9a31181d95",
+    "uploaded_filename": "checkpoint_best_total.pth.zip",
+    "bytes": 134900699
+  },
+  "parameter_comparison": {
+    "base_sha256": "0f4e20e19a99c0f8a62b5685f57f6c8b5c371c59081feda6752a0561a79ccf38",
+    "finetuned_sha256": "9ea96f1050f1d3375c5cf0f25a086cd5bb9c6a290fa5fdc009804d9a31181d95",
+    "same_shape_changed_tensor_count": 480,
+    "same_shape_unchanged_tensor_count": 1,
+    "changed_same_shape_tensor_elements": 33605416,
+    "shape_changes": [
+      {
+        "name": "class_embed.bias",
+        "base": [
+          91
+        ],
+        "trained": [
+          10
+        ]
+      },
+      {
+        "name": "class_embed.weight",
+        "base": [
+          91,
+          256
+        ],
+        "trained": [
+          10,
+          256
+        ]
+      },
+      {
+        "name": "transformer.enc_out_class_embed.0.bias",
+        "base": [
+          91
+        ],
+        "trained": [
+          10
+        ]
+      },
+      {
+        "name": "transformer.enc_out_class_embed.0.weight",
+        "base": [
+          91,
+          256
+        ],
+        "trained": [
+          10,
+          256
+        ]
+      },
+      {
+        "name": "transformer.enc_out_class_embed.1.bias",
+        "base": [
+          91
+        ],
+        "trained": [
+          10
+        ]
+      },
+      {
+        "name": "transformer.enc_out_class_embed.1.weight",
+        "base": [
+          91,
+          256
+        ],
+        "trained": [
+          10,
+          256
+        ]
+      },
+      {
+        "name": "transformer.enc_out_class_embed.10.bias",
+        "base": [
+          91
+        ],
+        "trained": [
+          10
+        ]
+      },
+      {
+        "name": "transformer.enc_out_class_embed.10.weight",
+        "base": [
+          91,
+          256
+        ],
+        "trained": [
+          10,
+          256
+        ]
+      },
+      {
+        "name": "transformer.enc_out_class_embed.11.bias",
+        "base": [
+          91
+        ],
+        "trained": [
+          10
+        ]
+      },
+      {
+        "name": "transformer.enc_out_class_embed.11.weight",
+        "base": [
+          91,
+          256
+        ],
+        "trained": [
+          10,
+          256
+        ]
+      },
+      {
+        "name": "transformer.enc_out_class_embed.12.bias",
+        "base": [
+          91
+        ],
+        "trained": [
+          10
+        ]
+      },
+      {
+        "name": "transformer.enc_out_class_embed.12.weight",
+        "base": [
+          91,
+          256
+        ],
+        "trained": [
+          10,
+          256
+        ]
+      },
+      {
+        "name": "transformer.enc_out_class_embed.2.bias",
+        "base": [
+          91
+        ],
+        "trained": [
+          10
+        ]
+      },
+      {
+        "name": "transformer.enc_out_class_embed.2.weight",
+        "base": [
+          91,
+          256
+        ],
+        "trained": [
+          10,
+          256
+        ]
+      },
+      {
+        "name": "transformer.enc_out_class_embed.3.bias",
+        "base": [
+          91
+        ],
+        "trained": [
+          10
+        ]
+      },
+      {
+        "name": "transformer.enc_out_class_embed.3.weight",
+        "base": [
+          91,
+          256
+        ],
+        "trained": [
+          10,
+          256
+        ]
+      },
+      {
+        "name": "transformer.enc_out_class_embed.4.bias",
+        "base": [
+          91
+        ],
+        "trained": [
+          10
+        ]
+      },
+      {
+        "name": "transformer.enc_out_class_embed.4.weight",
+        "base": [
+          91,
+          256
+        ],
+        "trained": [
+          10,
+          256
+        ]
+      },
+      {
+        "name": "transformer.enc_out_class_embed.5.bias",
+        "base": [
+          91
+        ],
+        "trained": [
+          10
+        ]
+      },
+      {
+        "name": "transformer.enc_out_class_embed.5.weight",
+        "base": [
+          91,
+          256
+        ],
+        "trained": [
+          10,
+          256
+        ]
+      },
+      {
+        "name": "transformer.enc_out_class_embed.6.bias",
+        "base": [
+          91
+        ],
+        "trained": [
+          10
+        ]
+      },
+      {
+        "name": "transformer.enc_out_class_embed.6.weight",
+        "base": [
+          91,
+          256
+        ],
+        "trained": [
+          10,
+          256
+        ]
+      },
+      {
+        "name": "transformer.enc_out_class_embed.7.bias",
+        "base": [
+          91
+        ],
+        "trained": [
+          10
+        ]
+      },
+      {
+        "name": "transformer.enc_out_class_embed.7.weight",
+        "base": [
+          91,
+          256
+        ],
+        "trained": [
+          10,
+          256
+        ]
+      },
+      {
+        "name": "transformer.enc_out_class_embed.8.bias",
+        "base": [
+          91
+        ],
+        "trained": [
+          10
+        ]
+      },
+      {
+        "name": "transformer.enc_out_class_embed.8.weight",
+        "base": [
+          91,
+          256
+        ],
+        "trained": [
+          10,
+          256
+        ]
+      },
+      {
+        "name": "transformer.enc_out_class_embed.9.bias",
+        "base": [
+          91
+        ],
+        "trained": [
+          10
+        ]
+      },
+      {
+        "name": "transformer.enc_out_class_embed.9.weight",
+        "base": [
+          91,
+          256
+        ],
+        "trained": [
+          10,
+          256
+        ]
+      }
+    ],
+    "sample_changed_names": [
+      "backbone.0.encoder.encoder.embeddings.cls_token",
+      "backbone.0.encoder.encoder.embeddings.patch_embeddings.projection.bias",
+      "backbone.0.encoder.encoder.embeddings.patch_embeddings.projection.weight",
+      "backbone.0.encoder.encoder.embeddings.position_embeddings",
+      "backbone.0.encoder.encoder.encoder.layer.0.attention.attention.key.bias",
+      "backbone.0.encoder.encoder.encoder.layer.0.attention.attention.key.weight",
+      "backbone.0.encoder.encoder.encoder.layer.0.attention.attention.query.bias",
+      "backbone.0.encoder.encoder.encoder.layer.0.attention.attention.query.weight",
+      "backbone.0.encoder.encoder.encoder.layer.0.attention.attention.value.bias",
+      "backbone.0.encoder.encoder.encoder.layer.0.attention.attention.value.weight",
+      "backbone.0.encoder.encoder.encoder.layer.0.attention.output.dense.bias",
+      "backbone.0.encoder.encoder.encoder.layer.0.attention.output.dense.weight"
+    ],
+    "safe_load": "torch.load weights_only=True; unsafe_global_names empty"
+  },
+  "archives": [
+    {
+      "filename": "task1-predictions-finetuned.zip",
+      "sha256": "572b0322050f23d918e5a68fb12c8ecde8d1a241788f17b9c485d6af1d71a510",
+      "verified_track_and_metadata_files": 18
+    },
+    {
+      "filename": "task1-predictions-pretrained.zip",
+      "sha256": "08ebd92fc4fef5b1abc194360e420d3be19c05364f3d93ff9929631052baf3fe",
+      "verified_track_and_metadata_files": 18
+    }
+  ],
+  "full_test_tracking": [
+    {
+      "condition": "pretrained",
+      "all_metric_values_compared": 570,
+      "different_values": [],
+      "all_input_track_provenance_and_official_label_hashes_match": true,
+      "road_user_overall": {
+        "num_frames": 8530,
+        "num_unique_objects": 1384,
+        "num_objects": 107894,
+        "num_predictions": 79570,
+        "num_matches": 51535,
+        "num_misses": 54952,
+        "num_false_positives": 26628,
+        "num_switches": 1407,
+        "num_fragmentations": 2561,
+        "mota": 0.2308469424,
+        "motp": 0.2117606055,
+        "idf1": 0.3998527717,
+        "idp": 0.4710192284,
+        "idr": 0.3473687137,
+        "precision": 0.665351263,
+        "recall": 0.4906853022,
+        "mostly_tracked": 111,
+        "partially_tracked": 383,
+        "mostly_lost": 890
+      }
+    },
+    {
+      "condition": "finetuned",
+      "all_metric_values_compared": 570,
+      "different_values": [],
+      "all_input_track_provenance_and_official_label_hashes_match": true,
+      "road_user_overall": {
+        "num_frames": 8530,
+        "num_unique_objects": 1384,
+        "num_objects": 107894,
+        "num_predictions": 75533,
+        "num_matches": 55216,
+        "num_misses": 50817,
+        "num_false_positives": 18456,
+        "num_switches": 1861,
+        "num_fragmentations": 2830,
+        "mota": 0.3407047658,
+        "motp": 0.2021016353,
+        "idf1": 0.4426829202,
+        "idp": 0.5375134047,
+        "idr": 0.3762952527,
+        "precision": 0.755656468,
+        "recall": 0.5290099542,
+        "mostly_tracked": 156,
+        "partially_tracked": 433,
+        "mostly_lost": 795
+      }
+    }
+  ],
+  "fresh_finetuned_geometry_comparison": [
+    {
+      "recording_id": "video_054604",
+      "matched_observations_at_iou_0_5": 476,
+      "unmatched_observations": 0,
+      "minimum_matched_iou": 0.9999630208968912,
+      "maximum_coordinate_difference_pixels": 0.001220703125,
+      "matched_class_mismatches": 0,
+      "number_of_track_ids_with_different_numbers": 0,
+      "tracks_matching_multiple_supplied_identities": {},
+      "supplied_identities_matching_multiple_fresh_tracks": {},
+      "association_policy": "Per-frame geometric Hungarian assignment; numeric tracker IDs not assumed equal; no ground-truth labels used"
+    },
+    {
+      "recording_id": "video_054907",
+      "matched_observations_at_iou_0_5": 1840,
+      "unmatched_observations": 0,
+      "minimum_matched_iou": 0.9915376967016845,
+      "maximum_coordinate_difference_pixels": 2.41748046875,
+      "matched_class_mismatches": 0,
+      "number_of_track_ids_with_different_numbers": 58,
+      "tracks_matching_multiple_supplied_identities": {},
+      "supplied_identities_matching_multiple_fresh_tracks": {},
+      "association_policy": "Per-frame geometric Hungarian assignment; numeric tracker IDs not assumed equal; no ground-truth labels used"
+    }
+  ],
+  "fresh_runs": [
+    {
+      "condition": "pretrained",
+      "execution": {
+        "condition": "pretrained",
+        "source_commit": "dee9d4abf1efd4662e26110c3465eab12491f7ec",
+        "source_sha256": {
+          "trackrag/vision/__main__.py": "50d6ee3b3ab68d456d1efed59133acae8a1eb5f8044347c06ad02eb7c22170e1",
+          "trackrag/vision/pipeline.py": "1bad057fcd44c0b9ef189c6ea9cad067e24521c8bb218c86cc8f096e5205d953",
+          "trackrag/vision/detector.py": "12495b30fda9039452ffc077fc71cfba3580b670be80a6ea071e520dc916926a",
+          "trackrag/vision/tracker.py": "052488800c11c716cc20fca854e6f516c3a6037e0e1f683c74eb8cd3e91f3b8c",
+          "trackrag/vision/config.py": "b4f474a7a7aa952876fcdda11095f682d66a7b414e26756c92d9e8d3dc37f93e",
+          "trackrag/vision/classes.py": "4ba586e8c6daede1c70e709696086746651aa7076578d5a4356469aedf6b44ce",
+          "trackrag/vision/detections.py": "49f5b30a69ec6e1190345d937954ba0bffc8b5d294bbf7e7e76b13600a1c8749",
+          "trackrag/vision/geometry.py": "3cbd9498ba8ea134f623c45d9a178c016a90651c24784f1aa3ae1290d48b1b4b"
+        },
+        "data_root": "data/task1-image-only-20261119",
+        "annotations_present": false,
+        "frames_per_recording": 150,
+        "torch_threads": 8,
+        "torch_version": "2.15.0+cpu",
+        "seconds": 219.3157186999888,
+        "exit_status": 0
+      },
+      "provenance_sha256": {
+        "video_054604": "439c37968bbc6664513454b6296849acefec9276e6f1a5904b29ea5aa24d395d",
+        "video_054907": "281273af9d2ff2755491add5e73982c0b6cf9f2407e1de116fb8c4170466a171"
+      },
+      "metric_report_sha256": "f9089e2892a925d6b8186097fa11629a2d25e51ec27d203cf220c47910e53f3e",
+      "frame_count": 300,
+      "road_user_detection": {
+        "AP": 0.28636329434622826,
+        "AP50": 0.5120204521883158,
+        "AP75": 0.2766862328758598,
+        "AP_small": 0.1431855776237488,
+        "AP_medium": 0.6209018571173779,
+        "AP_large": 0.8436442901889554,
+        "AR1": 0.040742081447963804,
+        "AR10": 0.26776470588235296,
+        "AR100": 0.3539004524886878,
+        "AR_small": 0.23248730964467007,
+        "AR_medium": 0.6736794986571173,
+        "AR_large": 0.8900369003690036
+      },
+      "tracking": {
+        "num_frames": 300,
+        "num_unique_objects": 159,
+        "num_objects": 5525,
+        "num_predictions": 2829,
+        "num_matches": 1927,
+        "num_misses": 3400,
+        "num_false_positives": 704,
+        "num_switches": 198,
+        "num_fragmentations": 170,
+        "mota": 0.2213574661,
+        "motp": 0.1982465854,
+        "idf1": 0.3658127843,
+        "idp": 0.5401201838,
+        "idr": 0.276561086,
+        "precision": 0.7511488158,
+        "recall": 0.3846153846,
+        "mostly_tracked": 14,
+        "partially_tracked": 48,
+        "mostly_lost": 97
+      },
+      "runtime_packages": {
+        "rfdetr": "1.12.1",
+        "ultralytics": "8.4.215",
+        "torch": "2.15.0",
+        "torchvision": "0.29.2",
+        "numpy": "1.26.4",
+        "pillow": "10.1.0",
+        "supervision": "0.31.7",
+        "opencv-python": "4.11.0.86",
+        "opencv-python-headless": "4.11.0.86",
+        "cv2_runtime": "4.11.0"
+      },
+      "runtime_python": "3.11.3"
+    },
+    {
+      "condition": "finetuned",
+      "execution": {
+        "condition": "finetuned",
+        "source_commit": "dee9d4abf1efd4662e26110c3465eab12491f7ec",
+        "source_sha256": {
+          "trackrag/vision/__main__.py": "50d6ee3b3ab68d456d1efed59133acae8a1eb5f8044347c06ad02eb7c22170e1",
+          "trackrag/vision/pipeline.py": "1bad057fcd44c0b9ef189c6ea9cad067e24521c8bb218c86cc8f096e5205d953",
+          "trackrag/vision/detector.py": "12495b30fda9039452ffc077fc71cfba3580b670be80a6ea071e520dc916926a",
+          "trackrag/vision/tracker.py": "052488800c11c716cc20fca854e6f516c3a6037e0e1f683c74eb8cd3e91f3b8c",
+          "trackrag/vision/config.py": "b4f474a7a7aa952876fcdda11095f682d66a7b414e26756c92d9e8d3dc37f93e",
+          "trackrag/vision/classes.py": "4ba586e8c6daede1c70e709696086746651aa7076578d5a4356469aedf6b44ce",
+          "trackrag/vision/detections.py": "49f5b30a69ec6e1190345d937954ba0bffc8b5d294bbf7e7e76b13600a1c8749",
+          "trackrag/vision/geometry.py": "3cbd9498ba8ea134f623c45d9a178c016a90651c24784f1aa3ae1290d48b1b4b"
+        },
+        "data_root": "data/task1-image-only-20261119",
+        "annotations_present": false,
+        "frames_per_recording": 150,
+        "torch_threads": 8,
+        "torch_version": "2.15.0+cpu",
+        "seconds": 1762.5777536999958,
+        "exit_status": 0
+      },
+      "provenance_sha256": {
+        "video_054604": "a29c82f1f51d9f46d6bf257e4f38e87686d311f3e528b44332f7503c35fa9ffd",
+        "video_054907": "d234e392910e93e992a2d4a821008fde3454d32baa1646d85bb769dc80264d54"
+      },
+      "metric_report_sha256": "205698f35bcc1ff2b475027a3d2d2866764edc7323d204463040d99e2d99cc47",
+      "frame_count": 300,
+      "road_user_detection": {
+        "AP": 0.3036590285442747,
+        "AP50": 0.5340808556481943,
+        "AP75": 0.30243495604722814,
+        "AP_small": 0.16481001171877646,
+        "AP_medium": 0.6260680817825507,
+        "AP_large": 0.812575214947342,
+        "AR1": 0.04047058823529412,
+        "AR10": 0.27692307692307694,
+        "AR100": 0.38276923076923075,
+        "AR_small": 0.27290306985738455,
+        "AR_medium": 0.671888988361683,
+        "AR_large": 0.8690036900369004
+      },
+      "tracking": {
+        "num_frames": 300,
+        "num_unique_objects": 159,
+        "num_objects": 5525,
+        "num_predictions": 2316,
+        "num_matches": 1731,
+        "num_misses": 3677,
+        "num_false_positives": 468,
+        "num_switches": 117,
+        "num_fragmentations": 110,
+        "mota": 0.2285972851,
+        "motp": 0.1670405761,
+        "idf1": 0.377757939,
+        "idp": 0.6394645941,
+        "idr": 0.2680542986,
+        "precision": 0.7979274611,
+        "recall": 0.334479638,
+        "mostly_tracked": 12,
+        "partially_tracked": 33,
+        "mostly_lost": 114
+      },
+      "runtime_packages": {
+        "rfdetr": "1.12.1",
+        "ultralytics": "8.4.215",
+        "torch": "2.15.0",
+        "torchvision": "0.29.2",
+        "numpy": "1.26.4",
+        "pillow": "10.1.0",
+        "supervision": "0.31.7",
+        "opencv-python": "4.11.0.86",
+        "opencv-python-headless": "4.11.0.86",
+        "cv2_runtime": "4.11.0"
+      },
+      "runtime_python": "3.11.3"
+    }
+  ],
+  "reviewer_runs": [
+    {
+      "recording_id": "video_054604",
+      "question_count": 24,
+      "nonempty_evidence_questions": 19,
+      "answer_status_counts": {
+        "not_requested": 24
+      },
+      "evidence_image_count": 36,
+      "result_sha256": "8f8fa96a4ce0a353bc22835c323d6371a6981c06880d1c9adb8ef80db1b110ec",
+      "track_sha256": "5d99bb0d6ca678e376b6c933e8410b99770d190405650c64c1717d455313ca8a",
+      "stored_run_audit_passed": true
+    },
+    {
+      "recording_id": "video_054907",
+      "question_count": 12,
+      "nonempty_evidence_questions": 7,
+      "answer_status_counts": {
+        "not_requested": 12
+      },
+      "evidence_image_count": 24,
+      "result_sha256": "95707acd276aa8fa4e83fb2544fd52c09bc902b2f82102944c7ee6d41f5b42d7",
+      "track_sha256": "95df6a0030009d4340869aa92b8bce6f8265116a9bf446274dc732966d127f3c",
+      "stored_run_audit_passed": true
+    }
+  ],
+  "validation": {
+    "primary_suite": {
+      "passed": 388,
+      "skipped_optional": 4,
+      "subtests_passed": 285
+    },
+    "optional_metric_fixture_checks_passed": 54,
+    "optional_real_tracker_and_trainconfig_checks_passed": 3,
+    "independent_source_review": "Two AI-assisted reviewers; no remaining actionable finding"
+  },
+  "limits": [
+    "Full-test detection AP is archived/reported only: supplied ZIPs omit raw detection JSONL.",
+    "Fresh inference and reviewer integration use two development prefixes, not held-out test images.",
+    "Numeric track IDs and coordinates are not byte-identical across runtimes; measured correspondence is reported.",
+    "The paired detector/tracker profiles differ, so tracking changes do not isolate detector fine-tuning.",
+    "No Gemini answers or NLP relevance accuracy were evaluated."
+  ],
+  "local_evidence_sha256": {
+    "checkpoint-metadata.json": "43ed814b54edf751f0ff9d54276719c10072a3c0bb00dc2fd918ec72388c7284",
+    "finetuned-live-prefix-metrics.json": "205698f35bcc1ff2b475027a3d2d2866764edc7323d204463040d99e2d99cc47",
+    "finetuned-test-tracking-recomputed.json": "e1cf6dfa549e4b737bf54d0f16879d7c941b17bdb7b52e32bed6eb0c596534e8",
+    "full-test-tracking-comparison.json": "0be0107229a6530002faa994be9935a2d9e147b84d5ec6afb396f619d07f9120",
+    "live-finetuned-comparison.json": "78d138a9abd8683721128d6eada9bdb48673e405d699412bb430ee24eb660699",
+    "live-finetuned-geometric-comparison.json": "0afbee8d61c18a7c2e0088fd9deb5559329322c5a95662b2b48798d2ba0358a2",
+    "official-labels.json": "402082ec88de4bfc0087b39c98a71770aaa7219bc86559f91e8d412543779264",
+    "parameter-comparison.json": "fbc30513e28325d6deacf9d1de44d4134203e4e851a86b3a83b364609e3680ab",
+    "prediction-archive-review.json": "32643ef942d08632f5ec089aff7093b689e4ac45caee8f2ecd2a108120039fac",
+    "pretrained-live-prefix-metrics.json": "f9089e2892a925d6b8186097fa11629a2d25e51ec27d203cf220c47910e53f3e",
+    "pretrained-test-tracking-recomputed.json": "a676b41d59ecbbe27d73f1954975d48f25358c552c8b2d0267c85e934a6ef2ba",
+    "staged-manifest.json": "2b00eaaa410fe8ac0279d2737bd451fe19e67b80c2642800ca894f7c21216f19",
+    "stored-review-audit-054604.json": "a8bb3b94343cf355f73f4f13ebd603a84bbae691ac1fb5b2354cd2c1a8b33647",
+    "stored-review-audit-054907.json": "23af94e63b455d0917c7a6d005de09c2c1ee0cea76518e1ce29859d33239e9fb"
+  },
+  "official_annotation_archives": [
+    {
+      "filename": "test_annotation.tar.gz",
+      "revision": "4418cec01b03c6f797cadb06c9405843a30988e2",
+      "lfs_sha256": "a5d6bb56995738acd1251ffcdfea11432a2f47d96e1da5e3c34897debde45372",
+      "annotation_file_count": 5
+    },
+    {
+      "filename": "train_annotation.tar.gz",
+      "revision": "4418cec01b03c6f797cadb06c9405843a30988e2",
+      "lfs_sha256": "58ac63c71f1b6c12dfc8b31dde20afdfbcac9af3066929526053968438fcfb44",
+      "annotation_file_count": 15
+    }
+  ],
+  "timing_note": "Wall-clock execution includes a long delay in the fine-tuned second recording and a tool-host reconnect. No latency comparison is claimed."
+}

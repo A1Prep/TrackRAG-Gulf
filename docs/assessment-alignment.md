@@ -2,6 +2,14 @@
 
 Checked against the supplied MAAI 901 and 902 subject outlines on 16 November 2026, plus Omar's report that the lecturers prefer fine-tuning and locally run models. The current Gemini trials are development work. They do not complete the assessed model-training work.
 
+## Passenger instruction addition agreed on 19 November 2026
+
+Omar reports that the lecturers found the current NLP contribution too basic and approved an additional passenger drop-off interaction: identify a proposed stopping location and ask for confirmation, with voice for this interaction and no vehicle control. The existing footage-question workflow remains part of the application.
+
+The [passenger research and delivery plan](passenger-dropoff-research.md) defines a grounded-language task, its published precedents, available location labels, reviewed ambiguity cases and a seven-day evaluation sequence. It proposes prioritising actual local image-and-language grounding adaptation for the new interaction while preserving the existing retrieval baselines. The older relevance-reranking milestones below describe the original training route; this addition does not imply that two separate NLP models must be fine-tuned. The assessed contribution must still be central, trained, reloaded and evaluated rather than an unused adapter or speech-only wrapper.
+
+As of the 19 November source audit, Task 1's open PR21 now includes substantive training logs and reported fine-tuned results, with weights and prediction bundles shared externally. Independent artifact reload remains pending. Task 4's open PR20 provides candidate and relevance-data tooling but explicitly leaves reviewed human labels, Qwen inference and fine-tuning unfinished. See the linked plan for the current contribution audit. The historical status at the end of this file records the earlier integrated version.
+
 ## Written requirements and lecturer feedback
 
 MAAI 901 Assessment 3 explicitly includes model training, evaluation, preprocessing and augmentation. It measures LO3, which concerns fine-tuning/customizing pretrained models. See the 901 subject outline, pages 2 and 7–8.

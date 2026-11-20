@@ -1,0 +1,103 @@
+{
+  "schema_version": 1,
+  "verified_at_utc": "2026-11-20T14:57:59.308511+00:00",
+  "kind": "real_vision_scene_input_and_qwen_preprocessing_verification",
+  "scope": "Input preparation and actual processor compatibility, not neural inference or training",
+  "data_root": "data/task1-image-only-20261119",
+  "annotation_directory_present": false,
+  "saved_prediction_root": "runs/task1-artifact-verification-20261119/finetuned-live-01",
+  "vision_config": "configs/vision/finetuned.json",
+  "vision_identity_hash": "acf21b53525d5729541aaedbf961a9c634399fa881fc7976909d48575c5e870d",
+  "requested_instruction_rows": 9,
+  "prepared_rows": 6,
+  "deliberate_invalid_rows_retained": 3,
+  "per_recording": {
+    "video_054604": [
+      {
+        "frame_id": 75,
+        "current_observations": 0,
+        "image_sha256": "26a6258f0a66d59e01410c44cc88f6d515f011a7cf9fd39e56b214c3dfb72508"
+      },
+      {
+        "frame_id": 100,
+        "current_observations": 0,
+        "image_sha256": "824a4912b8e027000e91e47f1c6a5c08ead032dc8ce0a39f1303bedce96a99d6"
+      },
+      {
+        "frame_id": 150,
+        "current_observations": 6,
+        "image_sha256": "2b9128389843a3315820747e47c64c88106580ac5572fe0c7917345d7bcf56aa"
+      }
+    ],
+    "video_054907": [
+      {
+        "frame_id": 75,
+        "current_observations": 12,
+        "image_sha256": "ea0663e1f8cf26045a1f58b45371c2db9abedf9d2362e52599130ab656d1415b"
+      },
+      {
+        "frame_id": 100,
+        "current_observations": 12,
+        "image_sha256": "4618ab2e0092d01038d1b9fad88f6f19316c0e43c23a96992c5cea1e1e1d2f62"
+      },
+      {
+        "frame_id": 150,
+        "current_observations": 11,
+        "image_sha256": "fc2684b47bc7d3a894a4af31a0a2a1858ecce00be05ba3d5c3db4ad65e169c22"
+      }
+    ]
+  },
+  "requests_sha256": "a96c6bb4713841d22c7ff41ea1b6125fd9691a6532737d80c99c708f31fa1f98",
+  "portable_archive": {
+    "path": "runs/dropoff-scene-integration-20261120/real-scene-request-handoff.zip",
+    "bytes": 5908261,
+    "sha256": "72add8352915beb59abcfef4c3223dedae10838a7c4a7a2e4bdfe4e30c551a23",
+    "relocated_images_verified": 6
+  },
+  "qwen_processor": {
+    "model_id": "Qwen/Qwen3-VL-8B-Instruct",
+    "base_revision": "0c351dd01ed87e9c1b53cbc748cba10e6187ff3b",
+    "processor_class": "Qwen3VLProcessor",
+    "production_method": "trackrag.dropoff.model._TransformersBackend.prepare_inputs",
+    "packages": {
+      "transformers": "5.1.0",
+      "torch": "2.15.0+cpu",
+      "Pillow": "10.1.0"
+    },
+    "requested_rows": 6,
+    "processed_rows": 6,
+    "input_tokens": [
+      586,
+      588,
+      1068,
+      1507,
+      1516,
+      1447
+    ],
+    "processed_image_pixels": 258048,
+    "max_input_tokens": 2048,
+    "max_pixels": 262144,
+    "all_image_hashes_match": true,
+    "all_budgets_fit": true,
+    "offline": true,
+    "before_fix_failures": 6,
+    "fixed_issue": "Transformers5.1 direct multimodal tokenize=True rejected mixed string/content-block chat; render then encode the same materialized image."
+  },
+  "software_tests": {
+    "pytest_passed": 686,
+    "pytest_skipped": 12,
+    "subtests_passed": 285,
+    "independent_review": "No blocking findings in input adapter, CLI, saved-artifact receipt, processor fix or training-source packaging."
+  },
+  "execution_limits": {
+    "fresh_detector_inference": false,
+    "neural_model_weights_loaded": false,
+    "neural_model_inference": false,
+    "speech_recognition": false,
+    "nlp_training": false,
+    "grounding_quality_measured": false,
+    "historical_prediction_image_hash_binding_verified": false
+  },
+  "receipts_root": "runs/dropoff-scene-integration-20261120",
+  "next_model_milestone": "Actual8B parameter-update/save/reload on a suitable GPU, followed by full adaptation and independent evaluation."
+}

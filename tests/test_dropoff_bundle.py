@@ -90,6 +90,20 @@ def test_optional_docs_and_tests_are_explicit(tmp_path):
         assert "tests/test_dropoff_model.py" in archive.namelist()
 
 
+def test_minimal_training_bundle_excludes_full_emt_checkout_entrypoint(tmp_path):
+    root = source_fixture(tmp_path)
+    for name in ("tools/dropoff_prepare_scene.py", "tests/test_dropoff_prepare_scene.py"):
+        path = root / name
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text("import trackrag.emt  # full-checkout-only generated fixture\n")
+    output = tmp_path / "source.zip"
+    bundle_source(root, output, include_tests=True)
+    with zipfile.ZipFile(output) as archive:
+        assert "tools/dropoff_prepare_scene.py" not in archive.namelist()
+        assert "tests/test_dropoff_prepare_scene.py" not in archive.namelist()
+        assert REQUIRED_SOURCE <= set(archive.namelist())
+
+
 @pytest.mark.parametrize("with_initializer", (False, True))
 def test_namespace_layout_and_optional_top_level_initializer(tmp_path, with_initializer):
     root = source_fixture(tmp_path)

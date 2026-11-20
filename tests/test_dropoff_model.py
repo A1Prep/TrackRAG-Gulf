@@ -448,6 +448,13 @@ def fake_hf_modules(monkeypatch, tokens=5):
 
         def apply_chat_template(self, messages, **kwargs):
             calls["template"] = (messages, kwargs)
+            # Real Transformers 5.1 cannot tokenize mixed string/content-block
+            # messages directly; the renderer supports that valid chat format.
+            assert kwargs["tokenize"] is False
+            return "rendered chat with one image placeholder"
+
+        def __call__(self, **kwargs):
+            calls["processor_encode"] = kwargs
             return Batch({
                 "input_ids": SimpleNamespace(shape=(1, tokens)),
                 "pixel_values": "image-tensor", "token_type_ids": "not-for-qwen",
@@ -485,12 +492,25 @@ def fake_hf_modules(monkeypatch, tokens=5):
     return calls
 
 
-def test_real_backend_uses_pinned_offline_api_and_decodes_only_new_tokens(monkeypatch):
+@pytest.fixture
+def materialized_messages(grounding_request):
+    from trackrag.dropoff.formatting import build_messages
+    from trackrag.dropoff.model import _materialize_image
+
+    with Image.open(grounding_request["scene"]["frame"]["image_path"]) as original:
+        image = original.convert("RGB")
+    try:
+        yield _materialize_image(build_messages(grounding_request), image)
+    finally:
+        image.close()
+
+
+def test_real_backend_uses_pinned_offline_api_and_decodes_only_new_tokens(monkeypatch, materialized_messages):
     from trackrag.dropoff.model import _TransformersBackend
 
     calls = fake_hf_modules(monkeypatch)
     config = GroundingConfig(device="cpu")
-    result = _TransformersBackend(config).generate([{"role": "user", "content": "example"}], config=config)
+    result = _TransformersBackend(config).generate(materialized_messages, config=config)
     assert result.text == proposed()
     assert result.details["input_tokens"] == 5
     assert result.details["output_tokens"] == 3
@@ -499,6 +519,15 @@ def test_real_backend_uses_pinned_offline_api_and_decodes_only_new_tokens(monkey
         assert calls[key][1]["local_files_only"] is True
         assert calls[key][1]["trust_remote_code"] is False
     assert calls["processor_load"][1]["max_pixels"] == config.max_pixels
+    assert calls["template"][0] is materialized_messages
+    assert calls["template"][1] == {"tokenize": False, "add_generation_prompt": True}
+    encoding = calls["processor_encode"]
+    assert encoding["text"] == ["rendered chat with one image placeholder"]
+    assert encoding["images"] == [materialized_messages[1]["content"][0]["image"]]
+    assert encoding["images"][0].getpixel((0, 0)) == (70, 80, 90)
+    assert encoding["padding"] is True
+    assert encoding["truncation"] is False
+    assert encoding["return_tensors"] == "pt"
     assert calls["generate"]["do_sample"] is False
     assert calls["generate"]["max_new_tokens"] == 192
     assert calls["generate"]["max_time"] == 120.0
@@ -506,18 +535,18 @@ def test_real_backend_uses_pinned_offline_api_and_decodes_only_new_tokens(monkey
     assert calls["decode_slice"][1].start == 5
 
 
-def test_real_backend_rejects_long_inputs_without_truncation(monkeypatch):
+def test_real_backend_rejects_long_inputs_without_truncation(monkeypatch, materialized_messages):
     from trackrag.dropoff.model import ResourceError, _TransformersBackend
 
     calls = fake_hf_modules(monkeypatch, tokens=2049)
     config = GroundingConfig(device="cpu")
     backend = _TransformersBackend(config)
     with pytest.raises(ResourceError, match="not truncated"):
-        backend.generate([], config=config)
+        backend.generate(materialized_messages, config=config)
     assert "generate" not in calls
 
 
-def test_real_backend_deadline_truncation_cannot_become_a_semantic_result(monkeypatch):
+def test_real_backend_deadline_truncation_cannot_become_a_semantic_result(monkeypatch, materialized_messages):
     from trackrag.dropoff.model import _TransformersBackend
 
     calls = fake_hf_modules(monkeypatch)
@@ -525,6 +554,28 @@ def test_real_backend_deadline_truncation_cannot_become_a_semantic_result(monkey
     monkeypatch.setattr("trackrag.dropoff.model.time.monotonic", lambda: next(clock))
     config = GroundingConfig(device="cpu", max_time_s=1)
     with pytest.raises(TimeoutError):
-        _TransformersBackend(config).generate([], config=config)
+        _TransformersBackend(config).generate(materialized_messages, config=config)
     assert "generate" in calls
     assert "decode" not in calls
+
+
+@pytest.mark.parametrize("invalid", ("missing", "duplicate", "path"))
+def test_backend_preparation_never_reopens_an_image_path_or_selects_an_ambiguous_image(
+    monkeypatch, materialized_messages, invalid,
+):
+    from trackrag.dropoff.model import _TransformersBackend
+
+    calls = fake_hf_modules(monkeypatch)
+    config = GroundingConfig(device="cpu")
+    messages = deepcopy(materialized_messages)
+    if invalid == "missing":
+        messages[1]["content"] = [messages[1]["content"][1]]
+    elif invalid == "duplicate":
+        messages[1]["content"].append(messages[1]["content"][0])
+    else:
+        messages[1]["content"][0]["image"] = "path-that-must-not-be-reopened.jpg"
+    with pytest.raises(ValueError, match="materialized current-frame image"):
+        _TransformersBackend(config).prepare_inputs(messages, config=config)
+    assert "template" not in calls
+    assert "processor_encode" not in calls
+    assert "generate" not in calls

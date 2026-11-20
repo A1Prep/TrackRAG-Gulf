@@ -266,10 +266,32 @@ class _TransformersBackend:
         self.model.eval()
         self.dtype = dtype
 
-    def generate(self, messages: list[dict], *, config: GroundingConfig) -> BackendResponse:
-        inputs = self.processor.apply_chat_template(
-            messages, tokenize=True, add_generation_prompt=True,
-            return_dict=True, return_tensors="pt",
+    def prepare_inputs(self, messages: list[dict], *, config: GroundingConfig):
+        """Encode the rendered chat and the already verified current image.
+
+        Transformers 5.1's multimodal ``tokenize=True`` template path assumes
+        every message has content blocks. Our valid chat includes string system,
+        dialogue and instruction messages. Render text first, as the training
+        collator does, then supply the same in-memory image snapshot explicitly.
+        No image path is reopened and over-budget inputs are never truncated.
+        """
+        from PIL.Image import Image
+
+        images = [
+            part.get("image")
+            for message in messages if isinstance(message.get("content"), list)
+            for part in message["content"] if part.get("type") == "image"
+        ]
+        if len(images) != 1 or not isinstance(images[0], Image):
+            raise ValueError("Processor inputs require exactly one materialized current-frame image")
+        rendered = self.processor.apply_chat_template(
+            messages, tokenize=False, add_generation_prompt=True,
+        )
+        if not isinstance(rendered, str):
+            raise ValueError("Chat template must render text before multimodal encoding")
+        inputs = self.processor(
+            text=[rendered], images=images, padding=True,
+            truncation=False, return_tensors="pt",
         )
         inputs.pop("token_type_ids", None)
         tokens = int(inputs["input_ids"].shape[-1])
@@ -277,6 +299,11 @@ class _TransformersBackend:
             raise ResourceError(
                 f"Input has {tokens} tokens, exceeding {config.max_input_tokens}; input was not truncated"
             )
+        return inputs
+
+    def generate(self, messages: list[dict], *, config: GroundingConfig) -> BackendResponse:
+        inputs = self.prepare_inputs(messages, config=config)
+        tokens = int(inputs["input_ids"].shape[-1])
         inputs = inputs.to(self.model.device)
         started = time.monotonic()
         with self.torch.inference_mode():

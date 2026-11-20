@@ -16,6 +16,11 @@ MANIFEST = "BUNDLE_MANIFEST.json"
 SOURCE_LIMIT = 64 * 1024 * 1024
 ARTIFACT_LIMIT = 512 * 1024 * 1024
 FORBIDDEN_SOURCE_PARTS = {"__pycache__", ".git", ".venv", ".venv-models", "venv", "env", "data", "models", "runs"}
+# These run in the full EMT checkout before uploading prepared requests. Their
+# Task 1/2 dependencies are deliberately absent from the minimal training ZIP.
+FULL_CHECKOUT_ONLY = {
+    "tools/dropoff_prepare_scene.py", "tests/test_dropoff_prepare_scene.py",
+}
 REQUIRED_SOURCE = {
     "trackrag/contracts.py", "trackrag/dropoff/__init__.py",
     "trackrag/dropoff/contracts.py", "trackrag/dropoff/data.py",
@@ -85,6 +90,8 @@ def safe_zip_path(name):
 def source_allowed(name):
     path = safe_zip_path(name)
     parts = path.parts
+    if name in FULL_CHECKOUT_ONLY:
+        return False
     if any(part.startswith(".") or part in FORBIDDEN_SOURCE_PARTS for part in parts):
         return False
     if name in ("trackrag/__init__.py", "trackrag/contracts.py", "requirements-grounding-train.txt"):
@@ -155,7 +162,8 @@ def _source_files(root, include_docs, include_tests):
     if include_docs:
         candidates.extend(root.glob("docs/dropoff*.md"))
     if include_tests:
-        candidates.extend(root.glob("tests/test_dropoff*.py"))
+        candidates.extend(path for path in root.glob("tests/test_dropoff*.py")
+                          if source_allowed(path.relative_to(root).as_posix()))
     contents = {}
     for path in sorted(set(candidates)):
         if not path.exists() and not path.is_symlink():

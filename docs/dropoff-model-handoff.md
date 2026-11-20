@@ -33,6 +33,8 @@ The request format is defined in trackrag/dropoff/contracts.py:
 
 Task 1 supplies the actual image and predicted observations. The public training pilot explicitly has no detector run and an empty observation list; it is not evidence of end-to-end 901 integration.
 
+The [real-scene input command](dropoff-scene-inputs.md) now connects the existing EMT reader and validated Task 1 saved predictions to this format. It exports portable image/request snapshots without annotations. Task 4 can reuse `trackrag.dropoff.inputs.build_instruction_request` with its selected frame and validated predictions. This completes input preparation; actual language-model inference and trained-model acceptance remain separate.
+
 Example call, after the application has built the request:
 
 ```python

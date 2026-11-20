@@ -100,6 +100,16 @@ def _recording_frame_ids(recording) -> list[int]:
 
 
 def predict_tracks(recording, *, directory=None, config=None):
+    rows, _ = predict_tracks_with_receipt(recording, directory=directory, config=config)
+    return rows
+
+
+def predict_tracks_with_receipt(recording, *, directory=None, config=None):
+    """Return validated saved predictions and hashes of the consumed snapshots.
+
+    This is the same route as ``predict_tracks``. It does not run the detector
+    or read annotations, and its receipt must not be labelled fresh inference.
+    """
     from trackrag.vision.config import load_config
 
     folder = Path(directory or os.environ.get(SAVED_ENV) or "")
@@ -110,12 +120,13 @@ def predict_tracks(recording, *, directory=None, config=None):
     tracks_path = folder / f"{recording_id}.tracks.jsonl"
     if not provenance_path.is_file() or not tracks_path.is_file():
         raise FileNotFoundError(f"No saved predictions for {recording_id} in {folder}")
-    provenance = json.loads(provenance_path.read_text(encoding="utf-8"))
+    provenance_snapshot = provenance_path.read_bytes()
+    provenance = json.loads(provenance_snapshot.decode("utf-8"))
     active = config or load_config()
     if provenance.get("identity_hash") != active.identity_hash():
         raise ValueError(f"Saved predictions in {folder} were made with identity {provenance.get('identity_hash')}, "
                          f"but the active vision config {active.name!r} has identity {active.identity_hash()}")
-    rows, predicted, size, _ = load_track_artifact(tracks_path, provenance, recording_id)
+    rows, predicted, size, tracks_sha256 = load_track_artifact(tracks_path, provenance, recording_id)
     available = _recording_frame_ids(recording)
     if predicted[:len(available)] != available:
         raise ValueError(f"{recording_id}: the recording's frames are not a prefix of the predicted frames")
@@ -126,4 +137,18 @@ def predict_tracks(recording, *, directory=None, config=None):
         if [frame["width"], frame["height"]] != size:
             raise ValueError(f"{recording_id}: frame size differs from prediction provenance")
     last = available[-1]
-    return [row for row in rows if row["frame_id"] <= last]
+    selected = [row for row in rows if row["frame_id"] <= last]
+    return selected, {
+        "kind": "validated_saved_vision_predictions",
+        "recording_id": recording_id,
+        "vision_identity_hash": active.identity_hash(),
+        "tracks_sha256": tracks_sha256,
+        "provenance_sha256": hashlib.sha256(provenance_snapshot).hexdigest(),
+        "tracks_path": str(tracks_path.resolve()),
+        "provenance_path": str(provenance_path.resolve()),
+        "prefix_first_frame": available[0],
+        "prefix_last_frame": last,
+        "prefix_frames": len(available),
+        "prefix_observations": len(selected),
+        "fresh_detector_inference": False,
+    }

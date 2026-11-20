@@ -1,0 +1,158 @@
+{
+  "schema_version": 1,
+  "verified_date_dubai": "2026-11-20",
+  "scope": "Task 5 Part 2 implementation and real-data preparation",
+  "status": "prepared_for_actual_gpu_pilot_not_trained",
+  "model": {
+    "model_id": "Qwen/Qwen3-VL-8B-Instruct",
+    "revision": "0c351dd01ed87e9c1b53cbc748cba10e6187ff3b",
+    "safetensors": {
+      "parameters": {
+        "BF16": 8767123696
+      },
+      "total": 8767123696
+    },
+    "metadata_sha256": "16c04e005b26126d755bd159256c418e4dfe1d703f143096f3a8551183a34af2",
+    "url": "https://huggingface.co/api/models/Qwen/Qwen3-VL-8B-Instruct"
+  },
+  "data": {
+    "cases": 10,
+    "verified_source_scenes": 10,
+    "partition": "train",
+    "case_ids": [
+      "regseg-train-5535",
+      "regseg-train-1385",
+      "regseg-train-4834",
+      "regseg-train-3934",
+      "regseg-train-3662",
+      "regseg-train-6119",
+      "regseg-train-4260",
+      "regseg-train-1164",
+      "regseg-train-5347",
+      "regseg-train-3674"
+    ],
+    "cases_sha256": "6f7be3445e04e0889c6648e2d67f808cde7442d1664958d552b3dc1e21634ffb",
+    "supervised_fields": [
+      "destination_box_xyxy",
+      "destination_point_xy"
+    ],
+    "human_local_interpretation_cases_verified": 0,
+    "heldout_accuracy_measured": false
+  },
+  "source_audit": {
+    "regseg_revision": "cebce1943ce373857cc9be5def68ded4008c29e1",
+    "regseg_metadata_sha256": "c94b741178b0cf8955014e43229fd0eb9afb384c29269b7c071e9858b402a3f8",
+    "talk2car_revision": "3fde52aee3341312196ab9b2f999337eff0693a0",
+    "talk2car_metadata_sha256": "5a90c471284685bd8dd8bfa6e992cfefce69e58a392c934d2f9d54ea119a42d2",
+    "guard_file_sha256": "27a218f0f71c8bae59f9c31f603e4a531e687c7ee42596d359e2e466d87fadfb",
+    "mapped_train_records": 8349,
+    "mapped_train_scenes": 587,
+    "concise_test_train_source_records": 170,
+    "concise_test_validation_source_records": 338,
+    "reserved_training_scenes": 58,
+    "reserved_training_records": 1146,
+    "real_cli_network_bytes": 97222464,
+    "real_cli_http_requests": 11,
+    "full_1_49gb_archive_downloaded": false
+  },
+  "actual_processor_check": {
+    "kind": "real_processor_only_no_model_weights_or_parameter_updates",
+    "model_revision": "0c351dd01ed87e9c1b53cbc748cba10e6187ff3b",
+    "processor_class": "Qwen3VLProcessor",
+    "torch": "2.15.0+cpu",
+    "transformers": "5.1.0",
+    "real_cases": 10,
+    "input_token_range": [
+      565,
+      585
+    ],
+    "supervised_token_range": [
+      61,
+      68
+    ],
+    "padding_image_user_system_tokens_excluded_from_loss": true,
+    "receipt_sha256": "7118c9074b5e074d34f814d846dd9ac3ec1def738f5987b3298f99ded6781b3f"
+  },
+  "real_source_negative_checks": {
+    "kind": "real_source_data_boundary_checks_no_model_execution",
+    "valid_real_cases": 10,
+    "checks": [
+      {
+        "case": "changed_public_instruction",
+        "rejected": true,
+        "reason": "public RegSeg instruction differs from its audited source command"
+      },
+      {
+        "case": "omitted_image_hash",
+        "rejected": true,
+        "reason": "image SHA256 is missing or does not match the declared source"
+      },
+      {
+        "case": "invented_public_status",
+        "rejected": true,
+        "reason": "public RegSeg masks supervise destination fields only, not status or anchors"
+      },
+      {
+        "case": "reserved_scene_without_optional_overlap_flag",
+        "rejected": true,
+        "reason": "RegSeg source scene is reserved for concise-test evaluation"
+      }
+    ]
+  },
+  "software_validation": {
+    "primary_full_suite": {
+      "passed": 590,
+      "skipped": 12,
+      "subtests_passed": 285
+    },
+    "model_environment_focused": {
+      "passed": 143,
+      "overlaps_primary": true,
+      "cpu_tensor_checks": true
+    },
+    "independent_reviews": "AI-assisted source reviews; findings resolved; not human reference or model-quality validation"
+  },
+  "cloud_handoff": {
+    "source_bundle_sha256": "03a1c701da6e2699dfdda94429be46dc2470452bc1c885cf67eed373095d47c6",
+    "source_bundle_bytes": 389877,
+    "fresh_extracted_source_import_and_validation_passed": true,
+    "notebook_sha256": "57a13b584b77520dfdcc0abcbcf875274ebcbc06e80b2c3a8a47a15be435ac20",
+    "notebook_format_and_nine_code_cells_validated": true,
+    "cloud_gpu_cells_executed": false
+  },
+  "laptop_execution": {
+    "physical_gpu": "NVIDIA GeForce RTX 3050 Laptop GPU",
+    "physical_vram_mib": 4096,
+    "training_preflight_ready": false,
+    "checks": [
+      {
+        "check": "safe_training_validation",
+        "returncode": 0,
+        "ready": null,
+        "operational_errors": null
+      },
+      {
+        "check": "laptop_training_preflight",
+        "returncode": 2,
+        "ready": false,
+        "operational_errors": null
+      },
+      {
+        "check": "offline_cuda_inference_guard",
+        "returncode": 1,
+        "ready": null,
+        "operational_errors": 2
+      }
+    ]
+  },
+  "actual_8b_weights_downloaded": false,
+  "actual_8b_neural_inference_executed": false,
+  "actual_8b_parameter_updates_executed": false,
+  "model_quality_measured": false,
+  "remaining": [
+    "Run real gradient/update/save/reload/spatial pilot on a suitable GPU",
+    "Receive reviewed local instruction/ambiguity data and separate development groups from Tasks 2/3",
+    "Run actual adaptation and matching pretrained/trained inference",
+    "Task 1 independent heldout scoring; Task 4 full application integration and QA/voice acceptance"
+  ]
+}

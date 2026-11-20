@@ -304,3 +304,45 @@ def test_case_export_refuses_test_derived_or_mismatched_records(tmp_path):
     with pytest.raises(BootstrapError, match="identity"):
         build_cases(metadata, images, masks, set(), tmp_path / "wrong", limit=1, source_receipt={})
     assert not (tmp_path / "wrong").exists()
+
+
+def test_recorded_empty_mask_is_skipped_and_valid_limit_is_filled(tmp_path):
+    import hashlib
+    rejected = []
+    empty = image_bytes(mask=True, empty=True)
+    cases = build_cases(
+        make_metadata(7, 9), {7: image_bytes(), 9: image_bytes()},
+        {7: empty, 9: image_bytes(mask=True)}, set(), tmp_path / "filtered",
+        limit=1, source_receipt={"fixture": True}, rejected_records=rejected,
+    )
+    assert [case["source"]["source_index"] for case in cases] == [9]
+    assert len(rejected) == 1
+    assert rejected[0]["source_index"] == 7
+    assert rejected[0]["reason"] == "Empty destination mask"
+    assert rejected[0]["mask_sha256"] == hashlib.sha256(empty).hexdigest()
+    assert not (tmp_path / "filtered" / "masks" / "gt_img_ann_train_7.png").exists()
+
+
+def test_corrupt_only_source_cannot_create_a_training_corpus(tmp_path):
+    rejected = []
+    output = tmp_path / "all-invalid"
+    with pytest.raises(BootstrapError, match="No valid destination"):
+        build_cases(
+            make_metadata(7), {7: image_bytes()}, {7: b"not a PNG"}, set(), output,
+            limit=1, source_receipt={}, rejected_records=rejected,
+        )
+    assert [item["source_index"] for item in rejected] == [7]
+    assert not output.exists()
+
+
+def test_filtering_bad_pixels_keeps_source_identity_failure_strict(tmp_path):
+    metadata = make_metadata(7)
+    metadata["train"]["7"]["img"] = "img_val_7.jpg"
+    rejected = []
+    with pytest.raises(BootstrapError, match="identity"):
+        build_cases(
+            metadata, {7: image_bytes()}, {7: image_bytes(mask=True)}, set(),
+            tmp_path / "identity-failure", limit=1, source_receipt={},
+            rejected_records=rejected,
+        )
+    assert rejected == []

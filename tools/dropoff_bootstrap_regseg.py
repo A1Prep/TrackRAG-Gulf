@@ -295,6 +295,7 @@ def build_cases(
     metadata: dict, images: dict[int, bytes], masks: dict[int, bytes],
     excluded: set[int], output: Path, *, limit: int, source_receipt: dict,
     scene_map: dict[int, dict] | None = None, excluded_scenes: set[str] | None = None,
+    rejected_records: list[dict] | None = None,
 ) -> list[dict]:
     if output.exists():
         raise BootstrapError("Refusing to overwrite an existing bootstrap directory")
@@ -309,14 +310,28 @@ def build_cases(
         raise BootstrapError("No safe joined training records in image prefix")
     cases = []
     prepared = []
-    for identity in selected[:limit]:
+    for identity in selected:
+        if len(cases) >= limit:
+            break
         row = metadata.get("train", {}).get(str(identity))
         if not isinstance(row, dict) or row.get("img") != f"img_train_{identity}.jpg":
             raise BootstrapError("Training metadata/image identity mismatch")
         command = row.get("command")
         if not isinstance(command, str) or not command.strip():
             raise BootstrapError("Missing source command")
-        shape, point, box, mask_shape = mask_targets(images[identity], masks[identity])
+        try:
+            shape, point, box, mask_shape = mask_targets(images[identity], masks[identity])
+        except (BootstrapError, OSError) as error:
+            if rejected_records is None:
+                raise
+            rejected_records.append({
+                "source_index": identity,
+                "source_image": f"img_train_{identity}.jpg",
+                "reason": str(error), "error_type": type(error).__name__,
+                "image_sha256": sha256(images[identity]),
+                "mask_sha256": sha256(masks[identity]),
+            })
+            continue
         case_id = f"regseg-train-{identity}"
         image_relative = Path("images") / f"img_train_{identity}.jpg"
         mask_relative = Path("masks") / f"gt_img_ann_train_{identity}.png"
@@ -363,6 +378,8 @@ def build_cases(
             "review": {"status": "public_annotation", "new_human_review": False},
         })
         prepared.append((image_path, images[identity], mask_path, masks[identity]))
+    if not cases:
+        raise BootstrapError("No valid destination records in the safe image prefix")
     output.mkdir(parents=True)
     (output / "images").mkdir()
     (output / "masks").mkdir()
@@ -418,13 +435,17 @@ def bootstrap(output: Path, *, limit: int = 8, max_download_mib: int = 128, imag
         "scene_metadata_sha256": SCENE_METADATA_SHA256,
         "excluded_concise_test_train_scene_count": len(excluded_scenes),
     }
+    rejected_records = []
     cases = build_cases(
         metadata, images, masks, excluded, output, limit=limit,
         source_receipt=provenance, scene_map=scenes, excluded_scenes=excluded_scenes,
+        rejected_records=rejected_records,
     )
     receipt = {
         "purpose": "real_training_only_bootstrap_not_final_evaluation",
         "case_count": len(cases), "requested_case_count": limit,
+        "rejected_source_record_count": len(rejected_records),
+        "rejected_source_records": rejected_records,
         "source_train_count": len(metadata.get("train", {})),
         "excluded_concise_test_source_train_ids": sorted(excluded),
         "excluded_concise_test_source_val_ids": sorted(excluded_val),

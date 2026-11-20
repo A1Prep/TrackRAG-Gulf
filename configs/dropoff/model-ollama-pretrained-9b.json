@@ -1,0 +1,16 @@
+{
+  "model_id": "qwen3.5:9b",
+  "model_digest": "6488c96fa5faab64bb65cbd30d4289e20e6130ef535a93ef9a49f42eda893ea7",
+  "endpoint": "http://127.0.0.1:11434",
+  "context_length": 8192,
+  "max_prompt_utf8_bytes": 4096,
+  "max_new_tokens": 192,
+  "max_time_s": 180,
+  "gpu_layers": 14,
+  "batch_size": 16,
+  "image_max_width": 672,
+  "image_max_height": 384,
+  "jpeg_quality": 92,
+  "keep_alive_s": 120,
+  "allow_annotated": false
+}

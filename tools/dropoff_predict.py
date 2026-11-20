@@ -142,6 +142,8 @@ def main(argv=None):
     run.add_argument("--requests", type=Path, required=True)
     run.add_argument("--config", type=Path, required=True)
     run.add_argument("--out", type=Path, required=True)
+    run.add_argument("--backend", choices=("transformers", "ollama"), default="transformers",
+                     help="Explicit local pretrained Ollama route; the trained HF route remains the default")
     run.add_argument("--adapter-dir", type=Path)
     run.add_argument("--cache-dir", type=Path)
     run.add_argument("--allow-download", action="store_true",
@@ -152,16 +154,23 @@ def main(argv=None):
             result = export_requests(args.cases, args.partition, args.out)
         else:
             raw = json.loads(args.config.read_text(encoding="utf-8"), object_pairs_hook=_unique_object)
-            config = GroundingConfig.from_mapping(raw)
-            overrides = {}
-            if args.adapter_dir:
-                overrides["adapter_dir"] = str(args.adapter_dir.resolve())
-            if args.cache_dir:
-                overrides["cache_dir"] = str(args.cache_dir.resolve())
-            if args.allow_download:
-                overrides["local_files_only"] = False
-            config = replace(config, **overrides)
-            result = predict(args.requests, config, args.out)
+            if args.backend == "ollama":
+                from trackrag.dropoff.ollama import OllamaGroundingConfig, OllamaGroundingModel
+                if args.adapter_dir or args.cache_dir or args.allow_download:
+                    raise ValueError("The separate local pretrained route accepts no adapters, caches or downloads")
+                config = OllamaGroundingConfig.from_mapping(raw)
+                result = predict(args.requests, config, args.out, adapter_factory=OllamaGroundingModel)
+            else:
+                config = GroundingConfig.from_mapping(raw)
+                overrides = {}
+                if args.adapter_dir:
+                    overrides["adapter_dir"] = str(args.adapter_dir.resolve())
+                if args.cache_dir:
+                    overrides["cache_dir"] = str(args.cache_dir.resolve())
+                if args.allow_download:
+                    overrides["local_files_only"] = False
+                config = replace(config, **overrides)
+                result = predict(args.requests, config, args.out)
         print(json.dumps(result, indent=2))
         return 1 if result.get("operational_errors", 0) else 0
     except (ValueError, OSError) as error:

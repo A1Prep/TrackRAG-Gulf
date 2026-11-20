@@ -141,6 +141,11 @@ The [milestone 3 relevance-review workflow](task4-relevance-dataset.md) prepares
 image-bound review packs and exports reviewed examples by recording split. The
 current pilot has pending labels; it is not a completed training dataset.
 
+The optional [pretrained Qwen text adapter](task4-qwen-pretrained.md) now provides
+frozen learned scoring over the expanded pool. It is selected explicitly and does
+not change the default lexical demo. It uses text metadata, not image pixels;
+relevance evaluation and parameter fine-tuning remain separate work.
+
 ## Run checks
 
 From the repository root:

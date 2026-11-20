@@ -2,6 +2,8 @@
 
 Checked against the supplied MAAI 901 and 902 subject outlines on 16 November 2026, plus Omar's report that the lecturers prefer fine-tuning and locally run models. The current Gemini trials are development work. They do not complete the assessed model-training work.
 
+Updated on 20 November 2026 for the approved passenger drop-off addition and Tuesday, 24 November submission. [Part 2: final project completion](final-completion-part2.md) controls current assignments and the four-day delivery plan. The adopted local NLP training objective is now language-conditioned destination grounding, replacing the earlier separate Qwen-reranker objective. Both application routes remain in scope.
+
 ## Written requirements and lecturer feedback
 
 MAAI 901 Assessment 3 explicitly includes model training, evaluation, preprocessing and augmentation. It measures LO3, which concerns fine-tuning/customizing pretrained models. See the 901 subject outline, pages 2 and 7–8.
@@ -10,22 +12,23 @@ MAAI 902 Assessment 3 requires an implemented end-to-end NLP application. It lis
 
 Neither supplied outline explicitly says every model or the final answer generator must run locally. They do not prescribe training every component. In response to the reported lecturer feedback, however, **actual CV fine-tuning and a substantive self-hosted, fine-tuned NLP component are project completion milestones**. Loading a pretrained model, changing prompts, adjusting retrieval rules or calling Gemini does not demonstrate weight training.
 
-This interpretation does not guarantee a mark. A trained reranker is a defensible NLP contribution when it learns the question-to-evidence task and controls the evidence used by the application. The written outlines do not establish whether the lecturer's verbal preference specifically concerns the answer-generating model; this remains a grading uncertainty, not permission to present a Gemini-only prototype as the completed project.
+This interpretation does not guarantee a mark. The adopted trained NLP contribution learns to interpret passenger language in a road scene, predicts an intended destination and supports clarification. It must actually control the new application's interpretation. The existing QA route can retain its documented lexical retrieval and configured Gemini generator. The written outlines do not establish that this separate answer generator must itself run locally; calling Gemini alone does not complete the local training milestone.
 
 ## Assessed model roles
 
 | Component | Owner | Completion evidence |
 | --- | --- | --- |
-| RF-DETR Large detector, adapted to EMT | Task 1 | Actual fine-tuning, explicit class mapping, saved trained weights/adapter, training configuration and before/after detection evaluation |
-| BoT-SORT tracking | Task 1 | Real predicted detections linked over time, identity metrics and failure analysis; tracker fine-tuning is not automatically required |
-| EMT data and recording splits | Task 2 | Original frame IDs/coordinates, verified labels, recording-level train/development/test separation |
-| Reviewed questions, answer key and cited answer generation | Task 3 | Human-reviewed labels, answer-provider adapter, citations and abstention/error handling; Gemini is the planned configured generator |
-| Fine-tuned Qwen relevance/reranking model | Task 4 | A local/self-hosted trained checkpoint that learns which vehicle/time evidence supports a natural-language question and actually determines the evidence passed to Task 3 |
-| Integration and independent evaluation | Task 5 | The same reviewer/evaluator runs the baselines and trained components, retains errors and provides reproducible comparison results |
+| RF-DETR Large detector, adapted to EMT | Previous Task 1 owner | Actual fine-tuning, explicit class mapping, saved trained weights/adapter, training configuration and before/after detection evaluation |
+| BoT-SORT tracking and genuine scene inputs | Previous Task 1 owner | Real predicted detections linked over time, identity metrics, failure analysis and exact-frame handoff; tracker fine-tuning is not automatically required |
+| EMT/grounding data and grouped splits | Previous Task 2 owner | Original frame IDs/coordinates, reviewed destination annotations and separate training/development/evaluation groups |
+| Reviewed questions, cited QA and speech input | Previous Task 3 owner | Human-reviewed references, actual answer-provider outcomes, citations, abstention/error handling and fixed-ASR evaluation |
+| Application, clarification and confirmation | Previous Task 4 owner | Both routes connected, current-frame proposal binding, regression checks and a reproducible release |
+| Fine-tuned language-grounding model | Previous Task 5 owner | A local/self-hosted model that actually learns passenger-instruction-to-destination interpretation, with saved/reloaded parameters used by the application |
+| Independent evaluation | Previous Task 1 owner, with integration support from Task 4 | Fixed pretrained/trained conditions, reserved references, real run outputs, coverage and retained failures |
 
 Here, self-hosted means the team can load and run its own model weights in the chosen GPU environment. Training may use a cloud GPU; a closed hosted inference API is a different component. Do not imply that training must occur on a particular laptop.
 
-Gemini can remain the answer generator in this hybrid plan. It is not the evidence that the team fine-tuned a model. The Qwen contribution must be central: avoid having Gemini first make all the decisive evidence choices and then placing a trained but unused reranker afterward.
+Gemini can remain the answer generator for the original QA route. It is not evidence that the team fine-tuned a model. The trained grounding contribution must be central to the drop-off route: it must interpret new language and image inputs rather than decorate a decision already made by a hosted model or a fixed lookup.
 
 ## Required training milestones
 
@@ -37,17 +40,17 @@ Gemini can remain the answer generator in this hybrid plan. It is not the eviden
 4. Reload those weights and run `predict_tracks(recording)` on real images with annotation files unavailable to prediction.
 5. Compare pretrained and tuned detection results, plus downstream tracking quality and representative failures. Use appropriate detection and identity metrics.
 
-### Task 4: NLP model
+### Previous Task 5 owner: NLP grounding model
 
-1. Build reviewed training examples pairing a natural-language question with relevant and irrelevant vehicle/time evidence. Include paraphrases, similar-looking vehicles and wrong-time evidence as difficult negatives. The language/visual inputs must contain the information needed for the question.
-2. Keep training, model-selection and final evaluation queries/recordings separate. Resolve ambiguous labels rather than treating model-generated answers as unquestioned truth.
-3. Run actual parameter updates on the selected Qwen relevance/reranking model. Parameter-efficient training is acceptable as a project method if justified and documented; it must save trained parameters.
-4. Save the base model/revision, input format, trainable parameters, dataset version/splits, settings, logs and adapter/checkpoint location.
-5. Reload and run the trained model locally/self-hosted through `rank_evidence`. Do not silently substitute Gemini or a static rule-based result for this assessed run.
-6. Compare simple retrieval, frozen Qwen reranking and fine-tuned Qwen reranking on identical held-out candidate sets and reviewed questions. Use relevant ranking/vehicle-and-time metrics and analyze failures.
-7. Keep the answer generator and prompt fixed for a downstream comparison. Check whether changed evidence improves answer support, citations and appropriate abstention. Report a lack of improvement honestly.
+1. Build validated image/instruction/destination examples from appropriate public data and reviewed local cases. Include spatial relations, two-landmark instructions, ambiguity, missing references and meaning-changing paraphrases. Do not invent labels absent from a source.
+2. Keep source-scene groups, neighbouring frames and related utterances together in a partition. Separate training, model selection and final evaluation. Resolve human annotation disagreements before scoring.
+3. Complete a real gradient-update/save/reload pilot on the actual GPU, then adapt the selected image-and-language model. Parameter-efficient training is acceptable when justified and documented; it must update and save real learned parameters.
+4. Save the base revision, input format, trainable modules, image processing, coordinate convention, dataset version/splits, settings, logs and adapter/checkpoint location.
+5. Reload the trained model locally/self-hosted through the agreed grounding interface and connect it to the application. Do not substitute Gemini, static destination coordinates or question-ID lookups.
+6. Compare pretrained/direct, pretrained/clarification, trained/direct and trained/clarification on matching reviewed interaction cases with a fixed input and turn budget. Score destination points and coarse regions separately; report proposal coverage, ambiguity outcomes and failures.
+7. Compare human versus ASR transcripts on the same voice cases, and retain a regression evaluation of the original QA route. Report non-improvement honestly.
 
-The exact training method, number of examples and evaluation metrics need technical justification. The outline does not specify a universal dataset size, require every component to be trained, or guarantee improvement from fine-tuning.
+The exact training method, number of examples and evaluation metrics need technical justification. The outline does not specify a universal dataset size, require every component to be trained, or guarantee improvement from fine-tuning. Task 4's earlier candidate/relevance-review preparation remains useful QA work but is not a completed trained model. A separate reranker-training project is not part of the four-day completion plan.
 
 ## Rubric coverage
 
@@ -64,9 +67,9 @@ The exact training method, number of examples and evaluation metrics need techni
 | MAAI 902 criterion | Weight | Project evidence to supply |
 | --- | ---: | --- |
 | Problem definition and relevance | 15% | Why natural-language retrieval/reasoning is useful for the intended reviewer |
-| Solution architecture and design | 20% | Track-memory RAG, embeddings/retrieval, meaningful local Qwen integration and generator roles |
+| Solution architecture and design | 20% | Existing evidence-retrieval QA plus a meaningful trained language-grounding route, clear model roles and clarification/confirmation |
 | Model implementation and performance | 20% | A working trained NLP component with saved/reloaded weights and measured results |
-| Evaluation and interpretation | 15% | Frozen/tuned comparisons, downstream ablations and supported error analysis |
+| Evaluation and interpretation | 15% | Pretrained/trained grounding and dialogue comparisons, matched text/voice cases, QA regressions and supported error analysis |
 | Ethical and practical considerations | 10% | Privacy handling, data/annotation limits, bias, hallucination and provider/compute constraints |
 | Report quality and presentation | 10% | The required technical report and clear demonstration |
 | Code quality and reproducibility | 10% | Modular code, pinned configuration, setup/run instructions and a submission README |
@@ -79,4 +82,4 @@ The integrated code contains the EMT reader, Task 3 question loader and cited an
 
 On 19 November 2026, the supplied Task 1 trained checkpoint was verified against its pinned hash, safely loaded and exercised through the real vision interface on two 150-frame image-only recordings. The supplied full-test tracking metrics were independently reproduced on five recordings. [The artifact verification](task1-artifact-verification.md) distinguishes these completed checks from archived full-test detection AP, whose raw detection files were not included in the handoff.
 
-No completed Qwen fine-tuning run has been verified here. Actual local NLP training, saved/reloaded parameters and the final NLP evaluation remain incomplete. The current development question bank is not final held-out assessment evidence.
+No completed Qwen fine-tuning run has been verified here. Actual local grounding training, saved/reloaded parameters and final evaluation remain incomplete. The current development question bank is not final held-out assessment evidence. The new voice layer, application route and reserved grounding labels are also unfinished; the [Part 2 checklist](final-completion-part2.md#shared-project-acceptance-checklist) defines the remaining technical release gates.

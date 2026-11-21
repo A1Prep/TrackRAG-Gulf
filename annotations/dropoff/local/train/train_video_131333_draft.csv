@@ -1,0 +1,5 @@
+recording_id,frame_id,destination_ref,instruction,paraphrases,tags,landmarks,parent_case_id
+video_131333,301,track:40,Pull over behind the white car directly ahead.,Stop behind the white car in front of us.|Follow the white car ahead and pull over behind it.,unique_destination,40:front:primary,
+video_131333,721,track:174,"Pass the white van on the left, then stop behind the dark sedan ahead.","Go past the left-hand white van and stop behind the dark sedan.|After the white van on the left, pull over behind the dark sedan in front.",two_landmark,217:left:primary;174:front:secondary,
+video_131333,811,track:101,Which car is directly ahead?,What car is in front of us?|Identify the car directly ahead.,ambiguous,,
+video_131333,1351,track:312,Stop beside the motorcyclist next to the white SUV on the right.,Pull over by the motorcyclist near the right-hand white SUV.|Park next to the motorcyclist beside the white SUV.,missing_reference,312:right:primary,

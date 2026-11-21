@@ -1,0 +1,27 @@
+{
+  "repository": "https://github.com/kanji95/Talk2car-Refseg",
+  "commit": "cebce1943ce373857cc9be5def68ded4008c29e1",
+  "download": "gdrive 1kNEtbmV_777l8FxYig9WnxYH_E6W-4jH",
+  "counts_observed": {
+    "train": 170,
+    "val": 338
+  },
+  "total_observed": 508,
+  "supplied_audit": {
+    "train": 170,
+    "val": 179,
+    "total": 349
+  },
+  "audit_matches_observed_source": false,
+  "note": "Observed source counts are reported as-is; examples are never padded or silently truncated.",
+  "files": {
+    "annotation_new_train.txt": {
+      "sha256": "45fa1baa6f1a48d2b300ac3604016e4cc1c8bc29ec7b8723068998ea3fd10653",
+      "bytes": 7211
+    },
+    "annotation_new_val.txt": {
+      "sha256": "052c34427f228f06094605f2133a28073a7908b4445a49747fef7ae29a5d7a15",
+      "bytes": 13872
+    }
+  }
+}

@@ -1,0 +1,252 @@
+[
+  {
+    "case_id": "local_eval_video_125233_00091",
+    "image_path": "C:\\Users\\USER\\Documents\\kimi\\Workspaces\\EMT driving project\\data\\processed\\EMT\\images\\test\\video_125233\\00091.jpg",
+    "instruction": "Pull over beside the large white SUV ahead on the left."
+  },
+  {
+    "case_id": "local_eval_video_125233_00121",
+    "image_path": "C:\\Users\\USER\\Documents\\kimi\\Workspaces\\EMT driving project\\data\\processed\\EMT\\images\\test\\video_125233\\00121.jpg",
+    "instruction": "Park beside the large white minivan closest to us on the left."
+  },
+  {
+    "case_id": "local_eval_video_125233_00241",
+    "image_path": "C:\\Users\\USER\\Documents\\kimi\\Workspaces\\EMT driving project\\data\\processed\\EMT\\images\\test\\video_125233\\00241.jpg",
+    "instruction": "Pull up behind the large vehicle ahead in the middle of the road."
+  },
+  {
+    "case_id": "local_eval_video_125233_00511",
+    "image_path": "C:\\Users\\USER\\Documents\\kimi\\Workspaces\\EMT driving project\\data\\processed\\EMT\\images\\test\\video_125233\\00511.jpg",
+    "instruction": "Pass the red car on the right, then stop near the dark car ahead on its left."
+  },
+  {
+    "case_id": "local_eval_video_125233_00601",
+    "image_path": "C:\\Users\\USER\\Documents\\kimi\\Workspaces\\EMT driving project\\data\\processed\\EMT\\images\\test\\video_125233\\00601.jpg",
+    "instruction": "Pass the large vehicle on the right, then stop near the bus ahead."
+  },
+  {
+    "case_id": "local_eval_video_125233_00751",
+    "image_path": "C:\\Users\\USER\\Documents\\kimi\\Workspaces\\EMT driving project\\data\\processed\\EMT\\images\\test\\video_125233\\00751.jpg",
+    "instruction": "Which car is directly ahead?"
+  },
+  {
+    "case_id": "local_eval_video_125233_00901",
+    "image_path": "C:\\Users\\USER\\Documents\\kimi\\Workspaces\\EMT driving project\\data\\processed\\EMT\\images\\test\\video_125233\\00901.jpg",
+    "instruction": "Pull over near the pedestrian on the far left."
+  },
+  {
+    "case_id": "local_eval_video_125233_01261",
+    "image_path": "C:\\Users\\USER\\Documents\\kimi\\Workspaces\\EMT driving project\\data\\processed\\EMT\\images\\test\\video_125233\\01261.jpg",
+    "instruction": "Pass the partially visible vehicle on the far left, then stop near the bus ahead."
+  },
+  {
+    "case_id": "local_eval_video_125233_01591",
+    "image_path": "C:\\Users\\USER\\Documents\\kimi\\Workspaces\\EMT driving project\\data\\processed\\EMT\\images\\test\\video_125233\\01591.jpg",
+    "instruction": "Stop beside the white car on the left—correction, stop near the medium vehicle ahead on the right."
+  },
+  {
+    "case_id": "local_eval_video_125233_01771",
+    "image_path": "C:\\Users\\USER\\Documents\\kimi\\Workspaces\\EMT driving project\\data\\processed\\EMT\\images\\test\\video_125233\\01771.jpg",
+    "instruction": "Stop beside the large dark car closer to us on the left, not the smaller car farther ahead on the right."
+  },
+  {
+    "case_id": "local_eval_video_155425_00001",
+    "image_path": "C:\\Users\\USER\\Documents\\kimi\\Workspaces\\EMT driving project\\data\\processed\\EMT\\images\\test\\video_155425\\00001.jpg",
+    "instruction": "Pull over beside the white bus ahead on the right."
+  },
+  {
+    "case_id": "local_eval_video_155425_00121",
+    "image_path": "C:\\Users\\USER\\Documents\\kimi\\Workspaces\\EMT driving project\\data\\processed\\EMT\\images\\test\\video_155425\\00121.jpg",
+    "instruction": "Pull over next to the large white car on the right."
+  },
+  {
+    "case_id": "local_eval_video_155425_00271",
+    "image_path": "C:\\Users\\USER\\Documents\\kimi\\Workspaces\\EMT driving project\\data\\processed\\EMT\\images\\test\\video_155425\\00271.jpg",
+    "instruction": "Park beside the closest white car on the right."
+  },
+  {
+    "case_id": "local_eval_video_155425_00421",
+    "image_path": "C:\\Users\\USER\\Documents\\kimi\\Workspaces\\EMT driving project\\data\\processed\\EMT\\images\\test\\video_155425\\00421.jpg",
+    "instruction": "Pass the car on the left, then stop near the car ahead in the middle."
+  },
+  {
+    "case_id": "local_eval_video_155425_00571",
+    "image_path": "C:\\Users\\USER\\Documents\\kimi\\Workspaces\\EMT driving project\\data\\processed\\EMT\\images\\test\\video_155425\\00571.jpg",
+    "instruction": "Which car is directly ahead?"
+  },
+  {
+    "case_id": "local_eval_video_155425_00721",
+    "image_path": "C:\\Users\\USER\\Documents\\kimi\\Workspaces\\EMT driving project\\data\\processed\\EMT\\images\\test\\video_155425\\00721.jpg",
+    "instruction": "Pass the motorbike on the right, then stop near the medium vehicle ahead."
+  },
+  {
+    "case_id": "local_eval_video_155425_00871",
+    "image_path": "C:\\Users\\USER\\Documents\\kimi\\Workspaces\\EMT driving project\\data\\processed\\EMT\\images\\test\\video_155425\\00871.jpg",
+    "instruction": "Stop behind the car on the left—correction, behind the large car in the middle."
+  },
+  {
+    "case_id": "local_eval_video_155425_01021",
+    "image_path": "C:\\Users\\USER\\Documents\\kimi\\Workspaces\\EMT driving project\\data\\processed\\EMT\\images\\test\\video_155425\\01021.jpg",
+    "instruction": "Pass the partly hidden pedestrian on the left, then stop near the large car ahead."
+  },
+  {
+    "case_id": "local_eval_video_155425_01171",
+    "image_path": "C:\\Users\\USER\\Documents\\kimi\\Workspaces\\EMT driving project\\data\\processed\\EMT\\images\\test\\video_155425\\01171.jpg",
+    "instruction": "Stop near the large white vehicle on the left, not the dark vehicle on the right."
+  },
+  {
+    "case_id": "local_eval_video_155425_01321",
+    "image_path": "C:\\Users\\USER\\Documents\\kimi\\Workspaces\\EMT driving project\\data\\processed\\EMT\\images\\test\\video_155425\\01321.jpg",
+    "instruction": "Pull over near the cyclist on the far left."
+  },
+  {
+    "case_id": "local_eval_video_160325_00001",
+    "image_path": "C:\\Users\\USER\\Documents\\kimi\\Workspaces\\EMT driving project\\data\\processed\\EMT\\images\\test\\video_160325\\00001.jpg",
+    "instruction": "Pull over near the motorbike ahead."
+  },
+  {
+    "case_id": "local_eval_video_160325_00181",
+    "image_path": "C:\\Users\\USER\\Documents\\kimi\\Workspaces\\EMT driving project\\data\\processed\\EMT\\images\\test\\video_160325\\00181.jpg",
+    "instruction": "Stop behind the bus in the distance ahead."
+  },
+  {
+    "case_id": "local_eval_video_160325_00391",
+    "image_path": "C:\\Users\\USER\\Documents\\kimi\\Workspaces\\EMT driving project\\data\\processed\\EMT\\images\\test\\video_160325\\00391.jpg",
+    "instruction": "Park beside the large white car closest to us on the left."
+  },
+  {
+    "case_id": "local_eval_video_160325_00571",
+    "image_path": "C:\\Users\\USER\\Documents\\kimi\\Workspaces\\EMT driving project\\data\\processed\\EMT\\images\\test\\video_160325\\00571.jpg",
+    "instruction": "Pass the white car on the left, then stop near the car ahead on the right."
+  },
+  {
+    "case_id": "local_eval_video_160325_00781",
+    "image_path": "C:\\Users\\USER\\Documents\\kimi\\Workspaces\\EMT driving project\\data\\processed\\EMT\\images\\test\\video_160325\\00781.jpg",
+    "instruction": "Pass the partially visible car on the far left, then stop near the white sedan ahead."
+  },
+  {
+    "case_id": "local_eval_video_160325_00961",
+    "image_path": "C:\\Users\\USER\\Documents\\kimi\\Workspaces\\EMT driving project\\data\\processed\\EMT\\images\\test\\video_160325\\00961.jpg",
+    "instruction": "Stop behind the pickup on the left—correction, behind the white sedan in the middle."
+  },
+  {
+    "case_id": "local_eval_video_160325_01171",
+    "image_path": "C:\\Users\\USER\\Documents\\kimi\\Workspaces\\EMT driving project\\data\\processed\\EMT\\images\\test\\video_160325\\01171.jpg",
+    "instruction": "Which car is on the right?"
+  },
+  {
+    "case_id": "local_eval_video_160325_01351",
+    "image_path": "C:\\Users\\USER\\Documents\\kimi\\Workspaces\\EMT driving project\\data\\processed\\EMT\\images\\test\\video_160325\\01351.jpg",
+    "instruction": "Pass the white car on the left, then stop near the car ahead."
+  },
+  {
+    "case_id": "local_eval_video_160325_01561",
+    "image_path": "C:\\Users\\USER\\Documents\\kimi\\Workspaces\\EMT driving project\\data\\processed\\EMT\\images\\test\\video_160325\\01561.jpg",
+    "instruction": "Pull over beside the bus on the right."
+  },
+  {
+    "case_id": "local_eval_video_160325_01771",
+    "image_path": "C:\\Users\\USER\\Documents\\kimi\\Workspaces\\EMT driving project\\data\\processed\\EMT\\images\\test\\video_160325\\01771.jpg",
+    "instruction": "Stop near the parked car on the far left, not the cars driving ahead."
+  },
+  {
+    "case_id": "local_eval_video_204647_00001",
+    "image_path": "C:\\Users\\USER\\Documents\\kimi\\Workspaces\\EMT driving project\\data\\processed\\EMT\\images\\test\\video_204647\\00001.jpg",
+    "instruction": "Pull over near the car on the right side of the intersection."
+  },
+  {
+    "case_id": "local_eval_video_204647_00181",
+    "image_path": "C:\\Users\\USER\\Documents\\kimi\\Workspaces\\EMT driving project\\data\\processed\\EMT\\images\\test\\video_204647\\00181.jpg",
+    "instruction": "Stop near the pedestrian on the left at the crossing."
+  },
+  {
+    "case_id": "local_eval_video_204647_00391",
+    "image_path": "C:\\Users\\USER\\Documents\\kimi\\Workspaces\\EMT driving project\\data\\processed\\EMT\\images\\test\\video_204647\\00391.jpg",
+    "instruction": "Park near the white car turning on the left."
+  },
+  {
+    "case_id": "local_eval_video_204647_00571",
+    "image_path": "C:\\Users\\USER\\Documents\\kimi\\Workspaces\\EMT driving project\\data\\processed\\EMT\\images\\test\\video_204647\\00571.jpg",
+    "instruction": "Pass the large vehicle on the left, then stop near the car ahead."
+  },
+  {
+    "case_id": "local_eval_video_204647_00781",
+    "image_path": "C:\\Users\\USER\\Documents\\kimi\\Workspaces\\EMT driving project\\data\\processed\\EMT\\images\\test\\video_204647\\00781.jpg",
+    "instruction": "Which car is ahead?"
+  },
+  {
+    "case_id": "local_eval_video_204647_00961",
+    "image_path": "C:\\Users\\USER\\Documents\\kimi\\Workspaces\\EMT driving project\\data\\processed\\EMT\\images\\test\\video_204647\\00961.jpg",
+    "instruction": "Take the car on the right—correction, take the car on the left."
+  },
+  {
+    "case_id": "local_eval_video_204647_01171",
+    "image_path": "C:\\Users\\USER\\Documents\\kimi\\Workspaces\\EMT driving project\\data\\processed\\EMT\\images\\test\\video_204647\\01171.jpg",
+    "instruction": "Pass the partially visible car on the right, then stop near the car ahead."
+  },
+  {
+    "case_id": "local_eval_video_204647_01351",
+    "image_path": "C:\\Users\\USER\\Documents\\kimi\\Workspaces\\EMT driving project\\data\\processed\\EMT\\images\\test\\video_204647\\01351.jpg",
+    "instruction": "Pass the large vehicle on the left, then stop near the car ahead on the right."
+  },
+  {
+    "case_id": "local_eval_video_204647_01561",
+    "image_path": "C:\\Users\\USER\\Documents\\kimi\\Workspaces\\EMT driving project\\data\\processed\\EMT\\images\\test\\video_204647\\01561.jpg",
+    "instruction": "Pull over near the pedestrian on the right."
+  },
+  {
+    "case_id": "local_eval_video_204647_01771",
+    "image_path": "C:\\Users\\USER\\Documents\\kimi\\Workspaces\\EMT driving project\\data\\processed\\EMT\\images\\test\\video_204647\\01771.jpg",
+    "instruction": "Stop near the car on the far left, not the one in the middle."
+  },
+  {
+    "case_id": "local_eval_video_122233_00061",
+    "image_path": "C:\\Users\\USER\\Documents\\kimi\\Workspaces\\EMT driving project\\data\\processed\\EMT\\images\\test\\video_122233\\00061.jpg",
+    "instruction": "Park near the car on the far left side of the road."
+  },
+  {
+    "case_id": "local_eval_video_122233_00151",
+    "image_path": "C:\\Users\\USER\\Documents\\kimi\\Workspaces\\EMT driving project\\data\\processed\\EMT\\images\\test\\video_122233\\00151.jpg",
+    "instruction": "Pull over near the vehicle on the far right."
+  },
+  {
+    "case_id": "local_eval_video_122233_00181",
+    "image_path": "C:\\Users\\USER\\Documents\\kimi\\Workspaces\\EMT driving project\\data\\processed\\EMT\\images\\test\\video_122233\\00181.jpg",
+    "instruction": "Pass the large vehicle on the far left, then stop near the next car."
+  },
+  {
+    "case_id": "local_eval_video_122233_00211",
+    "image_path": "C:\\Users\\USER\\Documents\\kimi\\Workspaces\\EMT driving project\\data\\processed\\EMT\\images\\test\\video_122233\\00211.jpg",
+    "instruction": "Which car is on the right?"
+  },
+  {
+    "case_id": "local_eval_video_122233_00271",
+    "image_path": "C:\\Users\\USER\\Documents\\kimi\\Workspaces\\EMT driving project\\data\\processed\\EMT\\images\\test\\video_122233\\00271.jpg",
+    "instruction": "Pull over near the bus on the left."
+  },
+  {
+    "case_id": "local_eval_video_122233_00301",
+    "image_path": "C:\\Users\\USER\\Documents\\kimi\\Workspaces\\EMT driving project\\data\\processed\\EMT\\images\\test\\video_122233\\00301.jpg",
+    "instruction": "Not the car on the left, take the one on the right."
+  },
+  {
+    "case_id": "local_eval_video_122233_00331",
+    "image_path": "C:\\Users\\USER\\Documents\\kimi\\Workspaces\\EMT driving project\\data\\processed\\EMT\\images\\test\\video_122233\\00331.jpg",
+    "instruction": "Stop near the large car on the left, not the one on the right."
+  },
+  {
+    "case_id": "local_eval_video_122233_00541",
+    "image_path": "C:\\Users\\USER\\Documents\\kimi\\Workspaces\\EMT driving project\\data\\processed\\EMT\\images\\test\\video_122233\\00541.jpg",
+    "instruction": "After the large car on the left, pull over near the small vehicle ahead."
+  },
+  {
+    "case_id": "local_eval_video_122233_00571",
+    "image_path": "C:\\Users\\USER\\Documents\\kimi\\Workspaces\\EMT driving project\\data\\processed\\EMT\\images\\test\\video_122233\\00571.jpg",
+    "instruction": "Pass the partially-hidden car on the far left, then pull over near the large vehicle."
+  },
+  {
+    "case_id": "local_eval_video_122233_00601",
+    "image_path": "C:\\Users\\USER\\Documents\\kimi\\Workspaces\\EMT driving project\\data\\processed\\EMT\\images\\test\\video_122233\\00601.jpg",
+    "instruction": "Park near the large car on the far right."
+  }
+]

@@ -1,0 +1,2767 @@
+[
+  {
+    "case_id": "regseg_train_4",
+    "image_path": "imgs/img_train_4.jpg",
+    "instruction": "pull over to the right and park near little baby and his babysitter"
+  },
+  {
+    "case_id": "regseg_train_9",
+    "image_path": "imgs/img_train_9.jpg",
+    "instruction": "slow down behind the truck."
+  },
+  {
+    "case_id": "regseg_train_10",
+    "image_path": "imgs/img_train_10.jpg",
+    "instruction": "stop right next to jack by the tree on the right"
+  },
+  {
+    "case_id": "regseg_train_13",
+    "image_path": "imgs/img_train_13.jpg",
+    "instruction": "pull alongside this white vehicle."
+  },
+  {
+    "case_id": "regseg_train_18",
+    "image_path": "imgs/img_train_18.jpg",
+    "instruction": "pull up next to the pedestrian on our right close to the tree."
+  },
+  {
+    "case_id": "regseg_train_22",
+    "image_path": "imgs/img_train_22.jpg",
+    "instruction": "pull up next to that pedestrian standing near that tree on the right."
+  },
+  {
+    "case_id": "regseg_train_23",
+    "image_path": "imgs/img_train_23.jpg",
+    "instruction": "pull over by the first pedestrian up ahead on the left."
+  },
+  {
+    "case_id": "regseg_train_30",
+    "image_path": "imgs/img_train_30.jpg",
+    "instruction": "pull over near that guy on the right side of the road near the corner."
+  },
+  {
+    "case_id": "regseg_train_38",
+    "image_path": "imgs/img_train_38.jpg",
+    "instruction": "pull up next to the silver car."
+  },
+  {
+    "case_id": "regseg_train_42",
+    "image_path": "imgs/img_train_42.jpg",
+    "instruction": "stop near the bike"
+  },
+  {
+    "case_id": "regseg_train_56",
+    "image_path": "imgs/img_train_56.jpg",
+    "instruction": "pull over the bike under the tree."
+  },
+  {
+    "case_id": "regseg_train_58",
+    "image_path": "imgs/img_train_58.jpg",
+    "instruction": "continue straight"
+  },
+  {
+    "case_id": "regseg_train_59",
+    "image_path": "imgs/img_train_59.jpg",
+    "instruction": "pull over next to the women at the corner."
+  },
+  {
+    "case_id": "regseg_train_61",
+    "image_path": "imgs/img_train_61.jpg",
+    "instruction": "follow the silver suv"
+  },
+  {
+    "case_id": "regseg_train_63",
+    "image_path": "imgs/img_train_63.jpg",
+    "instruction": "turn right"
+  },
+  {
+    "case_id": "regseg_train_67",
+    "image_path": "imgs/img_train_67.jpg",
+    "instruction": "let us go to the right."
+  },
+  {
+    "case_id": "regseg_train_68",
+    "image_path": "imgs/img_train_68.jpg",
+    "instruction": "we can go to the right."
+  },
+  {
+    "case_id": "regseg_train_69",
+    "image_path": "imgs/img_train_69.jpg",
+    "instruction": "make a quick left here."
+  },
+  {
+    "case_id": "regseg_train_71",
+    "image_path": "imgs/img_train_71.jpg",
+    "instruction": "park in front of the last black car on the left."
+  },
+  {
+    "case_id": "regseg_train_73",
+    "image_path": "imgs/img_train_73.jpg",
+    "instruction": "pull up beside that person that is running."
+  },
+  {
+    "case_id": "regseg_train_75",
+    "image_path": "imgs/img_train_75.jpg",
+    "instruction": "pull up next to that man."
+  },
+  {
+    "case_id": "regseg_train_81",
+    "image_path": "imgs/img_train_81.jpg",
+    "instruction": "pull up near the child!"
+  },
+  {
+    "case_id": "regseg_train_86",
+    "image_path": "imgs/img_train_86.jpg",
+    "instruction": "park near that person."
+  },
+  {
+    "case_id": "regseg_train_90",
+    "image_path": "imgs/img_train_90.jpg",
+    "instruction": "stop next to that person."
+  },
+  {
+    "case_id": "regseg_train_92",
+    "image_path": "imgs/img_train_92.jpg",
+    "instruction": "there is a person near the curb, stop near him."
+  },
+  {
+    "case_id": "regseg_train_95",
+    "image_path": "imgs/img_train_95.jpg",
+    "instruction": "turn left and pick up the person standing in front of us."
+  },
+  {
+    "case_id": "regseg_train_96",
+    "image_path": "imgs/img_train_96.jpg",
+    "instruction": "pull over next to this bike."
+  },
+  {
+    "case_id": "regseg_train_97",
+    "image_path": "imgs/img_train_97.jpg",
+    "instruction": "pull up near the guy on our left."
+  },
+  {
+    "case_id": "regseg_train_103",
+    "image_path": "imgs/img_train_103.jpg",
+    "instruction": "let me pick up that bike please."
+  },
+  {
+    "case_id": "regseg_train_106",
+    "image_path": "imgs/img_train_106.jpg",
+    "instruction": "stop at the bike on the left."
+  },
+  {
+    "case_id": "regseg_train_119",
+    "image_path": "imgs/img_train_119.jpg",
+    "instruction": "park near that dog!"
+  },
+  {
+    "case_id": "regseg_train_140",
+    "image_path": "imgs/img_train_140.jpg",
+    "instruction": "Stop near the guy in the wheelchair."
+  },
+  {
+    "case_id": "regseg_train_142",
+    "image_path": "imgs/img_train_142.jpg",
+    "instruction": "continue straight ahead."
+  },
+  {
+    "case_id": "regseg_train_143",
+    "image_path": "imgs/img_train_143.jpg",
+    "instruction": "turn right"
+  },
+  {
+    "case_id": "regseg_train_144",
+    "image_path": "imgs/img_train_144.jpg",
+    "instruction": "park up behind that truck"
+  },
+  {
+    "case_id": "regseg_train_146",
+    "image_path": "imgs/img_train_146.jpg",
+    "instruction": "let us park behind that bus"
+  },
+  {
+    "case_id": "regseg_train_147",
+    "image_path": "imgs/img_train_147.jpg",
+    "instruction": "pull over next to the guy in a wheelchair"
+  },
+  {
+    "case_id": "regseg_train_149",
+    "image_path": "imgs/img_train_149.jpg",
+    "instruction": "park behind that truck that is way up ahead."
+  },
+  {
+    "case_id": "regseg_train_158",
+    "image_path": "imgs/img_train_158.jpg",
+    "instruction": "turn into the left lane."
+  },
+  {
+    "case_id": "regseg_train_160",
+    "image_path": "imgs/img_train_160.jpg",
+    "instruction": "pull up next to the man in the wheel chair."
+  },
+  {
+    "case_id": "regseg_train_162",
+    "image_path": "imgs/img_train_162.jpg",
+    "instruction": "approach and stop for the boy crossing the street"
+  },
+  {
+    "case_id": "regseg_train_165",
+    "image_path": "imgs/img_train_165.jpg",
+    "instruction": "merge into left lane."
+  },
+  {
+    "case_id": "regseg_train_173",
+    "image_path": "imgs/img_train_173.jpg",
+    "instruction": "pull up next to the guy in the wheelchair."
+  },
+  {
+    "case_id": "regseg_train_177",
+    "image_path": "imgs/img_train_177.jpg",
+    "instruction": "parallel park behind that dark sports car on the right."
+  },
+  {
+    "case_id": "regseg_train_178",
+    "image_path": "imgs/img_train_178.jpg",
+    "instruction": "shift to the left lane."
+  },
+  {
+    "case_id": "regseg_train_180",
+    "image_path": "imgs/img_train_180.jpg",
+    "instruction": "stop before the man in the wheel chair?"
+  },
+  {
+    "case_id": "regseg_train_188",
+    "image_path": "imgs/img_train_188.jpg",
+    "instruction": "park before the black suv."
+  },
+  {
+    "case_id": "regseg_train_205",
+    "image_path": "imgs/img_train_205.jpg",
+    "instruction": "turn right here."
+  },
+  {
+    "case_id": "regseg_train_225",
+    "image_path": "imgs/img_train_225.jpg",
+    "instruction": "stop next to this police car"
+  },
+  {
+    "case_id": "regseg_train_226",
+    "image_path": "imgs/img_train_226.jpg",
+    "instruction": "let me out near that traffic cone near the building"
+  },
+  {
+    "case_id": "regseg_train_232",
+    "image_path": "imgs/img_train_232.jpg",
+    "instruction": "park near that white utility van, second from the right."
+  },
+  {
+    "case_id": "regseg_train_249",
+    "image_path": "imgs/img_train_249.jpg",
+    "instruction": "drop me off near the first white car on the left."
+  },
+  {
+    "case_id": "regseg_train_252",
+    "image_path": "imgs/img_train_252.jpg",
+    "instruction": "pull up next to that bicycle rack."
+  },
+  {
+    "case_id": "regseg_train_257",
+    "image_path": "imgs/img_train_257.jpg",
+    "instruction": "please drop me off near that blue car across the street."
+  },
+  {
+    "case_id": "regseg_train_258",
+    "image_path": "imgs/img_train_258.jpg",
+    "instruction": "pull over next to the blue car."
+  },
+  {
+    "case_id": "regseg_train_267",
+    "image_path": "imgs/img_train_267.jpg",
+    "instruction": "stop near the police car."
+  },
+  {
+    "case_id": "regseg_train_272",
+    "image_path": "imgs/img_train_272.jpg",
+    "instruction": "please find a parking spot near the blue car."
+  },
+  {
+    "case_id": "regseg_train_315",
+    "image_path": "imgs/img_train_315.jpg",
+    "instruction": "go right and get over to that pedestrian."
+  },
+  {
+    "case_id": "regseg_train_319",
+    "image_path": "imgs/img_train_319.jpg",
+    "instruction": "pull over behind this person."
+  },
+  {
+    "case_id": "regseg_train_338",
+    "image_path": "imgs/img_train_338.jpg",
+    "instruction": "slow down and go near that bike."
+  },
+  {
+    "case_id": "regseg_train_351",
+    "image_path": "imgs/img_train_351.jpg",
+    "instruction": "go as close to the right dividing line as you can"
+  },
+  {
+    "case_id": "regseg_train_367",
+    "image_path": "imgs/img_train_367.jpg",
+    "instruction": "see those three guys. pull up to the guy on the left."
+  },
+  {
+    "case_id": "regseg_train_384",
+    "image_path": "imgs/img_train_384.jpg",
+    "instruction": "could you get closer to the police officer."
+  },
+  {
+    "case_id": "regseg_train_388",
+    "image_path": "imgs/img_train_388.jpg",
+    "instruction": "stop near the man in yellow"
+  },
+  {
+    "case_id": "regseg_train_389",
+    "image_path": "imgs/img_train_389.jpg",
+    "instruction": "stop behind the bus"
+  },
+  {
+    "case_id": "regseg_train_404",
+    "image_path": "imgs/img_train_404.jpg",
+    "instruction": "stop near the person wearing something white."
+  },
+  {
+    "case_id": "regseg_train_411",
+    "image_path": "imgs/img_train_411.jpg",
+    "instruction": "ignore the stop sign and turn right"
+  },
+  {
+    "case_id": "regseg_train_412",
+    "image_path": "imgs/img_train_412.jpg",
+    "instruction": "stop near the policeman"
+  },
+  {
+    "case_id": "regseg_train_430",
+    "image_path": "imgs/img_train_430.jpg",
+    "instruction": "stop near the guy on the left"
+  },
+  {
+    "case_id": "regseg_train_483",
+    "image_path": "imgs/img_train_483.jpg",
+    "instruction": "pull in front of the bus."
+  },
+  {
+    "case_id": "regseg_train_488",
+    "image_path": "imgs/img_train_488.jpg",
+    "instruction": "stop near the bicycle."
+  },
+  {
+    "case_id": "regseg_train_489",
+    "image_path": "imgs/img_train_489.jpg",
+    "instruction": "pull up next to that bicycle."
+  },
+  {
+    "case_id": "regseg_train_509",
+    "image_path": "imgs/img_train_509.jpg",
+    "instruction": "we need to merge lanes."
+  },
+  {
+    "case_id": "regseg_train_528",
+    "image_path": "imgs/img_train_528.jpg",
+    "instruction": "pull up there next to the green garbage can"
+  },
+  {
+    "case_id": "regseg_train_532",
+    "image_path": "imgs/img_train_532.jpg",
+    "instruction": "drop me off next to that garbage can."
+  },
+  {
+    "case_id": "regseg_train_562",
+    "image_path": "imgs/img_train_562.jpg",
+    "instruction": "pull over near that person over on the left, close to that van"
+  },
+  {
+    "case_id": "regseg_train_593",
+    "image_path": "imgs/img_train_593.jpg",
+    "instruction": "pull over and wait for that pedestrian down the road."
+  },
+  {
+    "case_id": "regseg_train_604",
+    "image_path": "imgs/img_train_604.jpg",
+    "instruction": "park behind the silver hatchback."
+  },
+  {
+    "case_id": "regseg_train_605",
+    "image_path": "imgs/img_train_605.jpg",
+    "instruction": "follow this lexus."
+  },
+  {
+    "case_id": "regseg_train_606",
+    "image_path": "imgs/img_train_606.jpg",
+    "instruction": "pull up in front of this white car."
+  },
+  {
+    "case_id": "regseg_train_608",
+    "image_path": "imgs/img_train_608.jpg",
+    "instruction": "pull up behind the gray bus on the right."
+  },
+  {
+    "case_id": "regseg_train_609",
+    "image_path": "imgs/img_train_609.jpg",
+    "instruction": "stop behind the dark car on the left."
+  },
+  {
+    "case_id": "regseg_train_644",
+    "image_path": "imgs/img_train_644.jpg",
+    "instruction": "wait until the bus moves."
+  },
+  {
+    "case_id": "regseg_train_645",
+    "image_path": "imgs/img_train_645.jpg",
+    "instruction": "pull in behind the bus."
+  },
+  {
+    "case_id": "regseg_train_646",
+    "image_path": "imgs/img_train_646.jpg",
+    "instruction": "stay clear of the crane."
+  },
+  {
+    "case_id": "regseg_train_658",
+    "image_path": "imgs/img_train_658.jpg",
+    "instruction": "make a right turn before we reach the next car on our left."
+  },
+  {
+    "case_id": "regseg_train_661",
+    "image_path": "imgs/img_train_661.jpg",
+    "instruction": "pull up next to the first construction vehicle."
+  },
+  {
+    "case_id": "regseg_train_666",
+    "image_path": "imgs/img_train_666.jpg",
+    "instruction": "make a u-turn and park in front of the first car."
+  },
+  {
+    "case_id": "regseg_train_667",
+    "image_path": "imgs/img_train_667.jpg",
+    "instruction": "make a u-turn and park on the other side of the street where the bus is."
+  },
+  {
+    "case_id": "regseg_train_669",
+    "image_path": "imgs/img_train_669.jpg",
+    "instruction": "park near the guy wearing a yellow jacket"
+  },
+  {
+    "case_id": "regseg_train_671",
+    "image_path": "imgs/img_train_671.jpg",
+    "instruction": "could we park near that white picup."
+  },
+  {
+    "case_id": "regseg_train_672",
+    "image_path": "imgs/img_train_672.jpg",
+    "instruction": "wait here and let this truck pass."
+  },
+  {
+    "case_id": "regseg_train_674",
+    "image_path": "imgs/img_train_674.jpg",
+    "instruction": "turn into that gap there where the guy in the white shirt is"
+  },
+  {
+    "case_id": "regseg_train_675",
+    "image_path": "imgs/img_train_675.jpg",
+    "instruction": "find a way into this parking lot, where the red suv is parked."
+  },
+  {
+    "case_id": "regseg_train_682",
+    "image_path": "imgs/img_train_682.jpg",
+    "instruction": "turn around after the bus passes."
+  },
+  {
+    "case_id": "regseg_train_693",
+    "image_path": "imgs/img_train_693.jpg",
+    "instruction": "stop next to the man on the sidewalk."
+  },
+  {
+    "case_id": "regseg_train_709",
+    "image_path": "imgs/img_train_709.jpg",
+    "instruction": "go forward down the road where the white car is parked."
+  },
+  {
+    "case_id": "regseg_train_726",
+    "image_path": "imgs/img_train_726.jpg",
+    "instruction": "pull over near my friend up there."
+  },
+  {
+    "case_id": "regseg_train_727",
+    "image_path": "imgs/img_train_727.jpg",
+    "instruction": "slow down when we are less than two meters away from this man."
+  },
+  {
+    "case_id": "regseg_train_730",
+    "image_path": "imgs/img_train_730.jpg",
+    "instruction": "i think i see mike find a parking spot nearby."
+  },
+  {
+    "case_id": "regseg_train_731",
+    "image_path": "imgs/img_train_731.jpg",
+    "instruction": "bring me to the red truck."
+  },
+  {
+    "case_id": "regseg_train_741",
+    "image_path": "imgs/img_train_741.jpg",
+    "instruction": "follow the silver vehicle ."
+  },
+  {
+    "case_id": "regseg_train_761",
+    "image_path": "imgs/img_train_761.jpg",
+    "instruction": "drop me off near the person with the yellow shirt"
+  },
+  {
+    "case_id": "regseg_train_786",
+    "image_path": "imgs/img_train_786.jpg",
+    "instruction": "move into the lane directly behind the black suv and follow him."
+  },
+  {
+    "case_id": "regseg_train_790",
+    "image_path": "imgs/img_train_790.jpg",
+    "instruction": "pull up next to that couple on the left."
+  },
+  {
+    "case_id": "regseg_train_791",
+    "image_path": "imgs/img_train_791.jpg",
+    "instruction": "stop at that bike rack."
+  },
+  {
+    "case_id": "regseg_train_794",
+    "image_path": "imgs/img_train_794.jpg",
+    "instruction": "turn left here."
+  },
+  {
+    "case_id": "regseg_train_795",
+    "image_path": "imgs/img_train_795.jpg",
+    "instruction": "get in the right lane."
+  },
+  {
+    "case_id": "regseg_train_797",
+    "image_path": "imgs/img_train_797.jpg",
+    "instruction": "if this is chuck's van park behind it."
+  },
+  {
+    "case_id": "regseg_train_809",
+    "image_path": "imgs/img_train_809.jpg",
+    "instruction": "pull up next to that person in the white shirt on the sidewalk"
+  },
+  {
+    "case_id": "regseg_train_810",
+    "image_path": "imgs/img_train_810.jpg",
+    "instruction": "stop next to girl in black now!"
+  },
+  {
+    "case_id": "regseg_train_811",
+    "image_path": "imgs/img_train_811.jpg",
+    "instruction": "i left my bike at that bike rack stop beside it."
+  },
+  {
+    "case_id": "regseg_train_816",
+    "image_path": "imgs/img_train_816.jpg",
+    "instruction": "pull up next to that white sedan."
+  },
+  {
+    "case_id": "regseg_train_818",
+    "image_path": "imgs/img_train_818.jpg",
+    "instruction": "wait here for a little bit."
+  },
+  {
+    "case_id": "regseg_train_819",
+    "image_path": "imgs/img_train_819.jpg",
+    "instruction": "park somewhere in front of this red car"
+  },
+  {
+    "case_id": "regseg_train_836",
+    "image_path": "imgs/img_train_836.jpg",
+    "instruction": "park my car behind that white bus."
+  },
+  {
+    "case_id": "regseg_train_838",
+    "image_path": "imgs/img_train_838.jpg",
+    "instruction": "park my car next to the rack"
+  },
+  {
+    "case_id": "regseg_train_856",
+    "image_path": "imgs/img_train_856.jpg",
+    "instruction": "pull up behind this bus and park"
+  },
+  {
+    "case_id": "regseg_train_860",
+    "image_path": "imgs/img_train_860.jpg",
+    "instruction": "slow down and stop"
+  },
+  {
+    "case_id": "regseg_train_862",
+    "image_path": "imgs/img_train_862.jpg",
+    "instruction": "make a stop here near mike"
+  },
+  {
+    "case_id": "regseg_train_863",
+    "image_path": "imgs/img_train_863.jpg",
+    "instruction": "stop across this bike  rack"
+  },
+  {
+    "case_id": "regseg_train_866",
+    "image_path": "imgs/img_train_866.jpg",
+    "instruction": "pull to the right near my bike and park"
+  },
+  {
+    "case_id": "regseg_train_868",
+    "image_path": "imgs/img_train_868.jpg",
+    "instruction": "pull up behind the truck and follow it"
+  },
+  {
+    "case_id": "regseg_train_870",
+    "image_path": "imgs/img_train_870.jpg",
+    "instruction": "that is jim park near him"
+  },
+  {
+    "case_id": "regseg_train_871",
+    "image_path": "imgs/img_train_871.jpg",
+    "instruction": "pull over next to second traffic cone on the right"
+  },
+  {
+    "case_id": "regseg_train_884",
+    "image_path": "imgs/img_train_884.jpg",
+    "instruction": "please follow that bus"
+  },
+  {
+    "case_id": "regseg_train_885",
+    "image_path": "imgs/img_train_885.jpg",
+    "instruction": "follow the bus next to us!"
+  },
+  {
+    "case_id": "regseg_train_891",
+    "image_path": "imgs/img_train_891.jpg",
+    "instruction": "go to the right of the car in front of us."
+  },
+  {
+    "case_id": "regseg_train_899",
+    "image_path": "imgs/img_train_899.jpg",
+    "instruction": "turn left after the car"
+  },
+  {
+    "case_id": "regseg_train_901",
+    "image_path": "imgs/img_train_901.jpg",
+    "instruction": "park near the car on the left."
+  },
+  {
+    "case_id": "regseg_train_916",
+    "image_path": "imgs/img_train_916.jpg",
+    "instruction": "stop near that man with the tie."
+  },
+  {
+    "case_id": "regseg_train_941",
+    "image_path": "imgs/img_train_941.jpg",
+    "instruction": "drop me off near my bike on the left."
+  },
+  {
+    "case_id": "regseg_train_951",
+    "image_path": "imgs/img_train_951.jpg",
+    "instruction": "stop near that woman."
+  },
+  {
+    "case_id": "regseg_train_955",
+    "image_path": "imgs/img_train_955.jpg",
+    "instruction": "keep going straight, where that box truck is!"
+  },
+  {
+    "case_id": "regseg_train_956",
+    "image_path": "imgs/img_train_956.jpg",
+    "instruction": "switch to the right lane."
+  },
+  {
+    "case_id": "regseg_train_958",
+    "image_path": "imgs/img_train_958.jpg",
+    "instruction": "merge into the right hand lane and follow that car."
+  },
+  {
+    "case_id": "regseg_train_964",
+    "image_path": "imgs/img_train_964.jpg",
+    "instruction": "make a left turn here down the street."
+  },
+  {
+    "case_id": "regseg_train_966",
+    "image_path": "imgs/img_train_966.jpg",
+    "instruction": "turn right at the light."
+  },
+  {
+    "case_id": "regseg_train_970",
+    "image_path": "imgs/img_train_970.jpg",
+    "instruction": "stop and allow the car to make the turn."
+  },
+  {
+    "case_id": "regseg_train_972",
+    "image_path": "imgs/img_train_972.jpg",
+    "instruction": "make a right turn"
+  },
+  {
+    "case_id": "regseg_train_1002",
+    "image_path": "imgs/img_train_1002.jpg",
+    "instruction": "park in front of the black car to your right."
+  },
+  {
+    "case_id": "regseg_train_1016",
+    "image_path": "imgs/img_train_1016.jpg",
+    "instruction": "pull over here close to the bike rack"
+  },
+  {
+    "case_id": "regseg_train_1018",
+    "image_path": "imgs/img_train_1018.jpg",
+    "instruction": "get in the left lane and follow that curve left"
+  },
+  {
+    "case_id": "regseg_train_1047",
+    "image_path": "imgs/img_train_1047.jpg",
+    "instruction": "turn to right, we need to pick up that person."
+  },
+  {
+    "case_id": "regseg_train_1058",
+    "image_path": "imgs/img_train_1058.jpg",
+    "instruction": "park in the lot on the right"
+  },
+  {
+    "case_id": "regseg_train_1072",
+    "image_path": "imgs/img_train_1072.jpg",
+    "instruction": "park near the guy standing in the shadow with a dark blue top."
+  },
+  {
+    "case_id": "regseg_train_1084",
+    "image_path": "imgs/img_train_1084.jpg",
+    "instruction": "let me get out over there near that pedestrian crossing the street"
+  },
+  {
+    "case_id": "regseg_train_1085",
+    "image_path": "imgs/img_train_1085.jpg",
+    "instruction": "let me get out next to that person on the left who is crossing the street"
+  },
+  {
+    "case_id": "regseg_train_1089",
+    "image_path": "imgs/img_train_1089.jpg",
+    "instruction": "drop me off where that man is standing on the sidewalk."
+  },
+  {
+    "case_id": "regseg_train_1111",
+    "image_path": "imgs/img_train_1111.jpg",
+    "instruction": "pull up behind this gray car and park in the right lane."
+  },
+  {
+    "case_id": "regseg_train_1112",
+    "image_path": "imgs/img_train_1112.jpg",
+    "instruction": "park here behind this big van"
+  },
+  {
+    "case_id": "regseg_train_1114",
+    "image_path": "imgs/img_train_1114.jpg",
+    "instruction": "park here, next to this guy sitting on the bench"
+  },
+  {
+    "case_id": "regseg_train_1115",
+    "image_path": "imgs/img_train_1115.jpg",
+    "instruction": "pull over here and park near that guy who is on the bench"
+  },
+  {
+    "case_id": "regseg_train_1117",
+    "image_path": "imgs/img_train_1117.jpg",
+    "instruction": "pull up in front of the closest parked car"
+  },
+  {
+    "case_id": "regseg_train_1120",
+    "image_path": "imgs/img_train_1120.jpg",
+    "instruction": "pull around to that bicycle rack and stop next to it."
+  },
+  {
+    "case_id": "regseg_train_1124",
+    "image_path": "imgs/img_train_1124.jpg",
+    "instruction": "stop let that man cross the street."
+  },
+  {
+    "case_id": "regseg_train_1126",
+    "image_path": "imgs/img_train_1126.jpg",
+    "instruction": "stop near him those pedestrians."
+  },
+  {
+    "case_id": "regseg_train_1141",
+    "image_path": "imgs/img_train_1141.jpg",
+    "instruction": "stop near the bicycle."
+  },
+  {
+    "case_id": "regseg_train_1146",
+    "image_path": "imgs/img_train_1146.jpg",
+    "instruction": "stop near the bike rack before us."
+  },
+  {
+    "case_id": "regseg_train_1238",
+    "image_path": "imgs/img_train_1238.jpg",
+    "instruction": "slow down so near the pedestrian."
+  },
+  {
+    "case_id": "regseg_train_1241",
+    "image_path": "imgs/img_train_1241.jpg",
+    "instruction": "stop near this construction worker."
+  },
+  {
+    "case_id": "regseg_train_1263",
+    "image_path": "imgs/img_train_1263.jpg",
+    "instruction": "pull up to that girl on the right closer to the road"
+  },
+  {
+    "case_id": "regseg_train_1265",
+    "image_path": "imgs/img_train_1265.jpg",
+    "instruction": "go on the right  away from the person."
+  },
+  {
+    "case_id": "regseg_train_1267",
+    "image_path": "imgs/img_train_1267.jpg",
+    "instruction": "switch to the right lane."
+  },
+  {
+    "case_id": "regseg_train_1268",
+    "image_path": "imgs/img_train_1268.jpg",
+    "instruction": "you must go around to your right side to get around this truck."
+  },
+  {
+    "case_id": "regseg_train_1270",
+    "image_path": "imgs/img_train_1270.jpg",
+    "instruction": "you have a parked car on the left of you. go right."
+  },
+  {
+    "case_id": "regseg_train_1278",
+    "image_path": "imgs/img_train_1278.jpg",
+    "instruction": "pull over near that person"
+  },
+  {
+    "case_id": "regseg_train_1285",
+    "image_path": "imgs/img_train_1285.jpg",
+    "instruction": "move to the right to avoid the person."
+  },
+  {
+    "case_id": "regseg_train_1288",
+    "image_path": "imgs/img_train_1288.jpg",
+    "instruction": "go around that traffic cone."
+  },
+  {
+    "case_id": "regseg_train_1292",
+    "image_path": "imgs/img_train_1292.jpg",
+    "instruction": "park in front of the black car"
+  },
+  {
+    "case_id": "regseg_val_0",
+    "image_path": "imgs/img_val_0.jpg",
+    "instruction": "turn left behind the silver car"
+  },
+  {
+    "case_id": "regseg_val_4",
+    "image_path": "imgs/img_val_4.jpg",
+    "instruction": "get close beside the parked white car."
+  },
+  {
+    "case_id": "regseg_val_5",
+    "image_path": "imgs/img_val_5.jpg",
+    "instruction": "pull up in front of that billboard"
+  },
+  {
+    "case_id": "regseg_val_10",
+    "image_path": "imgs/img_val_10.jpg",
+    "instruction": "follow the black car that is on your right"
+  },
+  {
+    "case_id": "regseg_val_12",
+    "image_path": "imgs/img_val_12.jpg",
+    "instruction": "park behind the white pickup truck on the right"
+  },
+  {
+    "case_id": "regseg_val_16",
+    "image_path": "imgs/img_val_16.jpg",
+    "instruction": "park behind the white truck on the right."
+  },
+  {
+    "case_id": "regseg_val_18",
+    "image_path": "imgs/img_val_18.jpg",
+    "instruction": "turn after that truck on the left side of the road."
+  },
+  {
+    "case_id": "regseg_val_19",
+    "image_path": "imgs/img_val_19.jpg",
+    "instruction": "pull over next to that man"
+  },
+  {
+    "case_id": "regseg_val_20",
+    "image_path": "imgs/img_val_20.jpg",
+    "instruction": "park right in front of that black suv."
+  },
+  {
+    "case_id": "regseg_val_22",
+    "image_path": "imgs/img_val_22.jpg",
+    "instruction": "take this parking spot after the car has left."
+  },
+  {
+    "case_id": "regseg_val_24",
+    "image_path": "imgs/img_val_24.jpg",
+    "instruction": "park behind this red car"
+  },
+  {
+    "case_id": "regseg_val_28",
+    "image_path": "imgs/img_val_28.jpg",
+    "instruction": "turn left"
+  },
+  {
+    "case_id": "regseg_val_30",
+    "image_path": "imgs/img_val_30.jpg",
+    "instruction": "pull over the guy standing closest to the curb, next to that car in front of us."
+  },
+  {
+    "case_id": "regseg_val_32",
+    "image_path": "imgs/img_val_32.jpg",
+    "instruction": "turn left after that oncoming car has passed."
+  },
+  {
+    "case_id": "regseg_val_35",
+    "image_path": "imgs/img_val_35.jpg",
+    "instruction": "park in the black car's spot."
+  },
+  {
+    "case_id": "regseg_val_39",
+    "image_path": "imgs/img_val_39.jpg",
+    "instruction": "stop."
+  },
+  {
+    "case_id": "regseg_val_40",
+    "image_path": "imgs/img_val_40.jpg",
+    "instruction": "turn left behind the red car in front of us."
+  },
+  {
+    "case_id": "regseg_val_41",
+    "image_path": "imgs/img_val_41.jpg",
+    "instruction": "turn left."
+  },
+  {
+    "case_id": "regseg_val_42",
+    "image_path": "imgs/img_val_42.jpg",
+    "instruction": "park in the black car's spot."
+  },
+  {
+    "case_id": "regseg_val_44",
+    "image_path": "imgs/img_val_44.jpg",
+    "instruction": "make a left where that red car is turning."
+  },
+  {
+    "case_id": "regseg_val_46",
+    "image_path": "imgs/img_val_46.jpg",
+    "instruction": "find a parking spot near that bicycle rack"
+  },
+  {
+    "case_id": "regseg_val_47",
+    "image_path": "imgs/img_val_47.jpg",
+    "instruction": "make a right turn in front of the bike rack."
+  },
+  {
+    "case_id": "regseg_val_48",
+    "image_path": "imgs/img_val_48.jpg",
+    "instruction": "park near the guy on the left corner."
+  },
+  {
+    "case_id": "regseg_val_49",
+    "image_path": "imgs/img_val_49.jpg",
+    "instruction": "make a left turn once that car passes."
+  },
+  {
+    "case_id": "regseg_val_51",
+    "image_path": "imgs/img_val_51.jpg",
+    "instruction": "park where that car is pulling out."
+  },
+  {
+    "case_id": "regseg_val_54",
+    "image_path": "imgs/img_val_54.jpg",
+    "instruction": "park in front of that silver car."
+  },
+  {
+    "case_id": "regseg_val_55",
+    "image_path": "imgs/img_val_55.jpg",
+    "instruction": "pull up behind the guy wearing a white shirt."
+  },
+  {
+    "case_id": "regseg_val_58",
+    "image_path": "imgs/img_val_58.jpg",
+    "instruction": "stop in front of that white bus."
+  },
+  {
+    "case_id": "regseg_val_60",
+    "image_path": "imgs/img_val_60.jpg",
+    "instruction": "park across from the bikes"
+  },
+  {
+    "case_id": "regseg_val_65",
+    "image_path": "imgs/img_val_65.jpg",
+    "instruction": "turn left after the approaching car passes by."
+  },
+  {
+    "case_id": "regseg_val_66",
+    "image_path": "imgs/img_val_66.jpg",
+    "instruction": "turn left after the second car passes by."
+  },
+  {
+    "case_id": "regseg_val_67",
+    "image_path": "imgs/img_val_67.jpg",
+    "instruction": "park behind the bus on the right."
+  },
+  {
+    "case_id": "regseg_val_69",
+    "image_path": "imgs/img_val_69.jpg",
+    "instruction": "turn to the street on the right where the car just came from."
+  },
+  {
+    "case_id": "regseg_val_70",
+    "image_path": "imgs/img_val_70.jpg",
+    "instruction": "follow the bus."
+  },
+  {
+    "case_id": "regseg_val_71",
+    "image_path": "imgs/img_val_71.jpg",
+    "instruction": "stop next to this parked bus"
+  },
+  {
+    "case_id": "regseg_val_72",
+    "image_path": "imgs/img_val_72.jpg",
+    "instruction": "drive in the right lane and get behind that bus up ahead."
+  },
+  {
+    "case_id": "regseg_val_75",
+    "image_path": "imgs/img_val_75.jpg",
+    "instruction": "get in to the right lane."
+  },
+  {
+    "case_id": "regseg_val_76",
+    "image_path": "imgs/img_val_76.jpg",
+    "instruction": "switch to the right lane"
+  },
+  {
+    "case_id": "regseg_val_77",
+    "image_path": "imgs/img_val_77.jpg",
+    "instruction": "stop next to the construction worker on the right."
+  },
+  {
+    "case_id": "regseg_val_78",
+    "image_path": "imgs/img_val_78.jpg",
+    "instruction": "turn and stop at my bike!"
+  },
+  {
+    "case_id": "regseg_val_79",
+    "image_path": "imgs/img_val_79.jpg",
+    "instruction": "drop me off next to that bike."
+  },
+  {
+    "case_id": "regseg_val_81",
+    "image_path": "imgs/img_val_81.jpg",
+    "instruction": "switch lanes."
+  },
+  {
+    "case_id": "regseg_val_82",
+    "image_path": "imgs/img_val_82.jpg",
+    "instruction": "pull up alongside the curb here, parallel to that truck."
+  },
+  {
+    "case_id": "regseg_val_83",
+    "image_path": "imgs/img_val_83.jpg",
+    "instruction": "park near to that orange barrier."
+  },
+  {
+    "case_id": "regseg_val_85",
+    "image_path": "imgs/img_val_85.jpg",
+    "instruction": "move into the right hand lane"
+  },
+  {
+    "case_id": "regseg_val_87",
+    "image_path": "imgs/img_val_87.jpg",
+    "instruction": "turn left where that lady is walking."
+  },
+  {
+    "case_id": "regseg_val_88",
+    "image_path": "imgs/img_val_88.jpg",
+    "instruction": "stop in front of the man in the yellow hat"
+  },
+  {
+    "case_id": "regseg_val_89",
+    "image_path": "imgs/img_val_89.jpg",
+    "instruction": "go to the right lane"
+  },
+  {
+    "case_id": "regseg_val_90",
+    "image_path": "imgs/img_val_90.jpg",
+    "instruction": "turn left before the bikes"
+  },
+  {
+    "case_id": "regseg_val_91",
+    "image_path": "imgs/img_val_91.jpg",
+    "instruction": "continue straight passing the brown box on the left."
+  },
+  {
+    "case_id": "regseg_val_92",
+    "image_path": "imgs/img_val_92.jpg",
+    "instruction": "wait for the construction worker to clear the road."
+  },
+  {
+    "case_id": "regseg_val_93",
+    "image_path": "imgs/img_val_93.jpg",
+    "instruction": "stay stopped."
+  },
+  {
+    "case_id": "regseg_val_94",
+    "image_path": "imgs/img_val_94.jpg",
+    "instruction": "stay stopped."
+  },
+  {
+    "case_id": "regseg_val_102",
+    "image_path": "imgs/img_val_102.jpg",
+    "instruction": "stay stopped"
+  },
+  {
+    "case_id": "regseg_val_103",
+    "image_path": "imgs/img_val_103.jpg",
+    "instruction": "stay stopped."
+  },
+  {
+    "case_id": "regseg_val_104",
+    "image_path": "imgs/img_val_104.jpg",
+    "instruction": "stay stopped."
+  },
+  {
+    "case_id": "regseg_val_105",
+    "image_path": "imgs/img_val_105.jpg",
+    "instruction": "turn left slightly and continue."
+  },
+  {
+    "case_id": "regseg_val_107",
+    "image_path": "imgs/img_val_107.jpg",
+    "instruction": "drive straight passing the bicycle on the left."
+  },
+  {
+    "case_id": "regseg_val_108",
+    "image_path": "imgs/img_val_108.jpg",
+    "instruction": "drive straight passing the pedestrian on the left."
+  },
+  {
+    "case_id": "regseg_val_110",
+    "image_path": "imgs/img_val_110.jpg",
+    "instruction": "continue driving straight in the lane."
+  },
+  {
+    "case_id": "regseg_val_111",
+    "image_path": "imgs/img_val_111.jpg",
+    "instruction": "stop, there is a barrier on the road."
+  },
+  {
+    "case_id": "regseg_val_112",
+    "image_path": "imgs/img_val_112.jpg",
+    "instruction": "let us continue."
+  },
+  {
+    "case_id": "regseg_val_113",
+    "image_path": "imgs/img_val_113.jpg",
+    "instruction": "do not proceed, stop"
+  },
+  {
+    "case_id": "regseg_val_117",
+    "image_path": "imgs/img_val_117.jpg",
+    "instruction": "stop close to this bike."
+  },
+  {
+    "case_id": "regseg_val_120",
+    "image_path": "imgs/img_val_120.jpg",
+    "instruction": "make a left turn after the construction worker"
+  },
+  {
+    "case_id": "regseg_val_121",
+    "image_path": "imgs/img_val_121.jpg",
+    "instruction": "pull over behind that black car at the end of that row of parked cars"
+  },
+  {
+    "case_id": "regseg_val_122",
+    "image_path": "imgs/img_val_122.jpg",
+    "instruction": "turn left here, park behind the white van, left of the black car."
+  },
+  {
+    "case_id": "regseg_val_123",
+    "image_path": "imgs/img_val_123.jpg",
+    "instruction": "turn left after the orange cone"
+  },
+  {
+    "case_id": "regseg_val_124",
+    "image_path": "imgs/img_val_124.jpg",
+    "instruction": "turn right"
+  },
+  {
+    "case_id": "regseg_val_126",
+    "image_path": "imgs/img_val_126.jpg",
+    "instruction": "turn left away from tha guy!"
+  },
+  {
+    "case_id": "regseg_val_127",
+    "image_path": "imgs/img_val_127.jpg",
+    "instruction": "park before the first car on the left for 10 minutes."
+  },
+  {
+    "case_id": "regseg_val_128",
+    "image_path": "imgs/img_val_128.jpg",
+    "instruction": "stop near the man in the truck"
+  },
+  {
+    "case_id": "regseg_val_129",
+    "image_path": "imgs/img_val_129.jpg",
+    "instruction": "stop alongside that truck"
+  },
+  {
+    "case_id": "regseg_val_130",
+    "image_path": "imgs/img_val_130.jpg",
+    "instruction": "park next to the first barrier on the right."
+  },
+  {
+    "case_id": "regseg_val_131",
+    "image_path": "imgs/img_val_131.jpg",
+    "instruction": "pull alongside the first barrier on the right"
+  },
+  {
+    "case_id": "regseg_val_132",
+    "image_path": "imgs/img_val_132.jpg",
+    "instruction": "park next to the second barrier on the right."
+  },
+  {
+    "case_id": "regseg_val_134",
+    "image_path": "imgs/img_val_134.jpg",
+    "instruction": "turn into the garage on the right side of that forklift truck."
+  },
+  {
+    "case_id": "regseg_val_135",
+    "image_path": "imgs/img_val_135.jpg",
+    "instruction": "stop right behind the truck"
+  },
+  {
+    "case_id": "regseg_val_136",
+    "image_path": "imgs/img_val_136.jpg",
+    "instruction": "stop right behind this truck i need to get out here."
+  },
+  {
+    "case_id": "regseg_val_137",
+    "image_path": "imgs/img_val_137.jpg",
+    "instruction": "park after the first concrete barrier"
+  },
+  {
+    "case_id": "regseg_val_138",
+    "image_path": "imgs/img_val_138.jpg",
+    "instruction": "pull over and stop behind the forklift"
+  },
+  {
+    "case_id": "regseg_val_140",
+    "image_path": "imgs/img_val_140.jpg",
+    "instruction": "turn left just after the black suv"
+  },
+  {
+    "case_id": "regseg_val_141",
+    "image_path": "imgs/img_val_141.jpg",
+    "instruction": "park near the closest concrete barrier"
+  },
+  {
+    "case_id": "regseg_val_142",
+    "image_path": "imgs/img_val_142.jpg",
+    "instruction": "take a left turn after that parked vehicle at the end of the road"
+  },
+  {
+    "case_id": "regseg_val_144",
+    "image_path": "imgs/img_val_144.jpg",
+    "instruction": "park on the right next to the motorcycle"
+  },
+  {
+    "case_id": "regseg_val_147",
+    "image_path": "imgs/img_val_147.jpg",
+    "instruction": "stop near the bike"
+  },
+  {
+    "case_id": "regseg_val_148",
+    "image_path": "imgs/img_val_148.jpg",
+    "instruction": "find parking near the truck"
+  },
+  {
+    "case_id": "regseg_val_153",
+    "image_path": "imgs/img_val_153.jpg",
+    "instruction": "let me get out next to my bike"
+  },
+  {
+    "case_id": "regseg_val_155",
+    "image_path": "imgs/img_val_155.jpg",
+    "instruction": "park next to the white van on the left side of the road."
+  },
+  {
+    "case_id": "regseg_val_156",
+    "image_path": "imgs/img_val_156.jpg",
+    "instruction": "park next to the black truck on the left."
+  },
+  {
+    "case_id": "regseg_val_160",
+    "image_path": "imgs/img_val_160.jpg",
+    "instruction": "park in the space next to that black pickup truck"
+  },
+  {
+    "case_id": "regseg_val_164",
+    "image_path": "imgs/img_val_164.jpg",
+    "instruction": "turn left after we pass that last cone"
+  },
+  {
+    "case_id": "regseg_val_165",
+    "image_path": "imgs/img_val_165.jpg",
+    "instruction": "pull over near that first trailer on the right."
+  },
+  {
+    "case_id": "regseg_val_166",
+    "image_path": "imgs/img_val_166.jpg",
+    "instruction": "find somewhere to park near the black suv"
+  },
+  {
+    "case_id": "regseg_val_171",
+    "image_path": "imgs/img_val_171.jpg",
+    "instruction": "park behind the suv on the right."
+  },
+  {
+    "case_id": "regseg_val_173",
+    "image_path": "imgs/img_val_173.jpg",
+    "instruction": "merge left."
+  },
+  {
+    "case_id": "regseg_val_174",
+    "image_path": "imgs/img_val_174.jpg",
+    "instruction": "merge right."
+  },
+  {
+    "case_id": "regseg_val_175",
+    "image_path": "imgs/img_val_175.jpg",
+    "instruction": "turn right at the intersection just beyond the barrier on the sidewalk."
+  },
+  {
+    "case_id": "regseg_val_176",
+    "image_path": "imgs/img_val_176.jpg",
+    "instruction": "pull up behind the vehicle in the lane to the left."
+  },
+  {
+    "case_id": "regseg_val_177",
+    "image_path": "imgs/img_val_177.jpg",
+    "instruction": "stop next to these garbage cans"
+  },
+  {
+    "case_id": "regseg_val_178",
+    "image_path": "imgs/img_val_178.jpg",
+    "instruction": "turn left before the trash cans"
+  },
+  {
+    "case_id": "regseg_val_179",
+    "image_path": "imgs/img_val_179.jpg",
+    "instruction": "pull over next to that green garbage can."
+  },
+  {
+    "case_id": "regseg_val_181",
+    "image_path": "imgs/img_val_181.jpg",
+    "instruction": "let me out near that traffic cone"
+  },
+  {
+    "case_id": "regseg_val_182",
+    "image_path": "imgs/img_val_182.jpg",
+    "instruction": "just stop before that garbage can."
+  },
+  {
+    "case_id": "regseg_val_186",
+    "image_path": "imgs/img_val_186.jpg",
+    "instruction": "park on the grass in front of the traffic cone"
+  },
+  {
+    "case_id": "regseg_val_188",
+    "image_path": "imgs/img_val_188.jpg",
+    "instruction": "turn into the driveway before the blue bin."
+  },
+  {
+    "case_id": "regseg_val_190",
+    "image_path": "imgs/img_val_190.jpg",
+    "instruction": "stop in front of the gate after that blue trash bin"
+  },
+  {
+    "case_id": "regseg_val_191",
+    "image_path": "imgs/img_val_191.jpg",
+    "instruction": "pull up in front of that gate left of the green trash bin."
+  },
+  {
+    "case_id": "regseg_val_192",
+    "image_path": "imgs/img_val_192.jpg",
+    "instruction": "park near the green trash can"
+  },
+  {
+    "case_id": "regseg_val_193",
+    "image_path": "imgs/img_val_193.jpg",
+    "instruction": "turn left before the blue trash can"
+  },
+  {
+    "case_id": "regseg_val_195",
+    "image_path": "imgs/img_val_195.jpg",
+    "instruction": "park next to the left garbage bin"
+  },
+  {
+    "case_id": "regseg_val_196",
+    "image_path": "imgs/img_val_196.jpg",
+    "instruction": "drive slowly past that garbage bin"
+  },
+  {
+    "case_id": "regseg_val_197",
+    "image_path": "imgs/img_val_197.jpg",
+    "instruction": "park next to that garbage can"
+  },
+  {
+    "case_id": "regseg_val_198",
+    "image_path": "imgs/img_val_198.jpg",
+    "instruction": "pull over next to that garbage can"
+  },
+  {
+    "case_id": "regseg_val_199",
+    "image_path": "imgs/img_val_199.jpg",
+    "instruction": "park next to that garbage can"
+  },
+  {
+    "case_id": "regseg_val_201",
+    "image_path": "imgs/img_val_201.jpg",
+    "instruction": "follow the dark car in front of us"
+  },
+  {
+    "case_id": "regseg_val_203",
+    "image_path": "imgs/img_val_203.jpg",
+    "instruction": "follow car in front"
+  },
+  {
+    "case_id": "regseg_val_205",
+    "image_path": "imgs/img_val_205.jpg",
+    "instruction": "turn left before this green garbage can"
+  },
+  {
+    "case_id": "regseg_val_206",
+    "image_path": "imgs/img_val_206.jpg",
+    "instruction": "pull in at the gate, after the set of garbage cans."
+  },
+  {
+    "case_id": "regseg_val_207",
+    "image_path": "imgs/img_val_207.jpg",
+    "instruction": "follow this car in front of us"
+  },
+  {
+    "case_id": "regseg_val_209",
+    "image_path": "imgs/img_val_209.jpg",
+    "instruction": "stop at the green trash can"
+  },
+  {
+    "case_id": "regseg_val_221",
+    "image_path": "imgs/img_val_221.jpg",
+    "instruction": "park next to this car!"
+  },
+  {
+    "case_id": "regseg_val_222",
+    "image_path": "imgs/img_val_222.jpg",
+    "instruction": "park near that white car"
+  },
+  {
+    "case_id": "regseg_val_225",
+    "image_path": "imgs/img_val_225.jpg",
+    "instruction": "stop the car near this motorcycle."
+  },
+  {
+    "case_id": "regseg_val_226",
+    "image_path": "imgs/img_val_226.jpg",
+    "instruction": "park the car by this bicycle."
+  },
+  {
+    "case_id": "regseg_val_227",
+    "image_path": "imgs/img_val_227.jpg",
+    "instruction": "park on the right by that green bin"
+  },
+  {
+    "case_id": "regseg_val_231",
+    "image_path": "imgs/img_val_231.jpg",
+    "instruction": "pull over by that green trashcan on the right."
+  },
+  {
+    "case_id": "regseg_val_232",
+    "image_path": "imgs/img_val_232.jpg",
+    "instruction": "drop me off near the bicycle."
+  },
+  {
+    "case_id": "regseg_val_238",
+    "image_path": "imgs/img_val_238.jpg",
+    "instruction": "take the left turn ahead where the bike is."
+  },
+  {
+    "case_id": "regseg_val_241",
+    "image_path": "imgs/img_val_241.jpg",
+    "instruction": "stop the car after the yellow lines by the man."
+  },
+  {
+    "case_id": "regseg_val_243",
+    "image_path": "imgs/img_val_243.jpg",
+    "instruction": "pull over near that person on the the sidewalk"
+  },
+  {
+    "case_id": "regseg_val_245",
+    "image_path": "imgs/img_val_245.jpg",
+    "instruction": "pick up woman on your left"
+  },
+  {
+    "case_id": "regseg_val_246",
+    "image_path": "imgs/img_val_246.jpg",
+    "instruction": "keep in line with vehicle in front"
+  },
+  {
+    "case_id": "regseg_val_247",
+    "image_path": "imgs/img_val_247.jpg",
+    "instruction": "turn right."
+  },
+  {
+    "case_id": "regseg_val_248",
+    "image_path": "imgs/img_val_248.jpg",
+    "instruction": "turn left down the street just before that man."
+  },
+  {
+    "case_id": "regseg_val_250",
+    "image_path": "imgs/img_val_250.jpg",
+    "instruction": "get in the lane next to this truck in front"
+  },
+  {
+    "case_id": "regseg_val_262",
+    "image_path": "imgs/img_val_262.jpg",
+    "instruction": "park behind that black vehicle on the right."
+  },
+  {
+    "case_id": "regseg_val_263",
+    "image_path": "imgs/img_val_263.jpg",
+    "instruction": "pull up behind that truck in the right lane"
+  },
+  {
+    "case_id": "regseg_val_267",
+    "image_path": "imgs/img_val_267.jpg",
+    "instruction": "turn left down the street near that pedestrian."
+  },
+  {
+    "case_id": "regseg_val_268",
+    "image_path": "imgs/img_val_268.jpg",
+    "instruction": "then turn left when it is safe"
+  },
+  {
+    "case_id": "regseg_val_269",
+    "image_path": "imgs/img_val_269.jpg",
+    "instruction": "pull up behind this yellow truck"
+  },
+  {
+    "case_id": "regseg_val_270",
+    "image_path": "imgs/img_val_270.jpg",
+    "instruction": "move over and park behind the suv on the right"
+  },
+  {
+    "case_id": "regseg_val_271",
+    "image_path": "imgs/img_val_271.jpg",
+    "instruction": "keep going straight and follow the red van in front of us"
+  },
+  {
+    "case_id": "regseg_val_279",
+    "image_path": "imgs/img_val_279.jpg",
+    "instruction": "park as close to that van as possible."
+  },
+  {
+    "case_id": "regseg_val_281",
+    "image_path": "imgs/img_val_281.jpg",
+    "instruction": "park the car next to the barrier near the trucks."
+  },
+  {
+    "case_id": "regseg_val_282",
+    "image_path": "imgs/img_val_282.jpg",
+    "instruction": "park parallel to the yellow trailer."
+  },
+  {
+    "case_id": "regseg_val_289",
+    "image_path": "imgs/img_val_289.jpg",
+    "instruction": "pull into where that box truck is"
+  },
+  {
+    "case_id": "regseg_val_291",
+    "image_path": "imgs/img_val_291.jpg",
+    "instruction": "turn left"
+  },
+  {
+    "case_id": "regseg_val_293",
+    "image_path": "imgs/img_val_293.jpg",
+    "instruction": "park in front of this white car"
+  },
+  {
+    "case_id": "regseg_val_294",
+    "image_path": "imgs/img_val_294.jpg",
+    "instruction": "pull up and stop next to this white car"
+  },
+  {
+    "case_id": "regseg_val_295",
+    "image_path": "imgs/img_val_295.jpg",
+    "instruction": "turn right into the driveway after this white car"
+  },
+  {
+    "case_id": "regseg_val_297",
+    "image_path": "imgs/img_val_297.jpg",
+    "instruction": "turn right up where that man is"
+  },
+  {
+    "case_id": "regseg_val_299",
+    "image_path": "imgs/img_val_299.jpg",
+    "instruction": "pull up next to that person on the right."
+  },
+  {
+    "case_id": "regseg_val_300",
+    "image_path": "imgs/img_val_300.jpg",
+    "instruction": "park near that red truck"
+  },
+  {
+    "case_id": "regseg_val_301",
+    "image_path": "imgs/img_val_301.jpg",
+    "instruction": "park in front of that red truck"
+  },
+  {
+    "case_id": "regseg_val_304",
+    "image_path": "imgs/img_val_304.jpg",
+    "instruction": "park near that trailer"
+  },
+  {
+    "case_id": "regseg_val_305",
+    "image_path": "imgs/img_val_305.jpg",
+    "instruction": "park next to that trailer"
+  },
+  {
+    "case_id": "regseg_val_306",
+    "image_path": "imgs/img_val_306.jpg",
+    "instruction": "park behind that trailer"
+  },
+  {
+    "case_id": "regseg_val_307",
+    "image_path": "imgs/img_val_307.jpg",
+    "instruction": "pull up alongside that trailer"
+  },
+  {
+    "case_id": "regseg_val_314",
+    "image_path": "imgs/img_val_314.jpg",
+    "instruction": "turn left after"
+  },
+  {
+    "case_id": "regseg_val_319",
+    "image_path": "imgs/img_val_319.jpg",
+    "instruction": "park in front of that red truck on the left."
+  },
+  {
+    "case_id": "regseg_val_320",
+    "image_path": "imgs/img_val_320.jpg",
+    "instruction": "park behind the first car on the right."
+  },
+  {
+    "case_id": "regseg_val_322",
+    "image_path": "imgs/img_val_322.jpg",
+    "instruction": "change lanes to get behind that white car."
+  },
+  {
+    "case_id": "regseg_val_324",
+    "image_path": "imgs/img_val_324.jpg",
+    "instruction": "pull up behind the car in the left lane"
+  },
+  {
+    "case_id": "regseg_val_325",
+    "image_path": "imgs/img_val_325.jpg",
+    "instruction": "get ahead of this taxi"
+  },
+  {
+    "case_id": "regseg_val_326",
+    "image_path": "imgs/img_val_326.jpg",
+    "instruction": "park behind the blue car"
+  },
+  {
+    "case_id": "regseg_val_328",
+    "image_path": "imgs/img_val_328.jpg",
+    "instruction": "get into the next lane behind the white car"
+  },
+  {
+    "case_id": "regseg_val_329",
+    "image_path": "imgs/img_val_329.jpg",
+    "instruction": "pull up to the left of this white car"
+  },
+  {
+    "case_id": "regseg_val_331",
+    "image_path": "imgs/img_val_331.jpg",
+    "instruction": "park behind the car on the right"
+  },
+  {
+    "case_id": "regseg_val_332",
+    "image_path": "imgs/img_val_332.jpg",
+    "instruction": "stop behind the white car on the left"
+  },
+  {
+    "case_id": "regseg_val_335",
+    "image_path": "imgs/img_val_335.jpg",
+    "instruction": "stop next to that pedestrian on the right"
+  },
+  {
+    "case_id": "regseg_val_339",
+    "image_path": "imgs/img_val_339.jpg",
+    "instruction": "slow down next to the person on the right."
+  },
+  {
+    "case_id": "regseg_val_341",
+    "image_path": "imgs/img_val_341.jpg",
+    "instruction": "move closer this car in front"
+  },
+  {
+    "case_id": "regseg_val_342",
+    "image_path": "imgs/img_val_342.jpg",
+    "instruction": "let us turn left after the pedestrian"
+  },
+  {
+    "case_id": "regseg_val_343",
+    "image_path": "imgs/img_val_343.jpg",
+    "instruction": "park the car where next to that bicycle."
+  },
+  {
+    "case_id": "regseg_val_345",
+    "image_path": "imgs/img_val_345.jpg",
+    "instruction": "pull over next to that pedestrian"
+  },
+  {
+    "case_id": "regseg_val_347",
+    "image_path": "imgs/img_val_347.jpg",
+    "instruction": "stop near the man wearing the yellow shirt."
+  },
+  {
+    "case_id": "regseg_val_348",
+    "image_path": "imgs/img_val_348.jpg",
+    "instruction": "park near the man at the stop light."
+  },
+  {
+    "case_id": "regseg_val_350",
+    "image_path": "imgs/img_val_350.jpg",
+    "instruction": "turn right in front of the man wearing yellow."
+  },
+  {
+    "case_id": "regseg_val_351",
+    "image_path": "imgs/img_val_351.jpg",
+    "instruction": "turn right here."
+  },
+  {
+    "case_id": "regseg_val_355",
+    "image_path": "imgs/img_val_355.jpg",
+    "instruction": "turn left after the silver sedan goes"
+  },
+  {
+    "case_id": "regseg_val_360",
+    "image_path": "imgs/img_val_360.jpg",
+    "instruction": "slow down as we pass that bike."
+  },
+  {
+    "case_id": "regseg_val_364",
+    "image_path": "imgs/img_val_364.jpg",
+    "instruction": "turn right just before where that man is."
+  },
+  {
+    "case_id": "regseg_val_372",
+    "image_path": "imgs/img_val_372.jpg",
+    "instruction": "that is who i need to pick up, go straight on towards that man."
+  },
+  {
+    "case_id": "regseg_val_373",
+    "image_path": "imgs/img_val_373.jpg",
+    "instruction": "find a place to park near that yellow suv"
+  },
+  {
+    "case_id": "regseg_val_374",
+    "image_path": "imgs/img_val_374.jpg",
+    "instruction": "there is a place! park next to that black car"
+  },
+  {
+    "case_id": "regseg_val_379",
+    "image_path": "imgs/img_val_379.jpg",
+    "instruction": "stop near that person"
+  },
+  {
+    "case_id": "regseg_val_384",
+    "image_path": "imgs/img_val_384.jpg",
+    "instruction": "park in reverse by the yellow car"
+  },
+  {
+    "case_id": "regseg_val_385",
+    "image_path": "imgs/img_val_385.jpg",
+    "instruction": "park near the black car"
+  },
+  {
+    "case_id": "regseg_val_388",
+    "image_path": "imgs/img_val_388.jpg",
+    "instruction": "once that pedestrian has crossed the road we can turn left"
+  },
+  {
+    "case_id": "regseg_val_389",
+    "image_path": "imgs/img_val_389.jpg",
+    "instruction": "there is a van straight in front of us, go around it."
+  },
+  {
+    "case_id": "regseg_val_390",
+    "image_path": "imgs/img_val_390.jpg",
+    "instruction": "wait for the moped to continue before we turn left"
+  },
+  {
+    "case_id": "regseg_val_393",
+    "image_path": "imgs/img_val_393.jpg",
+    "instruction": "turn left after that person crosses the street"
+  },
+  {
+    "case_id": "regseg_val_397",
+    "image_path": "imgs/img_val_397.jpg",
+    "instruction": "pull over and park behind this car."
+  },
+  {
+    "case_id": "regseg_val_401",
+    "image_path": "imgs/img_val_401.jpg",
+    "instruction": "follow this bus to it is next stop"
+  },
+  {
+    "case_id": "regseg_val_414",
+    "image_path": "imgs/img_val_414.jpg",
+    "instruction": "that bus has stopped, drive around it and continue straight"
+  },
+  {
+    "case_id": "regseg_val_415",
+    "image_path": "imgs/img_val_415.jpg",
+    "instruction": "pull up alongside the curb. we need to pick up the pedestrian on the right that is closest to us."
+  },
+  {
+    "case_id": "regseg_val_416",
+    "image_path": "imgs/img_val_416.jpg",
+    "instruction": "slow down a bit, that bus might pull out into traffic."
+  },
+  {
+    "case_id": "regseg_val_421",
+    "image_path": "imgs/img_val_421.jpg",
+    "instruction": "turn where available and park behind the car across the road"
+  },
+  {
+    "case_id": "regseg_val_423",
+    "image_path": "imgs/img_val_423.jpg",
+    "instruction": "there is a man wearing shorts on the left side. pick up him"
+  },
+  {
+    "case_id": "regseg_val_425",
+    "image_path": "imgs/img_val_425.jpg",
+    "instruction": "drop me off near the man wearing a dark shirt."
+  },
+  {
+    "case_id": "regseg_val_432",
+    "image_path": "imgs/img_val_432.jpg",
+    "instruction": "make a left turn here."
+  },
+  {
+    "case_id": "regseg_val_436",
+    "image_path": "imgs/img_val_436.jpg",
+    "instruction": "pull up next to the guy on the left, let us pick him up"
+  },
+  {
+    "case_id": "regseg_val_442",
+    "image_path": "imgs/img_val_442.jpg",
+    "instruction": "stop if pedestrian gets in front of vehicle."
+  },
+  {
+    "case_id": "regseg_val_444",
+    "image_path": "imgs/img_val_444.jpg",
+    "instruction": "park next to the guy wearing the helmet."
+  },
+  {
+    "case_id": "regseg_val_445",
+    "image_path": "imgs/img_val_445.jpg",
+    "instruction": "slow down."
+  },
+  {
+    "case_id": "regseg_val_447",
+    "image_path": "imgs/img_val_447.jpg",
+    "instruction": "stay in the right lane, so not to get to close to that guy."
+  },
+  {
+    "case_id": "regseg_val_449",
+    "image_path": "imgs/img_val_449.jpg",
+    "instruction": "pull in behind the blue van on the left."
+  },
+  {
+    "case_id": "regseg_val_450",
+    "image_path": "imgs/img_val_450.jpg",
+    "instruction": "stop on the left behind the van."
+  },
+  {
+    "case_id": "regseg_val_452",
+    "image_path": "imgs/img_val_452.jpg",
+    "instruction": "go wide around the man loading the van."
+  },
+  {
+    "case_id": "regseg_val_485",
+    "image_path": "imgs/img_val_485.jpg",
+    "instruction": "pause near that man with his bike."
+  },
+  {
+    "case_id": "regseg_val_494",
+    "image_path": "imgs/img_val_494.jpg",
+    "instruction": "drop me off near the bike."
+  },
+  {
+    "case_id": "regseg_val_497",
+    "image_path": "imgs/img_val_497.jpg",
+    "instruction": "pull over near my bike."
+  },
+  {
+    "case_id": "regseg_val_499",
+    "image_path": "imgs/img_val_499.jpg",
+    "instruction": "please change lanes and get behind the blue car."
+  },
+  {
+    "case_id": "regseg_val_500",
+    "image_path": "imgs/img_val_500.jpg",
+    "instruction": "change into the right lane."
+  },
+  {
+    "case_id": "regseg_val_505",
+    "image_path": "imgs/img_val_505.jpg",
+    "instruction": "turn left and stop next to the biker."
+  },
+  {
+    "case_id": "regseg_val_506",
+    "image_path": "imgs/img_val_506.jpg",
+    "instruction": "follow that van"
+  },
+  {
+    "case_id": "regseg_val_508",
+    "image_path": "imgs/img_val_508.jpg",
+    "instruction": "turn left here, before this motorcycle"
+  },
+  {
+    "case_id": "regseg_val_516",
+    "image_path": "imgs/img_val_516.jpg",
+    "instruction": "follow the yellow car that is in the left lane."
+  },
+  {
+    "case_id": "regseg_val_518",
+    "image_path": "imgs/img_val_518.jpg",
+    "instruction": "follow behind the silver van."
+  },
+  {
+    "case_id": "regseg_val_519",
+    "image_path": "imgs/img_val_519.jpg",
+    "instruction": "follow the couple that just passed us on the left."
+  },
+  {
+    "case_id": "regseg_val_520",
+    "image_path": "imgs/img_val_520.jpg",
+    "instruction": "go left and follow the black car"
+  },
+  {
+    "case_id": "regseg_val_521",
+    "image_path": "imgs/img_val_521.jpg",
+    "instruction": "turn around before that car in front of us leaves"
+  },
+  {
+    "case_id": "regseg_val_524",
+    "image_path": "imgs/img_val_524.jpg",
+    "instruction": "stay behind that car in front of us"
+  },
+  {
+    "case_id": "regseg_val_525",
+    "image_path": "imgs/img_val_525.jpg",
+    "instruction": "stay behind that car in front of us"
+  },
+  {
+    "case_id": "regseg_val_526",
+    "image_path": "imgs/img_val_526.jpg",
+    "instruction": "stay behind that car in front of us"
+  },
+  {
+    "case_id": "regseg_val_527",
+    "image_path": "imgs/img_val_527.jpg",
+    "instruction": "switch lanes and follow that gray car two lanes to the left"
+  },
+  {
+    "case_id": "regseg_val_528",
+    "image_path": "imgs/img_val_528.jpg",
+    "instruction": "park near the group of vehicles."
+  },
+  {
+    "case_id": "regseg_val_529",
+    "image_path": "imgs/img_val_529.jpg",
+    "instruction": "park before the stationary truck on our right."
+  },
+  {
+    "case_id": "regseg_val_534",
+    "image_path": "imgs/img_val_534.jpg",
+    "instruction": "pull over and park near that black car."
+  },
+  {
+    "case_id": "regseg_val_541",
+    "image_path": "imgs/img_val_541.jpg",
+    "instruction": "park next to the black car on the left"
+  },
+  {
+    "case_id": "regseg_val_548",
+    "image_path": "imgs/img_val_548.jpg",
+    "instruction": "stop next to that man."
+  },
+  {
+    "case_id": "regseg_val_556",
+    "image_path": "imgs/img_val_556.jpg",
+    "instruction": "turn right where the man is standing."
+  },
+  {
+    "case_id": "regseg_val_557",
+    "image_path": "imgs/img_val_557.jpg",
+    "instruction": "switch to the left lane in order to avoid the object obstructing the current lane"
+  },
+  {
+    "case_id": "regseg_val_558",
+    "image_path": "imgs/img_val_558.jpg",
+    "instruction": "switch to the left lane in order to avoid the object obstructing the current lane"
+  },
+  {
+    "case_id": "regseg_val_559",
+    "image_path": "imgs/img_val_559.jpg",
+    "instruction": "switch to the left lane in order to avoid the object obstructing the current lane"
+  },
+  {
+    "case_id": "regseg_val_560",
+    "image_path": "imgs/img_val_560.jpg",
+    "instruction": "switch to the left lane in order to follow the suv"
+  },
+  {
+    "case_id": "regseg_val_562",
+    "image_path": "imgs/img_val_562.jpg",
+    "instruction": "stop to pick up that person."
+  },
+  {
+    "case_id": "regseg_val_569",
+    "image_path": "imgs/img_val_569.jpg",
+    "instruction": "slow down to let the bicyclist pass."
+  },
+  {
+    "case_id": "regseg_val_572",
+    "image_path": "imgs/img_val_572.jpg",
+    "instruction": "slow down and let the bike pass."
+  },
+  {
+    "case_id": "regseg_val_575",
+    "image_path": "imgs/img_val_575.jpg",
+    "instruction": "pull over up where that man is."
+  },
+  {
+    "case_id": "regseg_val_579",
+    "image_path": "imgs/img_val_579.jpg",
+    "instruction": "let the biker cross the street"
+  },
+  {
+    "case_id": "regseg_val_582",
+    "image_path": "imgs/img_val_582.jpg",
+    "instruction": "pull over next to th man"
+  },
+  {
+    "case_id": "regseg_val_584",
+    "image_path": "imgs/img_val_584.jpg",
+    "instruction": "stop near that person."
+  },
+  {
+    "case_id": "regseg_val_587",
+    "image_path": "imgs/img_val_587.jpg",
+    "instruction": "stop next to the person in blue shirt."
+  },
+  {
+    "case_id": "regseg_val_588",
+    "image_path": "imgs/img_val_588.jpg",
+    "instruction": "park behind this white car"
+  },
+  {
+    "case_id": "regseg_val_591",
+    "image_path": "imgs/img_val_591.jpg",
+    "instruction": "follow that car."
+  },
+  {
+    "case_id": "regseg_val_593",
+    "image_path": "imgs/img_val_593.jpg",
+    "instruction": "please turn left and stop near the barrier"
+  },
+  {
+    "case_id": "regseg_val_595",
+    "image_path": "imgs/img_val_595.jpg",
+    "instruction": "turn around and get behind this white truck."
+  },
+  {
+    "case_id": "regseg_val_598",
+    "image_path": "imgs/img_val_598.jpg",
+    "instruction": "park in front of that truck on the right side of the road."
+  },
+  {
+    "case_id": "regseg_val_599",
+    "image_path": "imgs/img_val_599.jpg",
+    "instruction": "park behind the red car."
+  },
+  {
+    "case_id": "regseg_val_600",
+    "image_path": "imgs/img_val_600.jpg",
+    "instruction": "follow the car driving in front of us."
+  },
+  {
+    "case_id": "regseg_val_602",
+    "image_path": "imgs/img_val_602.jpg",
+    "instruction": "slow down to check for pedestrians."
+  },
+  {
+    "case_id": "regseg_val_603",
+    "image_path": "imgs/img_val_603.jpg",
+    "instruction": "pull over near that pedestrian on the right"
+  },
+  {
+    "case_id": "regseg_val_605",
+    "image_path": "imgs/img_val_605.jpg",
+    "instruction": "park behind this red sedan"
+  },
+  {
+    "case_id": "regseg_val_609",
+    "image_path": "imgs/img_val_609.jpg",
+    "instruction": "park next to the black car on the left in the parking lot"
+  },
+  {
+    "case_id": "regseg_val_611",
+    "image_path": "imgs/img_val_611.jpg",
+    "instruction": "follow that car"
+  },
+  {
+    "case_id": "regseg_val_613",
+    "image_path": "imgs/img_val_613.jpg",
+    "instruction": "watch for the pedestrian when you pass."
+  },
+  {
+    "case_id": "regseg_val_623",
+    "image_path": "imgs/img_val_623.jpg",
+    "instruction": "let the pedestrian on the left cross and then proceed."
+  },
+  {
+    "case_id": "regseg_val_624",
+    "image_path": "imgs/img_val_624.jpg",
+    "instruction": "drive in front of the cyclist"
+  },
+  {
+    "case_id": "regseg_val_625",
+    "image_path": "imgs/img_val_625.jpg",
+    "instruction": "slowly continue straight as there is a person in our way."
+  },
+  {
+    "case_id": "regseg_val_628",
+    "image_path": "imgs/img_val_628.jpg",
+    "instruction": "get closer to the car."
+  },
+  {
+    "case_id": "regseg_val_630",
+    "image_path": "imgs/img_val_630.jpg",
+    "instruction": "park behind the yellow car."
+  },
+  {
+    "case_id": "regseg_val_631",
+    "image_path": "imgs/img_val_631.jpg",
+    "instruction": "stop next to the second car parked on the left."
+  },
+  {
+    "case_id": "regseg_val_633",
+    "image_path": "imgs/img_val_633.jpg",
+    "instruction": "do not pull out until this car passes"
+  },
+  {
+    "case_id": "regseg_val_636",
+    "image_path": "imgs/img_val_636.jpg",
+    "instruction": "drop me off before that yellow vehicle"
+  },
+  {
+    "case_id": "regseg_val_637",
+    "image_path": "imgs/img_val_637.jpg",
+    "instruction": "get a bit closer to the black car in front"
+  },
+  {
+    "case_id": "regseg_val_639",
+    "image_path": "imgs/img_val_639.jpg",
+    "instruction": "slow down and let that gold car pass in front of us"
+  },
+  {
+    "case_id": "regseg_val_640",
+    "image_path": "imgs/img_val_640.jpg",
+    "instruction": "park in the space in front of that silver car"
+  },
+  {
+    "case_id": "regseg_val_641",
+    "image_path": "imgs/img_val_641.jpg",
+    "instruction": "stop and park near that bike on the sidewalk"
+  },
+  {
+    "case_id": "regseg_val_644",
+    "image_path": "imgs/img_val_644.jpg",
+    "instruction": "decrease the distance between my car and the silver car"
+  },
+  {
+    "case_id": "regseg_val_645",
+    "image_path": "imgs/img_val_645.jpg",
+    "instruction": "follow this car."
+  },
+  {
+    "case_id": "regseg_val_647",
+    "image_path": "imgs/img_val_647.jpg",
+    "instruction": "stop next to this bike"
+  },
+  {
+    "case_id": "regseg_val_654",
+    "image_path": "imgs/img_val_654.jpg",
+    "instruction": "park the car next to the silver car."
+  },
+  {
+    "case_id": "regseg_val_656",
+    "image_path": "imgs/img_val_656.jpg",
+    "instruction": "evade the black car on our left."
+  },
+  {
+    "case_id": "regseg_val_657",
+    "image_path": "imgs/img_val_657.jpg",
+    "instruction": "drop me near the person who is wearing red"
+  },
+  {
+    "case_id": "regseg_val_666",
+    "image_path": "imgs/img_val_666.jpg",
+    "instruction": "stop next the man in the red shirt"
+  },
+  {
+    "case_id": "regseg_val_667",
+    "image_path": "imgs/img_val_667.jpg",
+    "instruction": "stop near the bicycle at the side of the road."
+  },
+  {
+    "case_id": "regseg_val_669",
+    "image_path": "imgs/img_val_669.jpg",
+    "instruction": "pull over behind them those people near the car"
+  },
+  {
+    "case_id": "regseg_val_672",
+    "image_path": "imgs/img_val_672.jpg",
+    "instruction": "pull up near the pedestrian ahead of us."
+  },
+  {
+    "case_id": "regseg_val_674",
+    "image_path": "imgs/img_val_674.jpg",
+    "instruction": "park near that woman"
+  },
+  {
+    "case_id": "regseg_val_675",
+    "image_path": "imgs/img_val_675.jpg",
+    "instruction": "turn right"
+  },
+  {
+    "case_id": "regseg_val_676",
+    "image_path": "imgs/img_val_676.jpg",
+    "instruction": "turn left"
+  },
+  {
+    "case_id": "regseg_val_677",
+    "image_path": "imgs/img_val_677.jpg",
+    "instruction": "turn a left."
+  },
+  {
+    "case_id": "regseg_val_678",
+    "image_path": "imgs/img_val_678.jpg",
+    "instruction": "pull over to the pedestrian on the left"
+  },
+  {
+    "case_id": "regseg_val_679",
+    "image_path": "imgs/img_val_679.jpg",
+    "instruction": "turn right beside that grey car"
+  },
+  {
+    "case_id": "regseg_val_680",
+    "image_path": "imgs/img_val_680.jpg",
+    "instruction": "quickly change lanes"
+  },
+  {
+    "case_id": "regseg_val_684",
+    "image_path": "imgs/img_val_684.jpg",
+    "instruction": "get in the lane behind the left car"
+  },
+  {
+    "case_id": "regseg_val_688",
+    "image_path": "imgs/img_val_688.jpg",
+    "instruction": "pull closer to the car in front of us"
+  },
+  {
+    "case_id": "regseg_val_691",
+    "image_path": "imgs/img_val_691.jpg",
+    "instruction": "get behind the white car"
+  },
+  {
+    "case_id": "regseg_val_695",
+    "image_path": "imgs/img_val_695.jpg",
+    "instruction": "turn right."
+  },
+  {
+    "case_id": "regseg_val_696",
+    "image_path": "imgs/img_val_696.jpg",
+    "instruction": "park behind this red car"
+  },
+  {
+    "case_id": "regseg_val_700",
+    "image_path": "imgs/img_val_700.jpg",
+    "instruction": "drop me off behind the red car"
+  },
+  {
+    "case_id": "regseg_val_701",
+    "image_path": "imgs/img_val_701.jpg",
+    "instruction": "slow down until that guy finishes crossing the street."
+  },
+  {
+    "case_id": "regseg_val_704",
+    "image_path": "imgs/img_val_704.jpg",
+    "instruction": "park in this spot behind this red car on the right."
+  },
+  {
+    "case_id": "regseg_val_705",
+    "image_path": "imgs/img_val_705.jpg",
+    "instruction": "park behind the black car on our right"
+  },
+  {
+    "case_id": "regseg_val_710",
+    "image_path": "imgs/img_val_710.jpg",
+    "instruction": "pass the silver van on the right"
+  },
+  {
+    "case_id": "regseg_val_711",
+    "image_path": "imgs/img_val_711.jpg",
+    "instruction": "stay in the left lane"
+  },
+  {
+    "case_id": "regseg_val_713",
+    "image_path": "imgs/img_val_713.jpg",
+    "instruction": "take a left at the intersection."
+  },
+  {
+    "case_id": "regseg_val_717",
+    "image_path": "imgs/img_val_717.jpg",
+    "instruction": "park behind the bus."
+  },
+  {
+    "case_id": "regseg_val_720",
+    "image_path": "imgs/img_val_720.jpg",
+    "instruction": "stop next to the person near the tree"
+  },
+  {
+    "case_id": "regseg_val_725",
+    "image_path": "imgs/img_val_725.jpg",
+    "instruction": "follow the bus"
+  },
+  {
+    "case_id": "regseg_val_732",
+    "image_path": "imgs/img_val_732.jpg",
+    "instruction": "follow the bus to the right."
+  },
+  {
+    "case_id": "regseg_val_735",
+    "image_path": "imgs/img_val_735.jpg",
+    "instruction": "follow the black car to the left."
+  },
+  {
+    "case_id": "regseg_val_740",
+    "image_path": "imgs/img_val_740.jpg",
+    "instruction": "stop next to that person!"
+  },
+  {
+    "case_id": "regseg_val_744",
+    "image_path": "imgs/img_val_744.jpg",
+    "instruction": "take a left here, before that black car up ahead."
+  },
+  {
+    "case_id": "regseg_val_745",
+    "image_path": "imgs/img_val_745.jpg",
+    "instruction": "stop next to that lady walking on the sidewalk on the left."
+  },
+  {
+    "case_id": "regseg_val_746",
+    "image_path": "imgs/img_val_746.jpg",
+    "instruction": "stop near that person"
+  },
+  {
+    "case_id": "regseg_val_751",
+    "image_path": "imgs/img_val_751.jpg",
+    "instruction": "proceed slowly"
+  },
+  {
+    "case_id": "regseg_val_755",
+    "image_path": "imgs/img_val_755.jpg",
+    "instruction": "pull up by the jeep on the right"
+  },
+  {
+    "case_id": "regseg_val_758",
+    "image_path": "imgs/img_val_758.jpg",
+    "instruction": "park before that red car."
+  },
+  {
+    "case_id": "regseg_val_759",
+    "image_path": "imgs/img_val_759.jpg",
+    "instruction": "slow down near that person."
+  },
+  {
+    "case_id": "regseg_val_760",
+    "image_path": "imgs/img_val_760.jpg",
+    "instruction": "slow down for the person on the left"
+  },
+  {
+    "case_id": "regseg_val_761",
+    "image_path": "imgs/img_val_761.jpg",
+    "instruction": "follow that vehicle until it stops."
+  },
+  {
+    "case_id": "regseg_val_765",
+    "image_path": "imgs/img_val_765.jpg",
+    "instruction": "park near the black car on your left"
+  },
+  {
+    "case_id": "regseg_val_769",
+    "image_path": "imgs/img_val_769.jpg",
+    "instruction": "stop in front of the sidewalk and let that guy cross"
+  },
+  {
+    "case_id": "regseg_val_770",
+    "image_path": "imgs/img_val_770.jpg",
+    "instruction": "follow this car in front"
+  },
+  {
+    "case_id": "regseg_val_780",
+    "image_path": "imgs/img_val_780.jpg",
+    "instruction": "switch lanes to the right after passing that last car."
+  },
+  {
+    "case_id": "regseg_val_781",
+    "image_path": "imgs/img_val_781.jpg",
+    "instruction": "please park near the red car."
+  },
+  {
+    "case_id": "regseg_val_783",
+    "image_path": "imgs/img_val_783.jpg",
+    "instruction": "follow the vehicle ahead."
+  },
+  {
+    "case_id": "regseg_val_784",
+    "image_path": "imgs/img_val_784.jpg",
+    "instruction": "change lanes to follow the white van ahead on the right."
+  },
+  {
+    "case_id": "regseg_val_785",
+    "image_path": "imgs/img_val_785.jpg",
+    "instruction": "pull in behind the car just to our right."
+  },
+  {
+    "case_id": "regseg_val_786",
+    "image_path": "imgs/img_val_786.jpg",
+    "instruction": "slow down where the car ahead is."
+  },
+  {
+    "case_id": "regseg_val_798",
+    "image_path": "imgs/img_val_798.jpg",
+    "instruction": "turn left after the stripped traffic barrel."
+  },
+  {
+    "case_id": "regseg_val_811",
+    "image_path": "imgs/img_val_811.jpg",
+    "instruction": "turn left."
+  },
+  {
+    "case_id": "regseg_val_813",
+    "image_path": "imgs/img_val_813.jpg",
+    "instruction": "stop next to that person."
+  },
+  {
+    "case_id": "regseg_val_814",
+    "image_path": "imgs/img_val_814.jpg",
+    "instruction": "park next to that person."
+  },
+  {
+    "case_id": "regseg_val_816",
+    "image_path": "imgs/img_val_816.jpg",
+    "instruction": "stop next to that car."
+  },
+  {
+    "case_id": "regseg_val_829",
+    "image_path": "imgs/img_val_829.jpg",
+    "instruction": "turn left after that pedestrian crosses"
+  },
+  {
+    "case_id": "regseg_val_830",
+    "image_path": "imgs/img_val_830.jpg",
+    "instruction": "slow down."
+  },
+  {
+    "case_id": "regseg_val_846",
+    "image_path": "imgs/img_val_846.jpg",
+    "instruction": "let that truck pass"
+  },
+  {
+    "case_id": "regseg_val_858",
+    "image_path": "imgs/img_val_858.jpg",
+    "instruction": "stop next to the man coming out of his vehicle."
+  },
+  {
+    "case_id": "regseg_val_865",
+    "image_path": "imgs/img_val_865.jpg",
+    "instruction": "pull up next to the silver car on the left"
+  },
+  {
+    "case_id": "regseg_val_867",
+    "image_path": "imgs/img_val_867.jpg",
+    "instruction": "park before that red car"
+  },
+  {
+    "case_id": "regseg_val_868",
+    "image_path": "imgs/img_val_868.jpg",
+    "instruction": "this is my friend, stop near him."
+  },
+  {
+    "case_id": "regseg_val_870",
+    "image_path": "imgs/img_val_870.jpg",
+    "instruction": "park near that man"
+  },
+  {
+    "case_id": "regseg_val_878",
+    "image_path": "imgs/img_val_878.jpg",
+    "instruction": "turn right after the first vehicle on the right."
+  },
+  {
+    "case_id": "regseg_val_881",
+    "image_path": "imgs/img_val_881.jpg",
+    "instruction": "slow and allow truck to pass."
+  },
+  {
+    "case_id": "local_train_video_054604_00121",
+    "image_path": "C:\\Users\\USER\\Documents\\kimi\\Workspaces\\EMT driving project\\data\\processed\\EMT\\images\\train\\video_054604\\00121.jpg",
+    "instruction": "Pull over beside the yellow bus on the left."
+  },
+  {
+    "case_id": "local_train_video_054604_00781",
+    "image_path": "C:\\Users\\USER\\Documents\\kimi\\Workspaces\\EMT driving project\\data\\processed\\EMT\\images\\train\\video_054604\\00781.jpg",
+    "instruction": "Pass the yellow truck ahead, then stop near the black SUV on the right."
+  },
+  {
+    "case_id": "local_train_video_054604_01051",
+    "image_path": "C:\\Users\\USER\\Documents\\kimi\\Workspaces\\EMT driving project\\data\\processed\\EMT\\images\\train\\video_054604\\01051.jpg",
+    "instruction": "Which car is directly ahead?"
+  },
+  {
+    "case_id": "local_train_video_054604_01741",
+    "image_path": "C:\\Users\\USER\\Documents\\kimi\\Workspaces\\EMT driving project\\data\\processed\\EMT\\images\\train\\video_054604\\01741.jpg",
+    "instruction": "Pass the partially visible yellow car at the right edge, then stop near the white sedan ahead on the left."
+  },
+  {
+    "case_id": "local_train_video_115533_00211",
+    "image_path": "C:\\Users\\USER\\Documents\\kimi\\Workspaces\\EMT driving project\\data\\processed\\EMT\\images\\train\\video_115533\\00211.jpg",
+    "instruction": "Pull over beside the dark red SUV on the right."
+  },
+  {
+    "case_id": "local_train_video_115533_00601",
+    "image_path": "C:\\Users\\USER\\Documents\\kimi\\Workspaces\\EMT driving project\\data\\processed\\EMT\\images\\train\\video_115533\\00601.jpg",
+    "instruction": "Pass the white car at the left edge, then stop near the small white car ahead."
+  },
+  {
+    "case_id": "local_train_video_115533_01021",
+    "image_path": "C:\\Users\\USER\\Documents\\kimi\\Workspaces\\EMT driving project\\data\\processed\\EMT\\images\\train\\video_115533\\01021.jpg",
+    "instruction": "Stop beside the pedestrian next to the white SUV on the right."
+  },
+  {
+    "case_id": "local_train_video_115533_01681",
+    "image_path": "C:\\Users\\USER\\Documents\\kimi\\Workspaces\\EMT driving project\\data\\processed\\EMT\\images\\train\\video_115533\\01681.jpg",
+    "instruction": "Stop beside the white truck on the left—correction, stop near the beige sedan on the right."
+  },
+  {
+    "case_id": "local_train_video_115833_00391",
+    "image_path": "C:\\Users\\USER\\Documents\\kimi\\Workspaces\\EMT driving project\\data\\processed\\EMT\\images\\train\\video_115833\\00391.jpg",
+    "instruction": "Pull over beside the dark car closest to us on the right."
+  },
+  {
+    "case_id": "local_train_video_115833_00811",
+    "image_path": "C:\\Users\\USER\\Documents\\kimi\\Workspaces\\EMT driving project\\data\\processed\\EMT\\images\\train\\video_115833\\00811.jpg",
+    "instruction": "Pass the white car ahead, then stop near the black SUV on the right."
+  },
+  {
+    "case_id": "local_train_video_115833_00901",
+    "image_path": "C:\\Users\\USER\\Documents\\kimi\\Workspaces\\EMT driving project\\data\\processed\\EMT\\images\\train\\video_115833\\00901.jpg",
+    "instruction": "Pass the partially visible truck at the right edge, then stop near the white sedan on the left."
+  },
+  {
+    "case_id": "local_train_video_115833_01711",
+    "image_path": "C:\\Users\\USER\\Documents\\kimi\\Workspaces\\EMT driving project\\data\\processed\\EMT\\images\\train\\video_115833\\01711.jpg",
+    "instruction": "Stop beside the white sedan on the left, not the large bus on the right."
+  },
+  {
+    "case_id": "local_train_video_131333_00301",
+    "image_path": "C:\\Users\\USER\\Documents\\kimi\\Workspaces\\EMT driving project\\data\\processed\\EMT\\images\\train\\video_131333\\00301.jpg",
+    "instruction": "Pull over behind the white car directly ahead."
+  },
+  {
+    "case_id": "local_train_video_131333_00721",
+    "image_path": "C:\\Users\\USER\\Documents\\kimi\\Workspaces\\EMT driving project\\data\\processed\\EMT\\images\\train\\video_131333\\00721.jpg",
+    "instruction": "Pass the white van on the left, then stop behind the dark sedan ahead."
+  },
+  {
+    "case_id": "local_train_video_131333_00811",
+    "image_path": "C:\\Users\\USER\\Documents\\kimi\\Workspaces\\EMT driving project\\data\\processed\\EMT\\images\\train\\video_131333\\00811.jpg",
+    "instruction": "Which car is directly ahead?"
+  },
+  {
+    "case_id": "local_train_video_131333_01351",
+    "image_path": "C:\\Users\\USER\\Documents\\kimi\\Workspaces\\EMT driving project\\data\\processed\\EMT\\images\\train\\video_131333\\01351.jpg",
+    "instruction": "Stop beside the motorcyclist next to the white SUV on the right."
+  },
+  {
+    "case_id": "local_train_video_141432-141733_00031",
+    "image_path": "C:\\Users\\USER\\Documents\\kimi\\Workspaces\\EMT driving project\\data\\processed\\EMT\\images\\train\\video_141432-141733\\00031.jpg",
+    "instruction": "Pull over beside the motorcyclist on the left."
+  },
+  {
+    "case_id": "local_train_video_141432-141733_00721",
+    "image_path": "C:\\Users\\USER\\Documents\\kimi\\Workspaces\\EMT driving project\\data\\processed\\EMT\\images\\train\\video_141432-141733\\00721.jpg",
+    "instruction": "Pass the grey van ahead, then stop near the white SUV on the right."
+  },
+  {
+    "case_id": "local_train_video_141432-141733_01141",
+    "image_path": "C:\\Users\\USER\\Documents\\kimi\\Workspaces\\EMT driving project\\data\\processed\\EMT\\images\\train\\video_141432-141733\\01141.jpg",
+    "instruction": "Stop beside the white SUV on the left—correction, stop behind the silver sedan ahead."
+  },
+  {
+    "case_id": "local_train_video_141432-141733_01381",
+    "image_path": "C:\\Users\\USER\\Documents\\kimi\\Workspaces\\EMT driving project\\data\\processed\\EMT\\images\\train\\video_141432-141733\\01381.jpg",
+    "instruction": "Pass the partially visible car at the left edge, then stop near the dark sedan ahead on the right."
+  },
+  {
+    "case_id": "local_train_video_142911_00271",
+    "image_path": "C:\\Users\\USER\\Documents\\kimi\\Workspaces\\EMT driving project\\data\\processed\\EMT\\images\\train\\video_142911\\00271.jpg",
+    "instruction": "Pull over beside the white SUV closest to us on the left."
+  },
+  {
+    "case_id": "local_train_video_142911_00481",
+    "image_path": "C:\\Users\\USER\\Documents\\kimi\\Workspaces\\EMT driving project\\data\\processed\\EMT\\images\\train\\video_142911\\00481.jpg",
+    "instruction": "Pass the silver car on the left, then stop near the white car at the right edge."
+  },
+  {
+    "case_id": "local_train_video_142911_01231",
+    "image_path": "C:\\Users\\USER\\Documents\\kimi\\Workspaces\\EMT driving project\\data\\processed\\EMT\\images\\train\\video_142911\\01231.jpg",
+    "instruction": "Stop behind the closer white car on the left, not the dark car farther right."
+  },
+  {
+    "case_id": "local_train_video_142911_01501",
+    "image_path": "C:\\Users\\USER\\Documents\\kimi\\Workspaces\\EMT driving project\\data\\processed\\EMT\\images\\train\\video_142911\\01501.jpg",
+    "instruction": "Which car is directly ahead?"
+  },
+  {
+    "case_id": "local_train_video_143739_00391",
+    "image_path": "C:\\Users\\USER\\Documents\\kimi\\Workspaces\\EMT driving project\\data\\processed\\EMT\\images\\train\\video_143739\\00391.jpg",
+    "instruction": "Pull over behind the white van directly ahead."
+  },
+  {
+    "case_id": "local_train_video_143739_01171",
+    "image_path": "C:\\Users\\USER\\Documents\\kimi\\Workspaces\\EMT driving project\\data\\processed\\EMT\\images\\train\\video_143739\\01171.jpg",
+    "instruction": "Pass the white vehicle at the left edge, then stop near the beige SUV on the right."
+  },
+  {
+    "case_id": "local_train_video_143739_01591",
+    "image_path": "C:\\Users\\USER\\Documents\\kimi\\Workspaces\\EMT driving project\\data\\processed\\EMT\\images\\train\\video_143739\\01591.jpg",
+    "instruction": "Stop beside the pedestrian next to the white sedan ahead on the left."
+  },
+  {
+    "case_id": "local_train_video_151901_00061",
+    "image_path": "C:\\Users\\USER\\Documents\\kimi\\Workspaces\\EMT driving project\\data\\processed\\EMT\\images\\train\\video_151901\\00061.jpg",
+    "instruction": "Pull over behind the white van directly ahead."
+  },
+  {
+    "case_id": "local_train_video_151901_00721",
+    "image_path": "C:\\Users\\USER\\Documents\\kimi\\Workspaces\\EMT driving project\\data\\processed\\EMT\\images\\train\\video_151901\\00721.jpg",
+    "instruction": "Pass the white car on the left, then stop near the dark sedan on the right."
+  },
+  {
+    "case_id": "local_train_video_151901_01291",
+    "image_path": "C:\\Users\\USER\\Documents\\kimi\\Workspaces\\EMT driving project\\data\\processed\\EMT\\images\\train\\video_151901\\01291.jpg",
+    "instruction": "Pass the partially visible blue truck on the right, then stop behind the white taxi ahead on the left."
+  },
+  {
+    "case_id": "local_train_video_160902-161205_00001",
+    "image_path": "C:\\Users\\USER\\Documents\\kimi\\Workspaces\\EMT driving project\\data\\processed\\EMT\\images\\train\\video_160902-161205\\00001.jpg",
+    "instruction": "Pull over beside the dark SUV closest to us on the left."
+  },
+  {
+    "case_id": "local_train_video_160902-161205_00871",
+    "image_path": "C:\\Users\\USER\\Documents\\kimi\\Workspaces\\EMT driving project\\data\\processed\\EMT\\images\\train\\video_160902-161205\\00871.jpg",
+    "instruction": "Pass the dark SUV on the left, then stop behind the red car ahead."
+  },
+  {
+    "case_id": "local_train_video_160902-161205_01801",
+    "image_path": "C:\\Users\\USER\\Documents\\kimi\\Workspaces\\EMT driving project\\data\\processed\\EMT\\images\\train\\video_160902-161205\\01801.jpg",
+    "instruction": "Stop beside the white van on the left—correction, stop behind the dark car on the right."
+  },
+  {
+    "case_id": "local_train_video_204347_00061",
+    "image_path": "C:\\Users\\USER\\Documents\\kimi\\Workspaces\\EMT driving project\\data\\processed\\EMT\\images\\train\\video_204347\\00061.jpg",
+    "instruction": "Pull over beside the dark car parked on the left."
+  },
+  {
+    "case_id": "local_train_video_204347_00451",
+    "image_path": "C:\\Users\\USER\\Documents\\kimi\\Workspaces\\EMT driving project\\data\\processed\\EMT\\images\\train\\video_204347\\00451.jpg",
+    "instruction": "Pass the white car on the left, then stop near the dark car ahead."
+  },
+  {
+    "case_id": "local_train_video_204347_01441",
+    "image_path": "C:\\Users\\USER\\Documents\\kimi\\Workspaces\\EMT driving project\\data\\processed\\EMT\\images\\train\\video_204347\\01441.jpg",
+    "instruction": "Stop behind the white car ahead, not the dark car on the left."
+  },
+  {
+    "case_id": "local_train_video_210906_00151",
+    "image_path": "C:\\Users\\USER\\Documents\\kimi\\Workspaces\\EMT driving project\\data\\processed\\EMT\\images\\train\\video_210906\\00151.jpg",
+    "instruction": "Pull over behind the dark car directly ahead."
+  },
+  {
+    "case_id": "local_train_video_210906_00871",
+    "image_path": "C:\\Users\\USER\\Documents\\kimi\\Workspaces\\EMT driving project\\data\\processed\\EMT\\images\\train\\video_210906\\00871.jpg",
+    "instruction": "Pass the motorbike on the left, then stop near the white car on the right."
+  },
+  {
+    "case_id": "local_train_video_210906_01261",
+    "image_path": "C:\\Users\\USER\\Documents\\kimi\\Workspaces\\EMT driving project\\data\\processed\\EMT\\images\\train\\video_210906\\01261.jpg",
+    "instruction": "Which car is directly ahead?"
+  },
+  {
+    "case_id": "local_train_video_214547_00331",
+    "image_path": "C:\\Users\\USER\\Documents\\kimi\\Workspaces\\EMT driving project\\data\\processed\\EMT\\images\\train\\video_214547\\00331.jpg",
+    "instruction": "Pull over behind the white van on the left."
+  },
+  {
+    "case_id": "local_train_video_214547_01171",
+    "image_path": "C:\\Users\\USER\\Documents\\kimi\\Workspaces\\EMT driving project\\data\\processed\\EMT\\images\\train\\video_214547\\01171.jpg",
+    "instruction": "Pass the partially visible car on the left, then stop near the dark car on the right."
+  },
+  {
+    "case_id": "local_train_video_214547_01531",
+    "image_path": "C:\\Users\\USER\\Documents\\kimi\\Workspaces\\EMT driving project\\data\\processed\\EMT\\images\\train\\video_214547\\01531.jpg",
+    "instruction": "Stop beside the pedestrian next to the white car on the right."
+  },
+  {
+    "case_id": "local_train_video_220047_00031",
+    "image_path": "C:\\Users\\USER\\Documents\\kimi\\Workspaces\\EMT driving project\\data\\processed\\EMT\\images\\train\\video_220047\\00031.jpg",
+    "instruction": "Pull over beside the white SUV on the right."
+  },
+  {
+    "case_id": "local_train_video_220047_00691",
+    "image_path": "C:\\Users\\USER\\Documents\\kimi\\Workspaces\\EMT driving project\\data\\processed\\EMT\\images\\train\\video_220047\\00691.jpg",
+    "instruction": "Pass the white SUV ahead, then stop beside the white sedan on the right."
+  },
+  {
+    "case_id": "local_train_video_220047_01261",
+    "image_path": "C:\\Users\\USER\\Documents\\kimi\\Workspaces\\EMT driving project\\data\\processed\\EMT\\images\\train\\video_220047\\01261.jpg",
+    "instruction": "Pass the partially visible car at the left edge, then stop beside the white sedan on the right."
+  }
+]

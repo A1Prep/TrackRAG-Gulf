@@ -1,0 +1,102 @@
+[
+  {
+    "case_id": "local_dev_video_054907_00091",
+    "image_path": "C:\\Users\\USER\\Documents\\kimi\\Workspaces\\EMT driving project\\data\\processed\\EMT\\images\\train\\video_054907\\00091.jpg",
+    "instruction": "Pull over beside the white pickup truck with the metal rack on the left."
+  },
+  {
+    "case_id": "local_dev_video_054907_00241",
+    "image_path": "C:\\Users\\USER\\Documents\\kimi\\Workspaces\\EMT driving project\\data\\processed\\EMT\\images\\train\\video_054907\\00241.jpg",
+    "instruction": "Stop beside the closest white sedan on the left."
+  },
+  {
+    "case_id": "local_dev_video_054907_00421",
+    "image_path": "C:\\Users\\USER\\Documents\\kimi\\Workspaces\\EMT driving project\\data\\processed\\EMT\\images\\train\\video_054907\\00421.jpg",
+    "instruction": "Pass the dark car ahead on the left, then stop near the bus farther ahead on the right."
+  },
+  {
+    "case_id": "local_dev_video_054907_00601",
+    "image_path": "C:\\Users\\USER\\Documents\\kimi\\Workspaces\\EMT driving project\\data\\processed\\EMT\\images\\train\\video_054907\\00601.jpg",
+    "instruction": "Pass the white vehicle near the far-left barrier, then stop near the white sedan ahead on the left."
+  },
+  {
+    "case_id": "local_dev_video_054907_00781",
+    "image_path": "C:\\Users\\USER\\Documents\\kimi\\Workspaces\\EMT driving project\\data\\processed\\EMT\\images\\train\\video_054907\\00781.jpg",
+    "instruction": "Which car is directly ahead?"
+  },
+  {
+    "case_id": "local_dev_video_054907_00961",
+    "image_path": "C:\\Users\\USER\\Documents\\kimi\\Workspaces\\EMT driving project\\data\\processed\\EMT\\images\\train\\video_054907\\00961.jpg",
+    "instruction": "Stop beside the pedestrian next to the white medium vehicle on the right."
+  },
+  {
+    "case_id": "local_dev_video_054907_01141",
+    "image_path": "C:\\Users\\USER\\Documents\\kimi\\Workspaces\\EMT driving project\\data\\processed\\EMT\\images\\train\\video_054907\\01141.jpg",
+    "instruction": "Pass the partially visible white car at the far-left edge, then stop near the white vehicle ahead on the left."
+  },
+  {
+    "case_id": "local_dev_video_054907_01321",
+    "image_path": "C:\\Users\\USER\\Documents\\kimi\\Workspaces\\EMT driving project\\data\\processed\\EMT\\images\\train\\video_054907\\01321.jpg",
+    "instruction": "Stop beside the yellow tanker on the left—correction, stop near the construction truck on the right."
+  },
+  {
+    "case_id": "local_dev_video_054907_01501",
+    "image_path": "C:\\Users\\USER\\Documents\\kimi\\Workspaces\\EMT driving project\\data\\processed\\EMT\\images\\train\\video_054907\\01501.jpg",
+    "instruction": "Stop beside the closer white SUV on the right, not the red truck farther ahead."
+  },
+  {
+    "case_id": "local_dev_video_054907_01771",
+    "image_path": "C:\\Users\\USER\\Documents\\kimi\\Workspaces\\EMT driving project\\data\\processed\\EMT\\images\\train\\video_054907\\01771.jpg",
+    "instruction": "Pull over near the small white vehicle ahead on the right."
+  },
+  {
+    "case_id": "local_dev_video_174340_00091",
+    "image_path": "C:\\Users\\USER\\Documents\\kimi\\Workspaces\\EMT driving project\\data\\processed\\EMT\\images\\train\\video_174340\\00091.jpg",
+    "instruction": "Pull over beside the closest dark car on the right."
+  },
+  {
+    "case_id": "local_dev_video_174340_00241",
+    "image_path": "C:\\Users\\USER\\Documents\\kimi\\Workspaces\\EMT driving project\\data\\processed\\EMT\\images\\train\\video_174340\\00241.jpg",
+    "instruction": "Stop near the white van on the right."
+  },
+  {
+    "case_id": "local_dev_video_174340_00421",
+    "image_path": "C:\\Users\\USER\\Documents\\kimi\\Workspaces\\EMT driving project\\data\\processed\\EMT\\images\\train\\video_174340\\00421.jpg",
+    "instruction": "Pass the dark medium vehicle ahead on the left, then stop near the white van on the right."
+  },
+  {
+    "case_id": "local_dev_video_174340_00601",
+    "image_path": "C:\\Users\\USER\\Documents\\kimi\\Workspaces\\EMT driving project\\data\\processed\\EMT\\images\\train\\video_174340\\00601.jpg",
+    "instruction": "Pass the dark car on the left, then stop near the bus ahead on the left."
+  },
+  {
+    "case_id": "local_dev_video_174340_00781",
+    "image_path": "C:\\Users\\USER\\Documents\\kimi\\Workspaces\\EMT driving project\\data\\processed\\EMT\\images\\train\\video_174340\\00781.jpg",
+    "instruction": "Which car is directly ahead?"
+  },
+  {
+    "case_id": "local_dev_video_174340_00961",
+    "image_path": "C:\\Users\\USER\\Documents\\kimi\\Workspaces\\EMT driving project\\data\\processed\\EMT\\images\\train\\video_174340\\00961.jpg",
+    "instruction": "Stop beside the pedestrian next to the dark car ahead on the right."
+  },
+  {
+    "case_id": "local_dev_video_174340_01141",
+    "image_path": "C:\\Users\\USER\\Documents\\kimi\\Workspaces\\EMT driving project\\data\\processed\\EMT\\images\\train\\video_174340\\01141.jpg",
+    "instruction": "Pass the partially visible car at the far-left edge, then stop near the dark car ahead on the left."
+  },
+  {
+    "case_id": "local_dev_video_174340_01321",
+    "image_path": "C:\\Users\\USER\\Documents\\kimi\\Workspaces\\EMT driving project\\data\\processed\\EMT\\images\\train\\video_174340\\01321.jpg",
+    "instruction": "Stop beside the motorbike on the left—correction, stop near the car ahead on the right."
+  },
+  {
+    "case_id": "local_dev_video_174340_01501",
+    "image_path": "C:\\Users\\USER\\Documents\\kimi\\Workspaces\\EMT driving project\\data\\processed\\EMT\\images\\train\\video_174340\\01501.jpg",
+    "instruction": "Stop beside the closer dark sedan on the right, not the medium vehicle farther left."
+  },
+  {
+    "case_id": "local_dev_video_174340_01771",
+    "image_path": "C:\\Users\\USER\\Documents\\kimi\\Workspaces\\EMT driving project\\data\\processed\\EMT\\images\\train\\video_174340\\01771.jpg",
+    "instruction": "Pull over beside the white car on the right near the overpass."
+  }
+]

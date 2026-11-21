@@ -1,0 +1,11 @@
+recording_id,frame_id,destination_ref,instruction,paraphrases,tags,landmarks,parent_case_id
+video_160325,1,track:4,Pull over near the motorbike ahead.,Stop close to the motorbike in front.|Park near the motorbike ahead.,unique_destination,4:front:primary,
+video_160325,181,track:21,Stop behind the bus in the distance ahead.,Pull up behind the distant bus.|Stop at the bus farther ahead.,unique_destination,21:front:primary,
+video_160325,391,track:84,Park beside the large white car closest to us on the left.,Stop next to the nearest large white car on the left.|Pull over by the prominent white car on the left.,unique_destination,84:left:primary,
+video_160325,571,track:105,"Pass the white car on the left, then stop near the car ahead on the right.","Go past the left white car and stop by the car ahead on the right.|After the white car on the left, pull over near the right car ahead.",two_landmark,17:left:primary;105:front:secondary,
+video_160325,781,track:9,"Pass the partially visible car on the far left, then stop near the white sedan ahead.","Go past the cut-off car on the left and stop by the white sedan.|After the partly visible left car, pull over near the sedan ahead.",occluded_landmark,109:left:primary;9:front:secondary,
+video_160325,961,track:9,"Stop behind the pickup on the left—correction, behind the white sedan in the middle.","Take the pickup on the left—rather, the central white sedan.|Stop behind the middle white sedan, not the left pickup.",correction,112:left:primary;9:front:secondary,
+video_160325,1171,track:148,Which car is on the right?,What car is on the right-hand side?|Identify the right-hand car.,ambiguous,,
+video_160325,1351,track:118,"Pass the white car on the left, then stop near the car ahead.","Go past the left white car and stop by the car in front.|After the left car, pull over near the car ahead.",two_landmark,187:left:primary;118:front:secondary,
+video_160325,1561,track:211,Pull over beside the bus on the right.,Stop next to the bus on the right-hand side.|Park by the right-hand bus.,missing_reference,210:right:primary,
+video_160325,1771,track:217,"Stop near the parked car on the far left, not the cars driving ahead.","Take the parked car on the left edge, not the moving cars ahead.|Pull over by the far-left parked car rather than the traffic ahead.",contrasting,217:left:primary;226:front:secondary,

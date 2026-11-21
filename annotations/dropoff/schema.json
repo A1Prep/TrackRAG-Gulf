@@ -1,0 +1,51 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Task 2 instruction-to-destination case",
+  "type": "object",
+  "required": ["case_id", "source", "split", "image_path", "instruction", "difficulty_tags"],
+  "properties": {
+    "case_id": {"type": "string"},
+    "source": {"enum": ["talk2car_regseg", "local_emt"]},
+    "split": {"enum": ["train", "dev", "eval"]},
+    "source_split": {"enum": ["train", "val"]},
+    "scene_id": {"type": ["string", "null"]},
+    "source_group_id": {"type": "string"},
+    "recording_id": {"type": "string"},
+    "frame_id": {"type": "integer", "minimum": 1},
+    "image_path": {"type": "string"},
+    "mask_path": {"type": "string"},
+    "instruction": {"type": "string", "minLength": 1},
+    "paraphrases": {
+      "type": "array",
+      "items": {"type": "string", "minLength": 1},
+      "minItems": 2,
+      "maxItems": 2
+    },
+    "difficulty_tags": {"type": "array", "items": {"type": "string"}},
+    "target_xy": {
+      "type": "array",
+      "items": {"type": "integer", "minimum": 0},
+      "minItems": 2,
+      "maxItems": 2
+    },
+    "coarse_box_xyxy": {
+      "type": "array",
+      "items": {"type": "integer", "minimum": 0},
+      "minItems": 4,
+      "maxItems": 4
+    },
+    "destination_track_id": {"type": "integer"},
+    "landmarks": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["track_id", "relation", "role"],
+        "properties": {
+          "track_id": {"type": "integer"},
+          "relation": {"enum": ["left", "right", "front"]},
+          "role": {"enum": ["primary", "secondary"]}
+        }
+      }
+    }
+  }
+}

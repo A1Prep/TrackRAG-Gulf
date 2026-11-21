@@ -1,0 +1,5 @@
+recording_id,frame_id,destination_ref,instruction,paraphrases,tags,landmarks,parent_case_id
+video_054604,121,track:46,Pull over beside the yellow bus on the left.,Stop next to the yellow bus on the left.|Park beside the large yellow bus on the left.,unique_destination,46:left:primary,
+video_054604,781,track:33,"Pass the yellow truck ahead, then stop near the black SUV on the right.","Go past the yellow truck and pull over by the black SUV on the right.|After the yellow truck, stop beside the right-hand black SUV.",two_landmark,217:front:primary;33:right:secondary,
+video_054604,1051,track:309,Which car is directly ahead?,What car is in front of us?|Identify the car directly ahead.,ambiguous,,
+video_054604,1741,track:685,"Pass the partially visible yellow car at the right edge, then stop near the white sedan ahead on the left.","Go past the cut-off yellow car on the right and stop by the white sedan ahead.|After the partly visible right-edge car, pull over near the white sedan.",occluded_landmark,589:right:primary;685:front:secondary,

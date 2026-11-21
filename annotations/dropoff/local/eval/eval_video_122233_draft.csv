@@ -1,0 +1,11 @@
+recording_id,frame_id,destination_ref,instruction,paraphrases,tags,landmarks,parent_case_id
+video_122233,61,track:30,"Park near the car on the far left side of the road.","Pull over by the car on the left edge.|Stop at the leftmost car.",unique_destination,30:left:primary,
+video_122233,151,track:18,"Pull over near the vehicle on the far right.","Stop by the vehicle on the far right.|Park next to the large vehicle on the right.",unique_destination,18:right:primary,
+video_122233,181,track:38,"Pass the large vehicle on the far left, then stop near the next car.","After the large vehicle, stop at the car ahead.|Go past the truck on the left and end at the car.",two_landmark,43:left:primary;38:front:secondary,
+video_122233,211,track:5,"Which car is on the right?","What car is on the right side?|Name the car on the right.",ambiguous,,
+video_122233,271,track:55,"Pull over near the bus on the left.","Stop near the bus on the left.|Park by the bus on the left.",missing_reference,55:left:primary,
+video_122233,301,track:5,"Not the car on the left, take the one on the right.","Ignore the left car, take the right one.|Take the right car, not the left.",correction,5:right:primary,
+video_122233,331,track:63,"Stop near the large car on the left, not the one on the right.","Take the large car on the left, not the right one.|Stop at the left car, not the far-right one.",contrasting,63:left:primary;5:right:secondary,
+video_122233,541,track:94,"After the large car on the left, pull over near the small vehicle ahead.","Once past the left car, stop near the small vehicle.|Go past the left car and stop by the small vehicle ahead.",two_landmark,93:left:primary;94:front:secondary,
+video_122233,571,track:101,"Pass the partially-hidden car on the far left, then pull over near the large vehicle.","Go past the partially-visible car on the left, then stop near the large vehicle.|After the occluded car on the left edge, park by the large vehicle.",occluded_landmark,98:left:primary;101:front:secondary,
+video_122233,601,track:102,"Park near the large car on the far right.","Pull over by the big car on the far right.|Stop at the rightmost car.",unique_destination,102:right:primary,

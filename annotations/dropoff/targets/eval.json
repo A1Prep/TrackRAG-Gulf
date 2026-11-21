@@ -1,0 +1,842 @@
+[
+  {
+    "case_id": "local_eval_video_125233_00091",
+    "source": "local_emt",
+    "difficulty_tags": [
+      "unique_destination"
+    ],
+    "destination_track_id": 28,
+    "landmarks": [
+      {
+        "track_id": 28,
+        "relation": "left",
+        "role": "primary"
+      }
+    ]
+  },
+  {
+    "case_id": "local_eval_video_125233_00121",
+    "source": "local_emt",
+    "difficulty_tags": [
+      "unique_destination"
+    ],
+    "destination_track_id": 30,
+    "landmarks": [
+      {
+        "track_id": 30,
+        "relation": "left",
+        "role": "primary"
+      }
+    ]
+  },
+  {
+    "case_id": "local_eval_video_125233_00241",
+    "source": "local_emt",
+    "difficulty_tags": [
+      "unique_destination"
+    ],
+    "destination_track_id": 71,
+    "landmarks": [
+      {
+        "track_id": 71,
+        "relation": "front",
+        "role": "primary"
+      }
+    ]
+  },
+  {
+    "case_id": "local_eval_video_125233_00511",
+    "source": "local_emt",
+    "difficulty_tags": [
+      "two_landmark"
+    ],
+    "destination_track_id": 108,
+    "landmarks": [
+      {
+        "track_id": 114,
+        "relation": "right",
+        "role": "primary"
+      },
+      {
+        "track_id": 108,
+        "relation": "front",
+        "role": "secondary"
+      }
+    ]
+  },
+  {
+    "case_id": "local_eval_video_125233_00601",
+    "source": "local_emt",
+    "difficulty_tags": [
+      "two_landmark"
+    ],
+    "destination_track_id": 155,
+    "landmarks": [
+      {
+        "track_id": 146,
+        "relation": "right",
+        "role": "primary"
+      },
+      {
+        "track_id": 155,
+        "relation": "front",
+        "role": "secondary"
+      }
+    ]
+  },
+  {
+    "case_id": "local_eval_video_125233_00751",
+    "source": "local_emt",
+    "difficulty_tags": [
+      "ambiguous"
+    ],
+    "destination_track_id": 168,
+    "landmarks": []
+  },
+  {
+    "case_id": "local_eval_video_125233_00901",
+    "source": "local_emt",
+    "difficulty_tags": [
+      "missing_reference"
+    ],
+    "destination_track_id": 266,
+    "landmarks": [
+      {
+        "track_id": 266,
+        "relation": "left",
+        "role": "primary"
+      }
+    ]
+  },
+  {
+    "case_id": "local_eval_video_125233_01261",
+    "source": "local_emt",
+    "difficulty_tags": [
+      "occluded_landmark"
+    ],
+    "destination_track_id": 225,
+    "landmarks": [
+      {
+        "track_id": 346,
+        "relation": "left",
+        "role": "primary"
+      },
+      {
+        "track_id": 225,
+        "relation": "front",
+        "role": "secondary"
+      }
+    ]
+  },
+  {
+    "case_id": "local_eval_video_125233_01591",
+    "source": "local_emt",
+    "difficulty_tags": [
+      "correction"
+    ],
+    "destination_track_id": 300,
+    "landmarks": [
+      {
+        "track_id": 277,
+        "relation": "left",
+        "role": "primary"
+      },
+      {
+        "track_id": 300,
+        "relation": "front",
+        "role": "secondary"
+      }
+    ]
+  },
+  {
+    "case_id": "local_eval_video_125233_01771",
+    "source": "local_emt",
+    "difficulty_tags": [
+      "contrasting"
+    ],
+    "destination_track_id": 378,
+    "landmarks": [
+      {
+        "track_id": 378,
+        "relation": "left",
+        "role": "primary"
+      },
+      {
+        "track_id": 298,
+        "relation": "right",
+        "role": "secondary"
+      }
+    ]
+  },
+  {
+    "case_id": "local_eval_video_155425_00001",
+    "source": "local_emt",
+    "difficulty_tags": [
+      "unique_destination"
+    ],
+    "destination_track_id": 13,
+    "landmarks": [
+      {
+        "track_id": 13,
+        "relation": "right",
+        "role": "primary"
+      }
+    ]
+  },
+  {
+    "case_id": "local_eval_video_155425_00121",
+    "source": "local_emt",
+    "difficulty_tags": [
+      "unique_destination"
+    ],
+    "destination_track_id": 17,
+    "landmarks": [
+      {
+        "track_id": 17,
+        "relation": "right",
+        "role": "primary"
+      }
+    ]
+  },
+  {
+    "case_id": "local_eval_video_155425_00271",
+    "source": "local_emt",
+    "difficulty_tags": [
+      "unique_destination"
+    ],
+    "destination_track_id": 37,
+    "landmarks": [
+      {
+        "track_id": 37,
+        "relation": "right",
+        "role": "primary"
+      }
+    ]
+  },
+  {
+    "case_id": "local_eval_video_155425_00421",
+    "source": "local_emt",
+    "difficulty_tags": [
+      "two_landmark"
+    ],
+    "destination_track_id": 96,
+    "landmarks": [
+      {
+        "track_id": 102,
+        "relation": "left",
+        "role": "primary"
+      },
+      {
+        "track_id": 96,
+        "relation": "front",
+        "role": "secondary"
+      }
+    ]
+  },
+  {
+    "case_id": "local_eval_video_155425_00571",
+    "source": "local_emt",
+    "difficulty_tags": [
+      "ambiguous"
+    ],
+    "destination_track_id": 162,
+    "landmarks": []
+  },
+  {
+    "case_id": "local_eval_video_155425_00721",
+    "source": "local_emt",
+    "difficulty_tags": [
+      "two_landmark"
+    ],
+    "destination_track_id": 150,
+    "landmarks": [
+      {
+        "track_id": 192,
+        "relation": "right",
+        "role": "primary"
+      },
+      {
+        "track_id": 150,
+        "relation": "front",
+        "role": "secondary"
+      }
+    ]
+  },
+  {
+    "case_id": "local_eval_video_155425_00871",
+    "source": "local_emt",
+    "difficulty_tags": [
+      "correction"
+    ],
+    "destination_track_id": 160,
+    "landmarks": [
+      {
+        "track_id": 202,
+        "relation": "left",
+        "role": "primary"
+      },
+      {
+        "track_id": 160,
+        "relation": "front",
+        "role": "secondary"
+      }
+    ]
+  },
+  {
+    "case_id": "local_eval_video_155425_01021",
+    "source": "local_emt",
+    "difficulty_tags": [
+      "occluded_landmark"
+    ],
+    "destination_track_id": 160,
+    "landmarks": [
+      {
+        "track_id": 270,
+        "relation": "left",
+        "role": "primary"
+      },
+      {
+        "track_id": 160,
+        "relation": "front",
+        "role": "secondary"
+      }
+    ]
+  },
+  {
+    "case_id": "local_eval_video_155425_01171",
+    "source": "local_emt",
+    "difficulty_tags": [
+      "contrasting"
+    ],
+    "destination_track_id": 296,
+    "landmarks": [
+      {
+        "track_id": 296,
+        "relation": "left",
+        "role": "primary"
+      },
+      {
+        "track_id": 150,
+        "relation": "right",
+        "role": "secondary"
+      }
+    ]
+  },
+  {
+    "case_id": "local_eval_video_155425_01321",
+    "source": "local_emt",
+    "difficulty_tags": [
+      "missing_reference"
+    ],
+    "destination_track_id": 296,
+    "landmarks": [
+      {
+        "track_id": 296,
+        "relation": "left",
+        "role": "primary"
+      }
+    ]
+  },
+  {
+    "case_id": "local_eval_video_160325_00001",
+    "source": "local_emt",
+    "difficulty_tags": [
+      "unique_destination"
+    ],
+    "destination_track_id": 4,
+    "landmarks": [
+      {
+        "track_id": 4,
+        "relation": "front",
+        "role": "primary"
+      }
+    ]
+  },
+  {
+    "case_id": "local_eval_video_160325_00181",
+    "source": "local_emt",
+    "difficulty_tags": [
+      "unique_destination"
+    ],
+    "destination_track_id": 21,
+    "landmarks": [
+      {
+        "track_id": 21,
+        "relation": "front",
+        "role": "primary"
+      }
+    ]
+  },
+  {
+    "case_id": "local_eval_video_160325_00391",
+    "source": "local_emt",
+    "difficulty_tags": [
+      "unique_destination"
+    ],
+    "destination_track_id": 84,
+    "landmarks": [
+      {
+        "track_id": 84,
+        "relation": "left",
+        "role": "primary"
+      }
+    ]
+  },
+  {
+    "case_id": "local_eval_video_160325_00571",
+    "source": "local_emt",
+    "difficulty_tags": [
+      "two_landmark"
+    ],
+    "destination_track_id": 105,
+    "landmarks": [
+      {
+        "track_id": 17,
+        "relation": "left",
+        "role": "primary"
+      },
+      {
+        "track_id": 105,
+        "relation": "front",
+        "role": "secondary"
+      }
+    ]
+  },
+  {
+    "case_id": "local_eval_video_160325_00781",
+    "source": "local_emt",
+    "difficulty_tags": [
+      "occluded_landmark"
+    ],
+    "destination_track_id": 9,
+    "landmarks": [
+      {
+        "track_id": 109,
+        "relation": "left",
+        "role": "primary"
+      },
+      {
+        "track_id": 9,
+        "relation": "front",
+        "role": "secondary"
+      }
+    ]
+  },
+  {
+    "case_id": "local_eval_video_160325_00961",
+    "source": "local_emt",
+    "difficulty_tags": [
+      "correction"
+    ],
+    "destination_track_id": 9,
+    "landmarks": [
+      {
+        "track_id": 112,
+        "relation": "left",
+        "role": "primary"
+      },
+      {
+        "track_id": 9,
+        "relation": "front",
+        "role": "secondary"
+      }
+    ]
+  },
+  {
+    "case_id": "local_eval_video_160325_01171",
+    "source": "local_emt",
+    "difficulty_tags": [
+      "ambiguous"
+    ],
+    "destination_track_id": 148,
+    "landmarks": []
+  },
+  {
+    "case_id": "local_eval_video_160325_01351",
+    "source": "local_emt",
+    "difficulty_tags": [
+      "two_landmark"
+    ],
+    "destination_track_id": 118,
+    "landmarks": [
+      {
+        "track_id": 187,
+        "relation": "left",
+        "role": "primary"
+      },
+      {
+        "track_id": 118,
+        "relation": "front",
+        "role": "secondary"
+      }
+    ]
+  },
+  {
+    "case_id": "local_eval_video_160325_01561",
+    "source": "local_emt",
+    "difficulty_tags": [
+      "missing_reference"
+    ],
+    "destination_track_id": 211,
+    "landmarks": [
+      {
+        "track_id": 210,
+        "relation": "right",
+        "role": "primary"
+      }
+    ]
+  },
+  {
+    "case_id": "local_eval_video_160325_01771",
+    "source": "local_emt",
+    "difficulty_tags": [
+      "contrasting"
+    ],
+    "destination_track_id": 217,
+    "landmarks": [
+      {
+        "track_id": 217,
+        "relation": "left",
+        "role": "primary"
+      },
+      {
+        "track_id": 226,
+        "relation": "front",
+        "role": "secondary"
+      }
+    ]
+  },
+  {
+    "case_id": "local_eval_video_204647_00001",
+    "source": "local_emt",
+    "difficulty_tags": [
+      "unique_destination"
+    ],
+    "destination_track_id": 7,
+    "landmarks": [
+      {
+        "track_id": 7,
+        "relation": "right",
+        "role": "primary"
+      }
+    ]
+  },
+  {
+    "case_id": "local_eval_video_204647_00181",
+    "source": "local_emt",
+    "difficulty_tags": [
+      "unique_destination"
+    ],
+    "destination_track_id": 34,
+    "landmarks": [
+      {
+        "track_id": 34,
+        "relation": "left",
+        "role": "primary"
+      }
+    ]
+  },
+  {
+    "case_id": "local_eval_video_204647_00391",
+    "source": "local_emt",
+    "difficulty_tags": [
+      "unique_destination"
+    ],
+    "destination_track_id": 38,
+    "landmarks": [
+      {
+        "track_id": 38,
+        "relation": "left",
+        "role": "primary"
+      }
+    ]
+  },
+  {
+    "case_id": "local_eval_video_204647_00571",
+    "source": "local_emt",
+    "difficulty_tags": [
+      "two_landmark"
+    ],
+    "destination_track_id": 43,
+    "landmarks": [
+      {
+        "track_id": 49,
+        "relation": "left",
+        "role": "primary"
+      },
+      {
+        "track_id": 43,
+        "relation": "front",
+        "role": "secondary"
+      }
+    ]
+  },
+  {
+    "case_id": "local_eval_video_204647_00781",
+    "source": "local_emt",
+    "difficulty_tags": [
+      "ambiguous"
+    ],
+    "destination_track_id": 43,
+    "landmarks": []
+  },
+  {
+    "case_id": "local_eval_video_204647_00961",
+    "source": "local_emt",
+    "difficulty_tags": [
+      "correction"
+    ],
+    "destination_track_id": 43,
+    "landmarks": [
+      {
+        "track_id": 38,
+        "relation": "right",
+        "role": "primary"
+      },
+      {
+        "track_id": 43,
+        "relation": "left",
+        "role": "secondary"
+      }
+    ]
+  },
+  {
+    "case_id": "local_eval_video_204647_01171",
+    "source": "local_emt",
+    "difficulty_tags": [
+      "occluded_landmark"
+    ],
+    "destination_track_id": 43,
+    "landmarks": [
+      {
+        "track_id": 38,
+        "relation": "right",
+        "role": "primary"
+      },
+      {
+        "track_id": 43,
+        "relation": "front",
+        "role": "secondary"
+      }
+    ]
+  },
+  {
+    "case_id": "local_eval_video_204647_01351",
+    "source": "local_emt",
+    "difficulty_tags": [
+      "two_landmark"
+    ],
+    "destination_track_id": 62,
+    "landmarks": [
+      {
+        "track_id": 55,
+        "relation": "left",
+        "role": "primary"
+      },
+      {
+        "track_id": 62,
+        "relation": "front",
+        "role": "secondary"
+      }
+    ]
+  },
+  {
+    "case_id": "local_eval_video_204647_01561",
+    "source": "local_emt",
+    "difficulty_tags": [
+      "missing_reference"
+    ],
+    "destination_track_id": 62,
+    "landmarks": [
+      {
+        "track_id": 62,
+        "relation": "right",
+        "role": "primary"
+      }
+    ]
+  },
+  {
+    "case_id": "local_eval_video_204647_01771",
+    "source": "local_emt",
+    "difficulty_tags": [
+      "contrasting"
+    ],
+    "destination_track_id": 109,
+    "landmarks": [
+      {
+        "track_id": 109,
+        "relation": "left",
+        "role": "primary"
+      },
+      {
+        "track_id": 102,
+        "relation": "right",
+        "role": "secondary"
+      }
+    ]
+  },
+  {
+    "case_id": "local_eval_video_122233_00061",
+    "source": "local_emt",
+    "difficulty_tags": [
+      "unique_destination"
+    ],
+    "destination_track_id": 30,
+    "landmarks": [
+      {
+        "track_id": 30,
+        "relation": "left",
+        "role": "primary"
+      }
+    ]
+  },
+  {
+    "case_id": "local_eval_video_122233_00151",
+    "source": "local_emt",
+    "difficulty_tags": [
+      "unique_destination"
+    ],
+    "destination_track_id": 18,
+    "landmarks": [
+      {
+        "track_id": 18,
+        "relation": "right",
+        "role": "primary"
+      }
+    ]
+  },
+  {
+    "case_id": "local_eval_video_122233_00181",
+    "source": "local_emt",
+    "difficulty_tags": [
+      "two_landmark"
+    ],
+    "destination_track_id": 38,
+    "landmarks": [
+      {
+        "track_id": 43,
+        "relation": "left",
+        "role": "primary"
+      },
+      {
+        "track_id": 38,
+        "relation": "front",
+        "role": "secondary"
+      }
+    ]
+  },
+  {
+    "case_id": "local_eval_video_122233_00211",
+    "source": "local_emt",
+    "difficulty_tags": [
+      "ambiguous"
+    ],
+    "destination_track_id": 5,
+    "landmarks": []
+  },
+  {
+    "case_id": "local_eval_video_122233_00271",
+    "source": "local_emt",
+    "difficulty_tags": [
+      "missing_reference"
+    ],
+    "destination_track_id": 55,
+    "landmarks": [
+      {
+        "track_id": 55,
+        "relation": "left",
+        "role": "primary"
+      }
+    ]
+  },
+  {
+    "case_id": "local_eval_video_122233_00301",
+    "source": "local_emt",
+    "difficulty_tags": [
+      "correction"
+    ],
+    "destination_track_id": 5,
+    "landmarks": [
+      {
+        "track_id": 5,
+        "relation": "right",
+        "role": "primary"
+      }
+    ]
+  },
+  {
+    "case_id": "local_eval_video_122233_00331",
+    "source": "local_emt",
+    "difficulty_tags": [
+      "contrasting"
+    ],
+    "destination_track_id": 63,
+    "landmarks": [
+      {
+        "track_id": 63,
+        "relation": "left",
+        "role": "primary"
+      },
+      {
+        "track_id": 5,
+        "relation": "right",
+        "role": "secondary"
+      }
+    ]
+  },
+  {
+    "case_id": "local_eval_video_122233_00541",
+    "source": "local_emt",
+    "difficulty_tags": [
+      "two_landmark"
+    ],
+    "destination_track_id": 94,
+    "landmarks": [
+      {
+        "track_id": 93,
+        "relation": "left",
+        "role": "primary"
+      },
+      {
+        "track_id": 94,
+        "relation": "front",
+        "role": "secondary"
+      }
+    ]
+  },
+  {
+    "case_id": "local_eval_video_122233_00571",
+    "source": "local_emt",
+    "difficulty_tags": [
+      "occluded_landmark"
+    ],
+    "destination_track_id": 101,
+    "landmarks": [
+      {
+        "track_id": 98,
+        "relation": "left",
+        "role": "primary"
+      },
+      {
+        "track_id": 101,
+        "relation": "front",
+        "role": "secondary"
+      }
+    ]
+  },
+  {
+    "case_id": "local_eval_video_122233_00601",
+    "source": "local_emt",
+    "difficulty_tags": [
+      "unique_destination"
+    ],
+    "destination_track_id": 102,
+    "landmarks": [
+      {
+        "track_id": 102,
+        "relation": "right",
+        "role": "primary"
+      }
+    ]
+  }
+]

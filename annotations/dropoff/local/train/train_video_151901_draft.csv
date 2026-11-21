@@ -1,0 +1,4 @@
+recording_id,frame_id,destination_ref,instruction,paraphrases,tags,landmarks,parent_case_id
+video_151901,61,track:15,Pull over behind the white van directly ahead.,Stop behind the white van in front of us.|Follow the white van ahead and pull over behind it.,unique_destination,15:front:primary,
+video_151901,721,track:194,"Pass the white car on the left, then stop near the dark sedan on the right.","Go past the left-hand white car and pull over by the dark sedan on the right.|After the white car on the left, stop beside the right-hand dark sedan.",two_landmark,193:left:primary;194:right:secondary,
+video_151901,1291,track:72,"Pass the partially visible blue truck on the right, then stop behind the white taxi ahead on the left.","Go past the blue truck on the right and stop behind the white taxi.|After the partly visible blue truck, pull over behind the white taxi on the left.",occluded_landmark,282:right:primary;72:front:secondary,

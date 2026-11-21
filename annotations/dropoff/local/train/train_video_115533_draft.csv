@@ -1,0 +1,5 @@
+recording_id,frame_id,destination_ref,instruction,paraphrases,tags,landmarks,parent_case_id
+video_115533,211,track:72,Pull over beside the dark red SUV on the right.,Stop next to the nearby red SUV on the right.|Park beside the prominent right-hand red SUV.,unique_destination,72:right:primary,
+video_115533,601,track:292,"Pass the white car at the left edge, then stop near the small white car ahead.","Go past the left-edge white car and stop by the white car in front.|After the white car on the left, pull over near the distant white car ahead.",two_landmark,298:left:primary;292:front:secondary,
+video_115533,1021,track:349,Stop beside the pedestrian next to the white SUV on the right.,Pull over by the pedestrian near the right-hand white SUV.|Park next to the pedestrian beside the white SUV.,missing_reference,349:right:primary,
+video_115533,1681,track:422,"Stop beside the white truck on the left—correction, stop near the beige sedan on the right.","Take the white truck on the left—rather, the beige sedan on the right.|Stop near the beige sedan on the right, not the white truck on the left.",correction,426:left:primary;422:right:secondary,

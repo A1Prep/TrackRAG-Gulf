@@ -1,0 +1,4 @@
+recording_id,frame_id,destination_ref,instruction,paraphrases,tags,landmarks,parent_case_id
+video_220047,31,track:2,Pull over beside the white SUV on the right.,Stop next to the prominent white SUV on the right.|Park beside the right-hand white SUV.,unique_destination,2:right:primary,
+video_220047,691,track:52,"Pass the white SUV ahead, then stop beside the white sedan on the right.","Go past the white SUV in front and pull over by the white sedan on the right.|After the white SUV, stop beside the right-hand white sedan.",two_landmark,2:front:primary;52:right:secondary,
+video_220047,1261,track:52,"Pass the partially visible car at the left edge, then stop beside the white sedan on the right.","Go past the cut-off car on the left and pull over by the white sedan on the right.|After the partly visible left-edge car, stop beside the right-hand white sedan.",occluded_landmark,69:left:primary;52:right:secondary,

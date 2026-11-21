@@ -1,0 +1,4 @@
+recording_id,frame_id,destination_ref,instruction,paraphrases,tags,landmarks,parent_case_id
+video_214547,331,track:128,Pull over behind the white van on the left.,Stop behind the left-hand white van.|Follow the white van on the left and pull over behind it.,unique_destination,128:left:primary,
+video_214547,1171,track:458,"Pass the partially visible car on the left, then stop near the dark car on the right.","Go past the left-edge car and pull over by the dark car on the right.|After the car on the left, stop beside the right-hand dark car.",two_landmark,475:left:primary;458:right:secondary,
+video_214547,1531,track:613,Stop beside the pedestrian next to the white car on the right.,Pull over by the pedestrian near the right-hand white car.|Park next to the pedestrian beside the white car.,missing_reference,613:right:primary,

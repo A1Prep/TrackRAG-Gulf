@@ -1,0 +1,4 @@
+recording_id,frame_id,destination_ref,instruction,paraphrases,tags,landmarks,parent_case_id
+video_160902-161205,1,track:1,Pull over beside the dark SUV closest to us on the left.,Stop next to the nearby dark SUV on the left.|Park beside the prominent left-hand dark SUV.,unique_destination,1:left:primary,
+video_160902-161205,871,track:101,"Pass the dark SUV on the left, then stop behind the red car ahead.","Go past the left-hand dark SUV and stop behind the red car.|After the dark SUV on the left, pull over behind the red car in front.",two_landmark,269:left:primary;101:front:secondary,
+video_160902-161205,1801,track:411,"Stop beside the white van on the left—correction, stop behind the dark car on the right.","Take the white van on the left—rather, the dark car on the right.|Stop behind the dark car on the right, not the white van on the left.",correction,404:left:primary;411:right:secondary,

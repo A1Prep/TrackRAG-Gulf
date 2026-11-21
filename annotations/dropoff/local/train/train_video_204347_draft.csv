@@ -1,0 +1,4 @@
+recording_id,frame_id,destination_ref,instruction,paraphrases,tags,landmarks,parent_case_id
+video_204347,61,track:12,Pull over beside the dark car parked on the left.,Stop next to the dark car on the left.|Park beside the left-hand dark car.,unique_destination,12:left:primary,
+video_204347,451,track:2,"Pass the white car on the left, then stop near the dark car ahead.","Go past the left-hand white car and stop by the dark car in front.|After the white car on the left, pull over near the dark car ahead.",two_landmark,81:left:primary;2:front:secondary,
+video_204347,1441,track:132,"Stop behind the white car ahead, not the dark car on the left.",Take the white car in front rather than the dark car on the left.|Pull over behind the white car ahead instead of the left-hand dark car.,contrasting,132:front:primary;119:left:secondary,

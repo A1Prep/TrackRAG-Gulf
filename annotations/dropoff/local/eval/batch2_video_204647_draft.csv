@@ -1,0 +1,11 @@
+recording_id,frame_id,destination_ref,instruction,paraphrases,tags,landmarks,parent_case_id
+video_204647,1,track:7,Pull over near the car on the right side of the intersection.,Stop by the car on the right at the junction.|Park near the right-hand car at the intersection.,unique_destination,7:right:primary,
+video_204647,181,track:34,Stop near the pedestrian on the left at the crossing.,Pull over by the left pedestrian at the crosswalk.|Park near the left-hand pedestrian crossing.,unique_destination,34:left:primary,
+video_204647,391,track:38,Park near the white car turning on the left.,Stop by the left-turning white car.|Pull over near the white car on the left.,unique_destination,38:left:primary,
+video_204647,571,track:43,"Pass the large vehicle on the left, then stop near the car ahead.","Go past the large vehicle on the left and stop by the car in front.|After the large left vehicle, pull over near the car ahead.",two_landmark,49:left:primary;43:front:secondary,
+video_204647,781,track:43,Which car is ahead?,What car is in front?|Identify the car ahead of us.,ambiguous,,
+video_204647,961,track:43,"Take the car on the right—correction, take the car on the left.","The right car—rather, the left one.|Choose the left car, not the right car.",correction,38:right:primary;43:left:secondary,
+video_204647,1171,track:43,"Pass the partially visible car on the right, then stop near the car ahead.","Go past the partly visible right car and stop by the car in front.|After the occluded car on the right, pull over near the car ahead.",occluded_landmark,38:right:primary;43:front:secondary,
+video_204647,1351,track:62,"Pass the large vehicle on the left, then stop near the car ahead on the right.","Go past the large left vehicle and stop by the right car ahead.|After the large vehicle, pull over near the car on the right.",two_landmark,55:left:primary;62:front:secondary,
+video_204647,1561,track:62,Pull over near the pedestrian on the right.,Stop beside the right-hand pedestrian.|Park by the pedestrian on the right.,missing_reference,62:right:primary,
+video_204647,1771,track:109,"Stop near the car on the far left, not the one in the middle.","Take the far-left car rather than the middle car.|Pull over by the leftmost car, not the central one.",contrasting,109:left:primary;102:right:secondary,

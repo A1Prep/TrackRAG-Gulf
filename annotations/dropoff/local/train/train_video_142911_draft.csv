@@ -1,0 +1,5 @@
+recording_id,frame_id,destination_ref,instruction,paraphrases,tags,landmarks,parent_case_id
+video_142911,271,track:63,Pull over beside the white SUV closest to us on the left.,Stop next to the nearby white SUV on the left.|Park beside the prominent left-hand white SUV.,unique_destination,63:left:primary,
+video_142911,481,track:126,"Pass the silver car on the left, then stop near the white car at the right edge.","Go past the left-hand silver car and pull over by the white car on the right.|After the silver car on the left, stop beside the right-edge white car.",two_landmark,125:left:primary;126:right:secondary,
+video_142911,1231,track:233,"Stop behind the closer white car on the left, not the dark car farther right.",Take the nearby white car on the left rather than the dark car on the right.|Pull over behind the left white car instead of the right-hand dark car.,contrasting,233:left:primary;238:right:secondary,
+video_142911,1501,track:238,Which car is directly ahead?,What car is in front of us?|Identify the car directly ahead.,ambiguous,,

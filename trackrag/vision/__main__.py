@@ -49,6 +49,11 @@ class JsonlSink:
     def frame(self, record: dict) -> None:
         self._detections.write(json.dumps(record, allow_nan=False) + "\n")
 
+    def close(self) -> None:
+        """Close the detections file early after a failed run, so its folder can be removed (Windows)."""
+        if not self._detections.closed:
+            self._detections.close()
+
     def finish(self, provenance: dict, observations) -> None:
         import hashlib
 
@@ -104,6 +109,7 @@ def _predict(args) -> int:
     versions = _package_versions()
     partial.mkdir(parents=True, exist_ok=False)
     annotations_present = (Path(args.data_root) / "annotations").exists()
+    sink = None
     try:
         for recording in recordings:
             recording_id = recording.recording_id
@@ -119,6 +125,8 @@ def _predict(args) -> int:
             print(f"{recording_id}: {provenance['frames']} frames, {provenance['observations']} observations, "
                   f"{provenance['identities']} identities, {provenance['seconds_per_frame']} s/frame", flush=True)
     except BaseException:
+        if sink is not None:
+            sink.close()
         shutil.rmtree(partial, ignore_errors=True)
         raise
     partial.rename(out)

@@ -1,0 +1,346 @@
+{
+  "version": 1,
+  "date": "2026-11-20",
+  "what": "Detection AP and tracking metrics recomputed from the saved raw detections and tracks of both profiles, and compared number by number with the archived metrics_test.json and metrics_dev.json.",
+  "evaluator": {
+    "module": "tools.vision_evaluate",
+    "commit": "9fb555fabb57b1d575f2c41ee6cf18424b69b210",
+    "environment": "requirements-vision-eval.txt",
+    "labels": "EMT labels, in a folder the pipeline never reads"
+  },
+  "result_labels": {
+    "archived": "the metrics files shared with the predictions since Part 1",
+    "reproduced_by_owner": "Task 1, this record. Every number identical for both profiles and both splits.",
+    "reproduced_independently": "tracking metrics on the full test set, by A1Prep (docs/task1-artifact-verification.md); detection AP has not been recomputed by anyone else, because the raw detections were first shared on 20 November 2026, in the zips listed here"
+  },
+  "commands": {
+    "test": "python -m tools.vision_evaluate --pred-dir predictions-<profile> --labels-root <EMT_LABELS_ROOT> --split test --recordings video_204647 video_122233 video_125233 video_155425 video_160325 --out <test.json>",
+    "dev": "python -m tools.vision_evaluate --pred-dir predictions-<profile> --labels-root <EMT_LABELS_ROOT> --split train --recordings video_054907 video_174340 --out <dev.json>",
+    "compare": "python -m tools.vision_compare_metrics predictions-<profile>/metrics_<split>.json <split>.json --ignore tracking_only pred_dir"
+  },
+  "recording_order": {
+    "test": [
+      "video_204647",
+      "video_122233",
+      "video_125233",
+      "video_155425",
+      "video_160325"
+    ],
+    "dev": [
+      "video_054907",
+      "video_174340"
+    ],
+    "why": "pycocotools breaks ties between equal detection scores by input order, so AP reproduces exactly only with the archived order"
+  },
+  "shared_tracks": "15 of the 16 shared tracks files are frozen replays whose provenance names the sha256 of the detections they were made from (replayed_from); the fine-tuned video_054604 file came from the live run, and is tied to its detections by the replay below",
+  "comparisons": [
+    {
+      "profile": "pretrained",
+      "split": "test",
+      "inputs": "the run folders the archived metrics were made from",
+      "archived_file": "predictions-pretrained/metrics_test.json",
+      "archived_sha256": "fd5ee556778ca62172cf4b8d31ead36e1b1efdf8999c39acb82857e0c4cddc5f",
+      "reproduced_sha256": "5c6790574a18b543a3b75c3ac634dccf083c0f698aa319f9b4b91b5d115e9949",
+      "numbers_compared": 705,
+      "differences": 0,
+      "keys_in_one_file_only": 0,
+      "largest_difference": 0.0,
+      "ignored_keys": [
+        "tracking_only"
+      ],
+      "identical": true
+    },
+    {
+      "profile": "pretrained",
+      "split": "test",
+      "inputs": "task1-predictions-pretrained.zip and task1-detections-pretrained.zip unpacked into a new folder",
+      "archived_file": "predictions-pretrained/metrics_test.json",
+      "archived_sha256": "fd5ee556778ca62172cf4b8d31ead36e1b1efdf8999c39acb82857e0c4cddc5f",
+      "reproduced_sha256": "766e4916a1a6224acecb837cd6d2cf8b972994a3e5078128fb62ebbf7cc0bde0",
+      "numbers_compared": 705,
+      "differences": 0,
+      "keys_in_one_file_only": 0,
+      "largest_difference": 0.0,
+      "ignored_keys": [
+        "pred_dir",
+        "tracking_only"
+      ],
+      "identical": true
+    },
+    {
+      "profile": "pretrained",
+      "split": "dev",
+      "inputs": "the run folders the archived metrics were made from",
+      "archived_file": "predictions-pretrained/metrics_dev.json",
+      "archived_sha256": "ee98f04931ef6a6f08b3f82f5b0a67109b03bed77385d21865b270a91f30f29d",
+      "reproduced_sha256": "85bb5e95de8c781d7305cecc442f5c2a479af1ff3219a9c1a5263013b8e9c08c",
+      "numbers_compared": 389,
+      "differences": 0,
+      "keys_in_one_file_only": 0,
+      "largest_difference": 0.0,
+      "ignored_keys": [
+        "tracking_only"
+      ],
+      "identical": true
+    },
+    {
+      "profile": "pretrained",
+      "split": "dev",
+      "inputs": "task1-predictions-pretrained.zip and task1-detections-pretrained.zip unpacked into a new folder",
+      "archived_file": "predictions-pretrained/metrics_dev.json",
+      "archived_sha256": "ee98f04931ef6a6f08b3f82f5b0a67109b03bed77385d21865b270a91f30f29d",
+      "reproduced_sha256": "23aa515454f7c82e6c2364d9d9c64b52f3356bf1207e831299ff664c2ea929b0",
+      "numbers_compared": 389,
+      "differences": 0,
+      "keys_in_one_file_only": 0,
+      "largest_difference": 0.0,
+      "ignored_keys": [
+        "pred_dir",
+        "tracking_only"
+      ],
+      "identical": true
+    },
+    {
+      "profile": "finetuned",
+      "split": "test",
+      "inputs": "the run folders the archived metrics were made from",
+      "archived_file": "predictions-finetuned/metrics_test.json",
+      "archived_sha256": "0fc3b129f41b0de92f898252dc9622389d0380ec232f314d81371110e980c526",
+      "reproduced_sha256": "f44c6bd2472a3a09a60bad3309a3fefb98c08c7c95f08d67ac1ba8983a2b7054",
+      "numbers_compared": 695,
+      "differences": 0,
+      "keys_in_one_file_only": 0,
+      "largest_difference": 0.0,
+      "ignored_keys": [
+        "tracking_only"
+      ],
+      "identical": true
+    },
+    {
+      "profile": "finetuned",
+      "split": "test",
+      "inputs": "task1-predictions-finetuned.zip and task1-detections-finetuned.zip unpacked into a new folder",
+      "archived_file": "predictions-finetuned/metrics_test.json",
+      "archived_sha256": "0fc3b129f41b0de92f898252dc9622389d0380ec232f314d81371110e980c526",
+      "reproduced_sha256": "3903d371a493afbea7a36347bc195a3f171ff40ba6948112f06707507777d4be",
+      "numbers_compared": 695,
+      "differences": 0,
+      "keys_in_one_file_only": 0,
+      "largest_difference": 0.0,
+      "ignored_keys": [
+        "pred_dir",
+        "tracking_only"
+      ],
+      "identical": true
+    },
+    {
+      "profile": "finetuned",
+      "split": "dev",
+      "inputs": "the run folders the archived metrics were made from",
+      "archived_file": "predictions-finetuned/metrics_dev.json",
+      "archived_sha256": "7980e11cdfa88b2624181196fb953b0117c8be04312da1acf96f1271d9188ee0",
+      "reproduced_sha256": "ee37fa3dc03f2203dbdd8fbb9e6e3b6520270969d2ff032fe7b3dcb8242c9fcf",
+      "numbers_compared": 391,
+      "differences": 0,
+      "keys_in_one_file_only": 0,
+      "largest_difference": 0.0,
+      "ignored_keys": [
+        "tracking_only"
+      ],
+      "identical": true
+    },
+    {
+      "profile": "finetuned",
+      "split": "dev",
+      "inputs": "task1-predictions-finetuned.zip and task1-detections-finetuned.zip unpacked into a new folder",
+      "archived_file": "predictions-finetuned/metrics_dev.json",
+      "archived_sha256": "7980e11cdfa88b2624181196fb953b0117c8be04312da1acf96f1271d9188ee0",
+      "reproduced_sha256": "946fae9b0687cd571c4f480455522c953bdede30110c65c7104964d63d0d1e40",
+      "numbers_compared": 391,
+      "differences": 0,
+      "keys_in_one_file_only": 0,
+      "largest_difference": 0.0,
+      "ignored_keys": [
+        "pred_dir",
+        "tracking_only"
+      ],
+      "identical": true
+    }
+  ],
+  "order_dependence": [
+    {
+      "profile": "pretrained",
+      "split": "test",
+      "recordings": [
+        "video_122233",
+        "video_125233",
+        "video_155425",
+        "video_160325",
+        "video_204647"
+      ],
+      "numbers_that_differ": 3,
+      "largest_difference": 1.141441458019088e-08
+    },
+    {
+      "profile": "finetuned",
+      "split": "test",
+      "recordings": [
+        "video_122233",
+        "video_125233",
+        "video_155425",
+        "video_160325",
+        "video_204647"
+      ],
+      "numbers_that_differ": 17,
+      "largest_difference": 2.8981103894487603e-07
+    }
+  ],
+  "video_054604_frozen_replays": [
+    {
+      "profile": "pretrained",
+      "recording": "video_054604",
+      "detections_sha256": "f3a99d585788d9538bcf68cfd185c7e838ead2a304ca7a2ef4a3ce11af3d686c",
+      "replayed_tracks_sha256": "2461d73575d8f7640e331086dac2b3443ca91e7718fa39c092855a400017f0f8",
+      "shared_tracks_sha256": "2461d73575d8f7640e331086dac2b3443ca91e7718fa39c092855a400017f0f8",
+      "shared_tracks_from": "frozen replay",
+      "detections_named_in_shared_provenance": true
+    },
+    {
+      "profile": "finetuned",
+      "recording": "video_054604",
+      "detections_sha256": "7dfb8fa8a8cfa2231cd33261d83427496259b652616e08e50bbca899b514b245",
+      "replayed_tracks_sha256": "ba02a60e44314a6f3e3ecf59db7aed4750eb4c040e23ceea3bfafc4b3e9db139",
+      "shared_tracks_sha256": "ba02a60e44314a6f3e3ecf59db7aed4750eb4c040e23ceea3bfafc4b3e9db139",
+      "shared_tracks_from": "live run",
+      "detections_named_in_shared_provenance": false
+    }
+  ],
+  "detection_bundles": {
+    "pretrained": {
+      "file": "task1-detections-pretrained.zip",
+      "bytes": 74523662,
+      "sha256": "b78adecc46274da14093e9592f8d193139e5b0c667c57e1283bf903f2166e73a",
+      "files": {
+        "video_054604.detections.jsonl": {
+          "sha256": "f3a99d585788d9538bcf68cfd185c7e838ead2a304ca7a2ef4a3ce11af3d686c",
+          "bytes": 59762205,
+          "rows": 1800,
+          "split": "not evaluated (scene and retrieval recording)",
+          "bound_by": "replayed_from.detections_sha256 in the shared video_054604.provenance.json; a frozen replay through the shared tracker settings on 20 Nov 2026 gives the shared video_054604.tracks.jsonl byte for byte (tracks sha256 2461d73575d8f7640e331086dac2b3443ca91e7718fa39c092855a400017f0f8)"
+        },
+        "video_054907.detections.jsonl": {
+          "sha256": "ecd9c165e9ada44466a4fcf4a1b71d2c4e67f92302d7372f1a110f21dc481c7c",
+          "bytes": 86465750,
+          "rows": 1800,
+          "split": "dev (EMT train split)",
+          "bound_by": "metrics_dev.json inputs_sha256 (archived evaluation, reproduced exactly); replayed_from.detections_sha256 in the shared video_054907.provenance.json"
+        },
+        "video_122233.detections.jsonl": {
+          "sha256": "9b48e7a83fffc2104875f1e11d292a835340eb6c12942cf9493c34e219661a9d",
+          "bytes": 43997924,
+          "rows": 1800,
+          "split": "test",
+          "bound_by": "metrics_test.json inputs_sha256 (archived evaluation, reproduced exactly); replayed_from.detections_sha256 in the shared video_122233.provenance.json"
+        },
+        "video_125233.detections.jsonl": {
+          "sha256": "4c58dd70fa3182df2665d13a8154fddecfa646816289170e7a0c526a3a70b062",
+          "bytes": 51228605,
+          "rows": 1800,
+          "split": "test",
+          "bound_by": "metrics_test.json inputs_sha256 (archived evaluation, reproduced exactly); replayed_from.detections_sha256 in the shared video_125233.provenance.json"
+        },
+        "video_155425.detections.jsonl": {
+          "sha256": "241c575e564103d4d4a5122be38f44996f63b2f759b486b9268e245e506e6bc6",
+          "bytes": 67673427,
+          "rows": 1330,
+          "split": "test",
+          "bound_by": "metrics_test.json inputs_sha256 (archived evaluation, reproduced exactly); replayed_from.detections_sha256 in the shared video_155425.provenance.json"
+        },
+        "video_160325.detections.jsonl": {
+          "sha256": "48c634ed528bf11c0f7087b9f2821a7cfe84c5008173982e4172f295158ec102",
+          "bytes": 57530220,
+          "rows": 1800,
+          "split": "test",
+          "bound_by": "metrics_test.json inputs_sha256 (archived evaluation, reproduced exactly); replayed_from.detections_sha256 in the shared video_160325.provenance.json"
+        },
+        "video_174340.detections.jsonl": {
+          "sha256": "53dfd03dd2e4f9a9d92e1690d2bb493c488b30ad11bf0a7646e6ce707ee6e403",
+          "bytes": 53167849,
+          "rows": 1800,
+          "split": "dev (EMT train split)",
+          "bound_by": "metrics_dev.json inputs_sha256 (archived evaluation, reproduced exactly); replayed_from.detections_sha256 in the shared video_174340.provenance.json"
+        },
+        "video_204647.detections.jsonl": {
+          "sha256": "b798071d6f368daffcc620d946da290d206266d602f1d9bcc6a9852115f3d4e3",
+          "bytes": 35894934,
+          "rows": 1800,
+          "split": "test",
+          "bound_by": "metrics_test.json inputs_sha256 (archived evaluation, reproduced exactly); replayed_from.detections_sha256 in the shared video_204647.provenance.json"
+        }
+      }
+    },
+    "finetuned": {
+      "file": "task1-detections-finetuned.zip",
+      "bytes": 141016720,
+      "sha256": "02455ae8e2bb071ab98c774e5908865220293660472acfb06cbd2a4a9fcef7d2",
+      "files": {
+        "video_054604.detections.jsonl": {
+          "sha256": "7dfb8fa8a8cfa2231cd33261d83427496259b652616e08e50bbca899b514b245",
+          "bytes": 127724411,
+          "rows": 1800,
+          "split": "not evaluated (scene and retrieval recording)",
+          "bound_by": "a frozen replay through the shared tracker settings on 20 Nov 2026 gives the shared video_054604.tracks.jsonl byte for byte (tracks sha256 ba02a60e44314a6f3e3ecf59db7aed4750eb4c040e23ceea3bfafc4b3e9db139)"
+        },
+        "video_054907.detections.jsonl": {
+          "sha256": "fc8ce013ef7464e6e58e86ac7606f2528c8a454e3fb8352e28b7a98d5dcbf0ef",
+          "bytes": 132107255,
+          "rows": 1800,
+          "split": "dev (EMT train split)",
+          "bound_by": "metrics_dev.json inputs_sha256 (archived evaluation, reproduced exactly); replayed_from.detections_sha256 in the shared video_054907.provenance.json"
+        },
+        "video_122233.detections.jsonl": {
+          "sha256": "728c060eb8a6e2d4aead4fcc90bf3f226d4c46ccc75595d346cf36b313bc6618",
+          "bytes": 108408196,
+          "rows": 1800,
+          "split": "test",
+          "bound_by": "metrics_test.json inputs_sha256 (archived evaluation, reproduced exactly); replayed_from.detections_sha256 in the shared video_122233.provenance.json"
+        },
+        "video_125233.detections.jsonl": {
+          "sha256": "4d561f32455e397d1be04e5586e4beb65f59d9c16a908b1f6ab8f7891eb9551c",
+          "bytes": 109849969,
+          "rows": 1800,
+          "split": "test",
+          "bound_by": "metrics_test.json inputs_sha256 (archived evaluation, reproduced exactly); replayed_from.detections_sha256 in the shared video_125233.provenance.json"
+        },
+        "video_155425.detections.jsonl": {
+          "sha256": "5ebc3dd0bb3a37778354aeadac165711d89d8fdc3b6af7ae17ec55f9971f13bf",
+          "bytes": 82571907,
+          "rows": 1330,
+          "split": "test",
+          "bound_by": "metrics_test.json inputs_sha256 (archived evaluation, reproduced exactly); replayed_from.detections_sha256 in the shared video_155425.provenance.json"
+        },
+        "video_160325.detections.jsonl": {
+          "sha256": "df6860d1681c57f9fc223cf59e6eea97887a0d89782feebbe03525728a5d6c01",
+          "bytes": 81002625,
+          "rows": 1800,
+          "split": "test",
+          "bound_by": "metrics_test.json inputs_sha256 (archived evaluation, reproduced exactly); replayed_from.detections_sha256 in the shared video_160325.provenance.json"
+        },
+        "video_174340.detections.jsonl": {
+          "sha256": "da72e4a3b700a410870f299a1478e836b474418997d4e21d1b7009bc727a5299",
+          "bytes": 88000765,
+          "rows": 1800,
+          "split": "dev (EMT train split)",
+          "bound_by": "metrics_dev.json inputs_sha256 (archived evaluation, reproduced exactly); replayed_from.detections_sha256 in the shared video_174340.provenance.json"
+        },
+        "video_204647.detections.jsonl": {
+          "sha256": "b8ac99680890074d9f40610bdead5e60051d35bcbf0155b139d30839be6bb82e",
+          "bytes": 66485903,
+          "rows": 1800,
+          "split": "test",
+          "bound_by": "metrics_test.json inputs_sha256 (archived evaluation, reproduced exactly); replayed_from.detections_sha256 in the shared video_204647.provenance.json"
+        }
+      }
+    }
+  }
+}

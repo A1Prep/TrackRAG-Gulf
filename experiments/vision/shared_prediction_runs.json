@@ -1,0 +1,74 @@
+{
+  "version": 1,
+  "note": "sha256 of the shared Task 1 prediction files (task1-predictions-finetuned.zip and task1-predictions-pretrained.zip), by vision identity hash and recording",
+  "runs": {
+    "acf21b53525d5729541aaedbf961a9c634399fa881fc7976909d48575c5e870d": {
+      "video_054604": {
+        "tracks_sha256": "ba02a60e44314a6f3e3ecf59db7aed4750eb4c040e23ceea3bfafc4b3e9db139",
+        "provenance_sha256": "c0f4dc049029f94e54f99f714b903701cb87fe87f203bde03618e1f26fffa796"
+      },
+      "video_054907": {
+        "tracks_sha256": "7d3e650b6a8e5f4ca1d5e1197e9efaaa724e9ffb3d2d649d7266659774f239f8",
+        "provenance_sha256": "9b7e9264ea021fd8cfa070d7479b43c82faa51257819c036ab5498a98373dbde"
+      },
+      "video_122233": {
+        "tracks_sha256": "4f2409447fdefd464aa39bb61e6ca0b340c186a7730658998ed7a3afda6dccff",
+        "provenance_sha256": "fdedf6bfee8550a0ae16c7dc0697ee246b16c3a28cc49ed7d4d8a55cbcbe0c13"
+      },
+      "video_125233": {
+        "tracks_sha256": "92241a0921512ea53d886ef11b2fe1028deefd8fcb48c174e24ce8923757ca8d",
+        "provenance_sha256": "acfcb1765efd1a21ea4657dfb5bd2f5f905f5eba5bf45373222d727db4eb00d9"
+      },
+      "video_155425": {
+        "tracks_sha256": "91d423c61dce47b8fdf4328e15ceecbca003fc67ad290762a68d9452b349ea92",
+        "provenance_sha256": "a799b44335ba18537484745380d0686f449b1db5a6faa4c5b334218eba954aea"
+      },
+      "video_160325": {
+        "tracks_sha256": "b0a2f7d2bcb01db97d5fb6827628238c3a0f7575fc2b9416df27dcf9bcc029ee",
+        "provenance_sha256": "d4a99fdf9df614282a8ae08b2c9aec8d68ae981204c6be27619b0a0cd7bd544e"
+      },
+      "video_174340": {
+        "tracks_sha256": "16fc153eb316532aedc116db284fadef750349758241fad4324bf20b7811ea03",
+        "provenance_sha256": "62a7bd613ed3290c710f4892743db9011da0fb7a17ee85d5cc55f127014ffd98"
+      },
+      "video_204647": {
+        "tracks_sha256": "68642044eb2e2d02597073093d061f4863064859af8e68f4d37d5f1f92123b1c",
+        "provenance_sha256": "df76f2486ff77f23221a1f88de447654c149b9643c7de4c50c48b5467b076ad9"
+      }
+    },
+    "98c88b08a77ae7775eaa4a5f19bec3829bc40143272be414c6125070ab6de5ca": {
+      "video_054604": {
+        "tracks_sha256": "2461d73575d8f7640e331086dac2b3443ca91e7718fa39c092855a400017f0f8",
+        "provenance_sha256": "09d8c18f0b35e55612ab55c874b0b62e92464d93fed94336336def33e16be07a"
+      },
+      "video_054907": {
+        "tracks_sha256": "2e6f469c9671793e3dcf4295fb720cd5f82119f76e40a5aed42dde9dc11067eb",
+        "provenance_sha256": "9958c1c7ebc4f721fe9881f8413445697cd8aa8b8e5d37f1855abad05dec16d5"
+      },
+      "video_122233": {
+        "tracks_sha256": "b28dd6e4a4045c4b0be91a2ce6045240e4e04f2f073d7201aca9a6776fdd101f",
+        "provenance_sha256": "3a97256b22139124267a038e5992d0829bb4b9b0fbcd4e348a0466bbf9be2f07"
+      },
+      "video_125233": {
+        "tracks_sha256": "b0f3bf1b9c3f3d58062039a38e53c9b43079c4e75abb5ebb99bcc8804f21cbd9",
+        "provenance_sha256": "69ce70d286629cb958551577a41c874546d45681dcd248c2159a910360f3c548"
+      },
+      "video_155425": {
+        "tracks_sha256": "9ed77d795bb764519e1d10fd5597bda6a914d14db101e04d53c040d368851cb7",
+        "provenance_sha256": "d7cd9c1f8bf2cac5e8e96f925e223745ffa9946c52ee60e6643a4ca7831f484c"
+      },
+      "video_160325": {
+        "tracks_sha256": "27dfab79cad564ffb0841c3fed6747413909dc481823943387a5bd1e533a3861",
+        "provenance_sha256": "0a61352176b43e3c49cdad911f6a9b6a449d4408fcd3191ff51355652eb0a2be"
+      },
+      "video_174340": {
+        "tracks_sha256": "9d2f9b354117ae893fc1b0c9d7dafbcea2de1e4a40502eb291822fd72b87441b",
+        "provenance_sha256": "d49a8515b58d8c7a1fd012e8c0c4cbba537767df8a9163bf3b449c6533a63a3b"
+      },
+      "video_204647": {
+        "tracks_sha256": "23a3c7542543b203527e849eb73e692f14cecdfd127a583e82bf7d79a2289a0a",
+        "provenance_sha256": "45ae63a5ee3580fcf94b90f95feaa665c0572f0e49dd2b271ed41bfda247e9af"
+      }
+    }
+  }
+}

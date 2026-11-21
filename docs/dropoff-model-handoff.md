@@ -68,7 +68,7 @@ if __name__ == "__main__":
 
 The `__main__` guard is required for standalone Windows scripts using the spawned worker. Task 4 replaces the smoke request with the current image and predicted observations. Its application should reuse one model instance, call `interpret_with_receipt` for each request, and close it when the owning application session ends. The atomic method prevents another request from replacing the receipt before it is copied.
 
-Successful semantic results contain status, destination_point_xy, destination_box_xyxy and clarification_question. Optional anchor_boxes_xyxy is available only when supplied by the model. All returned geometry uses original-image pixels. Unresolved results have null destination geometry. Missing checkpoints, timeouts, invalid JSON and other operational failures return ok=false; they are not semantic abstentions.
+Successful semantic results contain status, destination_point_xy, destination_box_xyxy and clarification_question. The shared contract permits optional anchor_boxes_xyxy, but the current streamed four-field decoding route does not emit that optional field. All returned geometry uses original-image pixels. Unresolved results have null destination geometry. Missing checkpoints, timeouts, invalid JSON and other operational failures return ok=false; they are not semantic abstentions.
 
 The model never creates a confirmation event. Task 4 owns proposal identity, correction, cancellation and confirmation bound to the current frame. A scene change invalidates the old dialogue/proposal. The predicted region expresses interpreted intent, not certified stopping clearance or legality.
 
@@ -142,7 +142,7 @@ python -m tools.dropoff_train verify-reload --run-dir runs/pilot-run --cache-dir
 
 Choose fresh output paths. The pilot performs two optimizer steps and verifies actual adapter changes. Save/reload success and a valid spatial smoke output remain separate from measured grounding accuracy. Failed generations and resource failures are retained, and cannot generate a successful pilot completion receipt.
 
-For actual adaptation, use training-adaptation.json with the reviewed training/development corpus. Final evaluation data stays outside training, checkpoint selection and calibration.
+For reviewed local adaptation on the laptop, use the separately reviewed [streamed continuation runner](dropoff-local-adaptation.md) after the selected public handoff and genuine local training/development labels are available. Its software checks do not establish actual local adaptation or quality. The alternative resident-model path uses training-adaptation.json. Final evaluation data stays outside training, checkpoint selection and calibration.
 
 Export public inference requests in a separate preparation step, then call the real model adapter:
 

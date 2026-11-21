@@ -241,3 +241,9 @@ The technical project is complete only after reviewed local interpretation
 cases, final app/voice integration, independent reserved evaluation and another
 teammate's fresh-start run are verified. The current training run cannot supply
 missing human annotations or certify stopping safety.
+
+The [local continuation runner](dropoff-local-adaptation.md) provides a separate
+4 GB training path for future reviewed full-interpretation examples. It checks
+the verified parent adapter and excludes recording overlap and reserved final
+data. It has software validation only; actual local adaptation and its fresh
+reload/quality acceptance still require those genuine labels and a real run.

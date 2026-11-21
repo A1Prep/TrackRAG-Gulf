@@ -1,5 +1,7 @@
 # Passenger grounding: bounded method comparison, 21 November 2026
 
+The subsequently authorized [quick verification](dropoff-quick-verification-20261121.md) ran the previously prepared diagnostics, tested clearer marks and recovered the crowded-scene memory failure. The sections below preserve this earlier window's results and then-unrun status.
+
 **Decision: do not adopt either tested local candidate selector.** Finding visible road patches is feasible, but the tested language models did not select destinations on the six-case public development cohort. Preserve the existing QA/RAG route and trained adapter; these experiments do not establish a working passenger feature.
 
 ## What actually ran

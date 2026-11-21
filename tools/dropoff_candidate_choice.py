@@ -104,6 +104,9 @@ def run(args):
     (out/"candidates-snapshot.jsonl").write_bytes(candidate_bytes)
     (out/"protocol-snapshot.json").write_bytes(protocol_bytes)
     (out/"source-snapshot.py").write_bytes(Path(__file__).read_bytes())
+    if getattr(args, "legible_marks", False):
+        from tools import dropoff_legible_marks
+        (out/"renderer-source-snapshot.py").write_bytes(Path(dropoff_legible_marks.__file__).read_bytes())
     save(out/"settings.json", {**vars(args), "kind": "forced_choice_geometry_only_not_app_status",
          "prompt": PROMPT, "prompt_sha256": digest(PROMPT.encode()),
          "source_file_sha256": digest(Path(__file__).read_bytes()), "quality_measured": False,
@@ -135,7 +138,12 @@ def run(args):
                     image_hash = digest(Path(frame["image_path"]).read_bytes())
                     candidates = validate_candidates(options[request["request_id"]], frame, image_hash)
                     overlay = out/f"{count:02d}-marked.png"
-                    draw_candidates(frame["image_path"], candidates, frame, overlay)
+                    if getattr(args, "legible_marks", False):
+                        from tools.dropoff_legible_marks import draw_legible_candidates
+                        row["rendering"] = draw_legible_candidates(frame["image_path"], candidates, frame, overlay,
+                            min_pixels=config.min_pixels, max_pixels=config.max_pixels)
+                    else:
+                        draw_candidates(frame["image_path"], candidates, frame, overlay)
                     messages = choice_messages(request, candidates, overlay)
                     row.update(original_image_sha256=image_hash,
                         request_sha256=digest(json.dumps(request,sort_keys=True).encode()),
@@ -171,6 +179,7 @@ def main():
     parser.add_argument("--protocol", default="experiments/dropoff/method-comparison-protocol-20261121.json")
     parser.add_argument("--reference-requests", default="runs/dropoff-methods-20261121/requests.jsonl")
     parser.add_argument("--wall-seconds", type=int, default=300)
+    parser.add_argument("--legible-marks", action="store_true", help="Experimental final-size marks; changes rendering and pre-resampling only")
     args = parser.parse_args()
     if not 1 <= args.wall_seconds <= 300: parser.error("Diagnostic budget must be 1..300 seconds")
     run(args)

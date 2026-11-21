@@ -1,0 +1,8 @@
+{
+  "window_frames": 10,
+  "stride_frames": 10,
+  "max_gap_frames": 5,
+  "class_weight": 2.0,
+  "location_weight": 1.0,
+  "movement_weight": 1.0
+}

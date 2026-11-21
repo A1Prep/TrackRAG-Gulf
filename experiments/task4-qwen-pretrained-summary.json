@@ -1,0 +1,250 @@
+{
+  "version": 1,
+  "software_checks": {
+    "command": "python -B -m pytest tests -q -p no:cacheprovider",
+    "passed_tests": 354,
+    "passed_subtests": 362,
+    "scope": "Offline regression suite. Most Qwen contract tests inject scorers; optional tensor tests use constructed logits. Real frozen-weight inference is separately recorded in cases."
+  },
+  "cli_checks": {
+    "qwen_help": "passed",
+    "reviewer_adapter_signature_check": "ready",
+    "zero_k_command_saves_empty_result_without_model_call": "passed"
+  },
+  "scope": "Actual frozen pretrained Qwen text-only inference on two development questions; no relevance labels, fine-tuning, visual model or answerer.",
+  "base_commit": "057072dfbb18712aed5237e7999287b958408546",
+  "source_files_sha256": {
+    "trackrag/retrieval_qwen.py": "b6909c12a5173f98b69e6f38a4bf2386f2c0250a9a66ad158a836effaecd5c64",
+    "tests/test_retrieval_qwen.py": "f2a5e6202e9dee2cf6f3d8c6738fd3102439a794b4401752f57a981c89c646cb",
+    "requirements-qwen.txt": "b3904cfd68bdaa4c133011d797e84c0adc47c0e67a423d5868f56702d1f8280a"
+  },
+  "config": {
+    "model_id": "Qwen/Qwen3-Reranker-0.6B",
+    "revision": "e61197ed45024b0ed8a2d74b80b4d909f1255473",
+    "cache_dir": "models/huggingface",
+    "device": "cpu",
+    "batch_size": 2,
+    "max_tokens": 4096,
+    "cpu_threads": 4,
+    "local_files_only": true
+  },
+  "scorer": {
+    "backend": "QwenTextScorer",
+    "input_modality": "text_metadata_only",
+    "training_state": "frozen_pretrained",
+    "config": {
+      "model_id": "Qwen/Qwen3-Reranker-0.6B",
+      "revision": "e61197ed45024b0ed8a2d74b80b4d909f1255473",
+      "cache_dir": "models/huggingface",
+      "device": "cpu",
+      "batch_size": 2,
+      "max_tokens": 4096,
+      "cpu_threads": 4,
+      "local_files_only": true
+    },
+    "loaded_model_revision": "e61197ed45024b0ed8a2d74b80b4d909f1255473",
+    "torch_version": "2.15.0",
+    "transformers_version": "4.57.6",
+    "token_counts": [
+      369,
+      363,
+      365,
+      369,
+      369,
+      366,
+      369,
+      369,
+      364,
+      366,
+      366,
+      369,
+      371,
+      371,
+      362,
+      370,
+      367,
+      364,
+      365,
+      226
+    ]
+  },
+  "cases": [
+    {
+      "question": {
+        "question_id": "temporal-11",
+        "recording_id": "video_054604",
+        "query_frame": 1,
+        "question": "Which car appears largest in the opening image?"
+      },
+      "recording_adapter": "trackrag.emt.EMTRecording",
+      "candidate_count": 15,
+      "lexical_intervals": [
+        {
+          "recording_id": "video_054604",
+          "source": "annotated",
+          "track_id": 1,
+          "start_frame": 1,
+          "end_frame": 1,
+          "rank": 1,
+          "score": 0.5
+        },
+        {
+          "recording_id": "video_054604",
+          "source": "annotated",
+          "track_id": 3,
+          "start_frame": 1,
+          "end_frame": 1,
+          "rank": 2,
+          "score": 0.5
+        },
+        {
+          "recording_id": "video_054604",
+          "source": "annotated",
+          "track_id": 4,
+          "start_frame": 1,
+          "end_frame": 1,
+          "rank": 3,
+          "score": 0.5
+        }
+      ],
+      "qwen_intervals": [
+        {
+          "recording_id": "video_054604",
+          "source": "annotated",
+          "track_id": 8,
+          "start_frame": 1,
+          "end_frame": 1,
+          "rank": 1,
+          "score": 0.9302175641059875
+        },
+        {
+          "recording_id": "video_054604",
+          "source": "annotated",
+          "track_id": 9,
+          "start_frame": 1,
+          "end_frame": 1,
+          "rank": 2,
+          "score": 0.9271417260169983
+        },
+        {
+          "recording_id": "video_054604",
+          "source": "annotated",
+          "track_id": 13,
+          "start_frame": 1,
+          "end_frame": 1,
+          "rank": 3,
+          "score": 0.9258328080177307
+        }
+      ],
+      "metadata_sha256": "e12dd249076cbb779820a290b270ba1e0bfc8b87f9fd6577c12b607bfc3f561e",
+      "model_inputs_sha256": "e13d357c6abc1a34130c78a830a6bc217d34b53c4b57da0f25e87244a68699c7",
+      "all_candidate_scores_sha256": "bed6c57b63eed08bf694705d8a7d03d4f679d13919c2b54b3f02c1e18e7cb2ed",
+      "token_counts_min_max": [
+        221,
+        365
+      ],
+      "scoring_elapsed_seconds_including_first_load": 114.19180640002014,
+      "exact_temporal_controls": {
+        "prefix_only": "exact_match"
+      },
+      "local_receipt": "runs/task4-qwen-pilot-02/temporal-11-receipt.json",
+      "receipt_sha256": "00aebade52357d5637735ad68091cd1e0c111760394900ac697a6aec553f1598",
+      "review_run": "runs/task4-qwen-pilot-02/temporal-11-review",
+      "audited_files": 6,
+      "reviewer_export_of_captured_qwen_intervals_matches": true,
+      "answer_status": "not_requested"
+    },
+    {
+      "question": {
+        "question_id": "second-01",
+        "recording_id": "video_054907",
+        "query_frame": 1,
+        "question": "What colour is the large SUV on the left in the opening frame?"
+      },
+      "recording_adapter": "trackrag.emt.EMTRecording",
+      "candidate_count": 20,
+      "lexical_intervals": [
+        {
+          "recording_id": "video_054907",
+          "source": "annotated",
+          "track_id": 2,
+          "start_frame": 1,
+          "end_frame": 1,
+          "rank": 1,
+          "score": 0.25
+        },
+        {
+          "recording_id": "video_054907",
+          "source": "annotated",
+          "track_id": 3,
+          "start_frame": 1,
+          "end_frame": 1,
+          "rank": 2,
+          "score": 0.25
+        },
+        {
+          "recording_id": "video_054907",
+          "source": "annotated",
+          "track_id": 9,
+          "start_frame": 1,
+          "end_frame": 1,
+          "rank": 3,
+          "score": 0.25
+        }
+      ],
+      "qwen_intervals": [
+        {
+          "recording_id": "video_054907",
+          "source": "annotated",
+          "track_id": 14,
+          "start_frame": 1,
+          "end_frame": 1,
+          "rank": 1,
+          "score": 0.9298675060272217
+        },
+        {
+          "recording_id": "video_054907",
+          "source": "annotated",
+          "track_id": 19,
+          "start_frame": 1,
+          "end_frame": 1,
+          "rank": 2,
+          "score": 0.9287866950035095
+        },
+        {
+          "recording_id": "video_054907",
+          "source": "annotated",
+          "track_id": 13,
+          "start_frame": 1,
+          "end_frame": 1,
+          "rank": 3,
+          "score": 0.9267268180847168
+        }
+      ],
+      "metadata_sha256": "bd75aab9c94a0b814d8cfd571168cd4074e3e6decc054ddb9703556bd4f60da2",
+      "model_inputs_sha256": "d014bad77cbf896d68131e231e5ada44262901e17ee98d5592bc08e20e218dc7",
+      "all_candidate_scores_sha256": "c5634f107a8dd9a787ae073ec4fd9b3f2578e65a97e85d5524011ba87066784a",
+      "token_counts_min_max": [
+        226,
+        371
+      ],
+      "scoring_elapsed_seconds_including_first_load": 122.20445390004897,
+      "exact_temporal_controls": {},
+      "local_receipt": "runs/task4-qwen-pilot-02/second-01-receipt.json",
+      "receipt_sha256": "f4702ad76f21bd36530075f01584a9870d075c6cdf5de0751d31a5392910872a",
+      "review_run": "runs/task4-qwen-pilot-02/second-01-review",
+      "audited_files": 6,
+      "reviewer_export_of_captured_qwen_intervals_matches": true,
+      "answer_status": "not_requested"
+    }
+  ],
+  "limitations": [
+    "These are two previously used opening-frame development questions, not an accuracy benchmark or held-out evaluation.",
+    "The larger temporal-09/second-07 CPU pilot was stopped before completion due to runtime; no result is claimed for it.",
+    "The reviewer exports captured Qwen intervals; this export check does not perform another model call.",
+    "The text model receives no image pixels, color descriptions, sign OCR or visual embeddings. Scene metadata cannot establish appearance.",
+    "Qwen's yes/no-normalized score is not calibrated correctness or proof that an interval supports an answer.",
+    "Candidate coverage differs from the original lexical ranker; the listed lexical outputs are context, not a controlled accuracy comparison.",
+    "Weights are frozen; reviewed labels, fine-tuning and controlled same-pool ranking evaluation remain pending."
+  ]
+}

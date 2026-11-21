@@ -124,11 +124,27 @@ The question contains only `question_id`, `recording_id`, `query_frame` and `que
 gold labels are not search inputs. Results contain `recording_id`, `source`,
 `track_id`, `start_frame`, `end_frame`, `rank` and `score`, ready for Task 5.
 
-The demo is not a real-data importer or a retrieval accuracy evaluation. Real-input
-evaluation remains pending: use reviewed Task 3 questions against Task 2's labels
-and Task 1's predictions. For a miss, distinguish a missing correct candidate from
-a candidate that was generated but ranked too low. Later model comparisons must
+The demo is not a real-data importer or a retrieval accuracy evaluation. The
+[two-recording baseline verification](task4-baseline-verification.md) now checks the
+production retriever's contracts, temporal stability and evidence export on original
+EMT images with human labels. Retrieval relevance scoring and trials with genuine
+Task 1 predictions remain pending. For a miss, distinguish a missing correct candidate
+from a candidate that was generated but ranked too low. Later model comparisons must
 keep the same output contract.
+
+The [milestone 2 candidate representation](task4-candidates.md) now supplies local
+windows, whole observed histories and exact scene references for future learned
+reranking. It is a separate API; the command above continues to use the unchanged
+lexical ranker until a learned adapter is explicitly implemented and selected.
+
+The [milestone 3 relevance-review workflow](task4-relevance-dataset.md) prepares
+image-bound review packs and exports reviewed examples by recording split. The
+current pilot has pending labels; it is not a completed training dataset.
+
+The optional [pretrained Qwen text adapter](task4-qwen-pretrained.md) now provides
+frozen learned scoring over the expanded pool. It is selected explicitly and does
+not change the default lexical demo. It uses text metadata, not image pixels;
+relevance evaluation and parameter fine-tuning remain separate work.
 
 ## Run checks
 

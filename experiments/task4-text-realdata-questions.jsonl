@@ -1,0 +1,6 @@
+{"question_id":"task4-real-train-01","recording_id":"video_054604","query_frame":1,"question":"Which bus is observed in frame 1?"}
+{"question_id":"task4-real-train-02","recording_id":"video_054604","query_frame":13,"question":"Which motorbike moves leftward between frames 1 and 13?"}
+{"question_id":"task4-real-train-03","recording_id":"video_054604","query_frame":30,"question":"Which car is observed in frame 30?"}
+{"question_id":"task4-real-dev-01","recording_id":"video_054907","query_frame":1,"question":"Which medium vehicle is observed in frame 1?"}
+{"question_id":"task4-real-dev-02","recording_id":"video_054907","query_frame":20,"question":"Which large vehicle moves rightward between frames 1 and 20?"}
+{"question_id":"task4-real-dev-03","recording_id":"video_054907","query_frame":30,"question":"Which car is observed in frame 30?"}

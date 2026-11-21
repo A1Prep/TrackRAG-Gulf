@@ -6,17 +6,22 @@ fine-tuning changes attention LoRA adapters in its final eight language decoder
 layers; it does not update every base parameter. The frozen visual encoder and
 language prefix still process the actual image and instruction.
 
-As of this handoff, V1 completed its full 500-update/1,000-presentation schedule.
-On the fixed 20-case public development cohort, its trained model achieved
-3 point-in-mask hits versus 0 for the matched pretrained model; both conditions
-returned valid geometry for all 20 requests. This limited development result is
-not final EMT accuracy or evidence that the passenger feature is ready.
+Both local runs completed their full 500-update/1,000-presentation schedules.
+On the fixed 20-case public development cohort, V1 achieved 3 point-in-mask hits
+and V2 achieved 7, against 0 for the matched pretrained model. Each condition
+returned valid geometry for all 20 requests. V2 retained all three V1 hits and
+added four. These are development results, not final EMT accuracy or evidence
+that the passenger feature is ready.
 
 V2 is a fresh-base controlled experiment with point-first, mask-preserving
-integer teacher targets. It uses the same data, training schedule and model
-settings; its quality evaluation is pending. See the
+integer teacher targets. Initial adapter tensors, data, updates and model
+settings match V1, while supervised token counts differ: 35,842 for V2 against
+65,238 for V1. This is not a compute-matched experiment. See the
 [frozen experiment protocol](../experiments/dropoff/public-target-encoding-protocol-20261121.json).
-Do not attribute an eventual change to either target ordering or rounding alone.
+Do not attribute the observed improvement to either target ordering or rounding alone.
+
+The [completed-run handoff](dropoff-local-results-20261121.md) records the selected
+artifact, actual interface failures and the remaining data/integration gates.
 
 ## Training scope
 

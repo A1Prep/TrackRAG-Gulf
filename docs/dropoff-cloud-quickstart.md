@@ -1,8 +1,8 @@
 # Run the grounding pilot on a cloud GPU
 
-The laptop's 4 GB GPU cannot run the planned 8B vision-language fine-tuning job. This handoff keeps the same planned model and moves installation, model downloads and training to a disposable cloud GPU session. No cloud GPU is provisioned or purchased automatically.
+This guide covers the alternative resident-model cloud runner. Its normal resource floors exceed the laptop's 4 GB GPU. The separately pinned [streamed laptop route](dropoff-local-training.md) has now completed real local 8B LoRA training; cloud setup is optional. No cloud GPU is provisioned or purchased automatically.
 
-**Current verification limit:** the source/data pipeline and real processor/collator have local checks, but the actual 8B gradient-update/save/reload job has not yet been executed on a suitable GPU. The notebook is a runnable handoff, not a completed training result.
+**Cloud verification limit:** this notebook is a runnable handoff rather than a completed cloud training result. The completed local streamed runs have their own model identity, adapters and evaluation records; use their matching source/configuration rather than treating the two base distributions as interchangeable.
 
 ## 1. Build the small source ZIP on D:
 
@@ -61,7 +61,7 @@ python -m tools.dropoff_train verify-reload --run-dir <RUN> --cache-dir <GPU_CAC
 python -m tools.dropoff_predict predict --requests <REQUESTS.jsonl> --config <RUN>/inference_config.json --adapter-dir <RUN>/adapter --cache-dir <GPU_CACHE> --out <NEW_PREDICTION_DIRECTORY>
 ```
 
-Use --allow-download with the prediction command only on the chosen GPU host if pinned base weights need fetching. The adapter ZIP alone does not make the 8B model runnable on the 4 GB laptop.
+Use --allow-download only for this resident-model route when pinned base weights need fetching. The streamed laptop route instead prepares its pinned checkpoint separately and runs offline with its matching adapter. Its successful capacity check does not establish model quality or a fresh installation on another computer.
 
 ## What follows a successful pilot
 

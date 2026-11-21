@@ -1,0 +1,35 @@
+{
+  "schema_version": 1,
+  "reviewed_commit": "474713a",
+  "review_kind": "read_only_source_and_mock_reproduction_not_live_ASR",
+  "speech_string_compatible_with_grounding": true,
+  "recorded_audio_verified": false,
+  "source_merged": false,
+  "findings": [
+    {
+      "component": "tools/collect_recordings.py",
+      "issue": "Complete WAV bytes are wrapped as PCM in another WAV; original sample rate is replaced with16kHz.",
+      "reproduction": "44.1kHz4410frames became16kHz4432frames with RIFF bytes inside PCM."
+    },
+    {
+      "component": "trackrag/speech.py",
+      "issue": "GEMINI_API_KEY checked before dotenv load; .env-only setup may incorrectly choose fallback. SpeechRecognition/PyAudio dependencies undeclared."
+    },
+    {
+      "component": "trackrag/evaluation.py",
+      "issue": "Heuristic evaluator falsely credits unsupported factual answers/invented citations.",
+      "reproduction": "Seven blue buses scored answered_correct against Two pedestrians."
+    },
+    {
+      "component": "trackrag/answering.py",
+      "issue": "Newprepare_evidence removes prior imageprivacyprocessing and contradicts unchanged processed-image test."
+    }
+  ],
+  "missing_evidence": [
+    "Actual scene-linked audio recordings",
+    "Human transcripts and consent/speaker metadata",
+    "RealASR-to-corrected-transcript-to-grounding trial",
+    "Two-recording predicted-route independently reviewed QA acceptance"
+  ],
+  "integration_policy": "Do not merge the branch wholesale. Preserve currentQA/privacy/evaluation safeguards; selectively integrate and fix speech through its owner."
+}

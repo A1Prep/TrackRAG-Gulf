@@ -1,0 +1,192 @@
+{
+  "schema_version": 1,
+  "kind": "independent_final_public_evidence_review_not_acceptance",
+  "created_at": "2026-11-21T14:23:46.032439+00:00",
+  "method": "CPU-only stdlib and Pillow recomputation from raw receipt JSON, original public development images/masks and committed protocols; no production scorer imported. Review of existing non-human qualitative evidence and Task2 metadata receipt only.",
+  "comparison": {
+    "path": "runs\\dropoff-point-first-local-20261121\\evaluation\\full-interface-comparison.json",
+    "sha256": "8674edacebb85b7005593f9364296ccc0cde473b16161502c773becb0259456b",
+    "protocol_sha256": "278dc858c127a6ab903cdc3b08ce4bd5a51d8e4e635f5ba7ffc871b37c524b1e",
+    "protocol_matches_git_head": true,
+    "all_twelve_raw_outputs_and_receipts_hash_bound": true,
+    "source_image_mask_hashes_and_dimensions_verified": true,
+    "normalized_output_to_original_pixel_scaling_verified": true,
+    "cohorts_requests_images_prompts_grammar_and_generation_settings_match": true,
+    "only_model_condition_difference": "selected LoRA adapter presence",
+    "mask_scores": {
+      "pretrained": {
+        "requests": 6,
+        "operational_errors": 0,
+        "schema_valid_outputs": 6,
+        "status_counts": {
+          "needs_clarification": 2,
+          "proposed": 4
+        },
+        "proposals": 4,
+        "proposal_coverage": 0.6666666666666666,
+        "mask_hits_all_requests": 0,
+        "coarse_box_iou_all_requests": 0.007249807427210566,
+        "semantic_status_accuracy": null,
+        "cases": [
+          {
+            "case_id": "regseg-train-7319",
+            "status": "needs_clarification",
+            "point_in_original_mask": null,
+            "coarse_box_iou": null
+          },
+          {
+            "case_id": "regseg-train-2069",
+            "status": "proposed",
+            "point_in_original_mask": false,
+            "coarse_box_iou": 0.0
+          },
+          {
+            "case_id": "regseg-train-4689",
+            "status": "needs_clarification",
+            "point_in_original_mask": null,
+            "coarse_box_iou": null
+          },
+          {
+            "case_id": "regseg-train-6546",
+            "status": "proposed",
+            "point_in_original_mask": false,
+            "coarse_box_iou": 0.03951494877691825
+          },
+          {
+            "case_id": "regseg-train-6954",
+            "status": "proposed",
+            "point_in_original_mask": false,
+            "coarse_box_iou": 0.003983895786345145
+          },
+          {
+            "case_id": "regseg-train-2939",
+            "status": "proposed",
+            "point_in_original_mask": false,
+            "coarse_box_iou": 0.0
+          }
+        ]
+      },
+      "trained": {
+        "requests": 6,
+        "operational_errors": 0,
+        "schema_valid_outputs": 6,
+        "status_counts": {
+          "needs_clarification": 2,
+          "insufficient_visual_evidence": 1,
+          "proposed": 3
+        },
+        "proposals": 3,
+        "proposal_coverage": 0.5,
+        "mask_hits_all_requests": 0,
+        "coarse_box_iou_all_requests": 0.037297051310271584,
+        "semantic_status_accuracy": null,
+        "cases": [
+          {
+            "case_id": "regseg-train-7319",
+            "status": "needs_clarification",
+            "point_in_original_mask": null,
+            "coarse_box_iou": null
+          },
+          {
+            "case_id": "regseg-train-2069",
+            "status": "insufficient_visual_evidence",
+            "point_in_original_mask": null,
+            "coarse_box_iou": null
+          },
+          {
+            "case_id": "regseg-train-4689",
+            "status": "needs_clarification",
+            "point_in_original_mask": null,
+            "coarse_box_iou": null
+          },
+          {
+            "case_id": "regseg-train-6546",
+            "status": "proposed",
+            "point_in_original_mask": false,
+            "coarse_box_iou": 0.03362274819077592
+          },
+          {
+            "case_id": "regseg-train-6954",
+            "status": "proposed",
+            "point_in_original_mask": false,
+            "coarse_box_iou": 0.18861102867723575
+          },
+          {
+            "case_id": "regseg-train-2939",
+            "status": "proposed",
+            "point_in_original_mask": false,
+            "coarse_box_iou": 0.001548530993617858
+          }
+        ]
+      }
+    },
+    "null_outcome_denominator": "All six requests retained. Unresolved outputs contribute zero location successes; their semantic correctness is unscored, not marked wrong.",
+    "semantic_status_accuracy": null,
+    "six_case_location_evidence_does_not_show_full_interface_improvement": true,
+    "canonical_destination_only_vs_full_interface_also_changes_prompt_and_grammar": true
+  },
+  "source_integrity": {
+    "nine_current_production_sources_match_frozen_training_settings": {
+      "tools/dropoff_fit_local.py": true,
+      "tools/dropoff_train.py": true,
+      "trackrag/dropoff/model.py": true,
+      "trackrag/dropoff/streamed.py": true,
+      "trackrag/dropoff/streamed_weights.py": true,
+      "trackrag/dropoff/streamed_edges.py": true,
+      "trackrag/dropoff/formatting.py": true,
+      "trackrag/dropoff/contracts.py": true,
+      "trackrag/dropoff/data.py": true
+    },
+    "selected_weights_match_fullworker_receipts": true
+  },
+  "public_handoff_scope": {
+    "completion_sha256": "386d8a8e32fe186ad5fb66762ac34488d3dce19841e71a37ecb73b9b21be93a2",
+    "adapter_identical_to_selected_raw_weights": true,
+    "status": "public_destination_completed",
+    "model_quality_verified": false,
+    "local_clarification_training_complete": false,
+    "final_EMT_acceptance_complete": false,
+    "spatial_smoke_is_not_quality_or_final_acceptance": true
+  },
+  "rejected_prompt_trial": {
+    "adoption_decision_sha256": "4a8e8be7a8eada10aabe2bf667feb8b3ebb050ef81dcc3eb03b465938c0508af",
+    "adopted": false,
+    "production_source_changed": false,
+    "weights_changed": false,
+    "requests": 5,
+    "operational_errors": 0,
+    "review_and_outcome_hash_chain_valid": true,
+    "original_frozen_protocol_sha256": "8d26644dfd54c5f68016fb0012e53f79a654274c9db6fc7db540ce3c1f528090",
+    "copied_protocol_raw_sha256": "7d750523b299c2f8d933b1a04076ec38cd1c8b161c1e82df2e59dbaee18e9c42",
+    "copied_protocol_crlf_normalized_bytes_match_frozen_protocol": true,
+    "original_frozen_protocol_matches_git_head": true,
+    "original_blind_review_sha256": "69af8106de563118b687f684dcd7cc2e6ccaf45c952552f591c59111d3ca2695",
+    "followup_review_sha256": "e3883ba365467fe6fc0aab248eab300e00972c31a137ccd5a490f890e761c651",
+    "qualitative_finding": "Existing label-masked AI visual review and known-development follow-up report vehicle-body/bumper proposals for bus and paired-car cases; truck-area placement remains unconvincing. This is a qualitative diagnostic, not new human ground truth or accuracy.",
+    "original_blind_review_conclusion": "The tested interfaces return structured responses, but these five cases do not establish reliable destination grounding. Both responses visibly place their bus and between-cars points on vehicles. Both ask useful reference questions in the parking example; B is more useful on the deictic here example. The truck-area proposals remain visually unconvincing. Both systems can fail, and these examples are neither a human-labelled benchmark nor an estimate of general accuracy.",
+    "prompt_failure_retained": true
+  },
+  "local_adaptation_blocker": {
+    "task2_receipt_sha256": "885e31fa883d8fa3b5c172ff00ebf94be410d991f382de6aa8deb4a2ab9dd975",
+    "task2_commit": "186a80eebf02e797ca5161ed42a77f24c6eada7d",
+    "total_draft_cases": 115,
+    "approved_full_interpretation_train_cases": 0,
+    "approved_full_interpretation_development_cases": 0,
+    "completed_independent_reviews": 0,
+    "current_track_only_schema_is_not_full_destination_status_supervision": true,
+    "local_adaptation_completed": false,
+    "metadata_receipt_only_no_reserved_target_or_pixel_inspection": true
+  },
+  "readiness_conclusion": "Actual public destination fine-tuning and structured execution are demonstrated. Full-interface location quality is not demonstrated, generic prompt repair was rejected, and local full-status adaptation remains blocked on genuinely reviewed compatible labels. Do not describe the public staged artifact as overall Task5 completion or deployment readiness.",
+  "limits": [
+    "Six public development cases are a follow-up diagnostic, not final EMT evaluation.",
+    "Public masks do not label clarification or insufficient-evidence correctness.",
+    "No vehicle control, stopping legality, physical safety or speech-recognition accuracy is established.",
+    "This audit reads earlier Task2 metadata receipt only; it does not independently open its reserved target or pixel assets."
+  ],
+  "model_calls": 0,
+  "gpu_calls": 0,
+  "network_calls": 0,
+  "reserved_eval_pixels_or_targets_opened": false,
+  "existing_raw_source_data_outputs_modified": false
+}

@@ -1,10 +1,12 @@
 # Task 5: grounding model and training handoff
 
-Updated on 21 November 2026 for the Part 2 assignments. **Real local 8B LoRA training has completed on the 4 GiB RTX 3050 laptop GPU.** V1 processed all 500 public training examples twice, completing 1,000 example presentations and 500 optimizer updates. It updates attention adapters in the final eight language layers; the full 8B vision-language base remains frozen.
+Updated on 21 November 2026 for the Part 2 assignments. **Two real local 8B LoRA runs have completed on the 4 GiB RTX 3050 laptop GPU.** Each processed all 500 public training examples twice, completing 1,000 example presentations and 500 optimizer updates. They update attention adapters in the final eight language layers; the full 8B vision-language base remains frozen.
 
-V1's fixed 20-case public development comparison produced 3 point-in-mask hits for the trained model and 0 for the matched pretrained model. All 20 outputs in each condition had valid geometry. This is limited development evidence, not final EMT accuracy or complete passenger-instruction performance. V2 is a controlled point-first/integer teacher-target experiment; its quality evaluation is pending. Neither run supplies the missing reviewed local clarification labels.
+The fixed 20-case public development comparison produced 3 point-in-mask hits for V1 and 7 for V2, against 0 for the matched pretrained model. All 20 outputs in each condition had valid geometry. The frozen development rule selected V2; all three V1 hits were retained. V2's same-image instruction contrast scored 3/13 and no complete reference group. Real EMT functional checks still showed proposals on or at vehicle bodies/edges. This is incomplete grounding quality, not final EMT accuracy or complete passenger-instruction performance. Neither run supplies the missing reviewed local clarification labels.
 
 For the current laptop route, use [local training and portable handoff](dropoff-local-training.md) and [the streamed runtime interface](dropoff-streamed-runtime.md). The Linux/cloud runner below remains an alternative. Task 5 and the overall project must not be marked complete from training or valid JSON alone.
+
+See the [completed-run evidence and remaining work](dropoff-local-results-20261121.md) for the selected public-stage artifact and the current local-data audit.
 
 ## What is available now
 
@@ -113,6 +115,8 @@ These functions record bindings; they do not perform or certify human review. Ch
 
 The adaptation configuration refuses to call a tiny destination-only pilot the final trained system. It requires separate development data and full interpretation examples. Actual counts and model quality remain evaluation questions.
 
+A landmark track ID or an ambiguity tag does not supply the destination point, ground-area box, status and clarification target. In particular, the referred vehicle's centre/box must not be silently relabelled as the passenger's stopping area. Those local targets require the actual inspected image and genuine review.
+
 ## Earlier public pilot source and leakage correction
 
 The earlier ten-example bootstrap command is:
@@ -164,4 +168,4 @@ That earlier check verified processor/template/collation compatibility only. The
 
 Production interpretation has a separate structured-decoding route. A valid `ok=true` result may be unresolved; valid JSON does not establish that a proposed point represents the intended road area. Preserve the actual functional failures and evaluate the full application prompt separately from public destination-only scores.
 
-Remaining acceptance includes the V2 results and model-selection decision, a verified selected-adapter handoff and another teammate's fresh-start run, reviewed local interpretation data, voice/application integration and independent reserved evaluation. Task 1 owns independent final scoring; Tasks 3/4 own speech and full application acceptance. The [cloud notebook](dropoff-cloud-quickstart.md) remains optional rather than the next required setup step.
+Remaining acceptance includes reviewed local interpretation data and adaptation, another teammate's fresh-start run, voice/application integration and independent reserved evaluation. The public-stage archive's successful integrity checks do not remove these quality gates. Task 1 owns independent final scoring; Tasks 3/4 own speech and full application acceptance. The [cloud notebook](dropoff-cloud-quickstart.md) remains optional rather than the next required setup step.

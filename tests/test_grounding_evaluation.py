@@ -656,6 +656,9 @@ def test_turns_from_another_backend_model_or_request_are_refused(world, tmp_path
     summary, _ = run(world, tmp_path, [envelope_episode(world)], replies_path=replies)
     assert summary["refused_outputs"] == []
     assert summary["conditions"]["pretrained/clarification/typed"]["correct_behaviour"]["count"] == 1
+    streamed = dict(PROPOSED, provenance=dict(REAL_TURN, backend_kind="transformers_local_streamed"))
+    summary, _ = run(world, tmp_path, [envelope_episode(world, second=streamed)], replies_path=replies)
+    assert summary["refused_outputs"] == []
 
 
 def test_every_turn_must_name_the_case_scene(world):
@@ -1180,6 +1183,11 @@ def test_trained_ollama_tampered_and_unknown_runs(world, tmp_path):
     records = gi.convert_run(trained, world.references_path, world.scenes_dir, "typed", allow_stub_scenes=True)
     assert records[0]["condition"]["model"] == "trained" and records[0]["provenance"]["adapter_sha256"] == "m" * 64
     assert records[0]["provenance"]["substitute"] is False
+    streamed = make_run(tmp_path / "streamed", requests, outcomes(
+        "fine_tuned", {"manifest_sha256": "m" * 64}, extra={"backend_kind": "transformers_local_streamed"}),
+        dict(configuration, runtime="streamed"))
+    records = gi.convert_run(streamed, world.references_path, world.scenes_dir, "typed", allow_stub_scenes=True)
+    assert records[0]["provenance"]["substitute"] is False  # Task 5's streamed runtime is the real model
     assert records[0]["provenance"]["base_revision"] == "Qwen/Qwen3-VL-8B-Instruct@" + "a" * 40
     ollama = make_run(tmp_path / "ollama", requests, outcomes("separate_pretrained_capacity_baseline"), configuration)
     with pytest.raises(GroundingError, match="separate baseline"):

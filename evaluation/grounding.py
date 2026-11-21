@@ -59,6 +59,7 @@ STUB_LABEL = "scenes made by a stand-in detector (tests only)"
 TASK5_FIELDS = {"destination_point_xy": "point", "destination_box_xyxy": "box",
                 "clarification_question": "clarification", "anchor_boxes_xyxy": "landmark_boxes"}
 TASK5_REQUESTED = {"pretrained": "pretrained", "trained": "fine_tuned"}  # provenance.requested_condition
+TASK5_REAL_BACKENDS = ("transformers_local", "transformers_local_streamed")  # provenance.backend_kind of the real model
 APOSTROPHES = ("'", "’")
 
 
@@ -453,7 +454,7 @@ def _envelope_refusal(row: dict, provenance: dict) -> str | None:
             return "a turn's Task 5 outcome has no provenance"
         if outcome.get("request_id") != row["case_id"]:
             return "a turn's Task 5 outcome is for another request"
-        if source.get("injected") is not False or source.get("backend_kind") != "transformers_local":
+        if source.get("injected") is not False or source.get("backend_kind") not in TASK5_REAL_BACKENDS:
             return "a turn came from a stand-in or another backend"
         if source.get("requested_condition") != TASK5_REQUESTED[row["condition"]["model"]]:
             return "a turn came from another model condition"

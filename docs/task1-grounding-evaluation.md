@@ -8,14 +8,14 @@ Task 2's test cases and Task 5's prediction runs keep their own formats (`trackr
 
 Task 5's `trackrag/dropoff/inputs.py` and `tools/dropoff_prepare_scene.py` build the model's input from an EMT frame and Task 1's saved predictions. Task 1's `trackrag/dropoff/scenes.py` records the same frame and observations for scoring, under a scene hash. When a reference or an output is converted, its frame and predicted observations are compared with the Task 1 scene of that case, and so are the image bytes when the request or outcome carries the image hash. A request built from another prediction run, such as a fresh run that numbered the tracks differently, is caught there.
 
-The steps, from the repository root in the environment of `requirements-integration.txt`. `<EMT_IMAGES_ROOT>` is the folder that contains `images/`, and `<folder>` is where you unpacked the prediction zips and put `emt_frame_sha256_manifest.json` (all on Google Drive in `task1/handoff/`).
+The steps, from the repository root in the environment of `requirements-integration.txt`. `<EMT_IMAGES_ROOT>` is the folder that contains `images/`, and `<folder>` is where you unpacked the prediction zips that Task 1 shared.
 
 ```sh
 # 1. Task 1: scenes for every test frame, from the shared fine-tuned predictions, with both manifests.
 #    frames.json lists each test frame once: [{"recording_id": "video_204647", "frame_id": 1200}, ...]
 python -m trackrag.dropoff.scenes export --data-root <EMT_IMAGES_ROOT> --frames frames.json \
     --profile configs/vision/finetuned.json --predictions <folder>/predictions-finetuned \
-    --frame-manifest <folder>/emt_frame_sha256_manifest.json \
+    --frame-manifest experiments/vision/emt_frame_sha256_manifest.json \
     --run-manifest experiments/vision/shared_prediction_runs.json --out-dir scenes
 
 # 2. Task 2's test cases and Task 3's intended file -> references

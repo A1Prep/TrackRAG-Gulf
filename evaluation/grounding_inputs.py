@@ -30,9 +30,9 @@ from collections import Counter
 from datetime import datetime, timezone
 from pathlib import Path
 
-from evaluation.grounding import (PROTOCOL_DEFAULTS, GroundingError, _require, _sha256_bytes, _text,
-                                  from_task5_outcome, instruction_sha256, load_references, load_scenes, read_json,
-                                  read_jsonl, sha256_file, text_sha256)
+from evaluation.grounding import (PROTOCOL_DEFAULTS, TASK5_REAL_BACKENDS, GroundingError, _require, _sha256_bytes,
+                                  _text, from_task5_outcome, instruction_sha256, load_references, load_scenes,
+                                  read_json, read_jsonl, sha256_file, text_sha256)
 
 TASK5_CONDITIONS = {"pretrained": "pretrained", "fine_tuned": "trained"}
 TASK5_RUN_FILES = (("resolved-requests.jsonl", "resolved_requests_sha256"), ("model-outcomes.jsonl", "outcomes_sha256"),
@@ -187,7 +187,7 @@ def _run_provenance(configuration: dict, outcomes: list[dict], model: str) -> di
     adapters = {json.loads(a) for a in adapters}
     _require(all(_text(a) for a in adapters), "The run's adapter record has no manifest_sha256")
     _require(model == "trained" or not adapters, "A pretrained run names an adapter")
-    substitute = any(p.get("injected") is not False or p.get("backend_kind") != "transformers_local"
+    substitute = any(p.get("injected") is not False or p.get("backend_kind") not in TASK5_REAL_BACKENDS
                      for p in provenances)
     settings = {key: configuration.get(key) for key in TASK5_SETTINGS}
     return {"base_revision": f"{configuration.get('model_id')}@{configuration.get('revision')}",

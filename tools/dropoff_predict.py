@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import argparse
 from dataclasses import asdict, replace
+from copy import deepcopy
 from datetime import datetime, timezone
 import hashlib
 import json
@@ -106,29 +107,47 @@ def predict(requests_path, config, output_dir, *, adapter_factory=GroundingModel
         encoding="utf-8",
     )
     model = adapter_factory(config)
-    outcomes, receipts = [], []
-    for row in rows:
-        outcome = model.interpret(row)
-        outcomes.append(outcome)
-        receipts.append(model.last_receipt)
-    for name, values in (("model-outcomes.jsonl", outcomes), ("receipts.jsonl", receipts)):
-        (output_dir / name).write_text(
-            "".join(json.dumps(item, sort_keys=True, allow_nan=False) + "\n" for item in values),
-            encoding="utf-8",
-        )
-    summary = {
-        "schema_version": 1, "created_at": datetime.now(timezone.utc).isoformat(),
-        "requests_sha256": snapshot_sha256, "requests_snapshot": "input-snapshot.jsonl",
-        "resolved_requests_sha256": file_sha256(output_dir / "resolved-requests.jsonl"),
-        "configuration": asdict(config),
-        "requested_rows": len(rows), "semantic_results": sum(item["ok"] is True for item in outcomes),
-        "operational_errors": sum(item["ok"] is False for item in outcomes),
-        "model_quality_measured": False,
-        "outcomes_sha256": file_sha256(output_dir / "model-outcomes.jsonl"),
-        "receipts_sha256": file_sha256(output_dir / "receipts.jsonl"),
-    }
-    (output_dir / "run.json").write_text(json.dumps(summary, indent=2) + "\n", encoding="utf-8")
-    return summary
+    try:
+        outcomes, receipts = [], []
+        for row in rows:
+            atomic = getattr(model, "interpret_with_receipt", None)
+            if callable(atomic):
+                outcome, receipt = atomic(row)
+            else:
+                # Preserve the existing sequential injected-adapter test protocol.
+                outcome = model.interpret(row)
+                receipt = deepcopy(model.last_receipt)
+            outcomes.append(outcome)
+            receipts.append(receipt)
+        for name, values in (("model-outcomes.jsonl", outcomes), ("receipts.jsonl", receipts)):
+            (output_dir / name).write_text(
+                "".join(json.dumps(item, sort_keys=True, allow_nan=False) + "\n" for item in values),
+                encoding="utf-8",
+            )
+        summary = {
+            "schema_version": 1, "created_at": datetime.now(timezone.utc).isoformat(),
+            "requests_sha256": snapshot_sha256, "requests_snapshot": "input-snapshot.jsonl",
+            "resolved_requests_sha256": file_sha256(output_dir / "resolved-requests.jsonl"),
+            "configuration": asdict(config),
+            "requested_rows": len(rows), "semantic_results": sum(item["ok"] is True for item in outcomes),
+            "operational_errors": sum(item["ok"] is False for item in outcomes),
+            "model_quality_measured": False,
+            "outcomes_sha256": file_sha256(output_dir / "model-outcomes.jsonl"),
+            "receipts_sha256": file_sha256(output_dir / "receipts.jsonl"),
+        }
+        (output_dir / "run.json").write_text(json.dumps(summary, indent=2) + "\n", encoding="utf-8")
+        return summary
+    finally:
+        original_error = sys.exc_info()[1]
+        try:
+            close = getattr(model, "close", None)
+            if callable(close):
+                close()
+        except BaseException:
+            # Preserve the exception that interrupted interpretation/export. A
+            # cleanup failure after an otherwise successful run remains visible.
+            if original_error is None:
+                raise
 
 
 def main(argv=None):

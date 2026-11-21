@@ -1,0 +1,142 @@
+{
+  "schema_version": 1,
+  "kind": "completed_local_8b_public_destination_experiment",
+  "run_id": "dropoff-full-local-20261121",
+  "model": {
+    "model_id": "unsloth/Qwen3-VL-8B-Instruct-bnb-4bit",
+    "revision": "10d842936325905934ea24e64325d774693f166e",
+    "processor_id": "Qwen/Qwen3-VL-8B-Instruct",
+    "processor_revision": "0c351dd01ed87e9c1b53cbc748cba10e6187ff3b",
+    "adaptation": "Rank-8 attention LoRA in the final eight language decoder layers; the visual encoder and base weights remain frozen."
+  },
+  "data": {
+    "train_cases": 500,
+    "development_cases": 125,
+    "train_scene_groups": 295,
+    "development_scene_groups": 65,
+    "train_sha256": "79dfd904b155b1c537170aaba443254da37445c2e8a2f4380baaddd8520bc42b",
+    "development_sha256": "533cbcf9a2059b2890a606e896d9a216d5fc663606693c7dc8121b9ddf222556",
+    "reserved_test_scenes_used": false,
+    "reviewed_local_status_training_cases": 0
+  },
+  "completed_training": {
+    "epochs": 2,
+    "optimizer_steps": 500,
+    "examples_consumed": 1000,
+    "training_examples_unique": 500,
+    "trainable_parameters": 1703936,
+    "changed_adapter_tensors": 64,
+    "selected_checkpoint": {
+      "epoch": 2,
+      "token_weighted_nll": 0.4212429461048077
+    },
+    "elapsed_s": 5492.077999999994,
+    "peak_pytorch_allocated_gib": 2.3514084815979004,
+    "peak_pytorch_reserved_gib": 2.529296875
+  },
+  "encoding": "source_float_box_first",
+  "teacher_nll_same_original_encoding": {
+    "32case_pretrained": 1.967108587044796,
+    "32case_trained": 0.4212429461048077,
+    "125case_pretrained": 1.9328813196560115,
+    "125case_trained": 0.43012627105822926,
+    "is_spatial_accuracy": false
+  },
+  "matched_public_development_generation": {
+    "schema_version": 1,
+    "kind": "matched_public_development_comparison_not_final_EMT",
+    "pretrained": {
+      "requested": 20,
+      "valid_geometry": 20,
+      "coverage": 1.0,
+      "point_hits": 0,
+      "point_accuracy_all_requests": 0.0,
+      "coarse_box_iou_all_requests": 0.02220570425184329,
+      "mean_normalized_point_error_valid_only": 0.20376845369464705,
+      "error_types": {}
+    },
+    "trained": {
+      "requested": 20,
+      "valid_geometry": 20,
+      "coverage": 1.0,
+      "point_hits": 3,
+      "point_accuracy_all_requests": 0.15,
+      "coarse_box_iou_all_requests": 0.09953610697795011,
+      "mean_normalized_point_error_valid_only": 0.1756129181681727,
+      "error_types": {}
+    },
+    "case_ids": [
+      "regseg-train-1542",
+      "regseg-train-1615",
+      "regseg-train-2069",
+      "regseg-train-2339",
+      "regseg-train-2692",
+      "regseg-train-2939",
+      "regseg-train-3868",
+      "regseg-train-4317",
+      "regseg-train-4433",
+      "regseg-train-4477",
+      "regseg-train-4689",
+      "regseg-train-4758",
+      "regseg-train-522",
+      "regseg-train-5864",
+      "regseg-train-5960",
+      "regseg-train-6546",
+      "regseg-train-6889",
+      "regseg-train-6954",
+      "regseg-train-7319",
+      "regseg-train-8057"
+    ],
+    "pretrained_results_sha256": "b29ff418cbf947670011ae12c8f549fd6a3c5a8d6c583229941bcccc9cacc6ff",
+    "trained_results_sha256": "0ec899e0a0a9030ec2e0055c05268f3ff7827568fe8d269d9e7f16048e8a26be",
+    "development_source_sha256": "533cbcf9a2059b2890a606e896d9a216d5fc663606693c7dc8121b9ddf222556",
+    "preprocessing_and_decoding_matched": true,
+    "failures_retained_in_denominator": true,
+    "improved_case_ids": [
+      "regseg-train-4689",
+      "regseg-train-4758",
+      "regseg-train-2339"
+    ],
+    "regressed_case_ids": [],
+    "public_masks_score_clarification": false
+  },
+  "pretrained_same_image_contrasts": {
+    "requested": 13,
+    "valid_geometry": 13,
+    "mask_hits": 0,
+    "trained_condition_not_yet_completed": true
+  },
+  "fresh_reload": {
+    "all64_selected_tensor_hashes_match": true,
+    "genuine_native_gpu_generation_completed": true,
+    "base_file_digests_verified": true
+  },
+  "full_interpretation_functional_trials": {
+    "schema_valid": 5,
+    "requested": 5,
+    "human_reviewed_accuracy_measured": false,
+    "observations": [
+      "Unpointed here remained unresolved.",
+      "Gray-sedan request received a reasonable clarification with null coordinates.",
+      "Three proposed points overlapped predicted vehicles; proposals are not established as correct destinations."
+    ],
+    "initial_malformed_probe_preserved": true,
+    "real_microphone_or_ASR_test": false,
+    "voice_mode_input_was_manually_supplied_transcript": true
+  },
+  "artifact_hashes": {
+    "selected_adapter_files": {
+      "adapter_config.json": "def2dc5ef0c641fe93cba691766f0cdd0cb8e212ef8308f492c3b6aa96ac5ba7",
+      "adapter_model.safetensors": "cee03ebc4cc676015e83d333971e0e8201284205bd46d93eb141a43a06e04d01"
+    },
+    "training_result_sha256": "8b9d193b36d7b13e09018de442baba564d20fd69fe6fc35db06fc49d86d2d94f"
+  },
+  "conclusion": "Real local 8B LoRA training and reload succeeded. Destination accuracy remains inadequate for a finished application; structured validity does not establish semantic success. A separately frozen point-first encoding trial evaluates a combined training-format hypothesis.",
+  "overall_task5_complete": false,
+  "remaining_gates": [
+    "Reviewed local instruction/status/clarification data and adaptation",
+    "Task3 speech/QA fixes and actual recording evidence",
+    "Task4 final application integration and confirmation",
+    "Independent held-out Task1 evaluation and teammate fresh-start acceptance"
+  ]
+}

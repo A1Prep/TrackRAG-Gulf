@@ -18,15 +18,24 @@ SYSTEM = (
     "box edges use [0,1000]. A destination point must lie inside its coarse destination box. "
 )
 INTERPRET = (
-    "Return only one JSON object with status, destination_point_xy, "
-    "destination_box_xyxy and clarification_question. status is proposed, "
-    "needs_clarification, or insufficient_visual_evidence. For proposed, provide "
-    "a point [x,y], coarse destination box [left,top,right,bottom] and null "
-    "clarification_question. For unresolved status, both destination fields are null. "
-    "For needs_clarification ask a question distinguishing plausible references; "
-    "otherwise clarification_question is null. An unpointed 'here' is unresolved. "
-    "Optional anchor_boxes_xyxy may identify the observed landmarks; omit it if unavailable. "
-    "Do not create confirmation events or invent a confidence score."
+    "Return a single JSON object only, with all four required keys: "
+    '"status", "destination_point_xy", "destination_box_xyxy", "clarification_question". '
+    "Never omit a required key, including when its value is null. Do not add other keys. "
+    "Choose exactly one of these mutually exclusive structures. "
+    'For "status": "proposed", "destination_point_xy" must be a non-null array of two numbers '
+    'and "destination_box_xyxy" must be a non-null array of four numbers ordered left, top, right, bottom; '
+    '"clarification_question": null. Supply both geometry fields together, with the point inside the box. '
+    'For "status": "needs_clarification", set "destination_point_xy": null and '
+    '"destination_box_xyxy": null; "clarification_question" must be a nonempty question '
+    "that distinguishes the unresolved visible references or asks for the missing selection context. "
+    'For "status": "insufficient_visual_evidence", set "destination_point_xy": null, '
+    '"destination_box_xyxy": null and "clarification_question": null. '
+    "Never attach a destination box or point to either unresolved status. "
+    "Never combine a clarification question with destination coordinates. "
+    "Use the supplied image and instruction to choose the status; do not guess a location "
+    "when the reference remains unresolved. An unpointed 'here' is unresolved. "
+    "Before returning the JSON, check that all four keys are present and their null/non-null "
+    "values match the selected status. Do not create confirmation events or invent a confidence score."
 )
 DESTINATION_ONLY = (
     "This is a destination-only annotation task. Return only a JSON object with "

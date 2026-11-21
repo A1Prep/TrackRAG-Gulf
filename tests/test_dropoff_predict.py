@@ -139,3 +139,50 @@ def test_export_digest_binds_case_snapshot_not_later_file(tmp_path, monkeypatch)
     summary = dropoff_predict.export_requests(path, "train", output)
     assert summary["source_cases_sha256"] == hashlib.sha256(original).hexdigest()
     assert json.loads(output.read_text())["scene"]["provenance"]["image_sha256"] == "a" * 64
+
+
+def test_prediction_closes_owned_adapter_once_after_success_and_uses_atomic_receipts(tmp_path):
+    path = tmp_path / "requests.jsonl"
+    rows = [request("first"), request("second")]
+    path.write_text("".join(json.dumps(row) + "\n" for row in rows), encoding="utf-8")
+    events = []
+    class Substitute:
+        def __init__(self, config): self.last_receipt = {"wrong": "legacy shared receipt"}
+        def interpret(self, row): raise AssertionError("Atomic interpretation must be selected")
+        def interpret_with_receipt(self, row):
+            events.append(row["request_id"])
+            return error_outcome("checkpoint_unavailable", "Fixture only", row["request_id"]), {
+                "request_id": row["request_id"], "atomic": True}
+        def close(self): events.append("closed")
+    output = tmp_path / "run"
+    summary = dropoff_predict.predict(path, GroundingConfig(), output, adapter_factory=Substitute)
+    receipts = [json.loads(line) for line in (output / "receipts.jsonl").read_text().splitlines()]
+    assert events == ["first", "second", "closed"]
+    assert summary["requested_rows"] == 2
+    assert receipts == [{"request_id": "first", "atomic": True}, {"request_id": "second", "atomic": True}]
+
+
+@pytest.mark.parametrize("atomic", [False, True])
+def test_prediction_closes_once_on_unexpected_error_without_masking_original(tmp_path, atomic):
+    path = tmp_path / "requests.jsonl"
+    path.write_text(json.dumps(request()) + "\n", encoding="utf-8")
+    original = RuntimeError("Unexpected interpretation failure")
+    events = []
+    class Substitute:
+        def __init__(self, config): self.last_receipt = {}
+        def interpret(self, row):
+            events.append("interpret")
+            raise original
+        if atomic:
+            def interpret_with_receipt(self, row):
+                events.append("atomic")
+                raise original
+        def close(self):
+            events.append("closed")
+            raise OSError("Secondary cleanup failure")
+    output = tmp_path / "run"
+    with pytest.raises(RuntimeError, match="Unexpected interpretation failure") as caught:
+        dropoff_predict.predict(path, GroundingConfig(), output, adapter_factory=Substitute)
+    assert caught.value is original
+    assert events == ["atomic" if atomic else "interpret", "closed"]
+    assert not (output / "run.json").exists()

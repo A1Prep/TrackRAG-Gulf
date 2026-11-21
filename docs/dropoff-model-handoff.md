@@ -1,21 +1,27 @@
 # Task 5: grounding model and training handoff
 
-Prepared on 20 November 2026 for the Part 2 assignments. This implements the model/data interfaces and cloud training path. **No real 8B parameter-update run or grounding-quality result has been obtained yet.** The current laptop has 4 GiB VRAM; the actual GPU pilot is still required.
+Updated on 21 November 2026 for the Part 2 assignments. **Two real local 8B LoRA runs have completed on the 4 GiB RTX 3050 laptop GPU.** Each processed all 500 public training examples twice, completing 1,000 example presentations and 500 optimizer updates. They update attention adapters in the final eight language layers; the full 8B vision-language base remains frozen.
+
+The fixed 20-case public development comparison produced 3 point-in-mask hits for V1 and 7 for V2, against 0 for the matched pretrained model. All 20 outputs in each condition had valid geometry. The frozen development rule selected V2; all three V1 hits were retained. V2's same-image instruction contrast scored 3/13 and no complete reference group. Real EMT functional checks still showed proposals on or at vehicle bodies/edges. This is incomplete grounding quality, not final EMT accuracy or complete passenger-instruction performance. Neither run supplies the missing reviewed local clarification labels.
+
+For the current laptop route, use [local training and portable handoff](dropoff-local-training.md) and [the streamed runtime interface](dropoff-streamed-runtime.md). The Linux/cloud runner below remains an alternative. Task 5 and the overall project must not be marked complete from training or valid JSON alone.
+
+See the [completed-run evidence and remaining work](dropoff-local-results-20261121.md) for the selected public-stage artifact and the current local-data audit.
 
 ## What is available now
 
-- A pinned Qwen3-VL-8B-Instruct adapter with lazy loading, an offline default, verified LoRA manifests, bounded image/token inputs and separate operational errors.
+- A pinned local Qwen3-VL-8B runtime with lazy loading, an offline default, verified LoRA manifests, bounded image/token inputs and separate operational errors. The laptop uses the separately pinned prequantized distribution documented in the streamed-runtime handoff.
 - Shared instruction/result records, original-image coordinates and strict model JSON parsing.
 - Training-case loading, partial-label formatting and human-review bindings.
-- A real QLoRA training/adapter-save/fresh-base-reload runner, with explicit CUDA/dependency/storage preflight.
+- A real local streamed-LoRA training path and a separate larger-GPU QLoRA runner. Saved-adapter reload, full interpretation and model quality have separate checks.
 - A bounded public-data bootstrap tested from actual pinned HTTP sources through final exported cases.
 - A cloud notebook and minimal source/artifact bundlers. The notebook is syntax/format validated but has not executed on a GPU.
 
-The existing QA implementation, its retriever and its configured hosted answerer are unchanged. This model is for the new passenger-instruction route; it is not a replacement label for the unfinished earlier embedding experiment.
+The existing QA implementation, its retriever and its configured hosted answerer remain a separate route. Passenger grounding adds a new interface; its LoRA artifacts and results do not establish completion of a separate retrieval or embedding experiment.
 
 ## Task 4: application interface
 
-Import GroundingConfig and GroundingModel from trackrag.dropoff.model. Constructing a model object does not download weights or start a GPU backend. The first interpret call does.
+Import GroundingConfig and GroundingModel from trackrag.dropoff.model. Constructing a model object does not download weights or start a GPU backend. The first interpretation call does. Use the selected trained artifact's `inference_config.json`; `configs/dropoff/model-streamed-pretrained.json` selects the pretrained baseline and does not contain a trained adapter.
 
 The request format is defined in trackrag/dropoff/contracts.py:
 
@@ -35,32 +41,44 @@ Task 1 supplies the actual image and predicted observations. The public training
 
 The [real-scene input command](dropoff-scene-inputs.md) now connects the existing EMT reader and validated Task 1 saved predictions to this format. It exports portable image/request snapshots without annotations. Task 4 can reuse `trackrag.dropoff.inputs.build_instruction_request` with its selected frame and validated predictions. This completes input preparation; actual language-model inference and trained-model acceptance remain separate.
 
-Example call, after the application has built the request:
+Standalone smoke example after the current source and verified adapter bundles have been extracted into one working directory, dependencies installed and the pinned base prepared:
 
 ```python
 import json
+from pathlib import Path
+
+from tools.dropoff_predict import read_requests
 from trackrag.dropoff.model import GroundingConfig, GroundingModel
 
-config = GroundingConfig.from_mapping(
-    json.loads(open("configs/dropoff/model-pretrained.json", encoding="utf-8").read())
-)
-model = GroundingModel(config)
-outcome = model.interpret(request)
-if not outcome["ok"]:
-    show_operational_error(outcome["error"])
-elif outcome["result"]["status"] == "proposed":
-    show_destination_proposal(outcome["result"])
-else:
-    show_unresolved_interpretation(outcome["result"])
+
+def main():
+    config = GroundingConfig.from_mapping(
+        json.loads(Path("inference_config.json").read_text(encoding="utf-8"))
+    )
+    request = read_requests("probe-requests.jsonl")[0]
+    model = GroundingModel(config)
+    try:
+        outcome, receipt = model.interpret_with_receipt(request)
+        print(json.dumps({"outcome": outcome, "receipt": receipt}, indent=2))
+    finally:
+        model.close()
+
+
+if __name__ == "__main__":
+    main()
 ```
 
-The show_* functions above belong to Task 4's UI and are illustrative names, not existing functions.
+The `__main__` guard is required for standalone Windows scripts using the spawned worker. Task 4 replaces the smoke request with the current image and predicted observations. Its application should reuse one model instance, call `interpret_with_receipt` for each request, and close it when the owning application session ends. The atomic method prevents another request from replacing the receipt before it is copied.
 
-Successful semantic results contain status, destination_point_xy, destination_box_xyxy and clarification_question. Optional anchor_boxes_xyxy is available only when supplied by the model. All returned geometry uses original-image pixels. Unresolved results have null destination geometry. Missing checkpoints, timeouts, invalid JSON and other operational failures return ok=false; they are not semantic abstentions.
+Successful semantic results contain status, destination_point_xy, destination_box_xyxy and clarification_question. The shared contract permits optional anchor_boxes_xyxy, but the current streamed four-field decoding route does not emit that optional field. All returned geometry uses original-image pixels. Unresolved results have null destination geometry. Missing checkpoints, timeouts, invalid JSON and other operational failures return ok=false; they are not semantic abstentions.
 
 The model never creates a confirmation event. Task 4 owns proposal identity, correction, cancellation and confirmation bound to the current frame. A scene change invalidates the old dialogue/proposal. The predicted region expresses interpreted intent, not certified stopping clearance or legality.
 
-The supplied pretrained configuration uses CUDA/NF4 with 65,536-262,144 image pixels, 2,048 input tokens and 192 generated tokens. Trained runs export a matching inference_config.json. Keep those budgets matched in comparisons. Downloads are disabled unless explicitly enabled on a suitable host.
+Setting `input_mode="voice"` records the instruction's origin; it does not perform speech recognition. Task 3 supplies the transcript, Task 4 supports any correction, and the corrected text enters this same model interface. Preserve `original_transcript` separately when available. Neither recognized speech nor a generated proposal confirms a destination automatically.
+
+The laptop configuration uses CUDA/NF4 with 65,536-262,144 image pixels, 2,048 input tokens and 192 generated tokens. Trained runs export a matching `inference_config.json`. Keep preprocessing and decoding matched in comparisons. The streamed worker is offline: prepare its pinned base and processor separately with `tools.dropoff_prepare_streamed_model`; `--allow-download` is not a shortcut for this runtime. The original `model-pretrained.json` belongs to the separate resident-model route.
+
+Model, cache and adapter paths in a configuration resolve from the process's working directory, not the configuration file's folder. Request image paths loaded by `read_requests` resolve from the request JSONL folder. Follow the [verified extraction and reload steps](dropoff-local-training.md#portable-inference) before handing a bundle to another teammate. Keep the original ZIPs for verification. The captured `training_source.zip` belongs only in a separate training-reproduction copy; applying it to production would restore older interpretation/runtime code.
 
 ## Task 2/3: training data contract
 
@@ -97,9 +115,11 @@ These functions record bindings; they do not perform or certify human review. Ch
 
 The adaptation configuration refuses to call a tiny destination-only pilot the final trained system. It requires separate development data and full interpretation examples. Actual counts and model quality remain evaluation questions.
 
-## Public pilot source and leakage correction
+A landmark track ID or an ambiguity tag does not supply the destination point, ground-area box, status and clarification target. In particular, the referred vehicle's centre/box must not be silently relabelled as the passenger's stopping area. Those local targets require the actual inspected image and genuine review.
 
-The verified production command is:
+## Earlier public pilot source and leakage correction
+
+The earlier ten-example bootstrap command is:
 
 ```text
 python -m tools.dropoff_bootstrap_regseg --out data/pilot --limit 10 --image-prefix-mib 4 --max-download-mib 128
@@ -113,7 +133,9 @@ See [source audit and hashes](dropoff-data-source.md). The ten examples are for 
 
 ## Training and inference commands
 
-Use a separate Linux/cloud GPU environment with requirements-grounding-train.txt. Record the resolved package versions. Hardware/disk thresholds are only preflight floors, not a guarantee that the chosen model/input budget fits.
+The current laptop path uses `requirements-grounding-local.txt`, `configs/dropoff/model-streamed-pretrained.json` and `tools.dropoff_fit_local`. Follow the [local recipe](dropoff-local-training.md) for the 500/125 scene-disjoint data, fitting, matched evaluation, production probe and packaging. That recipe also distinguishes V1 float targets from the optional V2 teacher encoding.
+
+The commands below are the alternative resident-model training path for a suitable Linux/cloud GPU host. Use a separate environment with `requirements-grounding-train.txt` and record resolved package versions. Its CUDA/disk preflight floors do not describe the streamed laptop route and do not guarantee capacity.
 
 ```text
 python -m tools.dropoff_train validate --train data/pilot/cases.jsonl --config configs/dropoff/training-pilot.json
@@ -124,7 +146,7 @@ python -m tools.dropoff_train verify-reload --run-dir runs/pilot-run --cache-dir
 
 Choose fresh output paths. The pilot performs two optimizer steps and verifies actual adapter changes. Save/reload success and a valid spatial smoke output remain separate from measured grounding accuracy. Failed generations and resource failures are retained, and cannot generate a successful pilot completion receipt.
 
-For actual adaptation, use training-adaptation.json with the reviewed training/development corpus. Final evaluation data stays outside training, checkpoint selection and calibration.
+For reviewed local adaptation on the laptop, use the separately reviewed [streamed continuation runner](dropoff-local-adaptation.md) after the selected public handoff and genuine local training/development labels are available. Its software checks do not establish actual local adaptation or quality. The alternative resident-model path uses training-adaptation.json. Final evaluation data stays outside training, checkpoint selection and calibration.
 
 Export public inference requests in a separate preparation step, then call the real model adapter:
 
@@ -136,12 +158,14 @@ python -m tools.dropoff_predict predict --requests runs/pilot-requests.jsonl --c
 
 Export strips all target/review/source-label fields and binds expected image bytes. Prediction snapshots its consumed request bytes before inference. It saves outcomes, original/resolved inputs and per-request receipts, including operational errors. The training-source example above is only an execution check; use reserved inputs for final scoring.
 
-The 8B model also needs suitable resources for interactive inference. Cloud training does not make its base weights fit the 4 GiB laptop. Task 4 can run the application on the GPU host or connect its own model service while retaining the model/checkpoint identity.
+The tested streamed profile can train and infer on this 4 GiB laptop by keeping frozen weights outside VRAM and moving them as needed. Capacity does not establish live-response speed or destination quality. Task 4 must measure its own end-to-end latency and preserve the model, adapter and decoding identity when using a different GPU host.
 
-## Verification limits
+## Verification limits and remaining acceptance
 
 The real pinned Qwen3VLProcessor and training collator processed all ten genuine pilot examples using CPU tensors. Every target decoded to exactly the two supervised destination fields; image, user/system and padding tokens were excluded from the loss. Inputs used 565-585 tokens and 61-68 supervised tokens in this check.
 
-This verifies actual processor/template/collation compatibility. It does not run the 8B neural model, update its parameters, measure prediction quality or prove CUDA memory fit. Software tests use clearly labelled generated fixtures and injected backends where appropriate.
+That earlier check verified processor/template/collation compatibility only. The later V1 local run establishes actual parameter updates and the limited development result above. Software and exported-source tests still use labelled fixtures or injected backends where appropriate; they do not replace real-model evaluation.
 
-The next required execution is the [GPU notebook pilot](dropoff-cloud-quickstart.md). Final adaptation additionally needs the reviewed local instruction data and development split from Tasks 2/3. Task 1 owns independent final scoring; Task 4 owns full application acceptance.
+Production interpretation has a separate structured-decoding route. A valid `ok=true` result may be unresolved; valid JSON does not establish that a proposed point represents the intended road area. Preserve the actual functional failures and evaluate the full application prompt separately from public destination-only scores.
+
+Remaining acceptance includes reviewed local interpretation data and adaptation, another teammate's fresh-start run, voice/application integration and independent reserved evaluation. The public-stage archive's successful integrity checks do not remove these quality gates. Task 1 owns independent final scoring; Tasks 3/4 own speech and full application acceptance. The [cloud notebook](dropoff-cloud-quickstart.md) remains optional rather than the next required setup step.

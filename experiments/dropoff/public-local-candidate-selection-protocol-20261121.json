@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "kind": "predeclared_two_candidate_development_selection_not_final_test",
+  "declared_before": "V2 completed training or produced any free-generation development result.",
+  "candidates": [
+    "dropoff-full-local-20261121",
+    "dropoff-point-first-local-20261121"
+  ],
+  "within_run_checkpoint_selection": "Lowest token-weighted NLL on the same fixed 32 development cases, within that run's target encoding.",
+  "between_run_selection_order": [
+    "Higher original-mask point-hit count on all 20 frozen development requests, retaining failures.",
+    "Higher mean coarse-box IoU across all 20 requests.",
+    "Lower valid-only normalized point error, if valid-output counts match.",
+    "V1 if all applicable metrics tie."
+  ],
+  "development_source_sha256": "533cbcf9a2059b2890a606e896d9a216d5fc663606693c7dc8121b9ddf222556",
+  "model_inputs_preprocessing_and_decoding_must_match": true,
+  "cross_encoding_NLL_is_not_a_selection_metric": true,
+  "contrast_and_full_interpretation_results_are_followup_diagnostics": true,
+  "independent_reserved_test_used": false,
+  "selection_does_not_imply_application_readiness": true,
+  "no_third_training_candidate_in_this_experiment": true
+}

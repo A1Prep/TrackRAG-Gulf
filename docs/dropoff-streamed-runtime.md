@@ -117,6 +117,31 @@ clarification or confirmation fields. Voice transcription supplies text to this
 same interface; speech recognition and confirmation belong to the other task
 components.
 
+Application worker generation explicitly uses the `interpret_v1` JSON grammar.
+All four fields are required, with status first: a proposal has both geometry
+arrays and a null question; clarification has null geometry and a nonempty
+question; insufficient evidence has null geometry and question. The native 8B
+model chooses the branch, coordinates and question. This grammar supplies no
+scene answers, coordinates, clarification labels or confirmation events. Bounds,
+box ordering and point-inside-box checks still run after generation, so a
+structurally complete answer can still fail validation or be visually wrong.
+
+Install `requirements-grounding-format.txt` for this route. It pins upstream
+lm-format-enforcer commit `817f944fcc8851917c40300a47f62d1defc3ffc3`, whose
+Transformers 5-compatible integration retains package version 0.11.3. The
+published version number alone does not identify that source; runtime checks the
+installed archive origin. Missing or mismatched dependencies fail explicitly.
+The tokenizer trie is cached once per runtime; each request gets a fresh parser
+and the supported `prefix_allowed_tokens_fn` callback. Setup consumes the request
+deadline. The allowed vocabulary is the smaller of the tokenizer and actual
+output head, excluding padded output IDs. Receipts record the schema hash,
+upstream commit, package version, vocabulary sizes and constraint mode.
+
+Direct `StreamedRuntime.generate(...)` keeps `output_contract=None` by default.
+The public destination-only pretrained/trained comparison uses that unconstrained
+path with the same generation settings for both conditions. Its measurements
+must not be presented as evaluation of this application-only JSON grammar.
+
 ## Direct training API
 
 The training tool can use `StreamedRuntime` directly in its dedicated Python
@@ -153,6 +178,12 @@ identity, preprocessing and both adapter files. The runtime also checks the save
 LoRA target expression and rejects layouts or initializers that could modify the
 frozen base. Model quality, successful training and completion status come from
 the run/evaluation records, not from the presence of an adapter directory.
+
+The release artifact's `training_source.zip` preserves the nine files actually
+used during training. Apply that snapshot only in a separate copy when
+reproducing training. Production inference uses the current source bundle with
+its later interpretation and decoding repairs; overlaying the training snapshot
+onto that production copy would remove those repairs.
 
 ## Verification scope
 

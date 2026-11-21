@@ -114,7 +114,7 @@ def source_allowed(name):
         return False
     if name in SOURCE_PROTOCOLS:
         return True
-    if name in ("trackrag/__init__.py", "trackrag/contracts.py", "requirements-grounding-train.txt", "requirements-grounding-local.txt"):
+    if name in ("trackrag/__init__.py", "trackrag/contracts.py", "requirements-grounding-train.txt", "requirements-grounding-local.txt", "requirements-grounding-format.txt"):
         return True
     if len(parts) >= 3 and parts[:2] == ("trackrag", "dropoff"):
         return path.suffix == ".py" and "__pycache__" not in parts
@@ -166,9 +166,10 @@ def _source_files(root, include_docs, include_tests):
     initializer = root / "trackrag/__init__.py"
     if initializer.exists() or initializer.is_symlink():
         candidates.append(initializer)
-    local_requirements=root/'requirements-grounding-local.txt'
-    if local_requirements.exists() or local_requirements.is_symlink():
-        candidates.append(local_requirements)
+    for requirements_name in ('requirements-grounding-local.txt', 'requirements-grounding-format.txt'):
+        local_requirements = root / requirements_name
+        if local_requirements.exists() or local_requirements.is_symlink():
+            candidates.append(local_requirements)
     candidates.extend(root/name for name in SOURCE_PROTOCOLS if (root/name).exists())
     dropoff = root / "trackrag/dropoff"
     if dropoff.is_dir():

@@ -93,6 +93,7 @@ def test_optional_docs_and_tests_are_explicit(tmp_path):
 def test_local_source_requirements_are_packaged_without_environment_files(tmp_path):
     root=source_fixture(tmp_path)
     (root/'requirements-grounding-local.txt').write_bytes(b'torch==2.6.0\n')
+    (root/'requirements-grounding-format.txt').write_bytes(b'interegular==0.3.3\n')
     protocol=root/'experiments/dropoff/public-contrast-protocol-20261121.json'
     protocol.parent.mkdir(parents=True)
     protocol.write_bytes(b'{"kind":"fixture_protocol"}\n')
@@ -100,11 +101,13 @@ def test_local_source_requirements_are_packaged_without_environment_files(tmp_pa
     bundle_source(root,output)
     with zipfile.ZipFile(output) as archive:
         assert archive.read('requirements-grounding-local.txt')==b'torch==2.6.0\n'
+        assert archive.read('requirements-grounding-format.txt')==b'interegular==0.3.3\n'
         assert archive.read(protocol.relative_to(root).as_posix())==protocol.read_bytes()
         assert not any(name.startswith('models/') or name.startswith('.venv') for name in archive.namelist())
     extracted=tmp_path/'validated-source'
     cloud_validator()(output.read_bytes(),extracted)
     assert (extracted/protocol.relative_to(root)).read_bytes()==protocol.read_bytes()
+    assert (extracted/'requirements-grounding-format.txt').read_bytes()==b'interegular==0.3.3\n'
 
 
 def test_minimal_training_bundle_excludes_full_emt_checkout_entrypoint(tmp_path):

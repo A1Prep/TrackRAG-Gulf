@@ -269,11 +269,11 @@ the configured last 1..8 decoder layers receives gradients. The remaining base
             raise ResourceError("Grounding input exceeds its token budget; input was not truncated")
         return inputs
 
-    def generate(self, messages, *, config=None):
+    def generate(self, messages, *, config=None, output_contract=None):
         with self.execution_lock:
-            return self._generate(messages, config=config)
+            return self._generate(messages, config=config, output_contract=output_contract)
 
-    def _generate(self, messages, *, config=None):
+    def _generate(self, messages, *, config=None, output_contract=None):
         if self.model is None:
             raise ResourceError("This streamed model has been closed")
         config = self.config if config is None else config
@@ -281,12 +281,28 @@ the configured last 1..8 decoder layers receives gradients. The remaining base
         inputs = self.prepare_inputs(messages, config=config)
         tokens = int(inputs["input_ids"].shape[-1])
         inputs = inputs.to(self.device)
+        generation_options = {}
+        constraint_details = None
+        if output_contract is not None:
+            from .structured import INTERPRET_CONTRACT, InterpretationConstraint
+            if output_contract != INTERPRET_CONTRACT:
+                raise ValueError("Unknown streamed output contract")
+            constraint = getattr(self, "_interpretation_constraint", None)
+            if constraint is None:
+                head = self.model.get_output_embeddings()
+                constraint = InterpretationConstraint(self.processor.tokenizer, head.out_features)
+                self._interpretation_constraint = constraint
+            callback, constraint_details = constraint.for_request()
+            generation_options["prefix_allowed_tokens_fn"] = callback
+        # Trie construction, parser creation and image preparation all consume
+        # this request's cooperative deadline, as well as the parent watchdog.
         remaining = config.max_time_s - (time.monotonic() - started)
         if remaining <= 0:
             raise TimeoutError("Grounding preparation exceeded the generation budget")
         with self.torch.no_grad():
             generated = self.model.generate(**inputs, do_sample=False, use_cache=True,
-                max_new_tokens=config.max_new_tokens, max_time=remaining, logits_to_keep=1)
+                max_new_tokens=config.max_new_tokens, max_time=remaining, logits_to_keep=1,
+                **generation_options)
         elapsed = time.monotonic() - started
         if elapsed >= config.max_time_s:
             raise TimeoutError("Generation exceeded its cooperative time budget")
@@ -301,11 +317,14 @@ the configured last 1..8 decoder layers receives gradients. The remaining base
                 packages[name] = metadata.version(name)
             except metadata.PackageNotFoundError:
                 packages[name] = None
-        return BackendResponse(texts[0], {
+        details = {
             **self.provenance, "device": str(self.device), "dtype": self.dtype,
             "packages": packages, "input_tokens": tokens, "output_tokens": int(tail.shape[-1]),
             "generation_elapsed_s": elapsed,
-        })
+        }
+        if constraint_details is not None:
+            details["structured_decoding"] = constraint_details
+        return BackendResponse(texts[0], details)
 
     def close(self):
         """Release this owned model; callers must first release external tensors."""
@@ -321,6 +340,7 @@ the configured last 1..8 decoder layers receives gradients. The remaining base
             hook.remove()
         self._offload_hooks = []
         self.model = None
+        self._interpretation_constraint = None
         import gc
         gc.collect()
         self.torch.cuda.empty_cache()
@@ -373,7 +393,7 @@ def _streamed_worker(connection, config_dict):
                 connection.send(_worker_error(ValueError("Unknown local worker command"), "generate"))
                 continue
             try:
-                response = runtime.generate(command["messages"])
+                response = runtime.generate(command["messages"], output_contract="interpret_v1")
                 connection.send({"kind": "result", "text": response.text,
                                  "details": {**(response.details or {}), "worker_pid": os.getpid(),
                                              "native_fault_isolation": "spawn_process"}})

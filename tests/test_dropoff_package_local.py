@@ -165,6 +165,9 @@ def test_stages_selected_checkpoint_separately_from_complete_schedule_without_to
     assert inference["model_dir"] == "models/qwen3-vl-8b-local-nf4"
     with zipfile.ZipFile(staged / "training_source.zip") as archive:
         assert set(archive.namelist()) == package.SOURCE_FILES
+    source_manifest = json.loads((staged / "training_source_manifest.json").read_text())
+    assert source_manifest["purpose"] == "training_reproduction_only_in_separate_copy"
+    assert source_manifest["production_overlay_allowed"] is False
     archive = staged.parent / "adapter.zip"
     bundle_artifacts(staged, archive)
     assert verify_bundle(archive)["metadata"]["model_quality_verified"] is False

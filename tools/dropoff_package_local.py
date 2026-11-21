@@ -131,7 +131,11 @@ def source_archive(run, settings):
     blob = output.getvalue()
     return blob, {"schema_version": 1, "kind": "exact_captured_training_source_overlay",
                   "files": files, "archive_sha256": digest(blob),
-                  "note": "Overlay these exact nine files onto the separately supplied source bundle."}
+                  "purpose": "training_reproduction_only_in_separate_copy",
+                  "production_overlay_allowed": False,
+                  "note": "Use these exact nine files only in a separate training-reproduction copy. "
+                          "Use the current source bundle for production inference; overlaying the old training "
+                          "snapshot there would remove later interpretation and decoding repairs."}
 
 
 def validate_comparisons(payloads, protocol_blob, dataset):

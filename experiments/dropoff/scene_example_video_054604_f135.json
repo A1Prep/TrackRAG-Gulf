@@ -1,0 +1,120 @@
+{
+  "model_input": {
+    "recording_id": "video_054604",
+    "frame_id": 135,
+    "timestamp_s": 13.4,
+    "width": 2560,
+    "height": 1440,
+    "image_sha256": "04a132068f2046d7485e1224dc32c27b1df2b8b179ce3967c0763ba6293eafab",
+    "observations": [
+      {
+        "recording_id": "video_054604",
+        "frame_id": 135,
+        "track_id": 1705,
+        "class_name": "Car",
+        "bbox_xyxy": [
+          953.02880859375,
+          1017.769287109375,
+          1030.04345703125,
+          1066.3331298828125
+        ],
+        "source": "predicted"
+      },
+      {
+        "recording_id": "video_054604",
+        "frame_id": 135,
+        "track_id": 1721,
+        "class_name": "Car",
+        "bbox_xyxy": [
+          1131.956298828125,
+          1037.7362060546875,
+          1187.685546875,
+          1067.7691650390625
+        ],
+        "source": "predicted"
+      },
+      {
+        "recording_id": "video_054604",
+        "frame_id": 135,
+        "track_id": 2418,
+        "class_name": "Bus",
+        "bbox_xyxy": [
+          29.095230102539062,
+          845.3757934570312,
+          441.828857421875,
+          1062.0098876953125
+        ],
+        "source": "predicted"
+      },
+      {
+        "recording_id": "video_054604",
+        "frame_id": 135,
+        "track_id": 2791,
+        "class_name": "Large_vehicle",
+        "bbox_xyxy": [
+          2172.790283203125,
+          1027.875732421875,
+          2266.5009765625,
+          1079.9979248046875
+        ],
+        "source": "predicted"
+      },
+      {
+        "recording_id": "video_054604",
+        "frame_id": 135,
+        "track_id": 3349,
+        "class_name": "Car",
+        "bbox_xyxy": [
+          1284.8626708984375,
+          1043.717041015625,
+          1314.67919921875,
+          1072.1158447265625
+        ],
+        "source": "predicted"
+      },
+      {
+        "recording_id": "video_054604",
+        "frame_id": 135,
+        "track_id": 3904,
+        "class_name": "Large_vehicle",
+        "bbox_xyxy": [
+          1342.930419921875,
+          1036.354248046875,
+          1369.0089111328125,
+          1064.3055419921875
+        ],
+        "source": "predicted"
+      }
+    ],
+    "history": []
+  },
+  "provenance": {
+    "track_source": "predicted",
+    "run_kind": "saved_prediction_run",
+    "detector_kind": "real",
+    "identity_hash": "acf21b53525d5729541aaedbf961a9c634399fa881fc7976909d48575c5e870d",
+    "checkpoint_sha256": "9ea96f1050f1d3375c5cf0f25a086cd5bb9c6a290fa5fdc009804d9a31181d95",
+    "tracks_sha256": "ba02a60e44314a6f3e3ecf59db7aed4750eb4c040e23ceea3bfafc4b3e9db139",
+    "provenance_sha256": "c0f4dc049029f94e54f99f714b903701cb87fe87f203bde03618e1f26fffa796",
+    "replayed_from_detections_sha256": null,
+    "history_frames": 0
+  },
+  "context": {
+    "image_relpath": "images/train/images/video_054604/00135.jpg",
+    "vision_profile": "rfdetr-large-2026-finetuned-emt",
+    "config_source": "configs/vision/finetuned.json",
+    "frame_rate": 10.0,
+    "frame_rate_source": "default",
+    "annotation_access": "none",
+    "image_binding": "frame_hash_manifest",
+    "frame_manifest_sha256": "dba1172aee36df82aadef5d19a595387330b0b3ba6e6677ce068b581c3f8d55f",
+    "run_binding": "shared_run_manifest",
+    "run_manifest_sha256": "0cc192518107f0f4d0d3f1e19307c531f030b7492ec97613346361b27a473a78"
+  },
+  "receipt": {
+    "origin": "saved_predictions",
+    "created_utc": "2026-11-20T10:12:05Z",
+    "seconds": 0.273
+  },
+  "scene_sha256": "2428dc262d530ac9906e878ebb5991b4b8404a085fd89aa15d5e96d48dda56e2"
+}

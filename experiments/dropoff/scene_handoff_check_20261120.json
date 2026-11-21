@@ -1,0 +1,206 @@
+{
+  "version": 1,
+  "checked_utc": "2026-11-20T10:12:01Z",
+  "frame_manifest_sha256": "dba1172aee36df82aadef5d19a595387330b0b3ba6e6677ce068b581c3f8d55f",
+  "run_manifest_sha256": "0cc192518107f0f4d0d3f1e19307c531f030b7492ec97613346361b27a473a78",
+  "annotations_folder_present_in_data_root": false,
+  "device": "cpu",
+  "rules": {
+    "detector_match": "every saved and every fresh raw detection matched one-to-one by class and IoU >= 0.95",
+    "fresh_scene_match": "same observations by class and IoU >= 0.95; track numbers may differ"
+  },
+  "scenes": [
+    {
+      "profile": "finetuned",
+      "recording_id": "video_054604",
+      "frame_id": 135,
+      "size": [
+        2560,
+        1440
+      ],
+      "scene_sha256": "2428dc262d530ac9906e878ebb5991b4b8404a085fd89aa15d5e96d48dda56e2",
+      "image_sha256": "04a132068f2046d7485e1224dc32c27b1df2b8b179ce3967c0763ba6293eafab",
+      "observations": 6,
+      "tracks_sha256": "ba02a60e44314a6f3e3ecf59db7aed4750eb4c040e23ceea3bfafc4b3e9db139",
+      "saved_run": {
+        "folder": "finetuned-054604",
+        "detector_kind": "real",
+        "detections_sha256": "7dfb8fa8a8cfa2231cd33261d83427496259b652616e08e50bbca899b514b245"
+      },
+      "validated_against_predictions_image_and_manifests": true,
+      "detector_one_frame_check": {
+        "saved_detections": 300,
+        "fresh_detections": 300,
+        "matched": 300,
+        "max_box_difference_px": 0.0,
+        "max_score_difference": 0.0,
+        "passed": true
+      },
+      "overlay_file": "overlay-finetuned-video_054604-135.jpg"
+    },
+    {
+      "profile": "finetuned",
+      "recording_id": "video_204647",
+      "frame_id": 1200,
+      "size": [
+        2560,
+        1440
+      ],
+      "scene_sha256": "df85baf61e80c7bb1ba0d2a0c792a5edf62bc06301761a6cc1ee0e863a9da91d",
+      "image_sha256": "6a6de56a4bc1d527d265457a112e8d5eb4c460dfa8254ca73aab70c8e0b75ad8",
+      "observations": 1,
+      "tracks_sha256": "68642044eb2e2d02597073093d061f4863064859af8e68f4d37d5f1f92123b1c",
+      "saved_run": {
+        "folder": "finetuned-test",
+        "detector_kind": "replay",
+        "detections_sha256": "b8ac99680890074d9f40610bdead5e60051d35bcbf0155b139d30839be6bb82e"
+      },
+      "validated_against_predictions_image_and_manifests": true,
+      "detector_one_frame_check": {
+        "saved_detections": 57,
+        "fresh_detections": 57,
+        "matched": 57,
+        "max_box_difference_px": 0.0,
+        "max_score_difference": 0.0,
+        "passed": true
+      },
+      "overlay_file": "overlay-finetuned-video_204647-1200.jpg"
+    },
+    {
+      "profile": "finetuned",
+      "recording_id": "video_155425",
+      "frame_id": 600,
+      "size": [
+        3840,
+        2160
+      ],
+      "scene_sha256": "d4f05970a47b3af735fb1758d802fb9059edc65642e28d8a46f7800a762c8f73",
+      "image_sha256": "4c8974fe2a6d4ace96ba703701280b08ab9e0fba40f5a070d66563d39a21a73a",
+      "observations": 19,
+      "tracks_sha256": "91d423c61dce47b8fdf4328e15ceecbca003fc67ad290762a68d9452b349ea92",
+      "saved_run": {
+        "folder": "finetuned-test",
+        "detector_kind": "replay",
+        "detections_sha256": "5ebc3dd0bb3a37778354aeadac165711d89d8fdc3b6af7ae17ec55f9971f13bf"
+      },
+      "validated_against_predictions_image_and_manifests": true,
+      "detector_one_frame_check": {
+        "saved_detections": 300,
+        "fresh_detections": 300,
+        "matched": 300,
+        "max_box_difference_px": 0.0,
+        "max_score_difference": 0.0,
+        "passed": true
+      },
+      "overlay_file": "overlay-finetuned-video_155425-600.jpg"
+    },
+    {
+      "profile": "pretrained",
+      "recording_id": "video_054604",
+      "frame_id": 135,
+      "size": [
+        2560,
+        1440
+      ],
+      "scene_sha256": "2b4ff69b9e19d68e402827f9c8324b52733d66007b89706f3cb00827ebdf5566",
+      "image_sha256": "04a132068f2046d7485e1224dc32c27b1df2b8b179ce3967c0763ba6293eafab",
+      "observations": 7,
+      "tracks_sha256": "2461d73575d8f7640e331086dac2b3443ca91e7718fa39c092855a400017f0f8",
+      "saved_run": {
+        "folder": "pretrained-054604-final",
+        "detector_kind": "replay",
+        "detections_sha256": "f3a99d585788d9538bcf68cfd185c7e838ead2a304ca7a2ef4a3ce11af3d686c"
+      },
+      "validated_against_predictions_image_and_manifests": true,
+      "detector_one_frame_check": {
+        "saved_detections": 183,
+        "fresh_detections": 183,
+        "matched": 183,
+        "max_box_difference_px": 0.0,
+        "max_score_difference": 0.0,
+        "passed": true
+      },
+      "overlay_file": "overlay-pretrained-video_054604-135.jpg"
+    },
+    {
+      "profile": "pretrained",
+      "recording_id": "video_204647",
+      "frame_id": 1200,
+      "size": [
+        2560,
+        1440
+      ],
+      "scene_sha256": "69fe75efd2eaa24a3166dbee2fd48114398806dc5511a5b3131f49c500946006",
+      "image_sha256": "6a6de56a4bc1d527d265457a112e8d5eb4c460dfa8254ca73aab70c8e0b75ad8",
+      "observations": 1,
+      "tracks_sha256": "23a3c7542543b203527e849eb73e692f14cecdfd127a583e82bf7d79a2289a0a",
+      "saved_run": {
+        "folder": "pretrained-test",
+        "detector_kind": "replay",
+        "detections_sha256": "b798071d6f368daffcc620d946da290d206266d602f1d9bcc6a9852115f3d4e3"
+      },
+      "validated_against_predictions_image_and_manifests": true,
+      "detector_one_frame_check": {
+        "saved_detections": 52,
+        "fresh_detections": 52,
+        "matched": 52,
+        "max_box_difference_px": 0.0,
+        "max_score_difference": 0.0,
+        "passed": true
+      },
+      "overlay_file": "overlay-pretrained-video_204647-1200.jpg"
+    },
+    {
+      "profile": "pretrained",
+      "recording_id": "video_155425",
+      "frame_id": 600,
+      "size": [
+        3840,
+        2160
+      ],
+      "scene_sha256": "7b81ffad3f32482adb1caee6d77f1fcaaa98aa703f788d43ddc5a7eca97ed05a",
+      "image_sha256": "4c8974fe2a6d4ace96ba703701280b08ab9e0fba40f5a070d66563d39a21a73a",
+      "observations": 15,
+      "tracks_sha256": "9ed77d795bb764519e1d10fd5597bda6a914d14db101e04d53c040d368851cb7",
+      "saved_run": {
+        "folder": "pretrained-test",
+        "detector_kind": "replay",
+        "detections_sha256": "241c575e564103d4d4a5122be38f44996f63b2f759b486b9268e245e506e6bc6"
+      },
+      "validated_against_predictions_image_and_manifests": true,
+      "detector_one_frame_check": {
+        "saved_detections": 268,
+        "fresh_detections": 268,
+        "matched": 268,
+        "max_box_difference_px": 0.0,
+        "max_score_difference": 0.0,
+        "passed": true
+      },
+      "overlay_file": "overlay-pretrained-video_155425-600.jpg"
+    }
+  ],
+  "fresh_prefix": [
+    {
+      "profile": "finetuned",
+      "recording_id": "video_054604",
+      "frame_id": 135,
+      "frames_processed": 135,
+      "origin_labels": [
+        "saved_predictions",
+        "fresh_inference"
+      ],
+      "run_kinds": [
+        "saved_prediction_run",
+        "fresh_scene_run"
+      ],
+      "saved_observations": 6,
+      "fresh_observations": 6,
+      "matched": 6,
+      "max_box_difference_px": 0.0,
+      "same_track_numbers": true,
+      "same_model_input": true,
+      "passed": true
+    }
+  ],
+  "all_passed": true
+}

@@ -1,0 +1,137 @@
+{
+  "schema_version": 1,
+  "kind": "quick_diagnostic_not_feature_acceptance",
+  "decision": "passenger_grounding_feature_not_cleared",
+  "no_training_performed": true,
+  "reserved_final_data_used": false,
+  "inference_models_unchanged": true,
+  "case_ids": [
+    "regseg-train-1194",
+    "regseg-train-1348",
+    "regseg-train-1566",
+    "regseg-train-2394",
+    "regseg-train-2650",
+    "regseg-train-2945"
+  ],
+  "geometry_only_results": {
+    "choice-trained": {
+      "requested": 6,
+      "point_hits": 0,
+      "valid_choices": 6,
+      "errors_including_missing": 0,
+      "mean_observed_latency_s": 14.047000000001086
+    },
+    "choice-pretrained": {
+      "requested": 6,
+      "point_hits": 1,
+      "valid_choices": 6,
+      "errors_including_missing": 0,
+      "mean_observed_latency_s": 13.502499999997477
+    },
+    "choice-legible": {
+      "requested": 6,
+      "point_hits": 1,
+      "valid_choices": 6,
+      "errors_including_missing": 0,
+      "mean_observed_latency_s": 12.143166666670973
+    }
+  },
+  "candidate_reference_mask_coverage_ceiling": {
+    "covered": 5,
+    "requested": 6
+  },
+  "semantic_status_accuracy": null,
+  "resource_recovery": {
+    "previous_2048_resident20": "input_budget_errors",
+    "3072_resident20": "two_CUDA_OOM_errors",
+    "3072_resident8": "2_requests_completed_zero_operational_errors",
+    "same_full_8b_and_all_observations": true,
+    "destination_proposals": 0,
+    "clarifications": 2,
+    "request_times_s": [
+      82.48399999999674,
+      107.92199999999139
+    ],
+    "known_frame_count": 1
+  },
+  "higher_image_detail": {
+    "status": "blocked_during_initialization_by_streamed_backend_image_budget_guard",
+    "model_calls": 0,
+    "accuracy": null,
+    "adapter_manifest_and_runtime_guards_preserved": true
+  },
+  "reference_audit": "Noobviousimage/maskalignmentbug;coarseregionsnotstrictemptyground, somevehicleoverlap/underspecifiedreferences. ProvisionalAIinspectiononly.",
+  "software": {
+    "passed": 1228,
+    "skipped": 28,
+    "subtests_passed": 401
+  },
+  "all_workers_ended_before_new_window_deadline": true,
+  "artifact_bindings": {
+    "independent-final-quick-verification-receipt.json": {
+      "local_path": "D:\\PycharmProjects\\TrackRAG-Gulf\\runs\\dropoff-methods-20261121\\quick-verify\\independent-final-quick-verification-receipt.json",
+      "bytes": 9128,
+      "sha256": "080df40969b760b809644f820de28d46944fc3d893c0262f573a5789d6d1ed82"
+    },
+    "forced-choice-comparison-receipt.json": {
+      "local_path": "D:\\PycharmProjects\\TrackRAG-Gulf\\runs\\dropoff-methods-20261121\\quick-verify\\forced-choice-comparison-receipt.json",
+      "bytes": 2600,
+      "sha256": "09b370ea7d10f5c3283ff37fe7a4ea598766fb2284adc4583cb55eacfdd13a75"
+    },
+    "choice-trained-independent-final-audit.json": {
+      "local_path": "D:\\PycharmProjects\\TrackRAG-Gulf\\runs\\dropoff-methods-20261121\\quick-verify\\choice-trained-independent-final-audit.json",
+      "bytes": 8336,
+      "sha256": "eaa53beff353c0896fe8df30f103dd0371cf50de48fa20b3b4e229bd8c17fef7"
+    },
+    "choice-pretrained-independent-final-audit.json": {
+      "local_path": "D:\\PycharmProjects\\TrackRAG-Gulf\\runs\\dropoff-methods-20261121\\quick-verify\\choice-pretrained-independent-final-audit.json",
+      "bytes": 8098,
+      "sha256": "be3a1b65c7a8287120eebee76c2a76c7000f1c5b96742a9b6b5985d1ce00f50b"
+    },
+    "choice-legible-independent-final-audit.json": {
+      "local_path": "D:\\PycharmProjects\\TrackRAG-Gulf\\runs\\dropoff-methods-20261121\\quick-verify\\choice-legible-independent-final-audit.json",
+      "bytes": 8848,
+      "sha256": "2ab5d996a3da7e9f95d856618f2d7b9f01ef8129d312e4e464f82eaa18a65a3b"
+    },
+    "emt-resource-recovery-independent-audit.json": {
+      "local_path": "D:\\PycharmProjects\\TrackRAG-Gulf\\runs\\dropoff-methods-20261121\\quick-verify\\emt-resource-recovery-independent-audit.json",
+      "bytes": 4054,
+      "sha256": "c21f741011a98f3a738eb8745a22e32ecddfa73ee8803a1ba747c327808b37d4"
+    },
+    "higher-detail-initialization-independent-audit.json": {
+      "local_path": "D:\\PycharmProjects\\TrackRAG-Gulf\\runs\\dropoff-methods-20261121\\quick-verify\\higher-detail-initialization-independent-audit.json",
+      "bytes": 3921,
+      "sha256": "3e565f92167cdeabf55a6a9a1bcd0753fc4783245a4fffd42d0b832723ac5878"
+    },
+    "EMT-resource-recovery-qualitative-review.json": {
+      "local_path": "D:\\PycharmProjects\\TrackRAG-Gulf\\runs\\dropoff-methods-20261121\\quick-verify\\EMT-resource-recovery-qualitative-review.json",
+      "bytes": 6063,
+      "sha256": "5280af18773f6493f3c2963714de2b84883a11e8a9a90458b4c2604d3dc8d400"
+    },
+    "public-reference-visual-audit.json": {
+      "local_path": "D:\\PycharmProjects\\TrackRAG-Gulf\\runs\\dropoff-methods-20261121\\quick-verify\\public-reference-visual-audit.json",
+      "bytes": 9664,
+      "sha256": "86ff465dad62ed36dd97db6322bcdc70be5d9c0f2bfd1e19fd5b6882e8beccf7"
+    },
+    "protocol.json": {
+      "local_path": "D:\\PycharmProjects\\TrackRAG-Gulf\\runs\\dropoff-methods-20261121\\quick-verify\\protocol.json",
+      "bytes": 4293,
+      "sha256": "31c8bba11cb726091246558e14481a303f67cb5091f224907ec636672d34d61d"
+    },
+    "resource-recovery-protocol.json": {
+      "local_path": "D:\\PycharmProjects\\TrackRAG-Gulf\\runs\\dropoff-methods-20261121\\quick-verify\\resource-recovery-protocol.json",
+      "bytes": 1330,
+      "sha256": "d02af464598057067e415bf2695d89487126f4a4d489f226f0811cfa2709731a"
+    },
+    "high-detail-protocol-addendum.json": {
+      "local_path": "D:\\PycharmProjects\\TrackRAG-Gulf\\runs\\dropoff-methods-20261121\\quick-verify\\high-detail-protocol-addendum.json",
+      "bytes": 598,
+      "sha256": "6595bc6e3ed88a41b222eaacf12507ec581ca0e00e032b9c0fe1a0f6341dd9f0"
+    },
+    "final-software-tests.log": {
+      "local_path": "D:\\PycharmProjects\\TrackRAG-Gulf\\runs\\dropoff-methods-20261121\\quick-verify\\final-software-tests.log",
+      "bytes": 1456,
+      "sha256": "ec0367e25ca7ea712c23dec0ac80ccb50d3e67def64d59ad42b266d8408517e2"
+    }
+  }
+}

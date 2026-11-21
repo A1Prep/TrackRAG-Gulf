@@ -1,0 +1,277 @@
+{
+  "changed_binding_cases": [
+    {
+      "case_id": "local-eval-video_155425-00871",
+      "new_input_sha256": "694cfbe3d8160709467b4390ceaee468e11bd3920e00f6005e1d327da84284bd",
+      "new_instruction": "Stop behind the car on the left—correction, behind the large car in the middle.",
+      "new_supervision_sha256": "54086cc8a56dc84a104a5835521a327f41e25b2d2039645432b84ceb19fa7733",
+      "new_target": {
+        "clarification_question": null,
+        "destination_box_xyxy": [
+          1450.0,
+          1990.0,
+          1950.0,
+          2110.0
+        ],
+        "destination_point_xy": [
+          1700.0,
+          2050.0
+        ],
+        "status": "proposed"
+      },
+      "old_input_sha256": "694cfbe3d8160709467b4390ceaee468e11bd3920e00f6005e1d327da84284bd",
+      "old_instruction": "Stop behind the car on the left—correction, behind the large car in the middle.",
+      "old_supervision_sha256": "ee73aaf6c6358b8b2773ac36b2cba5be821a636516b17f4d4da36aaf6995754c",
+      "old_target": {
+        "clarification_question": null,
+        "destination_box_xyxy": [
+          1500.0,
+          1840.0,
+          1980.0,
+          1980.0
+        ],
+        "destination_point_xy": [
+          1740.0,
+          1910.0
+        ],
+        "status": "proposed"
+      },
+      "reasons": [
+        "ground_area_geometry_changed"
+      ]
+    },
+    {
+      "case_id": "local-eval-video_155425-01171",
+      "new_input_sha256": "c88fd6d7ed88d5dbdbf7c566b000c264b5352fb8c0ce013a119f2893e92c8a00",
+      "new_instruction": "Stop near the large white vehicle on the left, not the dark vehicle on the right.",
+      "new_supervision_sha256": "e53a12259d1790342babc51cc84f59831098ac8951edf71410dd37ae4f21ea98",
+      "new_target": {
+        "clarification_question": null,
+        "destination_box_xyxy": [
+          150.0,
+          1840.0,
+          700.0,
+          2000.0
+        ],
+        "destination_point_xy": [
+          425.0,
+          1920.0
+        ],
+        "status": "proposed"
+      },
+      "old_input_sha256": "c88fd6d7ed88d5dbdbf7c566b000c264b5352fb8c0ce013a119f2893e92c8a00",
+      "old_instruction": "Stop near the large white vehicle on the left, not the dark vehicle on the right.",
+      "old_supervision_sha256": "034c37d81882eb97e570c4a49a87a3b210184e6bc3e0dc932885ce7ff4c7bc82",
+      "old_target": {
+        "clarification_question": null,
+        "destination_box_xyxy": [
+          925.2,
+          1598.4,
+          1524.9,
+          1808.3
+        ],
+        "destination_point_xy": [
+          1225.0500000000002,
+          1703.35
+        ],
+        "status": "proposed"
+      },
+      "reasons": [
+        "ground_area_geometry_changed"
+      ]
+    },
+    {
+      "case_id": "local-eval-video_160325-00781",
+      "new_input_sha256": "47aebabb23ab07d3ee6a55cf92be4f9abbb51b3cd044a4e77a786df1ca586bc4",
+      "new_instruction": "Pass the partially visible car on the far left, then stop near the white sedan ahead.",
+      "new_supervision_sha256": "4f6017cd2b79e907402a0749ca668c2fd2daa8155991c287cfc9c666cbadfe2e",
+      "new_target": {
+        "clarification_question": null,
+        "destination_box_xyxy": [
+          1300.0,
+          1880.0,
+          1750.0,
+          2040.0
+        ],
+        "destination_point_xy": [
+          1525.0,
+          1960.0
+        ],
+        "status": "proposed"
+      },
+      "old_input_sha256": "47aebabb23ab07d3ee6a55cf92be4f9abbb51b3cd044a4e77a786df1ca586bc4",
+      "old_instruction": "Pass the partially visible car on the far left, then stop near the white sedan ahead.",
+      "old_supervision_sha256": "94721c6e8e08d63f17122f75a0228097ed8976818e208c6727c6f6e5cc081889",
+      "old_target": {
+        "clarification_question": null,
+        "destination_box_xyxy": [
+          1260.0,
+          1820.0,
+          1770.0,
+          1980.0
+        ],
+        "destination_point_xy": [
+          1510.0,
+          1900.0
+        ],
+        "status": "proposed"
+      },
+      "reasons": [
+        "ground_area_geometry_changed"
+      ]
+    },
+    {
+      "case_id": "local-eval-video_160325-00961",
+      "new_input_sha256": "a1284bd1851bc0db8ea4fc89dafae346ccd09ab21f52ed48c798e8c021cb3417",
+      "new_instruction": "Stop behind the pickup on the left—correction, behind the white sedan in the middle.",
+      "new_supervision_sha256": "4f6017cd2b79e907402a0749ca668c2fd2daa8155991c287cfc9c666cbadfe2e",
+      "new_target": {
+        "clarification_question": null,
+        "destination_box_xyxy": [
+          1300.0,
+          1880.0,
+          1750.0,
+          2040.0
+        ],
+        "destination_point_xy": [
+          1525.0,
+          1960.0
+        ],
+        "status": "proposed"
+      },
+      "old_input_sha256": "a1284bd1851bc0db8ea4fc89dafae346ccd09ab21f52ed48c798e8c021cb3417",
+      "old_instruction": "Stop behind the pickup on the left—correction, behind the white sedan in the middle.",
+      "old_supervision_sha256": "bbf6ded4009de8d53b6700a0def512acbd7a305e490df8d9d19867b20b1e4f29",
+      "old_target": {
+        "clarification_question": null,
+        "destination_box_xyxy": [
+          1250.0,
+          1830.0,
+          1780.0,
+          1990.0
+        ],
+        "destination_point_xy": [
+          1515.0,
+          1910.0
+        ],
+        "status": "proposed"
+      },
+      "reasons": [
+        "ground_area_geometry_changed"
+      ]
+    },
+    {
+      "case_id": "local-eval-video_204647-00961",
+      "new_input_sha256": "3392d5909cde77da77aabea55cd8cb873b2c20a90b1ddeb2b3180466f9287e96",
+      "new_instruction": "Stop near the car on the right—correction, stop near the car on the left.",
+      "new_supervision_sha256": "9f3dd0de24be0890c1e793f5d90100c5ae9e303d4a56296793c2b17c58d1f367",
+      "new_target": {
+        "clarification_question": null,
+        "destination_box_xyxy": [
+          1647.6,
+          1129.6,
+          1738.4,
+          1164.9
+        ],
+        "destination_point_xy": [
+          1693.0,
+          1147.25
+        ],
+        "status": "proposed"
+      },
+      "old_input_sha256": "dcadc927c5e87d52a165b5e4cbe1ac5bfed86ee28dbd0557c146ca61be943ed3",
+      "old_instruction": "Take the car on the right—correction, take the car on the left.",
+      "old_supervision_sha256": "9f3dd0de24be0890c1e793f5d90100c5ae9e303d4a56296793c2b17c58d1f367",
+      "old_target": {
+        "clarification_question": null,
+        "destination_box_xyxy": [
+          1647.6,
+          1129.6,
+          1738.4,
+          1164.9
+        ],
+        "destination_point_xy": [
+          1693.0,
+          1147.25
+        ],
+        "status": "proposed"
+      },
+      "reasons": [
+        "passenger_instruction_changed"
+      ]
+    },
+    {
+      "case_id": "local-eval-video_122233-00301",
+      "new_input_sha256": "a1e4177f6a5f1d517d00c66292a393bf8ea7010582458c143a1b7ce065f4ff09",
+      "new_instruction": "Not the car on the left—stop near the one on the right.",
+      "new_supervision_sha256": "9565357593b5f0b09c3b8a3449cf94a7a5276e857014346bb9cb54b1239ab99d",
+      "new_target": {
+        "clarification_question": null,
+        "destination_box_xyxy": [
+          1280.0,
+          1110.0,
+          1470.0,
+          1190.0
+        ],
+        "destination_point_xy": [
+          1390.0,
+          1150.0
+        ],
+        "status": "proposed"
+      },
+      "old_input_sha256": "7211d65e99e84f50fd72ab28ef9b9e1b680552db24dd444654c853a51f118844",
+      "old_instruction": "Not the car on the left, take the one on the right.",
+      "old_supervision_sha256": "9565357593b5f0b09c3b8a3449cf94a7a5276e857014346bb9cb54b1239ab99d",
+      "old_target": {
+        "clarification_question": null,
+        "destination_box_xyxy": [
+          1280.0,
+          1110.0,
+          1470.0,
+          1190.0
+        ],
+        "destination_point_xy": [
+          1390.0,
+          1150.0
+        ],
+        "status": "proposed"
+      },
+      "reasons": [
+        "passenger_instruction_changed"
+      ]
+    }
+  ],
+  "corrected_at": "2026-11-21T18:51:29.975913+00:00",
+  "correction_landmark_roles_aligned_to_final_request": [
+    "local-eval-video_125233-01591",
+    "local-eval-video_155425-00871",
+    "local-eval-video_160325-00961",
+    "local-eval-video_204647-00961"
+  ],
+  "geometry_rechecked_proposed_cases": 39,
+  "paraphrase_sets_rewritten": [
+    "local-eval-video_122233-00301",
+    "local-eval-video_122233-00331",
+    "local-eval-video_125233-01591",
+    "local-eval-video_125233-01771",
+    "local-eval-video_155425-00871",
+    "local-eval-video_155425-01171",
+    "local-eval-video_160325-00961",
+    "local-eval-video_160325-01771",
+    "local-eval-video_204647-00961",
+    "local-eval-video_204647-01771"
+  ],
+  "primary_instructions_rewritten": [
+    "local-eval-video_122233-00301",
+    "local-eval-video_204647-00961"
+  ],
+  "reconfirmation_required_cases": 6,
+  "schema_version": 1,
+  "unchanged_current_approval_cases": 50,
+  "vehicle_body_overlap_cases_corrected": [
+    "local-eval-video_155425-00871",
+    "local-eval-video_155425-01171",
+    "local-eval-video_160325-00781",
+    "local-eval-video_160325-00961"
+  ]
+}

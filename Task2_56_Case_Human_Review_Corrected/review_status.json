@@ -1,0 +1,46 @@
+{
+  "approved_at": "2026-11-21T18:12:10+00:00",
+  "confirmed_original_reviews_preserved": 56,
+  "current_approved_file": "review_cases.jsonl",
+  "decisions": [
+    "accept",
+    "reject",
+    "correct",
+    "unavailable"
+  ],
+  "fully_admissible_human_reviewed_cases": 50,
+  "human_review_binding": [
+    "image_sha256",
+    "input_sha256",
+    "supervision_sha256",
+    "reviewer_id",
+    "reviewed_at"
+  ],
+  "legacy_decisions_carried_forward_as_approvals": false,
+  "legacy_feedback_preserved": true,
+  "missing_image_cases": 0,
+  "original_confirmed_history": "history/original_confirmed_review_cases.jsonl",
+  "pending_candidate_file": "reconfirmation_cases.jsonl",
+  "pending_decision": "empty decision/reviewer/timestamp until genuine reconfirmation",
+  "reconfirmation_case_ids": [
+    "local-eval-video_122233-00301",
+    "local-eval-video_155425-00871",
+    "local-eval-video_155425-01171",
+    "local-eval-video_160325-00781",
+    "local-eval-video_160325-00961",
+    "local-eval-video_204647-00961"
+  ],
+  "reconfirmation_required_cases": 6,
+  "required_independent_reviewers_for_reconfirmation": 2,
+  "required_reviewer_forms": 2,
+  "review_ready_cases": 56,
+  "review_scope": "original_56_local_cases",
+  "reviewer_1": "arjun",
+  "reviewer_1_confirmed_unchanged_cases": 50,
+  "reviewer_2": "reviewer_2",
+  "reviewer_2_confirmed_unchanged_cases": 50,
+  "schema_version": 1,
+  "second_reviewed_at": "2026-11-21T18:17:25+00:00",
+  "status": "reconfirmation_required",
+  "total_cases": 56
+}

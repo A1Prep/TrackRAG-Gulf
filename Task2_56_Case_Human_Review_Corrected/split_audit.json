@@ -1,0 +1,58 @@
+{
+  "evaluation_recordings_reserved": true,
+  "partition_counts": {
+    "development": 2,
+    "test": 50,
+    "train": 4
+  },
+  "partition_outcomes": {
+    "development": {
+      "needs_clarification": 2
+    },
+    "test": {
+      "insufficient_visual_evidence": 7,
+      "needs_clarification": 4,
+      "proposed": 39
+    },
+    "train": {
+      "needs_clarification": 4
+    }
+  },
+  "public_rows_in_this_local_package": 0,
+  "recording_disjoint": true,
+  "recording_ids": {
+    "development": [
+      "video_054907",
+      "video_174340"
+    ],
+    "test": [
+      "video_122233",
+      "video_125233",
+      "video_155425",
+      "video_160325",
+      "video_204647"
+    ],
+    "train": [
+      "video_054604",
+      "video_131333",
+      "video_142911",
+      "video_210906"
+    ]
+  },
+  "recording_overlap": {
+    "development__test": [],
+    "train__development": [],
+    "train__test": []
+  },
+  "reserved_evaluation_recordings": [
+    "video_122233",
+    "video_125233",
+    "video_155425",
+    "video_160325",
+    "video_204647"
+  ],
+  "reserved_guard_ids_in_this_package": 0,
+  "schema_version": 1,
+  "source_validation_rows_in_this_package": 0,
+  "training_or_development_contains_test_recordings": false
+}

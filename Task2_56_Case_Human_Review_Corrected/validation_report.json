@@ -1,0 +1,36 @@
+{
+  "confirmed_history_cases": 56,
+  "confirmed_unchanged_approvals_verified": 50,
+  "current_input_and_supervision_bindings_verified": true,
+  "fully_admissible_human_reviewed_cases": 50,
+  "ground_area_geometry_rechecked": 39,
+  "image_hashes_dimensions_and_decodability_verified": true,
+  "images_verified": 56,
+  "manifest": {
+    "files": 75,
+    "present": true,
+    "verified": true
+  },
+  "missing_images": 0,
+  "outcomes": {
+    "insufficient_visual_evidence": 7,
+    "needs_clarification": 10,
+    "proposed": 39
+  },
+  "partition_counts": {
+    "development": 2,
+    "test": 50,
+    "train": 4
+  },
+  "pending_candidates_not_represented_as_gold": 6,
+  "pending_reconfirmation_cases": 6,
+  "primary_passenger_instructions_rewritten": 2,
+  "public_or_source_validation_rows_in_local_package": 0,
+  "recording_disjoint": true,
+  "reserved_guard_ids_in_local_package": 0,
+  "review_forms_verified": 112,
+  "schema_version": 1,
+  "status": "passed",
+  "total_current_cases": 56,
+  "vehicle_overlap_targets_corrected": 4
+}

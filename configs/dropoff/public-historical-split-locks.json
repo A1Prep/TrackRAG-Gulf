@@ -1,0 +1,891 @@
+{
+  "case_count": 80,
+  "cases": {
+    "regseg-train-1164": {
+      "identity": [
+        "talk2car-scene:01c3f5e39956402da3e37845632fadca",
+        1164,
+        "7dc30804c3a7548bb63c550de4a94cd7ae5519f7acf10097f67716a10f9980cf",
+        "523c7c0c36ce771fa7665d2670e171ce47510f97d9a8153a8e43bdd9ac4250f0",
+        "305ec8ed373dd12f812bf5774aa2a20502c93206a2821ae6ae77bc09e3673a8a",
+        "e55be634a00eaea0ff309069cb50fb139e93350b8fdb4095a324df751733e69c"
+      ],
+      "partition": "train"
+    },
+    "regseg-train-1355": {
+      "identity": [
+        "talk2car-scene:8fbbe701baf641359129ea166e1674ec",
+        1355,
+        "7cdaedde338d93dc2340db0c4396842732a68d2a05ae6ce4468aba6b2912075a",
+        "3fbcdd38cd15a767152b4a07232898f5984e6206e993151b1d5b64dfd035bd45",
+        "a553aaccccf29d30a5c048289e09ec89c03e93ca12c4ed6ad02d4408fddcb358",
+        "830a64bd4f19f5864b1e86ce4c3d18670156faed1e94b08d63281784e187ebde"
+      ],
+      "partition": "development"
+    },
+    "regseg-train-1379": {
+      "identity": [
+        "talk2car-scene:c075fbdd97124beaba95bc5c25149f30",
+        1379,
+        "1a6773ae4bb52d099c07ade45fb43c926a41c638bcea27d8028ac4f7347764d2",
+        "3247b42ea38d28da10eb95a449edff484f3873ebafcb8f044f487ea218aa741f",
+        "7cc25bd5b555a6faa37f9bb344ec02c25223c1e5deaeb908f6e42ee16085fdc9",
+        "9b05139070df29d773108ca254ed33e0e79ffef794c09ca32db530429ed0f2ed"
+      ],
+      "partition": "train"
+    },
+    "regseg-train-1385": {
+      "identity": [
+        "talk2car-scene:c075fbdd97124beaba95bc5c25149f30",
+        1385,
+        "f6b2ecbee4a38778c87781a72a34da17ec7f2535ffbb7030da8fe2f05ae51b53",
+        "6b8ffd633c5b56f1df1b106565316e98da55451976894a6d4ce8a4a104a9c880",
+        "30527a1401025a25d7945a44b8fcab57bf772fd1eeaa6f8b66a4c82aadfd19d9",
+        "70ebec1eeb8dc2ff64ad6db70b8807cb7afaf861e26185dbef85da203a68749d"
+      ],
+      "partition": "train"
+    },
+    "regseg-train-1415": {
+      "identity": [
+        "talk2car-scene:daa9fce50073470398da3c2bccdaf21b",
+        1415,
+        "8a4b47e1db1c727b7c6c13ce233cc1464071947097fc34f737b8709c93c7b32a",
+        "b9004f6b3e246c920f0866b669e8e00b1545ccbd534f72a51689878ea9ca60e6",
+        "e9b22771367ed45d312d3f8a281f3173aa294d85c8bc60d8fca881c7e4887ad4",
+        "d0ba9e6384cc486d19ac192796abb62b0eac57aac357a824eefe6324f7e270ad"
+      ],
+      "partition": "train"
+    },
+    "regseg-train-1618": {
+      "identity": [
+        "talk2car-scene:21464a6831c1443db294d1b56a7a33a5",
+        1618,
+        "0d9942f99bb22b8788905c7b65d27d8d6b4426349deb6ea3288c82868ab71bfd",
+        "0a91505016ee87cb1209203e6a3c6b54411e32f4f00279e4734c579a2e955e15",
+        "343468db3eb8ff1b603ca660bf4f7b22a46155c8463acf94a781f76e296b5f57",
+        "d51185f4d55f663a076413a095aeec604b857bb96a84117a391a1a3543162476"
+      ],
+      "partition": "train"
+    },
+    "regseg-train-1725": {
+      "identity": [
+        "talk2car-scene:7b4a37ecca84421fbc22ad15e8b00ed8",
+        1725,
+        "a729cfef118653f8ab74b09e00d78f2bee85e548a0d33d3c5200c1fb91929b2c",
+        "6a8daa064d1cca4fb80478b56b0739fa2fa8bf2124e6942c1d93e86d525e7f30",
+        "863659ab8bfb1e51d3cc0544a9bd6a58b5a131b74d0acb8235fee2b31ea8f3a1",
+        "4d14f0bd490c588f430c2c2b8ae7ce686eed095f9ec511ba63f1df364c95c60f"
+      ],
+      "partition": "train"
+    },
+    "regseg-train-1859": {
+      "identity": [
+        "talk2car-scene:54ec146682e24683becfeab4124e8402",
+        1859,
+        "8c82ca2312cd3dfa01613f4363cb00c01b0b667e93b019ea7d8a849ee69c6df4",
+        "c3fada955426811cd50b8bbb8261288db19ca62f6507afa7d72e8fbb36959417",
+        "9f03905150448a09540cfb1a797abcf0c2a947975476bfba1c15c3aaa05028f2",
+        "16c08f9a3e8dd90337203e33e69acd43e3d7b0d1f27bbc3b77d3dd92af295514"
+      ],
+      "partition": "train"
+    },
+    "regseg-train-2058": {
+      "identity": [
+        "talk2car-scene:d7823d64ca1a47c5842beb6d7197042d",
+        2058,
+        "151e4ed69c2bd7a22b04d3d67a23fc60d0933201bb72681bc26af2802dc2ba89",
+        "5bcf4052d64562be451ec1a97d47eb2342e807113d96019adfcda05047087eb9",
+        "b755bb62b11661d40628681649815c9905d9ee6ea62745a8a62c990611577631",
+        "e36e0220e8648390668332c4839c382e4d5db21c72d62cbecc48f7266fa62c6f"
+      ],
+      "partition": "train"
+    },
+    "regseg-train-2071": {
+      "identity": [
+        "talk2car-scene:2eb4d7f00e584a548aa0b899638bfb0a",
+        2071,
+        "398d008f2d02b8d3106042db88974b2ce98fc9f1867e1b09637bb7ea3a319757",
+        "a660f9c16a2daa013d0821ff02d1283abae939bc9a1345c4198dbfbd4bbff194",
+        "4d581ba15671dec011443652e2326b4ff33a58fa0b2345f15ccb040c4a116e3b",
+        "3c3ced3c6b4f1e7e76977d6b0d56c9587ee705e74ba5104da90633f0e903853a"
+      ],
+      "partition": "development"
+    },
+    "regseg-train-2157": {
+      "identity": [
+        "talk2car-scene:ced236f5da704cbcb41249bb6ecc8b68",
+        2157,
+        "8c22e4d40bce853df3778edd17de12cc684839026eee4fbdac298f6354f1e795",
+        "d0969d3a387b30410f0069e24dcb3db6402a60bd1728b404b00a10f03eb8d760",
+        "bbe97312b012c099c8b1a7e9df140fb6024e086459e58ea70eee80b9286f657c",
+        "1735f99cb3561eea203d03cb3a5ae8f204093f38e3c07fcc45c79d89a2a2beb6"
+      ],
+      "partition": "train"
+    },
+    "regseg-train-2313": {
+      "identity": [
+        "talk2car-scene:692fe09aecae4b1a94f8a3bceedd9b7c",
+        2313,
+        "77cb42e81f20cb4e4d2272fbb3cafedad17ded264af6c0762c7376c9924900f1",
+        "0a18edb5c8d0fa2822e1ff13f38bdfadc949dfa107db1ef034f4c2f797589fdb",
+        "282330e67b3798932c875411f0351640ae413519388b0a20dcc833e796f97fdf",
+        "bdbfaf92df332503aff74e1f9b07635458212beb9cfa28a44fe75fbb2f56d381"
+      ],
+      "partition": "train"
+    },
+    "regseg-train-2370": {
+      "identity": [
+        "talk2car-scene:bd916d78cb3149999182fb3ce4eb8a8d",
+        2370,
+        "97fa2e2d08bb9bcaf6499f5812f9f44c8967bdfdfbae2171214e5fe812305cdb",
+        "a22645e5fe312ac0d9107a9a5757d630e25d60eb7a46de37109fdab9de66fc6e",
+        "2d3c8b6175263f6cd1a8a219dffe8683743d7c1da1907f319de23d2988f1c608",
+        "7d9c122636ec8569de73902283d52e349df49a812644ee527bd978ff12c5d4b6"
+      ],
+      "partition": "train"
+    },
+    "regseg-train-2407": {
+      "identity": [
+        "talk2car-scene:ceca737af78440118b7b394a54723454",
+        2407,
+        "708b7d3aebdfc81e377070e0619a0a2e135c13319c427e9cae7607f8876c5350",
+        "22a9a2c50498e809eecc866ae40164aa615982897bec2fdaac8df18f11b43bad",
+        "73350d15e0560fe6eac2b0e2930d4277965074579ff29c8e9b0d4145fdcd0266",
+        "549811718f70e6209d15f9348aec234f43db3cb31d8b037c2d2932b10e786d09"
+      ],
+      "partition": "train"
+    },
+    "regseg-train-2453": {
+      "identity": [
+        "talk2car-scene:2376fcdd28a44b83962289664cee55b7",
+        2453,
+        "3d81e994ebe5c47c9dedcb3efd71a6848396a7b01649213a1e1434bcfbaf252a",
+        "a81b539f24d3571e54ed39e1b350884195822bf7a75b896d2a2c6cce3966c972",
+        "2528f681924089a4407d0569304abdafb272f2bbaea07c81e81741d4fad187a0",
+        "93cfc4c63d621c3ea803c8cf18007eec6f0770799101d61531ab66a00199b384"
+      ],
+      "partition": "train"
+    },
+    "regseg-train-2593": {
+      "identity": [
+        "talk2car-scene:bfe368f8c6a44efcb323a82f6974a9a6",
+        2593,
+        "40a54ac40f0f4b0784ccff2baae55861d81328d35e9d3a37547cdd118044cdb2",
+        "0b57ab8d5eea862efa683f9728729f60770f1682a43f892df64c5c4549333b86",
+        "314c6896a15ad674653132f4c24e8ee4511619fae2d2b9068f3b9dbb06603c93",
+        "1bafae846aadb87e5cf056cda7b70ed24c1e02af5141d9341fbbca6e26000bdd"
+      ],
+      "partition": "train"
+    },
+    "regseg-train-2796": {
+      "identity": [
+        "talk2car-scene:7540f31d12f1439db67a50be7726c70d",
+        2796,
+        "cff7a8efc366aa9cde0b4188f197a3c9a4a94ea8c5ef303df394aff7fbf6c80d",
+        "d024e266984da5258e75fbb2bab71507ff91b88b48f6d8d5aee9f2e86850e751",
+        "f2754db524b81675f25be8c8daddcfdadb9ac2cf5c00fa5aa69910b39f9a719d",
+        "92dc6e36d9697f4140a314887b3220d6034ecf70ff8b0617e2f8c8f877e3ea12"
+      ],
+      "partition": "train"
+    },
+    "regseg-train-2807": {
+      "identity": [
+        "talk2car-scene:7540f31d12f1439db67a50be7726c70d",
+        2807,
+        "3193dc0f69452f681c6a03be9a2bae8352b4e24277ac4a8507efc25a07c2a72a",
+        "6d0252acfc88f7a5bd26465ee3e5f4b16cfa05535ca592b443fe7d610a8b5506",
+        "a79a2718202f7b856b9fb85ce169620c4c23ad5dd4338f2bbeae33c25296382c",
+        "605421310d2a7057c871c0ee13db3dea1866e763bb1cdbbfb68485705938a5c2"
+      ],
+      "partition": "train"
+    },
+    "regseg-train-2848": {
+      "identity": [
+        "talk2car-scene:19f47b8941094af29b8db20b255717fc",
+        2848,
+        "884503ab3c5c854d7b990fa5104bd073d0fe02dd9af6abf273b5ed5ad286039c",
+        "a27f4517c07c75c4267673ec47d81736a93af73e86f1ea62a1df42deb354be5f",
+        "dbd1ae47bfcd7c9f73e901edeacc60682a01275a61d880ce0f44518675de0bf7",
+        "c08c1ff6483d9ba3872e46da43180e8076b276ad61f02ce5e5055c97bcb7d3c0"
+      ],
+      "partition": "train"
+    },
+    "regseg-train-2933": {
+      "identity": [
+        "talk2car-scene:38b3010304734913bb148d17ebbc352b",
+        2933,
+        "0523daa3d779e44f5b74a2eba5362e177654111a806ac795efd826f267b45050",
+        "0c96947e8207c9e69cf51c1201bb429e56757d500f7983cbe3c21dc04db21797",
+        "aad3c0f36e5911bc584fb4f1a7ce45fbd4a62901533d5579f9e20759ad3d55f0",
+        "39db53a6e521ff13b2ae7104ca6016715c44af3089236ddaeff481404c8b3396"
+      ],
+      "partition": "development"
+    },
+    "regseg-train-2939": {
+      "identity": [
+        "talk2car-scene:38b3010304734913bb148d17ebbc352b",
+        2939,
+        "7c46ebee121b1fc847fd5c926a29c803d7d962e41ab169f13b1709b5030393f9",
+        "09572916fc1adb0ad79e0c0bbacbe6a707aaedfcf80667c1910e3bd6c151fc0b",
+        "1792219b62d1c021eced4d30a0fab7ff6c163e731f580c1f4cc383f493bb1c72",
+        "f23485c90b1602935862ce7228ffa0cacd5bc5efe43148c31ed98e7457f8549e"
+      ],
+      "partition": "development"
+    },
+    "regseg-train-2942": {
+      "identity": [
+        "talk2car-scene:38b3010304734913bb148d17ebbc352b",
+        2942,
+        "923326bd8033b0af3fa36bfdc902e6b6c5ade441f7c2fe46af4556c281475006",
+        "f995c886561037461629bd455e7bbdc05abc8ca37a38072c1fe529ba897bb4b1",
+        "fc79af492eeb524ffeccc42a64b22b2bef65fdeac02091862fcf847601ba3e40",
+        "aebb40a8e2f5f2d31ce79f147f9cdef8dcf6928a6a79a326000864cae5d1b869"
+      ],
+      "partition": "development"
+    },
+    "regseg-train-3006": {
+      "identity": [
+        "talk2car-scene:0ced08ea43754420a23b2fbec667a763",
+        3006,
+        "39329f094ed464dfac04aae416d41745765e25041ae8029de3ae9e6045a04ea5",
+        "933fcbfcfe290278feb3c24081fc3f6621d861a1bdbf5fbb5e74e879e95909f4",
+        "0aceb4d958f1c49b8402a3854071d0d2e6b454faee47e417a72ffdd43eec51b1",
+        "d89a85bd5205df64ff93dee79df84686907c214e03a30c840ce5946d899c9fa5"
+      ],
+      "partition": "train"
+    },
+    "regseg-train-3045": {
+      "identity": [
+        "talk2car-scene:5a3283d8aad24bba8cd36bfc1619064a",
+        3045,
+        "79c37d4b59439ad2dcc4d76352303b00eaa381450ebdf2ff648519e5b5041e50",
+        "e01242c636adac49a6d02c0171c8bcd3ef838da849eec50fb508a595c9086ff5",
+        "86eb274268484d09f2edbbcee09a0ef15df8290c8aec722c062fe7c4110d161a",
+        "8e22d7b360028a79f6feb304bfa37057c807b49aa663b7f11c126fd2f9b2f00d"
+      ],
+      "partition": "train"
+    },
+    "regseg-train-3096": {
+      "identity": [
+        "talk2car-scene:13be0238abba499e95ba4e6404b22223",
+        3096,
+        "8022648c69a3ab740ff88d2e82ab3dad4ec309663c6767fa27033b8ee2cb3d49",
+        "bfab96fcb42075a39e1e5a60bee3357681f1f3976498ff42f158e8edf83eabf6",
+        "408901021afc21574235586801c6e5fb6c60b639b37703ea752d70531a6c3e90",
+        "186c6e7a44e3f23a908862db8f77ede822505662b4178d9e760ef28cfc59173a"
+      ],
+      "partition": "development"
+    },
+    "regseg-train-3159": {
+      "identity": [
+        "talk2car-scene:85e8f6d6743a4897b5e07e685267868e",
+        3159,
+        "9c83d2aa4907bd0093e7893b57e7c3c7b072899d1100e287c98c6b9bc4d9a96a",
+        "346554f58ca39a189522dc45cd5a5564a39b8f49acb4409f2b414e393a20719f",
+        "04cff77ffe2576aa05a2a9c39393cea9fdf641ca6f088f086b9dafc1e2d95a6c",
+        "7e3db07964824898314d1325414e1bd1b28b3764420fdadb891cde75ba0bd398"
+      ],
+      "partition": "train"
+    },
+    "regseg-train-3331": {
+      "identity": [
+        "talk2car-scene:85889db3628342a482c5c0255e5347e9",
+        3331,
+        "c00fe2b08e86e7aa7e3a208a067ec1f0f5d3a5628d09306aae98d466df2ef038",
+        "75ac9d33a45000a7fe886f6e3862bbc937cb3e40371f26b00dbf84940361078c",
+        "f54d6604d79e25372ae2372216f768b5636ae02fb942ab518f3d50e7f36d2fec",
+        "c33ebd820641110ea487947bedd2e18791f92e7127d3abcc6226786a95fce4e8"
+      ],
+      "partition": "train"
+    },
+    "regseg-train-3364": {
+      "identity": [
+        "talk2car-scene:f634de95cc7043b8b38ceaac67d472cf",
+        3364,
+        "1872d1af306aea7ec1c3b01dfe7769c0e131a7cb4ce88a924a40c6aaf6dac36e",
+        "9baadfa863325be8ca4098b441d70fd2b8b2df159e774ac539e3c556e1c96a1c",
+        "a6e05e1537462bd9d7485fb8a8618a66960cdce037c002d55a24e3e08c194a98",
+        "eeb293999cd2e6f227e5e2b9d6063a5818a18eec45292bbbbe39bab1f52fcc19"
+      ],
+      "partition": "train"
+    },
+    "regseg-train-3662": {
+      "identity": [
+        "talk2car-scene:ec7b7459461e4da1a236ba23e22377c9",
+        3662,
+        "3d9e70e8ddd8611d6c54dba3c4e2342784a5d1ac8b4ebe788f0ca827df515294",
+        "d0ef85eb20a2abf4caccfe9a228a625948b524df9e2d65cee2b29e184d9f0d4b",
+        "04702e1dac9fa569720f4c201ef10a83f41dd9f4cfd0b002b0e566570fa99971",
+        "ddb827a13f6b3dc125ed76ece5db42b4e36713a5da872655e622043d429e64f1"
+      ],
+      "partition": "train"
+    },
+    "regseg-train-3674": {
+      "identity": [
+        "talk2car-scene:19284973bd0342998c37848e931a90d0",
+        3674,
+        "7540b201b8c28e648287e51ccd3a6e31a702018bad2ceecb91f3c79faed58ae5",
+        "fd7be864bcf407c52f065be04e2cc51f45cb27744ccd7aca7fdf72e4b5157191",
+        "2e5136b60332c64bd12fbb6e1a525a80296539cc2676496378716cd95ef374c3",
+        "a77fcae345bd13a49d9db1b78ecedf2f188333f1123b30e41b5096caea2b4d3a"
+      ],
+      "partition": "train"
+    },
+    "regseg-train-3707": {
+      "identity": [
+        "talk2car-scene:6776b91389394ff18e57b269863b4dbf",
+        3707,
+        "28ed47b183b2deba38e66d3e79c30ccb4135c79d6a29b412ade5e2bb067391df",
+        "b6773b236d95e65c48f4a2f3deceef4b68512991c2a19c3afd94b11c21c4aedb",
+        "b73fa6b233dffe34b1184fb8e656b33b2347d0a4218b4f876fc91fa28524964a",
+        "3f5aa69869b8024f3329fa016da02ace0a8743bab5937885fd4c2e7e3e4d0906"
+      ],
+      "partition": "development"
+    },
+    "regseg-train-3858": {
+      "identity": [
+        "talk2car-scene:c525507ee2ef4c6d8bb64b0e0cf0dd32",
+        3858,
+        "d6749e0b54d99f574de0cd9c063e5c4d38af5aa098fa0e33122b760a41ed1c04",
+        "2bb5ce2052d286f63ec9a2fd9f26419cb564ef204ab860c79e7f3baa25c1a216",
+        "43eeb7d4f2de1588ae8b96be7d7c682396436eb13060f9a5b72bcfcffed822f4",
+        "35ea141963d1f1b8587c9706b59ab817031f98af693b9414151064148efa270d"
+      ],
+      "partition": "development"
+    },
+    "regseg-train-3934": {
+      "identity": [
+        "talk2car-scene:fd2d419d4cf84a2d84922b9b7d2cea4d",
+        3934,
+        "b5386f2a7a7cb2416fa28ded91543c2ef88bc95d1e2eb3875fc6a7aca15a3f77",
+        "01155b3ab94839af72dbce26522b1fad927481cdbb93685a7e6d41f23bd41b67",
+        "dd1c499bc12791706696a05877be9903f303f894007ec8d6cadc36b50a8345f7",
+        "29390b3a76b36f78aa31fb4c271c86db67fd76b3aba063b3f8a41e38ff254395"
+      ],
+      "partition": "train"
+    },
+    "regseg-train-3984": {
+      "identity": [
+        "talk2car-scene:e3d714da71d2477695a055716ede7130",
+        3984,
+        "cc8d8188934f6db3d44bc0d94d328d8434a6578c678ce6084ffba3db81909e27",
+        "c9a4d04c9f1fa87c881ce93bd4924afecad5e4847768e8319e62809100228a50",
+        "56158e6417a55ec896d864964ed5fb28216add9e53cecaabcbeb5d9140ff21bc",
+        "979f6337aa79fa7820b1261bdb8358ff54d223cc67ff7689c0e25f05962c14d6"
+      ],
+      "partition": "train"
+    },
+    "regseg-train-4112": {
+      "identity": [
+        "talk2car-scene:e15260c4ed5b4505900d497ef92ddd2d",
+        4112,
+        "007e6503351185e86ca6a7f7c9d9511d2d52aaa6135d03239bd553ad8ba6f134",
+        "9bc92cdcc35bc3334a0f9dbd44b1e37326ddda3b595e82c909010943710e3353",
+        "9968f66bc09b6956d96e833bf9ce43c48bfce61a549dfce3956dd524801fe0a2",
+        "dbc69e3fc2d8a402e7bd7f8ed49af091bf55eecdbc1f05c93e0f5013970e749f"
+      ],
+      "partition": "development"
+    },
+    "regseg-train-4117": {
+      "identity": [
+        "talk2car-scene:e15260c4ed5b4505900d497ef92ddd2d",
+        4117,
+        "d1c1b12df478ca23931f1e9eebd46f847c57b5c29a61c1ffa6588b24dc1d5382",
+        "472fb149cded6ac16ba8a93fb5993d1d83d6a0d251d73dfc5b4d79555d7a081f",
+        "3b1fa886e4af24821f477f132daad8f09f4822054e61c59251425a037105e130",
+        "1d85d1f05e9dc6090863577dc1b4ac26c03de2e491d3f4889f6d07e44914c693"
+      ],
+      "partition": "development"
+    },
+    "regseg-train-4130": {
+      "identity": [
+        "talk2car-scene:30ae9c1092f6404a9e6aa0589e809780",
+        4130,
+        "0d25b03367b24ac65bd31891c5fbc590283a8d2bba115c2b02f2316ba560a376",
+        "aaa02d5f554edb2fbc79e7146741bf3b07de35605669369c72d44538d969e0c5",
+        "9c7ee2682b5d5155accfe19b87e5a271d565e96123435f20478f981ca3bba2e8",
+        "bc6a767372642b70191387baab7d597c7e6f7d1f116ff7f633c1cf0d5fe68a55"
+      ],
+      "partition": "train"
+    },
+    "regseg-train-4239": {
+      "identity": [
+        "talk2car-scene:d25718445d89453381c659b9c8734939",
+        4239,
+        "1227bc067e037debed1055f3427e464990e3f898833ab5d56929efe156da32c3",
+        "cd85cd5cf99c1d7189b24a7692f8d484bb045a94df112feb3ee80869758e7e1e",
+        "af7058c3855c5eac5f7989e140a3a2b4074a641dda8a149d418458b943c62313",
+        "6af36b4ca8bf618fee32bf53d2964ce20e7402df67ec4e5d4d8c609cba316104"
+      ],
+      "partition": "development"
+    },
+    "regseg-train-4260": {
+      "identity": [
+        "talk2car-scene:798e8504b4364d378270333a349ef508",
+        4260,
+        "cfc7137a80a5542d2e25aa30e09fc015bcd88596533ed7e8ab218d2dd3e59845",
+        "304a465fe2fe9cc24d4307ffbab80cc1e719d95ce873f1f0875fddac55fc1be6",
+        "54142b762cea1549f8050a5361cf07b43d751a6aaeeda97eb8c064c87e705f31",
+        "3f0e55a13dbc9ecce7f7e451e929bf0c6513180e12b9ec02543e75c71222575b"
+      ],
+      "partition": "train"
+    },
+    "regseg-train-4504": {
+      "identity": [
+        "talk2car-scene:d825d5544592463e8c138473502dfeea",
+        4504,
+        "064e7444723f7a58b5ad0b5989e407b5983ace4d022c318adf3093a5f14ecdfa",
+        "a47e709f30efea99d37b7fa8593fd0122cb819ee8772518de4f6c9b46a783098",
+        "352699976040d4cc5825d2764c77b1eb3b6a65f1fcc535e02cce92402be84390",
+        "c52ead4217c33c3627b464577138b08578b3ce6c78208b91aa78524ad573581c"
+      ],
+      "partition": "train"
+    },
+    "regseg-train-4600": {
+      "identity": [
+        "talk2car-scene:f0f7132494bc4045a21868aca13b56f9",
+        4600,
+        "0c0b141208527a4dbc8610c028ef7b7bd235844fa6c71cff6acaa3bfbca223c2",
+        "82fe238db2ca0b0a8ec2a924fb623dfe3ec9f22b171f92e5a7a829ee28d30aa1",
+        "02bc63371aaf5e91d533ce78dafd9ecab6ab21a49f5106a09eb1269d5825f0b2",
+        "235fe659d7d0ee4419e41f3aeaf2f07a369db8bd9f5c913b1755a3ac40b8d132"
+      ],
+      "partition": "development"
+    },
+    "regseg-train-4692": {
+      "identity": [
+        "talk2car-scene:f13bd38bf9b64d579a63d4e7d750f592",
+        4692,
+        "15d76904fdccd1a413e5245833bc3ac046e74f10ced798407bc87e23526fe84b",
+        "278cea401595fb9eda4efaaa65d5165648aab8b32826eb8e6c7cc80590288276",
+        "6b76677deb7b31b6d4dc9f91fe00c1b00c18dd0d7178361d3ae87f3e38c7ce47",
+        "403623f876e8343491b0ecc0dfb167df95fc14284539b834277a8fff2ca3473b"
+      ],
+      "partition": "development"
+    },
+    "regseg-train-4758": {
+      "identity": [
+        "talk2car-scene:88084e0150d64dd1949a9cf1493e5188",
+        4758,
+        "74698570ffa66023d509a40a8a27fe1bf8d61964dd798e75ef9498d3a8499337",
+        "fe63aa3b6696d575cfad7d481c02449658899e0c7a4fbcda2fa81f7618454c16",
+        "c514c7bae041443b90d732f91e2340cc217d93f344969fe442c398b8ca1f3c90",
+        "474b5f3dbb9b7d9ec693c52da6e2cbe9056c4d102a5d838c83bcf8ccc1268c16"
+      ],
+      "partition": "development"
+    },
+    "regseg-train-4834": {
+      "identity": [
+        "talk2car-scene:e0a22086a94f48e5bbd4c4e7916b2106",
+        4834,
+        "3288eb9308f3da4f5fbbd690abaa5e69849c07546ef43d3a2cd853ef1a95b7f7",
+        "0c6be25721b0a807280492364b9bf63db1860929de14f51bd748088c7b2ebd33",
+        "c9542db30202e9df53ae731f12ab5eb0fb8b3ac097c0b4632dca5e88d378a92a",
+        "b33b88dfee6e4ff433e72077dbd08b0f5b68b619ce9cabcf589e8f6d661c44c1"
+      ],
+      "partition": "train"
+    },
+    "regseg-train-4896": {
+      "identity": [
+        "talk2car-scene:dce6f3f2bf6b4859abcf3268581969d3",
+        4896,
+        "928e7ddbf5ae2539344e69d02ef97e15c903a7f9cfbbc7356ec4e1f2aee5e152",
+        "9f97ffa5d64fbaeb664c922845f7798b60e81ce2be4d50e024a1bd511bf8a950",
+        "354b948a59db7ab25c31c853bc45672df9d3247d5cc2c2c386d4bd441cc79354",
+        "8ec5abcacb611f5b683564d801a45707a2ab286577e814f99d9ddcbb43014581"
+      ],
+      "partition": "train"
+    },
+    "regseg-train-4954": {
+      "identity": [
+        "talk2car-scene:7599adab7f3944dc8ac1c88b4f3bb082",
+        4954,
+        "4bec05169a29bdc7cf5b1754f5761561509515d83185869fd3d3ffa3b42479f4",
+        "0593d20d624ec5c3b1308b011e71bd9bbe960fa967b530f8d1086500076498fb",
+        "4281ad10c27f2138433ccb3ad8b6ccdad6e6a3651ca26dc408abbde2403ad12d",
+        "d461e656dde8f8120713d5194c231e1b5d05c6edc8cd8c9a54226e4a90bfa91b"
+      ],
+      "partition": "train"
+    },
+    "regseg-train-4985": {
+      "identity": [
+        "talk2car-scene:724957e51f464a9aa64a16458443786d",
+        4985,
+        "34beb47057ca3d9492a4a43512ee2b36443dc94d8c79717c58c6346d293ec723",
+        "d8ade10afa65ea601feacb77602dc759bbcfe18ed86cb7caef79fccd72e76941",
+        "0f0dc4db6430a4ebfbc93c5ddab8df32be0a0456a160af26174be7bb37ab8c6b",
+        "09f2c2b9b346b2f27b498a7b01ff97df5aa5acb0d7a604362603fbcc07313109"
+      ],
+      "partition": "train"
+    },
+    "regseg-train-5155": {
+      "identity": [
+        "talk2car-scene:fee7ac5f5c1e4943877cd20d6e069427",
+        5155,
+        "d80489a8ccaf8e6221c0a5f0cf19c8d62d66c37aebb3068abcf8db76aabb5c35",
+        "35bf3f1a5f497cd63f7197d8050f318253ab34d837baf9b6d728d16a05686c51",
+        "ee48903112a3e2dce96edfc2f7c0fedaa043bed7ded86528aaccfa38a432e0fa",
+        "8498eb42b23b29d1552e05d64998d5ab0e097bdca7119f7777d60249f5c5f24a"
+      ],
+      "partition": "development"
+    },
+    "regseg-train-5180": {
+      "identity": [
+        "talk2car-scene:727214583a2a478094d4f093d20c7060",
+        5180,
+        "94e631d890bb6d7b86ad92f004107bf8cc695aaa47fe44ebb8ac4836af2c9ea0",
+        "a35f8812ce5a8cbd42ad55980372cafbbb683675cb82a3c26de8107fbf52d9cc",
+        "4b621a08acb303f5bb60b0f58aa42f37ba1c5e5450978bd1edb9d1c04b23791f",
+        "240d44a9a756c368552ae91255b650660b428cd02d5444aa22a64aa6d86684b1"
+      ],
+      "partition": "train"
+    },
+    "regseg-train-5202": {
+      "identity": [
+        "talk2car-scene:240d15482599449a9bd0432fbfa688ab",
+        5202,
+        "e64d47c58c64f99faaa726f85d3ba0e8d5a8a8e78ff849e7eb548f22f59a24dc",
+        "ed6f8830f02379f0f76da514dc68c8aa3450725c127b95ac1895d1ab62a9295d",
+        "fbc186acb8d36e9dc4ea50561d8ccb1b5585e1cbc463a1c8c7009dcc52c1633e",
+        "e8e0403a80ae0aee5b9a58a05266ec2e92d1c3dbab87a119040d35d0f1ef8f94"
+      ],
+      "partition": "development"
+    },
+    "regseg-train-5227": {
+      "identity": [
+        "talk2car-scene:034256c9639044f98da7562ef3de3646",
+        5227,
+        "c9592c9001c9fcbfef6adc1765205ba5614136e130fb682c57014d373a89bacb",
+        "3417191ec58e20466026b09407ef7540e009efb2b3c3439f7f980c809007fab2",
+        "87f9685dd1c490d42e1dcd009d93e374d3e0ffc1d90c27a2da279ca88b1103f0",
+        "845fd27ace17a254abe9536083faa29c7c8b656117d761824050e5b00dc0e3eb"
+      ],
+      "partition": "train"
+    },
+    "regseg-train-5347": {
+      "identity": [
+        "talk2car-scene:01796494e25c448dadaba70cfcc3532d",
+        5347,
+        "dc1b3dd1d14af70f38b671f17f4882c9f5b466ed97042e8e54b1e58c595b783e",
+        "6f1faf1aeba4db94801f1f84903185940ed4331c2252230b5df1b44dbaee5332",
+        "873006f2f560174fa2614eaa8e360f9da7e9671dcb56f864eb5b6fda7c3ab793",
+        "6493833e7ac8cfdd614554051a8bb76782ca69a476f87b24fd7b82f1e125f83a"
+      ],
+      "partition": "train"
+    },
+    "regseg-train-5535": {
+      "identity": [
+        "talk2car-scene:d654cae175de44319ace178994ed0329",
+        5535,
+        "869279db3cb0f5374ac78f323e7ff1cf5905c9c3033b26f6d9546bd25397aa66",
+        "582b19b4ef363e66608bf0bd7d391a31ad170d21c3a285f3135165b88136ae2a",
+        "c422fc40dfc81bce81d4fe6cc6fb61e8b0b808c27fa70e67ae7ce49a5d9c9889",
+        "732bb35d88e31d9c771567c64f625db23ea4e8413701d4fbff6a3d154eb30517"
+      ],
+      "partition": "train"
+    },
+    "regseg-train-5565": {
+      "identity": [
+        "talk2car-scene:f57957ebc5654b649a0786d993b64be4",
+        5565,
+        "01ad35d702290b6f112b2e20f24098a160e87d764e374bf93b85acc5f0e669b5",
+        "e5f65cbc3cf1d9e1a901d9569b604842315c7cbe441dfd16f6b34c69ac22bf4d",
+        "8fb689040b3e2e877bac022b5f562f1be210987c1241d3463ccf63d990e96f81",
+        "992464fc42465aa6adf4f19fc48942d9034539c4b7682bc2e9e88e3c7491f687"
+      ],
+      "partition": "train"
+    },
+    "regseg-train-5830": {
+      "identity": [
+        "talk2car-scene:5af9c7f124d84e7e9ac729fafa40ea01",
+        5830,
+        "b5175f7f31a195c7369484a3a3604082950cd7d89f3e0d2318f0010eac5d9344",
+        "69f13afe30db636788e1b8522bc30a2041554a687ea60115950bb8f152ee758a",
+        "c8675f44764367155846973053d74ad3f5d3c9063c3d40cd8a94972130aad5d9",
+        "51d398b45436670cdd071a6b061f06f32de8e20f8584d71664697377b3de1259"
+      ],
+      "partition": "train"
+    },
+    "regseg-train-5889": {
+      "identity": [
+        "talk2car-scene:b3f63d06b6c54ae6ae80d688f4966408",
+        5889,
+        "ed156d45dafff7cd68b3df34fece8747a638ef58cc1fc366dc02813920c44fe6",
+        "6c017677521024566b42436103d1f9217f5f55b6e99f32b8b739b9d3d1631aa5",
+        "6c8690e25ada1c9cf61ccf939d0338ddb2537e0a13faa552dd87f4ce07d38a3e",
+        "53ca17960c45feca78208026476b35fabf30398ded90c5f3c67941b3a4187ca0"
+      ],
+      "partition": "train"
+    },
+    "regseg-train-5971": {
+      "identity": [
+        "talk2car-scene:7e8ff24069ff4023ac699669b2c920de",
+        5971,
+        "1a4280626e8286dee8bdef64c97113074ead7b6fd629836985ec346bf56d677f",
+        "d5a6fbc478b1cf55d714cf30f8cec586fe341b66a88c6bc07086017a93ce748b",
+        "4977f265e5927c6430b83dc753d9370a3b22653083fb7f9b08e13d1af3c8f5da",
+        "3c1d7b6dbe341237624301fd6d12da288a78f8c10c786d0b378de078039123a5"
+      ],
+      "partition": "train"
+    },
+    "regseg-train-6009": {
+      "identity": [
+        "talk2car-scene:53d4c9a634df4fdfadf057d3a216e98f",
+        6009,
+        "ac5ff96b7acbd55bf0d22efe9479dfa1bdb5ade623fdacb7d9d8866ca1e1dbed",
+        "a49c53a4b7f85a79322adc5d05030273839a2359d84b1eee3e42041eb32fd106",
+        "66931667fbd2ee5e79e2025813c1173a11af76278d397dc38cfb8f173bd3591f",
+        "72060548c4a55cee880498dfe6aeffcb84dedbd80d850c547f49685e47fe32c6"
+      ],
+      "partition": "train"
+    },
+    "regseg-train-6083": {
+      "identity": [
+        "talk2car-scene:0c13be31e9854d97960d1af570db433f",
+        6083,
+        "2093e20d09c6a0a9018d3ceb8475f512849339e620703750eed5406189165698",
+        "5758a8e4d6fe5c79fd881b0e243991de835b5c487da29529dc3c87c87f8b14cc",
+        "bfff031054e89b5ccab4529180852f1f58df67dcc7c3e49389d33f7320d7c0a7",
+        "cfa4df511c78a091b3cb447c09f2aadaa67af2f4a43ceaf70436c66c3073faf5"
+      ],
+      "partition": "train"
+    },
+    "regseg-train-6119": {
+      "identity": [
+        "talk2car-scene:5aa5225d0ef440519a31c1dde075dab7",
+        6119,
+        "f33ab7a3bf22b1f7cb504fec04d07169b8dfa2176da0bb8906194e8e00089744",
+        "e448601b91c7d39bac8e788431506dc730ad4f6b14b3755ad2ade8db17d7ad34",
+        "428f04c49bbe977e85822d958968e3e43d9653f3e5a6cc5b4a036a5f47e0598e",
+        "a6dd8887fef771d005212391f5dec2dc4ec76fd1e663be9be351b7584ab609f6"
+      ],
+      "partition": "train"
+    },
+    "regseg-train-6137": {
+      "identity": [
+        "talk2car-scene:782f9486adbd4546a492e69b6697ef70",
+        6137,
+        "d0d024001f1428bd114828127e7d9420d65e298b5958f859ca32cd9a9da4b8c4",
+        "f00a69f1e468c9dde517ed81b7f4d56064605e67dea778834dc05c81258ad4bb",
+        "7686256ff1f44010097e3e90f0652c4a425a9039c080660bf56ba99655f19a66",
+        "f1f6b33018b433aabf408c5b053bfd004cea9c0b6a82d74ce8d31f530b491d18"
+      ],
+      "partition": "train"
+    },
+    "regseg-train-6542": {
+      "identity": [
+        "talk2car-scene:3045ed93c2534ec2a5cabea89b186bd9",
+        6542,
+        "78dc51f7ccb614ece81f62cf01c7b5ac90a6dfd41327939ee50b306218ee1b9c",
+        "6f9fa50c3ab2ced680659e1595d33be477f117bd6f445c671f571ba8d42390cc",
+        "ad8c8349563dbbbfe2bc5f05b748ac69bf9ae89b84a6192a3575898c8d2a0d5b",
+        "626e3137ca5bdaa16c64d82c23d1503294b81039466ec7b9d53996188d7f8371"
+      ],
+      "partition": "development"
+    },
+    "regseg-train-6721": {
+      "identity": [
+        "talk2car-scene:4ea72ee843914a6cbd755e39f2489156",
+        6721,
+        "84673244bc8fd3aa4f1cdeb0141e9aacc8362c4ab51f35213aa03ea6085f2961",
+        "f5347f7b7dc34db0356dbd9487a1c31a1ce4302cba40ed0bff4197d4f0833e6b",
+        "54914241b888e57395191de99352376f2d077da60c4ce64a27067d61352a5fa3",
+        "9aaa8b3a797b409f294a7d79389f9dd5b91d7c6ac70bdfac9f9ec75f3eaf001d"
+      ],
+      "partition": "train"
+    },
+    "regseg-train-6827": {
+      "identity": [
+        "talk2car-scene:62696ecd66a3445da436ce2d87ee3501",
+        6827,
+        "24922d40dc1e4c50a6e13d60479c20f529bd618d11d619401326eae168ec1f14",
+        "2d223e947a87f7dff6b64c2b597041444d6a392c06de5482a88783a083630af1",
+        "2c035e9c74c5cbcc45f5431c02d7abac1503dba0a8ce4e32cfd9ec2f768334b4",
+        "916f063e67c27289ce78917d30db69cbc04e85f1d93e887d830ecdeb6b454b32"
+      ],
+      "partition": "train"
+    },
+    "regseg-train-7078": {
+      "identity": [
+        "talk2car-scene:08be42eb2186411d8e2201225329f1c6",
+        7078,
+        "b2207163897faf180cc72a4cc6a70653a2618bca5d2a84833ed4bb461951c170",
+        "5f630cff45fad5c34d0b4bdc07fca3a34c8b634cdbf6c0aeb64620c433680c3d",
+        "2583745cee84aa43d2d5bf3d10d8ddb4f912afdbbfea75971c741a3df5e453e7",
+        "f5316c5f6daa3ce090a6f72150b1ef6b3418e89cc4d620f2a59b116e1e241f40"
+      ],
+      "partition": "train"
+    },
+    "regseg-train-7079": {
+      "identity": [
+        "talk2car-scene:08be42eb2186411d8e2201225329f1c6",
+        7079,
+        "a9d0925edf8c1ecc1178816faa2ac5489756bf6a9308f8db53ca43463a886d4d",
+        "c474db9c658935dbca36f9481bf7a3760d167ebefb5d4cabcbd9dd742832b1ca",
+        "b1940d6ce0747037bba44e573c9eb532dc63e5453d3d9b5d12aaaf7eae0b3929",
+        "30e24bd5d93af185aca7c087cc3174b10650077ffb09a7f6cb9c5939aef45c20"
+      ],
+      "partition": "train"
+    },
+    "regseg-train-7180": {
+      "identity": [
+        "talk2car-scene:32bae098e2434a09af1e7983e31fbf5c",
+        7180,
+        "71750ac25d7cb7db96ed6cdf50e6ed31316debf2e14f63b9295f52fedf34b50b",
+        "e06948eda7012b244253c5dd84c46507edf341a89728c374242c3f7a18071e6c",
+        "ac259a85400857a6bd072606c5677de509f84c509868005f27f4a87236e8f2e9",
+        "5745b8ab852dd8641eb76aebfb18a280926a147a24d2e7cc92b7919cdf0045f2"
+      ],
+      "partition": "train"
+    },
+    "regseg-train-7319": {
+      "identity": [
+        "talk2car-scene:19640fe4b6894f97b16e0faad51432b4",
+        7319,
+        "95b0a4ac1989da32841d0da15fdd4748456a8519263c3b7753af439cb8590d15",
+        "a29ebf887a41889fccf1c67665fe006ed45d5762bcf09d79f004d91ac34558a0",
+        "63bee17bc9c814d84646a7030cd14daacb3342d0349b5b09c15c93a2f7201a4c",
+        "c109fe5920a5752cd4f5f9a0333777835e6ba42df391c163bbfcc33757680def"
+      ],
+      "partition": "development"
+    },
+    "regseg-train-7365": {
+      "identity": [
+        "talk2car-scene:634e7fbfe29c4a72b1ceb692b1d2ab44",
+        7365,
+        "3eeb427ce62eb6235570da752156a6133383c86d86daa6bdd75789002211e64d",
+        "e92e8caac26639a25b4cd54027f45af54cd26535827b81c049267ca00bf56ef8",
+        "64e5c33fc0a494f06f98e321d367dc21af8e9a6bf811358f8fb3fb7798a8d902",
+        "2ab126924c096fcf9b3bd4cfc085d652a9b5029b16a5e114bd8eec3e9d197c9c"
+      ],
+      "partition": "train"
+    },
+    "regseg-train-7471": {
+      "identity": [
+        "talk2car-scene:098c11f50ff2425a9ff994e004de1216",
+        7471,
+        "6e2dabee30061da071f36b07a74483bd2bbe525f720faafdbb99d309ee94aeac",
+        "71922478d6b790b57faeb23895513b0f13c6aaff474393c4e58f0907486c5929",
+        "33d991c93652128168093b62d53cfb89f77892c7627fd3b3029cd5a4a852aba5",
+        "87743dcbce86e33fc09b633d598e41e94e151b9ce2a82b21072022b2b74198da"
+      ],
+      "partition": "train"
+    },
+    "regseg-train-7582": {
+      "identity": [
+        "talk2car-scene:f2541977a00a448db9b46a32187d9059",
+        7582,
+        "7ed29ba18011b9af73af4c97c9d1b29b6fbad103164bf1749411754337325687",
+        "457fa3eb6de3aa3da0ef42c11a9840fce310ca6b322e1329c28d580e7f808fdc",
+        "53a48ead6d0aa95d92cc5e0ce817325b677d6915a99d776d24f5dd15dd0edb6f",
+        "bb7123aa20215c04bfe4a39146e79fb1cfdcef5d114fffa26e231be236b9c8b0"
+      ],
+      "partition": "train"
+    },
+    "regseg-train-7879": {
+      "identity": [
+        "talk2car-scene:c133e78e55ae487c821803a3b183d1ab",
+        7879,
+        "48a6b4f5d0a266f1fd212684100cadfe66a9228dd93c6981f74a4a168a6cf589",
+        "47a5df5a41bfd529106c75248639bdcd884e83f70fe5f5aa992abfb51e7d8db6",
+        "7d2ae64d6a1c221db917fc36d262752c76bdae935d96f0e8220e87f059e354de",
+        "b6017464f925b0c338342234126ee9bf06bb08b8a5f0ce828200f1bac3d98a6b"
+      ],
+      "partition": "train"
+    },
+    "regseg-train-7940": {
+      "identity": [
+        "talk2car-scene:9e7d5adad1514dd79292e9318b7a443c",
+        7940,
+        "7c810299652f26271d93040b7d483cff1efd05b4bbf36d12f7ac50bc124f7cc7",
+        "cd8360553d53aa5b6a1aea294cdfe599d3bc21700d4b7651603295f3285fb305",
+        "96619f7d1f38a5f1871927e59e335671a9f6b32269df6cec2d901fc42148a880",
+        "af9f605b1f4750220ee1c19719ede8a7ce26924185472a8bc36003130f68031c"
+      ],
+      "partition": "train"
+    },
+    "regseg-train-7951": {
+      "identity": [
+        "talk2car-scene:1ad821fcfc9f4c24bb879ec7d5ba0ec1",
+        7951,
+        "34a6c1d7ee56bf16bc25d63c80ece5b812aab7222328419cbb6eac324c10cb44",
+        "757434f3117314d1a21a88e9d6e1440ab0979afcfb28e0704a446109442ed80e",
+        "2d3b71c9a1f2c3fa3bacfc65d91ad21533aba466fda99ce068fef67f77a044d5",
+        "80131593f34562765d9128e46e6192774d661cbc8d9f897ed9faee344978c9fc"
+      ],
+      "partition": "train"
+    },
+    "regseg-train-7967": {
+      "identity": [
+        "talk2car-scene:74d03e3b673f4a72a3f76e1b0c7840bd",
+        7967,
+        "15a3e291ef51421f3c6eb1f80f38e5cf661656bda4cba897a1188e62a69cbaba",
+        "563242651a5240a2c510e0750b24b31e7b18abccb8dcf92175076113a59f3d59",
+        "31f406c45b8412711aba565730d25a22b51cbb8efc73fa3eed6e91c8991b3f47",
+        "e22bd3966a1be3427cb9c3e38ce3474634cf638f63f4b12dc38611880bf6fbc3"
+      ],
+      "partition": "train"
+    },
+    "regseg-train-8056": {
+      "identity": [
+        "talk2car-scene:095d9b93b583425f910ae2afaf1d017d",
+        8056,
+        "3396acc08692ac832a92ca11de01c7c7a8cd9f3792dd8fa1aa3590e55a464d53",
+        "238af0e7e4b7dafd481b67085c64640d1cd1ab0fe8b19819fa7f880ca47b3244",
+        "f4b5c72454b8f976f7db841c83b1e6dc5e8da3a272c5e9d6d2418d8b1c21296b",
+        "2eda3d44dc53e8dd2f362021c8c7b4edf2d7901d95f22dbdbe725ed57a4f596b"
+      ],
+      "partition": "development"
+    },
+    "regseg-train-8073": {
+      "identity": [
+        "talk2car-scene:c949ec2cca7047bdb67dce64b6c3586a",
+        8073,
+        "00ab379b39c0ec5de2187b80956162c2223665ea1c7ba335f09924d407097e0d",
+        "c4e373162066696e74492ae5bc1de97758a8a362a33ae690b1637c4207121406",
+        "bb0780f43e81d84e693aae9d0f7f9d3ecbbe6f9f9b68884eed3756dd86ff80ab",
+        "856c777de4292ad12b21a653277b4616d24b8529d11c5ee2b39c538c4b06ae8d"
+      ],
+      "partition": "train"
+    },
+    "regseg-train-8213": {
+      "identity": [
+        "talk2car-scene:6498fce2f38645fc9bf9d4464b159230",
+        8213,
+        "b43b88249416604f53d716fd766b22b8660b6c503f155cd08211a07795a421c7",
+        "514eab02ab36d33797d7825fa2137955b064e29093e6486250de1ce85bd35af4",
+        "aa54b6b300244e3d1f52be329a391a05893c1eabb228020d519a3e1e7a0038c0",
+        "53b4c4bc4b3565a5e0404c9cf93d2495de0ab15f1990392cefb1f150daa908e0"
+      ],
+      "partition": "train"
+    },
+    "regseg-train-8217": {
+      "identity": [
+        "talk2car-scene:b68cfa7e0bd64bd395fd922d750cfdd2",
+        8217,
+        "f14610b088f193e7adc88f00e054a4eb53942619a9eb309ceab3c7bdfe40f038",
+        "882049e7ba3fbb36afdefacbeec7e0064094a5b370f4c70d31b3c3a6657ccc75",
+        "e9a19a0be92e5ee83a0fe4f8e739a5ccaadb0f2299a79ef44d0186a76c64805d",
+        "d05e1cb5a8a27c182ff75bda6850ac446997159c28a49d3664e3c651d0656fb6"
+      ],
+      "partition": "development"
+    },
+    "regseg-train-8255": {
+      "identity": [
+        "talk2car-scene:bc8f2774ff4946d3965a807a6aa1b64f",
+        8255,
+        "b8fa9734657c4c40a6138f623fd3b6892e99912b8e19a2806ddca029de64047d",
+        "7841f4316056c651fe0a0b5b7e3a169a744313a8952c4af13af53b7b7bd4b677",
+        "e513329d3a4ea2483fb45fecc1fe2bcf09a98338453e5b79750afe1d1bcdc808",
+        "2b153aea5c4f6ee1697c0f439c44d9b256c509640933e43665d249c6304925c8"
+      ],
+      "partition": "train"
+    }
+  },
+  "kind": "historical_public_scene_assignments",
+  "original_split_sha256": {
+    "development.jsonl": "18b5f8261e09f2a89660151eb157bbca0d06c7fd4a42cd5ace3fa04f9df7c0dd",
+    "train.jsonl": "dc205cc95f05d132885fc9bb6a9068c3212e605bb8d24e74e53b17c4d016c0ef"
+  },
+  "schema_version": 1
+}

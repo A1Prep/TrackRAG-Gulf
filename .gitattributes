@@ -1,0 +1,4 @@
+# Keep the previously consumed registry's exact bytes for its recorded hash.
+configs/dropoff/public-historical-split-locks.json -text
+# Protocol hashes must match committed bytes on Windows and Linux.
+experiments/dropoff/public-contrast-protocol-20261121.json text eol=lf

@@ -90,6 +90,23 @@ def test_optional_docs_and_tests_are_explicit(tmp_path):
         assert "tests/test_dropoff_model.py" in archive.namelist()
 
 
+def test_local_source_requirements_are_packaged_without_environment_files(tmp_path):
+    root=source_fixture(tmp_path)
+    (root/'requirements-grounding-local.txt').write_bytes(b'torch==2.6.0\n')
+    protocol=root/'experiments/dropoff/public-contrast-protocol-20261121.json'
+    protocol.parent.mkdir(parents=True)
+    protocol.write_bytes(b'{"kind":"fixture_protocol"}\n')
+    output=tmp_path/'local-source.zip'
+    bundle_source(root,output)
+    with zipfile.ZipFile(output) as archive:
+        assert archive.read('requirements-grounding-local.txt')==b'torch==2.6.0\n'
+        assert archive.read(protocol.relative_to(root).as_posix())==protocol.read_bytes()
+        assert not any(name.startswith('models/') or name.startswith('.venv') for name in archive.namelist())
+    extracted=tmp_path/'validated-source'
+    cloud_validator()(output.read_bytes(),extracted)
+    assert (extracted/protocol.relative_to(root)).read_bytes()==protocol.read_bytes()
+
+
 def test_minimal_training_bundle_excludes_full_emt_checkout_entrypoint(tmp_path):
     root = source_fixture(tmp_path)
     for name in ("tools/dropoff_prepare_scene.py", "tests/test_dropoff_prepare_scene.py"):
@@ -257,6 +274,26 @@ def test_artifact_bundle_preserves_bound_adapter_and_probe_excludes_base_cache(t
         assert "probe-image.jpg" in names
         assert "adapter/adapter_model.safetensors" in names
         assert not names & {".env", "model.safetensors", "cache/base.bin", "checkpoints/optimizer.pt", "adapter/private.txt"}
+
+
+def test_public_destination_handoff_is_distinct_from_full_adaptation(tmp_path):
+    root=artifact_fixture(tmp_path)
+    for name in ['training_config.json','training_result.json','adapter/grounding_adapter_manifest.json']:
+        path=root/name;value=json.loads(path.read_text());value['run_kind']='public_destination'
+        write_json(path,value)
+    write_json(root/'completion.json',{'status':'public_destination_completed'})
+    evidence=root/'evaluation/trained.jsonl';evidence.parent.mkdir()
+    evidence.write_bytes(b'{"case_id":"fixture","ok":false}\n')
+    refresh_artifact_hashes(root)
+    output=tmp_path/'public-destination.zip'
+    assert bundle_artifacts(root,output)['bundle_kind']=='adapter'
+    with zipfile.ZipFile(output) as archive:
+        assert json.loads(archive.read('completion.json'))['status']=='public_destination_completed'
+        assert json.loads(archive.read('adapter/grounding_adapter_manifest.json'))['run_kind']=='public_destination'
+        assert archive.read('evaluation/trained.jsonl')==evidence.read_bytes()
+    write_json(root/'completion.json',{'status':'adaptation_completed'})
+    with pytest.raises(BundleError,match='fresh-reload'):
+        bundle_artifacts(root,tmp_path/'mislabelled.zip')
 
 
 @pytest.mark.parametrize("mutation", ("adapter", "probe", "reload", "training_record"))

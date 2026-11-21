@@ -1,4 +1,4 @@
-"""Create minimal, hashed cloud source and trained-adapter handoff bundles."""
+"""Create minimal, hashed GPU source and trained-adapter handoff bundles."""
 
 from __future__ import annotations
 
@@ -29,6 +29,7 @@ REQUIRED_SOURCE = {
     "tools/dropoff_bundle.py", "configs/dropoff/training-pilot.json",
     "configs/dropoff/regseg-scene-guards.json", "requirements-grounding-train.txt",
 }
+SOURCE_PROTOCOLS = {"experiments/dropoff/public-contrast-protocol-20261121.json"}
 RUN_FILES = {
     "training_config.json", "dataset_manifest.json", "training_result.json",
     "preflight.json", "reload_probe.json", "reload_verification.json",
@@ -36,6 +37,23 @@ RUN_FILES = {
     "environment_freeze.txt", "cloud_handoff.json", "trainer_state.json",
     "cloud_reload_stdout.txt", "cloud_reload_stderr.txt",
     "probe-image.jpg", "probe-image.png", "probe-image.webp",
+    "probe-requests.jsonl",
+    "training_settings.json", "evaluation_cohort.json", "runtime_provenance.json",
+    "hardware.json", "training-log.jsonl", "raw_training_result.json",
+    "selected_adapter_manifest.json", "pretrained_teacher_metrics.json",
+    "epoch-1-teacher-metrics.json", "epoch-2-teacher-metrics.json",
+    "evaluation/pretrained.jsonl", "evaluation/pretrained.summary.json",
+    "evaluation/pretrained.teacher-metrics.json", "evaluation/trained.jsonl",
+    "evaluation/trained.summary.json", "evaluation/trained.teacher-metrics.json",
+    "evaluation/trained.adapter-hashes.json", "evaluation/comparison.json",
+    "evaluation/contrast-pretrained.jsonl", "evaluation/contrast-pretrained.summary.json",
+    "evaluation/contrast-trained.jsonl", "evaluation/contrast-trained.summary.json",
+    "evaluation/contrast-trained.adapter-hashes.json", "evaluation/contrast-comparison.json",
+    "evaluation/public-contrast-protocol.json", "software-validation.json",
+    "production_probe_summary.json", "production_probe_outcomes.jsonl",
+    "production_probe_receipts.jsonl", "production_probe_requests.jsonl",
+    "production_probe_input_snapshot.jsonl", "training_source_manifest.json",
+    "training_source.zip",
 }
 ADAPTER_FILES = {
     "adapter_model.safetensors", "adapter_config.json", "grounding_adapter_manifest.json",
@@ -94,7 +112,9 @@ def source_allowed(name):
         return False
     if any(part.startswith(".") or part in FORBIDDEN_SOURCE_PARTS for part in parts):
         return False
-    if name in ("trackrag/__init__.py", "trackrag/contracts.py", "requirements-grounding-train.txt"):
+    if name in SOURCE_PROTOCOLS:
+        return True
+    if name in ("trackrag/__init__.py", "trackrag/contracts.py", "requirements-grounding-train.txt", "requirements-grounding-local.txt"):
         return True
     if len(parts) >= 3 and parts[:2] == ("trackrag", "dropoff"):
         return path.suffix == ".py" and "__pycache__" not in parts
@@ -146,6 +166,10 @@ def _source_files(root, include_docs, include_tests):
     initializer = root / "trackrag/__init__.py"
     if initializer.exists() or initializer.is_symlink():
         candidates.append(initializer)
+    local_requirements=root/'requirements-grounding-local.txt'
+    if local_requirements.exists() or local_requirements.is_symlink():
+        candidates.append(local_requirements)
+    candidates.extend(root/name for name in SOURCE_PROTOCOLS if (root/name).exists())
     dropoff = root / "trackrag/dropoff"
     if dropoff.is_dir():
         for parent, dirs, files in os.walk(dropoff, followlinks=False):
@@ -218,7 +242,7 @@ def _write_bundle(contents, output, kind, metadata):
 def bundle_source(root, output, *, include_docs=True, include_tests=False):
     return _write_bundle(
         _source_files(root, include_docs, include_tests), output, "source",
-        {"purpose": "minimal_source_for_cloud_gpu_pilot",
+        {"purpose": "minimal_grounding_source_for_gpu_execution",
          "model_weights_included": False, "credentials_included": False,
          "actual_8b_gpu_execution_verified": False},
     )
@@ -247,7 +271,7 @@ def _artifact_completion(contents):
             or peft.get("peft_type") != "LORA"):
         return False, "Base-model identity/revision differs across adapter, PEFT and training configuration"
     run_kind = config.get("run_kind")
-    if run_kind not in ("pilot", "adaptation") or adapter.get("run_kind") != run_kind or training.get("run_kind") != run_kind:
+    if run_kind not in ("pilot", "adaptation", "public_destination") or adapter.get("run_kind") != run_kind or training.get("run_kind") != run_kind:
         return False, "Run kind is missing or inconsistent"
     if (training.get("nonzero_updates_verified") is not True
             or type(training.get("optimizer_steps")) is not int or training["optimizer_steps"] < 1

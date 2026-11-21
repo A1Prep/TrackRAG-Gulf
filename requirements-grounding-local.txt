@@ -1,0 +1,14 @@
+# Install the CUDA Torch pair from the official cu124 index first (see docs).
+# The streamed runtime uses HF/PEFT with a prequantized distribution; it does
+# not require the Unsloth training package or a private owner-local environment.
+torch==2.6.0
+torchvision==0.21.0
+transformers==5.1.0
+peft==0.18.1
+accelerate==1.12.0
+bitsandbytes==0.49.1
+safetensors==0.8.0
+huggingface-hub==1.33.0
+tokenizers==0.22.2
+Pillow==11.1.0
+numpy==1.26.4

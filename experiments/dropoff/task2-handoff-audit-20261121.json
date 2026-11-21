@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "audited_at": "2026-11-21T13:21:08.517768",
+  "source_branch": "Task-2-arjun-emt-reader",
+  "source_commit": "00a07dd3e816e5aa678664b48098ecea7232d514",
+  "public_batch_path": "task5 handoffs-task2/batch_1_task5.jsonl",
+  "public_batch_sha256": "d17787e9fd49cfad40949c6f7404fa2f5bc9e82f41cf81d61318a4e8904ca90c",
+  "public_batch_cases": 10,
+  "reserved_concise_test_source_ids": [
+    4,
+    9,
+    10,
+    13,
+    18,
+    22,
+    23,
+    30,
+    38,
+    42
+  ],
+  "public_training_admitted_cases": 0,
+  "reason": "Every supplied public example is in the pinned concise-test source exclusion list. Scene identities/reviewer fields are also absent from this handed-off schema.",
+  "local_handoff": {
+    "path": "task3 handoffs files/batch1_eval_for_task3.jsonl",
+    "reported_eval_recording": "video_122233",
+    "eval_cases": 10,
+    "author_review_field_present": true,
+    "independent_review_not_verified": true,
+    "train_cases": 1,
+    "train_recording": "video_054604",
+    "train_review_not_supplied": true,
+    "semantic_status_and_clarification_labels_supplied": false
+  },
+  "current_finetuning_corpus": {
+    "train": 500,
+    "development": 125,
+    "public_source_scene_groups_verified": true,
+    "prior80identities_preserved": true,
+    "reserved58scenes_excluded": true
+  },
+  "remaining_local_training_gate": "Versioned scene/recording-disjoint local cases with actual supported status/clarification labels and reviewed input/target separation."
+}

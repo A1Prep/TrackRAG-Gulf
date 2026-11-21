@@ -10,8 +10,13 @@ on:
       - 'requirements-review.txt'
       - 'requirements-integration.txt'
       - 'requirements-hosted.txt'
+      - 'requirements-grounding*.txt'
+      - 'configs/dropoff/**'
+      - 'experiments/dropoff/**'
+      - 'notebooks/dropoff_gpu_pilot.ipynb'
       - 'annotations/**'
       - '.github/workflows/task5-tests.yml'
+      - '.gitattributes'
   push:
     branches: [main]
     paths:
@@ -22,8 +27,13 @@ on:
       - 'requirements-review.txt'
       - 'requirements-integration.txt'
       - 'requirements-hosted.txt'
+      - 'requirements-grounding*.txt'
+      - 'configs/dropoff/**'
+      - 'experiments/dropoff/**'
+      - 'notebooks/dropoff_gpu_pilot.ipynb'
       - 'annotations/**'
       - '.github/workflows/task5-tests.yml'
+      - '.gitattributes'
   workflow_dispatch:
 
 permissions:
@@ -57,3 +67,6 @@ jobs:
       - run: python -m evaluation review-template --help
       - run: python -m evaluation verify-retrieval --help
       - run: python -m evaluation prepare-annotations --help
+      - run: python -m tools.dropoff_fit_local --help
+      - run: python -m tools.dropoff_predict --help
+      - run: python -m tools.dropoff_prepare_streamed_model --help

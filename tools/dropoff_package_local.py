@@ -50,11 +50,14 @@ EVALUATION_FILES = {
     "contrast-pretrained.jsonl", "contrast-pretrained.summary.json",
     "contrast-trained.jsonl", "contrast-trained.summary.json",
     "contrast-trained.adapter-hashes.json", "contrast-comparison.json",
+    "pretrained.target-encoding.json", "trained.target-encoding.json",
+    "contrast-pretrained.target-encoding.json", "contrast-trained.target-encoding.json",
 }
 OPTIONAL_RUN_FILES = {
     "evaluation_cohort.json", "runtime_provenance.json", "hardware.json",
     "environment_freeze.txt", "training-log.jsonl", "pretrained_teacher_metrics.json",
     "epoch-1-teacher-metrics.json", "epoch-2-teacher-metrics.json", "software-validation.json",
+    "target-encoding.json",
 }
 _SHA = re.compile(r"[0-9a-f]{64}")
 
@@ -304,6 +307,22 @@ def stage_run(run_dir, production_probe_run, probe_input, protocol, out):
     require(selected.get("training_manifest_sha256") == digest(payloads["dataset_manifest.json"])
             and selected.get("training_settings_sha256") == digest(payloads["training_settings.json"]),
             "Selected adapter training-data/settings bindings differ")
+    encoding_declared=any('target_encoding' in record or 'target_encoding_receipt_sha256' in record
+                          for record in (settings,selected,raw))
+    if encoding_declared:
+        require(isinstance(settings.get('target_encoding'),str) and bool(settings['target_encoding'])
+                and isinstance(settings.get('target_encoding_receipt_sha256'),str)
+                and _SHA.fullmatch(settings['target_encoding_receipt_sha256']) is not None,
+                'Declared target encoding requires a nonempty target-encoding receipt SHA256')
+        require((run/'target-encoding.json').is_file(),
+                'Declared target encoding requires target-encoding.json')
+        encoding_blob=read('target-encoding.json'); encoding=_json(encoding_blob)
+        require(digest(encoding_blob)==settings['target_encoding_receipt_sha256']
+                and selected.get('target_encoding_receipt_sha256')==digest(encoding_blob)
+                and selected.get('target_encoding')==settings.get('target_encoding')==encoding.get('encoding')
+                and raw.get('target_encoding')==encoding.get('encoding')
+                and raw.get('target_encoding_receipt_sha256')==digest(encoding_blob),
+                'Teacher target-encoding receipt/settings/adapter bindings differ')
     require(not set(dataset["train_scene_groups"]) & set(dataset["development_scene_groups"]),
             "Training and development scenes overlap")
     for name in EVALUATION_FILES:

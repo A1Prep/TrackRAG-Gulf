@@ -25,6 +25,123 @@ from tools.dropoff_train import (GroundingCollator, TrainConfig, adapter_paramet
 from trackrag.dropoff.model import GroundingConfig
 
 
+SOURCE_TARGET_ENCODING = 'source_float_box_first'
+INTEGER_TARGET_ENCODING = 'point_first_mask_preserving_integer_v1'
+TARGET_ENCODINGS = (SOURCE_TARGET_ENCODING, INTEGER_TARGET_ENCODING)
+
+
+def prepare_target_encoding(cases, encoding=SOURCE_TARGET_ENCODING, *, source_bindings=None):
+    """Preflight immutable teacher labels; never transform runtime predictions.
+
+    The optional codec applies only to audited public destination supervision.
+    Masks select representable *label* points, never proposed model outputs.
+    """
+    from PIL import Image
+    from trackrag.dropoff.contracts import DESTINATION_FIELDS, validate_target
+    from trackrag.dropoff.data import inference_input_sha256, supervision_sha256
+    from trackrag.dropoff.formatting import build_messages, build_training_messages
+    if encoding not in TARGET_ENCODINGS:
+        raise ValueError('Unknown teacher target encoding')
+    records = {}; texts = {}; adjusted = clipped = 0; maximum_displacement = 0.0
+    for case in cases:
+        identity = case['case_id']; source = case['source']; frame = case['request']['scene']['frame']
+        if identity in records:
+            raise ValueError('Duplicate case identifier in target-encoding preflight')
+        record = {'partition': case['partition'], 'image_sha256': source['image_sha256'],
+            'mask_sha256': source.get('mask_sha256'),
+            'original_supervision_sha256': supervision_sha256(case['target'], case['supervised_fields'], frame),
+            'input_sha256': inference_input_sha256(case['request'], source['image_sha256'])}
+        if encoding == SOURCE_TARGET_ENCODING:
+            text = build_training_messages(case)[-1]['content']
+            encoded_point = json.loads(text).get('destination_point_xy')
+            if encoded_point is not None:
+                original_point = case['target']['destination_point_xy']
+                maximum_displacement = max(maximum_displacement, math.hypot(
+                    encoded_point[0]*frame['width']/1000-original_point[0],
+                    encoded_point[1]*frame['height']/1000-original_point[1]))
+        else:
+            if (set(case['supervised_fields']) != DESTINATION_FIELDS
+                    or source.get('dataset') != 'Talk2Car-RegSeg'
+                    or case.get('review', {}).get('status') != 'public_annotation'
+                    or case['partition'] not in ('train', 'development')):
+                raise ValueError('Integer target encoding requires public destination-only train/development labels')
+            target = validate_target(case['target'], list(DESTINATION_FIELDS), frame)
+            w, h = frame['width'], frame['height']; px, py = target['destination_point_xy']
+            box = target['destination_box_xyxy']; norm = [px * 1000 / w, py * 1000 / h]
+            rounded = [math.floor(value + .5) for value in norm]
+            nearest = [max(0, min(999, value)) for value in rounded]
+            clipped += nearest != rounded
+            ibox = [math.floor(box[0] * 1000 / w), math.floor(box[1] * 1000 / h),
+                    math.ceil(box[2] * 1000 / w), math.ceil(box[3] * 1000 / h)]
+            payload = Path(source['mask_path']).read_bytes()
+            if (len(payload) > 32 * 1024**2
+                    or hashlib.sha256(payload).hexdigest() != source.get('mask_sha256')):
+                raise ValueError('Target-encoding mask bytes changed: ' + identity)
+            with Image.open(BytesIO(payload)) as original:
+                if original.width * original.height > 48_000_000:
+                    raise ValueError('Target-encoding mask exceeds the pixel budget')
+                mask = original.convert('L'); mw, mh = mask.size
+                if ((source.get('mask_width', mw), source.get('mask_height', mh)) != (mw, mh)):
+                    raise ValueError('Target-encoding mask dimensions changed: ' + identity)
+                def inside(point):
+                    return mask.getpixel((min(mw-1, int(point[0]*mw/1000)),
+                                          min(mh-1, int(point[1]*mh/1000)))) > 0
+                def in_box(point):
+                    return ibox[0] <= point[0] < ibox[2] and ibox[1] <= point[1] < ibox[3]
+                if not inside(norm):
+                    raise ValueError('Original target is outside its source mask: ' + identity)
+                point = nearest
+                if not inside(nearest) or not in_box(nearest):
+                    candidates = [(x, y)
+                        for x in {math.floor(norm[0]), math.ceil(norm[0])}
+                        for y in {math.floor(norm[1]), math.ceil(norm[1])}
+                        if 0 <= x <= 999 and 0 <= y <= 999 and inside((x, y)) and in_box((x, y))]
+                    if not candidates:
+                        raise ValueError('No valid adjacent integer label point is representable: ' + identity)
+                    point = list(min(candidates, key=lambda p: ((p[0]*w/1000-px)**2
+                                                               + (p[1]*h/1000-py)**2, p[0], p[1])))
+                mask.close()
+            changed = point != nearest; adjusted += changed
+            displacement = math.hypot(point[0]*w/1000-px, point[1]*h/1000-py)
+            maximum_displacement = max(maximum_displacement, displacement)
+            transformed = {'destination_point_xy': point, 'destination_box_xyxy': ibox}
+            validate_target(transformed, list(DESTINATION_FIELDS), {'width': 1000, 'height': 1000})
+            text = json.dumps(transformed, separators=(',', ':'), allow_nan=False)
+            record.update(mask_adjusted=changed, clipped_to_999=nearest != rounded,
+                          displacement_original_pixels=displacement)
+        record['transformed_target_sha256'] = hashlib.sha256(text.encode('utf-8')).hexdigest()
+        record['field_order'] = list(json.loads(text))
+        records[identity] = record; texts[identity] = text
+    receipt = {'schema_version': 1, 'kind': 'teacher_target_encoding', 'encoding': encoding,
+        'coordinate_system': 'normalized_0_1000_image_edges',
+        'field_order': (['destination_point_xy', 'destination_box_xyxy'] if encoding == INTEGER_TARGET_ENCODING
+                        else ['destination_box_xyxy', 'destination_point_xy']),
+        'rounding': ('point: nearest half-up 0..999; if invalid, closest mask-valid floor/ceil adjacent '
+                     'grid point by original-pixel distance, then x/y tie break; box: outward floor/floor/ceil/ceil'
+                     if encoding == INTEGER_TARGET_ENCODING else 'original six-decimal float normalization and sorted JSON'),
+        'case_count': len(records), 'cases': records, 'source_bindings': deepcopy(source_bindings or {}),
+        'mask_adjusted_cases': adjusted, 'clipped_to_999_cases': clipped,
+        'max_displacement_original_pixels': maximum_displacement,
+        'original_labels_modified': False, 'runtime_prediction_snapping': False,
+        'scope': 'training/teacher targets only; original free-generation references remain unchanged'}
+    if encoding == SOURCE_TARGET_ENCODING:
+        return None, receipt  # Preserve the existing collator's exact default message builder.
+    def builder(case):
+        identity = case['case_id']; source = case['source']; frame = case['request']['scene']['frame']
+        expected = records.get(identity)
+        if (expected is None or case['partition'] != expected['partition']
+                or source['image_sha256'] != expected['image_sha256']
+                or source.get('mask_sha256') != expected['mask_sha256']
+                or supervision_sha256(case['target'], case['supervised_fields'], frame)
+                   != expected['original_supervision_sha256']
+                or inference_input_sha256(case['request'], source['image_sha256']) != expected['input_sha256']):
+            raise ValueError('Case changed after target-encoding preflight: ' + identity)
+        messages = build_messages(case['request'], task='destination_only')
+        messages.append({'role': 'assistant', 'content': texts[identity]})
+        return messages
+    return builder, deepcopy(receipt)
+
+
 def cohort(cases, count, seed=42):
     """Target-independent order, avoiding duplicate source scenes when possible."""
     if type(count) is not int or count<1 or type(seed) is not int or seed<0:
@@ -71,7 +188,7 @@ def supervised_forward(runtime, collator, case):
     return loss,int(len(positions))
 
 
-def teacher_evaluate(runtime,collator,cases,*,disabled=False):
+def teacher_evaluate(runtime,collator,cases,*,disabled=False,target_encoding=SOURCE_TARGET_ENCODING):
     import torch
     rows=[];total=0.0;tokens=0
     context=runtime.model.disable_adapter() if disabled else nullcontext()
@@ -83,7 +200,8 @@ def teacher_evaluate(runtime,collator,cases,*,disabled=False):
             rows.append({'case_id':case['case_id'],'nll':value,'target_tokens':count})
             del loss
     return {'kind':'teacher_forced_target_nll_not_spatial_accuracy','cases':len(rows),'tokens':tokens,
-            'token_weighted_nll':total/tokens,'perplexity':math.exp(min(50,total/tokens)),'rows':rows}
+            'token_weighted_nll':total/tokens,'perplexity':math.exp(min(50,total/tokens)),'rows':rows,
+            'target_encoding':target_encoding,'nll_comparison_scope':'within_encoding_not_cross_codec_accuracy'}
 
 
 def parse_destination(raw,width,height):
@@ -190,6 +308,10 @@ def free_evaluate(runtime,cases,output,*,disabled=False):
 
 
 def save_adapter(runtime,path,run_dir,progress):
+    settings=json.loads((run_dir/'training_settings.json').read_text())
+    if (settings.get('target_encoding_receipt_sha256')
+            and sha256_file(run_dir/'target-encoding.json')!=settings['target_encoding_receipt_sha256']):
+        raise ValueError('Target-encoding receipt changed after preflight')
     path=Path(path);path.mkdir(parents=True,exist_ok=True)
     model=runtime.model
     model.peft_config['default'].base_model_name_or_path=runtime.config.model_id
@@ -208,6 +330,8 @@ def save_adapter(runtime,path,run_dir,progress):
         'suffix_layers':runtime.config.suffix_layers,'adapter_parameter_hashes':hashes,
         'changed_adapter_tensors':len(changed),'verification':{'nonzero_updates_verified':bool(changed),'fresh_base_reload_verified':False},
         'public_region_labels_do_not_supervise_clarification':True}
+    manifest['target_encoding']=settings.get('target_encoding',SOURCE_TARGET_ENCODING)
+    manifest['target_encoding_receipt_sha256']=settings.get('target_encoding_receipt_sha256')
     write_json(path/'grounding_adapter_manifest.json',manifest)
     return manifest
 
@@ -247,6 +371,9 @@ def train(args):
     import torch
     from trackrag.dropoff.streamed import StreamedRuntime
     config=GroundingConfig.from_mapping(json.loads(args.config.read_text()))
+    encoding=getattr(args,'target_encoding',SOURCE_TARGET_ENCODING)
+    if encoding==INTEGER_TARGET_ENCODING and config.adapter_dir:
+        raise ValueError('The controlled integer-codec run requires a fresh base adapter, not continuation')
     torch.set_num_threads(2)
     torch.cuda.set_per_process_memory_fraction(.90,0)
     out=args.out.resolve();out.mkdir(parents=True,exist_ok=False)
@@ -261,11 +388,15 @@ def train(args):
     for name in source_names:
         target=out/'source'/name;target.parent.mkdir(parents=True,exist_ok=True)
         target.write_bytes((source_root/name).read_bytes())
-    write_json(out/'training_settings.json',settings)
     loader_config=TrainConfig(max_train_cases=None,max_dev_cases=None,run_kind='pilot')
     cases,dev,manifest=load_training_cases(args.train,args.development,loader_config)
     if not dev:raise ValueError('A disjoint development partition is required')
     write_json(out/'dataset_manifest.json',manifest)
+    message_builder,encoding_receipt=prepare_target_encoding(cases+dev,encoding,source_bindings={
+        'train_sha256':manifest['train_sha256'],'development_sha256':manifest['development_sha256']})
+    write_json(out/'target-encoding.json',encoding_receipt)
+    settings.update(target_encoding=encoding,target_encoding_receipt_sha256=sha256_file(out/'target-encoding.json'))
+    write_json(out/'training_settings.json',settings)
     prepare_public_probe(cases[0],out/'production-probe-input')
     selected=cohort(dev,args.dev_limit);generation_cases=cohort(dev,args.generation_limit)
     write_json(out/'evaluation_cohort.json',{'teacher_case_ids':[r['case_id'] for r in selected],
@@ -283,12 +414,12 @@ def train(args):
     try:
         event('loading_verified_8b')
         runtime=StreamedRuntime(config,training_lora={'rank':8,'alpha':16,'dropout':0.0})
-        collator=GroundingCollator(runtime.processor,config.max_input_tokens)
+        collator=GroundingCollator(runtime.processor,config.max_input_tokens,message_builder=message_builder)
         before=adapter_parameter_hashes(runtime.model)
         runtime.initial_adapter_hashes=before
         write_json(out/'runtime_provenance.json',runtime.provenance)
         event('pretrained_teacher_evaluation')
-        baseline=teacher_evaluate(runtime,collator,selected,disabled=True)
+        baseline=teacher_evaluate(runtime,collator,selected,disabled=True,target_encoding=encoding)
         write_json(out/'pretrained_teacher_metrics.json',baseline)
         if args.preflight_generation:
             event('pretrained_free_generation_gate')
@@ -333,7 +464,7 @@ def train(args):
                 optimizer.zero_grad(set_to_none=True)
                 progress['epochs_completed']=epoch+1
                 event('development_teacher_evaluation')
-                metrics=teacher_evaluate(runtime,collator,selected)
+                metrics=teacher_evaluate(runtime,collator,selected,target_encoding=encoding)
                 write_json(out/f'epoch-{epoch+1}-teacher-metrics.json',metrics)
                 save_adapter(runtime,out/f'epoch-{epoch+1}-adapter',out,progress)
                 if best is None or metrics['token_weighted_nll']<best['token_weighted_nll']:
@@ -350,6 +481,7 @@ def train(args):
             'training_examples_unique':len(set(progress['actual_training_case_ids'])),'epochs':args.epochs,
             'packages':package_versions(),'local_clarification_training_complete':False,
             'fresh_reload_pending':True,'free_spatial_comparison_pending':True}
+        result.update(target_encoding=encoding,target_encoding_receipt_sha256=settings['target_encoding_receipt_sha256'])
         selected_manifest=json.loads((out/'adapter/grounding_adapter_manifest.json').read_text())
         result['selected_adapter_parameter_hashes']=selected_manifest['adapter_parameter_hashes']
         result['selected_adapter_files']=selected_manifest['files']
@@ -388,19 +520,29 @@ def evaluate(args):
         chosen=controlled_contrast_cases(cases,protocol,source_sha,sha256_file(args.protocol))
     else:
         chosen=cohort(cases,args.generation_limit)
+    encoding=getattr(args,'teacher_target_encoding',SOURCE_TARGET_ENCODING)
+    message_builder=None;encoding_receipt_path=args.out.with_suffix('.target-encoding.json')
+    if args.teacher_all:
+        if encoding_receipt_path.exists():raise FileExistsError('Teacher target-encoding receipt already exists')
+        message_builder,encoding_receipt=prepare_target_encoding(cases,encoding,source_bindings={'development_sha256':source_sha})
+        write_json(encoding_receipt_path,encoding_receipt)
     runtime=StreamedRuntime(config)
     try:
         if config.adapter_dir:
             write_json(args.out.with_suffix('.adapter-hashes.json'),adapter_parameter_hashes(runtime.model))
         teacher=None
         if args.teacher_all:
-            teacher=teacher_evaluate(runtime,GroundingCollator(runtime.processor,config.max_input_tokens),cases)
+            teacher=teacher_evaluate(runtime,GroundingCollator(runtime.processor,config.max_input_tokens,
+                message_builder=message_builder),cases,target_encoding=encoding)
             write_json(args.out.with_suffix('.teacher-metrics.json'),teacher)
         result=free_evaluate(runtime,chosen,args.out)
         result['development_source_sha256']=source_sha
         result['contrast_protocol_sha256']=sha256_file(args.protocol) if args.protocol else None
         result['all_development_teacher_nll']=teacher['token_weighted_nll'] if teacher else None
         result['teacher_forced_cases']=teacher['cases'] if teacher else 0
+        if teacher:
+            result.update(teacher_target_encoding=encoding,teacher_target_encoding_receipt_sha256=sha256_file(encoding_receipt_path),
+                          teacher_nll_comparison_scope='within_encoding_not_cross_codec_accuracy')
         write_json(args.out.with_suffix('.summary.json'),result)
         print(json.dumps(result),flush=True)
         return result
@@ -414,10 +556,14 @@ def main(argv=None):
     fit.add_argument('--epochs',type=int,default=2);fit.add_argument('--learning-rate',type=float,default=1e-4)
     fit.add_argument('--accumulation',type=int,default=2);fit.add_argument('--dev-limit',type=int,default=32)
     fit.add_argument('--generation-limit',type=int,default=20);fit.add_argument('--preflight-generation',action='store_true')
+    fit.add_argument('--target-encoding',choices=TARGET_ENCODINGS,default=SOURCE_TARGET_ENCODING,
+                     help='Explicit teacher-target codec; the default preserves original float box-first targets')
     check=commands.add_parser('evaluate');check.add_argument('--config',type=Path,required=True);check.add_argument('--development',type=Path,required=True)
     check.add_argument('--out',type=Path,required=True);check.add_argument('--generation-limit',type=int,default=20)
     check.add_argument('--protocol',type=Path,help='Frozen same-image language contrast protocol')
     check.add_argument('--teacher-all',action='store_true',help='Also measure teacher-forced NLL on the complete development partition')
+    check.add_argument('--teacher-target-encoding',choices=TARGET_ENCODINGS,default=SOURCE_TARGET_ENCODING,
+                       help='Teacher NLL target codec only; free generation and original references remain unchanged')
     args=parser.parse_args(argv)
     if args.command=='train':
         if not 1<=args.epochs<=5 or not 1<=args.accumulation<=8 or not 0<args.learning_rate<=.001 or args.dev_limit<1 or args.generation_limit<1:

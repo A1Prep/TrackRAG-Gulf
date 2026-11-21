@@ -182,6 +182,46 @@ def test_stages_selected_checkpoint_separately_from_complete_schedule_without_to
     assert loaded[0]["scene"]["frame"]["image_path"] == str((extracted / "probe-image.png").resolve())
 
 
+def test_rejects_optional_encoding_receipt_binding_mismatch(evidence):
+    root=evidence['run']
+    put(root,'target-encoding.json',{'encoding':'synthetic_teacher_codec'})
+    settings=json.loads((root/'training_settings.json').read_text())
+    settings.update(target_encoding='synthetic_teacher_codec',target_encoding_receipt_sha256=sha(root/'target-encoding.json'))
+    put(root,'training_settings.json',settings)
+    manifest=json.loads((root/'adapter/grounding_adapter_manifest.json').read_text())
+    manifest.update(training_settings_sha256=sha(root/'training_settings.json'),target_encoding='synthetic_teacher_codec',
+                    target_encoding_receipt_sha256='0'*64)
+    put(root,'adapter/grounding_adapter_manifest.json',manifest)
+    with pytest.raises(package.PackageError,match='target-encoding receipt/settings/adapter'):
+        stage(evidence)
+    assert not evidence['out'].exists()
+
+
+@pytest.mark.parametrize('missing',['sha_field','empty_sha','receipt_file','all_settings_fields'])
+def test_declared_integer_encoding_cannot_skip_required_receipt(evidence,missing):
+    root=evidence['run'];encoding='point_first_mask_preserving_integer_v1'
+    put(root,'target-encoding.json',{'encoding':encoding})
+    binding=sha(root/'target-encoding.json')
+    settings=json.loads((root/'training_settings.json').read_text())
+    settings.update(target_encoding=encoding,target_encoding_receipt_sha256=binding)
+    if missing=='sha_field':settings.pop('target_encoding_receipt_sha256')
+    elif missing=='empty_sha':settings['target_encoding_receipt_sha256']=''
+    elif missing=='all_settings_fields':
+        settings.pop('target_encoding');settings.pop('target_encoding_receipt_sha256')
+    else:(root/'target-encoding.json').unlink()
+    put(root,'training_settings.json',settings)
+    manifest=json.loads((root/'adapter/grounding_adapter_manifest.json').read_text())
+    manifest.update(training_settings_sha256=sha(root/'training_settings.json'),target_encoding=encoding,
+                    target_encoding_receipt_sha256=binding)
+    put(root,'adapter/grounding_adapter_manifest.json',manifest)
+    result=json.loads((root/'training_result.json').read_text())
+    result.update(target_encoding=encoding,target_encoding_receipt_sha256=binding)
+    put(root,'training_result.json',result)
+    with pytest.raises(package.PackageError,match='Declared target encoding requires'):
+        stage(evidence)
+    assert not evidence['out'].exists()
+
+
 @pytest.mark.parametrize("mutation,match", [
     ("unfinished", "has not completed"), ("selected_tensors", "selected tensor hashes"),
     ("fresh_tensors", "Fresh evaluation tensor hashes"), ("adapter_bytes", "adapter file changed"),

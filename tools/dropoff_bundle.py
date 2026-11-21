@@ -29,7 +29,11 @@ REQUIRED_SOURCE = {
     "tools/dropoff_bundle.py", "configs/dropoff/training-pilot.json",
     "configs/dropoff/regseg-scene-guards.json", "requirements-grounding-train.txt",
 }
-SOURCE_PROTOCOLS = {"experiments/dropoff/public-contrast-protocol-20261121.json"}
+SOURCE_PROTOCOLS = {
+    "experiments/dropoff/public-contrast-protocol-20261121.json",
+    "experiments/dropoff/public-prompt-ablation-protocol-20261121.json",
+    "experiments/dropoff/public-target-encoding-protocol-20261121.json",
+}
 RUN_FILES = {
     "training_config.json", "dataset_manifest.json", "training_result.json",
     "preflight.json", "reload_probe.json", "reload_verification.json",
@@ -39,11 +43,14 @@ RUN_FILES = {
     "probe-image.jpg", "probe-image.png", "probe-image.webp",
     "probe-requests.jsonl",
     "training_settings.json", "evaluation_cohort.json", "runtime_provenance.json",
+    "target-encoding.json",
     "hardware.json", "training-log.jsonl", "raw_training_result.json",
     "selected_adapter_manifest.json", "pretrained_teacher_metrics.json",
     "epoch-1-teacher-metrics.json", "epoch-2-teacher-metrics.json",
     "evaluation/pretrained.jsonl", "evaluation/pretrained.summary.json",
     "evaluation/pretrained.teacher-metrics.json", "evaluation/trained.jsonl",
+    "evaluation/pretrained.target-encoding.json", "evaluation/trained.target-encoding.json",
+    "evaluation/contrast-pretrained.target-encoding.json", "evaluation/contrast-trained.target-encoding.json",
     "evaluation/trained.summary.json", "evaluation/trained.teacher-metrics.json",
     "evaluation/trained.adapter-hashes.json", "evaluation/comparison.json",
     "evaluation/contrast-pretrained.jsonl", "evaluation/contrast-pretrained.summary.json",

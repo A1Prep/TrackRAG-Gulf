@@ -179,6 +179,31 @@ LoRA target expression and rejects layouts or initializers that could modify the
 frozen base. Model quality, successful training and completion status come from
 the run/evaluation records, not from the presence of an adapter directory.
 
+The fit tool preserves `source_float_box_first` teacher targets by default.
+An optional controlled experiment selects
+`--target-encoding point_first_mask_preserving_integer_v1`. It starts a fresh
+adapter on the same base and applies only to public destination-only labels.
+It serializes the point before the box, rounds the point to an integer grid,
+and rounds box edges outward. If the nearest point leaves the source mask or
+encoded box, it selects the closest valid floor/ceil adjacent grid point by
+distance in original pixels. A case without such a point fails preflight.
+This is label preparation using training/development masks; inference never
+receives those masks or moves generated points to fit them.
+
+Before model construction, `target-encoding.json` binds every transformed target
+to its original supervision, input, source image/mask and split-file hashes.
+It records rounding rules, order, adjustments and maximum displacement. Training
+settings and adapter manifests bind that receipt. Original cases and references
+are retained. Pretrained and epoch teacher losses use the selected encoding.
+For matching evaluation, explicitly pass
+`--teacher-target-encoding point_first_mask_preserving_integer_v1 --teacher-all`.
+Teacher summaries identify their encoding: token NLL across different codecs
+must not be reported as a semantic accuracy improvement. Free generation still
+uses its unchanged destination-only prompt and original spatial references.
+This optional experiment is not evidence of improved quality until its actual
+matched evaluations are complete; it supplies no missing status/clarification
+supervision.
+
 The release artifact's `training_source.zip` preserves the nine files actually
 used during training. Apply that snapshot only in a separate copy when
 reproducing training. Production inference uses the current source bundle with

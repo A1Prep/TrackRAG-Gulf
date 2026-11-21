@@ -85,6 +85,48 @@ def hash_map(value, label):
     return value
 
 
+def validate_encoding_corpus(receipt, dataset):
+    """Bind declared teacher labels to the unchanged consumed corpus manifest."""
+    require(isinstance(receipt, dict) and type(receipt.get('schema_version')) is int
+            and receipt['schema_version']==1 and receipt.get('kind')=='teacher_target_encoding',
+            'Invalid teacher target-encoding receipt schema')
+    bindings=receipt.get('source_bindings')
+    require(isinstance(bindings, dict) and all(
+        isinstance(dataset.get(key),str) and _SHA.fullmatch(dataset[key])
+        and bindings.get(key)==dataset[key] for key in ('train_sha256','development_sha256')),
+        'Target-encoding source split hashes differ from the dataset manifest')
+    train,development=dataset.get('train_case_ids'),dataset.get('development_case_ids')
+    require(all(isinstance(ids,list) and all(isinstance(identity,str) and bool(identity) for identity in ids)
+                for ids in (train,development)), 'Invalid target-encoding corpus case identifiers')
+    require(len(train)==len(set(train)) and len(development)==len(set(development))
+            and not set(train)&set(development), 'Target-encoding corpus split IDs are duplicate or overlapping')
+    identities=set(train)|set(development)
+    rows=receipt.get('cases')
+    require(isinstance(rows,dict) and set(rows)==identities and type(receipt.get('case_count')) is int
+            and receipt['case_count']==len(identities),
+            'Target-encoding receipt cases/count differ from the declared corpus')
+    artifacts=dataset.get('case_artifacts')
+    require(isinstance(artifacts,list) and all(isinstance(row,dict)
+        and isinstance(row.get('case_id'),str) for row in artifacts), 'Invalid target-encoding case artifacts')
+    artifact_ids=[row['case_id'] for row in artifacts]
+    require(len(artifact_ids)==len(set(artifact_ids)) and set(artifact_ids)==identities,
+            'Target-encoding case artifacts are duplicate or differ from the declared corpus')
+    artifacts={row['case_id']:row for row in artifacts};train_ids=set(train)
+    integer=receipt.get('encoding')=='point_first_mask_preserving_integer_v1'
+    for identity in identities:
+        row=rows[identity];expected_partition='train' if identity in train_ids else 'development'
+        require(isinstance(row,dict) and row.get('partition')==expected_partition,
+                'Target-encoding receipt has the wrong case partition: '+identity)
+        image=row.get('image_sha256')
+        require(isinstance(image,str) and _SHA.fullmatch(image)
+                and image==artifacts[identity].get('image_sha256'),
+                'Target-encoding image binding differs from its case artifact: '+identity)
+        if integer:
+            require(all(isinstance(row.get(key),str) and _SHA.fullmatch(row[key]) for key in (
+                'original_supervision_sha256','input_sha256','transformed_target_sha256','mask_sha256')),
+                'Invalid integer target-encoding supervision/input/target/mask SHA256: '+identity)
+
+
 def inference_profile(value, selected, label):
     config = GroundingConfig.from_mapping(value)
     require(config.runtime == "streamed" and config.quantization == "nf4"
@@ -323,6 +365,7 @@ def stage_run(run_dir, production_probe_run, probe_input, protocol, out):
                 and raw.get('target_encoding')==encoding.get('encoding')
                 and raw.get('target_encoding_receipt_sha256')==digest(encoding_blob),
                 'Teacher target-encoding receipt/settings/adapter bindings differ')
+        validate_encoding_corpus(encoding,dataset)
     require(not set(dataset["train_scene_groups"]) & set(dataset["development_scene_groups"]),
             "Training and development scenes overlap")
     for name in EVALUATION_FILES:

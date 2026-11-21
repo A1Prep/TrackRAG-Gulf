@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import argparse
+import ast
 import hashlib
 import json
 import os
@@ -34,6 +35,7 @@ SOURCE_PROTOCOLS = {
     "experiments/dropoff/public-prompt-ablation-protocol-20261121.json",
     "experiments/dropoff/public-target-encoding-protocol-20261121.json",
 }
+TEST_SUPPORT_NOTEBOOK = "notebooks/dropoff_gpu_pilot.ipynb"
 RUN_FILES = {
     "training_config.json", "dataset_manifest.json", "training_result.json",
     "preflight.json", "reload_probe.json", "reload_verification.json",
@@ -102,6 +104,40 @@ def _json(blob):
         raise BundleError(f"Invalid UTF-8 JSON: {error}") from error
 
 
+def _validate_unexecuted_notebook(blob, *, load_json=_json):
+    """Validate the optional Python test-support notebook without executing it."""
+    try:
+        notebook = load_json(blob)
+        if (not isinstance(notebook, dict) or type(notebook.get("nbformat")) is not int
+                or notebook["nbformat"] != 4 or type(notebook.get("nbformat_minor")) is not int
+                or notebook["nbformat_minor"] < 0 or not isinstance(notebook.get("metadata"), dict)
+                or not isinstance(notebook.get("cells"), list)):
+            raise ValueError("Unsupported notebook structure")
+        identifiers = set()
+        for cell in notebook["cells"]:
+            if (not isinstance(cell, dict) or cell.get("cell_type") not in ("code", "markdown", "raw")
+                    or not isinstance(cell.get("metadata"), dict)):
+                raise ValueError("Invalid notebook cell")
+            source = cell.get("source")
+            if not (isinstance(source, str) or isinstance(source, list) and all(isinstance(s, str) for s in source)):
+                raise ValueError("Notebook source must be text")
+            if notebook["nbformat_minor"] >= 5:
+                identity = cell.get("id")
+                if (not isinstance(identity, str) or not re.fullmatch(r"[A-Za-z0-9_-]{1,64}", identity)
+                        or identity in identifiers):
+                    raise ValueError("Invalid or duplicate notebook cell ID")
+                identifiers.add(identity)
+            if cell["cell_type"] == "code":
+                if ("execution_count" not in cell or cell["execution_count"] is not None
+                        or cell.get("outputs") != []):
+                    raise ValueError("Notebook must be unexecuted, with empty outputs and null execution_count")
+                ast.parse(source if isinstance(source, str) else "".join(source))
+            elif "outputs" in cell or "execution_count" in cell:
+                raise ValueError("Non-code notebook cell contains execution data")
+    except (ValueError, TypeError, KeyError, SyntaxError) as error:
+        raise BundleError("Invalid or executed test-support notebook: " + str(error)) from error
+
+
 def safe_zip_path(name):
     if not isinstance(name, str):
         raise BundleError("ZIP paths must be text")
@@ -120,6 +156,8 @@ def source_allowed(name):
     if any(part.startswith(".") or part in FORBIDDEN_SOURCE_PARTS for part in parts):
         return False
     if name in SOURCE_PROTOCOLS:
+        return True
+    if name == TEST_SUPPORT_NOTEBOOK:
         return True
     if name in ("trackrag/__init__.py", "trackrag/contracts.py", "requirements-grounding-train.txt", "requirements-grounding-local.txt", "requirements-grounding-format.txt"):
         return True
@@ -196,6 +234,9 @@ def _source_files(root, include_docs, include_tests):
     if include_tests:
         candidates.extend(path for path in root.glob("tests/test_dropoff*.py")
                           if source_allowed(path.relative_to(root).as_posix()))
+        notebook = root / TEST_SUPPORT_NOTEBOOK
+        if notebook.exists() or notebook.is_symlink():
+            candidates.append(notebook)
     contents = {}
     for path in sorted(set(candidates)):
         if not path.exists() and not path.is_symlink():
@@ -203,6 +244,8 @@ def _source_files(root, include_docs, include_tests):
         name, blob = _regular_bytes(path, root, max_bytes=SOURCE_LIMIT - sum(map(len, contents.values())))
         if not source_allowed(name):
             raise BundleError(f"Source is outside the explicit allowlist: {name}")
+        if name == TEST_SUPPORT_NOTEBOOK:
+            _validate_unexecuted_notebook(blob)
         contents[name] = blob
     return contents
 
@@ -414,6 +457,8 @@ def verify_bundle(path):
             blob = archive.read(name)
             if len(blob) != expected["bytes"] or _hash(blob) != expected["sha256"]:
                 raise BundleError(f"File SHA256 mismatch: {name}")
+            if kind == "source" and name == TEST_SUPPORT_NOTEBOOK:
+                _validate_unexecuted_notebook(blob)
             if kind == "adapter":
                 contents[name] = blob
         if kind == "adapter":

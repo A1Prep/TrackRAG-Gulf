@@ -149,6 +149,103 @@ def stage(evidence):
     return package.stage_run(evidence["run"], evidence["production"], evidence["probe"], evidence["protocol"], evidence["out"])
 
 
+def bind_encoding_fixture(evidence, receipt):
+    """Rebind synthetic proof files so corpus tests cannot fail on stale hashes."""
+    root=evidence['run'];put(root,'target-encoding.json',receipt)
+    binding=sha(root/'target-encoding.json')
+    settings=json.loads((root/'training_settings.json').read_text())
+    settings.update(target_encoding=receipt['encoding'],target_encoding_receipt_sha256=binding)
+    put(root,'training_settings.json',settings)
+    selected=json.loads((root/'adapter/grounding_adapter_manifest.json').read_text())
+    selected.update(training_manifest_sha256=sha(root/'dataset_manifest.json'),
+        training_settings_sha256=sha(root/'training_settings.json'),target_encoding=receipt['encoding'],
+        target_encoding_receipt_sha256=binding)
+    put(root,'adapter/grounding_adapter_manifest.json',selected)
+    raw=json.loads((root/'training_result.json').read_text())
+    raw.update(target_encoding=receipt['encoding'],target_encoding_receipt_sha256=binding)
+    put(root,'training_result.json',raw)
+    production=evidence['production']
+    for name in ('receipts.jsonl','model-outcomes.jsonl'):
+        value=json.loads((production/name).read_text())
+        value['provenance']['adapter']['manifest_sha256']=sha(root/'adapter/grounding_adapter_manifest.json')
+        put(production,name,value)
+    summary=json.loads((production/'run.json').read_text())
+    summary.update(receipts_sha256=sha(production/'receipts.jsonl'),outcomes_sha256=sha(production/'model-outcomes.jsonl'))
+    put(production,'run.json',summary)
+
+
+@pytest.fixture
+def encoded_evidence(evidence):
+    root=evidence['run'];dataset=json.loads((root/'dataset_manifest.json').read_text())
+    probe_image=dataset['case_artifacts'][0]['image_sha256']
+    identities=dataset['train_case_ids']+dataset['development_case_ids']
+    dataset['case_artifacts']=[{'case_id':identity,'image_sha256':probe_image if identity=='train-a'
+        else hashlib.sha256(('synthetic-image-'+identity).encode()).hexdigest()} for identity in identities]
+    put(root,'dataset_manifest.json',dataset)
+    receipt={'schema_version':1,'kind':'teacher_target_encoding','encoding':'point_first_mask_preserving_integer_v1',
+        'source_bindings':{key:dataset[key] for key in ('train_sha256','development_sha256')},
+        'case_count':len(identities),'cases':{}}
+    for row in dataset['case_artifacts']:
+        identity=row['case_id']
+        receipt['cases'][identity]={'partition':'train' if identity in dataset['train_case_ids'] else 'development',
+            'image_sha256':row['image_sha256'],**{key:hashlib.sha256((identity+':'+key).encode()).hexdigest()
+                for key in ('original_supervision_sha256','input_sha256','transformed_target_sha256','mask_sha256')}}
+    bind_encoding_fixture(evidence,receipt)
+    return evidence
+
+
+def test_stages_declared_encoding_with_consistent_split_case_and_image_bindings(encoded_evidence):
+    root=encoded_evidence['run']
+    before={str(path):path.read_bytes() for path in root.rglob('*') if path.is_file()}
+    stage(encoded_evidence)
+    target=encoded_evidence['out']
+    assert (target/'target-encoding.json').read_bytes()==(root/'target-encoding.json').read_bytes()
+    manifest=json.loads((target/'adapter/grounding_adapter_manifest.json').read_text())
+    assert manifest['target_encoding_receipt_sha256']==sha(target/'target-encoding.json')
+    assert all(path.read_bytes()==before[str(path)] for path in root.rglob('*') if path.is_file())
+
+
+@pytest.mark.parametrize('mutation,match',[
+    ('source_hash','source split hashes'),('missing_case','receipt cases/count'),
+    ('extra_case','receipt cases/count'),('wrong_count','receipt cases/count'),
+    ('duplicate_split_id','split IDs are duplicate'),('overlapping_split_id','split IDs are duplicate'),
+    ('duplicate_artifact','case artifacts are duplicate'),('missing_artifact','case artifacts are duplicate'),
+    ('extra_artifact','case artifacts are duplicate'),('wrong_partition','wrong case partition'),
+    ('wrong_image','image binding differs'),
+])
+def test_rejects_rehashed_receipt_for_wrong_corpus(encoded_evidence,mutation,match):
+    evidence=encoded_evidence;root=evidence['run']
+    receipt=json.loads((root/'target-encoding.json').read_text())
+    dataset=json.loads((root/'dataset_manifest.json').read_text())
+    if mutation=='source_hash':receipt['source_bindings']['train_sha256']=dataset['development_sha256']
+    elif mutation=='missing_case':receipt['cases'].pop('dev-b')
+    elif mutation=='extra_case':receipt['cases']['extra-case']=deepcopy(receipt['cases']['dev-b'])
+    elif mutation=='wrong_count':receipt['case_count']+=1
+    elif mutation=='duplicate_split_id':dataset['development_case_ids'].append('dev-a')
+    elif mutation=='overlapping_split_id':dataset['development_case_ids'][0]='train-a'
+    elif mutation=='duplicate_artifact':dataset['case_artifacts'].append(deepcopy(dataset['case_artifacts'][0]))
+    elif mutation=='missing_artifact':dataset['case_artifacts'].pop()
+    elif mutation=='extra_artifact':dataset['case_artifacts'].append({'case_id':'extra-case','image_sha256':'e'*64})
+    elif mutation=='wrong_partition':receipt['cases']['dev-a']['partition']='train'
+    else:receipt['cases']['dev-a']['image_sha256']='f'*64
+    put(root,'dataset_manifest.json',dataset)
+    bind_encoding_fixture(evidence,receipt)
+    with pytest.raises(package.PackageError,match=match):stage(evidence)
+    assert not evidence['out'].exists()
+
+
+@pytest.mark.parametrize('field',['original_supervision_sha256','input_sha256','transformed_target_sha256','mask_sha256'])
+@pytest.mark.parametrize('invalid',[None,'short','G'*64,True])
+def test_integer_receipt_requires_well_formed_label_input_and_mask_hashes(encoded_evidence,field,invalid):
+    evidence=encoded_evidence;root=evidence['run']
+    receipt=json.loads((root/'target-encoding.json').read_text())
+    receipt['cases']['dev-a'][field]=invalid
+    bind_encoding_fixture(evidence,receipt)
+    with pytest.raises(package.PackageError,match='Invalid integer target-encoding'):
+        stage(evidence)
+    assert not evidence['out'].exists()
+
+
 def test_stages_selected_checkpoint_separately_from_complete_schedule_without_touching_raw(evidence):
     raw_before = {str(path): path.read_bytes() for path in evidence["run"].rglob("*") if path.is_file()}
     result = stage(evidence)

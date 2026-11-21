@@ -34,6 +34,7 @@ SOURCE_PROTOCOLS = {
     "experiments/dropoff/public-contrast-protocol-20261121.json",
     "experiments/dropoff/public-prompt-ablation-protocol-20261121.json",
     "experiments/dropoff/public-target-encoding-protocol-20261121.json",
+    "experiments/dropoff/public-local-candidate-selection-protocol-20261121.json",
 }
 TEST_SUPPORT_NOTEBOOK = "notebooks/dropoff_gpu_pilot.ipynb"
 RUN_FILES = {

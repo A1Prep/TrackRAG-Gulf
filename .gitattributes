@@ -4,3 +4,4 @@ configs/dropoff/public-historical-split-locks.json -text whitespace=cr-at-eol
 experiments/dropoff/public-contrast-protocol-20261121.json text eol=lf
 experiments/dropoff/public-prompt-ablation-protocol-20261121.json text eol=lf
 experiments/dropoff/public-target-encoding-protocol-20261121.json text eol=lf
+experiments/dropoff/public-local-candidate-selection-protocol-20261121.json text eol=lf

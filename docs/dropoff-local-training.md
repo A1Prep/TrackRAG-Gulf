@@ -6,6 +6,18 @@ fine-tuning changes attention LoRA adapters in its final eight language decoder
 layers; it does not update every base parameter. The frozen visual encoder and
 language prefix still process the actual image and instruction.
 
+As of this handoff, V1 completed its full 500-update/1,000-presentation schedule.
+On the fixed 20-case public development cohort, its trained model achieved
+3 point-in-mask hits versus 0 for the matched pretrained model; both conditions
+returned valid geometry for all 20 requests. This limited development result is
+not final EMT accuracy or evidence that the passenger feature is ready.
+
+V2 is a fresh-base controlled experiment with point-first, mask-preserving
+integer teacher targets. It uses the same data, training schedule and model
+settings; its quality evaluation is pending. See the
+[frozen experiment protocol](../experiments/dropoff/public-target-encoding-protocol-20261121.json).
+Do not attribute an eventual change to either target ordering or rounding alone.
+
 ## Training scope
 
 The current run uses 500 public training examples from 295 source scenes, with
@@ -34,8 +46,13 @@ From the repository root, an independent Windows installation can use:
 python -m venv .venv-grounding
 .\.venv-grounding\Scripts\python.exe -m pip install torch==2.6.0 torchvision==0.21.0 --index-url https://download.pytorch.org/whl/cu124
 .\.venv-grounding\Scripts\python.exe -m pip install -r requirements-grounding-local.txt
-.\.venv-grounding\Scripts\python.exe -m tools.dropoff_prepare_streamed_model
+.\.venv-grounding\Scripts\Activate.ps1
+python -m tools.dropoff_prepare_streamed_model
 ```
+
+Run subsequent `python` commands in this activated environment, or prefix them
+with `.\.venv-grounding\Scripts\python.exe`. The local requirements include the
+pinned format-decoding dependencies needed by the application worker.
 
 The pinned quantized base requires about 7.24 GB of downloaded weight files,
 plus processor files and working space. The preparation command does not
@@ -75,6 +92,15 @@ Checkpoint selection compares token-weighted development NLL on a fixed,
 target-independent 32-case subset after each epoch. The lower-NLL trained
 checkpoint is saved in `adapter/`. A separately measured pretrained baseline
 is retained. NLL is not a spatial accuracy score.
+
+The fitting command above reproduces the default V1 float/box-first target
+format. To reproduce the declared V2 experiment, choose a new run directory and
+add `--target-encoding point_first_mask_preserving_integer_v1`. Its
+`target-encoding.json` records the immutable source bindings and label changes.
+When evaluating teacher loss for that run, pass
+`--teacher-target-encoding point_first_mask_preserving_integer_v1 --teacher-all`
+for both model conditions. Compare NLL only within the same target encoding;
+free-generation spatial scoring continues to use the original references.
 
 ## Evaluation and evidence
 
@@ -139,11 +165,51 @@ and retains the exact training source. The original run is preserved. A full
 two-epoch fitting schedule can select epoch one; the packaged manifest records
 the selected checkpoint's counters separately from the full run.
 
+The production probe must return a full, parsed `proposed` interpretation to
+satisfy the packager's spatial-smoke gate. A valid clarification or insufficient
+evidence response can make the prediction command exit successfully while still
+failing that packaging gate. Preserve those outcomes and any invalid generations
+in their original directories; a training completion or successful CLI exit is
+not a release acceptance result. The public smoke probe is not a quality test.
+
+## Portable inference
+
+Use the source and adapter ZIPs supplied for the selected release; the command
+examples above describe their creation and do not certify that a current run
+has passed the gates. From a trusted checkout, verify both original archives
+before extracting them:
+
+```powershell
+python -m tools.dropoff_bundle verify --bundle path-to-supplied-source.zip
+python -m tools.dropoff_bundle verify --bundle path-to-supplied-adapter.zip
+```
+
 For portable inference, extract the source and adapter bundles into **one new
 directory**, open a terminal in that directory and run commands there. Paths in
 `inference_config.json`, including `adapter` and `models/...`, resolve from the
-working directory. Prepare the pinned base and processor with
-`python -m tools.dropoff_prepare_streamed_model`, then use:
+working directory. Merely passing an absolute configuration filename does not
+rebase its relative model or adapter paths. Request image paths resolve from
+their request JSONL's directory. If using another layout, update the configuration
+or use the predictor's `--adapter-dir` and `--cache-dir` overrides; `model_dir`
+must be set in the configuration.
+
+Keep both verified ZIPs. For example, replace the first two filenames with the
+supplied files and run this from the trusted checkout:
+
+```powershell
+$sourceArchive = (Resolve-Path "path-to-supplied-source.zip").Path
+$adapterArchive = (Resolve-Path "path-to-supplied-adapter.zip").Path
+$handoffDirectory = Join-Path (Get-Location) "grounding-handoff"
+New-Item -ItemType Directory -Path $handoffDirectory -ErrorAction Stop
+Expand-Archive -LiteralPath $sourceArchive -DestinationPath $handoffDirectory
+Expand-Archive -LiteralPath $adapterArchive -DestinationPath $handoffDirectory -Force
+Set-Location -LiteralPath $handoffDirectory
+```
+
+Install or activate the dedicated environment using the recipe above, now from
+this extracted directory. Prepare the pinned base and original processor with
+`python -m tools.dropoff_prepare_streamed_model`, then run the supplied public
+reload input:
 
 ```powershell
 python -m tools.dropoff_predict predict --requests probe-requests.jsonl --config inference_config.json --out runs/reload-check
@@ -152,6 +218,12 @@ python -m tools.dropoff_predict predict --requests probe-requests.jsonl --config
 The bundle includes `probe-requests.jsonl` and its public image. You can also
 supply your own annotation-free request file. The model and processor downloads
 are separate from the adapter bundle.
+
+The artifact's `training_source.zip` preserves the exact files used by the
+training run. Apply that overlay only in a separate copy for training
+reproduction. Production inference uses the current source bundle with its
+later interpretation and worker repairs; overlaying the training files onto
+the production directory would remove those repairs.
 
 ## Application handoff and remaining gates
 

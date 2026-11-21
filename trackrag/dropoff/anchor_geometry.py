@@ -36,6 +36,7 @@ class AnchorGeometry:
         if self.coefficients.shape != (5 + len(self.vocabulary), 6) or not np.isfinite(self.coefficients).all():
             raise ValueError("Invalid destination regression coefficients")
         self.bank = data.get("retrieved_offsets")
+        self.pair_regression = data.get("pair_regression")
         if self.bank is not None:
             self.ids = self.bank["case_ids"]
             self.retrieval_vocab = self.bank["vocabulary"]
@@ -129,6 +130,11 @@ class AnchorGeometry:
     def predict_with_evidence(self, boxes, size, text):
         if len(boxes) not in (1, 2):
             raise ValueError("Expected one or two landmark boxes")
+        if len(boxes) == 2 and self.pair_regression is not None:
+            from .pair_geometry import predict
+            pair = predict(self.pair_regression,boxes,size)
+            if pair is not None:
+                return *pair, []
         boxes = np.array([validate_box(b, *size) for b in boxes])
         envelope = [*boxes[:, :2].min(axis=0), *boxes[:, 2:].max(axis=0)]
         x, base, scale = features(envelope, size, terms(text), self.vocabulary)

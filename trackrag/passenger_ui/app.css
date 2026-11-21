@@ -1,6 +1,14 @@
 :root { color-scheme: light; font: 16px/1.5 Inter, "Segoe UI", sans-serif; color: #182821; background: #f3f4ed; }
 * { box-sizing: border-box; }
 body { margin: 0; }
+.top a { color:#e5efa8; }
+.review-form { display:grid; grid-template-columns:minmax(0,1fr); gap:10px; max-width:850px; padding:20px; margin:16px 0; }
+.review-form select, .review-form textarea { max-width:100%; min-width:0; }
+.review-form button { justify-self:start; }
+.review-form h3, .review-form p { margin:0; overflow-wrap:anywhere; }
+.evidence-strip { display:flex; flex-wrap:wrap; gap:12px; }
+.evidence-strip a { width:min(190px,100%); color:inherit; }
+.evidence-strip img { display:block; width:100%; }
 .top { min-height: 62px; padding: 10px max(5vw, 24px); display: flex; align-items:center; gap: 25px; background: #182a23; color: white; }
 .brand { font-size: 1.14rem; font-weight: 760; letter-spacing:-.055em; }
 .brand span { color: #ccdf74; margin-left: .25em; }
@@ -49,3 +57,9 @@ textarea:focus-visible, select:focus-visible, button:focus-visible { outline:3px
 .footnote { color:#536357; max-width:75ch; margin:17px 0; font-size:.87rem; }
 [hidden] { display:none !important; }
 @media(max-width:790px) { .layout{grid-template-columns:1fr;} .top{min-height:48px;} .intro{margin-bottom:14px;} .scene-controls,.scene-foot{padding:9px 13px;} }
+@media(max-width:480px) {
+  .top { flex-wrap:wrap; gap:6px 15px; padding:10px 16px; }
+  .top-label { padding-left:12px; }
+  .scene-controls { flex-wrap:wrap; gap:4px 12px; }
+  .scene-controls select { max-width:100%; }
+}

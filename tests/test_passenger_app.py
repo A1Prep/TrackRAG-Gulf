@@ -84,6 +84,7 @@ def test_clarification_correction_and_exact_confirm_preserve_source(site):
     speech = b"test-only-speech"
     reply = site.change(sid, 2, "audio", speech)
     assert reply["transcript"] == "near the read bus"
+    assert reply["audio_sha256"] == hashlib.sha256(speech).hexdigest()
     assert len(site.model.calls) == 1
     reply = site.change(sid, 3, "submit", {"text":"near the red bus", "mode":"voice"})
     req = site.model.calls[-1]; view = reply["view"]
@@ -126,6 +127,39 @@ def test_rejects_file_replacement_and_mismatched_hash(site, tmp_path):
     scene["frame"]["image_path"] = str(tmp_path / "2.png")
     bank = tmp_path / "wrong.jsonl"; bank.write_text(json.dumps({"scene":scene}))
     with pytest.raises(ValueError, match="hash"): load_scenes([bank])
+
+
+def test_navigation_and_abandoned_voice_draft_preserve_confirmed_receipt(site):
+    first, second = site.scenes
+    sid = site.open(first)["session"]
+    state = site.change(sid, 0, "submit", {"text": "behind the bus", "mode": "typed"})
+    token = state["view"]["proposal_id"]
+    site.change(sid, 1, "confirm", {"proposal_id": token})
+    for action, payload in (("confirm", {"proposal_id": token}), ("cancel", {})):
+        with pytest.raises(PassengerRequestError) as error:
+            site.change(sid, 2, action, payload)
+        assert error.value.status == 409
+    site.change(sid, 2, "begin-audio", {})
+    assert site.change(sid, 3, "cancel", {})["view"]["state"] == "confirmed"
+    journal = next(site.lookup(sid).directory.glob("*.jsonl"))
+    next_session = site.open(second, sid)
+    assert next_session["view"]["state"] == "idle" and next_session["view"]["turns"] == []
+    assert next_session["voice_stage"] is None and next_session["transcript"] is None
+    events = [json.loads(line) for line in journal.read_text().splitlines()]
+    assert [event["action"] for event in events] == ["opened", "submitted", "confirmed"]
+    assert events[-1]["detail"]["proposal_id"] == token
+
+
+def test_failed_scene_open_preserves_existing_scene_and_proposal(site):
+    first, second = site.scenes
+    sid = site.open(first)["session"]
+    state = site.change(sid, 0, "submit", {"text": "near the bus", "mode": "typed"})
+    token = state["view"]["proposal_id"]
+    Path(site.scenes[second]["frame"]["image_path"]).write_bytes(b"changed original")
+    with pytest.raises(ValueError):
+        site.open(second, sid)
+    assert site.lookup(sid).scene_key == first
+    assert site.change(sid, 1, "confirm", {"proposal_id": token})["view"]["state"] == "confirmed"
 
 
 def test_http_allows_only_local_origin_and_known_scene_assets(site):

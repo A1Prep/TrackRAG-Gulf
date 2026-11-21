@@ -77,8 +77,8 @@ class GroundingConfig:
         if type(self.suffix_layers) is not int or not 1 <= self.suffix_layers <= 8:
             raise ValueError("suffix_layers must be an integer between 1 and 8")
         if (type(self.inference_resident_layers) is not int
-                or not self.suffix_layers <= self.inference_resident_layers <= 24):
-            raise ValueError("inference_resident_layers must cover the suffix and be at most 24")
+                or not 0 <= self.inference_resident_layers <= 24):
+            raise ValueError("inference_resident_layers must be between 0 and 24")
         if not isinstance(self.device, str) or (
             self.device not in ("auto", "cpu", "cuda") and not re.fullmatch(r"cuda:[0-9]+", self.device)
         ):
@@ -541,6 +541,16 @@ class GroundingModel:
             )
             return {"ok": True, "request_id": request_id, "result": result, "provenance": provenance}
         except Exception as error:
+            # The isolated worker closes itself on a resource failure or deadline. A later,
+            # independent request must be allowed to create a fresh worker with the same config.
+            if (phase == "generate" and not self._injected and self.config.runtime == "streamed"
+                    and self._backend is not None and isinstance(error, (ResourceError, TimeoutError))):
+                failed_backend = self._backend
+                self._backend = self._loaded_adapter = None
+                try:
+                    failed_backend.close()
+                except Exception as cleanup_error:
+                    self.last_receipt["worker_cleanup_error"] = str(cleanup_error)[:1000]
             if isinstance(error, ArtifactError):
                 code = "artifact_invalid"
             elif isinstance(error, (TimeoutError,)):

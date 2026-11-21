@@ -32,12 +32,18 @@ def test_import_is_lazy():
 
 @pytest.mark.parametrize("changes", [
     {"runtime": "other"}, {"suffix_layers": True}, {"suffix_layers": 9},
-    {"inference_resident_layers": 7}, {"inference_resident_layers": 25},
+    {"inference_resident_layers": -1}, {"inference_resident_layers": 25},
     {"inference_resident_layers": False}, {"model_dir": ""},
 ])
 def test_invalid_streamed_config(changes):
     with pytest.raises(ValueError):
         replace(config(), **changes)
+
+
+@pytest.mark.parametrize("resident", [0, 2, 7])
+def test_frozen_inference_can_stream_adapted_suffix_layers(resident):
+    cfg = replace(config(), inference_resident_layers=resident)
+    assert cfg.inference_resident_layers == resident and cfg.suffix_layers == 8
 
 
 def test_target_covers_only_requested_suffix():

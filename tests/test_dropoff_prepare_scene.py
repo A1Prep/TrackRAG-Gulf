@@ -84,6 +84,33 @@ def instruction(identity="a", recording_id="rec_a", frame_id=2, **extra):
             "text": "Please identify the destination next to that car", **extra}
 
 
+def test_browser_footage_search_opens_only_the_saved_prefix_and_selected_sources(scene_fixture):
+    from trackrag.footage_app import FootageReview
+    f = scene_fixture
+    f.artifacts()
+    f.run([instruction()])
+    scene = read_requests(f.root/"prepared"/"requests.jsonl")[0]["scene"]
+    review = FootageReview(f.data,f.predictions,f.config_path,f.root/"footage",frame_rate=20.)
+    actual = review.ask(scene,"Which car is visible?")
+    assert actual["answer"]["answer_status"] == "not_requested"
+    assert actual["vision"] == "validated_saved_predictions" and actual["evidence"]
+    assert all(im["frame_id"] <= 2 for item in actual["evidence"] for im in item["images"])
+    link = actual["evidence"][0]["images"][0]["url"].split("/")
+    mime,payload = review.evidence_image(link[3],int(link[4]),int(link[5]))
+    assert mime == "image/png" and payload.startswith(b"\x89PNG")
+    with pytest.raises(ValueError):
+        review.evidence_image(link[3],0,31)
+    for key in ("vision_identity_hash","tracks_sha256","prediction_provenance_sha256","image_sha256"):
+        wrong = deepcopy(scene)
+        wrong["provenance"][key] = "0"*64
+        with pytest.raises(ValueError):
+            review.ask(wrong,"Which car is visible?")
+    wrong = deepcopy(scene)
+    wrong["frame"]["timestamp_s"] += 1
+    with pytest.raises(ValueError):
+        review.ask(wrong,"Which car is visible?")
+
+
 def test_two_recordings_export_portable_annotation_free_inputs(scene_fixture):
     f = scene_fixture
     first, second = f.artifacts(), f.artifacts("rec_b")

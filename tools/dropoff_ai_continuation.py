@@ -255,13 +255,15 @@ def train(args):
               'training_tool_sha256': sha256(source.read_bytes()).hexdigest(), 'seed': 42,
               'optimizer': 'AdamW', 'learning_rate': 5e-5, 'weight_decay': .01, 'accumulation': 2,
               'activation_checkpointing': 'nonreentrant, last eight already-resident decoder blocks only',
+              'training_attention': 'query_tiles_64_recompute_backward' if args.tiled_attention else 'native_sdpa',
               'epochs': args.epochs, 'selection': 'fixed final epoch; no development or final case used',
               'config': asdict(config), 'public_parent_binding_sha256': _json_sha(parent)}
     repository = source.resolve().parents[1]
     corpus['implementation_sha256'] = {name: sha256((repository / name).read_bytes()).hexdigest() for name in (
         'tools/dropoff_ai_continuation.py', 'tools/dropoff_train.py', 'tools/dropoff_fit_local.py',
         'tools/dropoff_adapt_local.py', 'trackrag/dropoff/formatting.py', 'trackrag/dropoff/model.py',
-        'trackrag/dropoff/streamed.py', 'trackrag/dropoff/streamed_edges.py', 'trackrag/dropoff/streamed_weights.py')}
+        'trackrag/dropoff/streamed.py', 'trackrag/dropoff/streamed_edges.py', 'trackrag/dropoff/streamed_weights.py',
+        'trackrag/dropoff/training_attention.py')}
     write_json(output / 'training_manifest.json', corpus)
     write_json(output / 'parent_binding.json', parent)
     write_json(output / 'parent_inference_config.json', asdict(config))
@@ -285,6 +287,9 @@ def train(args):
         _require(sum(p.numel() for layer in suffix for p in layer.parameters() if p.requires_grad)
                  == runtime.trainable_parameter_count, 'Trainable parameters extend outside the resident suffix')
         checkpoint_resident_suffix(suffix)
+        if args.tiled_attention:
+            from trackrag.dropoff.training_attention import install_qwen_training_attention
+            install_qwen_training_attention(runtime.model.get_base_model().model.language_model.layers)
         optimizer = torch.optim.AdamW(parameters, lr=5e-5, weight_decay=.01)
         runtime.model.eval()  # frozen base and LoRA dropout zero
         with (output / 'training-log.jsonl').open('x', encoding='utf8') as log:
@@ -343,6 +348,7 @@ def main():
     parser.add_argument('--out', type=Path, required=True)
     parser.add_argument('--preflight', type=Path)
     parser.add_argument('--epochs', type=int, default=2)
+    parser.add_argument('--tiled-attention', action='store_true', help='Bound temporary attention memory while retaining all keys')
     args = parser.parse_args()
     if args.mode == 'validate':
         validate(args)

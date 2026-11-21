@@ -78,7 +78,10 @@ async function perform(work, message = "") {
   catch (error) {
     failure = error.message || "The action could not be completed.";
     if (session) {
-      try { session = await api(endpoint()); } catch { /* A retired tab must reopen a frame. */ }
+      try {
+        session = await api(endpoint());
+        sceneSelect.value = session.scene;
+      } catch { /* A retired tab must reopen a frame. */ }
     }
   } finally { busy = false; notice = capture ? "Recording. Stop when you have finished speaking." : ""; render(); }
 }
@@ -216,6 +219,7 @@ el("mic").onclick = () => { if (capture) stopMic(); else perform(startMic,"Openi
 window.addEventListener("pagehide", () => { if (capture) capture.stream.getTracks().forEach(t => t.stop()); });
 perform(async () => {
   catalog=await api("/api/scenes");
+  el("footage-link").hidden=!catalog.footage_available;
   for (const f of catalog.scenes) {
     const opt=document.createElement("option"); opt.value=f.key;
     opt.textContent=f.recording_id.replace(/^video_/, "Recording ")+" · frame "+f.frame_id+" · "+f.timestamp_s.toFixed(1)+" s";

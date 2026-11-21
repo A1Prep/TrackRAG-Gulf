@@ -1,0 +1,583 @@
+{
+  "date": "2026-11-21",
+  "purpose": "Frozen browser integration trials on selected development footage. Two software-generated English Windows voices. Confirmation and manual correction were scripted. These observations do not measure human acceptance or general grounding accuracy.",
+  "portable_inputs": "Private ZIP includes public-project synthetic speech, original frozen protocols and traces. Original EMT image bytes and screenshots stay local. Each initial screenshot SHA-256 is listed here.",
+  "model": {
+    "base_model": "unsloth/Qwen3-VL-8B-Instruct-bnb-4bit",
+    "revision": "10d842936325905934ea24e64325d774693f166e",
+    "adapter": {
+      "manifest_sha256": "92e32dc900d919b7e137c70692c51b57921edbda77ff5b772e6dfdc221a12983",
+      "base_model_id": "unsloth/Qwen3-VL-8B-Instruct-bnb-4bit",
+      "base_revision": "10d842936325905934ea24e64325d774693f166e",
+      "files": {
+        "adapter_config.json": {
+          "sha256": "def2dc5ef0c641fe93cba691766f0cdd0cb8e212ef8308f492c3b6aa96ac5ba7",
+          "bytes": 1132
+        },
+        "adapter_model.safetensors": {
+          "sha256": "76bfb3230b17a86248b52ca6a9f8d2ffca324aa80216d6b93845ccb12ad86743",
+          "bytes": 6825168
+        }
+      }
+    },
+    "geometry_sha256": "be1a2e5eac071aad41f745b3003cee3aa8a14f588799d1fb372cab3a5a6b6661",
+    "road_model": "nvidia/segformer-b0-finetuned-cityscapes-1024-1024",
+    "road_model_revision": "21b3847fae21ddee674abd31129307b6a1235bd9",
+    "road_weights_sha256": "027ed78d8ff9c535df5a66361c92b9673cca3cb923cbeb8c5802385b6b93194c",
+    "asr_model": "vosk-model-small-en-us-0.15",
+    "asr_model_content_sha256": "38655871e595540ec3bd39927a7e4b9f80ab7cf53abc34b3780fb05bd4cf94b6",
+    "asr_library": "vosk 0.3.45",
+    "inference_device": "cuda:0"
+  },
+  "runs": [
+    {
+      "version": 1,
+      "frozen_utc": "2026-11-21T18:34:32.506302+00:00",
+      "started_utc": "2026-11-21T18:34:33.161Z",
+      "finished_utc": "2026-11-21T18:34:40.038Z",
+      "protocol_sha256": "f27b55cea2a5993bade122e9cd5194fee6626f9291ab0c0a0671b31a04eeb791",
+      "raw_result_sha256": "09da1b443f0ab733ab4384c487a609da016c9a83b4dc4e7fee90ed43675607b4",
+      "browser_console_errors": [],
+      "cases": [
+        {
+          "id": "a10",
+          "driver_error": "response.json: Protocol error (Network.getResponseBody): Request content was evicted from inspector cache"
+        },
+        {
+          "id": "b01",
+          "driver_error": "response.json: Protocol error (Network.getResponseBody): Request content was evicted from inspector cache"
+        },
+        {
+          "id": "b02",
+          "driver_error": "response.json: Protocol error (Network.getResponseBody): Request content was evicted from inspector cache"
+        },
+        {
+          "id": "b03",
+          "driver_error": "response.json: Protocol error (Network.getResponseBody): Request content was evicted from inspector cache"
+        },
+        {
+          "id": "b04",
+          "driver_error": "response.json: Protocol error (Network.getResponseBody): Request content was evicted from inspector cache"
+        }
+      ]
+    },
+    {
+      "version": 2,
+      "frozen_utc": "2026-11-21T18:34:32.506302+00:00",
+      "started_utc": "2026-11-21T18:35:46.410Z",
+      "finished_utc": "2026-11-21T18:35:48.663Z",
+      "protocol_sha256": "807bb73f06cbe4ad9679eef189d5cb7c947f11b966a80d5379a5b1641c5f494a",
+      "raw_result_sha256": "53238078d52e35307005fc3ccc4df1b58118ab4f7df50c7213a1e2d3b9b94d4c",
+      "browser_console_errors": [],
+      "cases": [
+        {
+          "id": "a10",
+          "driver_error": "apiRequestContext.get: options.request.url is not a function"
+        },
+        {
+          "id": "b01",
+          "driver_error": "apiRequestContext.get: options.request.url is not a function"
+        },
+        {
+          "id": "b02",
+          "driver_error": "apiRequestContext.get: options.request.url is not a function"
+        },
+        {
+          "id": "b03",
+          "driver_error": "apiRequestContext.get: options.request.url is not a function"
+        },
+        {
+          "id": "b04",
+          "driver_error": "apiRequestContext.get: options.request.url is not a function"
+        }
+      ]
+    },
+    {
+      "version": 3,
+      "frozen_utc": "2026-11-21T18:34:32.506302+00:00",
+      "started_utc": "2026-11-21T18:36:52.828Z",
+      "finished_utc": "2026-11-21T18:39:00.417Z",
+      "protocol_sha256": "73fbb7e56bf4c91bd100b1427f11412f27cf6f684ad6b8e747f2060fb6e5eeb8",
+      "raw_result_sha256": "22c26b4f67c1dd231b0a01e3151afd3f45e363467743618cdc87d8abb82eaefe",
+      "browser_console_errors": [],
+      "cases": [
+        {
+          "id": "a10",
+          "recording": "video_054604",
+          "frame": 83,
+          "image_sha256": "4ffb09376f0cb211e74d46043ef47fa7b498063e308c8e3653bdc1d7381bcc08",
+          "current_track_count": 0,
+          "wav_sha256": "44da28f992fee667edba51d6c788efe955926c3518f3e7111061ac0aa89476ce",
+          "speech_s": 3.885,
+          "asr_s": 1.09,
+          "recognized": "let me out at the foot of those white metal panels on the right",
+          "sent_text": "let me out at the foot of those white metal panels on the right",
+          "scripted_transcript_edit": null,
+          "prior_dialogue_turns": 0,
+          "initial_state": "error",
+          "raw_model_output": "LANDMARK L3",
+          "request_to_first_outcome_s": 35.849,
+          "model_inference_s": 11.063,
+          "initial_result": null,
+          "initial_error": "invalid_model_output",
+          "model_request_sha256": "fb2a1b3460ce50162c84004e4426a389fa6e043c6142637f4814a13646293b6b",
+          "overlay": {
+            "width": 2560,
+            "height": 1440,
+            "painted_pixels": 0
+          },
+          "scripted_next_action": "confirm_if_proposed",
+          "resulting_state": "cancelled",
+          "confirmed_source": null,
+          "original_session_journal_sha256": "28ff9a7c4d31b5fe2e00332de45fa00c887826713221da3422631da7319e8325",
+          "original_asr_receipt_sha256": "f6242f441ad4b5b3bf0beca5c79af34ef3ec22898130c35bd41a2416cee5989e",
+          "screenshot_sha256": "477b240e5a1a7b79562848fcb4e357b4c2d48688d0a2b0dfda0eddb2dfba0610"
+        },
+        {
+          "id": "b01",
+          "recording": "video_054907",
+          "frame": 1,
+          "image_sha256": "033fc370408c4bc99a1ec9fbb845b6618a5f53b680a235baba336b8fe8ddba80",
+          "current_track_count": 38,
+          "wav_sha256": "64288e81fd1abd13d4615ac4792491cf639a8c568c738ee2dba74caeae9d23bf",
+          "speech_s": 4.45,
+          "asr_s": 1.207,
+          "recognized": "i'd like the patch of road just behind the white as you v on the left",
+          "sent_text": "I'd like the patch of road just behind the white SUV on the left.",
+          "scripted_transcript_edit": "I'd like the patch of road just behind the white SUV on the left.",
+          "prior_dialogue_turns": 0,
+          "initial_state": "proposed",
+          "raw_model_output": "LANDMARK L3",
+          "request_to_first_outcome_s": 38.746,
+          "model_inference_s": 10.016,
+          "initial_result": {
+            "status": "proposed",
+            "destination_point_xy": [
+              577.5,
+              1222.5
+            ],
+            "destination_box_xyxy": [
+              272.858636618949,
+              1134.5220014774056,
+              878.7200495027804,
+              1311.2453179575532
+            ],
+            "clarification_question": null,
+            "anchor_boxes_xyxy": [
+              [
+                340.90081787109375,
+                988.8248291015625,
+                660.7312622070312,
+                1190.044921875
+              ]
+            ]
+          },
+          "initial_error": null,
+          "model_request_sha256": "d549feb1a249ba280189cd53ed95a8349c6d44c39a415b5a1d5ad18570891abc",
+          "overlay": {
+            "width": 2560,
+            "height": 1440,
+            "painted_pixels": 121056
+          },
+          "scripted_next_action": "confirm_if_proposed",
+          "resulting_state": "confirmed",
+          "confirmed_source": "model",
+          "original_session_journal_sha256": "d3e4610888a4b4de3caefc2b006853d50b90776368ebec9fee5c9a57e9847e57",
+          "original_asr_receipt_sha256": "e09d30841106f2e951f5a9239ba916826c5e1766f9026dd3877081fa0f1ec385",
+          "screenshot_sha256": "1a7b03dc218f93bf7653b0191906d786de83a8931e23af0306c59d450a3edc46"
+        },
+        {
+          "id": "b02",
+          "recording": "video_054907",
+          "frame": 1,
+          "image_sha256": "033fc370408c4bc99a1ec9fbb845b6618a5f53b680a235baba336b8fe8ddba80",
+          "current_track_count": 38,
+          "wav_sha256": "a50fc0e15c329ff6815f3e9b71844d27ff6fc49ab28f150ae585bd4ebfee0e5a",
+          "speech_s": 4.97,
+          "asr_s": 1.138,
+          "recognized": "the space behind the big white truck with metal sides on the right please",
+          "sent_text": "the space behind the big white truck with metal sides on the right please",
+          "scripted_transcript_edit": null,
+          "prior_dialogue_turns": 0,
+          "initial_state": "error",
+          "raw_model_output": null,
+          "request_to_first_outcome_s": 3.393,
+          "model_inference_s": null,
+          "initial_result": null,
+          "initial_error": "resource_unavailable",
+          "model_request_sha256": null,
+          "overlay": {
+            "width": 2560,
+            "height": 1440,
+            "painted_pixels": 0
+          },
+          "scripted_next_action": "confirm_if_proposed",
+          "resulting_state": "cancelled",
+          "confirmed_source": null,
+          "original_session_journal_sha256": "1b7bc614f7ba7d1d33c96c977689d859e14be52057a315b4c7af8fecc36794bf",
+          "original_asr_receipt_sha256": "554f412e125881313b7881ec3d9533fa28036019cb7a170c5f1ae4e220180e58",
+          "screenshot_sha256": "9e0fce7d7caa857716dd2ac18751ddd7b7c670e7d3f497043ebb676fe944078c",
+          "scripted_intended_mark_xyxy": [
+            1880,
+            1309,
+            2120,
+            1342
+          ],
+          "actual_marked_box_xyxy": null,
+          "stale_check": null
+        },
+        {
+          "id": "b03",
+          "recording": "video_054907",
+          "frame": 1,
+          "image_sha256": "033fc370408c4bc99a1ec9fbb845b6618a5f53b680a235baba336b8fe8ddba80",
+          "current_track_count": 38,
+          "wav_sha256": "769b09580d5e96b267b6c5c5dc05bf9e2c08ca4bb48daa3bffe1bf10942f3243",
+          "speech_s": 3.12,
+          "asr_s": 0.833,
+          "recognized": "behind that white vehicle please",
+          "sent_text": "behind that white vehicle please",
+          "scripted_transcript_edit": null,
+          "prior_dialogue_turns": 0,
+          "initial_state": "error",
+          "raw_model_output": null,
+          "request_to_first_outcome_s": 23.982,
+          "model_inference_s": null,
+          "initial_result": null,
+          "initial_error": "resource_unavailable",
+          "model_request_sha256": null,
+          "overlay": {
+            "width": 2560,
+            "height": 1440,
+            "painted_pixels": 0
+          },
+          "scripted_next_action": "keep_for_reply",
+          "resulting_state": "error",
+          "confirmed_source": null,
+          "original_session_journal_sha256": "6597bcf5593e5bdbd8acea305afc246a526f04b86c3ef1dd3f52837fa1d8ec00",
+          "original_asr_receipt_sha256": "4a92001a3f1a6ebc6ab6ec2e9b17907e9f59135a6ad0581d59f13070fff51e40",
+          "screenshot_sha256": "998fa3cb7ef7e414d260bbd17dd6d909cf40e46f9ab1c55d7901e4cfcfabcce8"
+        },
+        {
+          "id": "b04",
+          "recording": "video_054907",
+          "frame": 1,
+          "image_sha256": "033fc370408c4bc99a1ec9fbb845b6618a5f53b680a235baba336b8fe8ddba80",
+          "current_track_count": 38,
+          "wav_sha256": "20482557dc59c1ea00262c12823b9037a2c7e30e242038ef7adf1851a9669883",
+          "speech_s": 3.1,
+          "asr_s": 0.866,
+          "recognized": "the big truck with the metal sides on the right",
+          "sent_text": "the big truck with the metal sides on the right",
+          "scripted_transcript_edit": null,
+          "prior_dialogue_turns": 1,
+          "initial_state": "error",
+          "raw_model_output": null,
+          "request_to_first_outcome_s": 23.495,
+          "model_inference_s": null,
+          "initial_result": null,
+          "initial_error": "resource_unavailable",
+          "model_request_sha256": null,
+          "overlay": {
+            "width": 2560,
+            "height": 1440,
+            "painted_pixels": 0
+          },
+          "scripted_next_action": "confirm_if_proposed",
+          "resulting_state": "cancelled",
+          "confirmed_source": null,
+          "original_session_journal_sha256": "6597bcf5593e5bdbd8acea305afc246a526f04b86c3ef1dd3f52837fa1d8ec00",
+          "original_asr_receipt_sha256": "04f48bc865f9ff0fac7ebd01638c738f4b76cb14d7ea9570792f305b1dbff18c",
+          "screenshot_sha256": "3b6b138e4c1cbc1fc72cd3cb46df44b2dae5a3414e44f00a463e19645c9e54ae"
+        }
+      ]
+    },
+    {
+      "version": 4,
+      "frozen_utc": "2026-11-21T19:34:04.282195+00:00",
+      "started_utc": "2026-11-21T19:34:33.620Z",
+      "finished_utc": "2026-11-21T19:36:34.808Z",
+      "protocol_sha256": "05981008cf420e66733b0406f4be3b16481103adc8fdddfeb4973a7d0b0fff3d",
+      "raw_result_sha256": "89a38f7af58dbefe2b7eba5ec44525385a72ff71ffab2c8bf397b9e90b03996d",
+      "browser_console_errors": [],
+      "cases": [
+        {
+          "id": "a10",
+          "recording": "video_054604",
+          "frame": 83,
+          "image_sha256": "4ffb09376f0cb211e74d46043ef47fa7b498063e308c8e3653bdc1d7381bcc08",
+          "current_track_count": 0,
+          "wav_sha256": "44da28f992fee667edba51d6c788efe955926c3518f3e7111061ac0aa89476ce",
+          "speech_s": 3.885,
+          "asr_s": 1.179,
+          "recognized": "let me out at the foot of those white metal panels on the right",
+          "sent_text": "Let me out at the foot of those white metal panels on the right.",
+          "scripted_transcript_edit": "Let me out at the foot of those white metal panels on the right.",
+          "prior_dialogue_turns": 0,
+          "initial_state": "error",
+          "raw_model_output": "LANDMARK L3",
+          "request_to_first_outcome_s": 63.964,
+          "model_inference_s": 32.796,
+          "initial_result": null,
+          "initial_error": "invalid_model_output",
+          "model_request_sha256": "804412207ae99aea1950f8be0fcbee357b6b110b86864ca862e0c0262d43053b",
+          "overlay": {
+            "width": 2560,
+            "height": 1440,
+            "painted_pixels": 0
+          },
+          "scripted_next_action": "confirm_if_proposed",
+          "resulting_state": "cancelled",
+          "confirmed_source": null,
+          "original_session_journal_sha256": "cc7c9fda4f36752e11c140f1cf20aec2175bef2087d586552d7fbdc5d95c8508",
+          "original_asr_receipt_sha256": "e17ae61f04ca21e12478f103f44d82dc9012f5c7380069fd5a22da59dc9011cf",
+          "screenshot_sha256": "a7cf44f8a0be270d8bcb0aa60cd4af74036a51304a0f0825b4e158019d1fb45b"
+        },
+        {
+          "id": "frame150-bus-control",
+          "recording": "video_054604",
+          "frame": 150,
+          "image_sha256": "2b9128389843a3315820747e47c64c88106580ac5572fe0c7917345d7bcf56aa",
+          "current_track_count": 6,
+          "wav_sha256": "cf31c1df9140245a7113a9f5f630385c3bc19d2edc20ed6275ebd98abd1893e7",
+          "speech_s": 3.42,
+          "asr_s": 1.092,
+          "recognized": "please drop me beside the yellow bus on the left",
+          "sent_text": "please drop me beside the yellow bus on the left",
+          "scripted_transcript_edit": null,
+          "prior_dialogue_turns": 0,
+          "initial_state": "proposed",
+          "raw_model_output": "LANDMARK L1",
+          "request_to_first_outcome_s": 13.67,
+          "model_inference_s": 12.188,
+          "initial_result": {
+            "status": "proposed",
+            "destination_point_xy": [
+              627.5,
+              1117.5
+            ],
+            "destination_box_xyxy": [
+              286.9515085561666,
+              1043.032469704743,
+              885.7091186398884,
+              1204.6660318987779
+            ],
+            "clarification_question": null,
+            "anchor_boxes_xyxy": [
+              [
+                202.15277099609375,
+                881.1410522460938,
+                553.889404296875,
+                1081.7069091796875
+              ]
+            ]
+          },
+          "initial_error": null,
+          "model_request_sha256": "f8ad0b07d24af71ff213ec35afe32e97c5d95e9044b6734e79b2dd2f75c73c54",
+          "overlay": {
+            "width": 2560,
+            "height": 1440,
+            "painted_pixels": 111060
+          },
+          "scripted_next_action": "confirm_if_proposed",
+          "resulting_state": "confirmed",
+          "confirmed_source": "model",
+          "original_session_journal_sha256": "e831876bed314e25dc27ed63e07c98d68702dfa8d9f8bb920e90254d9b5722b4",
+          "original_asr_receipt_sha256": "8de01e2df2da77a8e2cffb44256bf8601b13d3f853fed04bebe04b118d0fb764",
+          "screenshot_sha256": "5a120a6b240edd2f3915b241f2a882b9c584c3e030b15b1d48a95ca86bd4fd41"
+        },
+        {
+          "id": "b02",
+          "recording": "video_054907",
+          "frame": 1,
+          "image_sha256": "033fc370408c4bc99a1ec9fbb845b6618a5f53b680a235baba336b8fe8ddba80",
+          "current_track_count": 38,
+          "wav_sha256": "a50fc0e15c329ff6815f3e9b71844d27ff6fc49ab28f150ae585bd4ebfee0e5a",
+          "speech_s": 4.97,
+          "asr_s": 1.211,
+          "recognized": "the space behind the big white truck with metal sides on the right please",
+          "sent_text": "the space behind the big white truck with metal sides on the right please",
+          "scripted_transcript_edit": null,
+          "prior_dialogue_turns": 0,
+          "initial_state": "proposed",
+          "raw_model_output": "LANDMARK L35",
+          "request_to_first_outcome_s": 13.953,
+          "model_inference_s": 12.438,
+          "initial_result": {
+            "status": "proposed",
+            "destination_point_xy": [
+              1807.5,
+              1282.5
+            ],
+            "destination_box_xyxy": [
+              1561.7464039266943,
+              1059.8357418490154,
+              2056.449050758191,
+              1291.257749189182
+            ],
+            "clarification_question": null,
+            "anchor_boxes_xyxy": [
+              [
+                1526.108154296875,
+                668.238037109375,
+                2190.817626953125,
+                1280.4095458984375
+              ]
+            ]
+          },
+          "initial_error": null,
+          "model_request_sha256": "a15b9766026544994f67b4fdaee94dc363f4d29e42f6ae465b2b1cbd5870110a",
+          "overlay": {
+            "width": 2560,
+            "height": 1440,
+            "painted_pixels": 127539
+          },
+          "scripted_next_action": "confirm_if_proposed",
+          "resulting_state": "confirmed",
+          "confirmed_source": "passenger",
+          "original_session_journal_sha256": "0083d346518363b1ecadc13546f317f14018e4b277777664596b8ef488f971f4",
+          "original_asr_receipt_sha256": "42bb153abb48bdd77b6b69c1ad1d07cd63c0fb07f2af7a5a3a84b7928c3f3101",
+          "screenshot_sha256": "480df9c87f8161d4e20859f05cf4ef284e6c6d9039cdccaad7e1d65fefda106b",
+          "scripted_intended_mark_xyxy": [
+            1880,
+            1309,
+            2120,
+            1342
+          ],
+          "actual_marked_box_xyxy": [
+            1880,
+            1308,
+            2120,
+            1342
+          ],
+          "stale_check": {
+            "token_source": "superseded same-turn",
+            "status": 409,
+            "body": {
+              "error": "Confirm the currently displayed proposal."
+            }
+          }
+        },
+        {
+          "id": "b03",
+          "recording": "video_054907",
+          "frame": 1,
+          "image_sha256": "033fc370408c4bc99a1ec9fbb845b6618a5f53b680a235baba336b8fe8ddba80",
+          "current_track_count": 38,
+          "wav_sha256": "769b09580d5e96b267b6c5c5dc05bf9e2c08ca4bb48daa3bffe1bf10942f3243",
+          "speech_s": 3.12,
+          "asr_s": 0.964,
+          "recognized": "behind that white vehicle please",
+          "sent_text": "behind that white vehicle please",
+          "scripted_transcript_edit": null,
+          "prior_dialogue_turns": 0,
+          "initial_state": "proposed",
+          "raw_model_output": "LANDMARK L35",
+          "request_to_first_outcome_s": 13.512,
+          "model_inference_s": 12.25,
+          "initial_result": {
+            "status": "proposed",
+            "destination_point_xy": [
+              1522.5,
+              1207.5
+            ],
+            "destination_box_xyxy": [
+              1343.7857418111798,
+              1062.0764490632778,
+              1786.1454236889626,
+              1353.2011620687215
+            ],
+            "clarification_question": null,
+            "anchor_boxes_xyxy": [
+              [
+                1526.108154296875,
+                668.238037109375,
+                2190.817626953125,
+                1280.4095458984375
+              ]
+            ]
+          },
+          "initial_error": null,
+          "model_request_sha256": "7de3df5b702e652582612e47531da688ade844ed277e70b7bd703af82965a722",
+          "overlay": {
+            "width": 2560,
+            "height": 1440,
+            "painted_pixels": 142140
+          },
+          "scripted_next_action": "keep_for_reply",
+          "resulting_state": "proposed",
+          "confirmed_source": null,
+          "original_session_journal_sha256": "788e89300fd9f4e112953f522ea203779a4afff3591340c78ec5e8fa12e16d70",
+          "original_asr_receipt_sha256": "a04b93174e59e498de2a03584914ac7456949f000c3650677f960f91c590cef6",
+          "screenshot_sha256": "ecaaa2ec965231ecab06c96300c4e95198fe2fab9f218424bf2acf51f8d4e13e"
+        },
+        {
+          "id": "b04",
+          "recording": "video_054907",
+          "frame": 1,
+          "image_sha256": "033fc370408c4bc99a1ec9fbb845b6618a5f53b680a235baba336b8fe8ddba80",
+          "current_track_count": 38,
+          "wav_sha256": "20482557dc59c1ea00262c12823b9037a2c7e30e242038ef7adf1851a9669883",
+          "speech_s": 3.1,
+          "asr_s": 0.921,
+          "recognized": "the big truck with the metal sides on the right",
+          "sent_text": "the big truck with the metal sides on the right",
+          "scripted_transcript_edit": null,
+          "prior_dialogue_turns": 2,
+          "initial_state": "needs_clarification",
+          "raw_model_output": "LANDMARK L35",
+          "request_to_first_outcome_s": 13.3,
+          "model_inference_s": 12.172,
+          "initial_result": {
+            "status": "needs_clarification",
+            "destination_point_xy": null,
+            "destination_box_xyxy": null,
+            "clarification_question": "I can identify the landmark, but I can't place a road area beside it. Can you mark the intended patch?"
+          },
+          "initial_error": null,
+          "model_request_sha256": "249a89f36b2a9f3ab914e6f60a220a1d00062c6410a1dddf268f76d6f42c7f70",
+          "overlay": {
+            "width": 2560,
+            "height": 1440,
+            "painted_pixels": 0
+          },
+          "scripted_next_action": "confirm_if_proposed",
+          "resulting_state": "cancelled",
+          "confirmed_source": null,
+          "original_session_journal_sha256": "788e89300fd9f4e112953f522ea203779a4afff3591340c78ec5e8fa12e16d70",
+          "original_asr_receipt_sha256": "6225153606284284d0898b3a80fcf6fcf82e309d6734979b438baec1c8a60450",
+          "screenshot_sha256": "783cfc89f9a039868ab07d94ebea4a88d58e8f211facd1713b0b40c9bbf03f56"
+        }
+      ]
+    }
+  ],
+  "virtual_microphone": [
+    {
+      "role": "Local browser and real offline speech with an explicitly substituted grounding model",
+      "browser": "Chromium with file-fed microphone",
+      "audio_sha256": "6512c0a42963c2880c31d3dc35b4560c713b0c10eb571139f99cea9fab4fe64b",
+      "receipt_sha256": "b170e58f3c071d7dfc58a17f2d7120b7f9abef07a647de77b04dad6b992de174",
+      "transcript": "i mean the area near the large white truck ahead i mean the",
+      "seconds": 5.104,
+      "error": null
+    },
+    {
+      "role": "Local browser and real offline speech with an explicitly substituted grounding model",
+      "browser": "Chromium with file-fed microphone",
+      "audio_sha256": "93f06aa0614362b6fe925adafcbfdfcba0f9442ef225b5c9124da23feacca0ff",
+      "receipt_sha256": "9d76f2464093eebd1ed216632a517eae93543587cd9c1c5268be8ef79e191999",
+      "transcript": null,
+      "seconds": null,
+      "error": {
+        "code": "no_speech",
+        "message": "No words were recognized. Record again or type the instruction."
+      }
+    }
+  ],
+  "known_limits": [
+    "Previous development examples were intentionally selected for software integration. No live passenger, noisy cabin, accent sample or physical microphone was included.",
+    "Run v3 had three CUDA memory failures and a fabricated detector identifier. The fresh v4 server changed resident layers and precomputed road masks; those individual effects are not isolated.",
+    "A vague white-vehicle instruction incorrectly produced a specific proposal. It was left unconfirmed. An unlisted white-panel reference produced invalid_model_output in both versions tested.",
+    "The original browser service appended cancelled when navigating away, including after a genuine explicit confirmation. The raw history is preserved. The corrected service retires the page without changing completed dialogue history; CPU state tests cover navigation and duplicate/late actions."
+  ]
+}

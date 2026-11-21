@@ -11,6 +11,7 @@ import re
 import secrets
 import tempfile
 import threading
+from contextlib import nullcontext
 from dataclasses import asdict
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
@@ -26,6 +27,8 @@ from trackrag.local_speech import MAX_WAV_BYTES
 
 ASSETS = Path(__file__).with_name("passenger_ui")
 STATIC = {"/": ("index.html", "text/html; charset=utf-8"),
+          "/footage": ("footage.html", "text/html; charset=utf-8"),
+          "/footage.js": ("footage.js", "text/javascript"),
           "/app.css": ("app.css", "text/css"), "/app.js": ("app.js", "text/javascript"),
           "/capture.js": ("capture.js", "text/javascript")}
 
@@ -114,6 +117,7 @@ class BrowserSession:
             view.update(proposal_id=None, result=None)
         return {"session": self.identity, "scene": self.scene_key, "revision": self.revision,
                 "view": view, "voice_stage": self.voice_stage, "speech_error": self.speech_error,
+                "audio_sha256": self.receipt["audio_sha256"] if self.receipt else None,
                 "transcript": self.receipt["transcript"] if self.receipt else None}
 
     def clear_audio(self):
@@ -121,8 +125,9 @@ class BrowserSession:
 
 
 class PassengerSite:
-    def __init__(self, scenes, model, recognizer, out, session_factory):
+    def __init__(self, scenes, model, recognizer, out, session_factory, footage=None):
         self.scenes = scenes
+        self.footage = footage
         self.model = model
         self.recognizer = recognizer
         self.out = Path(out)
@@ -137,27 +142,28 @@ class PassengerSite:
             f = s["frame"]
             frames.append({"key": key, **{n: f[n] for n in ("recording_id", "frame_id", "timestamp_s", "width", "height")}})
         return {"scenes": sorted(frames, key=lambda f: (f["recording_id"], f["frame_id"])),
-                "speech_available": self.recognizer is not None}
+                "speech_available": self.recognizer is not None,"footage_available":self.footage is not None}
 
     def open(self, scene_key, previous=None):
         if not isinstance(scene_key, str) or scene_key not in self.scenes:
             raise PassengerRequestError(400, "Choose an available frame.")
-        if previous:
-            old = self.lookup(previous)
-            with old.lock:
-                if not old.retired:
-                    old.dialogue.cancel()
+        old = self.lookup(previous) if previous else None
+        transition_lock = old.lock if old else nullcontext()
+        with transition_lock:
+            if old and old.retired:
+                raise PassengerRequestError(409, "This frame has already been replaced.")
+            sid = secrets.token_urlsafe(24)
+            directory = self.out / sid
+            # The dialogue verifies the next original frame before the current one is retired.
+            dialogue = self.session_factory(self.scenes[scene_key], self.model, audit_dir=directory)
+            session = BrowserSession(sid, scene_key, dialogue, directory)
+            with self.session_lock:
+                if old:
+                    # Navigation retires the old link. Only an explicit passenger action cancels a request.
                     old.clear_audio()
                     old.retired = True
-                with self.session_lock:
                     self.sessions.pop(old.identity, None)
-        sid = secrets.token_urlsafe(24)
-        directory = self.out / sid
-        directory.mkdir(parents=True)
-        dialogue = self.session_factory(self.scenes[scene_key], self.model, audit_dir=directory)
-        session = BrowserSession(sid, scene_key, dialogue, directory)
-        with self.session_lock:
-            self.sessions[sid] = session
+                self.sessions[sid] = session
         return session.snapshot()
 
     def lookup(self, sid):
@@ -236,11 +242,17 @@ class PassengerSite:
                     s.dialogue.select_area(payload.get("box"))
             elif action == "confirm":
                 token = payload.get("proposal_id")
-                if s.voice_stage or not isinstance(token, str) or not token or token != s.dialogue.view().get("proposal_id"):
+                current = s.dialogue.view()
+                if (s.voice_stage or current["state"] != "proposed" or not isinstance(token, str)
+                        or not token or token != current.get("proposal_id")):
                     raise PassengerRequestError(409, "Confirm the currently displayed proposal.")
                 s.dialogue.confirm(token)
             elif action == "cancel":
-                s.dialogue.cancel()
+                if s.dialogue.view()["state"] in ("confirmed", "cancelled"):
+                    if not s.voice_stage:
+                        raise PassengerRequestError(409, "This request has already finished.")
+                else:
+                    s.dialogue.cancel()
                 s.clear_audio()
             else:
                 raise PassengerRequestError(404, "Unknown passenger action.")
@@ -284,6 +296,13 @@ def handler(site):
                     return self.send_data(200, mime, (ASSETS / filename).read_bytes())
                 if path == "/api/scenes":
                     return self.respond(site.catalog())
+                match = re.fullmatch(r"/api/footage/([0-9a-f]{32})/(\d{1,2})/(\d{1,2})",path)
+                if match and site.footage:
+                    try:
+                        mime, payload = site.footage.evidence_image(match[1],int(match[2]),int(match[3]))
+                    except (FileNotFoundError, ValueError):
+                        raise PassengerRequestError(404,"Evidence image unavailable.")
+                    return self.send_data(200,mime,payload)
                 m = re.fullmatch(r"/api/sessions/([A-Za-z0-9_-]+)(/image)?", path)
                 if m:
                     if m[2]:
@@ -305,6 +324,13 @@ def handler(site):
                         raise PassengerRequestError(400, "A JSON object is required.")
                 if path == "/api/sessions":
                     return self.respond(site.open(payload.get("scene"), payload.get("previous")))
+                if path == "/api/footage":
+                    if not site.footage:
+                        raise PassengerRequestError(503,"Start the app with recording and prediction folders to enable footage search.")
+                    if payload.get("scene") not in site.scenes:
+                        raise PassengerRequestError(400,"Select an available original frame.")
+                    return self.respond(site.footage.ask(site.scenes[payload["scene"]],payload.get("question"),
+                                                         hosted=payload.get("hosted",False)))
                 if m:
                     revision = int(self.headers.get("X-Session-Revision", "-1"))
                     return self.respond(site.change(m[1], revision, m[2], payload))
@@ -317,7 +343,7 @@ def handler(site):
                 self.respond({"error": str(error)}, error.status)
             except (ValueError, KeyError, TypeError) as error:
                 self.respond({"error": str(error)}, 400)
-            except (ConnectionResetError, BrokenPipeError):
+            except (ConnectionResetError, ConnectionAbortedError, BrokenPipeError):
                 pass
             except Exception:
                 import traceback
@@ -333,25 +359,36 @@ def handler(site):
     return Handler
 
 
-def main():
+def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--requests", action="append", type=Path, required=True, help="Prepared JSONL scene bank; repeat for additional banks")
     parser.add_argument("--config", type=Path, required=True)
     parser.add_argument("--geometry", type=Path, required=True)
+    parser.add_argument("--referent",type=Path,help="Use the learned candidate ranker for clarification")
+    parser.add_argument("--qa-data-root",type=Path)
+    parser.add_argument("--qa-predictions",type=Path)
+    parser.add_argument("--qa-frame-rate",type=float,help="Used if the prepared EMT frames used an explicit rate")
+    parser.add_argument("--qa-vision-config",type=Path,default=Path("configs/vision/finetuned.json"))
     parser.add_argument("--vision-cache", type=Path, required=True)
     parser.add_argument("--verify-landmarks", action="store_true", help="Enable the model's additional landmark check")
     parser.add_argument("--asr-model", type=Path, help="Unpacked local Vosk English model")
     parser.add_argument("--out", type=Path, required=True, help="Local session receipts and source WAVs")
     parser.add_argument("--port", type=int, default=8765)
-    args = parser.parse_args()
+    args = parser.parse_args(argv)
     from trackrag.dropoff.interaction import PassengerSession
     from trackrag.dropoff.passenger import load_passenger_model
 
     scenes = load_scenes(args.requests)
     asr = LocalSpeechRecognizer(args.asr_model) if args.asr_model else None
     model = load_passenger_model(args.config, geometry_path=args.geometry, vision_cache=args.vision_cache,
-                                 verify_landmarks=args.verify_landmarks)
-    site = PassengerSite(scenes, model, asr, args.out, PassengerSession)
+                                 verify_landmarks=args.verify_landmarks,referent_path=args.referent)
+    footage = None
+    if args.qa_data_root or args.qa_predictions:
+        if not (args.qa_data_root and args.qa_predictions):
+            parser.error("Footage search needs both --qa-data-root and --qa-predictions.")
+        from trackrag.footage_app import FootageReview
+        footage = FootageReview(args.qa_data_root,args.qa_predictions,args.qa_vision_config,args.out/"footage",args.qa_frame_rate)
+    site = PassengerSite(scenes, model, asr, args.out, PassengerSession,footage)
     with ThreadingHTTPServer(("127.0.0.1", args.port), handler(site)) as server:
         print(f"Open http://127.0.0.1:{server.server_port}/  ({len(scenes)} prepared frames)", flush=True)
         try:

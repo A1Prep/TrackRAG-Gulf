@@ -1,0 +1,92 @@
+{
+  "kind": "passenger_composite_external_freeze_v1",
+  "frozen_utc": "2026-11-21T20:04:29.744384+00:00",
+  "scope": "Frozen before predictions or reference inspection on the two external cohorts. Daytime model design was development-informed.",
+  "components": {
+    "format": "passenger-app-handoff-v1",
+    "files": {
+      "adapter/adapter_config.json": "def2dc5ef0c641fe93cba691766f0cdd0cb8e212ef8308f492c3b6aa96ac5ba7",
+      "adapter/adapter_model.safetensors": "76bfb3230b17a86248b52ca6a9f8d2ffca324aa80216d6b93845ccb12ad86743",
+      "adapter/grounding_adapter_manifest.json": "92e32dc900d919b7e137c70692c51b57921edbda77ff5b772e6dfdc221a12983",
+      "geometry.json": "db9575ac6b82ff9828f29440bacf2349cd2371f23c2cfb747bd7dc05ee04c7e5",
+      "grounding.json": "bf73538110c52cbb50059964fe8a6230e0674c754592fc2e96a4529d0dc6a169",
+      "referent.json": "d96a9a69e2e52ddbc21851d5ff6f79b344de6c8558600e54be5cb2712480a07d"
+    },
+    "verify_landmarks": false,
+    "referent_policy": true,
+    "base_model": "unsloth/Qwen3-VL-8B-Instruct-bnb-4bit",
+    "revision": "10d842936325905934ea24e64325d774693f166e"
+  },
+  "runtime": {
+    "model_id": "unsloth/Qwen3-VL-8B-Instruct-bnb-4bit",
+    "revision": "10d842936325905934ea24e64325d774693f166e",
+    "adapter_dir": "adapter",
+    "cache_dir": "models/dropoff-processor-cache/hub",
+    "device": "cuda",
+    "dtype": "bfloat16",
+    "quantization": "nf4",
+    "local_files_only": true,
+    "allow_annotated": false,
+    "max_new_tokens": 60,
+    "max_input_tokens": 3072,
+    "max_time_s": 75,
+    "min_pixels": 65536,
+    "max_pixels": 262144,
+    "max_image_bytes": 33554432,
+    "max_original_pixels": 48000000,
+    "download_min_free_gib": 24.0,
+    "runtime": "streamed",
+    "model_dir": "models/qwen3-vl-8b-local-nf4",
+    "suffix_layers": 8,
+    "inference_resident_layers": 8,
+    "observation_format": "json"
+  },
+  "source_sha256_utf8_lf": {
+    "trackrag/dropoff/anchor_geometry.py": "8b02fbdd204e06916c1a83d33a50a108a15d5383ffff9c2997e34d4e461c7b3e",
+    "trackrag/dropoff/contracts.py": "06226b35298303df8fe6b808cae90b97738fa520051c857c82fa1d8506da08ca",
+    "trackrag/dropoff/data.py": "38fb533fde5556ca265719874d1dfd819abe0e4c39b5f8c0fda354c9473aadf3",
+    "trackrag/dropoff/interaction.py": "bed95433189eb710aafe8b369c91d9768aebf4a0c398e10b2c57bc9be2f1d0c4",
+    "trackrag/dropoff/landmark_check.py": "544aab4fc96ab134699a68a75a43021560a796f423fc7e3002fcb76151beef05",
+    "trackrag/dropoff/landmarks.py": "5b5daa4276237488b9e1c7861c834fc0ca5d0541c43340ef10e1e871b42b19f8",
+    "trackrag/dropoff/pair_geometry.py": "845ab41a62c9254570e8b40788dc6c66edbea27eccd8769c9c111d87ca916e0e",
+    "trackrag/dropoff/pair_resolution.py": "b17f8116e431fea2f733ac6593247d71c34f4374ebe7e8b5fd5489b3c99a9c9c",
+    "trackrag/dropoff/passenger.py": "9b92261a418d7f36cb07daee6b92f19c83f0f32a6320f9aabbdc81e20e323909",
+    "trackrag/dropoff/referent.py": "589f3aa02bafb13a6a73a89a55a5c174c04176bb1114c046147d09bd236b2d75",
+    "trackrag/dropoff/referent_policy.py": "4c5cd8be4f8e3b22e11deaf98bf40a38a6544745f11bb27e33a85eaeff3340d1",
+    "trackrag/dropoff/road_cache.py": "bf0debfc8e62c679fa85b0671db3ea9ac8d1dc4262a198e12c233eb7c4aff529",
+    "trackrag/dropoff/spatial.py": "55ca7fc37dfbe86f0e5168eda9264726d9e6d954d6fc9d4e9aaf460a888defe1",
+    "trackrag/dropoff/structured.py": "d4ba7d76e7b7cdf623d6c3bf225f7e756f1c52bd757bd6aeabc436aa6d206277",
+    "trackrag/dropoff/streamed.py": "170084a8c0fe30e7dd77b885b432e79c18613dd95bb5f0c43214eef213c0c6be"
+  },
+  "decoder": "Native image-language decoding with the conditional empty-inventory grammar; no verifier. Independently resolve two explicitly named referents. Guard positive single-object outputs by the frozen clarification-only ranker. Use learned relative destination prediction and verified predicted road support.",
+  "conditions": {
+    "trained_selector": "Selected publicly fine-tuned Qwen adapter.",
+    "pretrained_selector": "Same base Qwen, no adapter. All inputs, decoding, learned region and referent components, clarification rules, and road support identical."
+  },
+  "public_cohort": {
+    "n": 16,
+    "reference": "Original participant-authored public navigable destination masks on independently selected previously unused scene groups. No semantic status labels.",
+    "request_file_sha256": "e73ba6408263869b68c9ea377f6fa161f54c5e09d052d8583afd5cb7d5fb1ddf",
+    "metrics": [
+      "point in original mask / all 16",
+      "proposals / all 16",
+      "box IoU / all 16, no box scores zero",
+      "operational failures / all 16"
+    ]
+  },
+  "gulf_cohort": {
+    "n": 20,
+    "recording": "video_174340",
+    "construction": "Preselected questions on six original night frames, written by AI and independently reviewed by another AI; zero human reviews. Contains no final EMT group.",
+    "metrics": [
+      "semantic status correct / all 20",
+      "false proposals / all authored unresolved",
+      "strict destination point inside authored box / all authored clear",
+      "distance <=5% original image diagonal / all authored clear",
+      "coarse IoU including missing predictions as zero",
+      "operational failures"
+    ]
+  },
+  "test_discipline": "Save both complete inference banks before scoring reference geometry. Retain all initial errors and abstentions. External cases do not select thresholds, weights or model changes. A corrected passenger selection never counts as autonomous localization.",
+  "browser": "A separate declared browser study uses original EMT daytime images, electronic speech and scripted confirmation. It measures working interaction, not human acceptance."
+}

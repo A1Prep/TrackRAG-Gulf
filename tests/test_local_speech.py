@@ -69,7 +69,8 @@ def test_stereo_48khz_preserves_time_and_downmixes():
     (wav(bytes(3200))[:-1], "malformed_audio"),
     (wav(bytes(2 * 16000 * 60 + 2)), "audio_too_long"),
     (bytes(12 * 1024 * 1024 + 1), "audio_too_large"),
-])
+], ids=["missing", "bad-container", "no-frames", "three-channels", "eight-bit", "sample-rate",
+        "truncated", "over-sixty-seconds", "over-byte-budget"])
 def test_rejects_invalid_inputs_before_starting_decoder(audio, code):
     def fail(*args):
         pytest.fail("should not start the ASR decoder")

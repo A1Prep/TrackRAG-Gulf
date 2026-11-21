@@ -4,6 +4,15 @@ The local passenger page opens a paused source image, accepts a typed or spoken 
 
 ## Launch
 
+On the configured project laptop, launch the packaged model, prepared scenes and speech recognizer from the project checkout. The first command checks the exported model files. The second starts the local page and prints its address.
+
+```powershell
+.\.venv-grounding-local\Scripts\python.exe -m tools.passenger_release verify
+.\.venv-grounding-local\Scripts\python.exe -m tools.passenger_release start
+```
+
+The **Search footage** link opens the existing recording-review task when the original recording and saved prediction folders are available. **Find evidence locally** retrieves the saved tracks and associated frames up to the selected moment. The separately selectable Gemini answer mode processes evidence through the hosted answerer.
+
 Use the prepared inference environment with the tested Qwen base and adapter, the learned geometry artifact, the SegFormer cache and one or more prepared request banks. Paths can point outside the checkout. The service listens on the laptop's loopback address.
 
 ```powershell
@@ -47,3 +56,19 @@ node tools/dropoff_browser_trial.cjs path/to/protocol.json runs/browser-replay
 ```
 
 The driver saves the original plan, each initial outcome, overlay dimensions and painted-pixel count, the passenger-marked result and any stale-token check, scripted confirmation or cancellation. Its screenshots contain scene pixels and stay in the local run directory. Measure initial grounding against separate references before counting any passenger assistance.
+
+## Recorded browser results
+
+These observations used Chromium, offline Vosk and the fine-tuned Qwen3-VL-8B model on the laptop. The confirmed locations below came from two different original recordings, both 2560 × 1440. A script operated the passenger buttons. [Per-turn outcomes, input hashes and raw receipt hashes](../experiments/dropoff/passenger-browser-results-20261121.json)
+
+| Spoken request | First model response | Scripted passenger action |
+| --- | --- | --- |
+| Road behind the white SUV on the left, recording `054907`, frame 1 | Vosk heard “white as you v.” After the transcript edit to “white SUV,” the model proposed pixel `(577.5, 1222.5)`. | Confirmed the displayed model proposal. |
+| Beside the yellow bus on the left, recording `054604`, frame 150 | With the unedited transcript, the model proposed `(627.5, 1117.5)`. | Confirmed the displayed model proposal. |
+| Behind the white truck, recording `054907`, frame 1 | The model proposed `(1807.5, 1282.5)`. | Drew a different rectangle. The obsolete confirmation token returned HTTP 409, then the new passenger-marked rectangle was confirmed. |
+| Behind “that white vehicle,” followed by “the big truck with the metal sides on the right” | The model proposed a specific area for the vague first turn. On the follow-up it requested help placing the area. | Left the first proposal unconfirmed and cancelled the follow-up. |
+| At the foot of the white panels, recording `054604`, frame 83 | In both browser runs the model named an unavailable detector identifier. The photograph had zero detector candidates. | Saw an explicit error and cancelled. |
+
+All three low-memory errors from the first model run cleared on the repeat with eight resident layers, software browser rendering and the updated road-mask cache. The repeat’s four warm voice turns reached their first response in 13.3–14.0 seconds. The initial run’s screenshot and confirmed-session evidence remains available, including the original failures. Two earlier driver attempts stopped before model inference. The separate CPU tests verify that changing frames now preserves a finished request's confirmation history.
+
+The private evidence archive is `runs/passenger-browser-evidence-20261121.zip`, SHA-256 `f426a7492ae1e15df5b981bb1a7a690d53cfe4071a61f84c992687c5c6241308`. Its manifest covers the original synthetic WAVs, frozen protocols, recognition receipts and session journals. Screenshots remain on the local machine. These selected development trials demonstrate the software interaction. Held-out localization and genuine passenger voice require their own evidence.

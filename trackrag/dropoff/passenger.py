@@ -12,6 +12,7 @@ from .contracts import error_outcome, validate_box, validate_request, validate_t
 from .data import inference_input_sha256
 from .landmarks import LandmarkResolver, landmark_messages, parse_landmark, resolve_image
 from .model import ArtifactError, GroundingConfig, ResourceError, verify_adapter
+from .pair_resolution import PairResolutionError, collect_pair_evidence, replay_pair_decision
 
 
 def digest(value):
@@ -134,6 +135,8 @@ def pair_required(text):
 
 
 def operational_code(exc):
+    if isinstance(exc, PairResolutionError):
+        return exc.code
     if isinstance(exc, TimeoutError):
         return "timeout"
     if isinstance(exc, ArtifactError):
@@ -150,8 +153,9 @@ def operational_code(exc):
 
 
 class PassengerGrounder:
-    def __init__(self, config, geometry, road, *, verify_landmarks=False):
+    def __init__(self, config, geometry, road, *, verify_landmarks=False, referent_ranker=None):
         self.config, self.geometry, self.road = config, geometry, road
+        self.referent_ranker = referent_ranker
         self.resolver = LandmarkResolver(config)
         self.verify_landmarks = verify_landmarks
         self.lock = threading.RLock()
@@ -173,6 +177,9 @@ class PassengerGrounder:
                 image, binding = resolve_image(request, self.config)
                 with image:
                     decision = self.resolver.resolve(request,image)
+                    pair = collect_pair_evidence(request,image,self.resolver)
+                    if pair is not None:
+                        decision["pair_resolution"] = pair
                     return self.from_decision(request,image,binding,decision)
             except Exception as exc:
                 return error_outcome(operational_code(exc), str(exc)[:4000] or type(exc).__name__,
@@ -196,7 +203,13 @@ class PassengerGrounder:
                       "road_model":MODEL_ID, "road_revision":MODEL_REVISION, "road_checkpoint_sha256":WEIGHTS_SHA256,
                       "road_class":"road", "road_probability_minimum":.5}
         try:
-            decision = parse_landmark(record.get("raw_text"),index,request["scene"]["frame"])
+            if "pair_resolution" in record:
+                decision = replay_pair_decision(request,binding,record["pair_resolution"],self.config)
+                provenance["pair_decision"] = decision
+            else:
+                decision = parse_landmark(record.get("raw_text"),index,request["scene"]["frame"])
+        except PairResolutionError as exc:
+            return error_outcome(exc.code,str(exc),request["request_id"],provenance)
         except ValueError as exc:
             return error_outcome("invalid_model_output", str(exc),
                                  request["request_id"],provenance)
@@ -215,7 +228,15 @@ class PassengerGrounder:
         normalized = " ".join(re.findall(r"[a-z]+",text.lower()))
         bare = re.fullmatch(r"(?:(?:can|could|would) you )?(?:please )?(?:(?:drop|let) (?:me|us) (?:off |out )?|"
                             r"(?:stop|pull over|park) )?(?:right |over )?(?:here|there)(?: please)?",normalized)
-        # These two constraints act on missing evidence. Neither assigns coordinates.
+        if self.referent_ranker is not None and decision["kind"] in ("object","landmark") and not bare and not pair_required(text):
+            from .referent_policy import clarify_reference
+            scene = request["scene"]
+            ranking = self.referent_ranker.rank(image,text,scene["tracks"],frame=scene["frame"])
+            clarification = clarify_reference(text,ranking,image.size)
+            provenance["referent_ranking"] = ranking
+            if clarification:
+                provenance["referent_clarification"] = clarification
+                decision = {"kind":"ask","question":clarification["question"]}
         if bare:
             provenance["constraint"] = "unpointed_deictic"
             result = unresolved("Which visible landmark is beside your drop-off, or can you mark the area on the photo?")
@@ -270,8 +291,12 @@ class PassengerGrounder:
             self.resolver.close()
 
 
-def load_passenger_model(config_path, *, geometry_path, vision_cache, verify_landmarks=False):
+def load_passenger_model(config_path, *, geometry_path, vision_cache, verify_landmarks=False,referent_path=None):
     config = GroundingConfig.from_mapping(json.loads(Path(config_path).read_text(encoding="utf-8-sig")))
+    ranker = None
+    if referent_path is not None:
+        from .referent import ReferentRanker
+        ranker = ReferentRanker.load(referent_path)
     model = PassengerGrounder(config,AnchorGeometry.load(geometry_path),RoadEvidence(vision_cache),
-                              verify_landmarks=verify_landmarks)
+                              verify_landmarks=verify_landmarks,referent_ranker=ranker)
     return model

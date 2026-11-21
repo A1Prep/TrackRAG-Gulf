@@ -8,6 +8,7 @@ import re
 
 from .contracts import validate_box, validate_request
 from .model import GroundingConfig, _image_snapshot, _materialize_image, verify_adapter
+from .structured import EMPTY_LANDMARK_CONTRACT, EMPTY_LANDMARK_PATTERN, LANDMARK_CONTRACT
 
 
 GUIDE = """Look at the current front-facing road photograph. Interpret the passenger's final message, using the earlier dialogue for a correction or clarification. First identify the VISUAL LANDMARK(S) used to describe where they want to get out. Road-user detector boxes are possible landmarks; their coordinates are x1 y1 x2 y2 on a 0..1000 scale. Their names describe broad object types and can be imperfect. Read colour and appearance from the image.
@@ -17,6 +18,13 @@ OBJECT x1 y1 x2 y2 for a clearly visible landmark without a matching listed box,
 ASK followed by one short distinguishing question when several plausible places/objects remain or a gesture such as 'here' is missing.
 MISSING when the described reference cannot be seen.
 Use the requested side, count, colour, order and negation. A request between two objects requires BOTH identities. Ask about the missing second object if just one matches. Broadly applied phrases like 'here' need a visible distinguishing reference from the passenger. If the relation to a specific visible object is approximate (e.g. 'beside the bus'), identifying that object suffices for a proposal that the passenger will check. Give only the landmark decision. Do not predict a stopping point or an AREA in this step."""
+
+EMPTY_GUIDE = """Look at the current road photograph and any earlier dialogue. Identify the visible reference the passenger uses to describe the desired destination. There are no current detector boxes. Inspect the original pixels, including structures, entrances and road users.
+Reply with exactly one line from these three forms:
+OBJECT x1 y1 x2 y2 for one clearly identified visible reference. Use four whole numbers from 0 to 1000, scaled independently against the image width and height, from the top-left corner to the bottom-right corner of the reference itself.
+ASK followed by one short English question ending in a question mark if the passenger could mean several places, refers to a gesture you cannot see, or needs to distinguish two references.
+MISSING if the requested visual reference cannot be found.
+Use the passenger's side, colours, count, order, negation and corrections. Only describe the reference. The destination area will be estimated separately."""
 
 
 def resolve_image(request, config):
@@ -40,9 +48,11 @@ def landmark_messages(request):
     for identity, track in index.items():
         box = [round(1000*v/d) for v, d in zip(track["bbox_xyxy"], (w, h, w, h))]
         listed.append(f"{identity} {track['class_name']} " + " ".join(map(str, box)))
-    messages = [{"role": "system", "content": GUIDE},
+    image_context = ("Current detector candidates:\n" + "\n".join(listed) if index else
+                     "Original road photograph. No current detector boxes are available.")
+    messages = [{"role": "system", "content": GUIDE if index else EMPTY_GUIDE},
                 {"role": "user", "content": [{"type": "image", "image": frame["image_path"]},
-                 {"type": "text", "text": "Current detector candidates:\n" + "\n".join(listed)}]}]
+                 {"type": "text", "text": image_context}]}]
     messages.extend({"role": t["role"], "content": t["text"]} for t in request["dialogue"])
     messages.append({"role": "user", "content": request["text"]})
     return messages, index
@@ -52,6 +62,8 @@ def parse_landmark(text, index, frame):
     if not isinstance(text, str) or not 1 <= len(text.strip()) <= 1000:
         raise ValueError("Landmark response must be a bounded, nonempty string")
     line = text.strip()
+    if not index and re.fullmatch(EMPTY_LANDMARK_PATTERN, line) is None:
+        raise ValueError("With no current detector boxes the model must return a complete OBJECT, ASK or MISSING response")
     if line == "MISSING":
         return {"kind": "missing"}
     if line.startswith("ASK ") and len(line[4:].strip()) > 2 and "\n" not in line:
@@ -87,8 +99,9 @@ class LandmarkResolver:
     def resolve(self, request, image):
         from .streamed import StreamedProcessBackend
         messages, index = landmark_messages(request)
+        contract = LANDMARK_CONTRACT if index else EMPTY_LANDMARK_CONTRACT
         record = {"messages": messages, "model_id": self.config.model_id,
-                  "revision": self.config.revision, "contract": "landmark_v1",
+                  "revision": self.config.revision, "contract": contract,
                   "messages_sha256": hashlib.sha256(json.dumps(messages, sort_keys=True).encode()).hexdigest()}
         record["request_sha256"] = hashlib.sha256(json.dumps(request, sort_keys=True,
             separators=(",",":"), allow_nan=False).encode()).hexdigest()
@@ -103,7 +116,7 @@ class LandmarkResolver:
         record["adapter"] = self.adapter
         supplied = _materialize_image(messages, image)
         try:
-            response = self.backend.generate(supplied, config=self.config, contract="landmark_v1")
+            response = self.backend.generate(supplied, config=self.config, contract=contract)
         except Exception:
             self.close()
             raise

@@ -82,3 +82,60 @@ def test_checkpointed_suffix_reproduces_gradients_with_frozen_inputs():
     for a, b in zip(original.parameters(), copied.parameters()):
         assert a.grad is not None and torch.equal(a.grad, b.grad)
     assert x.grad is None
+
+
+@pytest.mark.parametrize('heads,kv,mask_kind', [(4, 1, 'causal'), (4, 2, 'boolean'),
+                                                (2, 2, 'additive'), (4, 2, 'none')])
+def test_tiled_attention_matches_dense_native_output_and_gradient(heads, kv, mask_kind):
+    torch = pytest.importorskip('torch')
+    import torch.nn.functional as F
+    from trackrag.dropoff.training_attention import kernel
+
+    torch.manual_seed(45)
+    length = 17
+    args = [torch.randn(1, h, length, 8, dtype=torch.float64, requires_grad=True) for h in (heads, kv, kv)]
+    copies = [x.detach().clone().requires_grad_(True) for x in args]
+    mask = None
+    if mask_kind in ('boolean', 'additive'):
+        mask = torch.arange(length)[:, None] >= torch.arange(length)[None, :]
+        mask = mask[None, None, :, :]
+        if mask_kind == 'additive':
+            mask = torch.where(mask, 0., -1e5).to(torch.float64)
+    native = F.scaled_dot_product_attention(*args, attn_mask=mask, is_causal=mask_kind == 'causal',
+                                           dropout_p=0., scale=.4, enable_gqa=heads != kv)
+    tiled = kernel()(*copies, mask, mask_kind == 'causal', .4, 5)
+    torch.testing.assert_close(native, tiled, rtol=1e-10, atol=1e-10)
+    upstream = torch.randn_like(native)
+    native.backward(upstream)
+    tiled.backward(upstream)
+    for ref, got in zip(args, copies):
+        torch.testing.assert_close(ref.grad, got.grad, rtol=1e-9, atol=1e-9)
+
+
+def test_tiled_dispatch_runs_real_qwen_text_block_without_changing_parent_mask_config():
+    torch = pytest.importorskip('torch')
+    pytest.importorskip('transformers')
+    from transformers.models.qwen3_vl.configuration_qwen3_vl import Qwen3VLTextConfig
+    from transformers.models.qwen3_vl.modeling_qwen3_vl import Qwen3VLTextDecoderLayer
+    from trackrag.dropoff.training_attention import install_qwen_training_attention
+
+    torch.manual_seed(11)
+    config = Qwen3VLTextConfig(hidden_size=32, intermediate_size=64, num_hidden_layers=1,
+                               num_attention_heads=4, num_key_value_heads=2, head_dim=8)
+    config._attn_implementation = 'sdpa'
+    native = Qwen3VLTextDecoderLayer(config, 0).eval()
+    bounded = deepcopy(native)
+    shared_config = bounded.self_attn.config
+    install_qwen_training_attention([bounded], tile=5)
+    assert shared_config._attn_implementation == 'sdpa'
+    assert bounded.self_attn.config._attn_implementation == 'trackrag_tiled_training_sdpa_v1'
+    x = torch.randn(1, 17, 32)
+    phase = torch.randn(1, 17, 8)
+    rope = (phase.cos(), phase.sin())
+    a = native(x, attention_mask=None, position_embeddings=rope)
+    b = bounded(x, attention_mask=None, position_embeddings=rope)
+    torch.testing.assert_close(a, b, rtol=1e-4, atol=1e-5)
+    a.square().mean().backward()
+    b.square().mean().backward()
+    for normal, tiled in zip(native.parameters(), bounded.parameters()):
+        torch.testing.assert_close(normal.grad, tiled.grad, rtol=1e-4, atol=1e-5)

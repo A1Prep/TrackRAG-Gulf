@@ -18,6 +18,7 @@ import weakref
 
 from .model import (BASE_MODEL_ID, BASE_REVISION, ArtifactError, BackendResponse,
                     GroundingConfig, ResourceError, verify_adapter)
+from .structured import EMPTY_LANDMARK_CONTRACT, INTERPRET_CONTRACT, LANDMARK_CONTRACT
 
 
 STREAMED_MODEL_ID = "unsloth/Qwen3-VL-8B-Instruct-bnb-4bit"
@@ -230,7 +231,10 @@ the configured last 1..8 decoder layers receives gradients. The remaining base
             hidden = args[0] if args else kwargs.get("hidden_states")
             if hidden is not None and hidden.requires_grad:
                 raise RuntimeError("Frozen prefix unexpectedly created an autograd graph")
-        self._handles.append(text.layers[first].register_forward_pre_hook(enter_suffix, with_kwargs=True))
+        # Training keeps the complete trainable suffix resident. Inference can stream
+        # any frozen layer, including a frozen LoRA layer; zero resident layers is valid.
+        if resident_start < len(text.layers):
+            self._handles.append(text.layers[resident_start].register_forward_pre_hook(enter_suffix, with_kwargs=True))
         self.model.eval()
         self.dtype = "bfloat16"
         self.provenance = {
@@ -284,15 +288,18 @@ the configured last 1..8 decoder layers receives gradients. The remaining base
         generation_options = {}
         constraint_details = None
         if output_contract is not None:
-            from .structured import INTERPRET_CONTRACT, InterpretationConstraint
-            if output_contract != INTERPRET_CONTRACT:
+            from .structured import InterpretationConstraint
+            if output_contract not in (INTERPRET_CONTRACT, EMPTY_LANDMARK_CONTRACT):
                 raise ValueError("Unknown streamed output contract")
             constraint = getattr(self, "_interpretation_constraint", None)
             if constraint is None:
                 head = self.model.get_output_embeddings()
                 constraint = InterpretationConstraint(self.processor.tokenizer, head.out_features)
                 self._interpretation_constraint = constraint
-            callback, constraint_details = constraint.for_request()
+            if output_contract == EMPTY_LANDMARK_CONTRACT:
+                callback, constraint_details = constraint.for_empty_landmarks()
+            else:
+                callback, constraint_details = constraint.for_request()
             generation_options["prefix_allowed_tokens_fn"] = callback
         # Trie construction, parser creation and image preparation all consume
         # this request's cooperative deadline, as well as the parent watchdog.
@@ -394,10 +401,10 @@ def _streamed_worker(connection, config_dict):
                 continue
             try:
                 contract = command.get("contract", "interpret_v1")
-                if contract not in ("interpret_v1", "landmark_v1"):
+                if contract not in (INTERPRET_CONTRACT, LANDMARK_CONTRACT, EMPTY_LANDMARK_CONTRACT):
                     raise ValueError("Unknown worker output contract")
                 response = runtime.generate(command["messages"],
-                    output_contract="interpret_v1" if contract == "interpret_v1" else None)
+                    output_contract=None if contract == LANDMARK_CONTRACT else contract)
                 connection.send({"kind": "result", "text": response.text,
                                  "details": {**(response.details or {}), "worker_pid": os.getpid(),
                                              "native_fault_isolation": "spawn_process"}})
@@ -513,7 +520,7 @@ blocked inside native code. Prompts contain the already materialized image.
 
     def generate(self, messages, *, config=None, contract="interpret_v1"):
         with self._lock:
-            if contract not in ("interpret_v1", "landmark_v1"):
+            if contract not in (INTERPRET_CONTRACT, LANDMARK_CONTRACT, EMPTY_LANDMARK_CONTRACT):
                 raise ValueError("Unknown worker output contract")
             if self._closed:
                 raise ResourceError("Local model worker is closed; construct a fresh model")

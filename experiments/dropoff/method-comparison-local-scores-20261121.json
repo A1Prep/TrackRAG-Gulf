@@ -1,0 +1,412 @@
+{
+  "schema_version": 1,
+  "kind": "independent_saved_public_development_method_scoring",
+  "case_ids": [
+    "regseg-train-1194",
+    "regseg-train-1348",
+    "regseg-train-1566",
+    "regseg-train-2394",
+    "regseg-train-2650",
+    "regseg-train-2945"
+  ],
+  "failures_unresolved_and_missing_retained_in_denominator": true,
+  "public_masks_score_semantic_status_correctness": false,
+  "candidate_targets_ever_sent_to_inference_by_scorer": false,
+  "settings_declares_inference_source_hash": false,
+  "settings_source_hash_matches_current_trial_source": null,
+  "source_bindings": {
+    "development_cases": {
+      "path": "data\\dropoff-public-expanded-20261121\\splits\\development.jsonl",
+      "bytes": 324652,
+      "sha256": "533cbcf9a2059b2890a606e896d9a216d5fc663606693c7dc8121b9ddf222556"
+    },
+    "protocol": {
+      "path": "experiments\\dropoff\\method-comparison-protocol-20261121.json",
+      "bytes": 2384,
+      "sha256": "d882b05ec3bd3d9252a69d94a11ca666fa6e5f761e48711a7edf8896f01f8172"
+    },
+    "candidate_manifest": {
+      "path": "runs\\dropoff-methods-20261121\\ground-candidates-v2\\candidates.jsonl",
+      "bytes": 124604,
+      "sha256": "0c7df6bcafbafc448ec332d20011d03de45341cf0c3a046668db54cbc50aaeec"
+    },
+    "outcomes": {
+      "path": "runs\\dropoff-methods-20261121\\local\\outcomes.jsonl",
+      "bytes": 100353,
+      "sha256": "8073be34171ff3d330b9dd905e6b0dcaeca51d99982a76f5fe339c4e09361d34"
+    },
+    "input_snapshot": {
+      "path": "runs\\dropoff-methods-20261121\\local\\input-snapshot.jsonl",
+      "bytes": 14706,
+      "sha256": "259aca81769937387cf07c531f701868c81ea687eb2380547e59979136a6a324"
+    },
+    "candidate_snapshot": {
+      "path": "runs\\dropoff-methods-20261121\\local\\candidates-snapshot.jsonl",
+      "bytes": 124604,
+      "sha256": "0c7df6bcafbafc448ec332d20011d03de45341cf0c3a046668db54cbc50aaeec"
+    },
+    "run_manifest": {
+      "path": "runs\\dropoff-methods-20261121\\local\\run.json",
+      "bytes": 317,
+      "sha256": "9eed675dab62fbc809c1739ac7adf364fa1f1d9d28655374ccc69603fece9e69"
+    },
+    "settings": {
+      "path": "runs\\dropoff-methods-20261121\\local\\settings.json",
+      "bytes": 405,
+      "sha256": "d94a3d6b7bd3f04c97e50c37680a56175c6c12391689389504e28dd61c83e569"
+    },
+    "configuration": {
+      "path": "runs\\dropoff-methods-20261121\\local\\configuration.json",
+      "bytes": 771,
+      "sha256": "980960431b4da8ae32be39bde1400bd49a8fa76a8f41217de5d5ae3db559e796"
+    },
+    "inference_source_snapshot": {
+      "path": "runs\\dropoff-methods-20261121\\local-tool-start-snapshot.py",
+      "bytes": 18105,
+      "sha256": "4e7ef445f325801d2fc67c6e4b007fe1af0fd2f25eaf0dd53c6f5b0ddd9645da"
+    }
+  },
+  "code_bindings": {
+    "scorer": {
+      "path": "D:\\PycharmProjects\\TrackRAG-Gulf\\tools\\dropoff_score_methods.py",
+      "sha256": "bcfc81e267774f0a12f313c85de38ab712c8e3802fa9162bf57918bd4970ec7e"
+    },
+    "selection_parser": {
+      "path": "D:\\PycharmProjects\\TrackRAG-Gulf\\tools\\dropoff_method_trial.py",
+      "sha256": "bc54fcc99fd2908b8648228d3a9c7715a5ffde8fe81bedbbfb3682bc83dcba91"
+    },
+    "direct_parser": {
+      "path": "D:\\PycharmProjects\\TrackRAG-Gulf\\trackrag\\dropoff\\formatting.py",
+      "sha256": "a70f13c1147252548e799edf041a31179da27a43be7419875bfde04ae0e0c1e8"
+    },
+    "geometry_contract": {
+      "path": "D:\\PycharmProjects\\TrackRAG-Gulf\\trackrag\\dropoff\\contracts.py",
+      "sha256": "0522548e22ceb1ac156d71762e56eabab7f88fea72981543e4ad1fe64ed5bcef"
+    },
+    "reference_loader": {
+      "path": "D:\\PycharmProjects\\TrackRAG-Gulf\\trackrag\\dropoff\\data.py",
+      "sha256": "3ecc53ba51fb266a2db3d87794f53ec28359c5f450b3ccec24f971f34925cbe8"
+    }
+  },
+  "candidate_ceiling": {
+    "requested": 6,
+    "representative_point_covered": 5,
+    "representative_point_coverage": 0.8333333333333334,
+    "cases": [
+      {
+        "case_id": "regseg-train-1194",
+        "candidate_count": 33,
+        "mask_sha256": "209baa5e31e72c6f2ea201ec5951aa8edf32f66aeae305cdf41a5c10a778d070",
+        "image_sha256": "72f1e8907aea57a60a8301a012f9184700be63913901c04c8b4b8817ae326fcd",
+        "representative_point_covered": false,
+        "mask_hitting_candidate_ids": []
+      },
+      {
+        "case_id": "regseg-train-1348",
+        "candidate_count": 35,
+        "mask_sha256": "416c1574b4ffcc23806dfaa3365a95af1769fbc2d30619596d247ac63f8e3c41",
+        "image_sha256": "67a81b1ef24bb52183d6edd1880085142c91f427b45a892dd494b2d489773545",
+        "representative_point_covered": true,
+        "mask_hitting_candidate_ids": [
+          "R02",
+          "R09"
+        ]
+      },
+      {
+        "case_id": "regseg-train-1566",
+        "candidate_count": 33,
+        "mask_sha256": "d1b2ad43ee71cb2a531101d21fb4e5704b03c1a405094fdd8ae1bfafcf80eb6e",
+        "image_sha256": "84078dcec181e15edd3e99da50da7c136793e000082cca00f6b9ec62e112e7c4",
+        "representative_point_covered": true,
+        "mask_hitting_candidate_ids": [
+          "R05"
+        ]
+      },
+      {
+        "case_id": "regseg-train-2394",
+        "candidate_count": 28,
+        "mask_sha256": "c6688329494d61c4d21976aa1e69dd2912362f9337e9e6ba00e563c94001786c",
+        "image_sha256": "fa2a952ec3b98f20fe493435ca58f36df6188a0b2bed3e92e61176146f652cb9",
+        "representative_point_covered": true,
+        "mask_hitting_candidate_ids": [
+          "R14",
+          "R15",
+          "R20",
+          "R21"
+        ]
+      },
+      {
+        "case_id": "regseg-train-2650",
+        "candidate_count": 36,
+        "mask_sha256": "754a760721323246d3f1abb19261fb05febf26afe934391c4a4147b842973262",
+        "image_sha256": "a3d7f7b1cf47d5c0fc8e666e7ed2294f63c01b08dab40d671fd3764e296c89c4",
+        "representative_point_covered": true,
+        "mask_hitting_candidate_ids": [
+          "R07",
+          "R08"
+        ]
+      },
+      {
+        "case_id": "regseg-train-2945",
+        "candidate_count": 30,
+        "mask_sha256": "87cde8237824270e40cf0d2460576713f23f2c4d1827483cd532edcc72eadda2",
+        "image_sha256": "7000b5e9610afc2473c79896776c0a93b043f88ba44143a44eed4d4a09f734cf",
+        "representative_point_covered": true,
+        "mask_hitting_candidate_ids": [
+          "R05"
+        ]
+      }
+    ]
+  },
+  "methods": {
+    "direct": {
+      "requested": 6,
+      "point_hits": 0,
+      "point_agreement_all_requests": 0.0,
+      "proposals": 2,
+      "proposal_coverage": 0.3333333333333333,
+      "operational_errors": 0,
+      "missing_outputs": 0,
+      "status_counts": {
+        "needs_clarification": 4,
+        "proposed": 2
+      },
+      "error_types": {},
+      "mean_latency_s_observed_only": 55.291666666666664,
+      "median_latency_s_observed_only": 47.14049999999406,
+      "total_latency_s_observed_only": 331.75,
+      "latency_observations": 6,
+      "candidate_coverable_cases": 5,
+      "point_hits_among_candidate_coverable": 0,
+      "point_agreement_among_candidate_coverable": 0.0,
+      "semantic_status_accuracy": null,
+      "cases": [
+        {
+          "case_id": "regseg-train-1194",
+          "operational_ok": true,
+          "status": "needs_clarification",
+          "point_in_original_mask": false,
+          "elapsed_s": 106.35999999998603,
+          "error_type": null,
+          "saved_output_sha256": "7dfebd46b34a7daf7ffaaff34a33d7100beddba439cab426d019f6ea3466889f",
+          "result": {
+            "status": "needs_clarification",
+            "destination_point_xy": null,
+            "destination_box_xyxy": null,
+            "clarification_question": "Which white truck is being referred to, and what is meant by 'park beside' in this context?"
+          }
+        },
+        {
+          "case_id": "regseg-train-1348",
+          "operational_ok": true,
+          "status": "needs_clarification",
+          "point_in_original_mask": false,
+          "elapsed_s": 41.344000000011874,
+          "error_type": null,
+          "saved_output_sha256": "2ce860c343576bdf876e9931f308a641951be0cf05e447c108e15ed5d4e03270",
+          "result": {
+            "status": "needs_clarification",
+            "destination_point_xy": null,
+            "destination_box_xyxy": null,
+            "clarification_question": "Which car is the intended destination to pull in next to?"
+          }
+        },
+        {
+          "case_id": "regseg-train-1566",
+          "operational_ok": true,
+          "status": "needs_clarification",
+          "point_in_original_mask": false,
+          "elapsed_s": 41.64000000001397,
+          "error_type": null,
+          "saved_output_sha256": "655300fd79ff8daa7ca8c8c5659c6b4e3bd66a7b60682577bb4ac7041a4088f5",
+          "result": {
+            "status": "needs_clarification",
+            "destination_point_xy": null,
+            "destination_box_xyxy": null,
+            "clarification_question": "Which car is the passenger referring to for pulling in behind?"
+          }
+        },
+        {
+          "case_id": "regseg-train-2394",
+          "operational_ok": true,
+          "status": "proposed",
+          "point_in_original_mask": false,
+          "elapsed_s": 48.125,
+          "error_type": null,
+          "saved_output_sha256": "8854531cd01c85376126afa13bd0b4aa392c1594e2077345ef5c4291b7c0532a",
+          "result": {
+            "status": "proposed",
+            "destination_point_xy": [
+              320.0,
+              661.5
+            ],
+            "destination_box_xyxy": [
+              240.0,
+              612.0,
+              400.0,
+              720.0
+            ],
+            "clarification_question": null
+          }
+        },
+        {
+          "case_id": "regseg-train-2650",
+          "operational_ok": true,
+          "status": "needs_clarification",
+          "point_in_original_mask": false,
+          "elapsed_s": 46.562999999994645,
+          "error_type": null,
+          "saved_output_sha256": "fd514bc042095a901784df42ebbd02be454e4709b4a3c82f9527a5dd8a3d3234",
+          "result": {
+            "status": "needs_clarification",
+            "destination_point_xy": null,
+            "destination_box_xyxy": null,
+            "clarification_question": "Is the red truck visible in the scene? If so, please specify its location."
+          }
+        },
+        {
+          "case_id": "regseg-train-2945",
+          "operational_ok": true,
+          "status": "proposed",
+          "point_in_original_mask": false,
+          "elapsed_s": 47.71799999999348,
+          "error_type": null,
+          "saved_output_sha256": "0f0ab1526ec7fa3cc7649225a6d82522af3df9ccf1f77a293cd57c5496aa3292",
+          "result": {
+            "status": "proposed",
+            "destination_point_xy": [
+              1152.0,
+              562.5
+            ],
+            "destination_box_xyxy": [
+              1088.0,
+              524.7,
+              1216.0,
+              598.5
+            ],
+            "clarification_question": null
+          }
+        }
+      ]
+    },
+    "candidates": {
+      "requested": 6,
+      "point_hits": 0,
+      "point_agreement_all_requests": 0.0,
+      "proposals": 0,
+      "proposal_coverage": 0.0,
+      "operational_errors": 0,
+      "missing_outputs": 0,
+      "status_counts": {
+        "needs_clarification": 6
+      },
+      "error_types": {},
+      "mean_latency_s_observed_only": 52.76833333333101,
+      "median_latency_s_observed_only": 51.85199999999895,
+      "total_latency_s_observed_only": 316.60999999998603,
+      "latency_observations": 6,
+      "candidate_coverable_cases": 5,
+      "point_hits_among_candidate_coverable": 0,
+      "point_agreement_among_candidate_coverable": 0.0,
+      "semantic_status_accuracy": null,
+      "cases": [
+        {
+          "case_id": "regseg-train-1194",
+          "operational_ok": true,
+          "status": "needs_clarification",
+          "point_in_original_mask": false,
+          "elapsed_s": 50.85999999998603,
+          "error_type": null,
+          "saved_output_sha256": "d36d25a8f9475e99c0400079a9e337db7f555be31720c0654a5b4fd1e0060851",
+          "result": {
+            "status": "needs_clarification",
+            "destination_point_xy": null,
+            "destination_box_xyxy": null,
+            "clarification_question": "Which specific side of the road (left/right) and which lane is intended for parking beside the white truck up ahead?"
+          }
+        },
+        {
+          "case_id": "regseg-train-1348",
+          "operational_ok": true,
+          "status": "needs_clarification",
+          "point_in_original_mask": false,
+          "elapsed_s": 58.969000000011874,
+          "error_type": null,
+          "saved_output_sha256": "7a571e1534c2da08eeb6ce843acb0db6c5b28ee22f7e9b19921c7ef438019c3e",
+          "result": {
+            "status": "needs_clarification",
+            "destination_point_xy": null,
+            "destination_box_xyxy": null,
+            "clarification_question": "Which car is the intended reference point for 'pull in next to' and what is the spatial relationship (left/right, front/back) to the candidate ground patch?"
+          }
+        },
+        {
+          "case_id": "regseg-train-1566",
+          "operational_ok": true,
+          "status": "needs_clarification",
+          "point_in_original_mask": false,
+          "elapsed_s": 50.39000000001397,
+          "error_type": null,
+          "saved_output_sha256": "9ae57cf34c6e0b6c865dcc616ea9210ffc5c736c0ea5e314516c7f46386f91c2",
+          "result": {
+            "status": "needs_clarification",
+            "destination_point_xy": null,
+            "destination_box_xyxy": null,
+            "clarification_question": "Which car is the intended reference point for pulling in behind, and what is the specific location on the road where the engine should be shut off?"
+          }
+        },
+        {
+          "case_id": "regseg-train-2394",
+          "operational_ok": true,
+          "status": "needs_clarification",
+          "point_in_original_mask": false,
+          "elapsed_s": 59.71899999998277,
+          "error_type": null,
+          "saved_output_sha256": "0a56d5fe0c63f81dd529b54ee70c47ceeeed2786701b7d3b60969d26689406bf",
+          "result": {
+            "status": "needs_clarification",
+            "destination_point_xy": null,
+            "destination_box_xyxy": null,
+            "clarification_question": "Is the intended location for parking near the bicycle on the road or on the adjacent sidewalk? The bicycle is on the sidewalk, and parking on the road near it may not be legal or safe."
+          }
+        },
+        {
+          "case_id": "regseg-train-2650",
+          "operational_ok": true,
+          "status": "needs_clarification",
+          "point_in_original_mask": false,
+          "elapsed_s": 52.844000000011874,
+          "error_type": null,
+          "saved_output_sha256": "9d13e018d61700ff99ad0b28778f327157366b8c5d45bdbe796dea64960cfe3c",
+          "result": {
+            "status": "needs_clarification",
+            "destination_point_xy": null,
+            "destination_box_xyxy": null,
+            "clarification_question": "Is the red truck visible in the image? If so, please specify its location or provide a description to confirm it is the intended reference point."
+          }
+        },
+        {
+          "case_id": "regseg-train-2945",
+          "operational_ok": true,
+          "status": "needs_clarification",
+          "point_in_original_mask": false,
+          "elapsed_s": 43.82799999997951,
+          "error_type": null,
+          "saved_output_sha256": "ac1b6b0a8bd7489ffa485a11179aeb1e9293004247590ef0deedaa81e4f705dd",
+          "result": {
+            "status": "needs_clarification",
+            "destination_point_xy": null,
+            "destination_box_xyxy": null,
+            "clarification_question": "Which is the second black car from the front, and what is the visible ground location directly in front of it?"
+          }
+        }
+      ]
+    }
+  },
+  "run_manifest": {
+    "sha256": "9eed675dab62fbc809c1739ac7adf364fa1f1d9d28655374ccc69603fece9e69",
+    "complete": true,
+    "calls": 16,
+    "elapsed_s": 767.9679999999935
+  }
+}

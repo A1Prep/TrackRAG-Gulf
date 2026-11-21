@@ -6,10 +6,6 @@ from typing import Protocol
 import traceback
 
 from trackrag.contracts import Answer, Evidence, Question
-from trackrag.privacy import (
-    anonymize_image,
-    get_pedestrian_boxes,
-)
 
 
 class AnswerModel(Protocol):
@@ -35,27 +31,13 @@ def prepare_evidence(
     evidence: list[Evidence],
     run_dir: str | Path,
 ) -> list[dict]:
-    """Create privacy-processed evidence using EMT pedestrian annotations."""
+    """Validate evidence paths and return them unchanged for the model."""
 
     run_path = Path(run_dir).resolve()
-    privacy_dir = run_path / "privacy_processed"
-    annotation_dir = run_path / "EMT" / "annotations" / "test"
-
     prepared = []
 
     for item in evidence:
         images = []
-
-        recording_id = item["interval"]["recording_id"]
-
-        annotation_path = (
-            annotation_dir / f"{recording_id}.txt"
-        )
-
-        if not annotation_path.is_file():
-            raise FileNotFoundError(
-                f"EMT annotation file not found: {annotation_path}"
-            )
 
         for image in item["images"]:
             original_path = (
@@ -72,30 +54,10 @@ def prepare_evidence(
                     f"Evidence image not found: {original_path}"
                 )
 
-            # Find every annotated pedestrian in this frame.
-            pedestrian_boxes = get_pedestrian_boxes(
-                annotation_path,
-                frame_id=image["frame_id"],
-            )
-
-            output_path = (
-                privacy_dir
-                / item["evidence_id"]
-                / original_path.name
-            )
-
-            privacy_result = anonymize_image(
-                original_path,
-                output_path,
-                pedestrian_boxes=pedestrian_boxes,
-            )
-
             images.append({
                 "frame_id": image["frame_id"],
                 "bbox_xyxy": image["bbox_xyxy"],
-                "image_path": str(
-                    privacy_result["output_path"]
-                ),
+                "image_path": str(original_path),
             })
 
         prepared.append({
@@ -141,11 +103,35 @@ def answer_question(
         if not all(isinstance(item, str) for item in citations):
             return make_answer("error")
 
+        # Model explicitly declared it cannot answer from the evidence.
+        UNSUPPORTED_PHRASES = (
+            "does not establish",
+            "cannot determine",
+            "not visible",
+            "insufficient",
+            "unable to determine",
+            "not establish",
+            "cannot be determined",
+        )
+        lower_answer = answer_text.lower()
+        if not citations and any(p in lower_answer for p in UNSUPPORTED_PHRASES):
+            return make_answer("insufficient_evidence", answer_text, [])
+
         valid_ids = {
             item["evidence_id"] for item in evidence
         }
 
-        if not citations or not set(citations).issubset(valid_ids):
+        # Citations are present but reference unknown evidence IDs.
+        if citations and not set(citations).issubset(valid_ids):
+            print(
+                f"\nCitation mismatch: model cited {set(citations) - valid_ids} "
+                "which are not in the supplied evidence."
+            )
+            return make_answer("error")
+
+        # No citations at all and answer is not an explicit insufficient-evidence reply.
+        if not citations:
+            print("\nUnsupported answer: model answered without citing any evidence.")
             return make_answer("error")
 
         return make_answer(

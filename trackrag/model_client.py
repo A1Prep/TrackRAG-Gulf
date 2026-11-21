@@ -105,10 +105,30 @@ Example:
                     "mime_type": mime_type,
                 })
 
-        interaction = self.client.interactions.create(
-            model=self.model_name,
-            input=inputs,
-        )
+        import time
+
+        for attempt in range(3):
+            try:
+                interaction = self.client.interactions.create(
+                    model=self.model_name,
+                    input=inputs,
+                    timeout=60,
+                )
+                break
+            except Exception as exc:
+                if attempt == 2:
+                    raise
+                msg = str(exc)
+                if any(s in msg for s in ("503", "service_unavailable", "high demand")):
+                    wait = 10 * (attempt + 1)
+                    print(f"\n503 from Gemini, retrying in {wait}s…")
+                    time.sleep(wait)
+                elif any(s in msg for s in ("429", "rate_limit", "too_many_requests", "Rate limit")):
+                    raise RuntimeError(
+                        "Daily rate limit reached. Try again tomorrow or use a different API key."
+                    ) from exc
+                else:
+                    raise
 
         response_text = (interaction.output_text or "").strip()
 

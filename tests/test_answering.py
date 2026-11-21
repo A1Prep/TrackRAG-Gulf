@@ -258,6 +258,52 @@ def test_evidence_path_cannot_escape_run_directory(
     assert result["answer_status"] == "error"
     model.generate.assert_not_called()
 
+def test_model_insufficient_evidence_reply_is_distinct(
+    sample_question, sample_evidence, tmp_path
+):
+    """Model explicitly says evidence doesn't establish the answer."""
+    model = Mock()
+    model.generate.return_value = {
+        "answer": "The footage does not establish the pedestrians' destination.",
+        "cited_evidence_ids": [],
+    }
+
+    create_test_annotation(tmp_path)
+
+    result = answer_question(
+        sample_question,
+        sample_evidence,
+        tmp_path,
+        model,
+    )
+
+    # Must be insufficient_evidence, not error.
+    assert result["answer_status"] == "insufficient_evidence"
+    assert result["answer"] is not None
+
+
+def test_citation_mismatch_is_distinct_from_provider_error(
+    sample_question, sample_evidence, tmp_path
+):
+    """Hallucinated evidence ID must yield error, not answered."""
+    model = Mock()
+    model.generate.return_value = {
+        "answer": "Two pedestrians.",
+        "cited_evidence_ids": ["E_NONEXISTENT"],
+    }
+
+    create_test_annotation(tmp_path)
+
+    result = answer_question(
+        sample_question,
+        sample_evidence,
+        tmp_path,
+        model,
+    )
+
+    assert result["answer_status"] == "error"
+
+
 def test_model_receives_processed_image_not_original(
     sample_question, sample_evidence, tmp_path
 ):

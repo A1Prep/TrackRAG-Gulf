@@ -393,7 +393,11 @@ def _streamed_worker(connection, config_dict):
                 connection.send(_worker_error(ValueError("Unknown local worker command"), "generate"))
                 continue
             try:
-                response = runtime.generate(command["messages"], output_contract="interpret_v1")
+                contract = command.get("contract", "interpret_v1")
+                if contract not in ("interpret_v1", "landmark_v1"):
+                    raise ValueError("Unknown worker output contract")
+                response = runtime.generate(command["messages"],
+                    output_contract="interpret_v1" if contract == "interpret_v1" else None)
                 connection.send({"kind": "result", "text": response.text,
                                  "details": {**(response.details or {}), "worker_pid": os.getpid(),
                                              "native_fault_isolation": "spawn_process"}})
@@ -507,8 +511,10 @@ blocked inside native code. Prompts contain the already materialized image.
             raise ResourceError("Local model worker returned an invalid transport response")
         return response
 
-    def generate(self, messages, *, config=None):
+    def generate(self, messages, *, config=None, contract="interpret_v1"):
         with self._lock:
+            if contract not in ("interpret_v1", "landmark_v1"):
+                raise ValueError("Unknown worker output contract")
             if self._closed:
                 raise ResourceError("Local model worker is closed; construct a fresh model")
             if config is not None and config != self.config:
@@ -521,7 +527,10 @@ blocked inside native code. Prompts contain the already materialized image.
             timer.daemon = True
             timer.start()
             try:
-                self._connection.send({"kind": "generate", "messages": messages})
+                command = {"kind": "generate", "messages": messages}
+                if contract != "interpret_v1":
+                    command["contract"] = contract
+                self._connection.send(command)
                 response = self._receive(self.config.max_time_s)
                 if timed_out.is_set():
                     raise TimeoutError("Local model worker exceeded its parent-enforced deadline")

@@ -1,0 +1,17 @@
+{"request_id":"passenger-a01","recording_id":"video_054604","frame_id":1,"text":"Let me out on the brick strip on the right, alongside the construction fence."}
+{"request_id":"passenger-a02","recording_id":"video_054604","frame_id":1,"text":"Drop me on the asphalt next to the planted divider on the left, by the closest tree."}
+{"request_id":"passenger-a03","recording_id":"video_054604","frame_id":1,"text":"Can you let me out here?"}
+{"request_id":"passenger-a04","recording_id":"video_054604","frame_id":1,"text":"The brick strip along the fence, please.","dialogue":[{"role":"user","text":"Can you let me out here?","recording_id":"video_054604","frame_id":1},{"role":"assistant","text":"Do you mean the brick strip along the fence on the right, or the asphalt by the planted divider on the left?","recording_id":"video_054604","frame_id":1}]}
+{"request_id":"passenger-a05","recording_id":"video_054604","frame_id":1,"text":"I'd like to get out beside the red bus shelter on this bend."}
+{"request_id":"passenger-a06","recording_id":"video_054604","frame_id":42,"text":"I'll get out along the left curb by the red and white arrow."}
+{"request_id":"passenger-a07","recording_id":"video_054604","frame_id":42,"text":"Let me out at the road edge by the tall lamp on our right, just before the bend."}
+{"request_id":"passenger-a08","recording_id":"video_054604","frame_id":42,"text":"Pull in by the tree."}
+{"request_id":"passenger-a09","recording_id":"video_054604","frame_id":42,"text":"I'd like the striped zebra crossing in front of us."}
+{"request_id":"passenger-a10","recording_id":"video_054604","frame_id":83,"text":"Let me out at the foot of those white metal panels on the right."}
+{"request_id":"passenger-a11","recording_id":"video_054604","frame_id":83,"text":"By the nearest arrow sign on the left, on the road side of the curb, please."}
+{"request_id":"passenger-a12","recording_id":"video_054604","frame_id":83,"text":"By the sign, please."}
+{"request_id":"passenger-a13","recording_id":"video_054604","frame_id":83,"text":"The closest red and white arrow on the left.","dialogue":[{"role":"user","text":"By the sign, please.","recording_id":"video_054604","frame_id":83},{"role":"assistant","text":"Do you mean the nearest chevron on the left, or a sign farther up the road?","recording_id":"video_054604","frame_id":83}]}
+{"request_id":"passenger-a14","recording_id":"video_054604","frame_id":83,"text":"Stop by the blue phone booth next to these panels."}
+{"request_id":"passenger-a15","recording_id":"video_054604","frame_id":103,"text":"Could you leave me on the sandy edge beside the base of the tall streetlamp on our right?"}
+{"request_id":"passenger-a16","recording_id":"video_054604","frame_id":103,"text":"Actually, the curb by the arrow sign under the tree on the left, please.","dialogue":[{"role":"user","text":"I first thought of getting out at the tall streetlamp on our right.","recording_id":"video_054604","frame_id":103}]}
+{"request_id":"passenger-a17","recording_id":"video_054604","frame_id":103,"text":"Pull over next to the lighthouse."}

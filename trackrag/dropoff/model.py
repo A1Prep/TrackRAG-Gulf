@@ -59,8 +59,11 @@ class GroundingConfig:
     model_dir: str | None = None
     suffix_layers: int = 8
     inference_resident_layers: int = 20
+    observation_format: str = 'json'
 
     def __post_init__(self):
+        if self.observation_format not in ('json', 'compact_rows_v1'):
+            raise ValueError('Unsupported observation formatting profile')
         if not isinstance(self.model_id, str) or not self.model_id.strip():
             raise ValueError("model_id must be nonempty")
         if not isinstance(self.revision, str) or not _REVISION.fullmatch(self.revision):
@@ -171,6 +174,8 @@ def verify_adapter(config: GroundingConfig) -> dict | None:
         raise ArtifactError("Adapter is bound to a different base model/revision")
     if "coordinate_system" in manifest and manifest["coordinate_system"] != "normalized_0_1000_image_edges":
         raise ArtifactError("Adapter uses a different coordinate convention")
+    if "observation_format" in manifest and manifest["observation_format"] != config.observation_format:
+        raise ArtifactError("Adapter observation serialization differs from this inference profile")
     if "image_processing" in manifest:
         processing = manifest["image_processing"]
         if not isinstance(processing, dict) or any(
@@ -485,7 +490,12 @@ class GroundingModel:
             if self._backend is not None and not self._injected and adapter != self._loaded_adapter:
                 raise ArtifactError("Adapter files changed after model loading; construct a fresh model")
             phase = "request"
-            messages = build_messages(validated, task="interpret", allow_annotated=self.config.allow_annotated)
+            if self.config.observation_format == 'json':
+                messages = build_messages(validated, task="interpret", allow_annotated=self.config.allow_annotated)
+            else:
+                provenance['observation_format'] = self.config.observation_format
+                messages = build_messages(validated, task="interpret", allow_annotated=self.config.allow_annotated,
+                                          observation_format=self.config.observation_format)
             self.last_receipt["messages"] = deepcopy(messages)
             # Bind prompt text and the exact original image content without
             # serializing a PIL object or rereading the image during generation.

@@ -1,0 +1,14 @@
+{
+  "kind": "scorer_software_controls_no_model_run",
+  "oracle_inside_real_masks": 16,
+  "oracle_iou_one": 16,
+  "stale_hash_rejected": 16,
+  "duplicate_id_rejected": 16,
+  "missing_id_preserved": 16,
+  "clarification_retains_zero_geometry_and_no_semantic_score": 16,
+  "zip_crc_validated_files": 36,
+  "archive_bytes": 2360624,
+  "archive_sha256": "9c61951b50062c345bf43526662996fa84f97baa6eecbda14b407700202efc85",
+  "source_paper": "https://arxiv.org/abs/2112.13031",
+  "review_source": "Section III.A reports authors manually annotated navigable regions and used three student reviewers, with acceptance after at least two concurred on each annotation. These are external public references, with no human review by this project."
+}

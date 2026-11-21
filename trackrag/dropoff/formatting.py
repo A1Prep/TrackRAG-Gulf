@@ -49,7 +49,7 @@ def _scale_box(box, width, height, factor):
             round(box[2] * factor / width, 6), round(box[3] * factor / height, 6)]
 
 
-def build_messages(request, task="interpret", *, allow_annotated=False):
+def build_messages(request, task="interpret", *, allow_annotated=False, observation_format="json"):
     request = validate_request(request, allow_annotated=allow_annotated)
     if task not in ("interpret", "destination_only"):
         raise ValueError("unknown grounding task")
@@ -66,11 +66,23 @@ def build_messages(request, task="interpret", *, allow_annotated=False):
             for row in request["scene"]["tracks"]
         ],
     }
+    if observation_format == 'json':
+        context = json.dumps(metadata, sort_keys=True)
+    elif observation_format == 'compact_rows_v1':
+        # Preserve each value from the established normalized-six-decimal model
+        # input. A column header replaces repeated object keys and separators.
+        observations = metadata.pop('observations')
+        metadata['observation_columns'] = ['frame_id', 'track_id', 'class_name', 'x1', 'y1', 'x2', 'y2']
+        context = json.dumps(metadata, sort_keys=True, separators=(',', ':'))
+        context += ''.join('\n' + json.dumps([r['frame_id'], r['track_id'], r['class_name'], *r['bbox_xyxy']],
+                           separators=(',', ':')) for r in observations)
+    else:
+        raise ValueError('Unsupported observation formatting profile')
     messages = [
         {"role": "system", "content": SYSTEM + (INTERPRET if task == "interpret" else DESTINATION_ONLY)},
         {"role": "user", "content": [
             {"type": "image", "image": frame["image_path"]},
-            {"type": "text", "text": "Observed scene context:\n" + json.dumps(metadata, sort_keys=True)},
+            {"type": "text", "text": "Observed scene context:\n" + context},
         ]},
     ]
     messages.extend({"role": turn["role"], "content": turn["text"]} for turn in request["dialogue"])

@@ -60,6 +60,85 @@ Without `TRACKRAG_VISION_CONFIG` the pretrained configuration is active, so use 
 
 There are two environments. The model environment uses `requirements-vision.txt`: `rfdetr==1.12.1`, `ultralytics==8.4.215` and `lap`. The ultralytics version is also checked at runtime. Install torch for your platform first. The evaluation environment uses `requirements-vision-eval.txt` (`numpy==1.26.4`, `pandas==2.2.3`, `motmetrics==1.4.0`, `pycocotools==2.0.11`, `matplotlib`). They are kept separate because motmetrics 1.4.0 needs numpy below 2.
 
+### The two vision profiles
+
+A profile is a configuration file plus the weights it names. Its identity hash is the sha256 of the detector settings (including the checkpoint hash), the tracker settings and the pipeline version. Every prediction folder records it, and the loaders refuse files made with another profile.
+
+| | Pretrained | Fine-tuned (recommended) |
+|---|---|---|
+| Configuration | `configs/vision/pretrained.json` | `configs/vision/finetuned.json` |
+| Identity hash | `98c88b08a77a...` | `acf21b53525d...` |
+| Detector weights | `rf-detr-large-2026.pth`, downloaded by rfdetr, sha256 `0f4e20e1...cf38` | `checkpoint_best_total.pth`, 134,900,699 bytes, sha256 `9ea96f10...1d95`, on Google Drive in `task1/runs/ft01/` |
+| Classes | COCO, mapped to EMT names | the 9 EMT classes |
+| BoT-SORT | score fusion off, high and new-track threshold 0.25 | score fusion on, high and new-track threshold 0.15 |
+| Saved tracks | `task1-predictions-pretrained.zip`, sha256 `08ebd92f...f3fe` | `task1-predictions-finetuned.zip`, sha256 `572b0322...a510` |
+| Saved raw detections | `task1-detections-pretrained.zip`, sha256 `b78adecc...e73a` | `task1-detections-finetuned.zip`, sha256 `02455ae8...f7d2` |
+
+The full checkpoint hashes are in the configuration files, and the full identity hashes and track-file hashes are in `experiments/vision/shared_prediction_runs.json`. The weights folder is given with `--weights-dir` or `TRACKRAG_VISION_WEIGHTS_DIR`, and the checkpoint's hash is checked against the configuration before the model loads. The zips are stored on Google Drive in `task1/handoff/` and shared with the team, outside Git. A detections zip unpacks into the same `predictions-<profile>/` folder as the tracks zip. Its `detections_manifest.json` gives the sha256 and row count of each of the 8 files and how each file is tied to the shared tracks: its hash appears in the archived metrics and in the replay provenance. For `video_054604`, the replay of 20 November 2026 ties it.
+
+Results come either from saved predictions or from fresh inference, and they are labelled that way:
+
+| Result | Kind | How it was made and checked |
+|---|---|---|
+| Shared tracks, both profiles, 8 recordings | saved predictions | The detector ran on every frame on a laptop CPU and its detections were saved. Fifteen of the 16 tracks files are `--frozen` replays of those detections with the profile's tracker settings; their provenance names the detections file's sha256, and the replay stops unless it writes the detections file again byte for byte. The fine-tuned `video_054604` tracks come from the live run. On 20 November 2026 a replay of the `video_054604` detections gave the shared tracks files byte for byte, for both profiles. |
+| Test and dev metrics (`metrics_test.json`, `metrics_dev.json`) | computed from saved predictions | `tools.vision_evaluate` on the saved detections and tracks. On 20 November 2026 Task 1 reran the evaluator in `main` (commit `9fb555f`) for both profiles and both splits, once on the original run folders and once on a new folder unpacked from the shared zips, with the EMT labels. Both times all 2,180 numbers equalled the archived ones. A1Prep recomputed the full-test tracking metrics separately ([verification](task1-artifact-verification.md)); nobody else has recomputed detection AP yet. The record is `experiments/vision/detection_ap_reproduction_20261120.json`. |
+| Live checks | fresh inference | The pretrained profile on the first 300 frames of `video_204647` matched the shared detections and tracks exactly. The scene check reran the detector on single frames of three recordings with both profiles and got the saved raw detections exactly. Other live runs are described under "How it was checked". A1Prep's fresh runs on other hardware matched the shared tracks by box and class, not byte for byte ([verification](task1-artifact-verification.md)). |
+| Drop-off scenes | either | `receipt.origin` is `saved_predictions` or `fresh_inference` (see below). |
+
+To reproduce the metrics from the shared files (evaluation environment, from the repository root; the unpacked fine-tuned files take about 0.8 GB, so keep them outside the repository):
+
+```sh
+# Unpack both zips of a profile in one folder; predictions-finetuned/ then holds tracks, provenance and detections
+unzip -d <folder> task1-predictions-finetuned.zip && unzip -d <folder> task1-detections-finetuned.zip
+mkdir -p runs
+
+# Keep this recording order. pycocotools breaks ties between equal scores by input order, and in another
+# order some AP values move by up to 3e-7. The dev recordings sit in EMT's train folder, hence --split train.
+python -m tools.vision_evaluate --pred-dir <folder>/predictions-finetuned --labels-root <EMT_LABELS_ROOT> \
+    --split test --recordings video_204647 video_122233 video_125233 video_155425 video_160325 --out runs/ft-test.json
+python -m tools.vision_evaluate --pred-dir <folder>/predictions-finetuned --labels-root <EMT_LABELS_ROOT> \
+    --split train --recordings video_054907 video_174340 --out runs/ft-dev.json
+
+# Compare with the archived results, number by number
+python -m tools.vision_compare_metrics <folder>/predictions-finetuned/metrics_test.json runs/ft-test.json \
+    --ignore tracking_only pred_dir
+python -m tools.vision_compare_metrics <folder>/predictions-finetuned/metrics_dev.json runs/ft-dev.json \
+    --ignore tracking_only pred_dir
+```
+
+The comparison exits with status 0 when no number differs by more than 1e-9 (the default `--tolerance`) and no key is missing. `tracking_only` is a flag the current evaluator adds, and `pred_dir` is the folder path, so both are left out. Fresh inference and the frozen replay use the `predict` and `vision_tune_tracker --frozen` commands under "Run it".
+
+### Scene inputs for the drop-off route
+
+`trackrag/dropoff/scenes.py` gives the drop-off route one original frame and the road users predicted in it. For a recording and frame it returns the frame record (recording, frame, timestamp, width, height), the image as a path relative to the EMT root with the sha256 of its bytes, and the predicted observations of that frame with their track IDs and original-pixel boxes. It works from saved predictions without a GPU or model, in the environment of `requirements-integration.txt` (it needs OpenCV through the EMT reader), and runs from the repository root. It never reads label files; if `annotations/metadata.txt` exists, the EMT reader takes the frame rate from it, and the scene records that. `<EMT_IMAGES_ROOT>` below is the folder that contains `images/`.
+
+Task 5's `trackrag/dropoff/inputs.py` and `tools/dropoff_prepare_scene.py` build the grounding model's input from the same frame and saved predictions. The two do different jobs: Task 5's request is what the model receives, and Task 1's scene is the record the evaluation checks against. When Task 5's requests and outputs are converted for scoring ([task1-grounding-evaluation.md](task1-grounding-evaluation.md)), each request's frame, image bytes and observations must equal the scene's. So requests for the final test should be built from the shared fine-tuned predictions, the same ones the scenes come from.
+
+```sh
+# One scene from the shared fine-tuned predictions
+python -m trackrag.dropoff.scenes show --data-root <EMT_IMAGES_ROOT> --recording video_054604 --frame 135 \
+    --profile configs/vision/finetuned.json --predictions <folder>/predictions-finetuned --out scene.json
+
+# Scenes for a list of frames ([{"recording_id": ..., "frame_id": ...}, ...]), then a check of the folder.
+# The two manifests pin the images and the prediction files; use them for the final test scenes.
+python -m trackrag.dropoff.scenes export --data-root <EMT_IMAGES_ROOT> --frames frames.json \
+    --profile configs/vision/finetuned.json --predictions <folder>/predictions-finetuned \
+    --frame-manifest <folder>/emt_frame_sha256_manifest.json \
+    --run-manifest experiments/vision/shared_prediction_runs.json --out-dir scenes
+python -m trackrag.dropoff.scenes validate --data-root <EMT_IMAGES_ROOT> \
+    --profile configs/vision/finetuned.json --predictions <folder>/predictions-finetuned scenes
+```
+
+`export` writes one file per frame and an `index.json`; `--history N` adds the last N earlier predicted frames to each scene as `model_input.history`.
+
+In Python: `load_scene(data_root, recording_id, frame_id, profile=..., predictions_dir=...)` builds a scene and `scene_image_path(scene, data_root)` returns the path of its image (found through the EMT reader) after checking the hash. To check a scene received from another module, use `validate_scene(scene, data_root, profile=..., predictions_dir=...)`: only a call with `profile` and `predictions_dir` ties the observations to a prediction run. Without them it checks the scene record and the image but not where the observations came from; without `data_root` it checks the scene record only. `fresh_scene(...)` runs the model on every frame up to the requested one (model environment; 0.7–2.2 s per frame on a laptop CPU) and saves that run. Every refusal raises `SceneError`.
+
+A scene has four parts. `model_input` is what a grounding model may see: the frame record, the sha256 of the image bytes, the observations and the optional `history`. Observations have exactly the six `TrackObservation` fields with no colour or confidence, so colour has to come from the image. `provenance` ties the observations to one prediction run (kind of run and detector, identity and checkpoint hashes, the hashes of the track and provenance files) and is not meant for a prompt. `context` holds descriptive details such as the image path relative to the EMT root, the profile name and which manifests were checked. `receipt.origin` says how this scene was produced: `fresh_inference` only when `fresh_scene` ran the model for this request, otherwise `saved_predictions`, including when an earlier fresh run's folder is loaded again. `scene_sha256` covers `model_input` and `provenance` only, so the same content from the same run gives the same hash on any machine and with either EMT folder layout, and any changed observation changes it. A track ID only means something inside the run that made it: the same frame from the pretrained profile, or from a fresh run, can use other numbers. Anything that refers to a track ID should therefore also name the scene hash.
+
+The vision profile must be chosen explicitly (`--profile` or `TRACKRAG_VISION_CONFIG`); the fine-tuned profile is the recommended one. `scenes.py` refuses: predictions from another profile or from the stand-in test detector; a frame missing from the images or the predictions; image frames that differ from the predicted frames up to the requested one; a different image size; inconsistent or foreign tracks files. Two optional manifests add checks. `--frame-manifest <folder>/emt_frame_sha256_manifest.json` checks each image against a list of sha256 values for all 13,930 frames of the 8 recordings with saved predictions. The list was made on 20 November 2026 from the image folder used for the predictions, with `python -m trackrag.dropoff.scenes manifest`. The file is 1.1 MB, so it is stored with the zips in `task1/handoff/` rather than kept in Git; the sha256 of its canonical JSON is `dba1172aee36df82aadef5d19a595387330b0b3ba6e6677ce068b581c3f8d55f`, the value scenes record in `context.frame_manifest_sha256`. `--run-manifest experiments/vision/shared_prediction_runs.json` checks that the track and provenance files are exactly the shared ones (the 16 tracks files and 16 provenance files in the two prediction zips).
+
+`experiments/dropoff/scene_example_video_054604_f135.json` is a real scene: the school bus at the left edge, from the fine-tuned predictions. The real-data check is recorded in `experiments/dropoff/scene_handoff_check_20261120.json` and made with `python -m tools.dropoff_scene_check` (model environment). It covers three recordings, one of them at 3840 × 2160, with both profiles. For each it builds and validates the scene, then runs the detector on that single frame and compares the raw detections with the saved ones of the run that made the shared tracks. It also compares a fresh run up to frame 135 of `video_054604` with the saved scene.
+
 ## Data
 
 The data is the Hugging Face release `KuAvLab/EMT` at revision `4418cec01b03c6f797cadb06c9405843a30988e2`, in the split-first layout that `trackrag.emt` reads. The archive sha256 values are pinned in `tools/vision_prepare_dataset.py` and in the Colab notebook. The splits come from the shared manifest `splits/task2_manifest.json`: 13 training, 2 development (dev) and 5 official test recordings.

@@ -1,0 +1,510 @@
+{
+  "version": 1,
+  "freeze_utc": "2026-11-17T04:41:16.538203+00:00",
+  "scope": "Pre-model-output two-recording development retrieval reference; no training, no holdout or human-validated claims. Public questions, reference rubrics and annotated source rows only. Generated without ranking models or inspecting their outputs.",
+  "reviewer": "Independent AI-assisted development reference; student verification pending",
+  "evidence_inputs": [
+    {
+      "path": "experiments/temporal-development-questions.jsonl",
+      "sha256": "af907b3bda35ec311fd0e20d6f0a3a2bf0f66f3a4b69367915d583e63bcbc769"
+    },
+    {
+      "path": "experiments/temporal-second-questions.jsonl",
+      "sha256": "2dc223ebf820185418ef2ab7b5fa693a19691fb7e7c0da6322d8353046fd3433"
+    },
+    {
+      "path": "experiments/temporal-development-rubric.jsonl",
+      "sha256": "9b94af1befe53c1631d0261ff4cf38221bd3712e7e4613058c34e7579f54fea4"
+    },
+    {
+      "path": "experiments/temporal-second-rubric.jsonl",
+      "sha256": "0e1fc025a1131a7b6cd8100e6087baf3f41eb5fd158a57cb95c81e2545ceccaa"
+    },
+    {
+      "path": "data/emt-official/annotations/train/video_054604.txt",
+      "sha256": "d94cfd72c176cab4ac7531a901c34051e6c2d1f36c602a06f223ec8d904652f3"
+    },
+    {
+      "path": "data/emt-official/annotations/train/video_054907.txt",
+      "sha256": "20c48cd36e20acb302ac7f68b48df8ca976ae7a7fddf98dd0c48b28b7abdf67b"
+    }
+  ],
+  "logic_inputs": [
+    {
+      "path": "evaluation/score.py",
+      "sha256": "799d19b2e423783a371cecf0302dc6877d2e7a7f55dd3737c57795327d04d8e1"
+    },
+    {
+      "path": "trackrag/retrieval.py",
+      "sha256": "04cd554fe80b1e57901a37a5e868401dcd00bab6febaa58b15570c3d85e169c2"
+    },
+    {
+      "path": "trackrag/emt.py",
+      "sha256": "2f1bbbe01a1bbbe414e177584181c5a7f04803e988acadd17564b78b05a4997b"
+    }
+  ],
+  "repository_commit": "da87f2d8837982a9bc8fb8b220bda0181c1d9229",
+  "key": {
+    "path": "runs/pretrained-reference.jsonl",
+    "sha256": "5249904b39158718f4f85da607ec7c3131af13c819265295a460c6ae591f5bf2"
+  },
+  "counts": {
+    "all_questions": 36,
+    "rubric_answerable": 26,
+    "scored_primary": 25,
+    "manual": 1,
+    "qa_only_abstention": 9,
+    "identity_motion_only": 1
+  },
+  "target_kind_counts": {
+    "identity_or_scene": 8,
+    "identity_only": 10,
+    "scene_only": 5,
+    "identity_and_scene_required": 2
+  },
+  "rules": [
+    "Same frozen 25 IDs and fixed key for each ranker. Filter results to these IDs before using evaluation.score; keep separate outputs and QA dispositions for all 36.",
+    "Annotated retrieval hit requires correct identity or an explicitly allowed exact scene, and inclusive temporal IoU >= 0.5. Predicted IDs require the scorer's predicted-to-annotated bbox association and matching tracks inputs. Never compare raw tracker IDs to annotation IDs.",
+    "For static visible attributes/position where the rubric accepts either track or full scene, include the rubric interval and the exact highlighted query frame as well as the explicit exact scene. Report highlighted-target hits and scene alternatives separately; incidental scene visibility does not prove identity retrieval.",
+    "Use the numeric approximate bounds as written for temporal-09 (10..30) and temporal-14 (110..120). For temporal-17 any available full scene through cutoff 150 is allowed. For second-05 use the 1..100 span as a retrieval proxy only. Actual QA requires both endpoints.",
+    "For second-02 and second-08 the primary key scores the named truck history. Full-evidence coverage must additionally retrieve the stated unhighlighted endpoint scene. Neither component alone establishes a complete bundle. An interval-IoU hit does not certify exact endpoint samples or image content.",
+    "Candidate coverage is a ceiling, not model quality. For every actual comparison inventory compute existential match over ALL emitted candidates before scoring/ranking, from the same snapshot and with the same source/identity + inclusive IoU rule. Keep impossible cases in the full denominator; report hit rates conditional on coverage separately.",
+    "Keep the gold and this manifest out of all inference, candidate creation, text descriptions, selection and tuning."
+  ],
+  "standard_track_window_oracle": {
+    "generator": "trackrag.retrieval.candidate_windows, default RetrievalConfig, official annotated tracks only, no added scene candidates. This is a pool-specific ceiling. Recompute for the actual comparison inventory if different.",
+    "covered": 17,
+    "denominator": 25,
+    "per_question": [
+      {
+        "question_id": "temporal-02",
+        "candidate_count": 348,
+        "could_hit": true
+      },
+      {
+        "question_id": "temporal-03",
+        "candidate_count": 348,
+        "could_hit": true
+      },
+      {
+        "question_id": "temporal-04",
+        "candidate_count": 348,
+        "could_hit": true
+      },
+      {
+        "question_id": "temporal-05",
+        "candidate_count": 348,
+        "could_hit": true
+      },
+      {
+        "question_id": "temporal-06",
+        "candidate_count": 43,
+        "could_hit": true
+      },
+      {
+        "question_id": "temporal-07",
+        "candidate_count": 59,
+        "could_hit": true
+      },
+      {
+        "question_id": "temporal-08",
+        "candidate_count": 59,
+        "could_hit": false
+      },
+      {
+        "question_id": "temporal-09",
+        "candidate_count": 59,
+        "could_hit": true
+      },
+      {
+        "question_id": "temporal-10",
+        "candidate_count": 14,
+        "could_hit": true
+      },
+      {
+        "question_id": "temporal-11",
+        "candidate_count": 14,
+        "could_hit": true
+      },
+      {
+        "question_id": "temporal-12",
+        "candidate_count": 36,
+        "could_hit": true
+      },
+      {
+        "question_id": "temporal-13",
+        "candidate_count": 36,
+        "could_hit": true
+      },
+      {
+        "question_id": "temporal-14",
+        "candidate_count": 249,
+        "could_hit": true
+      },
+      {
+        "question_id": "temporal-16",
+        "candidate_count": 348,
+        "could_hit": false
+      },
+      {
+        "question_id": "temporal-17",
+        "candidate_count": 348,
+        "could_hit": false
+      },
+      {
+        "question_id": "temporal-18",
+        "candidate_count": 59,
+        "could_hit": false
+      },
+      {
+        "question_id": "second-01",
+        "candidate_count": 19,
+        "could_hit": true
+      },
+      {
+        "question_id": "second-02",
+        "candidate_count": 114,
+        "could_hit": true
+      },
+      {
+        "question_id": "second-03",
+        "candidate_count": 196,
+        "could_hit": true
+      },
+      {
+        "question_id": "second-04",
+        "candidate_count": 196,
+        "could_hit": false
+      },
+      {
+        "question_id": "second-05",
+        "candidate_count": 196,
+        "could_hit": false
+      },
+      {
+        "question_id": "second-06",
+        "candidate_count": 322,
+        "could_hit": true
+      },
+      {
+        "question_id": "second-07",
+        "candidate_count": 149,
+        "could_hit": false
+      },
+      {
+        "question_id": "second-08",
+        "candidate_count": 196,
+        "could_hit": true
+      },
+      {
+        "question_id": "second-09",
+        "candidate_count": 322,
+        "could_hit": false
+      }
+    ]
+  },
+  "dispositions": [
+    {
+      "question_id": "temporal-01",
+      "category": "ambiguous entry",
+      "expected_qa_status": "manual",
+      "rubric_grounding": "46 at 117-150, bus 2 already present at frame 1. Track 46 first annotation at 70 is inside the image, partly behind trees, with later annotation gaps.",
+      "disposition": "manual",
+      "reason": "The clean edge-entry event is ambiguous per the pre-existing rubric."
+    },
+    {
+      "question_id": "temporal-02",
+      "category": "appearance",
+      "expected_qa_status": "answered",
+      "rubric_grounding": "Track 46 at 129-150 or scene 150.",
+      "disposition": "scored",
+      "target_kind": "identity_or_scene"
+    },
+    {
+      "question_id": "temporal-03",
+      "category": "temporal identity",
+      "expected_qa_status": "answered",
+      "rubric_grounding": "46 at 117-150.",
+      "disposition": "scored",
+      "target_kind": "identity_only"
+    },
+    {
+      "question_id": "temporal-04",
+      "category": "image size",
+      "expected_qa_status": "answered",
+      "rubric_grounding": "46 at 117-150.",
+      "disposition": "scored",
+      "target_kind": "identity_only",
+      "full_evidence_requires_observed_track_endpoints": [
+        117,
+        150
+      ]
+    },
+    {
+      "question_id": "temporal-05",
+      "category": "paraphrase",
+      "expected_qa_status": "answered",
+      "rubric_grounding": "46 at 100-150.",
+      "disposition": "scored",
+      "target_kind": "identity_only"
+    },
+    {
+      "question_id": "temporal-06",
+      "category": "opening exit",
+      "expected_qa_status": "answered",
+      "rubric_grounding": "2 at 1-10.",
+      "disposition": "scored",
+      "target_kind": "identity_only"
+    },
+    {
+      "question_id": "temporal-07",
+      "category": "appearance",
+      "expected_qa_status": "answered",
+      "rubric_grounding": "8 at 25-30 or scene 30.",
+      "disposition": "scored",
+      "target_kind": "identity_or_scene"
+    },
+    {
+      "question_id": "temporal-08",
+      "category": "position",
+      "expected_qa_status": "answered",
+      "rubric_grounding": "8 at 28-30 or scene 30; x about 184-664 of 2560 at frame 30.",
+      "disposition": "scored",
+      "target_kind": "identity_or_scene"
+    },
+    {
+      "question_id": "temporal-09",
+      "category": "image size",
+      "expected_qa_status": "answered",
+      "rubric_grounding": "8 at roughly 10-30.",
+      "disposition": "scored",
+      "target_kind": "identity_only"
+    },
+    {
+      "question_id": "temporal-10",
+      "category": "opening appearance",
+      "expected_qa_status": "answered",
+      "rubric_grounding": "Prominent car 7 at frame 1 or scene 1.",
+      "disposition": "scored",
+      "target_kind": "identity_or_scene"
+    },
+    {
+      "question_id": "temporal-11",
+      "category": "size comparison",
+      "expected_qa_status": "answered",
+      "rubric_grounding": "7 has the largest annotated car box at frame 1.",
+      "disposition": "scored",
+      "target_kind": "identity_only"
+    },
+    {
+      "question_id": "temporal-12",
+      "category": "annotation class",
+      "expected_qa_status": "answered",
+      "rubric_grounding": "6 at 1-13, explicitly asks about the annotation.",
+      "disposition": "scored",
+      "target_kind": "identity_only"
+    },
+    {
+      "question_id": "temporal-13",
+      "category": "image motion",
+      "expected_qa_status": "answered",
+      "rubric_grounding": "6 at 1-13.",
+      "disposition": "scored",
+      "target_kind": "identity_only"
+    },
+    {
+      "question_id": "temporal-14",
+      "category": "appearance and identity",
+      "expected_qa_status": "answered",
+      "rubric_grounding": "50 around 110-120 or scene 120.",
+      "disposition": "scored",
+      "target_kind": "identity_or_scene"
+    },
+    {
+      "question_id": "temporal-15",
+      "category": "image motion",
+      "expected_qa_status": "answered",
+      "rubric_grounding": "50, observed recent history up to 120.",
+      "disposition": "identity_motion_only",
+      "reason": "Rubric names truck 50 and upper bound 120 but gives no start for recent. Cannot specify a unique tIoU target. Check track 50 at two or more distinct observations up to 120 and image-left movement as a separate diagnostic."
+    },
+    {
+      "question_id": "temporal-16",
+      "category": "scene text",
+      "expected_qa_status": "answered",
+      "rubric_grounding": "Full scene frame 150. Recheck legibility on actual processed provider input.",
+      "disposition": "scored",
+      "target_kind": "scene_only"
+    },
+    {
+      "question_id": "temporal-17",
+      "category": "lighting",
+      "expected_qa_status": "answered",
+      "rubric_grounding": "Full scene 150 or another available earlier frame.",
+      "disposition": "scored",
+      "target_kind": "scene_only"
+    },
+    {
+      "question_id": "temporal-18",
+      "category": "current absence",
+      "expected_qa_status": "answered",
+      "rubric_grounding": "Full scene 30 must support the absence, labels alone are insufficient.",
+      "disposition": "scored",
+      "target_kind": "scene_only"
+    },
+    {
+      "question_id": "temporal-19",
+      "category": "future cutoff",
+      "expected_qa_status": "insufficient_evidence",
+      "rubric_grounding": "All inference inputs must end at frame 30.",
+      "disposition": "qa_only_abstention",
+      "reason": "Cannot use the later bus appearance at query frame 30. Returning valid context is compatible with a correct abstention."
+    },
+    {
+      "question_id": "temporal-20",
+      "category": "hidden action",
+      "expected_qa_status": "insufficient_evidence",
+      "rubric_grounding": "Exterior bus views do not establish cabin activity.",
+      "disposition": "qa_only_abstention",
+      "reason": "Driver activity is not visible. Returning valid context is compatible with a correct abstention."
+    },
+    {
+      "question_id": "temporal-21",
+      "category": "uncalibrated quantity",
+      "expected_qa_status": "insufficient_evidence",
+      "rubric_grounding": "Image movement and timestamps do not establish kilometres per hour.",
+      "disposition": "qa_only_abstention",
+      "reason": "No calibrated physical speed measurement. Returning valid context is compatible with a correct abstention."
+    },
+    {
+      "question_id": "temporal-22",
+      "category": "intent",
+      "expected_qa_status": "insufficient_evidence",
+      "rubric_grounding": "No source for motive.",
+      "disposition": "qa_only_abstention",
+      "reason": "Driver intent or route choice reason is unobserved. Returning valid context is compatible with a correct abstention."
+    },
+    {
+      "question_id": "temporal-23",
+      "category": "hidden count",
+      "expected_qa_status": "insufficient_evidence",
+      "rubric_grounding": "Exterior bus views.",
+      "disposition": "qa_only_abstention",
+      "reason": "Interior and passenger count are unobservable. Returning valid context is compatible with a correct abstention."
+    },
+    {
+      "question_id": "temporal-24",
+      "category": "masked detail",
+      "expected_qa_status": "insufficient_evidence",
+      "rubric_grounding": "Inspect actual provider input, lower vehicle regions are masked and plate detail is small.",
+      "disposition": "qa_only_abstention",
+      "reason": "Registration number cannot be read from the processed inputs. Returning valid context is compatible with a correct abstention."
+    },
+    {
+      "question_id": "second-01",
+      "category": "appearance",
+      "expected_qa_status": "answered",
+      "rubric_grounding": "2 at frame 1 or scene 1.",
+      "disposition": "scored",
+      "target_kind": "identity_or_scene"
+    },
+    {
+      "question_id": "second-02",
+      "category": "image motion and exit",
+      "expected_qa_status": "answered",
+      "rubric_grounding": "17 at 1-57 plus scene 60.",
+      "disposition": "scored",
+      "target_kind": "identity_and_scene_required",
+      "full_evidence_requires_additional_exact_scene": 60
+    },
+    {
+      "question_id": "second-03",
+      "category": "visible structure",
+      "expected_qa_status": "answered",
+      "rubric_grounding": "6 at 75-100 or scene 100.",
+      "disposition": "scored",
+      "target_kind": "identity_or_scene"
+    },
+    {
+      "question_id": "second-04",
+      "category": "image motion",
+      "expected_qa_status": "answered",
+      "rubric_grounding": "6 at 1-100.",
+      "disposition": "scored",
+      "target_kind": "identity_only",
+      "full_evidence_requires_observed_track_endpoints": [
+        1,
+        100
+      ]
+    },
+    {
+      "question_id": "second-05",
+      "category": "image size",
+      "expected_qa_status": "answered",
+      "rubric_grounding": "6 at frames 1 and 100.",
+      "disposition": "scored",
+      "target_kind": "identity_only",
+      "full_evidence_requires_observed_track_endpoints": [
+        1,
+        100
+      ]
+    },
+    {
+      "question_id": "second-06",
+      "category": "appearance",
+      "expected_qa_status": "answered",
+      "rubric_grounding": "16 at 140-150 or scene 150.",
+      "disposition": "scored",
+      "target_kind": "identity_or_scene"
+    },
+    {
+      "question_id": "second-07",
+      "category": "scene structure",
+      "expected_qa_status": "answered",
+      "rubric_grounding": "Full scene 75.",
+      "disposition": "scored",
+      "target_kind": "scene_only"
+    },
+    {
+      "question_id": "second-08",
+      "category": "historical identity and current absence",
+      "expected_qa_status": "answered",
+      "rubric_grounding": "17 at 1-57 plus full scene 100. Missing annotations alone are insufficient.",
+      "disposition": "scored",
+      "target_kind": "identity_and_scene_required",
+      "full_evidence_requires_additional_exact_scene": 100
+    },
+    {
+      "question_id": "second-09",
+      "category": "scene text",
+      "expected_qa_status": "answered",
+      "rubric_grounding": "Full scene 150. Confirm legibility in actual processed provider input.",
+      "disposition": "scored",
+      "target_kind": "scene_only"
+    },
+    {
+      "question_id": "second-10",
+      "category": "speed overlay trap",
+      "expected_qa_status": "insufficient_evidence",
+      "rubric_grounding": "6 up to 100. The visible 88KMH overlay describes the camera vehicle, not the pickup.",
+      "disposition": "qa_only_abstention",
+      "reason": "Pickup physical speed cannot be established. Returning valid context is compatible with a correct abstention."
+    },
+    {
+      "question_id": "second-11",
+      "category": "concealed contents",
+      "expected_qa_status": "insufficient_evidence",
+      "rubric_grounding": "14 around 130-150.",
+      "disposition": "qa_only_abstention",
+      "reason": "Contents of the closed cargo compartment are not visible. Returning valid context is compatible with a correct abstention."
+    },
+    {
+      "question_id": "second-12",
+      "category": "hidden action",
+      "expected_qa_status": "insufficient_evidence",
+      "rubric_grounding": "16 at 140-150.",
+      "disposition": "qa_only_abstention",
+      "reason": "Driver phone use cannot be determined from rear exterior views. Returning valid context is compatible with a correct abstention."
+    }
+  ]
+}

@@ -10,6 +10,8 @@ on:
       - 'requirements-review.txt'
       - 'requirements-integration.txt'
       - 'requirements-hosted.txt'
+      - 'requirements-metrics.txt'
+      - 'requirements-pretrained.txt'
       - 'annotations/**'
       - '.github/workflows/task5-tests.yml'
   push:
@@ -22,6 +24,8 @@ on:
       - 'requirements-review.txt'
       - 'requirements-integration.txt'
       - 'requirements-hosted.txt'
+      - 'requirements-metrics.txt'
+      - 'requirements-pretrained.txt'
       - 'annotations/**'
       - '.github/workflows/task5-tests.yml'
   workflow_dispatch:
@@ -46,8 +50,10 @@ jobs:
         with:
           python-version: '3.11'
           cache: pip
-          cache-dependency-path: requirements-hosted.txt
-      - run: python -m pip install -r requirements-hosted.txt
+          cache-dependency-path: |
+            requirements-hosted.txt
+            requirements-metrics.txt
+      - run: python -m pip install -r requirements-hosted.txt -r requirements-metrics.txt
       - run: python -m unittest discover -s tests -p "test_review*.py" -v
       - run: python -m unittest discover -s tests -p "test_score*.py" -v
       - run: python -m pytest tests -q
@@ -57,3 +63,6 @@ jobs:
       - run: python -m evaluation review-template --help
       - run: python -m evaluation verify-retrieval --help
       - run: python -m evaluation prepare-annotations --help
+      - run: python -m evaluation.vision_baseline --help
+      - run: python -m evaluation.pretrained_retrieval --help
+      - run: python -m tools.pretrained_review --help

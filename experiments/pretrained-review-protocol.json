@@ -1,0 +1,12 @@
+{
+  "version": 1,
+  "scope": "Additional development integration and live Task 3 smoke comparison, before inspecting its outputs",
+  "question_ids": ["temporal-04", "temporal-19", "second-04", "second-09", "second-10"],
+  "track_condition": "botsort-gmc",
+  "variants": ["expanded-tfidf-temporal", "expanded-qwen8b-temporal"],
+  "policy": "reserved_current_scene",
+  "generator": "Task 3 GeminiAnswerModel, configured gemini-3.8-flash, unchanged prompt and temperature 0",
+  "purpose": "Verify genuine predicted tracks and ranked evidence reach the common reviewer and actual Task 3 answerer on two recordings, including temporal endpoints, future-frame abstention, sign text and an unmeasured-speed question.",
+  "claims_excluded": ["held-out accuracy", "fine-tuning effect", "human-validated factual accuracy", "new model inference when vectors came from the bound cache"],
+  "failures": "Keep all five questions and both variants, including provider errors or inadequate evidence."
+}

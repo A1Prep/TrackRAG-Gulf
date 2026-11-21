@@ -1,0 +1,57 @@
+{
+  "version": 1,
+  "freeze_scope": "Development model evaluation; no training/held-out accuracy claim",
+  "vision": {
+    "model": "RF-DETR Large 2026",
+    "checkpoint_sha256": "0f4e20e19a99c0f8a62b5685f57f6c8b5c371c59081feda6752a0561a79ccf38",
+    "threshold": 0.05,
+    "resolution": 704,
+    "planned_frames_per_recording": 150,
+    "trackers": [
+      "BoT-SORT sparseOptFlow ReIDdisabled",
+      "BoT-SORT noGMC ReIDdisabled"
+    ],
+    "metric_scope": "Vehicle-only class-agnostic localization AP and tracking; not full EMT-class AP"
+  },
+  "learned_text": {
+    "model": "Qwen/Qwen3-Embedding-8B-GGUF",
+    "revision": "69d0e58a13e463cd99a9b83e3f5fee7c10265fab",
+    "file": "Qwen3-Embedding-8B-Q4_K_M.gguf",
+    "sha256": "3fcd3febec8b3fd64435204db75bf0dd73b91e8d0661e0331acfe7e7c3120b85",
+    "role": "text dense retrieval, not multimodal reranking"
+  },
+  "reference": {
+    "path": "experiments/pretrained-reference.jsonl",
+    "sha256": "5249904b39158718f4f85da607ec7c3131af13c819265295a460c6ae591f5bf2",
+    "primary_denominator": 25,
+    "qa_only_abstentions": 9,
+    "manual": 1,
+    "identity_motion_only": 1
+  },
+  "comparisons": [
+    "Published Task4 lexical short-window baseline",
+    "Expanded candidates TF-IDF with temporal summary",
+    "Expanded candidates TF-IDF without temporal summary",
+    "Expanded candidates Qwen8B with temporal summary",
+    "Expanded candidates Qwen8B without temporal summary"
+  ],
+  "candidate_policy": "Same expanded inventory within learned/text comparisons: prefix-only short windows, full observed histories, requested observed snapshots/comparisons and exact scenes. No gold reaches inference. No threshold tuning against observed model results.",
+  "required_reporting": [
+    "unranked candidate coverage",
+    "raw top1/top3 vs common reserved-current-scene operating policy",
+    "identity hits separately from scene alternatives",
+    "full bundles require additional scene where predeclared",
+    "genuine predicted IDs associated to source labels by box/time overlap"
+  ],
+  "blocked_models": [
+    {
+      "model": "Qwen/Qwen3-VL-Reranker-8B",
+      "weight_bytes": 17534339488,
+      "reason": "Original checkpoint exceeds current free local disk; not executed"
+    },
+    {
+      "model": "fine-tuned CV/Qwen checkpoints",
+      "reason": "Not supplied/integrated; no training result can be claimed"
+    }
+  ]
+}

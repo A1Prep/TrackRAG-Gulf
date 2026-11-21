@@ -1,0 +1,5 @@
+-r requirements-integration.txt
+# motmetrics 1.4 uses NumPy APIs removed in NumPy 2.
+numpy==1.26.4
+motmetrics==1.4.0
+pycocotools==2.0.11

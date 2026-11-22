@@ -1,0 +1,76 @@
+{
+  "analysis_scope": "Review counts and available supervision were audited before preregistration. The status, box, point and question metrics are fixed before collecting any new native responses for this comparison.",
+  "config_sha256": {
+    "pretrained": "90047539bfef8e92112566a035bc214f24ce80c7038b69dd2f0b781df607acf6",
+    "trained": "3d827c42eab801557b69e41134bdab8a2da56892b9fa22b0dbe58aef2d35f022"
+  },
+  "eligibility_model_calls": 0,
+  "kind": "original_as_reviewed_gulf_direct_preanalysis",
+  "model_registry_sha256": "a8483a2cee1d17b4b919c7c3e39f96f651dfe4f9178e524194a7518504543c67",
+  "predeclared_utc": "2026-11-22T08:47:34.971487+00:00",
+  "scorer_sha256_lf": "318396668ec6e47dc13721a0513a176726490b99b03ddce5ecbb011c7a4d6f5f",
+  "scoring_rules": {
+    "box_overlap": "Original-pixel rectangle IoU averaged over every reviewed proposal. Missing proposals and failures contribute zero. Also report the number at IoU >= 0.5.",
+    "clarification": "Literal case-sensitive Unicode equality with the approved question on all clarification-labelled cases; other outputs and failures score zero. This compares wording only.",
+    "interpretation": "Signed coarse boxes and points support geometric proxies. The study does not measure pixel-mask accuracy, passenger agreement with a clarification, destination confirmation, or the formal four-condition protocol.",
+    "paired": "Counts of both correct, pretrained only, trained only and neither for matched statuses across every case.",
+    "point_distance": "Euclidean distance to the signed reference point divided by the original image diagonal. Report the mean over returned proposals and their coverage, plus an all-eligible mean charging one diagonal for each missing proposal or failure.",
+    "point_in_signed_box": "Among all reviewed proposals, inclusive left/top/right/bottom box containment. Absent points score zero.",
+    "primary_status": "Fraction matching the approved status, with every failed request counted as incorrect.",
+    "scope": "Direct typed, original image and unchanged empty observation list. Two fixed models, all 44 cases.",
+    "unit": "Each reviewed frame is one case; repeated instructions stay in their assigned recording. Metrics describe this cohort."
+  },
+  "shared_function_sha256_lf": {
+    "evaluation.grounding.box_iou": "9b5c4acde7fc056c4c972cfe0e666204ec63baf342bdb835a365736e8e80e424",
+    "tools.dropoff_native_episodes.verify_native_receipt": "2f0f57232ac0ad9d40f2442cee4cb1ac46767335ec22200e4ab9de6356019167",
+    "tools.dropoff_predict.read_requests": "9e388ace6f5e78511af6d8c3f3a0cccf437912b36cb7756dda0fce0a992f04cb",
+    "trackrag.dropoff.contracts.validate_request": "93e7dc45cebbf3e7df71dda72aa64417b5c42e983b1ef6ca2c68ce38062f2125",
+    "trackrag.dropoff.contracts.validate_target": "da539b28548a68096a3f378c6f0e2976a88e02cdcda58af02dd75def2768001a",
+    "trackrag.dropoff.data.inference_input_sha256": "ea1610d739044be3e4b7f4a929cd8cbdc224fe9cfaa56cb4e942a9c9e51a9ead",
+    "trackrag.dropoff.data.supervision_sha256": "de3c140319975d1119e7948420138ac6fecd09f3eb49c0333c159a193c70d081",
+    "trackrag.dropoff.formatting.build_messages": "290dfb4e8aee0dfbd3aa7e71949845ea29eeac8dea3d16e174d772075dda621a",
+    "trackrag.dropoff.formatting.parse_model_output": "81c15dd4e09b310a67b844f7ab541220ae9984574febf92a8c5a3d6ea072bab9",
+    "trackrag.dropoff.inputs._inspect_image": "93c27d628960cc6d7ad54a1402810ee445b3d91fb03ed7d61de3fdb3f86d1143",
+    "trackrag.dropoff.model.verify_adapter": "8cf843b3e1da44381ed558175e2481f0d2d5e121b941545f16998994433c05e2",
+    "trackrag.dropoff.projected_pair.native_record": "c416ec470fcf09c3c5e955c039bdbf5538aa9821ae14f384fdefd142ba2f7f37"
+  },
+  "source_audit": {
+    "approved_by_partition": {
+      "development": 2,
+      "test": 44,
+      "train": 4
+    },
+    "distinct_signed_clarification_wordings": 1,
+    "distinct_typed_requests": 41,
+    "recordings": 5,
+    "release_bindings_sha256": "bf4aaf9132506e3eb1ff000e7b55db6c261be60d693b464e441a2c0387669b6b",
+    "request_snapshot_sha256": "fe8c8e310bc1c44eb8e768eb05b0f591c224c9baab85c838050d8954d777ad2c",
+    "review_basis": "Two reviewers accepted AI-assisted annotations on the original photographs and empty observed context.",
+    "signed_point_and_box_pairs": 33,
+    "signed_status_counts": {
+      "insufficient_visual_evidence": 7,
+      "needs_clarification": 4,
+      "proposed": 33
+    },
+    "source_checks": {
+      "original_prior_dialogues": 0,
+      "signed_inputs_matching_saved_finetuned_detector": 0,
+      "source_records_with_destination_mask_path": 0,
+      "zero_observation_scenes_per_saved_detector": {
+        "finetuned": 0,
+        "pretrained": 0
+      }
+    },
+    "source_files_sha256": {
+      "reconfirmation_cases.jsonl": "bc28de2c8cd574b9431227e366a362217b29c574d1ebc054709108982048af23",
+      "review_cases.jsonl": "37f21c01f44f1a35fffc8092285d997713965dbad22086ac3a3de2fcb0557373",
+      "reviewer_1.csv": "0962e60dc6ca674f6caa117f2d875915707fabfc4cc0a45b6c8126c8270cdf69",
+      "reviewer_2.csv": "891f48e1d1c5e52efd87b676686c662dde7421be870b3180a5bdcb4fc790c5c8"
+    },
+    "task2_commit": "2d96dcb6afdffb46c5d94d299768fe6a92acc094",
+    "verified_test_cases": 44,
+    "withheld_pending_test_cases": 6
+  },
+  "trained_adapter_manifest_sha256": "97e0ad27de46582a059775e4861f42aa0a1f803be2f640bf64b00a22f92f7b06",
+  "trained_adapter_weights_sha256": "6c3d54a6baadf5a269f8cdb81ed565469aa0d75bc006698c8d355f79b3e774ca"
+}

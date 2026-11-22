@@ -14,12 +14,23 @@
   "all_private_archive_members_verified": 53,
   "browser_summary_sha256": "a241080064a503331bdafc7c6bde6b38c39efe722ffb22add202c9c99471c3d2",
   "implementation_files_sha256_lf": {
-    "docs/passenger-context-review.md": "2bda2e0c43d3505f0464bf2d9d7959fdc118e80f260f85ef6d75e763029e743e",
+    "docs/passenger-context-review.md": "2d854080eaaa9cb767ed04371420f757ebdcf7aba89bf0d1fff59c26a2d44986",
     "tests/test_passenger_context_reviews.py": "e7fdca830752cf91a6975f28624a57b600c73a4ccd8abde1bea5425a858905d1",
     "tools/passenger_context_browser.cjs": "ccfc9a5973ead9b36a174325ad834947d31a74ae31275369e88c43a86b06cc7d",
     "tools/passenger_context_resolve.py": "10817c26c35b8114d6142552956684f89ed8e4a45dd30c5214d025f5bfa2c0b0",
     "tools/passenger_context_reviews.html": "a42a65a71434da80ab19572bb558b6ee40b7e005bf6202daeddff7f5bb117b8b",
     "tools/passenger_context_reviews.py": "b25bd7df098b2c99709fe3b4d26e9be66c1afdf879cc00df899e26020abd6051"
+  },
+  "installation_check": {
+    "additional_subtests_rechecked": 7,
+    "all_original_photographs_byte_identical": 44,
+    "all_unchanged_signed_inputs_and_changed_input_bindings_match": true,
+    "dedicated_tests_rechecked": 14,
+    "prior_packet_members_changed_only": [
+      "READ-ME.txt",
+      "packet-files.json"
+    ],
+    "source": "Independently downloaded release restored to a different local directory."
   },
   "limits": "No new human decisions, signed detector-context rows, participant replies, intentions or pixel-level masks were collected. None of the 44 pending rows is eligible as new reference evidence.",
   "packet": {
@@ -44,10 +55,10 @@
     "original_input_file_sha256": "fe8c8e310bc1c44eb8e768eb05b0f591c224c9baab85c838050d8954d777ad2c",
     "original_photo_bytes": 48333742,
     "original_task2_resolver_sha256": "3b903df45662d4f8442ab59396b28d0d6c6021a94442ee2db449c6128dda30cc",
-    "packet_inventory_sha256": "f639ab11e517e8e84cb1f32f029c65d583ba4168c8a363cae88eba793491798c",
+    "packet_inventory_sha256": "050f08503e51ce4864fcb2c9111985beaee80d960c7d939c02988e3fffa8aa55",
     "previously_unresolved_original_cases_excluded": 6,
-    "private_zip_bytes": 48434622,
-    "private_zip_sha256": "5da80dfc14aa3ef12a4ed84d16c86f84e4a556df0b7e0ec3a9e984c2c6d0a995",
+    "private_zip_bytes": 48434552,
+    "private_zip_sha256": "4d430d69494ce48392824828a6a70f4bde70f5e1a27b69394bafbaef0b9d34e7",
     "purpose": "Offline context re-review readiness. Zero new human decisions.",
     "recordings": 5,
     "release_bindings_sha256": "bf4aaf9132506e3eb1ff000e7b55db6c261be60d693b464e441a2c0387669b6b",

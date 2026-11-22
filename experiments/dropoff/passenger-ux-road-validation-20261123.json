@@ -1060,5 +1060,111 @@
       ]
     }
   },
-  "replayed_utc": "2026-11-22T23:11:38.227669+00:00"
+  "replayed_utc": "2026-11-22T23:11:38.227669+00:00",
+  "assisted_followup": {
+    "scope": "Scripted assisted recovery on every distinct positive photo the original twelve-request study missed. Reference centroids simulate precise passenger marks; no human took this test. Each first automatic answer remains scored as originally observed.",
+    "protocol_sha256": "b5c04c6939ee5d8b4c4a7ece3e6ebcb9662fc2fc42a76a19fb677a4a62ddf982",
+    "frozen_utc": "2026-11-22T23:29:41.717077+00:00",
+    "protocol": "All distinct photos on which the automatic method missed a positive in the 12-request study. Use the first missed wording on each photo. Take a single unweighted area centroid of the original reference polygon; submit one native tap with radius max(1, original frame width / 512), the real browser tap method. Confirm only if the application returns a passenger proposal inside the frozen polygon. No substitute tap, retry, or model credit.",
+    "prior_unextended_report_sha256": "0c86fd870d236b34a67323757a322001e7eda157473533c0f073aacfde8bf6b5",
+    "distinct_photos": 3,
+    "one_tap_attempts": 3,
+    "in_region_explicitly_confirmed": 3,
+    "remaining_unconfirmed": 0,
+    "records": [
+      {
+        "case": "word-03",
+        "source_sha256": "78e265faad2f94bbfe80c56cb7f4b33723340268cfb9a4f5829145f69ee06c3a",
+        "scene_key": "e5bde860db079a167d5dba80",
+        "utterance": "Could I get out between the white sedan on the left and the big silver Nissan SUV?",
+        "polygon_centroid_native": [
+          1207.5397804012566,
+          1596.299766480381
+        ],
+        "single_submitted_box_native": [
+          1200,
+          1588,
+          1216,
+          1604
+        ],
+        "repeat_automatic_state": "needs_clarification",
+        "repeat_automatic_point": null,
+        "automatic_model_receipt_verified": true,
+        "assisted_state": "proposed",
+        "assisted_point_native": [
+          1211.25,
+          1593.75
+        ],
+        "margin_inside_reference_native_px": 103.87,
+        "assisted_question": null,
+        "passenger_confirmed": true,
+        "road_mask_receipt_verified": true,
+        "road_mask_sha256": "33ab8cc66c15992da4ca0560a6e8f4420329e46f491bf6465b8ac43f88d262bc",
+        "signed_first_model_input_sha256": "6bf6ee772c92e0b59e05f2d732d1f80210801e9b462b9fcf9bf443f989eaeb72",
+        "journal_sha256": "cdca47901064f94aa2c49994af4dfc4023954229c89cd816fb4792b93d193633"
+      },
+      {
+        "case": "word-07",
+        "source_sha256": "a07e0ded72bad166579a87adea852f1a5eef11e83e43f11c914388370c5c1e9a",
+        "scene_key": "8d597ba5b8399c05b8afbd95",
+        "utterance": "Please leave me in the space between the white minivan and the white SUV outside the medical centre.",
+        "polygon_centroid_native": [
+          2552.7541967203874,
+          1375.2460265483658
+        ],
+        "single_submitted_box_native": [
+          2545,
+          1367,
+          2561,
+          1383
+        ],
+        "repeat_automatic_state": "needs_clarification",
+        "repeat_automatic_point": null,
+        "automatic_model_receipt_verified": true,
+        "assisted_state": "proposed",
+        "assisted_point_native": [
+          2553.75,
+          1376.25
+        ],
+        "margin_inside_reference_native_px": 41.88,
+        "assisted_question": null,
+        "passenger_confirmed": true,
+        "road_mask_receipt_verified": true,
+        "road_mask_sha256": "699d93177380a93a4eb18ddf6bd70e7adadb601d4e751d309d2563c82b77b79b",
+        "signed_first_model_input_sha256": "26939edbfabfd89c5c50811fea397a3ebd3bbc5d9d54b79df52b749db9c497c9",
+        "journal_sha256": "e8eb6b9a420ca9ac6863a380ee30da4a9df1ff8e1997873d9ccb85110c587bb9"
+      },
+      {
+        "case": "uae-new-01",
+        "source_sha256": "3ed141c2c0b33754e2ee822ec16e1c1ed1c713dbd29b16e94acde77b950c6af8",
+        "scene_key": "d76c4ca006dc9332d37ec750",
+        "utterance": "Please let me out between the small black SUV with the spare wheel and the white sedan farther along the same row.",
+        "polygon_centroid_native": [
+          1346.9966644796878,
+          1121.7473866522819
+        ],
+        "single_submitted_box_native": [
+          1339,
+          1114,
+          1355,
+          1130
+        ],
+        "repeat_automatic_state": "needs_clarification",
+        "repeat_automatic_point": null,
+        "automatic_model_receipt_verified": true,
+        "assisted_state": "proposed",
+        "assisted_point_native": [
+          1346.25,
+          1121.25
+        ],
+        "margin_inside_reference_native_px": 66.01,
+        "assisted_question": null,
+        "passenger_confirmed": true,
+        "road_mask_receipt_verified": true,
+        "road_mask_sha256": "073111ac9f2583bda19649427ebc58baf25952304bd0b33d815035e26566e4ba",
+        "signed_first_model_input_sha256": "e57a40d810eb864ac8dd8acd3a3ad9536ca31a1756bbe7e2803243351e2c382f",
+        "journal_sha256": "0e8530b8d717245b4426b3e14c83f1358897f0c1c094a7f9a684dbdb596fd529"
+      }
+    ]
+  }
 }

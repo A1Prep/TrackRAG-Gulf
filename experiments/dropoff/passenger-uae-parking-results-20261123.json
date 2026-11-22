@@ -1,0 +1,3542 @@
+{
+  "scope": "Selection of a visible drop-off region in a recorded driver-view photo, with an optional separate passenger confirmation. No vehicle control, legal assessment or measured physical clearance.",
+  "metric": "A positive succeeds only for a first automatic point inside the independently marked polygon. A negative succeeds on a genuine clarification without a proposal; a research comparator can withhold. An operational error is scored as an error. A passenger mark or confirmation cannot change a first-turn score. The small curated study is not a human rider evaluation or an estimate for UAE streets in general.",
+  "checkpoints": {
+    "parking": "facebook/mask2former-swin-large-mapillary-vistas-semantic@4772b6bf101d91f2534c106dc524d906aeb3c68a",
+    "vlm": "Qwen/Qwen3.5-9B@c202236235762e1c871ad0ccb60c8ee5ba337b9a",
+    "external_pointing": "nvidia/LocateAnything-3B@c32291ca5e996f5a7a485845b4f57a233936bba0",
+    "model_inputs": "Original road photographs plus actual Task 1 predictions. No reference marks supplied to any method."
+  },
+  "policy": {
+    "version": "current-vehicle-pair-supported-parking-2",
+    "freeze_sha256": "31d1822e80104bd02fe7c38bb52a4853ced020c64d42e6577adbcdae84c511cb",
+    "vehicle_id_order_amendment_sha256": "2c4d7ccf71c4d1c6873046bde39d1230d830098acc0564dec654d6131a89dd55",
+    "packaging": "A trailing blank line in the reference-clarification source was removed after freezing. Browser tests replayed actual signed receipts and the separately attributed clarification."
+  },
+  "earlier_specialist_component_experiment": {
+    "model": "nvidia/LocateAnything-3B",
+    "revision": "c32291ca5e996f5a7a485845b4f57a233936bba0",
+    "source": "previous ten development photos, full frame fitted to 1280 by 900",
+    "method": "Official separate singular box prompts or collective plural prompt. Two unique current vehicle matches must meet production IoU >= .5 and ambiguity check.",
+    "rows": [
+      {
+        "id": "fresh-01",
+        "expected_pair": [
+          4,
+          9
+        ],
+        "predicted_pair": [
+          4,
+          9
+        ],
+        "matched": true,
+        "valid_box_count": true,
+        "request_count": 1
+      },
+      {
+        "id": "fresh-02",
+        "expected_pair": [
+          4,
+          3
+        ],
+        "predicted_pair": [
+          4,
+          3
+        ],
+        "matched": true,
+        "valid_box_count": true,
+        "request_count": 2
+      },
+      {
+        "id": "fresh-03",
+        "expected_pair": [
+          2,
+          3
+        ],
+        "predicted_pair": [
+          2,
+          3
+        ],
+        "matched": true,
+        "valid_box_count": true,
+        "request_count": 2
+      },
+      {
+        "id": "fresh-04",
+        "expected_pair": [
+          2,
+          1
+        ],
+        "predicted_pair": [
+          2,
+          1
+        ],
+        "matched": true,
+        "valid_box_count": true,
+        "request_count": 2
+      },
+      {
+        "id": "fresh-05",
+        "expected_pair": [
+          1,
+          2
+        ],
+        "predicted_pair": [
+          1,
+          2
+        ],
+        "matched": true,
+        "valid_box_count": true,
+        "request_count": 2
+      },
+      {
+        "id": "fresh-06",
+        "expected_pair": [
+          1,
+          2
+        ],
+        "predicted_pair": [
+          1,
+          2
+        ],
+        "matched": true,
+        "valid_box_count": true,
+        "request_count": 2
+      },
+      {
+        "id": "fresh-07",
+        "expected_pair": [
+          1,
+          2
+        ],
+        "predicted_pair": [
+          1,
+          2
+        ],
+        "matched": true,
+        "valid_box_count": true,
+        "request_count": 2
+      },
+      {
+        "id": "fresh-08",
+        "expected_pair": [
+          1,
+          2
+        ],
+        "predicted_pair": [],
+        "matched": false,
+        "valid_box_count": false,
+        "request_count": 1
+      },
+      {
+        "id": "fresh-09",
+        "expected_pair": [
+          2,
+          3
+        ],
+        "predicted_pair": [
+          5,
+          3
+        ],
+        "matched": false,
+        "valid_box_count": true,
+        "request_count": 2
+      },
+      {
+        "id": "fresh-10",
+        "expected_pair": [
+          3,
+          6
+        ],
+        "predicted_pair": [
+          3,
+          6
+        ],
+        "matched": true,
+        "valid_box_count": true,
+        "request_count": 1
+      }
+    ],
+    "pair_hits": 8,
+    "pairs_marked": 10
+  },
+  "browser_checks": {
+    "typed-ordered-v2": {
+      "scope": "Retrospective browser demonstration selected after the independent cohort was scored; include the real result even if it differs from previously scored output. No additional independent trial or passenger-accuracy claim.",
+      "scene_key": "7520651abea7382db45fcc04",
+      "case": "blind-03",
+      "source_recording": "kartaview_7130313",
+      "frame": 1390,
+      "input_sha256": "a921a0e198dd04ac41f4ffc64f2b7b46b152a7f9be9969ba1b383ba6ccd6e6c8",
+      "source_code_sha256_at_replay": {
+        "parking_reference_board.py": "d2c1f5b54346a505c81846909a54aa50dfd1a45b42dbb74593f859da47042486",
+        "parking_clarification.py": "6ed49d287646ede617a38e44d28176a7dcccff713ce932d1321f0505eaaaee5d",
+        "passenger_parking.py": "78d605e905fe95911e783d95897e4b7bfb7edc12e982b55d69008711e807685d",
+        "parking_evidence.py": "98465e64336ea45e984bbb019d44e57b2d271433a2b290739c94cbf5bd8d0b41"
+      },
+      "recipe": "current-vehicle-pair-supported-parking-2",
+      "operative_words": "Drop me off between the silver sedan and the dark Nissan on the right, please.",
+      "actual_actor": "parking_model",
+      "actual_result": {
+        "status": "proposed",
+        "destination_point_xy": [
+          3069.866666666667,
+          1423.6363636363637
+        ],
+        "destination_box_xyxy": [
+          3016.5333333333333,
+          1370.2766798418972,
+          3123.2,
+          1476.99604743083
+        ],
+        "clarification_question": null,
+        "anchor_boxes_xyxy": [
+          [
+            3337.837646484375,
+            952.3744812011719,
+            3839.7381591796875,
+            1594.1991577148438
+          ],
+          [
+            1867.9317626953125,
+            919.5896301269531,
+            2480.6304931640625,
+            1220.0146179199219
+          ]
+        ]
+      },
+      "state": "proposed",
+      "confirmed_by_scripted_operator": true,
+      "correct_track_box_order_verified": true,
+      "selected_ids": [
+        2,
+        1
+      ],
+      "real_model_calls": [
+        "anchors",
+        "parking_components"
+      ],
+      "rejects_changed_signed_packet": true,
+      "rejects_changed_selected_id_order": true,
+      "journal_sha256": "a75b23b8f85c0ff760fe7202b29430d1ae431c1ea4caedafa749658805259a97",
+      "cold_handoff_sha256": "799af1f5a5c5cf4bce69172cbed7e324b211a1c11934b65289f75301f638bef0",
+      "genuine_human_participant": false,
+      "original_browser_record_sha256": "b67d4eaf3a3a5a17392026e29d109badee0fde55de57462f37298638438b6e3a"
+    },
+    "reference-repair-ordered-v2": {
+      "scope": "Scripted two-turn browser usability proof on an already measured development photograph. The first utterance is a new software-operator prompt, with no claim about bicycles actually visible; the genuine previously synthesized audio is submitted as a correction about the two named motor vehicles. No person or general accuracy assessment.",
+      "scene_key": "0c150fa36349744dbd66653b",
+      "case": "fresh-03",
+      "source_recording": "kartaview_5139785",
+      "frame": 165,
+      "input_sha256": "d7f6289e3543c903261e1d263b90c0384044d27359add0f8787c10827c3c7b17",
+      "source_code_sha256_at_replay": {
+        "parking_reference_board.py": "d2c1f5b54346a505c81846909a54aa50dfd1a45b42dbb74593f859da47042486",
+        "parking_clarification.py": "6ed49d287646ede617a38e44d28176a7dcccff713ce932d1321f0505eaaaee5d",
+        "passenger_parking.py": "78d605e905fe95911e783d95897e4b7bfb7edc12e982b55d69008711e807685d",
+        "parking_evidence.py": "98465e64336ea45e984bbb019d44e57b2d271433a2b290739c94cbf5bd8d0b41"
+      },
+      "recipe": "current-vehicle-pair-supported-parking-2",
+      "operative_words": "Drop me off between the white box truck and the white van, please.",
+      "actual_actor": "parking_model",
+      "actual_result": {
+        "status": "proposed",
+        "destination_point_xy": [
+          1224,
+          1271.7747035573123
+        ],
+        "destination_box_xyxy": [
+          1204.0533333333333,
+          1259.0750988142292,
+          1262.08,
+          1288.102766798419
+        ],
+        "clarification_question": null,
+        "anchor_boxes_xyxy": [
+          [
+            1725.0902526855468,
+            918.6998336791992,
+            2847.0438720703123,
+            1469.7518920898438
+          ],
+          [
+            249.14882469177243,
+            877.9125961303711,
+            1049.2484252929687,
+            1206.1910888671873
+          ]
+        ]
+      },
+      "state": "proposed",
+      "confirmed_by_scripted_operator": true,
+      "correct_track_box_order_verified": true,
+      "selected_ids": [
+        3,
+        2
+      ],
+      "real_model_calls": [
+        "anchors",
+        "parking_components"
+      ],
+      "rejects_changed_signed_packet": true,
+      "rejects_changed_selected_id_order": true,
+      "journal_sha256": "866436a9fa6a565584b478e4af53cfb898332c6c2be4cab02b978c8525f803c6",
+      "cold_handoff_sha256": "7dfd055414f4003dcd4f5f0f5b70326611785e991550847b6031fae2cf98a327",
+      "genuine_human_participant": false,
+      "original_browser_record_sha256": "dd8b461298dc16d52595672dccb392823ea76890de9e6a30cd717df39d3e996d"
+    }
+  },
+  "cohorts": {
+    "first_eleven": {
+      "scope": "Initial release tested blind, later consumed for repair. The post-repair retest is development evidence.",
+      "initial_policy_sha256": "46346349657541c76183cd2fffe96248a610ad92c86306c147e5eefab452d7c2",
+      "initial_prediction_seal_sha256": "78af36b791a88dab21561ffc5ee476d67e898922e21a2565f60aa999e74716f0",
+      "initial_reference_sha256": "9dd948c3af659d1cf68e2d07c5a9bfa1846ae66a44051879e47855309d5ef562",
+      "initial_app": {
+        "counts": {
+          "positive_frames": 5,
+          "negative_frames": 6,
+          "positive_point_hits": 2,
+          "positive_outside_points": 0,
+          "positive_asks_or_withholds": 2,
+          "positive_operational_errors": 1,
+          "negative_false_proposals": 2,
+          "negative_correct_asks_or_withholds": 3,
+          "negative_operational_errors": 1,
+          "strict_correct": 5,
+          "frames": 11
+        },
+        "rows": [
+          {
+            "id": "blind-01",
+            "expected": "ask",
+            "status": "error",
+            "point_xy": null,
+            "classification": "error",
+            "selected_by": null,
+            "signed_distance_to_reference_native_px": null,
+            "journal_sha256": "96c432cda5d96f1e02b95dda1e5e0be1c1d73bc80fb59f3bffe4b54427fcf19a"
+          },
+          {
+            "id": "blind-02",
+            "expected": "ask",
+            "status": "proposed",
+            "point_xy": [
+              1148.3733333333334,
+              1252.7308447937132
+            ],
+            "classification": "false_proposal",
+            "selected_by": "parking_model",
+            "signed_distance_to_reference_native_px": null,
+            "journal_sha256": "4f868c81c6d160c16f349c2d7d5f7fc6145f743c49abf4e44426a67fa3669037"
+          },
+          {
+            "id": "blind-03",
+            "expected": "propose",
+            "status": "proposed",
+            "point_xy": [
+              3069.866666666667,
+              1423.6363636363637
+            ],
+            "classification": "hit",
+            "selected_by": "parking_model",
+            "signed_distance_to_reference_native_px": 113.43,
+            "journal_sha256": "371cf22038ece958376fbeca6c312cdebfb9af2c30a5bc95a4714a15c9e3109b"
+          },
+          {
+            "id": "blind-04",
+            "expected": "propose",
+            "status": "needs_clarification",
+            "point_xy": null,
+            "classification": "missed_gap",
+            "selected_by": "parking_model",
+            "signed_distance_to_reference_native_px": null,
+            "journal_sha256": "603a6393dbfddaaa9602b583b1ee1c8890c728f538ee79434df956b73b66b7aa"
+          },
+          {
+            "id": "blind-05",
+            "expected": "ask",
+            "status": "needs_clarification",
+            "point_xy": null,
+            "classification": "correct_withhold",
+            "selected_by": "parking_model",
+            "signed_distance_to_reference_native_px": null,
+            "journal_sha256": "a1e51d306e334f90fdb897f1ee92d21ab660803fc20c2ad12b3fcbd1dca72f86"
+          },
+          {
+            "id": "blind-06",
+            "expected": "propose",
+            "status": "proposed",
+            "point_xy": [
+              1418.6666666666667,
+              1602.9249011857708
+            ],
+            "classification": "hit",
+            "selected_by": "parking_model",
+            "signed_distance_to_reference_native_px": 96.51,
+            "journal_sha256": "d69949dd9670e9e43d75a6d5bbad5c24f56395b51350dba1fc2f7ea94d2d41a9"
+          },
+          {
+            "id": "blind-07",
+            "expected": "ask",
+            "status": "needs_clarification",
+            "point_xy": null,
+            "classification": "correct_withhold",
+            "selected_by": "parking_model",
+            "signed_distance_to_reference_native_px": null,
+            "journal_sha256": "c6a62ce04931d95227900b9e33700b9056d2794aa0794fcc8ccdd27833499983"
+          },
+          {
+            "id": "blind-08",
+            "expected": "ask",
+            "status": "needs_clarification",
+            "point_xy": null,
+            "classification": "correct_withhold",
+            "selected_by": "parking_model",
+            "signed_distance_to_reference_native_px": null,
+            "journal_sha256": "5c9bde62b23d790f698a7b15341a2012a8a0041cff4062ad2c633038a9cc1683"
+          },
+          {
+            "id": "blind-09",
+            "expected": "propose",
+            "status": "needs_clarification",
+            "point_xy": null,
+            "classification": "missed_gap",
+            "selected_by": "parking_model",
+            "signed_distance_to_reference_native_px": null,
+            "journal_sha256": "788edd1bcf7ef7299b0ce3159cd3c6a21b1aa1f8a22628bc093b8c72f1beeb34"
+          },
+          {
+            "id": "blind-10",
+            "expected": "ask",
+            "status": "proposed",
+            "point_xy": [
+              1235.2,
+              1496.205533596838
+            ],
+            "classification": "false_proposal",
+            "selected_by": "parking_model",
+            "signed_distance_to_reference_native_px": null,
+            "journal_sha256": "5ef51c4f3cff23dce915a4355bd4212c0903108a687bc086898da56c1dd920fa"
+          },
+          {
+            "id": "blind-11",
+            "expected": "propose",
+            "status": "error",
+            "point_xy": null,
+            "classification": "error",
+            "selected_by": null,
+            "signed_distance_to_reference_native_px": null,
+            "journal_sha256": "9c26b9fc6e775f57f9c958e9fc64f5b0d4187b9082b550810f93f7523949fdbf"
+          }
+        ]
+      },
+      "previous_study": {
+        "counts": {
+          "positive_frames": 5,
+          "negative_frames": 6,
+          "positive_point_hits": 3,
+          "positive_outside_points": 0,
+          "positive_asks_or_withholds": 1,
+          "positive_operational_errors": 1,
+          "negative_false_proposals": 1,
+          "negative_correct_asks_or_withholds": 5,
+          "negative_operational_errors": 0,
+          "strict_correct": 8,
+          "frames": 11
+        },
+        "rows": [
+          {
+            "id": "blind-01",
+            "expected": "ask",
+            "status": "ask",
+            "point_xy": null,
+            "classification": "correct_withhold",
+            "signed_distance_to_reference_native_px": null,
+            "reason": "no_candidates",
+            "actual_study_status": "unresolved"
+          },
+          {
+            "id": "blind-02",
+            "expected": "ask",
+            "status": "ask",
+            "point_xy": null,
+            "classification": "correct_withhold",
+            "signed_distance_to_reference_native_px": null,
+            "reason": "model_returned_null",
+            "actual_study_status": "ask"
+          },
+          {
+            "id": "blind-03",
+            "expected": "propose",
+            "status": "proposed",
+            "point_xy": [
+              3069.866666666667,
+              1423.6363636363637
+            ],
+            "classification": "hit",
+            "signed_distance_to_reference_native_px": 113.43,
+            "reason": null,
+            "actual_study_status": "proposed_location"
+          },
+          {
+            "id": "blind-04",
+            "expected": "propose",
+            "status": "proposed",
+            "point_xy": [
+              3662.4533333333334,
+              1819.5118577075098
+            ],
+            "classification": "hit",
+            "signed_distance_to_reference_native_px": 91.17,
+            "reason": null,
+            "actual_study_status": "proposed_location"
+          },
+          {
+            "id": "blind-05",
+            "expected": "ask",
+            "status": "ask",
+            "point_xy": null,
+            "classification": "correct_withhold",
+            "signed_distance_to_reference_native_px": null,
+            "reason": "no_candidates",
+            "actual_study_status": "unresolved"
+          },
+          {
+            "id": "blind-06",
+            "expected": "propose",
+            "status": "proposed",
+            "point_xy": [
+              1239.4666666666667,
+              1483.399209486166
+            ],
+            "classification": "hit",
+            "signed_distance_to_reference_native_px": 13.39,
+            "reason": null,
+            "actual_study_status": "proposed_location"
+          },
+          {
+            "id": "blind-07",
+            "expected": "ask",
+            "status": "ask",
+            "point_xy": null,
+            "classification": "correct_withhold",
+            "signed_distance_to_reference_native_px": null,
+            "reason": "no_candidates",
+            "actual_study_status": "unresolved"
+          },
+          {
+            "id": "blind-08",
+            "expected": "ask",
+            "status": "ask",
+            "point_xy": null,
+            "classification": "correct_withhold",
+            "signed_distance_to_reference_native_px": null,
+            "reason": "anchor_references_unresolved",
+            "actual_study_status": "ask"
+          },
+          {
+            "id": "blind-09",
+            "expected": "propose",
+            "status": "error",
+            "point_xy": null,
+            "classification": "error",
+            "signed_distance_to_reference_native_px": null,
+            "reason": null,
+            "actual_study_status": "operational_error"
+          },
+          {
+            "id": "blind-10",
+            "expected": "ask",
+            "status": "proposed",
+            "point_xy": [
+              1789.8666666666666,
+              1440.711462450593
+            ],
+            "classification": "false_proposal",
+            "signed_distance_to_reference_native_px": null,
+            "reason": null,
+            "actual_study_status": "proposed_location"
+          },
+          {
+            "id": "blind-11",
+            "expected": "propose",
+            "status": "ask",
+            "point_xy": null,
+            "classification": "missed_gap",
+            "signed_distance_to_reference_native_px": null,
+            "reason": "no_candidates",
+            "actual_study_status": "unresolved"
+          }
+        ]
+      },
+      "nvidia_direct": {
+        "counts": {
+          "positive_frames": 5,
+          "negative_frames": 6,
+          "positive_point_hits": 3,
+          "positive_outside_points": 2,
+          "positive_asks_or_withholds": 0,
+          "positive_operational_errors": 0,
+          "negative_false_proposals": 6,
+          "negative_correct_asks_or_withholds": 0,
+          "negative_operational_errors": 0,
+          "strict_correct": 3,
+          "frames": 11
+        },
+        "rows": [
+          {
+            "id": "blind-01",
+            "expected": "ask",
+            "status": "proposed",
+            "point_xy": [
+              819.264,
+              1433.916
+            ],
+            "classification": "false_proposal",
+            "signed_distance_to_reference_native_px": null,
+            "reason": "Directed point, no clarification stage"
+          },
+          {
+            "id": "blind-02",
+            "expected": "ask",
+            "status": "proposed",
+            "point_xy": [
+              1225.728,
+              1226.64
+            ],
+            "classification": "false_proposal",
+            "signed_distance_to_reference_native_px": null,
+            "reason": "Directed point, no clarification stage"
+          },
+          {
+            "id": "blind-03",
+            "expected": "propose",
+            "status": "proposed",
+            "point_xy": [
+              2484.48,
+              1144.8
+            ],
+            "classification": "wrong_point",
+            "signed_distance_to_reference_native_px": -69.6,
+            "reason": "Directed point, no clarification stage"
+          },
+          {
+            "id": "blind-04",
+            "expected": "propose",
+            "status": "proposed",
+            "point_xy": [
+              3223.968,
+              1950.48
+            ],
+            "classification": "wrong_point",
+            "signed_distance_to_reference_native_px": -52.06,
+            "reason": "Directed point, no clarification stage"
+          },
+          {
+            "id": "blind-05",
+            "expected": "ask",
+            "status": "proposed",
+            "point_xy": [
+              1427.328,
+              2213.568
+            ],
+            "classification": "false_proposal",
+            "signed_distance_to_reference_native_px": null,
+            "reason": "Directed point, no clarification stage"
+          },
+          {
+            "id": "blind-06",
+            "expected": "propose",
+            "status": "proposed",
+            "point_xy": [
+              1420.8,
+              1563.84
+            ],
+            "classification": "hit",
+            "signed_distance_to_reference_native_px": 75.26,
+            "reason": "Directed point, no clarification stage"
+          },
+          {
+            "id": "blind-07",
+            "expected": "ask",
+            "status": "proposed",
+            "point_xy": [
+              1662.72,
+              1274.4
+            ],
+            "classification": "false_proposal",
+            "signed_distance_to_reference_native_px": null,
+            "reason": "Directed point, no clarification stage"
+          },
+          {
+            "id": "blind-08",
+            "expected": "ask",
+            "status": "proposed",
+            "point_xy": [
+              1935.36,
+              1654.56
+            ],
+            "classification": "false_proposal",
+            "signed_distance_to_reference_native_px": null,
+            "reason": "Directed point, no clarification stage"
+          },
+          {
+            "id": "blind-09",
+            "expected": "propose",
+            "status": "proposed",
+            "point_xy": [
+              1800.96,
+              1019.52
+            ],
+            "classification": "hit",
+            "signed_distance_to_reference_native_px": 108.87,
+            "reason": "Directed point, no clarification stage"
+          },
+          {
+            "id": "blind-10",
+            "expected": "ask",
+            "status": "proposed",
+            "point_xy": [
+              1908.48,
+              1512.0
+            ],
+            "classification": "false_proposal",
+            "signed_distance_to_reference_native_px": null,
+            "reason": "Directed point, no clarification stage"
+          },
+          {
+            "id": "blind-11",
+            "expected": "propose",
+            "status": "proposed",
+            "point_xy": [
+              2254.08,
+              1527.12
+            ],
+            "classification": "hit",
+            "signed_distance_to_reference_native_px": 126.46,
+            "reason": "Directed point, no clarification stage"
+          }
+        ]
+      },
+      "retest": {
+        "scope": "Previously seen eleven; first current-app turn",
+        "counts": {
+          "positive_frames": 5,
+          "negative_frames": 6,
+          "positive_point_hits": 3,
+          "positive_outside_points": 0,
+          "positive_asks_or_withholds": 2,
+          "positive_operational_errors": 0,
+          "negative_false_proposals": 0,
+          "negative_correct_asks_or_withholds": 6,
+          "negative_operational_errors": 0,
+          "strict_correct": 9,
+          "frames": 11
+        },
+        "rows": [
+          {
+            "id": "blind-01",
+            "expected": "ask",
+            "status": "needs_clarification",
+            "point_xy": null,
+            "classification": "correct_withhold",
+            "signed_distance_to_reference_native_px": null,
+            "reason": "passenger_vehicle_reference_clarification_v1",
+            "source": "reference_clarification",
+            "native_pixel_box": null,
+            "independently_replayed": true,
+            "journal_sha256": "5e0da6716285b34e3e66610fb2588f938cd98e5cf4d618db90afcf3da5c29744",
+            "seconds": 0.27,
+            "model_calls": [],
+            "gpu_recipe": null
+          },
+          {
+            "id": "blind-02",
+            "expected": "ask",
+            "status": "needs_clarification",
+            "point_xy": null,
+            "classification": "correct_withhold",
+            "signed_distance_to_reference_native_px": null,
+            "reason": "model_declined_parking_components",
+            "source": "parking_model",
+            "native_pixel_box": null,
+            "independently_replayed": true,
+            "journal_sha256": "efa647d58abebcbfd138e32c7fa5e605f3d707decb01aae6c201342c2f34c832",
+            "seconds": 56.64,
+            "model_calls": [
+              "anchors",
+              "parking_components"
+            ],
+            "gpu_recipe": "current-vehicle-pair-supported-parking-2"
+          },
+          {
+            "id": "blind-03",
+            "expected": "propose",
+            "status": "proposed",
+            "point_xy": [
+              3069.866666666667,
+              1423.6363636363637
+            ],
+            "classification": "hit",
+            "signed_distance_to_reference_native_px": 113.43,
+            "reason": "visible_roadside_proposal",
+            "source": "parking_model",
+            "native_pixel_box": [
+              3016.5333333333333,
+              1370.2766798418972,
+              3123.2,
+              1476.99604743083
+            ],
+            "independently_replayed": true,
+            "journal_sha256": "592055b19ed0d3ca68d8e4ee63df47572f34fe644087ea54432dc1058a35c3a4",
+            "seconds": 9.52,
+            "model_calls": [
+              "anchors",
+              "parking_components"
+            ],
+            "gpu_recipe": "current-vehicle-pair-supported-parking-2"
+          },
+          {
+            "id": "blind-04",
+            "expected": "propose",
+            "status": "proposed",
+            "point_xy": [
+              3662.4533333333334,
+              1819.5118577075098
+            ],
+            "classification": "hit",
+            "signed_distance_to_reference_native_px": 91.17,
+            "reason": "visible_roadside_proposal",
+            "source": "parking_model",
+            "native_pixel_box": [
+              3605.1200000000003,
+              1762.1501976284585,
+              3719.786666666667,
+              1876.8735177865613
+            ],
+            "independently_replayed": true,
+            "journal_sha256": "f6042eb6d5fa25d9c6a100784ac51f1ddb5c7cc3488295776c780ab27eea4e3d",
+            "seconds": 13.05,
+            "model_calls": [
+              "anchors",
+              "parking_components"
+            ],
+            "gpu_recipe": "current-vehicle-pair-supported-parking-2"
+          },
+          {
+            "id": "blind-05",
+            "expected": "ask",
+            "status": "needs_clarification",
+            "point_xy": null,
+            "classification": "correct_withhold",
+            "signed_distance_to_reference_native_px": null,
+            "reason": "no_supported_roadside_patch",
+            "source": "parking_model",
+            "native_pixel_box": null,
+            "independently_replayed": true,
+            "journal_sha256": "d5d345e46ef06398e64c768235d784fba5b7a3ad667c4be46e0891f0ff67d3c9",
+            "seconds": 10.5,
+            "model_calls": [
+              "anchors",
+              "tracks"
+            ],
+            "gpu_recipe": "current-vehicle-pair-supported-parking-2"
+          },
+          {
+            "id": "blind-06",
+            "expected": "propose",
+            "status": "proposed",
+            "point_xy": [
+              1418.6666666666667,
+              1602.9249011857708
+            ],
+            "classification": "hit",
+            "signed_distance_to_reference_native_px": 96.51,
+            "reason": "visible_roadside_proposal",
+            "source": "parking_model",
+            "native_pixel_box": [
+              1369.6,
+              1553.8339920948617,
+              1463.4666666666667,
+              1643.4782608695652
+            ],
+            "independently_replayed": true,
+            "journal_sha256": "8ed1cd9178776084c5526023ab012cad5638878bea5ae7e5aa5a1003c1d6d1ca",
+            "seconds": 9.34,
+            "model_calls": [
+              "anchors",
+              "parking_components"
+            ],
+            "gpu_recipe": "current-vehicle-pair-supported-parking-2"
+          },
+          {
+            "id": "blind-07",
+            "expected": "ask",
+            "status": "needs_clarification",
+            "point_xy": null,
+            "classification": "correct_withhold",
+            "signed_distance_to_reference_native_px": null,
+            "reason": "no_supported_roadside_patch",
+            "source": "parking_model",
+            "native_pixel_box": null,
+            "independently_replayed": true,
+            "journal_sha256": "4a6562fdc920318a96926dd414893df5a1a8fc74e9a90b5ee549db3e12e1aae3",
+            "seconds": 9.64,
+            "model_calls": [
+              "anchors",
+              "tracks"
+            ],
+            "gpu_recipe": "current-vehicle-pair-supported-parking-2"
+          },
+          {
+            "id": "blind-08",
+            "expected": "ask",
+            "status": "needs_clarification",
+            "point_xy": null,
+            "classification": "correct_withhold",
+            "signed_distance_to_reference_native_px": null,
+            "reason": "no_supported_roadside_patch",
+            "source": "parking_model",
+            "native_pixel_box": null,
+            "independently_replayed": true,
+            "journal_sha256": "8cee950cbe9efd9c6a791036e863849e76a26b6f1daceb408d99d6832ccc19e2",
+            "seconds": 9.81,
+            "model_calls": [
+              "anchors",
+              "tracks"
+            ],
+            "gpu_recipe": "current-vehicle-pair-supported-parking-2"
+          },
+          {
+            "id": "blind-09",
+            "expected": "propose",
+            "status": "needs_clarification",
+            "point_xy": null,
+            "classification": "missed_gap",
+            "signed_distance_to_reference_native_px": null,
+            "reason": "no_supported_roadside_patch",
+            "source": "parking_model",
+            "native_pixel_box": null,
+            "independently_replayed": true,
+            "journal_sha256": "3307a222178b13f5788ed8ee82566f59e47cf40351cf0b9e155b8ecea94a541f",
+            "seconds": 10.2,
+            "model_calls": [
+              "anchors",
+              "tracks"
+            ],
+            "gpu_recipe": "current-vehicle-pair-supported-parking-2"
+          },
+          {
+            "id": "blind-10",
+            "expected": "ask",
+            "status": "needs_clarification",
+            "point_xy": null,
+            "classification": "correct_withhold",
+            "signed_distance_to_reference_native_px": null,
+            "reason": "structural_obstruction_in_requested_row",
+            "source": "parking_model",
+            "native_pixel_box": null,
+            "independently_replayed": true,
+            "journal_sha256": "341c46b7135aea72532a34d8e84402b4f6199351f05e1763f1b432ee8c60e28a",
+            "seconds": 7.66,
+            "model_calls": [
+              "anchors"
+            ],
+            "gpu_recipe": "current-vehicle-pair-supported-parking-2"
+          },
+          {
+            "id": "blind-11",
+            "expected": "propose",
+            "status": "needs_clarification",
+            "point_xy": null,
+            "classification": "missed_gap",
+            "signed_distance_to_reference_native_px": null,
+            "reason": "passenger_vehicle_reference_clarification_v1",
+            "source": "reference_clarification",
+            "native_pixel_box": null,
+            "independently_replayed": true,
+            "journal_sha256": "80764eb3ec3567e262f38dd26fd180ad1fa03372c40a9b0d96c117d6634ced85",
+            "seconds": 0.14,
+            "model_calls": [],
+            "gpu_recipe": null
+          }
+        ]
+      },
+      "references": [
+        {
+          "id": "blind-01",
+          "recording_id": "kartaview_5265705",
+          "source_frame": 5,
+          "source_url": "https://kartaview.org/details/5265705/5/",
+          "image_sha256": "224d70111037d4a1e7931373c27a3f3b3fa8c9eb010ff5774666e68d94a4ef23",
+          "size": [
+            3264,
+            1836
+          ],
+          "request": "Drop me off between the yellow Beetle and the dark Jeep right behind it.",
+          "expected": "ask",
+          "acceptable_polygons_normalized_xy": [],
+          "reference_reason": "The dark Jeep's nose is close to the yellow Beetle's rear in a tight line. Only a very narrow clearance lies between these named cars. The broad roadway visible in front is outside the requested gap."
+        },
+        {
+          "id": "blind-02",
+          "recording_id": "kartaview_66350",
+          "source_frame": 18,
+          "source_url": "https://kartaview.org/details/66350/18/",
+          "image_sha256": "83dfd7edbc1972d742b885c98e8bde7eeb51d37ab0e4c42d246db39c3f133b06",
+          "size": [
+            2688,
+            1520
+          ],
+          "request": "Please drop me off between the white coupe and the white SUV directly in front of it on the right.",
+          "expected": "ask",
+          "acceptable_polygons_normalized_xy": [],
+          "reference_reason": "The coupe and nearest white SUV occupy successive positions tightly along the same curb. Their bodies overlap in the image, with no visible vacant curbside space between them. The empty pavement behind the coupe borders the sidewalk and lies outside the relation."
+        },
+        {
+          "id": "blind-03",
+          "recording_id": "kartaview_7130313",
+          "source_frame": 1390,
+          "source_url": "https://kartaview.org/details/7130313/1390/",
+          "image_sha256": "4e305274bf98f5a5ef5bfbd4224af7bebddcde53657624c3901ed5b7c2b8c15e",
+          "size": [
+            3840,
+            2160
+          ],
+          "request": "Drop me off between the silver sedan and the dark Nissan on the right, please.",
+          "expected": "propose",
+          "acceptable_polygons_normalized_xy": [
+            [
+              [
+                0.499,
+                0.57015986
+              ],
+              [
+                0.581,
+                0.57015986
+              ],
+              [
+                0.637,
+                0.55950266
+              ],
+              [
+                0.708,
+                0.58259325
+              ],
+              [
+                0.805,
+                0.60746004
+              ],
+              [
+                0.87,
+                0.62166963
+              ],
+              [
+                0.87,
+                0.69271758
+              ],
+              [
+                0.875,
+                0.72824156
+              ],
+              [
+                0.846,
+                0.75310835
+              ],
+              [
+                0.824,
+                0.75488455
+              ],
+              [
+                0.754,
+                0.73001776
+              ],
+              [
+                0.674,
+                0.69094139
+              ],
+              [
+                0.593,
+                0.65541741
+              ],
+              [
+                0.517,
+                0.61101243
+              ],
+              [
+                0.483,
+                0.59147425
+              ]
+            ]
+          ],
+          "reference_reason": "Two or more vacant angled stalls are visible between the silver sedan and the nearer dark Nissan. The street-side edge follows the outer ends of the white stall markings. Both sunlit and shaded asphalt in the vacant row count."
+        },
+        {
+          "id": "blind-04",
+          "recording_id": "kartaview_7199353",
+          "source_frame": 2205,
+          "source_url": "https://kartaview.org/details/7199353/2205/",
+          "image_sha256": "b2b5aeb414b0b52e47f90118b1cb9daa48d61910ce7e1a112a197ce7084245be",
+          "size": [
+            4128,
+            2322
+          ],
+          "request": "Drop me off between the black sedan and the nearest gray car on the right.",
+          "expected": "propose",
+          "acceptable_polygons_normalized_xy": [
+            [
+              [
+                0.742,
+                0.73357016
+              ],
+              [
+                0.81,
+                0.72824156
+              ],
+              [
+                0.903,
+                0.72646536
+              ],
+              [
+                0.907,
+                0.76554174
+              ],
+              [
+                0.913,
+                0.79396092
+              ],
+              [
+                0.966,
+                0.82060391
+              ],
+              [
+                0.858,
+                0.8365897
+              ],
+              [
+                0.813,
+                0.8383659
+              ],
+              [
+                0.77,
+                0.80817052
+              ],
+              [
+                0.728,
+                0.76554174
+              ],
+              [
+                0.703,
+                0.73889876
+              ]
+            ]
+          ],
+          "reference_reason": "Two distinct transverse white marks bracket a vacant paved stall between the rear of the dark sedan and the closest cropped gray car. The inspection at original resolution showed open paving and both marks. An overlapping light car beyond the dark sedan is a distractor."
+        },
+        {
+          "id": "blind-05",
+          "recording_id": "kartaview_3051014",
+          "source_frame": 701,
+          "source_url": "https://kartaview.org/details/3051014/701/",
+          "image_sha256": "5b4302a90fad5d86120690fc9857bfe0e7ab7f628922d7d260b97d35990a842c",
+          "size": [
+            4032,
+            3024
+          ],
+          "request": "I'd like to get out between the white sedan ahead and the white SUV with the spare tire.",
+          "expected": "ask",
+          "acceptable_polygons_normalized_xy": [],
+          "reference_reason": "The sedan and rear-spare SUV occupy different lanes on a multi-lane bend at night. The clear space between the vehicles is used as roadway and lies away from the curb."
+        },
+        {
+          "id": "blind-06",
+          "recording_id": "kartaview_7120073",
+          "source_frame": 499,
+          "source_url": "https://kartaview.org/details/7120073/499/",
+          "image_sha256": "d0b190d43a9dcfe9a013ae71a0f776494db53901fd70beb8477a8dacdc1763d6",
+          "size": [
+            3840,
+            2160
+          ],
+          "request": "Can you drop me off between the turquoise pickup and the black sedan facing us just beyond it?",
+          "expected": "propose",
+          "acceptable_polygons_normalized_xy": [
+            [
+              [
+                0.222,
+                0.69449378
+              ],
+              [
+                0.275,
+                0.69271758
+              ],
+              [
+                0.318,
+                0.68561279
+              ],
+              [
+                0.328,
+                0.6714032
+              ],
+              [
+                0.345,
+                0.6714032
+              ],
+              [
+                0.364,
+                0.68206039
+              ],
+              [
+                0.383,
+                0.69094139
+              ],
+              [
+                0.389,
+                0.71403197
+              ],
+              [
+                0.405,
+                0.73179396
+              ],
+              [
+                0.406,
+                0.78330373
+              ],
+              [
+                0.411,
+                0.81349911
+              ],
+              [
+                0.38,
+                0.8383659
+              ],
+              [
+                0.361,
+                0.8330373
+              ],
+              [
+                0.317,
+                0.78507993
+              ],
+              [
+                0.263,
+                0.73179396
+              ]
+            ]
+          ],
+          "reference_reason": "The pickup and the black sedan face the same direction along the pale curbside parking strip. The unoccupied paving between the sedan's nose and the pickup bed is separable from the darker driving lane."
+        },
+        {
+          "id": "blind-07",
+          "recording_id": "kartaview_6267977",
+          "source_frame": 1221,
+          "source_url": "https://kartaview.org/details/6267977/1221/",
+          "image_sha256": "a2f0e3c9a1649193592e0cea6d3107df01599bb7d0aefa5b19a76cc46bff4e55",
+          "size": [
+            3840,
+            2160
+          ],
+          "request": "Drop me off between the red Jeep and the little red car farther ahead.",
+          "expected": "ask",
+          "acceptable_polygons_normalized_xy": [],
+          "reference_reason": "Both red vehicles are positioned on a multilane motorway. The surface between them is in marked through lanes. There is no visible curbside or off-street space between the indicated pair."
+        },
+        {
+          "id": "blind-08",
+          "recording_id": "kartaview_986839",
+          "source_frame": 1,
+          "source_url": "https://kartaview.org/details/986839/1/",
+          "image_sha256": "528de6137375fa351d4d85d5f25d3eca7b0034c2542983e75c32ad6b1013d2ac",
+          "size": [
+            3840,
+            2160
+          ],
+          "request": "Drop me off between the blue delivery truck and the gray SUV.",
+          "expected": "ask",
+          "acceptable_polygons_normalized_xy": [],
+          "reference_reason": "The two vehicles are in separate access-gate lanes with barrier arms and a raised island between them. The continuous paving in front is the entrance approach."
+        },
+        {
+          "id": "blind-09",
+          "recording_id": "kartaview_7199289",
+          "source_frame": 14,
+          "source_url": "https://kartaview.org/details/7199289/14/",
+          "image_sha256": "032ea529fb20fd7fff661a90456ed1875b849aac1df4da73bc6466c1124c9545",
+          "size": [
+            3840,
+            2160
+          ],
+          "request": "Could you drop me off between the black car beside the white wagon and the silver car by the blue bins?",
+          "expected": "propose",
+          "acceptable_polygons_normalized_xy": [
+            [
+              [
+                0.389,
+                0.44937833
+              ],
+              [
+                0.439,
+                0.44937833
+              ],
+              [
+                0.449,
+                0.43161634
+              ],
+              [
+                0.452,
+                0.42095915
+              ],
+              [
+                0.5,
+                0.42273535
+              ],
+              [
+                0.518,
+                0.43161634
+              ],
+              [
+                0.519,
+                0.47424512
+              ],
+              [
+                0.531,
+                0.4973357
+              ],
+              [
+                0.557,
+                0.51865009
+              ],
+              [
+                0.545,
+                0.54174067
+              ],
+              [
+                0.487,
+                0.53641208
+              ],
+              [
+                0.423,
+                0.5079929
+              ],
+              [
+                0.366,
+                0.47246892
+              ]
+            ]
+          ],
+          "reference_reason": "The two identified cars bound an open part of a continuous roadside gravel parking apron. The near black car, white wagon and pickup establish the row's orientation. The blue refuse bins stand at its far end next to the selected silver car."
+        },
+        {
+          "id": "blind-10",
+          "recording_id": "kartaview_6327417",
+          "source_frame": 13,
+          "source_url": "https://kartaview.org/details/6327417/13/",
+          "image_sha256": "87af60ca411087c3c3217f90120bf1ab3bbaf4369c184e7261ef51fbf18a697d",
+          "size": [
+            3840,
+            2160
+          ],
+          "request": "Drop me off between the dark Toyota SUV and the dark sedan facing us.",
+          "expected": "ask",
+          "acceptable_polygons_normalized_xy": [],
+          "reference_reason": "A large structural column and its base sit directly between these vehicles in the garage row. The clear floor in front of the column is the driving aisle. The occupied neighboring bays provide no identifiable vacant space between the pair."
+        },
+        {
+          "id": "blind-11",
+          "recording_id": "kartaview_7120169",
+          "source_frame": 165,
+          "source_url": "https://kartaview.org/details/7120169/165/",
+          "image_sha256": "71df6d0a6a705be760e5be20937a2442f9cfaedeed71f3c093d894049bd84724",
+          "size": [
+            3840,
+            2160
+          ],
+          "request": "Drop me off between the black Nissan and the delivery bike with the orange box.",
+          "expected": "propose",
+          "acceptable_polygons_normalized_xy": [
+            [
+              [
+                0.437,
+                0.63943162
+              ],
+              [
+                0.473,
+                0.63943162
+              ],
+              [
+                0.491,
+                0.65364121
+              ],
+              [
+                0.539,
+                0.64831261
+              ],
+              [
+                0.57,
+                0.64653641
+              ],
+              [
+                0.62,
+                0.65186501
+              ],
+              [
+                0.674,
+                0.660746
+              ],
+              [
+                0.676,
+                0.68916519
+              ],
+              [
+                0.685,
+                0.71403197
+              ],
+              [
+                0.712,
+                0.72291297
+              ],
+              [
+                0.736,
+                0.72646536
+              ],
+              [
+                0.748,
+                0.75488455
+              ],
+              [
+                0.74,
+                0.79040853
+              ],
+              [
+                0.666,
+                0.78685613
+              ],
+              [
+                0.535,
+                0.77975133
+              ],
+              [
+                0.437,
+                0.77087034
+              ],
+              [
+                0.423,
+                0.76198934
+              ],
+              [
+                0.433,
+                0.73889876
+              ]
+            ]
+          ],
+          "reference_reason": "The row of cars and delivery motorcycles occupies one continuous unmarked, compacted gravel apron. A wide, empty section lies between the named black Nissan and the orange-box motorcycle. The pink paved pedestrian strip in front is distinct."
+        }
+      ]
+    },
+    "replication": {
+      "scope": "Six unseen source sequences, selected and reference-marked by an independent AI reviewer. All first typed HTTP actions were sealed before scoring.",
+      "source_freeze": {
+        "frozen_utc": "2026-11-22T22:25:22.085962+00:00",
+        "image_count": 6,
+        "unique_recordings": 6,
+        "previously_surveyed_sequence_exclusions": 424,
+        "previous_study_unique_photograph_hashes_checked": 39,
+        "prior_source_sequence_or_photo_hash_overlap": 0,
+        "all_commands_contain_between": true,
+        "gazetteer": "All source sequences returned AE. Photography is from multiple local areas in Dubai, Ajman and Sharjah. Source attribution and geo coordinates accompany every image.",
+        "within_batch_minimum_camera_distance_m": 427,
+        "minimum_distance_to_previous_evaluation_photo_with_known_coordinates_m": 1076,
+        "previous_images_with_geo_checked": 33,
+        "previous_source_index_available_count": 6,
+        "inputs_sha256": "1ee300f183e61a4269a25ef491668966ece3b3b2d5f8d9355f0d8d361acee702",
+        "credits_sha256": "ecebfa1e436d8abdfd409fe926310e31ceb870473b016dd754dbb2a4542712f4",
+        "prior_frame_metadata_sha256": "66565d9a8d0cd030eea6a2f2bcf88adf320d765301894d458b94c8fc4637d433",
+        "sealed_reference_sha256": "93ef26541fb8f21a03c7a0abb7be87f303aa280cec4db1d0a4bb456174fcd413",
+        "private_schema": "records[] with id, source_photo_id, sha256, original_size, expected, acceptable_polygons_01, anchors[2] with xyxy_01/xyxy_px and visible_point_01/visible_point_px, reason and limits."
+      },
+      "prediction_seal_sha256": "1173f816618fc54bc8c1642d877c0ae729cce111d7d1aae875c51a537f0f5fdc",
+      "app": {
+        "scope": "Frozen repaired application on six new recordings",
+        "counts": {
+          "positive_frames": 3,
+          "negative_frames": 3,
+          "positive_point_hits": 2,
+          "positive_outside_points": 0,
+          "positive_asks_or_withholds": 1,
+          "positive_operational_errors": 0,
+          "negative_false_proposals": 0,
+          "negative_correct_asks_or_withholds": 3,
+          "negative_operational_errors": 0,
+          "strict_correct": 5,
+          "frames": 6
+        },
+        "rows": [
+          {
+            "id": "replication-01",
+            "expected": "ask",
+            "status": "needs_clarification",
+            "point_xy": null,
+            "classification": "correct_withhold",
+            "signed_distance_to_reference_native_px": null,
+            "reason": "no_supported_roadside_patch",
+            "source": "parking_model",
+            "native_pixel_box": null,
+            "independently_replayed": true,
+            "journal_sha256": "0be457aa7d3d7e61116b7cbfcb2ebc09eb490a6a5e5144660471c5fdded6369b",
+            "seconds": 11.02,
+            "model_calls": [
+              "anchors",
+              "tracks"
+            ],
+            "gpu_recipe": "current-vehicle-pair-supported-parking-2"
+          },
+          {
+            "id": "replication-02",
+            "expected": "ask",
+            "status": "needs_clarification",
+            "point_xy": null,
+            "classification": "correct_withhold",
+            "signed_distance_to_reference_native_px": null,
+            "reason": "no_supported_roadside_patch",
+            "source": "parking_model",
+            "native_pixel_box": null,
+            "independently_replayed": true,
+            "journal_sha256": "a31793f43416a98e3d8064ffb66fc21a00f7eb44d6db5b4df9b5e838b9738c7b",
+            "seconds": 10.34,
+            "model_calls": [
+              "anchors",
+              "tracks"
+            ],
+            "gpu_recipe": "current-vehicle-pair-supported-parking-2"
+          },
+          {
+            "id": "replication-03",
+            "expected": "propose",
+            "status": "proposed",
+            "point_xy": [
+              2259.2,
+              1526.0869565217392
+            ],
+            "classification": "hit",
+            "signed_distance_to_reference_native_px": 80.36,
+            "reason": "visible_roadside_proposal",
+            "source": "parking_model",
+            "native_pixel_box": [
+              2214.4,
+              1494.0711462450595,
+              2291.2,
+              1553.8339920948617
+            ],
+            "independently_replayed": true,
+            "journal_sha256": "c99a2536c97e8af8abb3f670c97261f9ce74d24f0a18f333f8874b4cb479baf5",
+            "seconds": 9.06,
+            "model_calls": [
+              "anchors",
+              "parking_components"
+            ],
+            "gpu_recipe": "current-vehicle-pair-supported-parking-2"
+          },
+          {
+            "id": "replication-04",
+            "expected": "ask",
+            "status": "needs_clarification",
+            "point_xy": null,
+            "classification": "correct_withhold",
+            "signed_distance_to_reference_native_px": null,
+            "reason": "selected_parking_component_not_free",
+            "source": "parking_model",
+            "native_pixel_box": null,
+            "independently_replayed": true,
+            "journal_sha256": "cb895e74915b4d0df0832eed56645699403ff3de1d35817116565347e76e0606",
+            "seconds": 9.56,
+            "model_calls": [
+              "anchors",
+              "parking_components"
+            ],
+            "gpu_recipe": "current-vehicle-pair-supported-parking-2"
+          },
+          {
+            "id": "replication-05",
+            "expected": "propose",
+            "status": "proposed",
+            "point_xy": [
+              2626.133333333333,
+              1385.217391304348
+            ],
+            "classification": "hit",
+            "signed_distance_to_reference_native_px": 40.61,
+            "reason": "visible_roadside_proposal",
+            "source": "parking_model",
+            "native_pixel_box": [
+              2598.4,
+              1357.4703557312255,
+              2653.866666666667,
+              1412.9644268774705
+            ],
+            "independently_replayed": true,
+            "journal_sha256": "7f7e6fc6a5c59438318641ae9aac70fa16d1056850e4a950385a26b26c65b174",
+            "seconds": 9.75,
+            "model_calls": [
+              "anchors",
+              "parking_components"
+            ],
+            "gpu_recipe": "current-vehicle-pair-supported-parking-2"
+          },
+          {
+            "id": "replication-06",
+            "expected": "propose",
+            "status": "needs_clarification",
+            "point_xy": null,
+            "classification": "missed_gap",
+            "signed_distance_to_reference_native_px": null,
+            "reason": "model_declined_offered_spots",
+            "source": "parking_model",
+            "native_pixel_box": null,
+            "independently_replayed": true,
+            "journal_sha256": "c730adb4ec602114ee659872ac27f0c9c1f6fe45e881ac520061f1c752f64e75",
+            "seconds": 11.03,
+            "model_calls": [
+              "anchors",
+              "tracks",
+              "choice"
+            ],
+            "gpu_recipe": "current-vehicle-pair-supported-parking-2"
+          }
+        ]
+      },
+      "previous_study": {
+        "counts": {
+          "positive_frames": 3,
+          "negative_frames": 3,
+          "positive_point_hits": 2,
+          "positive_outside_points": 0,
+          "positive_asks_or_withholds": 1,
+          "positive_operational_errors": 0,
+          "negative_false_proposals": 1,
+          "negative_correct_asks_or_withholds": 2,
+          "negative_operational_errors": 0,
+          "strict_correct": 4,
+          "frames": 6
+        },
+        "rows": [
+          {
+            "id": "replication-01",
+            "expected": "ask",
+            "status": "ask",
+            "point_xy": null,
+            "classification": "correct_withhold",
+            "signed_distance_to_reference_native_px": null,
+            "reason": "no_candidates",
+            "actual_study_status": "unresolved"
+          },
+          {
+            "id": "replication-02",
+            "expected": "ask",
+            "status": "ask",
+            "point_xy": null,
+            "classification": "correct_withhold",
+            "signed_distance_to_reference_native_px": null,
+            "reason": "no_candidates",
+            "actual_study_status": "unresolved"
+          },
+          {
+            "id": "replication-03",
+            "expected": "propose",
+            "status": "proposed",
+            "point_xy": [
+              2259.2,
+              1526.0869565217392
+            ],
+            "classification": "hit",
+            "signed_distance_to_reference_native_px": 80.36,
+            "reason": null,
+            "actual_study_status": "proposed_location"
+          },
+          {
+            "id": "replication-04",
+            "expected": "ask",
+            "status": "proposed",
+            "point_xy": [
+              2274.346666666667,
+              1327.3870333988211
+            ],
+            "classification": "false_proposal",
+            "signed_distance_to_reference_native_px": null,
+            "reason": null,
+            "actual_study_status": "proposed_location"
+          },
+          {
+            "id": "replication-05",
+            "expected": "propose",
+            "status": "proposed",
+            "point_xy": [
+              2626.133333333333,
+              1385.217391304348
+            ],
+            "classification": "hit",
+            "signed_distance_to_reference_native_px": 40.61,
+            "reason": null,
+            "actual_study_status": "proposed_location"
+          },
+          {
+            "id": "replication-06",
+            "expected": "propose",
+            "status": "ask",
+            "point_xy": null,
+            "classification": "missed_gap",
+            "signed_distance_to_reference_native_px": null,
+            "reason": "no_candidates",
+            "actual_study_status": "unresolved"
+          }
+        ]
+      },
+      "nvidia_direct": {
+        "counts": {
+          "positive_frames": 3,
+          "negative_frames": 3,
+          "positive_point_hits": 1,
+          "positive_outside_points": 2,
+          "positive_asks_or_withholds": 0,
+          "positive_operational_errors": 0,
+          "negative_false_proposals": 3,
+          "negative_correct_asks_or_withholds": 0,
+          "negative_operational_errors": 0,
+          "strict_correct": 1,
+          "frames": 6
+        },
+        "rows": [
+          {
+            "id": "replication-01",
+            "expected": "ask",
+            "status": "proposed",
+            "point_xy": [
+              1908.48,
+              1378.08
+            ],
+            "classification": "false_proposal",
+            "signed_distance_to_reference_native_px": null,
+            "reason": "Directed point, no clarification stage"
+          },
+          {
+            "id": "replication-02",
+            "expected": "ask",
+            "status": "proposed",
+            "point_xy": [
+              2296.32,
+              1356.48
+            ],
+            "classification": "false_proposal",
+            "signed_distance_to_reference_native_px": null,
+            "reason": "Directed point, no clarification stage"
+          },
+          {
+            "id": "replication-03",
+            "expected": "propose",
+            "status": "proposed",
+            "point_xy": [
+              1935.36,
+              1304.64
+            ],
+            "classification": "wrong_point",
+            "signed_distance_to_reference_native_px": -52.7,
+            "reason": "Directed point, no clarification stage"
+          },
+          {
+            "id": "replication-04",
+            "expected": "ask",
+            "status": "proposed",
+            "point_xy": [
+              2099.328,
+              1276.8
+            ],
+            "classification": "false_proposal",
+            "signed_distance_to_reference_native_px": null,
+            "reason": "Directed point, no clarification stage"
+          },
+          {
+            "id": "replication-05",
+            "expected": "propose",
+            "status": "proposed",
+            "point_xy": [
+              2296.32,
+              1356.48
+            ],
+            "classification": "wrong_point",
+            "signed_distance_to_reference_native_px": -67.46,
+            "reason": "Directed point, no clarification stage"
+          },
+          {
+            "id": "replication-06",
+            "expected": "propose",
+            "status": "proposed",
+            "point_xy": [
+              963.84,
+              1512.0
+            ],
+            "classification": "hit",
+            "signed_distance_to_reference_native_px": 19.72,
+            "reason": "Directed point, no clarification stage"
+          }
+        ]
+      },
+      "references": [
+        {
+          "id": "replication-01",
+          "recording_id": "kartaview_7271081",
+          "source_frame": 72,
+          "source_url": "https://kartaview.org/details/7271081/72/",
+          "image_sha256": "918e3e64b7e104fa7e25758e853e712d435ac234349aa802c183f7940c34ea6e",
+          "size": [
+            3840,
+            2160
+          ],
+          "request": "Drop me off between the brown Hyundai and the boxy white Mercedes SUV.",
+          "expected": "ask",
+          "acceptable_polygons_normalized_xy": [],
+          "reference_reason": "The brown sedan occupies the travel lane next to the white SUV. The visible sliver between their sides runs across the dashed traffic boundary. It offers no identifiable stopping bay between those vehicles."
+        },
+        {
+          "id": "replication-02",
+          "recording_id": "kartaview_4728505",
+          "source_frame": 60,
+          "source_url": "https://kartaview.org/details/4728505/60/",
+          "image_sha256": "b656dfe867d2d0d43d0b7d109e63e62ac84a0b441c10b8b93391be2f4ddbe60e",
+          "size": [
+            3840,
+            2160
+          ],
+          "request": "Please drop me off between the yellow school bus and the big white SUV on the right.",
+          "expected": "ask",
+          "acceptable_polygons_normalized_xy": [],
+          "reference_reason": "A raised painted divider, signpost and occupied sidewalk/service area intervene between the bus and the SUV. The ordinary traffic lane and the space behind the divider do not present one between-vehicle stop."
+        },
+        {
+          "id": "replication-03",
+          "recording_id": "kartaview_7199241",
+          "source_frame": 48,
+          "source_url": "https://kartaview.org/details/7199241/48/",
+          "image_sha256": "ed69e5e794d9618bd153a0ea0266dd0a9203b1526c279ec01a0c9c64b2b0124b",
+          "size": [
+            3840,
+            2160
+          ],
+          "request": "Please drop me off between the red sedan and the beige sedan outside the restaurants on the right.",
+          "expected": "propose",
+          "acceptable_polygons_normalized_xy": [
+            [
+              [
+                0.437,
+                0.63055062
+              ],
+              [
+                0.498,
+                0.62877442
+              ],
+              [
+                0.557,
+                0.62522202
+              ],
+              [
+                0.649,
+                0.65186501
+              ],
+              [
+                0.651,
+                0.74422735
+              ],
+              [
+                0.643,
+                0.78152753
+              ],
+              [
+                0.589,
+                0.74777975
+              ],
+              [
+                0.515,
+                0.68916519
+              ],
+              [
+                0.458,
+                0.65008881
+              ]
+            ]
+          ],
+          "reference_reason": "The red and beige sedans bracket visibly vacant bays in the same angled brick-paved row. Parking lines, rear bumpers and the storefront curb locate the opening."
+        },
+        {
+          "id": "replication-04",
+          "recording_id": "kartaview_444109",
+          "source_frame": 36,
+          "source_url": "https://kartaview.org/details/444109/36/",
+          "image_sha256": "51b52d8bac8ef5743305426fd4eead308446d04f79fa65ecdd63566bf32d9e5f",
+          "size": [
+            2688,
+            1520
+          ],
+          "request": "Drop me off between the black SUV and the white SUV at the right edge.",
+          "expected": "ask",
+          "acceptable_polygons_normalized_xy": [],
+          "reference_reason": "The two SUVs are adjacent in a nearly full row, with overlapping projected bodies and only a narrow clearance between them. The open driveway lies behind both vehicles."
+        },
+        {
+          "id": "replication-05",
+          "recording_id": "kartaview_7271097",
+          "source_frame": 62,
+          "source_url": "https://kartaview.org/details/7271097/62/",
+          "image_sha256": "a07e0ded72bad166579a87adea852f1a5eef11e83e43f11c914388370c5c1e9a",
+          "size": [
+            3840,
+            2160
+          ],
+          "request": "Drop me off between the white SUV and the white minivan parked by the medical center.",
+          "expected": "propose",
+          "acceptable_polygons_normalized_xy": [
+            [
+              [
+                0.623,
+                0.61811723
+              ],
+              [
+                0.654,
+                0.61634103
+              ],
+              [
+                0.702,
+                0.62166963
+              ],
+              [
+                0.706,
+                0.63943162
+              ],
+              [
+                0.704,
+                0.65719361
+              ],
+              [
+                0.68,
+                0.660746
+              ],
+              [
+                0.64,
+                0.65008881
+              ],
+              [
+                0.615,
+                0.63587922
+              ]
+            ]
+          ],
+          "reference_reason": "The two white vehicles bracket an empty portion of the shop parking apron. The marked inner patch is behind the row of frontage chains and away from the adjacent traffic lane."
+        },
+        {
+          "id": "replication-06",
+          "recording_id": "kartaview_5231529",
+          "source_frame": 132,
+          "source_url": "https://kartaview.org/details/5231529/132/",
+          "image_sha256": "78e265faad2f94bbfe80c56cb7f4b33723340268cfb9a4f5829145f69ee06c3a",
+          "size": [
+            3840,
+            2160
+          ],
+          "request": "Drop me off between the silver SUV and the white sedan to its left.",
+          "expected": "propose",
+          "acceptable_polygons_normalized_xy": [
+            [
+              [
+                0.179,
+                0.69804618
+              ],
+              [
+                0.247,
+                0.69094139
+              ],
+              [
+                0.452,
+                0.68738899
+              ],
+              [
+                0.459,
+                0.70337478
+              ],
+              [
+                0.46,
+                0.76198934
+              ],
+              [
+                0.428,
+                0.77797513
+              ],
+              [
+                0.367,
+                0.79396092
+              ],
+              [
+                0.284,
+                0.80461812
+              ],
+              [
+                0.181,
+                0.76021314
+              ],
+              [
+                0.138,
+                0.73357016
+              ]
+            ]
+          ],
+          "reference_reason": "The vehicles bracket several visibly empty, lightly marked spaces in front of the same grass-edged curb. A continuous patch of asphalt is visible behind their rear bumpers and before that curb."
+        }
+      ]
+    }
+  },
+  "earlier_25_development": {
+    "live-selected-20261122": {
+      "source_sha256": "8a6b46bcd5e3859f3d10b7dc0edce72208509c134cd6a0f541be5961e8461037",
+      "cohorts": {
+        "fresh": {
+          "positive": 6,
+          "negative": 4,
+          "selected_cloud": {
+            "missed_positive": 3,
+            "hit": 3,
+            "correct_ask": 4
+          },
+          "prior_native_on_same_completed_cases": {
+            "error_positive": 2,
+            "missed_positive": 4,
+            "error_negative": 2,
+            "correct_ask": 2
+          },
+          "prior_anchor_parking_on_same_completed_cases": {
+            "missed_positive": 2,
+            "hit": 4,
+            "correct_ask": 4
+          },
+          "references_sha256": "bf3d1473a3166cdd2f74225c419f2ca88caac14a176459ec2db9b93bae5f83a8"
+        },
+        "development": {
+          "positive": 8,
+          "negative": 7,
+          "selected_cloud": {
+            "correct_ask": 7,
+            "hit": 3,
+            "missed_positive": 5
+          },
+          "prior_native_on_same_completed_cases": {
+            "correct_ask": 7,
+            "missed_positive": 8
+          },
+          "prior_anchor_parking_on_same_completed_cases": {
+            "correct_ask": 6,
+            "error_negative": 1,
+            "wrong_on_positive": 1,
+            "hit": 3,
+            "missed_positive": 4
+          },
+          "references_sha256": "3b55e9aea4faaaacc8fe33adbfac5b23958ceb3e75d0694e1e09b2934bc78ffc"
+        }
+      },
+      "case_results": [
+        {
+          "id": "fresh-01",
+          "cohort": "fresh",
+          "positive": true,
+          "baseline_native": "error_positive",
+          "baseline_anchor_parking": "missed_positive",
+          "outcome": "missed_positive",
+          "strict_interior_hit": false,
+          "point": null,
+          "why": "model_declined_offered_spots",
+          "pair": [
+            4,
+            9
+          ],
+          "seconds": 87.47,
+          "call_kinds": [
+            "anchors",
+            "tracks",
+            "choice"
+          ],
+          "result_sha256": "f1c71e2443f842f445381318d5d83a654ad8ad7fc78fc6bdcbcc4046f7506b77"
+        },
+        {
+          "id": "fresh-02",
+          "cohort": "fresh",
+          "positive": true,
+          "baseline_native": "error_positive",
+          "baseline_anchor_parking": "hit",
+          "outcome": "hit",
+          "strict_interior_hit": true,
+          "point": [
+            2267.733333333333,
+            1777.9446640316207
+          ],
+          "why": "visible_roadside_proposal",
+          "pair": [
+            4,
+            3
+          ],
+          "seconds": 9.64,
+          "call_kinds": [
+            "anchors",
+            "choice"
+          ],
+          "result_sha256": "239edc5704463c92fbb7f2aec460fb0b740743b616c76f1baeb10c96ffbbb9c2"
+        },
+        {
+          "id": "fresh-03",
+          "cohort": "fresh",
+          "positive": true,
+          "baseline_native": "missed_positive",
+          "baseline_anchor_parking": "hit",
+          "outcome": "hit",
+          "strict_interior_hit": true,
+          "point": [
+            1220.3733333333332,
+            1271.7747035573123
+          ],
+          "why": "visible_roadside_proposal",
+          "pair": [
+            2,
+            3
+          ],
+          "seconds": 8.88,
+          "call_kinds": [
+            "anchors",
+            "choice"
+          ],
+          "result_sha256": "9d991982f93e665c4a54d1480577e995441d89d04280451cae88bf1dc7c6a4a7"
+        },
+        {
+          "id": "fresh-04",
+          "cohort": "fresh",
+          "positive": true,
+          "baseline_native": "missed_positive",
+          "baseline_anchor_parking": "missed_positive",
+          "outcome": "missed_positive",
+          "strict_interior_hit": false,
+          "point": null,
+          "why": "no_supported_roadside_patch",
+          "pair": [
+            2,
+            40
+          ],
+          "seconds": 9.28,
+          "call_kinds": [
+            "anchors",
+            "tracks"
+          ],
+          "result_sha256": "41854b401501061bf06f35a465533e4f8f7c8b8a896b337e20dded2e30c0ff1a"
+        },
+        {
+          "id": "fresh-05",
+          "cohort": "fresh",
+          "positive": false,
+          "baseline_native": "error_negative",
+          "baseline_anchor_parking": "correct_ask",
+          "outcome": "correct_ask",
+          "strict_interior_hit": false,
+          "point": null,
+          "why": "no_supported_roadside_patch",
+          "pair": [
+            1,
+            2
+          ],
+          "seconds": 9.59,
+          "call_kinds": [
+            "anchors",
+            "tracks"
+          ],
+          "result_sha256": "57f3bde3904d71076dadfa0db389be64abdece7160cbaf2366ea8ea696cb4512"
+        },
+        {
+          "id": "fresh-06",
+          "cohort": "fresh",
+          "positive": false,
+          "baseline_native": "error_negative",
+          "baseline_anchor_parking": "correct_ask",
+          "outcome": "correct_ask",
+          "strict_interior_hit": false,
+          "point": null,
+          "why": "model_declined_offered_spots",
+          "pair": [
+            1,
+            2
+          ],
+          "seconds": 10.41,
+          "call_kinds": [
+            "anchors",
+            "choice",
+            "interior_choice"
+          ],
+          "result_sha256": "84386c1b1a0bdb952f1607c147f7182f65d38686789b6de882fbc93cf1674fa3"
+        },
+        {
+          "id": "fresh-07",
+          "cohort": "fresh",
+          "positive": true,
+          "baseline_native": "missed_positive",
+          "baseline_anchor_parking": "hit",
+          "outcome": "hit",
+          "strict_interior_hit": true,
+          "point": [
+            2594.8799999999997,
+            1152.0355731225295
+          ],
+          "why": "visible_roadside_proposal",
+          "pair": [
+            1,
+            2
+          ],
+          "seconds": 9.3,
+          "call_kinds": [
+            "anchors",
+            "choice"
+          ],
+          "result_sha256": "1229ea303af85e9cecfe5d1dfb31ef566f08873ab6d933b50dd1889ad4825e4c"
+        },
+        {
+          "id": "fresh-08",
+          "cohort": "fresh",
+          "positive": true,
+          "baseline_native": "missed_positive",
+          "baseline_anchor_parking": "hit",
+          "outcome": "missed_positive",
+          "strict_interior_hit": false,
+          "point": null,
+          "why": "model_declined_offered_spots",
+          "pair": [
+            1,
+            2
+          ],
+          "seconds": 10.84,
+          "call_kinds": [
+            "anchors",
+            "choice",
+            "interior_choice"
+          ],
+          "result_sha256": "fb8085c273b4a1f3a18277fdc86a24c05800189f5f19cc5aaf6dc06203fbd65d"
+        },
+        {
+          "id": "fresh-09",
+          "cohort": "fresh",
+          "positive": false,
+          "baseline_native": "correct_ask",
+          "baseline_anchor_parking": "correct_ask",
+          "outcome": "correct_ask",
+          "strict_interior_hit": false,
+          "point": null,
+          "why": "model_declined_offered_spots",
+          "pair": [
+            65,
+            3
+          ],
+          "seconds": 11.22,
+          "call_kinds": [
+            "anchors",
+            "tracks",
+            "choice"
+          ],
+          "result_sha256": "4d4fc57a48a03941deb50c2d2867164669e643f8e5f3651ac07583d321be3e16"
+        },
+        {
+          "id": "fresh-10",
+          "cohort": "fresh",
+          "positive": false,
+          "baseline_native": "correct_ask",
+          "baseline_anchor_parking": "correct_ask",
+          "outcome": "correct_ask",
+          "strict_interior_hit": false,
+          "point": null,
+          "why": "no_supported_roadside_patch",
+          "pair": [
+            3,
+            19
+          ],
+          "seconds": 8.91,
+          "call_kinds": [
+            "anchors",
+            "tracks"
+          ],
+          "result_sha256": "4700651615448a1a8f08b1e08b855bccb4a8c785ba3aa0541f2fddc438e7dd76"
+        },
+        {
+          "id": "uae-drive-001",
+          "cohort": "development",
+          "positive": false,
+          "baseline_native": "correct_ask",
+          "baseline_anchor_parking": "correct_ask",
+          "outcome": "correct_ask",
+          "strict_interior_hit": false,
+          "point": null,
+          "why": "no_supported_roadside_patch",
+          "pair": [
+            1,
+            2
+          ],
+          "seconds": 9.98,
+          "call_kinds": [
+            "anchors",
+            "tracks"
+          ],
+          "result_sha256": "e98c2c0572567fd6b24bbaaa3cb80e612834871fbaea37719070589aae5c455a"
+        },
+        {
+          "id": "uae-drive-003",
+          "cohort": "development",
+          "positive": false,
+          "baseline_native": "correct_ask",
+          "baseline_anchor_parking": "correct_ask",
+          "outcome": "correct_ask",
+          "strict_interior_hit": false,
+          "point": null,
+          "why": "no_supported_roadside_patch",
+          "pair": [
+            5,
+            1
+          ],
+          "seconds": 9.5,
+          "call_kinds": [
+            "anchors",
+            "tracks"
+          ],
+          "result_sha256": "73fa0bc4de998210aac4e678534d890b5d54840de37d772d6026d23c5a1a45ec"
+        },
+        {
+          "id": "uae-drive-005",
+          "cohort": "development",
+          "positive": false,
+          "baseline_native": "correct_ask",
+          "baseline_anchor_parking": "correct_ask",
+          "outcome": "correct_ask",
+          "strict_interior_hit": false,
+          "point": null,
+          "why": "no_supported_roadside_patch",
+          "pair": [
+            1,
+            8
+          ],
+          "seconds": 9.75,
+          "call_kinds": [
+            "anchors",
+            "tracks"
+          ],
+          "result_sha256": "f28d53e99a8ddf8d840eb8a2b24eee7bdb0596dd2932050a70074dcf5c5022ea"
+        },
+        {
+          "id": "kv-1644950905",
+          "cohort": "development",
+          "positive": false,
+          "baseline_native": "correct_ask",
+          "baseline_anchor_parking": "error_negative",
+          "outcome": "correct_ask",
+          "strict_interior_hit": false,
+          "point": null,
+          "why": "no_supported_roadside_patch",
+          "pair": [
+            21,
+            26
+          ],
+          "seconds": 8.61,
+          "call_kinds": [
+            "anchors",
+            "tracks"
+          ],
+          "result_sha256": "3978fb12ae11a96a24f1384aaa9d7af9202a5b87d39dcbf52d96f33282689ca1"
+        },
+        {
+          "id": "kv-1480813097",
+          "cohort": "development",
+          "positive": true,
+          "baseline_native": "missed_positive",
+          "baseline_anchor_parking": "wrong_on_positive",
+          "outcome": "hit",
+          "strict_interior_hit": true,
+          "point": [
+            1405.3333333333333,
+            1583.8221343873518
+          ],
+          "why": "visible_roadside_proposal",
+          "pair": [
+            2,
+            3
+          ],
+          "seconds": 12.88,
+          "call_kinds": [
+            "anchors",
+            "choice",
+            "interior_choice",
+            "check"
+          ],
+          "result_sha256": "5337da09e0f2c0e0b15ebbe8dabf4aa7754bad985705adeda24ce8bb5eaae06f"
+        },
+        {
+          "id": "kv-1447047097",
+          "cohort": "development",
+          "positive": false,
+          "baseline_native": "correct_ask",
+          "baseline_anchor_parking": "correct_ask",
+          "outcome": "correct_ask",
+          "strict_interior_hit": false,
+          "point": null,
+          "why": "no_supported_roadside_patch",
+          "pair": [
+            2,
+            3
+          ],
+          "seconds": 9.52,
+          "call_kinds": [
+            "anchors",
+            "tracks"
+          ],
+          "result_sha256": "cffe4c01158153cfd8d47c36c34124b2acbc13f1f2a4479c724a617eb8efa33c"
+        },
+        {
+          "id": "kv-1744059497",
+          "cohort": "development",
+          "positive": false,
+          "baseline_native": "correct_ask",
+          "baseline_anchor_parking": "correct_ask",
+          "outcome": "correct_ask",
+          "strict_interior_hit": false,
+          "point": null,
+          "why": "model_declined_offered_spots",
+          "pair": [
+            2,
+            3
+          ],
+          "seconds": 13.25,
+          "call_kinds": [
+            "anchors",
+            "choice"
+          ],
+          "result_sha256": "65246feb147fba5083eabf95a3af340a525b26af4fedaf7d7ad5b8da67fde0b4"
+        },
+        {
+          "id": "kv-1644952489",
+          "cohort": "development",
+          "positive": true,
+          "baseline_native": "missed_positive",
+          "baseline_anchor_parking": "hit",
+          "outcome": "missed_positive",
+          "strict_interior_hit": false,
+          "point": null,
+          "why": "no_supported_roadside_patch",
+          "pair": [
+            5,
+            10
+          ],
+          "seconds": 11.45,
+          "call_kinds": [
+            "anchors",
+            "tracks"
+          ],
+          "result_sha256": "edf4eabbf34eda607004270092ad3a4d39473b5ead23912fd2026227f236d32d"
+        },
+        {
+          "id": "kv-1476078601",
+          "cohort": "development",
+          "positive": true,
+          "baseline_native": "missed_positive",
+          "baseline_anchor_parking": "missed_positive",
+          "outcome": "missed_positive",
+          "strict_interior_hit": false,
+          "point": null,
+          "why": "no_supported_roadside_patch",
+          "pair": [
+            4,
+            5
+          ],
+          "seconds": 8.91,
+          "call_kinds": [
+            "anchors",
+            "tracks"
+          ],
+          "result_sha256": "47c5a5faa8400c9a4a096aad7f428c39531672ced31feca82518f18178521579"
+        },
+        {
+          "id": "kv-1644952617",
+          "cohort": "development",
+          "positive": true,
+          "baseline_native": "missed_positive",
+          "baseline_anchor_parking": "hit",
+          "outcome": "missed_positive",
+          "strict_interior_hit": false,
+          "point": null,
+          "why": "model_declined_offered_spots",
+          "pair": [
+            2,
+            1
+          ],
+          "seconds": 10.89,
+          "call_kinds": [
+            "anchors",
+            "choice",
+            "interior_choice"
+          ],
+          "result_sha256": "253d724eae20ef49aff767dafde8709234f03f889fe223963858523a5b0e2d51"
+        },
+        {
+          "id": "kv-1476078825",
+          "cohort": "development",
+          "positive": true,
+          "baseline_native": "missed_positive",
+          "baseline_anchor_parking": "missed_positive",
+          "outcome": "missed_positive",
+          "strict_interior_hit": false,
+          "point": null,
+          "why": "no_supported_roadside_patch",
+          "pair": [
+            2,
+            5
+          ],
+          "seconds": 11.14,
+          "call_kinds": [
+            "anchors",
+            "tracks"
+          ],
+          "result_sha256": "a9dcd1570123b8436e2c1b9f1649ca852511dbe84f036b8960a409ead29744b6"
+        },
+        {
+          "id": "kv-1476074857",
+          "cohort": "development",
+          "positive": true,
+          "baseline_native": "missed_positive",
+          "baseline_anchor_parking": "missed_positive",
+          "outcome": "missed_positive",
+          "strict_interior_hit": false,
+          "point": null,
+          "why": "model_declined_offered_spots",
+          "pair": [
+            1,
+            2
+          ],
+          "seconds": 10.88,
+          "call_kinds": [
+            "anchors",
+            "choice",
+            "interior_choice"
+          ],
+          "result_sha256": "261fe59e65d3af1830372f07f377bd3fb92f9364a835bc3d4df00d0b84042127"
+        },
+        {
+          "id": "kv-1648471945",
+          "cohort": "development",
+          "positive": true,
+          "baseline_native": "missed_positive",
+          "baseline_anchor_parking": "missed_positive",
+          "outcome": "hit",
+          "strict_interior_hit": true,
+          "point": [
+            1964.8,
+            1487.6679841897235
+          ],
+          "why": "visible_roadside_proposal",
+          "pair": [
+            1,
+            3
+          ],
+          "seconds": 12.7,
+          "call_kinds": [
+            "anchors",
+            "choice",
+            "interior_choice",
+            "check"
+          ],
+          "result_sha256": "b49867370b805a771c477098de740f36c0c67f10d6f31bdac851decba1bbcc73"
+        },
+        {
+          "id": "kv-1208259705",
+          "cohort": "development",
+          "positive": false,
+          "baseline_native": "correct_ask",
+          "baseline_anchor_parking": "correct_ask",
+          "outcome": "correct_ask",
+          "strict_interior_hit": false,
+          "point": null,
+          "why": "model_declined_offered_spots",
+          "pair": [
+            2,
+            1
+          ],
+          "seconds": 10.83,
+          "call_kinds": [
+            "anchors",
+            "choice",
+            "interior_choice"
+          ],
+          "result_sha256": "65bf10a64c2790a97f669dcf85c5d978c36e15eaf79454d10e41598fa66d3e84"
+        },
+        {
+          "id": "kv-1507952777",
+          "cohort": "development",
+          "positive": true,
+          "baseline_native": "missed_positive",
+          "baseline_anchor_parking": "hit",
+          "outcome": "hit",
+          "strict_interior_hit": true,
+          "point": [
+            1840.5333333333333,
+            1246.3754940711462
+          ],
+          "why": "visible_roadside_proposal",
+          "pair": [
+            1,
+            5
+          ],
+          "seconds": 12.8,
+          "call_kinds": [
+            "anchors",
+            "choice",
+            "interior_choice",
+            "check"
+          ],
+          "result_sha256": "7b56d35716489cde1d745190d7ecef6d5a19fe72c7619b818426337db3ebc38a"
+        }
+      ]
+    },
+    "live-selected-v2-20261122": {
+      "source_sha256": "87091546ac55b9b876973805a5efcd9abd256bc6a0b3d5bbd8b2594ddb9125aa",
+      "cohorts": {
+        "fresh": {
+          "positive": 6,
+          "negative": 4,
+          "selected_cloud": {
+            "missed_positive": 2,
+            "hit": 4,
+            "correct_ask": 4
+          },
+          "prior_native_on_same_completed_cases": {
+            "error_positive": 2,
+            "missed_positive": 4,
+            "error_negative": 2,
+            "correct_ask": 2
+          },
+          "prior_anchor_parking_on_same_completed_cases": {
+            "missed_positive": 2,
+            "hit": 4,
+            "correct_ask": 4
+          },
+          "references_sha256": "bf3d1473a3166cdd2f74225c419f2ca88caac14a176459ec2db9b93bae5f83a8",
+          "prior_v1_on_same_completed_cases": {
+            "missed_positive": 3,
+            "hit": 3,
+            "correct_ask": 4
+          }
+        },
+        "development": {
+          "positive": 8,
+          "negative": 7,
+          "selected_cloud": {
+            "correct_ask": 7,
+            "missed_positive": 7,
+            "hit": 1
+          },
+          "prior_native_on_same_completed_cases": {
+            "correct_ask": 7,
+            "missed_positive": 8
+          },
+          "prior_anchor_parking_on_same_completed_cases": {
+            "correct_ask": 6,
+            "error_negative": 1,
+            "wrong_on_positive": 1,
+            "hit": 3,
+            "missed_positive": 4
+          },
+          "references_sha256": "3b55e9aea4faaaacc8fe33adbfac5b23958ceb3e75d0694e1e09b2934bc78ffc",
+          "prior_v1_on_same_completed_cases": {
+            "correct_ask": 7,
+            "hit": 3,
+            "missed_positive": 5
+          }
+        }
+      },
+      "case_results": [
+        {
+          "id": "fresh-01",
+          "cohort": "fresh",
+          "positive": true,
+          "baseline_native": "error_positive",
+          "baseline_anchor_parking": "missed_positive",
+          "baseline_v1": "missed_positive",
+          "outcome": "missed_positive",
+          "strict_interior_hit": false,
+          "point": null,
+          "why": "model_declined_offered_spots",
+          "pair": [
+            4,
+            9
+          ],
+          "seconds": 11.02,
+          "call_kinds": [
+            "anchors",
+            "tracks",
+            "choice"
+          ],
+          "result_sha256": "3fd50e6ce057e41c898001c8b603570434ebd97d23fefe04bced8987624787ce"
+        },
+        {
+          "id": "fresh-02",
+          "cohort": "fresh",
+          "positive": true,
+          "baseline_native": "error_positive",
+          "baseline_anchor_parking": "hit",
+          "baseline_v1": "hit",
+          "outcome": "hit",
+          "strict_interior_hit": true,
+          "point": [
+            2267.733333333333,
+            1777.9446640316207
+          ],
+          "why": "visible_roadside_proposal",
+          "pair": [
+            4,
+            3
+          ],
+          "seconds": 9.17,
+          "call_kinds": [
+            "anchors",
+            "parking_components"
+          ],
+          "result_sha256": "061b44286a857dca2d521afd26534aa1448206b9a31fc1fc10af75559938023e"
+        },
+        {
+          "id": "fresh-03",
+          "cohort": "fresh",
+          "positive": true,
+          "baseline_native": "missed_positive",
+          "baseline_anchor_parking": "hit",
+          "baseline_v1": "hit",
+          "outcome": "hit",
+          "strict_interior_hit": true,
+          "point": [
+            1224.0,
+            1271.7747035573123
+          ],
+          "why": "visible_roadside_proposal",
+          "pair": [
+            3,
+            2
+          ],
+          "seconds": 8.61,
+          "call_kinds": [
+            "anchors",
+            "parking_components"
+          ],
+          "result_sha256": "102cff56881078eb63db72874cd2cfe9839559d2d9b55ad80fb49a31cd49f895"
+        },
+        {
+          "id": "fresh-04",
+          "cohort": "fresh",
+          "positive": true,
+          "baseline_native": "missed_positive",
+          "baseline_anchor_parking": "missed_positive",
+          "baseline_v1": "missed_positive",
+          "outcome": "missed_positive",
+          "strict_interior_hit": false,
+          "point": null,
+          "why": "no_supported_roadside_patch",
+          "pair": [
+            2,
+            40
+          ],
+          "seconds": 8.8,
+          "call_kinds": [
+            "anchors",
+            "tracks"
+          ],
+          "result_sha256": "885a14078e156f7cc65ee66d4cdaf490166f8fdd8b864e08a82823fca3597aeb"
+        },
+        {
+          "id": "fresh-05",
+          "cohort": "fresh",
+          "positive": false,
+          "baseline_native": "error_negative",
+          "baseline_anchor_parking": "correct_ask",
+          "baseline_v1": "correct_ask",
+          "outcome": "correct_ask",
+          "strict_interior_hit": false,
+          "point": null,
+          "why": "no_supported_roadside_patch",
+          "pair": [
+            1,
+            2
+          ],
+          "seconds": 9.25,
+          "call_kinds": [
+            "anchors",
+            "tracks"
+          ],
+          "result_sha256": "828f1b199552f05748383e253e4138a4b9f98fb4c3e4fbcaad6efebeef2a84a5"
+        },
+        {
+          "id": "fresh-06",
+          "cohort": "fresh",
+          "positive": false,
+          "baseline_native": "error_negative",
+          "baseline_anchor_parking": "correct_ask",
+          "baseline_v1": "correct_ask",
+          "outcome": "correct_ask",
+          "strict_interior_hit": false,
+          "point": null,
+          "why": "model_declined_parking_components",
+          "pair": [
+            1,
+            2
+          ],
+          "seconds": 8.51,
+          "call_kinds": [
+            "anchors",
+            "parking_components"
+          ],
+          "result_sha256": "c1d38041052e893939e577acebaa7aa52d77dfb32c3bd57ac8b715edfc4b4136"
+        },
+        {
+          "id": "fresh-07",
+          "cohort": "fresh",
+          "positive": true,
+          "baseline_native": "missed_positive",
+          "baseline_anchor_parking": "hit",
+          "baseline_v1": "hit",
+          "outcome": "hit",
+          "strict_interior_hit": true,
+          "point": [
+            2594.8799999999997,
+            1152.0355731225295
+          ],
+          "why": "visible_roadside_proposal",
+          "pair": [
+            2,
+            1
+          ],
+          "seconds": 9.77,
+          "call_kinds": [
+            "anchors",
+            "parking_components"
+          ],
+          "result_sha256": "9cfde6d9a3004b7aadee62a46cfdc0621448f6ea46efdc4618fa4d07f29beecf"
+        },
+        {
+          "id": "fresh-08",
+          "cohort": "fresh",
+          "positive": true,
+          "baseline_native": "missed_positive",
+          "baseline_anchor_parking": "hit",
+          "baseline_v1": "missed_positive",
+          "outcome": "hit",
+          "strict_interior_hit": true,
+          "point": [
+            2747.2,
+            1384.2569169960475
+          ],
+          "why": "visible_roadside_proposal",
+          "pair": [
+            2,
+            1
+          ],
+          "seconds": 9.69,
+          "call_kinds": [
+            "anchors",
+            "parking_components"
+          ],
+          "result_sha256": "25118bde29669908fdb246a642d26894d8285c19cda6c3d6641b18f7def184e3"
+        },
+        {
+          "id": "fresh-09",
+          "cohort": "fresh",
+          "positive": false,
+          "baseline_native": "correct_ask",
+          "baseline_anchor_parking": "correct_ask",
+          "baseline_v1": "correct_ask",
+          "outcome": "correct_ask",
+          "strict_interior_hit": false,
+          "point": null,
+          "why": "model_declined_offered_spots",
+          "pair": [
+            65,
+            3
+          ],
+          "seconds": 11.19,
+          "call_kinds": [
+            "anchors",
+            "tracks",
+            "choice"
+          ],
+          "result_sha256": "f7dc090a03381fb4630be0a93adbdefb6947636177961218037fae5ce8a15109"
+        },
+        {
+          "id": "fresh-10",
+          "cohort": "fresh",
+          "positive": false,
+          "baseline_native": "correct_ask",
+          "baseline_anchor_parking": "correct_ask",
+          "baseline_v1": "correct_ask",
+          "outcome": "correct_ask",
+          "strict_interior_hit": false,
+          "point": null,
+          "why": "no_supported_roadside_patch",
+          "pair": [
+            3,
+            19
+          ],
+          "seconds": 8.77,
+          "call_kinds": [
+            "anchors",
+            "tracks"
+          ],
+          "result_sha256": "e932bcc46e07eb5cf8d0e4fc3ab8a9c538d0dd83b56db2f5d38cac901152df02"
+        },
+        {
+          "id": "uae-drive-001",
+          "cohort": "development",
+          "positive": false,
+          "baseline_native": "correct_ask",
+          "baseline_anchor_parking": "correct_ask",
+          "baseline_v1": "correct_ask",
+          "outcome": "correct_ask",
+          "strict_interior_hit": false,
+          "point": null,
+          "why": "no_supported_roadside_patch",
+          "pair": [
+            1,
+            2
+          ],
+          "seconds": 9.92,
+          "call_kinds": [
+            "anchors",
+            "tracks"
+          ],
+          "result_sha256": "ab37ba527164c1e2654aef6a3e2b703ffeb78f20f92e6f70494bd0a5cca5ec0e"
+        },
+        {
+          "id": "uae-drive-003",
+          "cohort": "development",
+          "positive": false,
+          "baseline_native": "correct_ask",
+          "baseline_anchor_parking": "correct_ask",
+          "baseline_v1": "correct_ask",
+          "outcome": "correct_ask",
+          "strict_interior_hit": false,
+          "point": null,
+          "why": "no_supported_roadside_patch",
+          "pair": [
+            5,
+            1
+          ],
+          "seconds": 9.88,
+          "call_kinds": [
+            "anchors",
+            "tracks"
+          ],
+          "result_sha256": "e653b65f307176a1aab6fdd5ff2812a5643e0e70046fd032123acc286b48bc7c"
+        },
+        {
+          "id": "uae-drive-005",
+          "cohort": "development",
+          "positive": false,
+          "baseline_native": "correct_ask",
+          "baseline_anchor_parking": "correct_ask",
+          "baseline_v1": "correct_ask",
+          "outcome": "correct_ask",
+          "strict_interior_hit": false,
+          "point": null,
+          "why": "no_supported_roadside_patch",
+          "pair": [
+            1,
+            8
+          ],
+          "seconds": 9.59,
+          "call_kinds": [
+            "anchors",
+            "tracks"
+          ],
+          "result_sha256": "3eb36a70869e349de84592518292c662dad16692fc2c8986b234b5c7bfec801a"
+        },
+        {
+          "id": "kv-1644950905",
+          "cohort": "development",
+          "positive": false,
+          "baseline_native": "correct_ask",
+          "baseline_anchor_parking": "error_negative",
+          "baseline_v1": "correct_ask",
+          "outcome": "correct_ask",
+          "strict_interior_hit": false,
+          "point": null,
+          "why": "no_supported_roadside_patch",
+          "pair": [
+            21,
+            26
+          ],
+          "seconds": 8.67,
+          "call_kinds": [
+            "anchors",
+            "tracks"
+          ],
+          "result_sha256": "77980955efdf2403226b96563c7a15ad25659ef31db8d517833f5785aabd7e11"
+        },
+        {
+          "id": "kv-1480813097",
+          "cohort": "development",
+          "positive": true,
+          "baseline_native": "missed_positive",
+          "baseline_anchor_parking": "wrong_on_positive",
+          "baseline_v1": "hit",
+          "outcome": "missed_positive",
+          "strict_interior_hit": false,
+          "point": null,
+          "why": "model_declined_supported_components",
+          "pair": [
+            2,
+            3
+          ],
+          "seconds": 10.3,
+          "call_kinds": [
+            "anchors",
+            "parking_components",
+            "supported_components"
+          ],
+          "result_sha256": "e998f8af1fec6fc6165386561d85b2e27a855472879a7f50f132b8b6e12bba4b"
+        },
+        {
+          "id": "kv-1447047097",
+          "cohort": "development",
+          "positive": false,
+          "baseline_native": "correct_ask",
+          "baseline_anchor_parking": "correct_ask",
+          "baseline_v1": "correct_ask",
+          "outcome": "correct_ask",
+          "strict_interior_hit": false,
+          "point": null,
+          "why": "no_supported_roadside_patch",
+          "pair": [
+            2,
+            3
+          ],
+          "seconds": 9.3,
+          "call_kinds": [
+            "anchors",
+            "tracks"
+          ],
+          "result_sha256": "1186956478dd578aeabac5024ff1f1e84189cd05368c274c3b009ae17c6b95f7"
+        },
+        {
+          "id": "kv-1744059497",
+          "cohort": "development",
+          "positive": false,
+          "baseline_native": "correct_ask",
+          "baseline_anchor_parking": "correct_ask",
+          "baseline_v1": "correct_ask",
+          "outcome": "correct_ask",
+          "strict_interior_hit": false,
+          "point": null,
+          "why": "model_declined_parking_components",
+          "pair": [
+            2,
+            3
+          ],
+          "seconds": 12.92,
+          "call_kinds": [
+            "anchors",
+            "parking_components"
+          ],
+          "result_sha256": "812e124dd073b8de02a97345e46dbdbfcd5b247f27365a7b24a133c0ac33990f"
+        },
+        {
+          "id": "kv-1644952489",
+          "cohort": "development",
+          "positive": true,
+          "baseline_native": "missed_positive",
+          "baseline_anchor_parking": "hit",
+          "baseline_v1": "missed_positive",
+          "outcome": "missed_positive",
+          "strict_interior_hit": false,
+          "point": null,
+          "why": "selected_parking_component_not_free",
+          "pair": [
+            5,
+            10
+          ],
+          "seconds": 10.38,
+          "call_kinds": [
+            "anchors",
+            "parking_components"
+          ],
+          "result_sha256": "9911be157c4c9c97cb221d5b0cc49c378bf9caa8bb2710eba0c3f43b8dc642f2"
+        },
+        {
+          "id": "kv-1476078601",
+          "cohort": "development",
+          "positive": true,
+          "baseline_native": "missed_positive",
+          "baseline_anchor_parking": "missed_positive",
+          "baseline_v1": "missed_positive",
+          "outcome": "missed_positive",
+          "strict_interior_hit": false,
+          "point": null,
+          "why": "no_supported_roadside_patch",
+          "pair": [
+            4,
+            5
+          ],
+          "seconds": 8.91,
+          "call_kinds": [
+            "anchors",
+            "tracks"
+          ],
+          "result_sha256": "47c5a5faa8400c9a4a096aad7f428c39531672ced31feca82518f18178521579"
+        },
+        {
+          "id": "kv-1644952617",
+          "cohort": "development",
+          "positive": true,
+          "baseline_native": "missed_positive",
+          "baseline_anchor_parking": "hit",
+          "baseline_v1": "missed_positive",
+          "outcome": "missed_positive",
+          "strict_interior_hit": false,
+          "point": null,
+          "why": "selected_parking_component_not_free",
+          "pair": [
+            2,
+            1
+          ],
+          "seconds": 9.25,
+          "call_kinds": [
+            "anchors",
+            "parking_components"
+          ],
+          "result_sha256": "08675a00780fc0fe11b0ac51823e69aac2568107acf9b240e4ecf4fec4ede48b"
+        },
+        {
+          "id": "kv-1476078825",
+          "cohort": "development",
+          "positive": true,
+          "baseline_native": "missed_positive",
+          "baseline_anchor_parking": "missed_positive",
+          "baseline_v1": "missed_positive",
+          "outcome": "missed_positive",
+          "strict_interior_hit": false,
+          "point": null,
+          "why": "no_supported_roadside_patch",
+          "pair": [
+            2,
+            5
+          ],
+          "seconds": 11.02,
+          "call_kinds": [
+            "anchors",
+            "tracks"
+          ],
+          "result_sha256": "3c4fa465af11e362bca8d9900ee584303dd41d07171c1a6d0a03ffcec511aae9"
+        },
+        {
+          "id": "kv-1476074857",
+          "cohort": "development",
+          "positive": true,
+          "baseline_native": "missed_positive",
+          "baseline_anchor_parking": "missed_positive",
+          "baseline_v1": "missed_positive",
+          "outcome": "missed_positive",
+          "strict_interior_hit": false,
+          "point": null,
+          "why": "model_declined_parking_components",
+          "pair": [
+            1,
+            2
+          ],
+          "seconds": 8.91,
+          "call_kinds": [
+            "anchors",
+            "parking_components"
+          ],
+          "result_sha256": "72ad753262528f66f1541b028de845bcd45c5aea21b8b7db35f12e3e7c188352"
+        },
+        {
+          "id": "kv-1648471945",
+          "cohort": "development",
+          "positive": true,
+          "baseline_native": "missed_positive",
+          "baseline_anchor_parking": "missed_positive",
+          "baseline_v1": "hit",
+          "outcome": "missed_positive",
+          "strict_interior_hit": false,
+          "point": null,
+          "why": "model_declined_parking_components",
+          "pair": [
+            1,
+            3
+          ],
+          "seconds": 8.78,
+          "call_kinds": [
+            "anchors",
+            "parking_components"
+          ],
+          "result_sha256": "609e448b700eea4c93565d9f95f64e739fa23f7863b46ff12eb6c8de6ba37621"
+        },
+        {
+          "id": "kv-1208259705",
+          "cohort": "development",
+          "positive": false,
+          "baseline_native": "correct_ask",
+          "baseline_anchor_parking": "correct_ask",
+          "baseline_v1": "correct_ask",
+          "outcome": "correct_ask",
+          "strict_interior_hit": false,
+          "point": null,
+          "why": "model_declined_parking_components",
+          "pair": [
+            2,
+            1
+          ],
+          "seconds": 9.0,
+          "call_kinds": [
+            "anchors",
+            "parking_components"
+          ],
+          "result_sha256": "5f13a473a31d1da823c9c06ed898457ed1a174d52fb12b68e8cc6d2574227b10"
+        },
+        {
+          "id": "kv-1507952777",
+          "cohort": "development",
+          "positive": true,
+          "baseline_native": "missed_positive",
+          "baseline_anchor_parking": "hit",
+          "baseline_v1": "hit",
+          "outcome": "hit",
+          "strict_interior_hit": true,
+          "point": [
+            1905.8133333333333,
+            1264.5177865612648
+          ],
+          "why": "visible_roadside_proposal",
+          "pair": [
+            1,
+            5
+          ],
+          "seconds": 11.55,
+          "call_kinds": [
+            "anchors",
+            "parking_components"
+          ],
+          "result_sha256": "344b7a19c1252b930f19110750ad37e713116a3788456ceeca1c865e0810f0ee"
+        }
+      ]
+    }
+  },
+  "exploratory_visual_check": {
+    "scope": "11 previously proposed coordinates on nine photos. Two independent calls using confirmation-style questions with the same model. Includes false points behind a coupe and in a garage aisle.",
+    "observation": "Both prompts accepted every offered point. A further yes/no call alone did not discriminate the observed errors.",
+    "methods": {
+      "existing_visual_check": [
+        {
+          "id": "blind-02",
+          "point": [
+            1148.3733333333334,
+            1252.7308447937132
+          ],
+          "model_image_sha256": "0d0683c34119a5ea0aef285f6b634ed35f2782290f38fefa16994cb075007e4b",
+          "system_prompt_sha256": "e4fdfcc89f6157bbb6e3866784c5232844e5678d88e67b6859a8c14da57029b7",
+          "verdict": {
+            "references_match": true,
+            "visible_opening": true
+          }
+        },
+        {
+          "id": "blind-03",
+          "point": [
+            3069.866666666667,
+            1423.6363636363637
+          ],
+          "model_image_sha256": "b6f83a5673ee1dd741b5f4b9c9e71f51c12961e84335c82fe46fb2e9413526f5",
+          "system_prompt_sha256": "e4fdfcc89f6157bbb6e3866784c5232844e5678d88e67b6859a8c14da57029b7",
+          "verdict": {
+            "references_match": true,
+            "visible_opening": true
+          }
+        },
+        {
+          "id": "blind-06",
+          "point": [
+            1418.6666666666667,
+            1602.9249011857708
+          ],
+          "model_image_sha256": "01a55826bc8b2831d899ce7e0bac355ee9a1f0ba602658264fff3997bbe55d42",
+          "system_prompt_sha256": "e4fdfcc89f6157bbb6e3866784c5232844e5678d88e67b6859a8c14da57029b7",
+          "verdict": {
+            "references_match": true,
+            "visible_opening": true
+          }
+        },
+        {
+          "id": "blind-10",
+          "point": [
+            1235.2,
+            1496.205533596838
+          ],
+          "model_image_sha256": "c193cf7c77a6f3ec7bbaa0d38f9f6d3fdc8157cf5ba7ef1954f02f64d00a56f2",
+          "system_prompt_sha256": "e4fdfcc89f6157bbb6e3866784c5232844e5678d88e67b6859a8c14da57029b7",
+          "verdict": {
+            "references_match": true,
+            "visible_opening": true
+          }
+        },
+        {
+          "id": "blind-04",
+          "point": [
+            3662.4533333333334,
+            1819.5118577075098
+          ],
+          "model_image_sha256": "229c5f66e8ef18e7f1f057334dcb532e6672d495ab06572aaa6023d861aff679",
+          "system_prompt_sha256": "e4fdfcc89f6157bbb6e3866784c5232844e5678d88e67b6859a8c14da57029b7",
+          "verdict": {
+            "references_match": true,
+            "visible_opening": true
+          }
+        },
+        {
+          "id": "blind-06",
+          "point": [
+            1239.4666666666667,
+            1483.399209486166
+          ],
+          "model_image_sha256": "8f1728df67032390c4db7a99975a9c4fd070738552ab5fc2d8f7beb48c7a2405",
+          "system_prompt_sha256": "e4fdfcc89f6157bbb6e3866784c5232844e5678d88e67b6859a8c14da57029b7",
+          "verdict": {
+            "references_match": true,
+            "visible_opening": true
+          }
+        },
+        {
+          "id": "blind-10",
+          "point": [
+            1789.8666666666666,
+            1440.711462450593
+          ],
+          "model_image_sha256": "42956a606b4284d2be5018fb2e87d64b4422370c9c25090f437277312f325ebf",
+          "system_prompt_sha256": "e4fdfcc89f6157bbb6e3866784c5232844e5678d88e67b6859a8c14da57029b7",
+          "verdict": {
+            "references_match": true,
+            "visible_opening": true
+          }
+        },
+        {
+          "id": "fresh-02",
+          "point": [
+            2267.733333333333,
+            1777.9446640316207
+          ],
+          "model_image_sha256": "ad6d2774dfe7cad58b3b3fa11a6039863fcd9c1b899b04f181a145a73779f26d",
+          "system_prompt_sha256": "e4fdfcc89f6157bbb6e3866784c5232844e5678d88e67b6859a8c14da57029b7",
+          "verdict": {
+            "references_match": true,
+            "visible_opening": true
+          }
+        },
+        {
+          "id": "fresh-03",
+          "point": [
+            1224.0,
+            1271.7747035573123
+          ],
+          "model_image_sha256": "1e363a75414af556dcdd338a506ca70d3e21024f2f44ba91ff81b44ba98417fb",
+          "system_prompt_sha256": "e4fdfcc89f6157bbb6e3866784c5232844e5678d88e67b6859a8c14da57029b7",
+          "verdict": {
+            "references_match": true,
+            "visible_opening": true
+          }
+        },
+        {
+          "id": "fresh-07",
+          "point": [
+            2594.8799999999997,
+            1152.0355731225295
+          ],
+          "model_image_sha256": "02e9c09d53e69089470d9ca8def6e20f090634d60cd6202e1a6454ad959915b6",
+          "system_prompt_sha256": "e4fdfcc89f6157bbb6e3866784c5232844e5678d88e67b6859a8c14da57029b7",
+          "verdict": {
+            "references_match": true,
+            "visible_opening": true
+          }
+        },
+        {
+          "id": "fresh-08",
+          "point": [
+            2747.2,
+            1384.2569169960475
+          ],
+          "model_image_sha256": "55d11824abf655fca99c8df5cab6e8c4bc978e715cfd66973f435c9fc970a634",
+          "system_prompt_sha256": "e4fdfcc89f6157bbb6e3866784c5232844e5678d88e67b6859a8c14da57029b7",
+          "verdict": {
+            "references_match": true,
+            "visible_opening": true
+          }
+        }
+      ],
+      "gap_vs_aisle": [
+        {
+          "id": "blind-02",
+          "point": [
+            1148.3733333333334,
+            1252.7308447937132
+          ],
+          "model_image_sha256": "0d0683c34119a5ea0aef285f6b634ed35f2782290f38fefa16994cb075007e4b",
+          "system_prompt_sha256": "b9ffce65d1df74e84c3eb1b459aedba6a5aa51fdb76a6c6bce6467fb49fa03cb",
+          "verdict": {
+            "same_requested_pair": true,
+            "vacant_gap_at_vehicle_depth": true,
+            "dot_inside_that_gap": true
+          }
+        },
+        {
+          "id": "blind-03",
+          "point": [
+            3069.866666666667,
+            1423.6363636363637
+          ],
+          "model_image_sha256": "b6f83a5673ee1dd741b5f4b9c9e71f51c12961e84335c82fe46fb2e9413526f5",
+          "system_prompt_sha256": "b9ffce65d1df74e84c3eb1b459aedba6a5aa51fdb76a6c6bce6467fb49fa03cb",
+          "verdict": {
+            "same_requested_pair": true,
+            "vacant_gap_at_vehicle_depth": true,
+            "dot_inside_that_gap": true
+          }
+        },
+        {
+          "id": "blind-06",
+          "point": [
+            1418.6666666666667,
+            1602.9249011857708
+          ],
+          "model_image_sha256": "01a55826bc8b2831d899ce7e0bac355ee9a1f0ba602658264fff3997bbe55d42",
+          "system_prompt_sha256": "b9ffce65d1df74e84c3eb1b459aedba6a5aa51fdb76a6c6bce6467fb49fa03cb",
+          "verdict": {
+            "same_requested_pair": true,
+            "vacant_gap_at_vehicle_depth": true,
+            "dot_inside_that_gap": true
+          }
+        },
+        {
+          "id": "blind-10",
+          "point": [
+            1235.2,
+            1496.205533596838
+          ],
+          "model_image_sha256": "c193cf7c77a6f3ec7bbaa0d38f9f6d3fdc8157cf5ba7ef1954f02f64d00a56f2",
+          "system_prompt_sha256": "b9ffce65d1df74e84c3eb1b459aedba6a5aa51fdb76a6c6bce6467fb49fa03cb",
+          "verdict": {
+            "same_requested_pair": true,
+            "vacant_gap_at_vehicle_depth": true,
+            "dot_inside_that_gap": true
+          }
+        },
+        {
+          "id": "blind-04",
+          "point": [
+            3662.4533333333334,
+            1819.5118577075098
+          ],
+          "model_image_sha256": "229c5f66e8ef18e7f1f057334dcb532e6672d495ab06572aaa6023d861aff679",
+          "system_prompt_sha256": "b9ffce65d1df74e84c3eb1b459aedba6a5aa51fdb76a6c6bce6467fb49fa03cb",
+          "verdict": {
+            "same_requested_pair": true,
+            "vacant_gap_at_vehicle_depth": true,
+            "dot_inside_that_gap": true
+          }
+        },
+        {
+          "id": "blind-06",
+          "point": [
+            1239.4666666666667,
+            1483.399209486166
+          ],
+          "model_image_sha256": "8f1728df67032390c4db7a99975a9c4fd070738552ab5fc2d8f7beb48c7a2405",
+          "system_prompt_sha256": "b9ffce65d1df74e84c3eb1b459aedba6a5aa51fdb76a6c6bce6467fb49fa03cb",
+          "verdict": {
+            "same_requested_pair": true,
+            "vacant_gap_at_vehicle_depth": true,
+            "dot_inside_that_gap": true
+          }
+        },
+        {
+          "id": "blind-10",
+          "point": [
+            1789.8666666666666,
+            1440.711462450593
+          ],
+          "model_image_sha256": "42956a606b4284d2be5018fb2e87d64b4422370c9c25090f437277312f325ebf",
+          "system_prompt_sha256": "b9ffce65d1df74e84c3eb1b459aedba6a5aa51fdb76a6c6bce6467fb49fa03cb",
+          "verdict": {
+            "same_requested_pair": true,
+            "vacant_gap_at_vehicle_depth": true,
+            "dot_inside_that_gap": true
+          }
+        },
+        {
+          "id": "fresh-02",
+          "point": [
+            2267.733333333333,
+            1777.9446640316207
+          ],
+          "model_image_sha256": "ad6d2774dfe7cad58b3b3fa11a6039863fcd9c1b899b04f181a145a73779f26d",
+          "system_prompt_sha256": "b9ffce65d1df74e84c3eb1b459aedba6a5aa51fdb76a6c6bce6467fb49fa03cb",
+          "verdict": {
+            "same_requested_pair": true,
+            "vacant_gap_at_vehicle_depth": true,
+            "dot_inside_that_gap": true
+          }
+        },
+        {
+          "id": "fresh-03",
+          "point": [
+            1224.0,
+            1271.7747035573123
+          ],
+          "model_image_sha256": "1e363a75414af556dcdd338a506ca70d3e21024f2f44ba91ff81b44ba98417fb",
+          "system_prompt_sha256": "b9ffce65d1df74e84c3eb1b459aedba6a5aa51fdb76a6c6bce6467fb49fa03cb",
+          "verdict": {
+            "same_requested_pair": true,
+            "vacant_gap_at_vehicle_depth": true,
+            "dot_inside_that_gap": true
+          }
+        },
+        {
+          "id": "fresh-07",
+          "point": [
+            2594.8799999999997,
+            1152.0355731225295
+          ],
+          "model_image_sha256": "02e9c09d53e69089470d9ca8def6e20f090634d60cd6202e1a6454ad959915b6",
+          "system_prompt_sha256": "b9ffce65d1df74e84c3eb1b459aedba6a5aa51fdb76a6c6bce6467fb49fa03cb",
+          "verdict": {
+            "same_requested_pair": true,
+            "vacant_gap_at_vehicle_depth": true,
+            "dot_inside_that_gap": true
+          }
+        },
+        {
+          "id": "fresh-08",
+          "point": [
+            2747.2,
+            1384.2569169960475
+          ],
+          "model_image_sha256": "55d11824abf655fca99c8df5cab6e8c4bc978e715cfd66973f435c9fc970a634",
+          "system_prompt_sha256": "b9ffce65d1df74e84c3eb1b459aedba6a5aa51fdb76a6c6bce6467fb49fa03cb",
+          "verdict": {
+            "same_requested_pair": true,
+            "vacant_gap_at_vehicle_depth": true,
+            "dot_inside_that_gap": true
+          }
+        }
+      ]
+    }
+  },
+  "independent_reproduction_sha256": {
+    "first_11_initial": "3dd3f6e2f965ef13e5f094656508723f37716475bfdbfadf443aef51d9b88f23",
+    "first_11_retest": "aac96931496b1b60f0d3db91d7bb122c74beaa620ad287f58e00625bc58fc6e8",
+    "six_new_app": "b93d9d1cbc3b6a23859df0bf3791c64c002fd533e6f98140c38b567aa2b830aa",
+    "six_new_controls": "fdbbddb6028b2211cc303f19684bed189d1af0bb09ac8ed312dee738ac45f073",
+    "earlier_25_final_signed_replay": "d78cac4458a583f117c0ab213a5d113d263a3d4d7b62f734b4468c8f0b0b229e"
+  }
+}

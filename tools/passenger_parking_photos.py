@@ -13,7 +13,8 @@ def write_request_bank(folder, metadata):
     """Resolve photographs beside the bank, as the standard passenger app expects."""
     published = {p["id"]: p["sha256"] for p in metadata["photos"]}
     prepared = {}
-    for name in ("passenger-uae-gap-requests-20261123", "passenger-uae-parking-requests-20261123"):
+    for name in ("passenger-uae-gap-requests-20261123", "passenger-uae-parking-requests-20261123",
+                 "passenger-uae-parking-replication-20261123"):
         bank = ROOT / "experiments/dropoff" / (name + ".jsonl")
         for line in bank.read_text(encoding="utf8").splitlines():
             request = json.loads(line)

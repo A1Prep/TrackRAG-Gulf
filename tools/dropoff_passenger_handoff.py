@@ -22,7 +22,7 @@ def records(path):
 
 
 def bound_outcome(outcome, request, *, passenger_selected=False, passenger_landmarks=False, dialogue_policy=False,
-                  referent_path=None, pair_geometry=None, road_cache=None):
+                  referent_path=None, pair_geometry=None, road_cache=None, passenger_requested_pointing=False):
     need(isinstance(outcome, dict) and outcome.get("request_id") == request["request_id"], "Mismatched outcome ID")
     source = outcome.get("provenance", {})
     need(isinstance(source, dict), "Missing outcome provenance")
@@ -51,14 +51,20 @@ def bound_outcome(outcome, request, *, passenger_selected=False, passenger_landm
     if passenger_landmarks:
         from trackrag.dropoff.passenger_pair_choice import replay_choice_evidence, validate_choice_evidence
         selection = source.get("passenger_selection") or {}
-        validate_choice_evidence(request, outcome, selection.get("track_ids"), selection.get("placement"))
+        validate_choice_evidence(request, outcome, selection.get("track_ids"), selection.get("placement"),
+                                 passenger_requested=passenger_requested_pointing)
         need((pair_geometry is None) == (road_cache is None), "Supply both the fitted pair geometry and current road-mask cache for full replay")
-        record["passenger_geometry_verification"] = (replay_choice_evidence(request, outcome, pair_geometry, road_cache)
+        record["passenger_geometry_verification"] = (replay_choice_evidence(request, outcome, pair_geometry, road_cache,
+                passenger_requested=passenger_requested_pointing)
                 if pair_geometry is not None else {"current_image_and_tracks_checked":True,
                     "learned_geometry_and_mask_replayed":False,"scope":"Journal evidence only; road-mask bytes and fitted patch were not independently replayed."})
     elif passenger_selected:
         need(method == "explicit_passenger_region" and source.get("independent_model_proposal") is False,
              "Passenger marking lacks its manual-intervention declaration")
+    elif dialogue_policy and passenger_requested_pointing:
+        from trackrag.dropoff.passenger_pair_choice import pointing_question
+        need(outcome == pointing_question(request), "Pointing prompt differs from the passenger action or original frame")
+        record["native_model_calls"] = 0
     elif method == "deictic_pair_clarification" and dialogue_policy:
         from types import SimpleNamespace
         from trackrag.dropoff.model import GroundingConfig
@@ -157,6 +163,7 @@ def session(journal_path, *, referent_path=None, pair_geometry=None, road_cache=
     need(raw and raw[0][1]["action"] == "opened", "Session lacks its opening record")
     scene = raw[0][1]["detail"]["scene"]
     request, previous, original_submission = None, {}, None
+    passenger_requested_pointing = False
     offered_tokens = set()
     events = []
     for line_sha, event in raw:
@@ -185,9 +192,12 @@ def session(journal_path, *, referent_path=None, pair_geometry=None, road_cache=
                 request = detail["request"] if detail["outcome"] is None else validate_request(detail["request"])
                 need(isinstance(request, dict), "Submitted request is missing")
                 need(request["scene"] == scene, "Submitted request belongs to another scene")
+                passenger_requested_pointing = detail.get("passenger_requested_pointing", False)
+                need(type(passenger_requested_pointing) is bool, "Invalid passenger pointing action")
                 native = detail["outcome"]
+                origin_state = "original_pointing_state" if passenger_requested_pointing else "original_automatic_state"
                 original_submission = {"request_id":request["request_id"],"request_sha256":digest(request),
-                    "original_outcome_sha256":digest(native) if native else None, "original_automatic_state":view["state"]}
+                    "original_outcome_sha256":digest(native) if native else None, origin_state:view["state"]}
             need(request is not None and request["request_id"] == view["request_id"], "Mismatched interaction request")
             if pair:
                 from trackrag.dropoff.passenger_pair_choice import RECOVERABLE
@@ -221,16 +231,22 @@ def session(journal_path, *, referent_path=None, pair_geometry=None, road_cache=
             else:
                 item["outcome"] = bound_outcome(detail["outcome"], request, passenger_selected=manual, passenger_landmarks=pair,
                                                 dialogue_policy=not manual and not pair, referent_path=referent_path,
-                                                pair_geometry=pair_geometry,road_cache=road_cache)
+                                                pair_geometry=pair_geometry,road_cache=road_cache,
+                                                passenger_requested_pointing=passenger_requested_pointing)
                 if item["outcome"].get("method") == "deictic_pair_clarification" and item["outcome"]["ok"]:
                     item["phase"] = "automatic_pair_identification_question"
+                if not manual and not pair and passenger_requested_pointing:
+                    item["phase"] = "explicit_passenger_pointing_request"
             if item["outcome"]["ok"]:
                 if pair:
                     receipt = detail["outcome"]["provenance"]
-                    need(receipt.get("automatic_submission")==original_submission and
+                    origin = "pointing_submission" if passenger_requested_pointing else "automatic_submission"
+                    other = "automatic_submission" if passenger_requested_pointing else "pointing_submission"
+                    need(receipt.get(origin)==original_submission and other not in receipt and
                          (receipt["passenger_selection"]["track_ids"],receipt["passenger_selection"]["placement"])==
                          (item["track_ids"],item["placement"]), "Assisted choice differs from the original automatic turn or passenger action")
-                need(view["selected_by"] == ("passenger_landmarks" if pair else "passenger" if manual else "model") and
+                selected_by = "passenger_landmarks" if pair else "passenger" if manual or passenger_requested_pointing else "model"
+                need(view["selected_by"] == selected_by and
                      view["result"] == item["outcome"]["result"] and view["state"] == view["result"]["status"],
                      "Saved view changed the grounding result or who selected it")
             else:

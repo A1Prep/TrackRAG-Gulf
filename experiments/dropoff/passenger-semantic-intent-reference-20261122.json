@@ -1,0 +1,426 @@
+{
+  "kind": "diagnostic_reference_implementation_after_quantized_classifier_failed",
+  "original_quantized_study_sha256": "1d46588cf58631abf83884d40132e181b23f5e515a35771fbb1fc9156887f79b",
+  "source_model_revision": "fa2804872c3b4bd748f38c0185cc85775361e735",
+  "reference_safetensors_sha256": "ebc79588dd73ccfb6a3f6078519cfbf512c5305384c5ea1845bc71cd32216e86",
+  "reference_device": "cpu",
+  "torch": "2.6.0+cu124",
+  "sanity_source": "https://huggingface.co/cross-encoder/nli-deberta-v3-small",
+  "labels": [
+    "contradiction",
+    "entailment",
+    "neutral"
+  ],
+  "sanity_checks": [
+    {
+      "premise": "A man is eating pizza",
+      "hypothesis": "A man eats something.",
+      "expected": "entailment",
+      "full_float_probabilities": [
+        0.00020749555551446974,
+        0.976754367351532,
+        0.02303810603916645
+      ],
+      "quantized_onnx_probabilities": [
+        0.15891864895820618,
+        0.04874603450298309,
+        0.7923353314399719
+      ]
+    },
+    {
+      "premise": "A man is eating pizza",
+      "hypothesis": "Nobody is eating.",
+      "expected": "contradiction",
+      "full_float_probabilities": [
+        0.9997408986091614,
+        9.269318979931995e-05,
+        0.00016631967446301132
+      ],
+      "quantized_onnx_probabilities": [
+        0.1600205898284912,
+        0.046742361038923264,
+        0.793237030506134
+      ]
+    },
+    {
+      "premise": "Two vehicles are parked.",
+      "hypothesis": "Two vehicles are parked.",
+      "expected": "entailment",
+      "full_float_probabilities": [
+        0.0007279066485352814,
+        0.9919924736022949,
+        0.007279597222805023
+      ],
+      "quantized_onnx_probabilities": [
+        0.18400584161281586,
+        0.050263117998838425,
+        0.7657310366630554
+      ]
+    }
+  ],
+  "counts_routed": {
+    "new_positive": 5,
+    "new_delegate": 4,
+    "previous_delegate": 1
+  },
+  "cohort_sizes": {
+    "new_positive": 8,
+    "new_delegate": 12,
+    "previous_delegate": 12
+  },
+  "records": [
+    {
+      "text": "I can walk from the opening between those two cars.",
+      "cohort": "new_positive",
+      "entailment": [
+        0.9647303223609924,
+        0.4497236907482147,
+        0.5433724522590637,
+        0.9351135492324829
+      ],
+      "route": true
+    },
+    {
+      "text": "My destination is halfway between those two silver SUVs.",
+      "cohort": "new_positive",
+      "entailment": [
+        0.03787785768508911,
+        0.25917848944664,
+        0.031606148928403854,
+        0.26459887623786926
+      ],
+      "route": false
+    },
+    {
+      "text": "That space separating the two buses is my stop.",
+      "cohort": "new_positive",
+      "entailment": [
+        0.492238849401474,
+        0.017690610140562057,
+        0.09729424864053726,
+        0.05890309810638428
+      ],
+      "route": false
+    },
+    {
+      "text": "I'd prefer to alight in the space between those two sedans.",
+      "cohort": "new_positive",
+      "entailment": [
+        0.9938514232635498,
+        0.8622580170631409,
+        0.252589613199234,
+        0.0006948028458282351
+      ],
+      "route": true
+    },
+    {
+      "text": "The stretch between that pair of trucks works for me.",
+      "cohort": "new_positive",
+      "entailment": [
+        0.33393919467926025,
+        0.003315075533464551,
+        0.022965334355831146,
+        0.024696363136172295
+      ],
+      "route": false
+    },
+    {
+      "text": "Could this ride end in the space separating these two cars?",
+      "cohort": "new_positive",
+      "entailment": [
+        0.978084921836853,
+        0.8722610473632812,
+        0.18107756972312927,
+        0.5045400261878967
+      ],
+      "route": true
+    },
+    {
+      "text": "I'll jump out right in the gap between the two vehicles.",
+      "cohort": "new_positive",
+      "entailment": [
+        0.9940985441207886,
+        0.8643444180488586,
+        0.23622898757457733,
+        0.003188914619386196
+      ],
+      "route": true
+    },
+    {
+      "text": "That's where I want to leave the cab, halfway between those two cars.",
+      "cohort": "new_positive",
+      "entailment": [
+        0.9942578077316284,
+        0.7116595506668091,
+        0.02611370198428631,
+        0.0013679880648851395
+      ],
+      "route": true
+    },
+    {
+      "text": "I'd like to alight before those two sedans.",
+      "cohort": "new_delegate",
+      "entailment": [
+        0.9839804172515869,
+        0.10628145188093185,
+        0.06414428353309631,
+        0.00039819630910642445
+      ],
+      "route": true
+    },
+    {
+      "text": "Please pass between those two cars and let me out at the next corner.",
+      "cohort": "new_delegate",
+      "entailment": [
+        0.9887101054191589,
+        0.9739359617233276,
+        0.5504893064498901,
+        0.17970840632915497
+      ],
+      "route": true
+    },
+    {
+      "text": "My sister is walking between these two cars. Keep driving.",
+      "cohort": "new_delegate",
+      "entailment": [
+        0.02895488031208515,
+        0.021113742142915726,
+        0.18944129347801208,
+        0.9904852509498596
+      ],
+      "route": false
+    },
+    {
+      "text": "The gap between the two buses would be a terrible place to get out.",
+      "cohort": "new_delegate",
+      "entailment": [
+        0.9705672860145569,
+        0.02757943421602249,
+        0.1273009181022644,
+        0.07066839933395386
+      ],
+      "route": true
+    },
+    {
+      "text": "Is there enough room between those two cars for a bicycle?",
+      "cohort": "new_delegate",
+      "entailment": [
+        0.3171030879020691,
+        0.024038217961788177,
+        0.16929221153259277,
+        0.024611864238977432
+      ],
+      "route": false
+    },
+    {
+      "text": "I used to work between those two trucks. Today I am going to the station.",
+      "cohort": "new_delegate",
+      "entailment": [
+        0.01702619157731533,
+        0.010621175169944763,
+        0.019763832911849022,
+        0.038674768060445786
+      ],
+      "route": false
+    },
+    {
+      "text": "The space next to the bollard beyond those two cars is my stop.",
+      "cohort": "new_delegate",
+      "entailment": [
+        0.04333803057670593,
+        0.0021530017256736755,
+        0.017899485304951668,
+        0.0026309587992727757
+      ],
+      "route": false
+    },
+    {
+      "text": "I'll leave the cab just after the two vehicles.",
+      "cohort": "new_delegate",
+      "entailment": [
+        0.9222363233566284,
+        0.481923907995224,
+        0.01959277130663395,
+        0.11190101504325867
+      ],
+      "route": true
+    },
+    {
+      "text": "Only if the gate is locked, perhaps between those two sedans. We haven't reached the gate yet.",
+      "cohort": "new_delegate",
+      "entailment": [
+        0.030689142644405365,
+        0.14947760105133057,
+        0.07443154603242874,
+        0.017837373539805412
+      ],
+      "route": false
+    },
+    {
+      "text": "Take me between the pale van at the fence and the hatchback below the sign.",
+      "cohort": "new_delegate",
+      "entailment": [
+        0.7635765671730042,
+        0.9044883251190186,
+        0.008316955529153347,
+        0.3870181441307068
+      ],
+      "route": false
+    },
+    {
+      "text": "I changed my mind about stopping between those two cars. The curb outside the hotel, please.",
+      "cohort": "new_delegate",
+      "entailment": [
+        0.9185189008712769,
+        0.981680154800415,
+        0.9721775650978088,
+        0.8960800170898438
+      ],
+      "route": false
+    },
+    {
+      "text": "The stop is between the two bus shelters, not the buses.",
+      "cohort": "new_delegate",
+      "entailment": [
+        0.030553633347153664,
+        0.9055433869361877,
+        0.09357865154743195,
+        0.028240496292710304
+      ],
+      "route": false
+    },
+    {
+      "text": "Please drop me beside those two black cars.",
+      "cohort": "previous_delegate",
+      "entailment": [
+        0.27540621161460876,
+        0.005455508828163147,
+        0.027581248432397842,
+        0.002831194084137678
+      ],
+      "route": false
+    },
+    {
+      "text": "Anywhere except between those two black cars, please.",
+      "cohort": "previous_delegate",
+      "entailment": [
+        0.9871763586997986,
+        0.9712415933609009,
+        0.28643855452537537,
+        0.02061406522989273
+      ],
+      "route": true
+    },
+    {
+      "text": "I was going to say between these two black cars, but the bus stop will do.",
+      "cohort": "previous_delegate",
+      "entailment": [
+        0.026109687983989716,
+        0.32960018515586853,
+        0.565709114074707,
+        0.057141002267599106
+      ],
+      "route": false
+    },
+    {
+      "text": "Please set me down between the hatchback on the left and the van on the right.",
+      "cohort": "previous_delegate",
+      "entailment": [
+        0.23310182988643646,
+        0.460492879152298,
+        0.014985010959208012,
+        0.0003011185908690095
+      ],
+      "route": false
+    },
+    {
+      "text": "Between these two black cars or by the corner shop; I'm still deciding.",
+      "cohort": "previous_delegate",
+      "entailment": [
+        0.0039906008169054985,
+        0.009919337928295135,
+        0.005486445501446724,
+        0.005926831625401974
+      ],
+      "route": false
+    },
+    {
+      "text": "Those two black cars are blocking the gate. Stop at the gate.",
+      "cohort": "previous_delegate",
+      "entailment": [
+        0.322854220867157,
+        0.06631428748369217,
+        0.03388681262731552,
+        0.0005000157980248332
+      ],
+      "route": false
+    },
+    {
+      "text": "The turn between those two black cars surprised me. Take me home.",
+      "cohort": "previous_delegate",
+      "entailment": [
+        0.7657654881477356,
+        0.1543278992176056,
+        0.017560400068759918,
+        0.0025896355509757996
+      ],
+      "route": false
+    },
+    {
+      "text": "Don't stop between those two black cars unless I ask. For now, keep going.",
+      "cohort": "previous_delegate",
+      "entailment": [
+        0.9678033590316772,
+        0.9616041779518127,
+        0.8517159819602966,
+        0.9956414699554443
+      ],
+      "route": false
+    },
+    {
+      "text": "Could you count those two black cars?",
+      "cohort": "previous_delegate",
+      "entailment": [
+        0.01917852833867073,
+        0.009338554926216602,
+        0.02013682946562767,
+        0.004520953167229891
+      ],
+      "route": false
+    },
+    {
+      "text": "That dark median between the cars is what I mean; stop just beyond the median.",
+      "cohort": "previous_delegate",
+      "entailment": [
+        0.7918713092803955,
+        0.05542890354990959,
+        0.017028452828526497,
+        0.0007006193045526743
+      ],
+      "route": false
+    },
+    {
+      "text": "Between these two black cars? No thanks, a bit farther on at the bakery.",
+      "cohort": "previous_delegate",
+      "entailment": [
+        0.1849977672100067,
+        0.06342612951993942,
+        0.2793554365634918,
+        0.1783459186553955
+      ],
+      "route": false
+    },
+    {
+      "text": "How wide is that gap between those two black cars?",
+      "cohort": "previous_delegate",
+      "entailment": [
+        0.02304714173078537,
+        0.00959167629480362,
+        0.03734779357910156,
+        0.005846567451953888
+      ],
+      "route": false
+    }
+  ],
+  "scope": "Post hoc check of the publisher\u2019s reference weights with the exact same tokenizer, prompts, cutoff and cases. No model fitting. No measured effect on the deployed passenger app."
+}

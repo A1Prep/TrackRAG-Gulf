@@ -190,6 +190,49 @@ def test_corrupt_pixels_and_missing_road_computation_are_operational(setup):
         pc.choose(model, req, [51, 92], "behind")
 
 
+def test_passenger_can_point_without_rewriting_words_or_running_native_model(setup, tmp_path):
+    req, model = setup
+    words = "This is the place I was talking about."
+    def unexpected(_):
+        pytest.fail("An explicit request to point made a native model call.")
+    model.interpret = unexpected
+    directory = tmp_path / "pointing"
+    sess = pc.PassengerSession(req["scene"], model, audit_dir=directory)
+    asked = sess.submit(words, point_to_vehicles=True)
+    assert asked["state"] == "needs_clarification" and asked["selected_by"] == "passenger"
+    assert asked["turns"][0]["text"] == words and not asked["proposal_id"]
+    assert {r["track_id"] for r in asked["pair_choices"]} >= {51,92}
+    proposed = sess.select_pair([51,92], "behind")
+    assert proposed["state"] == "proposed"
+    sess.confirm(proposed["proposal_id"])
+    journal, = directory.glob("*.jsonl")
+    events = export(journal)["events"]
+    assert [e["phase"] for e in events] == ["opened", "explicit_passenger_pointing_request",
+        "passenger_selected_landmarks", "confirmed_previous_selection"]
+    provenance = events[2]["outcome"]["saved_provenance"]
+    assert "automatic_submission" not in provenance
+    assert provenance["pointing_submission"]["request_id"] == asked["request_id"]
+    assert provenance["passenger_selection"]["passenger_requested_pointing"] is True
+    lines = [json.loads(line) for line in journal.read_bytes().splitlines()]
+    del lines[1]["detail"]["passenger_requested_pointing"]
+    journal.write_text("".join(json.dumps(line)+"\n" for line in lines), encoding="utf-8")
+    with pytest.raises(ValueError):
+        export(journal)
+
+
+def test_explicit_pointing_is_one_turn_only_and_handles_missing_tracks(setup, tmp_path):
+    req, model = setup
+    req["scene"]["tracks"] = []
+    sess = pc.PassengerSession(req["scene"], model, audit_dir=tmp_path / "empty")
+    first = sess.submit("I will show you.", point_to_vehicles=True)
+    assert not first["pair_choices"] and not first["proposal_id"]
+    assert "another landmark" in first["result"]["clarification_question"]
+    with pytest.raises(ValueError):
+        sess.select_pair([51,92], "behind")
+    ordinary = sess.submit("Now take me to the corner.")
+    assert ordinary["state"] == "error" and ordinary["selected_by"] is None
+
+
 def test_prior_failed_original_separate_from_assisted_choice_and_explicit_current_confirmation(setup, tmp_path):
     req, raw = setup
     sess = pc.PassengerSession(req["scene"], raw, audit_dir=tmp_path / "journal")

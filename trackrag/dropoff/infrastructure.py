@@ -164,10 +164,10 @@ def review(request, outcome):
 
 
 class PassengerDialogueGrounder(PassengerViewpoint):
-    def passenger_pair(self, request, track_ids, placement):
+    def passenger_pair(self, request, track_ids, placement, *, passenger_requested=False):
         from .passenger_pair_choice import choose
         with self.model.lock:
-            return choose(self.model, request, track_ids, placement)
+            return choose(self.model, request, track_ids, placement, passenger_requested=passenger_requested)
 
     def _checked_viewpoint(self, request, outcome):
         """Reopen the bound original and reproduce the ranking before offering a new choice."""

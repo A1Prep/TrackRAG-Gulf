@@ -137,8 +137,8 @@ def current_tracks(request):
     )
 
 
-def options(request):
-    if request["scene"]["source"] != "predicted" or not pair_intent(request):
+def options(request, *, passenger_requested=False):
+    if request["scene"]["source"] != "predicted" or not (passenger_requested or pair_intent(request)):
         return []
     selected = [
         {k: deepcopy(t[k]) for k in ("track_id", "class_name", "bbox_xyxy")}
@@ -146,6 +146,24 @@ def options(request):
         if t["class_name"] in MOTOR
     ]
     return selected if len(selected) >= 2 else []
+
+
+def pointing_question(request):
+    """Record an explicit passenger interaction without attributing it to automatic interpretation."""
+    from .inputs import _inspect_image
+
+    request = validate_request(request)
+    scene = request["scene"]
+    _, photo = _inspect_image(scene["frame"])
+    if photo != scene.get("provenance", {}).get("image_sha256"):
+        raise ValueError("The photograph changed before the vehicles could be identified.")
+    candidates = options(request, passenger_requested=True)
+    message = ("Which two vehicles do you mean? Select them on the photo and choose where you want to get out."
+               if candidates else "I can’t offer two vehicle outlines in this frame. Could you describe another landmark or mark the area?")
+    return {"ok":True, "request_id":request["request_id"], "result":unresolved(message),
+            "provenance":{"method":"passenger_requested_pointing", "independent_model_proposal":False,
+                          "request_sha256":digest(request), "inference_input_sha256":inference_input_sha256(request,photo),
+                          "image":{"sha256":photo}, "available_vehicles_sha256":digest(candidates), "native_model_calls":0}}
 
 
 def geometry_for(observations, tracks, size, placement):
@@ -173,7 +191,7 @@ def geometry_for(observations, tracks, size, placement):
     }, f"{placement}_separated_vehicles"
 
 
-def choose(model, request, track_ids, placement):
+def choose(model, request, track_ids, placement, *, passenger_requested=False):
     """The passenger supplies only two current identities and a relation; the region is estimated."""
     request = validate_request(request)
     if (
@@ -185,7 +203,7 @@ def choose(model, request, track_ids, placement):
         or placement not in PLACEMENTS
     ):
         raise InvalidSelection("Choose two different current vehicles and choose Between or Just behind.")
-    available = {r["track_id"] for r in options(request)}
+    available = {r["track_id"] for r in options(request, passenger_requested=passenger_requested)}
     if not set(track_ids) <= available:
         raise InvalidSelection("These vehicles are unavailable for this passenger request and original frame.")
     if model.geometry.sha256 != GEOMETRY:
@@ -207,6 +225,8 @@ def choose(model, request, track_ids, placement):
             "track_ids": list(track_ids),
             "selected_observations": selected,
         }
+        if passenger_requested:
+            choice["passenger_requested_pointing"] = True
         evidence = {
             "method": METHOD,
             "independent_model_proposal": False,
@@ -247,7 +267,7 @@ def choose(model, request, track_ids, placement):
     return {"ok": True, "request_id": request["request_id"], "result": result, "provenance": evidence}
 
 
-def validate_choice_evidence(request, outcome, track_ids, placement):
+def validate_choice_evidence(request, outcome, track_ids, placement, *, passenger_requested=False):
     """Check the exact passenger action and original source before exposing a selectable proposal."""
     source, frame = outcome["provenance"], request["scene"]["frame"]
     photo = request["scene"]["provenance"]["image_sha256"]
@@ -262,7 +282,7 @@ def validate_choice_evidence(request, outcome, track_ids, placement):
         raise ValueError("Invalid passenger landmark-selection receipt")
     tracks = current_tracks(request)
     by_id = {t["track_id"]: t for t in tracks}
-    available = {t["track_id"] for t in options(request)}
+    available = {t["track_id"] for t in options(request, passenger_requested=passenger_requested)}
     if not set(track_ids) <= available:
         raise ValueError("Passenger landmark choice is absent from the current frame")
     expected = {
@@ -276,6 +296,8 @@ def validate_choice_evidence(request, outcome, track_ids, placement):
         "track_ids": list(track_ids),
         "selected_observations": [by_id[i] for i in track_ids],
     }
+    if passenger_requested:
+        expected["passenger_requested_pointing"] = True
     if (
         outcome.get("request_id") != request["request_id"]
         or source.get("method") != METHOD
@@ -333,7 +355,7 @@ def validate_choice_evidence(request, outcome, track_ids, placement):
     return expected
 
 
-def replay_choice_evidence(request, outcome, geometry_path, cache):
+def replay_choice_evidence(request, outcome, geometry_path, cache, *, passenger_requested=False):
     """Cold-recompute the learned estimate using the current original's authenticated private road mask."""
     from types import SimpleNamespace
     from .anchor_geometry import AnchorGeometry
@@ -358,8 +380,9 @@ def replay_choice_evidence(request, outcome, geometry_path, cache):
         road=SimpleNamespace(mask=verified_mask),
     )
     action = outcome["provenance"]["passenger_selection"]
-    computed = choose(model, request, action["track_ids"], action["placement"])
-    expected = {key: val for key, val in outcome["provenance"].items() if key != "automatic_submission"}
+    computed = choose(model, request, action["track_ids"], action["placement"], passenger_requested=passenger_requested)
+    submission_key = "pointing_submission" if passenger_requested else "automatic_submission"
+    expected = {key: val for key, val in outcome["provenance"].items() if key != submission_key}
     if computed["provenance"] != expected or computed["result"] != outcome["result"]:
         raise ValueError(
             "Saved selected-pair result differs from its exact fitted model and current road mask replay"
@@ -376,9 +399,26 @@ def replay_choice_evidence(request, outcome, geometry_path, cache):
 class PassengerSession(OriginalPassengerSession):
     def __init__(self, scene, model, *, audit_dir):
         self._original_submission = None
+        self._passenger_requested = False
         super().__init__(scene, model, audit_dir=audit_dir)
 
+    def submit(self, text, *, original_transcript=None, speech=None, point_to_vehicles=False):
+        if type(point_to_vehicles) is not bool:
+            raise ValueError("The request to point to vehicles must be an explicit choice.")
+        with self._lock:
+            if point_to_vehicles and not self._supports_pointing():
+                raise ValueError("Vehicle selection is unavailable for this scene.")
+            self._passenger_requested = point_to_vehicles
+            return super().submit(text, original_transcript=original_transcript, speech=speech)
+
+    def _interpret_submission(self, request):
+        if self._passenger_requested:
+            return pointing_question(request), "passenger"
+        return super()._interpret_submission(request)
+
     def _save(self, action, detail):
+        if action == "submitted" and self._passenger_requested:
+            detail = {**detail, "passenger_requested_pointing":True}
         super()._save(action, detail)
         if action == "submitted":
             raw = detail.get("outcome")
@@ -386,15 +426,16 @@ class PassengerSession(OriginalPassengerSession):
                 "request_id": detail["request"].get("request_id"),
                 "request_sha256": digest(detail["request"]),
                 "original_outcome_sha256": digest(raw) if raw else None,
-                "original_automatic_state": self._state,
+                ("original_pointing_state" if self._passenger_requested else "original_automatic_state"): self._state,
             }
 
+    def _supports_pointing(self):
+        return self._scene["source"] == "predicted" and (
+            callable(getattr(self.model, "passenger_pair", None)) or isinstance(self.model, PassengerGrounder))
+
     def _active(self):
-        capable = callable(getattr(self.model, "passenger_pair", None)) or isinstance(
-            self.model, PassengerGrounder
-        )
         return (
-            capable
+            self._supports_pointing()
             and self._request is not None
             and (
                 self._state in {"proposed", "needs_clarification", "insufficient_visual_evidence"}
@@ -405,31 +446,34 @@ class PassengerSession(OriginalPassengerSession):
     def view(self):
         with self._lock:
             state = super().view()
-            state["pair_choices"] = options(self._request) if self._active() else []
+            state["can_request_pointing"] = self._supports_pointing()
+            state["pair_choices"] = options(self._request, passenger_requested=self._passenger_requested) if self._active() else []
             return state
 
     def select_pair(self, track_ids, placement):
         with self._lock:
-            if not self._active() or not options(self._request):
+            if not self._active() or not options(self._request, passenger_requested=self._passenger_requested):
                 raise ValueError("Give an active passenger instruction between two visible vehicles first.")
             self._clear()
             self._state = "idle"
             outcome = None
             try:
+                extra = {"passenger_requested":True} if self._passenger_requested else {}
                 if callable(getattr(self.model, "passenger_pair", None)):
-                    outcome = self.model.passenger_pair(deepcopy(self._request), track_ids, placement)
+                    outcome = self.model.passenger_pair(deepcopy(self._request), track_ids, placement, **extra)
                 else:
                     with self.model.lock:
-                        outcome = choose(self.model, deepcopy(self._request), track_ids, placement)
+                        outcome = choose(self.model, deepcopy(self._request), track_ids, placement, **extra)
                 if not isinstance(outcome, dict) or outcome.get("provenance", {}).get("method") != METHOD:
                     raise ValueError("This choice did not return a passenger-selected landmark result.")
                 if outcome.get("ok") is True:
-                    validate_choice_evidence(self._request, outcome, track_ids, placement)
+                    validate_choice_evidence(self._request, outcome, track_ids, placement, **extra)
                 if not self._original_submission or self._original_submission["request_sha256"] != digest(
                     self._request
                 ):
                     raise ValueError("The original passenger submission is unavailable for this selection.")
-                outcome["provenance"]["automatic_submission"] = deepcopy(self._original_submission)
+                key = "pointing_submission" if self._passenger_requested else "automatic_submission"
+                outcome["provenance"][key] = deepcopy(self._original_submission)
                 self._accept(outcome, "passenger_landmarks")
             except Exception as error:
                 self._clear()

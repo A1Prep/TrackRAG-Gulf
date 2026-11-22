@@ -1,0 +1,911 @@
+{
+  "kind": "CPU_postprocessing_replay_of_saved_genuine_application_outputs",
+  "new_policy_sha256": "4c1896885afc9168206adc3f9e98f8320c639d8881c689c93ed8ea2058e52380",
+  "new_GPU_calls": 0,
+  "source_live_attempts": 20,
+  "human_confirmed_original_commands_per_condition": 2,
+  "human_reviewed_changed_context_inputs": 0,
+  "status_transition_results": {
+    "original_six": {
+      "public_parent": {
+        "verified_source_gpu_run_sha256": "3d04807ff7861ff9e83aa8d9e42aecb2b7ee24f8acbae032f1e9a930a09280a8",
+        "original_outcomes_sha256": "b8f7ccc3b9a0d37ca17b3347a25843d45d3a74184ce139f3554cbffc1057dcf6",
+        "status_transitions": {
+          "insufficient_visual_evidence -> insufficient_visual_evidence": 3,
+          "needs_clarification -> needs_clarification": 2,
+          "proposed -> proposed": 1
+        },
+        "rows": [
+          {
+            "request_id": "local-dev-video_054907-00781",
+            "original_reference_group": "two_reviewer_confirmations_same_wording",
+            "changed_input_has_human_review": null,
+            "text": "Stop beside the car directly ahead.",
+            "image_sha256": "c411cf6760695905334f32e5590083cf144543df1ca98e68aae55fb345eb583e",
+            "current_track_count": 0,
+            "raw_original_outcome_line_sha256": "2ba72fefad42cd44efbf274eb101f33e77a074da17752acb5b7749d35eeb6477",
+            "original_raw_resolver_text_sha256": "8af1d328d75e91cf5fff2deab39607be475491d16c45e89a2721eb14bb9a701e",
+            "before": {
+              "clarification_question": null,
+              "destination_box_xyxy": null,
+              "destination_point_xy": null,
+              "status": "insufficient_visual_evidence"
+            },
+            "after": {
+              "clarification_question": null,
+              "destination_box_xyxy": null,
+              "destination_point_xy": null,
+              "status": "insufficient_visual_evidence"
+            },
+            "original_error": null,
+            "replay_error": null,
+            "viewpoint_advice": null,
+            "replayed_envelope_sha256": "f5a9605ac71409e25f92d2709088b175fabe452aced6ef9bb9d4b32a352ae6db"
+          },
+          {
+            "request_id": "local-dev-video_054907-00781-paraphrase",
+            "original_reference_group": "unreviewed_paraphrase_same_scene",
+            "changed_input_has_human_review": null,
+            "text": "Could you let me out alongside the vehicle straight ahead?",
+            "image_sha256": "c411cf6760695905334f32e5590083cf144543df1ca98e68aae55fb345eb583e",
+            "current_track_count": 0,
+            "raw_original_outcome_line_sha256": "4a39c588c939ef2e7ed28b8128b31dc54e9b9a96c3a409aff2a8511ae2a3994d",
+            "original_raw_resolver_text_sha256": "03dcc021c6ceb6cc3c6af0aef9d60ce95079f329196e71b88ea5f9dfe2068a77",
+            "before": {
+              "clarification_question": "which vehicle is straight ahead?",
+              "destination_box_xyxy": null,
+              "destination_point_xy": null,
+              "status": "needs_clarification"
+            },
+            "after": {
+              "clarification_question": "which vehicle is straight ahead?",
+              "destination_box_xyxy": null,
+              "destination_point_xy": null,
+              "status": "needs_clarification"
+            },
+            "original_error": null,
+            "replay_error": null,
+            "viewpoint_advice": null,
+            "replayed_envelope_sha256": "1309ccdb4a4956e43aa4d9db2770c16c083bdb906611ffa810ea226806964782"
+          },
+          {
+            "request_id": "local-dev-video_174340-00781",
+            "original_reference_group": "two_reviewer_confirmations_same_wording",
+            "changed_input_has_human_review": null,
+            "text": "Stop beside the car directly ahead.",
+            "image_sha256": "693e7f2769f9336d15d3ef3fef37594cfab297c819626d913f734077dfa7bd4a",
+            "current_track_count": 0,
+            "raw_original_outcome_line_sha256": "036658eaa344554709d18c2fc8bb5ebe0012f95d5e300cb53405e463b908aada",
+            "original_raw_resolver_text_sha256": "8af1d328d75e91cf5fff2deab39607be475491d16c45e89a2721eb14bb9a701e",
+            "before": {
+              "clarification_question": null,
+              "destination_box_xyxy": null,
+              "destination_point_xy": null,
+              "status": "insufficient_visual_evidence"
+            },
+            "after": {
+              "clarification_question": null,
+              "destination_box_xyxy": null,
+              "destination_point_xy": null,
+              "status": "insufficient_visual_evidence"
+            },
+            "original_error": null,
+            "replay_error": null,
+            "viewpoint_advice": null,
+            "replayed_envelope_sha256": "ffd389a25449ba4e6c94c7c9204829c265fe2ef49dc6e96aa5db89161b60a2b7"
+          },
+          {
+            "request_id": "local-dev-video_174340-00781-paraphrase",
+            "original_reference_group": "unreviewed_paraphrase_same_scene",
+            "changed_input_has_human_review": null,
+            "text": "I'd like to get out next to the car in front of us, please.",
+            "image_sha256": "693e7f2769f9336d15d3ef3fef37594cfab297c819626d913f734077dfa7bd4a",
+            "current_track_count": 0,
+            "raw_original_outcome_line_sha256": "eefba4b0a87491a66a4694ac60ac57afece0834170ee00120da63280d2997460",
+            "original_raw_resolver_text_sha256": "42d207391d04a7dc6f43197876b39f8e27bbf26bb7b60346cfe46aec5786c24e",
+            "before": {
+              "clarification_question": "which car in front would you like to get out next to?",
+              "destination_box_xyxy": null,
+              "destination_point_xy": null,
+              "status": "needs_clarification"
+            },
+            "after": {
+              "clarification_question": "which car in front would you like to get out next to?",
+              "destination_box_xyxy": null,
+              "destination_point_xy": null,
+              "status": "needs_clarification"
+            },
+            "original_error": null,
+            "replay_error": null,
+            "viewpoint_advice": null,
+            "replayed_envelope_sha256": "68d75aa3f02f7c9177a002f5095176219182e3e1e4c4115b87cca9881bcdd8b8"
+          },
+          {
+            "request_id": "passenger-b07",
+            "original_reference_group": "existing_ai_development_control",
+            "changed_input_has_human_review": null,
+            "text": "I'd like the road immediately behind the white Toyota pickup with the rack.",
+            "image_sha256": "175602c7dc418c0ababa6cea56daec7f5e2779452370a9ace398cdc3780041a6",
+            "current_track_count": 11,
+            "raw_original_outcome_line_sha256": "23e08c766dbd9f8c7cb68ee99f9ea1bfc5c0b7be8d68e8b8a79eee06b8eda66a",
+            "original_raw_resolver_text_sha256": "c4214d3291952710651452683a624b8af74d5fe80b35fe5ec7c75317a14d6df6",
+            "before": {
+              "anchor_boxes_xyxy": [
+                [
+                  830.5853881835938,
+                  990.142578125,
+                  1085.6541748046875,
+                  1199.4822998046875
+                ]
+              ],
+              "clarification_question": null,
+              "destination_box_xyxy": [
+                745.4089290210457,
+                1113.7736469258336,
+                1282.209355376538,
+                1300.36986772377
+              ],
+              "destination_point_xy": [
+                1017.5,
+                1207.5
+              ],
+              "status": "proposed"
+            },
+            "after": {
+              "anchor_boxes_xyxy": [
+                [
+                  830.5853881835938,
+                  990.142578125,
+                  1085.6541748046875,
+                  1199.4822998046875
+                ]
+              ],
+              "clarification_question": null,
+              "destination_box_xyxy": [
+                745.4089290210457,
+                1113.7736469258336,
+                1282.209355376538,
+                1300.36986772377
+              ],
+              "destination_point_xy": [
+                1017.5,
+                1207.5
+              ],
+              "status": "proposed"
+            },
+            "original_error": null,
+            "replay_error": null,
+            "viewpoint_advice": null,
+            "replayed_envelope_sha256": "4e0c3b38bbdb3eb093872501debd20d2868a4c96fc16cccbd99e8beec412e70d"
+          },
+          {
+            "request_id": "passenger-b10",
+            "original_reference_group": "existing_ai_development_control",
+            "changed_input_has_human_review": null,
+            "text": "Leave me by the railway signal just ahead of us.",
+            "image_sha256": "175602c7dc418c0ababa6cea56daec7f5e2779452370a9ace398cdc3780041a6",
+            "current_track_count": 11,
+            "raw_original_outcome_line_sha256": "fddecbf3e0c71f2493deb6c73aba3464951060b68061414cadf7be981a3303cd",
+            "original_raw_resolver_text_sha256": "8af1d328d75e91cf5fff2deab39607be475491d16c45e89a2721eb14bb9a701e",
+            "before": {
+              "clarification_question": null,
+              "destination_box_xyxy": null,
+              "destination_point_xy": null,
+              "status": "insufficient_visual_evidence"
+            },
+            "after": {
+              "clarification_question": null,
+              "destination_box_xyxy": null,
+              "destination_point_xy": null,
+              "status": "insufficient_visual_evidence"
+            },
+            "original_error": null,
+            "replay_error": null,
+            "viewpoint_advice": null,
+            "replayed_envelope_sha256": "bb989d953d5a64e7c3f3aff6ff23704a5473818d0f55fcb87ff25d0a1cf63bc8"
+          }
+        ]
+      },
+      "human_child": {
+        "verified_source_gpu_run_sha256": "41caad4caca0944b50ddf0d78108f549d12e47c5416deb4b927f4c961ca6c33a",
+        "original_outcomes_sha256": "274307c7347897a640e6d2f46e3224b72afddf59cfa50c83f76a43d8309e38f9",
+        "status_transitions": {
+          "insufficient_visual_evidence -> insufficient_visual_evidence": 3,
+          "needs_clarification -> needs_clarification": 2,
+          "proposed -> proposed": 1
+        },
+        "rows": [
+          {
+            "request_id": "local-dev-video_054907-00781",
+            "original_reference_group": "two_reviewer_confirmations_same_wording",
+            "changed_input_has_human_review": null,
+            "text": "Stop beside the car directly ahead.",
+            "image_sha256": "c411cf6760695905334f32e5590083cf144543df1ca98e68aae55fb345eb583e",
+            "current_track_count": 0,
+            "raw_original_outcome_line_sha256": "4f6562f942a057a056cde619c2572751891193f2400a899d99d839c034f84c82",
+            "original_raw_resolver_text_sha256": "8af1d328d75e91cf5fff2deab39607be475491d16c45e89a2721eb14bb9a701e",
+            "before": {
+              "clarification_question": null,
+              "destination_box_xyxy": null,
+              "destination_point_xy": null,
+              "status": "insufficient_visual_evidence"
+            },
+            "after": {
+              "clarification_question": null,
+              "destination_box_xyxy": null,
+              "destination_point_xy": null,
+              "status": "insufficient_visual_evidence"
+            },
+            "original_error": null,
+            "replay_error": null,
+            "viewpoint_advice": null,
+            "replayed_envelope_sha256": "ad2742f831ce2efe1238f9f71ce6670fffd43ee4756b20712eba06929d0e2afe"
+          },
+          {
+            "request_id": "local-dev-video_054907-00781-paraphrase",
+            "original_reference_group": "unreviewed_paraphrase_same_scene",
+            "changed_input_has_human_review": null,
+            "text": "Could you let me out alongside the vehicle straight ahead?",
+            "image_sha256": "c411cf6760695905334f32e5590083cf144543df1ca98e68aae55fb345eb583e",
+            "current_track_count": 0,
+            "raw_original_outcome_line_sha256": "7846ee350953d0a0d14f03d67894a9281d2d1e497dc70cec29b8d809262711f3",
+            "original_raw_resolver_text_sha256": "03dcc021c6ceb6cc3c6af0aef9d60ce95079f329196e71b88ea5f9dfe2068a77",
+            "before": {
+              "clarification_question": "which vehicle is straight ahead?",
+              "destination_box_xyxy": null,
+              "destination_point_xy": null,
+              "status": "needs_clarification"
+            },
+            "after": {
+              "clarification_question": "which vehicle is straight ahead?",
+              "destination_box_xyxy": null,
+              "destination_point_xy": null,
+              "status": "needs_clarification"
+            },
+            "original_error": null,
+            "replay_error": null,
+            "viewpoint_advice": null,
+            "replayed_envelope_sha256": "817deff6e5038567e6bf3fe19ccc6837047b3670e5e04262d8d842aad7b0c36f"
+          },
+          {
+            "request_id": "local-dev-video_174340-00781",
+            "original_reference_group": "two_reviewer_confirmations_same_wording",
+            "changed_input_has_human_review": null,
+            "text": "Stop beside the car directly ahead.",
+            "image_sha256": "693e7f2769f9336d15d3ef3fef37594cfab297c819626d913f734077dfa7bd4a",
+            "current_track_count": 0,
+            "raw_original_outcome_line_sha256": "cc76cc8516b9e47681201e2cc53cd90e6b95105922ef63f1df8302b1091c86f1",
+            "original_raw_resolver_text_sha256": "8af1d328d75e91cf5fff2deab39607be475491d16c45e89a2721eb14bb9a701e",
+            "before": {
+              "clarification_question": null,
+              "destination_box_xyxy": null,
+              "destination_point_xy": null,
+              "status": "insufficient_visual_evidence"
+            },
+            "after": {
+              "clarification_question": null,
+              "destination_box_xyxy": null,
+              "destination_point_xy": null,
+              "status": "insufficient_visual_evidence"
+            },
+            "original_error": null,
+            "replay_error": null,
+            "viewpoint_advice": null,
+            "replayed_envelope_sha256": "3f091cb00211f5fbcd13a9a3096e6997781cdf7ca09055259224d77c22efd84f"
+          },
+          {
+            "request_id": "local-dev-video_174340-00781-paraphrase",
+            "original_reference_group": "unreviewed_paraphrase_same_scene",
+            "changed_input_has_human_review": null,
+            "text": "I'd like to get out next to the car in front of us, please.",
+            "image_sha256": "693e7f2769f9336d15d3ef3fef37594cfab297c819626d913f734077dfa7bd4a",
+            "current_track_count": 0,
+            "raw_original_outcome_line_sha256": "f569c925a3f504847d715db42b51f7836ea05feee9c26b1f0d874958f976bfee",
+            "original_raw_resolver_text_sha256": "42d207391d04a7dc6f43197876b39f8e27bbf26bb7b60346cfe46aec5786c24e",
+            "before": {
+              "clarification_question": "which car in front would you like to get out next to?",
+              "destination_box_xyxy": null,
+              "destination_point_xy": null,
+              "status": "needs_clarification"
+            },
+            "after": {
+              "clarification_question": "which car in front would you like to get out next to?",
+              "destination_box_xyxy": null,
+              "destination_point_xy": null,
+              "status": "needs_clarification"
+            },
+            "original_error": null,
+            "replay_error": null,
+            "viewpoint_advice": null,
+            "replayed_envelope_sha256": "f8db0c93fce3bbd675dc4e7091a59b284a5871c23b64c0486a47fb61e0c3256d"
+          },
+          {
+            "request_id": "passenger-b07",
+            "original_reference_group": "existing_ai_development_control",
+            "changed_input_has_human_review": null,
+            "text": "I'd like the road immediately behind the white Toyota pickup with the rack.",
+            "image_sha256": "175602c7dc418c0ababa6cea56daec7f5e2779452370a9ace398cdc3780041a6",
+            "current_track_count": 11,
+            "raw_original_outcome_line_sha256": "1ac3673b778992956206fb6e408f1fe6e6310dd2a8b77c5a7326cca118f3d14d",
+            "original_raw_resolver_text_sha256": "c4214d3291952710651452683a624b8af74d5fe80b35fe5ec7c75317a14d6df6",
+            "before": {
+              "anchor_boxes_xyxy": [
+                [
+                  830.5853881835938,
+                  990.142578125,
+                  1085.6541748046875,
+                  1199.4822998046875
+                ]
+              ],
+              "clarification_question": null,
+              "destination_box_xyxy": [
+                745.4089290210457,
+                1113.7736469258336,
+                1282.209355376538,
+                1300.36986772377
+              ],
+              "destination_point_xy": [
+                1017.5,
+                1207.5
+              ],
+              "status": "proposed"
+            },
+            "after": {
+              "anchor_boxes_xyxy": [
+                [
+                  830.5853881835938,
+                  990.142578125,
+                  1085.6541748046875,
+                  1199.4822998046875
+                ]
+              ],
+              "clarification_question": null,
+              "destination_box_xyxy": [
+                745.4089290210457,
+                1113.7736469258336,
+                1282.209355376538,
+                1300.36986772377
+              ],
+              "destination_point_xy": [
+                1017.5,
+                1207.5
+              ],
+              "status": "proposed"
+            },
+            "original_error": null,
+            "replay_error": null,
+            "viewpoint_advice": null,
+            "replayed_envelope_sha256": "e757cb497831da91f7510552a61e37b37cf832ff37007b557183ed8b980b8ec8"
+          },
+          {
+            "request_id": "passenger-b10",
+            "original_reference_group": "existing_ai_development_control",
+            "changed_input_has_human_review": null,
+            "text": "Leave me by the railway signal just ahead of us.",
+            "image_sha256": "175602c7dc418c0ababa6cea56daec7f5e2779452370a9ace398cdc3780041a6",
+            "current_track_count": 11,
+            "raw_original_outcome_line_sha256": "488ffeb163dedc7a7e539faf74c08da935df77c93587a681cdee540dad2e14b5",
+            "original_raw_resolver_text_sha256": "8af1d328d75e91cf5fff2deab39607be475491d16c45e89a2721eb14bb9a701e",
+            "before": {
+              "clarification_question": null,
+              "destination_box_xyxy": null,
+              "destination_point_xy": null,
+              "status": "insufficient_visual_evidence"
+            },
+            "after": {
+              "clarification_question": null,
+              "destination_box_xyxy": null,
+              "destination_point_xy": null,
+              "status": "insufficient_visual_evidence"
+            },
+            "original_error": null,
+            "replay_error": null,
+            "viewpoint_advice": null,
+            "replayed_envelope_sha256": "9f5c9f823723a25ccb8cf06a87a0b0baca022d94d3bd0dd678dc8c128069f60c"
+          }
+        ]
+      }
+    },
+    "changed_context_four": {
+      "public_parent": {
+        "verified_source_gpu_run_sha256": "d8ae140ad9cd3e5910758c333d65800caea65b888fd9bedef4af6b5f1e18ea61",
+        "original_outcomes_sha256": "5fdbf2f0e9c18097195a18bfedf161f88cc65f969ecdae5c4b60a9f805ff93ce",
+        "status_transitions": {
+          "needs_clarification -> needs_clarification": 2,
+          "proposed -> needs_clarification": 2
+        },
+        "rows": [
+          {
+            "request_id": "local-dev-video_054907-00781",
+            "original_reference_group": "two_recorded_confirmations_on_image_only_input",
+            "changed_input_has_human_review": false,
+            "text": "Stop beside the car directly ahead.",
+            "image_sha256": "c411cf6760695905334f32e5590083cf144543df1ca98e68aae55fb345eb583e",
+            "current_track_count": 23,
+            "raw_original_outcome_line_sha256": "49397cb0e3d0a8802b1eefe16011b4209c77529faa1d9696d4cb6f896afd64cf",
+            "original_raw_resolver_text_sha256": "cf2f7828f0131967bdc389feebdf28ed4e3092b06d9b2049af6b26fa785b973c",
+            "before": {
+              "clarification_question": "Which car do you mean? Is it toward the left of the picture, near the middle, or somewhere else?",
+              "destination_box_xyxy": null,
+              "destination_point_xy": null,
+              "status": "needs_clarification"
+            },
+            "after": {
+              "clarification_question": "Which car do you mean? Is it toward the left of the picture, near the middle, or somewhere else?",
+              "destination_box_xyxy": null,
+              "destination_point_xy": null,
+              "status": "needs_clarification"
+            },
+            "original_error": null,
+            "replay_error": null,
+            "viewpoint_advice": null,
+            "replayed_envelope_sha256": "212a08015e6023d5f8106eadfc5f43eb0f57623b64cb60166b14436c52679f1d"
+          },
+          {
+            "request_id": "local-dev-video_054907-00781-paraphrase",
+            "original_reference_group": "predeclared_unreviewed_paraphrase",
+            "changed_input_has_human_review": false,
+            "text": "Could you let me out alongside the vehicle straight ahead?",
+            "image_sha256": "c411cf6760695905334f32e5590083cf144543df1ca98e68aae55fb345eb583e",
+            "current_track_count": 23,
+            "raw_original_outcome_line_sha256": "db8565f8ccbe8055a280383004e10414c750ba042044a6a9f753cb5c004b3aec",
+            "original_raw_resolver_text_sha256": "b06c53965ad5b20bb266fb6bcc97b1dadea9b90802c1fdf277f4a12d4b657176",
+            "before": {
+              "anchor_boxes_xyxy": [
+                [
+                  2059.6513671875,
+                  810.5264892578125,
+                  2560.0,
+                  1113.3870849609375
+                ]
+              ],
+              "clarification_question": null,
+              "destination_box_xyxy": [
+                1786.837469997946,
+                959.0339466546902,
+                2535.2737759100055,
+                1177.2382553944954
+              ],
+              "destination_point_xy": [
+                1832.5,
+                1127.5
+              ],
+              "status": "proposed"
+            },
+            "after": {
+              "status": "needs_clarification",
+              "destination_point_xy": null,
+              "destination_box_xyxy": null,
+              "clarification_question": "Which vehicle do you mean? Is it toward the left of the picture, toward the right, or somewhere else?"
+            },
+            "original_error": null,
+            "replay_error": null,
+            "viewpoint_advice": {
+              "decision": {
+                "policy": "vehicle-relative-to-passenger-v1",
+                "reason": "multiple_current_objects_fit_single_reference",
+                "question": "Which vehicle do you mean? Is it toward the left of the picture, toward the right, or somewhere else?",
+                "category": "vehicle",
+                "candidate_count": 14,
+                "track_ids": [
+                  65692,
+                  56320
+                ],
+                "ranked_plausible_track_ids": [
+                  65692,
+                  56320,
+                  59438,
+                  66286,
+                  63740,
+                  61108,
+                  65918,
+                  59268,
+                  38877,
+                  65608,
+                  61279,
+                  64840,
+                  63269,
+                  66865
+                ],
+                "descriptions": [],
+                "requested_category": "vehicle",
+                "base_policy": "visible-single-vehicle-clarification-v2",
+                "viewpoint_phrases": [
+                  "straight ahead"
+                ]
+              },
+              "original_proposal": {
+                "anchor_boxes_xyxy": [
+                  [
+                    2059.6513671875,
+                    810.5264892578125,
+                    2560.0,
+                    1113.3870849609375
+                  ]
+                ],
+                "clarification_question": null,
+                "destination_box_xyxy": [
+                  1786.837469997946,
+                  959.0339466546902,
+                  2535.2737759100055,
+                  1177.2382553944954
+                ],
+                "destination_point_xy": [
+                  1832.5,
+                  1127.5
+                ],
+                "status": "proposed"
+              }
+            },
+            "replayed_envelope_sha256": "c61bc21a68ac9a3fc26499a1f8b2474b06dd2c38caa37a9fb4b3943dd6560f00"
+          },
+          {
+            "request_id": "local-dev-video_174340-00781",
+            "original_reference_group": "two_recorded_confirmations_on_image_only_input",
+            "changed_input_has_human_review": false,
+            "text": "Stop beside the car directly ahead.",
+            "image_sha256": "693e7f2769f9336d15d3ef3fef37594cfab297c819626d913f734077dfa7bd4a",
+            "current_track_count": 5,
+            "raw_original_outcome_line_sha256": "d16076df64fc4e9fa149cf41c0d5f272499b1db15e44a92818bf0fea42f5e1f7",
+            "original_raw_resolver_text_sha256": "6ca7c86d9bc0bae80b13bfbbfbe1b9be28a8ef39a74069d317f3a0f04a31a533",
+            "before": {
+              "clarification_question": "Which car do you mean? Is it toward the left of the picture, near the middle, or somewhere else?",
+              "destination_box_xyxy": null,
+              "destination_point_xy": null,
+              "status": "needs_clarification"
+            },
+            "after": {
+              "clarification_question": "Which car do you mean? Is it toward the left of the picture, near the middle, or somewhere else?",
+              "destination_box_xyxy": null,
+              "destination_point_xy": null,
+              "status": "needs_clarification"
+            },
+            "original_error": null,
+            "replay_error": null,
+            "viewpoint_advice": null,
+            "replayed_envelope_sha256": "748ea801894574148e88204588c5a74480d7149f8700f79d10bc32ec8bd5ca50"
+          },
+          {
+            "request_id": "local-dev-video_174340-00781-paraphrase",
+            "original_reference_group": "predeclared_unreviewed_paraphrase",
+            "changed_input_has_human_review": false,
+            "text": "I'd like to get out next to the car in front of us, please.",
+            "image_sha256": "693e7f2769f9336d15d3ef3fef37594cfab297c819626d913f734077dfa7bd4a",
+            "current_track_count": 5,
+            "raw_original_outcome_line_sha256": "99737aa6035b311fabf907b4c9688817549e963b2d04cbd3332801f63b112570",
+            "original_raw_resolver_text_sha256": "6ca7c86d9bc0bae80b13bfbbfbe1b9be28a8ef39a74069d317f3a0f04a31a533",
+            "before": {
+              "anchor_boxes_xyxy": [
+                [
+                  1108.3558349609375,
+                  742.2108154296875,
+                  1212.782958984375,
+                  825.4854736328125
+                ]
+              ],
+              "clarification_question": null,
+              "destination_box_xyxy": [
+                1046.0544850227238,
+                774.4194820019111,
+                1305.7088237745875,
+                917.7818412365436
+              ],
+              "destination_point_xy": [
+                1177.5,
+                847.5
+              ],
+              "status": "proposed"
+            },
+            "after": {
+              "status": "needs_clarification",
+              "destination_point_xy": null,
+              "destination_box_xyxy": null,
+              "clarification_question": "Which car do you mean? Is it toward the left of the picture, near the middle, or somewhere else?"
+            },
+            "original_error": null,
+            "replay_error": null,
+            "viewpoint_advice": {
+              "decision": {
+                "policy": "vehicle-relative-to-passenger-v1",
+                "reason": "multiple_current_objects_fit_single_reference",
+                "question": "Which car do you mean? Is it toward the left of the picture, near the middle, or somewhere else?",
+                "category": "car",
+                "candidate_count": 5,
+                "track_ids": [
+                  13042,
+                  2013
+                ],
+                "ranked_plausible_track_ids": [
+                  2013,
+                  13042,
+                  11015,
+                  18072,
+                  17467
+                ],
+                "descriptions": [],
+                "requested_category": "car",
+                "base_policy": "visible-single-vehicle-clarification-v2",
+                "viewpoint_phrases": [
+                  "in front of us"
+                ]
+              },
+              "original_proposal": {
+                "anchor_boxes_xyxy": [
+                  [
+                    1108.3558349609375,
+                    742.2108154296875,
+                    1212.782958984375,
+                    825.4854736328125
+                  ]
+                ],
+                "clarification_question": null,
+                "destination_box_xyxy": [
+                  1046.0544850227238,
+                  774.4194820019111,
+                  1305.7088237745875,
+                  917.7818412365436
+                ],
+                "destination_point_xy": [
+                  1177.5,
+                  847.5
+                ],
+                "status": "proposed"
+              }
+            },
+            "replayed_envelope_sha256": "aad6d4112345e4f57983f6195a57f8614a6b6e93156ee2ec5410e90cbed1c48b"
+          }
+        ]
+      },
+      "human_child": {
+        "verified_source_gpu_run_sha256": "a831f3e13e25377616c803019bac0f32b59603d40d4643c6d160bea5dbc7feca",
+        "original_outcomes_sha256": "68da97bba71339b39a44957da5ab95fd251f4337e88238174b39aa27af54a1ca",
+        "status_transitions": {
+          "needs_clarification -> needs_clarification": 2,
+          "proposed -> needs_clarification": 2
+        },
+        "rows": [
+          {
+            "request_id": "local-dev-video_054907-00781",
+            "original_reference_group": "two_recorded_confirmations_on_image_only_input",
+            "changed_input_has_human_review": false,
+            "text": "Stop beside the car directly ahead.",
+            "image_sha256": "c411cf6760695905334f32e5590083cf144543df1ca98e68aae55fb345eb583e",
+            "current_track_count": 23,
+            "raw_original_outcome_line_sha256": "f56955739570de408f094d4496c400138458c17b217d1684b465438d39d25988",
+            "original_raw_resolver_text_sha256": "cf2f7828f0131967bdc389feebdf28ed4e3092b06d9b2049af6b26fa785b973c",
+            "before": {
+              "clarification_question": "Which car do you mean? Is it toward the left of the picture, near the middle, or somewhere else?",
+              "destination_box_xyxy": null,
+              "destination_point_xy": null,
+              "status": "needs_clarification"
+            },
+            "after": {
+              "clarification_question": "Which car do you mean? Is it toward the left of the picture, near the middle, or somewhere else?",
+              "destination_box_xyxy": null,
+              "destination_point_xy": null,
+              "status": "needs_clarification"
+            },
+            "original_error": null,
+            "replay_error": null,
+            "viewpoint_advice": null,
+            "replayed_envelope_sha256": "cd297ab4f50c742803014220fed4fa73a2ebd73290bdf73dc471bc1b484045f1"
+          },
+          {
+            "request_id": "local-dev-video_054907-00781-paraphrase",
+            "original_reference_group": "predeclared_unreviewed_paraphrase",
+            "changed_input_has_human_review": false,
+            "text": "Could you let me out alongside the vehicle straight ahead?",
+            "image_sha256": "c411cf6760695905334f32e5590083cf144543df1ca98e68aae55fb345eb583e",
+            "current_track_count": 23,
+            "raw_original_outcome_line_sha256": "056e69088d34089b1fe182fe7ebbab7343cb4a331448395059f2543ca838e54f",
+            "original_raw_resolver_text_sha256": "b06c53965ad5b20bb266fb6bcc97b1dadea9b90802c1fdf277f4a12d4b657176",
+            "before": {
+              "anchor_boxes_xyxy": [
+                [
+                  2059.6513671875,
+                  810.5264892578125,
+                  2560.0,
+                  1113.3870849609375
+                ]
+              ],
+              "clarification_question": null,
+              "destination_box_xyxy": [
+                1786.837469997946,
+                959.0339466546902,
+                2535.2737759100055,
+                1177.2382553944954
+              ],
+              "destination_point_xy": [
+                1832.5,
+                1127.5
+              ],
+              "status": "proposed"
+            },
+            "after": {
+              "status": "needs_clarification",
+              "destination_point_xy": null,
+              "destination_box_xyxy": null,
+              "clarification_question": "Which vehicle do you mean? Is it toward the left of the picture, toward the right, or somewhere else?"
+            },
+            "original_error": null,
+            "replay_error": null,
+            "viewpoint_advice": {
+              "decision": {
+                "policy": "vehicle-relative-to-passenger-v1",
+                "reason": "multiple_current_objects_fit_single_reference",
+                "question": "Which vehicle do you mean? Is it toward the left of the picture, toward the right, or somewhere else?",
+                "category": "vehicle",
+                "candidate_count": 14,
+                "track_ids": [
+                  65692,
+                  56320
+                ],
+                "ranked_plausible_track_ids": [
+                  65692,
+                  56320,
+                  59438,
+                  66286,
+                  63740,
+                  61108,
+                  65918,
+                  59268,
+                  38877,
+                  65608,
+                  61279,
+                  64840,
+                  63269,
+                  66865
+                ],
+                "descriptions": [],
+                "requested_category": "vehicle",
+                "base_policy": "visible-single-vehicle-clarification-v2",
+                "viewpoint_phrases": [
+                  "straight ahead"
+                ]
+              },
+              "original_proposal": {
+                "anchor_boxes_xyxy": [
+                  [
+                    2059.6513671875,
+                    810.5264892578125,
+                    2560.0,
+                    1113.3870849609375
+                  ]
+                ],
+                "clarification_question": null,
+                "destination_box_xyxy": [
+                  1786.837469997946,
+                  959.0339466546902,
+                  2535.2737759100055,
+                  1177.2382553944954
+                ],
+                "destination_point_xy": [
+                  1832.5,
+                  1127.5
+                ],
+                "status": "proposed"
+              }
+            },
+            "replayed_envelope_sha256": "ca96d00ff1ba89ee00e73a7d9f02807d17b6788250a72567583ce829d0dc219f"
+          },
+          {
+            "request_id": "local-dev-video_174340-00781",
+            "original_reference_group": "two_recorded_confirmations_on_image_only_input",
+            "changed_input_has_human_review": false,
+            "text": "Stop beside the car directly ahead.",
+            "image_sha256": "693e7f2769f9336d15d3ef3fef37594cfab297c819626d913f734077dfa7bd4a",
+            "current_track_count": 5,
+            "raw_original_outcome_line_sha256": "31e7aca9ae2dba14d3d3899dd0622435b7bc63d30d904ac94039596b7f6b0f66",
+            "original_raw_resolver_text_sha256": "6ca7c86d9bc0bae80b13bfbbfbe1b9be28a8ef39a74069d317f3a0f04a31a533",
+            "before": {
+              "clarification_question": "Which car do you mean? Is it toward the left of the picture, near the middle, or somewhere else?",
+              "destination_box_xyxy": null,
+              "destination_point_xy": null,
+              "status": "needs_clarification"
+            },
+            "after": {
+              "clarification_question": "Which car do you mean? Is it toward the left of the picture, near the middle, or somewhere else?",
+              "destination_box_xyxy": null,
+              "destination_point_xy": null,
+              "status": "needs_clarification"
+            },
+            "original_error": null,
+            "replay_error": null,
+            "viewpoint_advice": null,
+            "replayed_envelope_sha256": "92c7d8659e910ac4ddd816c7ce2a25fb0bf1fb8848db4a76b744f6e867e8c44e"
+          },
+          {
+            "request_id": "local-dev-video_174340-00781-paraphrase",
+            "original_reference_group": "predeclared_unreviewed_paraphrase",
+            "changed_input_has_human_review": false,
+            "text": "I'd like to get out next to the car in front of us, please.",
+            "image_sha256": "693e7f2769f9336d15d3ef3fef37594cfab297c819626d913f734077dfa7bd4a",
+            "current_track_count": 5,
+            "raw_original_outcome_line_sha256": "ce94e93a43e3d0ed7d9266c2d854860b4b6f9bbaba0f6a1f5665e1bdf6a97143",
+            "original_raw_resolver_text_sha256": "6ca7c86d9bc0bae80b13bfbbfbe1b9be28a8ef39a74069d317f3a0f04a31a533",
+            "before": {
+              "anchor_boxes_xyxy": [
+                [
+                  1108.3558349609375,
+                  742.2108154296875,
+                  1212.782958984375,
+                  825.4854736328125
+                ]
+              ],
+              "clarification_question": null,
+              "destination_box_xyxy": [
+                1046.0544850227238,
+                774.4194820019111,
+                1305.7088237745875,
+                917.7818412365436
+              ],
+              "destination_point_xy": [
+                1177.5,
+                847.5
+              ],
+              "status": "proposed"
+            },
+            "after": {
+              "status": "needs_clarification",
+              "destination_point_xy": null,
+              "destination_box_xyxy": null,
+              "clarification_question": "Which car do you mean? Is it toward the left of the picture, near the middle, or somewhere else?"
+            },
+            "original_error": null,
+            "replay_error": null,
+            "viewpoint_advice": {
+              "decision": {
+                "policy": "vehicle-relative-to-passenger-v1",
+                "reason": "multiple_current_objects_fit_single_reference",
+                "question": "Which car do you mean? Is it toward the left of the picture, near the middle, or somewhere else?",
+                "category": "car",
+                "candidate_count": 5,
+                "track_ids": [
+                  13042,
+                  2013
+                ],
+                "ranked_plausible_track_ids": [
+                  2013,
+                  13042,
+                  11015,
+                  18072,
+                  17467
+                ],
+                "descriptions": [],
+                "requested_category": "car",
+                "base_policy": "visible-single-vehicle-clarification-v2",
+                "viewpoint_phrases": [
+                  "in front of us"
+                ]
+              },
+              "original_proposal": {
+                "anchor_boxes_xyxy": [
+                  [
+                    1108.3558349609375,
+                    742.2108154296875,
+                    1212.782958984375,
+                    825.4854736328125
+                  ]
+                ],
+                "clarification_question": null,
+                "destination_box_xyxy": [
+                  1046.0544850227238,
+                  774.4194820019111,
+                  1305.7088237745875,
+                  917.7818412365436
+                ],
+                "destination_point_xy": [
+                  1177.5,
+                  847.5
+                ],
+                "status": "proposed"
+              }
+            },
+            "replayed_envelope_sha256": "701523327a05a322d251da18f9c9c2a42add4d8e276dc79ad13ee583f3db1733"
+          }
+        ]
+      }
+    }
+  },
+  "interpretation": "The original Qwen, detector, learned referent ranking and predictions were held fixed. Only the new clarification check was recomputed. Exact original human confirmations apply to the original image-only commands. No changed-context or new human accuracy."
+}

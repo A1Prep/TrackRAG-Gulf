@@ -417,13 +417,17 @@ def main(argv=None):
     asr = load_speech_recognizer(args.asr_model, args.whisper_model)
     model = load_passenger_model(args.config, geometry_path=args.geometry, vision_cache=args.vision_cache,
                                  verify_landmarks=args.verify_landmarks,referent_path=args.referent)
+    dialogue_model = model
+    if args.referent:
+        from trackrag.dropoff.infrastructure import PassengerDialogueGrounder
+        dialogue_model = PassengerDialogueGrounder(model)
     footage = None
     if args.qa_data_root or args.qa_predictions:
         if not (args.qa_data_root and args.qa_predictions):
             parser.error("Footage search needs both --qa-data-root and --qa-predictions.")
         from trackrag.footage_app import FootageReview
         footage = FootageReview(args.qa_data_root,args.qa_predictions,args.qa_vision_config,args.out/"footage",args.qa_frame_rate)
-    site = PassengerSite(scenes, model, asr, args.out, PassengerSession,footage)
+    site = PassengerSite(scenes, dialogue_model, asr, args.out, PassengerSession,footage)
     with ThreadingHTTPServer(("127.0.0.1", args.port), handler(site)) as server:
         print(f"Open http://127.0.0.1:{server.server_port}/  ({len(scenes)} prepared frames)", flush=True)
         try:

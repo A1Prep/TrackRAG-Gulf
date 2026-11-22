@@ -1,0 +1,45 @@
+{
+  "registered_utc": "2026-11-22T05:35:54.758390+00:00",
+  "scope": "Task 5 model handoff before access to the reserved passenger outcomes. Task 1 owns the separate formal study and its final protocol freeze.",
+  "matching": [
+    "image bytes, language and observed context",
+    "base and processor revisions",
+    "NF4 streamed inference on the laptop",
+    "image budget, output grammar, timeout and token budget",
+    "same settings for direct and clarification; only the requested interaction differs"
+  ],
+  "trained": {
+    "selection": "Publicly supervised Qwen adapter continued on the four two-reviewer-confirmed local training photographs; lowest development loss of the two epochs. The study measures this scientific training condition irrespective of its observed development quality.",
+    "zip": "passenger-human-native-clarification.zip",
+    "archive_sha256": "68fbd8cf3c151ef066227d11146bb2ec7350d23536fc80f0fd1c825b2e9fbd4d",
+    "config_path": "models/passenger-reviewed-clarification/inference_config.json",
+    "config_sha256": "3d827c42eab801557b69e41134bdab8a2da56892b9fa22b0dbe58aef2d35f022",
+    "adapter_weights_sha256": "6c3d54a6baadf5a269f8cdb81ed565469aa0d75bc006698c8d355f79b3e774ca",
+    "adapter_manifest_sha256": "97e0ad27de46582a059775e4861f42aa0a1f803be2f640bf64b00a22f92f7b06"
+  },
+  "pretrained": {
+    "config_path": "configs/dropoff/passenger-final-pretrained.json",
+    "config_sha256": "90047539bfef8e92112566a035bc214f24ce80c7038b69dd2f0b781df607acf6",
+    "adapter": null
+  },
+  "only_different_configuration_field": "adapter_dir",
+  "base_revision": "10d842936325905934ea24e64325d774693f166e",
+  "nonfinal_followup": {
+    "purpose": "Obtain genuine matched pretrained outputs for precisely the same six nonfinal inputs already run through the public-trained and locally continued native models. Existing model outcomes were already known when this follow-up was registered.",
+    "requests_sha256": "7d805dc9f478f894e198892c435df00db897586f40465c393b8644b64c8aadc0",
+    "existing_six_case_scoring_protocol_sha256": "702c5f5575431df621b0e78847ddadb67d102e487a4be44016050773e4af8b81",
+    "requested_rows": 6,
+    "strata": {
+      "two_reviewed_identical_wordings_on_distinct_development_photos": 2,
+      "unreviewed_rephrasings_of_those_development_inputs": 2,
+      "earlier_AI_authored_clear_and_absent_controls": 2
+    },
+    "retain_errors_and_all_rows": true
+  },
+  "interactive_release": {
+    "selector": "public-trained Qwen3-VL-8B",
+    "reason": "The four-row local continuation has not demonstrated a passenger-interface improvement.",
+    "separate_condition": true
+  },
+  "heldout_reserved_cases_inferred": 0
+}

@@ -1,0 +1,285 @@
+{
+  "kind": "two_unbookmarked_development_frame_browser_trials",
+  "completed_utc": "2026-11-22T05:23:17.907488+00:00",
+  "plan_sha256": "c1f5e2c4815ad2166351f8a7a56f3fd1860f510a3755dbce0f1837123f3b8344",
+  "driver_sha256": "e0811ae2daf0e94973a9ce742338d15301166e80776723fc553628412ad94bab",
+  "script_sha256": "9cd39316ed1ea3e4e02f48617df1a866740805297eef8606fe4a03cc15c23588",
+  "voice": "Microsoft Windows synthetic speakers. Real recorded road images. Scripted operator decisions; zero human acceptances.",
+  "speech_model": "Systran/faster-whisper-small.en",
+  "model_files_sha256": {
+    "adapter/adapter_config.json": "def2dc5ef0c641fe93cba691766f0cdd0cb8e212ef8308f492c3b6aa96ac5ba7",
+    "adapter/adapter_model.safetensors": "76bfb3230b17a86248b52ca6a9f8d2ffca324aa80216d6b93845ccb12ad86743",
+    "adapter/grounding_adapter_manifest.json": "92e32dc900d919b7e137c70692c51b57921edbda77ff5b772e6dfdc221a12983",
+    "geometry.json": "db9575ac6b82ff9828f29440bacf2349cd2371f23c2cfb747bd7dc05ee04c7e5",
+    "grounding.json": "bf73538110c52cbb50059964fe8a6230e0674c754592fc2e96a4529d0dc6a169",
+    "referent.json": "d96a9a69e2e52ddbc21851d5ff6f79b344de6c8558600e54be5cb2712480a07d"
+  },
+  "default_grounding_device": "cuda",
+  "owned_gpu_process_observed": true,
+  "all_owned_processes_exited": true,
+  "included_task1_final_cases": 0,
+  "isolated_browser_errors": [],
+  "execution_error": null,
+  "actual_browser_raw_evidence_sha256": "3a9e98744895dada1703acb569836a99aaf758bda4223563e7c1f1b2ff134561",
+  "cases": [
+    {
+      "id": "pickup-under-overpass",
+      "recording": "video_054907",
+      "frame": 79,
+      "image_sha256": "b64f5dfe9c4fc2da9953179ff941ddccdfab899fb0bb47ed1e7f8b19633d39d5",
+      "frame_picker_source_verified": true,
+      "original_only_visual_reference": [
+        {
+          "description": "white Toyota pickup with an open metal rack, nearest vehicle to the left under the overpass",
+          "box": [
+            544,
+            930,
+            982,
+            1275
+          ]
+        }
+      ],
+      "approximate_reference_polygon": [
+        [
+          540,
+          1274
+        ],
+        [
+          943,
+          1274
+        ],
+        [
+          1074,
+          1339
+        ],
+        [
+          850,
+          1333
+        ],
+        [
+          655,
+          1318
+        ],
+        [
+          528,
+          1297
+        ]
+      ],
+      "reference_point": [
+        812,
+        1298
+      ],
+      "expected_terminal_action": "confirm",
+      "operational_error": null,
+      "initial_clarification_expected": null,
+      "initial_clarification_observed": null,
+      "automatic": {
+        "state": "proposed",
+        "model_proposed": true,
+        "correct_road_by_preregistered_polygon": true,
+        "max_landmark_iou": 0.8589463994276905,
+        "matches_frozen_reference": true
+      },
+      "operator_rectangle_used": false,
+      "terminal_action": "confirm",
+      "terminal_state": "confirmed",
+      "operator_rectangle": null,
+      "turns": [
+        {
+          "spoken": "Show me the patch of road immediately behind the white Toyota pickup with the metal rack.",
+          "heard": "Show me the patch of road immediately behind the white Toyota pickup with the metal rack.",
+          "reviewed": "Show me the patch of road immediately behind the white Toyota pickup with the metal rack.",
+          "corrected_words": false,
+          "raw_audio_sha256": "2591a90fda1c65e42cbc9dea077047ee4099d754b666747352ef4708cffc0948",
+          "asr_seconds": 2.6710988999984693,
+          "grounding_seconds": 76.906,
+          "model_id": "unsloth/Qwen3-VL-8B-Instruct-bnb-4bit",
+          "base_revision": "10d842936325905934ea24e64325d774693f166e",
+          "method": "qwen_landmark_region",
+          "dialogue_history_turns": 0,
+          "model_result": {
+            "status": "proposed",
+            "destination_point_xy": [
+              812.5,
+              1292.5
+            ],
+            "destination_box_xyxy": [
+              464.24559628097364,
+              1183.6650230955509,
+              1158.8625986264137,
+              1399.0236260170916
+            ],
+            "clarification_question": null,
+            "anchor_boxes_xyxy": [
+              [
+                547.84,
+                970.56,
+                980.48,
+                1280.16
+              ]
+            ]
+          },
+          "state": "proposed",
+          "error": null,
+          "initial_selection_source": "model"
+        }
+      ],
+      "journal_sha256": "61765c2625f8c6dff9d1d23a59954887ce1062a883df0ff1710866fb376c0796",
+      "confirmed_source": "model",
+      "explicit_current_token_verified": true
+    },
+    {
+      "id": "exit-sign-and-divider",
+      "recording": "video_054604",
+      "frame": 137,
+      "image_sha256": "d868d577e285898fbaf7796acfd93a8c6a86fa7958b9e790b0031420d5d9a361",
+      "frame_picker_source_verified": true,
+      "original_only_visual_reference": [
+        {
+          "description": "light concrete median separating our paved ramp from the other carriageway",
+          "box": [
+            1006,
+            1064,
+            1375,
+            1156
+          ]
+        },
+        {
+          "description": "large blue Hessa Street exit sign just left of center",
+          "box": [
+            958,
+            704,
+            1146,
+            850
+          ]
+        }
+      ],
+      "approximate_reference_polygon": [
+        [
+          901,
+          1190
+        ],
+        [
+          1078,
+          1152
+        ],
+        [
+          1245,
+          1135
+        ],
+        [
+          1340,
+          1147
+        ],
+        [
+          1280,
+          1183
+        ],
+        [
+          1075,
+          1243
+        ],
+        [
+          882,
+          1247
+        ]
+      ],
+      "reference_point": [
+        1104,
+        1192
+      ],
+      "expected_terminal_action": "cancel",
+      "operational_error": null,
+      "initial_clarification_expected": "needs_clarification",
+      "initial_clarification_observed": true,
+      "automatic": {
+        "state": "proposed",
+        "model_proposed": true,
+        "correct_road_by_preregistered_polygon": false,
+        "max_landmark_iou": 0.006249734299334958,
+        "matches_frozen_reference": false
+      },
+      "operator_rectangle_used": true,
+      "terminal_action": "cancel",
+      "terminal_state": "cancelled",
+      "operator_rectangle": {
+        "status": "proposed",
+        "destination_point_xy": [
+          1102.5,
+          1192.5
+        ],
+        "destination_box_xyxy": [
+          1046,
+          1177,
+          1162,
+          1207
+        ],
+        "clarification_question": null
+      },
+      "turns": [
+        {
+          "spoken": "Could you drop me off over there?",
+          "heard": "Could you drop me off over there?",
+          "reviewed": "Could you drop me off over there?",
+          "corrected_words": false,
+          "raw_audio_sha256": "d61b7398ec85be2c932f068962f2240815efcf3f4efb1cd26f6fd5294ba8f8a9",
+          "asr_seconds": 2.511835200013593,
+          "grounding_seconds": 26.269,
+          "model_id": "unsloth/Qwen3-VL-8B-Instruct-bnb-4bit",
+          "base_revision": "10d842936325905934ea24e64325d774693f166e",
+          "method": "qwen_landmark_region",
+          "dialogue_history_turns": 0,
+          "model_result": {
+            "status": "needs_clarification",
+            "destination_point_xy": null,
+            "destination_box_xyxy": null,
+            "clarification_question": "Which visible landmark is beside your drop-off, or can you mark the area on the photo?"
+          },
+          "state": "needs_clarification",
+          "error": null,
+          "initial_selection_source": "model"
+        },
+        {
+          "spoken": "I mean the road on our side of the concrete divider, below the big blue exit sign.",
+          "heard": "I mean the road on our side of the concrete divider, below the big blue exit sign.",
+          "reviewed": "I mean the road on our side of the concrete divider, below the big blue exit sign.",
+          "corrected_words": false,
+          "raw_audio_sha256": "640862751cf538fb9b6877377d2a1966ce68f7a51fa07caee27e94839ea9236e",
+          "asr_seconds": 2.924444100004621,
+          "grounding_seconds": 14.108,
+          "model_id": "unsloth/Qwen3-VL-8B-Instruct-bnb-4bit",
+          "base_revision": "10d842936325905934ea24e64325d774693f166e",
+          "method": "qwen_landmark_region",
+          "dialogue_history_turns": 2,
+          "model_result": {
+            "status": "proposed",
+            "destination_point_xy": [
+              1132.5,
+              1087.5
+            ],
+            "destination_box_xyxy": [
+              935.1437163034225,
+              1041.0565171998137,
+              1296.8689476992574,
+              1138.0228523367098
+            ],
+            "clarification_question": null,
+            "anchor_boxes_xyxy": [
+              [
+                1112.02685546875,
+                1031.012939453125,
+                1172.2818603515625,
+                1067.727294921875
+              ]
+            ]
+          },
+          "state": "proposed",
+          "error": null,
+          "initial_selection_source": "model"
+        }
+      ],
+      "journal_sha256": "eccd8268574e5b3f3cb97d478013a739ce4ffe102fdb7f43cb3b32ffef732fff",
+      "explicit_cancel_verified": true
+    }
+  ]
+}

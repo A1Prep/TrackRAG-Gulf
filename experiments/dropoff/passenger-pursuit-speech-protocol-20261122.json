@@ -1,0 +1,19 @@
+{
+  "kind": "preregistered_paired_real_in_car_route_speech",
+  "source": "PURSUIT 1.0, Nate Blaylock, Semantic Annotation of Street-level Geospatial Entities (2011). Pensacola, Florida; recorded in January and February 2008.",
+  "publisher": "https://www.cs.rochester.edu/research/speech/pursuit/",
+  "manual": "https://www.cs.rochester.edu/research/speech/pursuit/pursuit.pdf",
+  "audio_url": "https://www.cs.rochester.edu/research/speech/pursuit/PURSUIT-1.0.zip",
+  "audio_archive_bytes": 764258730,
+  "annotation_url": "https://www.cs.rochester.edu/research/speech/pursuit/PURSUIT-1.0-noaudio.zip",
+  "annotation_archive_sha256": "de75d9ddddee4984d228ae07ae5a4982d1d58f2c2e7d6e96ae773f1710925fcf",
+  "recordings": ["s1.foll", "s1.lead", "s2.foll", "s2.lead", "s3.lead", "s4.foll", "s4.lead", "s5.foll", "s5.lead", "s6.foll", "s6.lead", "s7.foll", "s7.lead"],
+  "seed": "pursuit-trackrag-nov22-v1",
+  "selection": "Before either model runs, take original NITE manually segmented utterances of 5 through 23 normalized reference tokens and 3 through 14 seconds inclusive. Reject transcripts with square-bracket annotations, and missing source words. Per recording choose the lowest SHA-256 of seed|recording|original_segment_id among utterances with at least one listed direction token. Then independently choose the lowest hash among remaining utterances wholly containing an original annotated location's linked word span. Their padded time spans cannot overlap. Never replace a selected weak clip, difficult transcription, or model error. If a recording has too few eligible segments, record and retain its shortfall.",
+  "direction_words": ["across", "ahead", "after", "back", "before", "behind", "beside", "between", "east", "eastbound", "forward", "front", "left", "near", "north", "northbound", "right", "south", "southbound", "straight", "under", "west", "westbound"],
+  "clips": "Use each original WAV's native channels, bit depth and sample rate. Round the annotated start and end, extended 0.18 seconds on each side, to the nearest sample frame; clip at source boundaries. If an original rate/format exceeds release support, report it. No denoising, hand trimming, reference-based correction, hotwords or audio merging. Keep raw audio clips, decoded text and human transcripts only in private local storage. Publish input, prediction and source hashes plus numeric scores and error flags.",
+  "normalization": "Use the existing tools.passenger_speech_study.normalize: convert curved apostrophes to ASCII, lowercase, and match [a-z0-9']+. WER is the sum of Levenshtein word edits divided by reference words. For direction recall, filter reference and hypothesis to the declared vocabulary, then count the longest common subsequence with multiplicity. Also report extra direction tokens and exact full direction sequence. A word match measures lexical retention; for example a street name may contain a compass word. Errors count as an empty transcript. Compute by recording and across all selected clips.",
+  "recognizers": ["vosk-model-small-en-us-0.15", "Systran/faster-whisper-small.en"],
+  "conditions": "Use both deployed local transcribe_wav implementations with their verified existing weights and unmodified decoding defaults. Execute each once per identical clip. Run one recognizer process at a time with one effective CPU core when available, no GPU and no network audio calls.",
+  "interpretation": "Thirteen recordings from seven drives. The documented recordings and unique speakers are different units. Lead and follow-car speakers narrated routes to a remote listener. This is external English in-car speech evidence with no EMT scenes, Gulf voices, passenger drop-off instructions, destination judgements or team speaker-study credit. Manual segment boundaries and equally apportioned estimated word times can admit adjacent speech or truncate words."
+}

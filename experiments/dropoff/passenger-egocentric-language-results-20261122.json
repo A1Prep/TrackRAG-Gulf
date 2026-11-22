@@ -1,0 +1,623 @@
+{
+  "kind": "paired_CPU_referent_clarification_language_diagnostic",
+  "protocol_sha256": "e49f92ae599b65955aac17dbb6586485bf5ca74a63c2178bc80667ee641a27b0",
+  "old_source_sha256": "4c5cd8be4f8e3b22e11deaf98bf40a38a6544745f11bb27e33a85eaeff3340d1",
+  "new_source_sha256": "4c1896885afc9168206adc3f9e98f8320c639d8881c689c93ed8ea2058e52380",
+  "identical_rankings_sha256": "a8022c3c96f2b366f3a46e2c10492d4381d1e67ae5326c7e38afd60ccefffff3",
+  "learned_ranker_sha256": "d96a9a69e2e52ddbc21851d5ff6f79b344de6c8558600e54be5cb2712480a07d",
+  "real_nonfinal_frames": 4,
+  "utterance_scene_cases": 24,
+  "human_reviews": 0,
+  "selection": {
+    "ego_language_improved": true,
+    "new_false_asks_on_precise_controls": 0,
+    "one_vs_two_real_buses_passed": true,
+    "meets_registered_signal_for_separate_integration": true
+  },
+  "counts_by_reference_group": {
+    "original": {
+      "ego_uncertainty": {
+        "cases": 10,
+        "matches": 0,
+        "false_asks": 0,
+        "missed_asks": 10,
+        "operational_errors": 0
+      },
+      "generic_multiple": {
+        "cases": 2,
+        "matches": 2,
+        "false_asks": 0,
+        "missed_asks": 0,
+        "operational_errors": 0
+      },
+      "other_landmark": {
+        "cases": 6,
+        "matches": 6,
+        "false_asks": 0,
+        "missed_asks": 0,
+        "operational_errors": 0
+      },
+      "specific_visual_attribute": {
+        "cases": 1,
+        "matches": 1,
+        "false_asks": 0,
+        "missed_asks": 0,
+        "operational_errors": 0
+      },
+      "specific_ordinal": {
+        "cases": 2,
+        "matches": 2,
+        "false_asks": 0,
+        "missed_asks": 0,
+        "operational_errors": 0
+      },
+      "static_destination": {
+        "cases": 1,
+        "matches": 1,
+        "false_asks": 0,
+        "missed_asks": 0,
+        "operational_errors": 0
+      },
+      "real_cardinality_control": {
+        "cases": 2,
+        "matches": 1,
+        "false_asks": 0,
+        "missed_asks": 1,
+        "operational_errors": 0
+      }
+    },
+    "additive": {
+      "ego_uncertainty": {
+        "cases": 10,
+        "matches": 8,
+        "false_asks": 0,
+        "missed_asks": 2,
+        "operational_errors": 0
+      },
+      "generic_multiple": {
+        "cases": 2,
+        "matches": 2,
+        "false_asks": 0,
+        "missed_asks": 0,
+        "operational_errors": 0
+      },
+      "other_landmark": {
+        "cases": 6,
+        "matches": 6,
+        "false_asks": 0,
+        "missed_asks": 0,
+        "operational_errors": 0
+      },
+      "specific_visual_attribute": {
+        "cases": 1,
+        "matches": 1,
+        "false_asks": 0,
+        "missed_asks": 0,
+        "operational_errors": 0
+      },
+      "specific_ordinal": {
+        "cases": 2,
+        "matches": 2,
+        "false_asks": 0,
+        "missed_asks": 0,
+        "operational_errors": 0
+      },
+      "static_destination": {
+        "cases": 1,
+        "matches": 1,
+        "false_asks": 0,
+        "missed_asks": 0,
+        "operational_errors": 0
+      },
+      "real_cardinality_control": {
+        "cases": 2,
+        "matches": 2,
+        "false_asks": 0,
+        "missed_asks": 0,
+        "operational_errors": 0
+      }
+    }
+  },
+  "cases": [
+    {
+      "id": "ego-01",
+      "scene": "day",
+      "utterance": "Could you leave me alongside the car straight in front of us?",
+      "expected_guard_action": "ask",
+      "group": "ego_uncertainty",
+      "ranking_sha256": "1ad0ef83046bf0c9144a14a936690ab92c2b0d48eb905c025c3bba67ef1b8266",
+      "actual_original_image_sha256": "c411cf6760695905334f32e5590083cf144543df1ca98e68aae55fb345eb583e",
+      "original": {
+        "action": "defer",
+        "matches": false
+      },
+      "additive": {
+        "action": "ask",
+        "matches": true,
+        "track_ids": [
+          65692,
+          56320
+        ],
+        "question": "Which car do you mean? Is it toward the left of the picture, toward the right, or somewhere else?",
+        "reason": "multiple_current_objects_fit_single_reference",
+        "policy": "vehicle-relative-to-passenger-v1"
+      }
+    },
+    {
+      "id": "ego-02",
+      "scene": "night",
+      "utterance": "Let me out next to the vehicle just up ahead of us.",
+      "expected_guard_action": "ask",
+      "group": "ego_uncertainty",
+      "ranking_sha256": "fbacd081ea57bc60f4e13f8198b52249bee28dd17ebee023e0aaaa8fda480df3",
+      "actual_original_image_sha256": "693e7f2769f9336d15d3ef3fef37594cfab297c819626d913f734077dfa7bd4a",
+      "original": {
+        "action": "defer",
+        "matches": false
+      },
+      "additive": {
+        "action": "ask",
+        "matches": true,
+        "track_ids": [
+          13042,
+          2013
+        ],
+        "question": "Which vehicle do you mean? Is it toward the left of the picture, near the middle, or somewhere else?",
+        "reason": "multiple_current_objects_fit_single_reference",
+        "policy": "vehicle-relative-to-passenger-v1"
+      }
+    },
+    {
+      "id": "ego-03",
+      "scene": "day",
+      "utterance": "I want to get out by that car up ahead, please.",
+      "expected_guard_action": "ask",
+      "group": "ego_uncertainty",
+      "ranking_sha256": "f7eb4e2c8b7c2de67228dbdabe5a25b31a7d80de28cddcfd954d818101c0a53f",
+      "actual_original_image_sha256": "c411cf6760695905334f32e5590083cf144543df1ca98e68aae55fb345eb583e",
+      "original": {
+        "action": "defer",
+        "matches": false
+      },
+      "additive": {
+        "action": "ask",
+        "matches": true,
+        "track_ids": [
+          65692,
+          59438
+        ],
+        "question": "Which car do you mean? Is it toward the left of the picture, near the middle, or somewhere else?",
+        "reason": "multiple_current_objects_fit_single_reference",
+        "policy": "vehicle-relative-to-passenger-v1"
+      }
+    },
+    {
+      "id": "ego-04",
+      "scene": "night",
+      "utterance": "Can you stop next to the car directly in front of me?",
+      "expected_guard_action": "ask",
+      "group": "ego_uncertainty",
+      "ranking_sha256": "a776e7a0c0b38519a729eefeac9b6bba4146b5a166c28c04b23af58af6c7b532",
+      "actual_original_image_sha256": "693e7f2769f9336d15d3ef3fef37594cfab297c819626d913f734077dfa7bd4a",
+      "original": {
+        "action": "defer",
+        "matches": false
+      },
+      "additive": {
+        "action": "ask",
+        "matches": true,
+        "track_ids": [
+          13042,
+          2013
+        ],
+        "question": "Which car do you mean? Is it toward the left of the picture, near the middle, or somewhere else?",
+        "reason": "multiple_current_objects_fit_single_reference",
+        "policy": "vehicle-relative-to-passenger-v1"
+      }
+    },
+    {
+      "id": "ego-05",
+      "scene": "day",
+      "utterance": "Could we pull up next to the vehicle straight ahead of our taxi?",
+      "expected_guard_action": "ask",
+      "group": "ego_uncertainty",
+      "ranking_sha256": "9f8cd55a6355907bb626b66c0de08303741519f81ef8d25c9ce5b18b43d04e2a",
+      "actual_original_image_sha256": "c411cf6760695905334f32e5590083cf144543df1ca98e68aae55fb345eb583e",
+      "original": {
+        "action": "defer",
+        "matches": false
+      },
+      "additive": {
+        "action": "ask",
+        "matches": true,
+        "track_ids": [
+          65692,
+          56320
+        ],
+        "question": "Which vehicle do you mean? Is it toward the left of the picture, toward the right, or somewhere else?",
+        "reason": "multiple_current_objects_fit_single_reference",
+        "policy": "vehicle-relative-to-passenger-v1"
+      }
+    },
+    {
+      "id": "ego-06",
+      "scene": "night",
+      "utterance": "By the car directly ahead of our cab, if you can.",
+      "expected_guard_action": "ask",
+      "group": "ego_uncertainty",
+      "ranking_sha256": "46c08e60a9a61dc7be41fbea635305a8ed8a4dd83b6e14d284a4b83febc0a7fc",
+      "actual_original_image_sha256": "693e7f2769f9336d15d3ef3fef37594cfab297c819626d913f734077dfa7bd4a",
+      "original": {
+        "action": "defer",
+        "matches": false
+      },
+      "additive": {
+        "action": "defer",
+        "matches": false
+      }
+    },
+    {
+      "id": "ego-07",
+      "scene": "day",
+      "utterance": "Can I hop out beside the car in front of our taxi?",
+      "expected_guard_action": "ask",
+      "group": "ego_uncertainty",
+      "ranking_sha256": "abe9eca5b830699fcf15782425a224e0bd2955102fd491c3db4c9866f0890b67",
+      "actual_original_image_sha256": "c411cf6760695905334f32e5590083cf144543df1ca98e68aae55fb345eb583e",
+      "original": {
+        "action": "defer",
+        "matches": false
+      },
+      "additive": {
+        "action": "ask",
+        "matches": true,
+        "track_ids": [
+          65692,
+          56320
+        ],
+        "question": "Which car do you mean? Is it toward the left of the picture, toward the right, or somewhere else?",
+        "reason": "multiple_current_objects_fit_single_reference",
+        "policy": "vehicle-relative-to-passenger-v1"
+      }
+    },
+    {
+      "id": "ego-08",
+      "scene": "night",
+      "utterance": "Drop me off near the vehicle right out in front of us.",
+      "expected_guard_action": "ask",
+      "group": "ego_uncertainty",
+      "ranking_sha256": "5a9328b4b0af70bc95ca847a994e036948801fa59a931138968babddab433e3b",
+      "actual_original_image_sha256": "693e7f2769f9336d15d3ef3fef37594cfab297c819626d913f734077dfa7bd4a",
+      "original": {
+        "action": "defer",
+        "matches": false
+      },
+      "additive": {
+        "action": "ask",
+        "matches": true,
+        "track_ids": [
+          13042,
+          2013
+        ],
+        "question": "Which vehicle do you mean? Is it toward the left of the picture, near the middle, or somewhere else?",
+        "reason": "multiple_current_objects_fit_single_reference",
+        "policy": "vehicle-relative-to-passenger-v1"
+      }
+    },
+    {
+      "id": "ego-09",
+      "scene": "day",
+      "utterance": "Please let me out by the vehicle ahead of me.",
+      "expected_guard_action": "ask",
+      "group": "ego_uncertainty",
+      "ranking_sha256": "0fe3b45666e32044aaa66d3658aa54049d066f76ad6ad7c07649c61ecc726d98",
+      "actual_original_image_sha256": "c411cf6760695905334f32e5590083cf144543df1ca98e68aae55fb345eb583e",
+      "original": {
+        "action": "defer",
+        "matches": false
+      },
+      "additive": {
+        "action": "ask",
+        "matches": true,
+        "track_ids": [
+          65692,
+          56320
+        ],
+        "question": "Which vehicle do you mean? Is it toward the left of the picture, toward the right, or somewhere else?",
+        "reason": "multiple_current_objects_fit_single_reference",
+        "policy": "vehicle-relative-to-passenger-v1"
+      }
+    },
+    {
+      "id": "ego-10",
+      "scene": "night",
+      "utterance": "Pull up beside the car that is straight ahead, please.",
+      "expected_guard_action": "ask",
+      "group": "ego_uncertainty",
+      "ranking_sha256": "f949b3e711cfce859f1e3e0d60bf88e6b665474ec5debb51637df2eb3bea7338",
+      "actual_original_image_sha256": "693e7f2769f9336d15d3ef3fef37594cfab297c819626d913f734077dfa7bd4a",
+      "original": {
+        "action": "defer",
+        "matches": false
+      },
+      "additive": {
+        "action": "defer",
+        "matches": false
+      }
+    },
+    {
+      "id": "ego-11",
+      "scene": "day",
+      "utterance": "Could you pull up beside that car, please?",
+      "expected_guard_action": "ask",
+      "group": "generic_multiple",
+      "ranking_sha256": "ff51c82db236948c43c442953a909c36e72e90a72d4b09fd77922116b66eed37",
+      "actual_original_image_sha256": "c411cf6760695905334f32e5590083cf144543df1ca98e68aae55fb345eb583e",
+      "original": {
+        "action": "ask",
+        "matches": true,
+        "track_ids": [
+          65692,
+          56320
+        ],
+        "question": "Which car do you mean? Is it toward the left of the picture, toward the right, or somewhere else?",
+        "reason": "multiple_current_objects_fit_single_reference",
+        "policy": "visible-single-vehicle-clarification-v2"
+      },
+      "additive": {
+        "action": "ask",
+        "matches": true,
+        "track_ids": [
+          65692,
+          56320
+        ],
+        "question": "Which car do you mean? Is it toward the left of the picture, toward the right, or somewhere else?",
+        "reason": "multiple_current_objects_fit_single_reference",
+        "policy": "visible-single-vehicle-clarification-v2"
+      }
+    },
+    {
+      "id": "ego-12",
+      "scene": "night",
+      "utterance": "Leave me next to that vehicle.",
+      "expected_guard_action": "ask",
+      "group": "generic_multiple",
+      "ranking_sha256": "25eb2f51f5a23e735f2af9b1d7684ec1de2da0475382ca448785b4a8c9fabc15",
+      "actual_original_image_sha256": "693e7f2769f9336d15d3ef3fef37594cfab297c819626d913f734077dfa7bd4a",
+      "original": {
+        "action": "ask",
+        "matches": true,
+        "track_ids": [
+          13042,
+          2013
+        ],
+        "question": "Which vehicle do you mean? Is it toward the left of the picture, near the middle, or somewhere else?",
+        "reason": "multiple_current_objects_fit_single_reference",
+        "policy": "visible-single-vehicle-clarification-v2"
+      },
+      "additive": {
+        "action": "ask",
+        "matches": true,
+        "track_ids": [
+          13042,
+          2013
+        ],
+        "question": "Which vehicle do you mean? Is it toward the left of the picture, near the middle, or somewhere else?",
+        "reason": "multiple_current_objects_fit_single_reference",
+        "policy": "visible-single-vehicle-clarification-v2"
+      }
+    },
+    {
+      "id": "ego-13",
+      "scene": "day",
+      "utterance": "Let me off next to the car in front of the white van.",
+      "expected_guard_action": "defer",
+      "group": "other_landmark",
+      "ranking_sha256": "54130eda331662bebdda4c9dce28643d106f5859f77900bf5861dc6d9227abd6",
+      "actual_original_image_sha256": "c411cf6760695905334f32e5590083cf144543df1ca98e68aae55fb345eb583e",
+      "original": {
+        "action": "defer",
+        "matches": true
+      },
+      "additive": {
+        "action": "defer",
+        "matches": true
+      }
+    },
+    {
+      "id": "ego-14",
+      "scene": "night",
+      "utterance": "The car right in front of that bus is where I want to get out.",
+      "expected_guard_action": "defer",
+      "group": "other_landmark",
+      "ranking_sha256": "8fc2cdc1abb721f9a0a3c420e944dcf5a1952e727df825e678251f6a59621999",
+      "actual_original_image_sha256": "693e7f2769f9336d15d3ef3fef37594cfab297c819626d913f734077dfa7bd4a",
+      "original": {
+        "action": "defer",
+        "matches": true
+      },
+      "additive": {
+        "action": "defer",
+        "matches": true
+      }
+    },
+    {
+      "id": "ego-15",
+      "scene": "day",
+      "utterance": "Stop by the car ahead of the blue delivery truck.",
+      "expected_guard_action": "defer",
+      "group": "other_landmark",
+      "ranking_sha256": "6e8fa2ca6e22035f6ffab4e53dc2918028fceee606028be1f417cc4b278a64d8",
+      "actual_original_image_sha256": "c411cf6760695905334f32e5590083cf144543df1ca98e68aae55fb345eb583e",
+      "original": {
+        "action": "defer",
+        "matches": true
+      },
+      "additive": {
+        "action": "defer",
+        "matches": true
+      }
+    },
+    {
+      "id": "ego-16",
+      "scene": "night",
+      "utterance": "Could you stop by the one car that has its hazard lights flashing?",
+      "expected_guard_action": "defer",
+      "group": "specific_visual_attribute",
+      "ranking_sha256": "3c73046d009657796943ff8adec4858f1b05beab25d96054f6e46251470b37f8",
+      "actual_original_image_sha256": "693e7f2769f9336d15d3ef3fef37594cfab297c819626d913f734077dfa7bd4a",
+      "original": {
+        "action": "defer",
+        "matches": true
+      },
+      "additive": {
+        "action": "defer",
+        "matches": true
+      }
+    },
+    {
+      "id": "ego-17",
+      "scene": "day",
+      "utterance": "Can I get out beside the car in front of the red traffic light?",
+      "expected_guard_action": "defer",
+      "group": "other_landmark",
+      "ranking_sha256": "111f496c78edea3abf08758e0147e0e7ee4d20900204d78f3b293849c09c2b35",
+      "actual_original_image_sha256": "c411cf6760695905334f32e5590083cf144543df1ca98e68aae55fb345eb583e",
+      "original": {
+        "action": "defer",
+        "matches": true
+      },
+      "additive": {
+        "action": "defer",
+        "matches": true
+      }
+    },
+    {
+      "id": "ego-18",
+      "scene": "night",
+      "utterance": "Take me to the car nearest to us.",
+      "expected_guard_action": "defer",
+      "group": "specific_ordinal",
+      "ranking_sha256": "47aefa58bde91693096b840a0e102f108347e070359bfbadc057b58f9704471e",
+      "actual_original_image_sha256": "693e7f2769f9336d15d3ef3fef37594cfab297c819626d913f734077dfa7bd4a",
+      "original": {
+        "action": "defer",
+        "matches": true
+      },
+      "additive": {
+        "action": "defer",
+        "matches": true
+      }
+    },
+    {
+      "id": "ego-19",
+      "scene": "day",
+      "utterance": "By the car between the two vans, please.",
+      "expected_guard_action": "defer",
+      "group": "other_landmark",
+      "ranking_sha256": "2cda3a7acb5e9bdd01c379dcc07e7874d089421233146346d7aef490e776ab80",
+      "actual_original_image_sha256": "c411cf6760695905334f32e5590083cf144543df1ca98e68aae55fb345eb583e",
+      "original": {
+        "action": "defer",
+        "matches": true
+      },
+      "additive": {
+        "action": "defer",
+        "matches": true
+      }
+    },
+    {
+      "id": "ego-20",
+      "scene": "night",
+      "utterance": "Let me off at the gate straight ahead of us, beside the car.",
+      "expected_guard_action": "defer",
+      "group": "static_destination",
+      "ranking_sha256": "1143f90d99f7c6a996a3befd3820b35c0cab4434704e2644c821717626526ac1",
+      "actual_original_image_sha256": "693e7f2769f9336d15d3ef3fef37594cfab297c819626d913f734077dfa7bd4a",
+      "original": {
+        "action": "defer",
+        "matches": true
+      },
+      "additive": {
+        "action": "defer",
+        "matches": true
+      }
+    },
+    {
+      "id": "ego-21",
+      "scene": "day",
+      "utterance": "I want the car just ahead of the pedestrian crossing, please.",
+      "expected_guard_action": "defer",
+      "group": "other_landmark",
+      "ranking_sha256": "d42ef52595e00b174b0db8583cb6e9d0302b6e1005c3e348969de7325f12191e",
+      "actual_original_image_sha256": "c411cf6760695905334f32e5590083cf144543df1ca98e68aae55fb345eb583e",
+      "original": {
+        "action": "defer",
+        "matches": true
+      },
+      "additive": {
+        "action": "defer",
+        "matches": true
+      }
+    },
+    {
+      "id": "ego-22",
+      "scene": "night",
+      "utterance": "Leave me beside the second car up ahead.",
+      "expected_guard_action": "defer",
+      "group": "specific_ordinal",
+      "ranking_sha256": "7705a500b7665dfdb8d74ba91b7cf8969924cda77199ef1899c08e7e99688851",
+      "actual_original_image_sha256": "693e7f2769f9336d15d3ef3fef37594cfab297c819626d913f734077dfa7bd4a",
+      "original": {
+        "action": "defer",
+        "matches": true
+      },
+      "additive": {
+        "action": "defer",
+        "matches": true
+      }
+    },
+    {
+      "id": "ego-23",
+      "scene": "single_bus",
+      "utterance": "Let me get out by the bus up ahead of us.",
+      "expected_guard_action": "defer",
+      "group": "real_cardinality_control",
+      "ranking_sha256": "5b61b56e638ec9007d0e6f881c777358992fd06802c228280cc451449ba6cf8d",
+      "actual_original_image_sha256": "8554bd37dc647488f6a496b2845f22a7a6bf21b2478d732b1340d99175a7e518",
+      "original": {
+        "action": "defer",
+        "matches": true
+      },
+      "additive": {
+        "action": "defer",
+        "matches": true
+      }
+    },
+    {
+      "id": "ego-24",
+      "scene": "two_buses",
+      "utterance": "Let me get out by the bus up ahead of us.",
+      "expected_guard_action": "ask",
+      "group": "real_cardinality_control",
+      "ranking_sha256": "88025e76ce04495a1ce0f4e8e001e9052fdb94a83c52e6d0a205d921ba77f46d",
+      "actual_original_image_sha256": "89b132a4659cc1efa913e5d36d733aec05a0cbcbb67d8c7a49f0225df2db27e8",
+      "original": {
+        "action": "defer",
+        "matches": false
+      },
+      "additive": {
+        "action": "ask",
+        "matches": true,
+        "track_ids": [
+          2418,
+          2323
+        ],
+        "question": "Do you mean the bus farther left or the one farther right?",
+        "reason": "multiple_current_objects_fit_single_reference",
+        "policy": "vehicle-relative-to-passenger-v1"
+      }
+    }
+  ],
+  "meaning": "These are AI-authored expectations for one ask-only guard. Defer leaves the decision to Qwen. No vehicle control, human intention or final destination accuracy was measured."
+}

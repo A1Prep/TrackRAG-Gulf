@@ -1,0 +1,26 @@
+{
+  "registered_utc": "2026-11-22T07:12:00.546997+00:00",
+  "kind": "fresh_full_application_test_on_all_12_independently_registered_unpointed_pair_phrasings",
+  "upstream_language_registration": "f09d846f44cbcb6ff2226c452d4f6ea00feb86035ef6cc0c7f6e7ba81c96ce64",
+  "full_cpu_policy_result_sha256": "ba412e8ad0c40fab10c633526a55c352ffbdf2625c60d79960007e75a64f62b7",
+  "original_reference_sha256": "bbdd0b98496ef72062a286ecc100ef3ffc7eb06c1ab595ead840b4a766b7aa0c",
+  "normal_input_sha256": "4512a8200d08f4a55bf7f0c3ca6daf4517ffb4b894a03df28b594bb7317f258f",
+  "photo_sha256": "c411cf6760695905334f32e5590083cf144543df1ca98e68aae55fb345eb583e",
+  "source_freeze": {
+    "trackrag/dropoff/pair_dialogue.py": "f0f0135d0fad75cd015c7827b4a684c434a26757a6e58418f13669bf033a3eef",
+    "trackrag/dropoff/passenger_pair_choice.py": "ff29b425ee01d029bb62a2890efa51723c15e2049afacd537515b47a68ad16dc",
+    "trackrag/dropoff/infrastructure.py": "120dc91b122181d5c2fc8d90fda4fd6cbd536d1f2886264b9137c053065c8cc7",
+    "trackrag/passenger_app.py": "479079171323d0c1b8038d32f66f374bafacb64c44f9a2ee3e3e42688e6dbdb6",
+    "trackrag/dropoff/passenger.py": "9b92261a418d7f36cb07daee6b92f19c83f0f32a6320f9aabbdc81e20e323909",
+    "trackrag/dropoff/interaction.py": "bed95433189eb710aafe8b369c91d9768aebf4a0c398e10b2c57bc9be2f1d0c4"
+  },
+  "study_code_sha256": "eb2a23b121ff3a1d84742104ea9612ce9974a567006bc62f2083c97b7e5e1131",
+  "browser_code_sha256": "51f31c0a53249aedd7bbd84005a74f483224b06f57dc2b3c83c18706ba0136bb",
+  "sample": "All 12 ambiguous positives originally supplied by an independent AI author on original frame video_054907 F781. All use the same intended vehicles/area. Fresh natural typed input per browser page with empty history. No pointing or correction. Twelve counterexamples were previously checked separately for the special clarification rule.",
+  "scoring": "One untouched first attempt per phrase. Credit an explicit pair-specific identifying question or a proposal with both originally intended anchor boxes at minimum matched IoU >= 0.5 and point inside the registered region. Keep generic requests to mark a patch, missing evidence, wrong proposals and all operational errors as separate outcomes. A visible pair picker is an available human action and receives no automatic accuracy credit. Never confirm any of these trials.",
+  "question_rule": "Earlier pair-specific rubric: a question must contain a distinguishing request and an explicit pair reference. Generic reference to only a landmark or road patch receives no pair-specific credit.",
+  "known_before_run": "The 24-phrase CPU classification was already measured, with 4 of these 12 intercepted and 8 delegated. No selected native application outputs from these new phrasings were examined before registration. No model, threshold or later rule will be fitted to these 12.",
+  "person_count": 0,
+  "formal_final_cases": 0,
+  "requires_preceding_application_trial_closure": true
+}

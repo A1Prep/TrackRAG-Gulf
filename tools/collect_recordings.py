@@ -40,7 +40,7 @@ def collect_one(
     duration_s: int,
     index: int,
 ) -> None:
-    from trackrag.speech import record_from_microphone, transcribe_and_correct
+    from trackrag.speech import record_from_microphone, transcribe_and_correct, prompt_correction
 
     print(f"\n[Recording {index}]")
     print(f"Speaker: {speaker_id}")
@@ -56,7 +56,13 @@ def collect_one(
     save_wav(audio_bytes, audio_path)
     print(f"Saved to {audio_path.relative_to(PROJECT_ROOT)}")
 
-    transcript = transcribe_and_correct(audio_path, interactive=True)
+    try:
+        transcript = transcribe_and_correct(audio_path, interactive=True)
+    except Exception as exc:
+        print(f"Auto-transcription failed ({exc}). Please type the transcript manually.")
+        transcript = input("Transcript: ").strip()
+        if not transcript:
+            transcript = prompt_text
 
     record = {
         "recording_id": f"{speaker_id}_{timestamp}_{index:03d}",
@@ -73,16 +79,16 @@ def collect_one(
 
 
 PROMPTS = [
-    "Leave the package at the front door.",
-    "Please drop it at the reception desk.",
-    "Hand it to the security guard at the gate.",
-    "Leave it with the neighbour in flat twelve.",
-    "Place it in the parcel locker on the left.",
-    "Ring the bell and wait for someone to answer.",
-    "Leave it by the side entrance, not the main door.",
-    "Put the parcel inside the green bin area.",
-    "Give it to anyone at the counter.",
-    "Drop it at the building concierge.",
+    "How many pedestrians are visible near the crossing?",
+    "Is there a vehicle stopped at the junction in this frame?",
+    "Does the pedestrian track appear in all four frames?",
+    "Which tracks are present at both the start and end of the interval?",
+    "Is a small motorised vehicle visible at the right edge of the frame?",
+    "How many road users are annotated in this frame?",
+    "Does the same emergency vehicle appear in both frames?",
+    "Are there any pedestrians crossing the road in frame two hundred and five?",
+    "Which pedestrian track IDs are visible near the traffic light?",
+    "Is the pedestrian track continuous across the selected frames?",
 ]
 
 

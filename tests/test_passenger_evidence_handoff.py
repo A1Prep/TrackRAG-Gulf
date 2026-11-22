@@ -64,7 +64,8 @@ def test_manual_or_changed_source_cannot_be_a_model_attempt(input_output):
     altered["provenance"]["independent_model_proposal"] = False
     with pytest.raises(ValueError, match="assisted"):
         bound_outcome(altered, request)
-    assert bound_outcome(altered, request, passenger_selected=True)["method"] == "explicit_passenger_region"
+    with pytest.raises(ValueError,match="Passenger mark"):
+        bound_outcome(altered, request, passenger_selected=True)
     altered = deepcopy(outcome)
     altered["provenance"]["resolver"]["messages"][0]["content"] = "Changed"
     with pytest.raises(ValueError, match="prompt"):

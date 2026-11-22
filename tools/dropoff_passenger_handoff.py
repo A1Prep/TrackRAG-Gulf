@@ -21,7 +21,7 @@ def records(path):
     return [(sha256(line).hexdigest(), json.loads(line)) for line in path.read_bytes().splitlines() if line.strip()]
 
 
-def bound_outcome(outcome, request, *, passenger_selected=False, passenger_landmarks=False, dialogue_policy=False,
+def bound_outcome(outcome, request, *, passenger_selected=False, passenger_landmarks=False, dialogue_policy=False, requested_box=None,
                   referent_path=None, pair_geometry=None, road_cache=None, passenger_requested_pointing=False):
     need(isinstance(outcome, dict) and outcome.get("request_id") == request["request_id"], "Mismatched outcome ID")
     source = outcome.get("provenance", {})
@@ -59,8 +59,10 @@ def bound_outcome(outcome, request, *, passenger_selected=False, passenger_landm
                 if pair_geometry is not None else {"current_image_and_tracks_checked":True,
                     "learned_geometry_and_mask_replayed":False,"scope":"Journal evidence only; road-mask bytes and fitted patch were not independently replayed."})
     elif passenger_selected:
+        from trackrag.dropoff.manual_mark import verify
         need(method == "explicit_passenger_region" and source.get("independent_model_proposal") is False,
              "Passenger marking lacks its manual-intervention declaration")
+        record["passenger_mark_verification"] = verify(request,outcome,requested_box=requested_box,road_cache=road_cache)
     elif dialogue_policy and passenger_requested_pointing:
         from trackrag.dropoff.passenger_pair_choice import pointing_question
         need(outcome == pointing_question(request), "Pointing prompt differs from the passenger action or original frame")
@@ -208,9 +210,11 @@ def session(journal_path, *, referent_path=None, pair_geometry=None, road_cache=
                     "original_outcome_sha256":digest(native) if native else None, origin_state:view["state"]}
             need(request is not None and request["request_id"] == view["request_id"], "Mismatched interaction request")
             if pair:
-                from trackrag.dropoff.passenger_pair_choice import RECOVERABLE
+                from trackrag.dropoff.passenger_pair_choice import RECOVERABLE, landmark_error_guidance
                 active = previous.get("state") in {"proposed", "needs_clarification", "insufficient_visual_evidence"} or (
-                    previous.get("state") == "error" and (previous.get("error") or {}).get("code") in RECOVERABLE)
+                    previous.get("state") == "error" and ((previous.get("error") or {}).get("code") in RECOVERABLE
+                    or bool(previous.get("landmark_error_guidance")) and previous["landmark_error_guidance"] ==
+                    landmark_error_guidance(request, native)))
                 need(active and previous.get("request_id") == request["request_id"] and original_submission,
                      "Assisted selection followed an inactive or different passenger request")
             item["phase"] = ("passenger_selected_landmarks" if pair else "passenger_marked" if manual else
@@ -219,7 +223,9 @@ def session(journal_path, *, referent_path=None, pair_geometry=None, road_cache=
             item["input_mode"] = request["input_mode"]
             item["original_transcript"] = request.get("original_transcript")
             if manual:
-                item["requested_box"] = detail["requested_box"]
+                if (detail.get("outcome") or {}).get("ok") is True:
+                    need(detail.get("requested_box") is not None, "Passenger mark lacks its submitted rectangle")
+                item["requested_box"] = detail.get("requested_box")
             elif pair:
                 item["track_ids"],item["placement"] = detail["track_ids"],detail["placement"]
             else:
@@ -240,6 +246,7 @@ def session(journal_path, *, referent_path=None, pair_geometry=None, road_cache=
                 item["outcome"] = bound_outcome(detail["outcome"], request, passenger_selected=manual, passenger_landmarks=pair,
                                                 dialogue_policy=not manual and not pair, referent_path=referent_path,
                                                 pair_geometry=pair_geometry,road_cache=road_cache,
+                                                requested_box=detail.get("requested_box") if manual else None,
                                                 passenger_requested_pointing=passenger_requested_pointing)
                 if item["outcome"].get("method") == "deictic_pair_clarification" and item["outcome"]["ok"]:
                     item["phase"] = "automatic_pair_identification_question"

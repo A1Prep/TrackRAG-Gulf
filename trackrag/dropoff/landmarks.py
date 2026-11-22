@@ -58,6 +58,13 @@ def landmark_messages(request):
     return messages, index
 
 
+class InvalidLandmarkIDs(ValueError):
+    message = "Landmarks must refer to one or two distinct current detector IDs"
+
+    def __init__(self):
+        super().__init__(self.message)
+
+
 def parse_landmark(text, index, frame):
     if not isinstance(text, str) or not 1 <= len(text.strip()) <= 1000:
         raise ValueError("Landmark response must be a bounded, nonempty string")
@@ -76,7 +83,7 @@ def parse_landmark(text, index, frame):
     if parts[0] == "LANDMARK":
         ids = parts[1:]
         if len(ids) not in (1, 2) or len(set(ids)) != len(ids) or any(i not in index for i in ids):
-            raise ValueError("Landmarks must refer to one or two distinct current detector IDs")
+            raise InvalidLandmarkIDs()
         return {"kind": "landmark", "track_ids": [index[i]["track_id"] for i in ids],
                 "boxes": [deepcopy(index[i]["bbox_xyxy"]) for i in ids]}
     if parts[0] == "OBJECT" and len(parts) == 5:

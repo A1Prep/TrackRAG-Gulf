@@ -18,12 +18,12 @@ from .road_cache import ROAD_RECIPE_SHA256
 METHOD = "explicit_passenger_landmark_pair"
 PLACEMENTS = {"between", "behind"}
 VEHICLE = re.compile(
-    r"\b(?:cars?|sedans?|suvs?|cabs?|taxis?|vehicles?|hatchbacks?|coupes?|vans?|minivans?|"
+    r"\b(?:cars?|sedans?|suvs?|crossovers?|cabs?|taxis?|vehicles?|hatchbacks?|coupes?|vans?|minivans?|"
     r"trucks?|lorr(?:y|ies)|pickups?|coaches|coach|buses|bus|motorbikes?|motorcycles?|scooters?)\b",
     re.I,
 )
 VEHICLE_PLURAL = re.compile(
-    r"\b(?:cars|sedans|suvs|cabs|taxis|vehicles|hatchbacks|coupes|vans|minivans|"
+    r"\b(?:cars|sedans|suvs|crossovers|cabs|taxis|vehicles|hatchbacks|coupes|vans|minivans|"
     r"trucks|lorries|pickups|coaches|buses|motorbikes|motorcycles|scooters)\b",
     re.I,
 )
@@ -173,6 +173,32 @@ def options(request, *, passenger_requested=False):
         if t["class_name"] in MOTOR
     ]
     return selected if len(selected) >= 2 else []
+
+
+def landmark_error_guidance(request, outcome):
+    """Allow a passenger to locate two vehicles after the model returned unusable detector IDs."""
+    from .inputs import _inspect_image
+    from .landmarks import InvalidLandmarkIDs
+
+    if not isinstance(outcome, dict) or outcome.get("ok") is not False or outcome.get("request_id") != request["request_id"]:
+        return None
+    source, error = outcome.get("provenance") or {}, outcome.get("error") or {}
+    if (source.get("method") != "qwen_landmark_region" or error.get("message") != InvalidLandmarkIDs.message
+            or error.get("code") not in {"invalid_model_output", "invalid_input_or_output"}
+            or request["scene"]["source"] != "predicted" or not between_road.requested(request)):
+        return None
+    original = request["scene"]["provenance"]["image_sha256"]
+    if (source.get("request_sha256", digest(request)) != digest(request)
+            or source.get("image", {}).get("sha256", original) != original):
+        return None
+    try:
+        if _inspect_image(request["scene"]["frame"])[1] != original:
+            return None
+    except (ValueError, OSError):
+        return None
+    if options(request):
+        return "I couldn’t match both vehicles. Which two do you mean? Select their outlines or mark the intended road area."
+    return "I couldn’t match both vehicles, and this photo has fewer than two vehicle outlines. Could you mark the road area or describe another landmark?"
 
 
 def pointing_question(request):
@@ -459,7 +485,60 @@ class PassengerSession(OriginalPassengerSession):
     def __init__(self, scene, model, *, audit_dir):
         self._original_submission = None
         self._passenger_requested = False
+        self._area_landmarks = None
+        self._landmark_error_guidance = None
         super().__init__(scene, model, audit_dir=audit_dir)
+
+    def _clear(self):
+        super()._clear()
+        self._landmark_error_guidance = None
+
+    def _can_mark_area(self):
+        return super()._can_mark_area() or (self._state == "error" and self._landmark_error_guidance is not None)
+
+    def _landmarks_awaiting_area(self, base, outcome, actor):
+        """Keep two known outlines for the marking UI, never an inferred destination or a confirmation."""
+        source = outcome["provenance"]
+        request = self._request
+        if actor == "passenger_landmarks":
+            choice = source.get("passenger_selection") or {}
+            if not choice:
+                return None
+            try:
+                checked = validate_choice_evidence(request, outcome, choice.get("track_ids"), choice.get("placement"),
+                                                   passenger_requested=self._passenger_requested, live=True)
+                ids = checked["track_ids"]
+            except (TypeError,ValueError,KeyError):
+                return None
+        elif actor == "model" and source.get("method") == "qwen_landmark_region":
+            evidence = source.get("between_road") or {}
+            if evidence.get("withheld_reason") not in {"no_visible_shared_road_edge", "no_supported_neighborhood",
+                                                       "indistinguishable_ground_contact_depth"}:
+                return None
+            from .between_audit import _native_selection
+            from .landmarks import resolve_image
+            try:
+                image, binding = resolve_image(request,base.config)
+                with image:
+                    reading, _, _ = _native_selection(base,request,outcome,image,binding)
+                ids = reading.get("track_ids",[])
+                tracks = {t["track_id"]:t for t in current_tracks(request)}
+                if (reading.get("kind") != "landmark" or len(ids) != 2 or len(set(ids)) != 2
+                        or evidence.get("resolved_track_ids") != ids or source.get("selected_track_ids") != ids
+                        or evidence.get("image_sha256") != binding["sha256"] or evidence.get("request_sha256") != digest(request)
+                        or evidence.get("geometry_sha256") != base.geometry.sha256
+                        or source.get("inference_input_sha256") != inference_input_sha256(request,binding["sha256"])
+                        or evidence.get("current_observations_sha256") != digest(current_tracks(request))
+                        or any(i not in tracks or tracks[i]["class_name"] not in MOTOR for i in ids)
+                        or reading.get("boxes") != [tracks[i]["bbox_xyxy"] for i in ids]):
+                    return None
+            except (AttributeError,TypeError,ValueError,KeyError,OSError):
+                return None
+        else:
+            return None
+        observations = {t["track_id"]:t for t in current_tracks(request)}
+        return {"source":actor,"request_id":request["request_id"],"image_sha256":request["scene"]["provenance"]["image_sha256"],
+                "track_ids":list(ids),"boxes_xyxy":[list(observations[i]["bbox_xyxy"]) for i in ids]}
 
     def _accept(self, outcome, selected_by):
         from . import qualified_pair
@@ -479,6 +558,10 @@ class PassengerSession(OriginalPassengerSession):
                 with getattr(base,"lock",None) or nullcontext():
                     between_road.validate_offer(base, self._request, outcome, selected_by)
         state=super()._accept(outcome, selected_by)
+        if self._state == "error" and selected_by == "model" and self._supports_pointing():
+            self._landmark_error_guidance = landmark_error_guidance(self._request, outcome)
+        if self._state=="needs_clarification" and selected_by in {"passenger_landmarks","model"}:
+            self._area_landmarks=self._landmarks_awaiting_area(base,outcome,selected_by)
         if selected_by == qualified_pair.ACTOR and self._state == "proposed":
             self._turns[-1]["text"]="I found one visible road gap that fits. Is the highlighted area where you want to get out?"
         return state
@@ -490,6 +573,7 @@ class PassengerSession(OriginalPassengerSession):
             if point_to_vehicles and not self._supports_pointing():
                 raise ValueError("Vehicle selection is unavailable for this scene.")
             self._passenger_requested = point_to_vehicles
+            self._area_landmarks = None
             return super().submit(text, original_transcript=original_transcript, speech=speech)
 
     def _interpret_submission(self, request):
@@ -524,7 +608,8 @@ class PassengerSession(OriginalPassengerSession):
             and self._request is not None
             and (
                 self._state in {"proposed", "needs_clarification", "insufficient_visual_evidence"}
-                or (self._state == "error" and self._error and self._error.get("code") in RECOVERABLE)
+                or (self._state == "error" and self._error
+                    and (self._error.get("code") in RECOVERABLE or self._landmark_error_guidance is not None))
             )
         )
 
@@ -533,6 +618,19 @@ class PassengerSession(OriginalPassengerSession):
             state = super().view()
             state["can_request_pointing"] = self._supports_pointing()
             state["pair_choices"] = options(self._request, passenger_requested=self._passenger_requested) if self._active() else []
+            if self._state == "error" and self._landmark_error_guidance:
+                state["landmark_error_guidance"] = self._landmark_error_guidance
+            hint=self._area_landmarks
+            if (hint and self._state=="needs_clarification" and state["request_id"]==hint["request_id"]
+                    and state["image_sha256"]==hint["image_sha256"]):
+                state["area_landmarks"]=deepcopy(hint)
+            elif self._state=="needs_clarification" and self._selected_by=="model" and self._request and between_road.requested(self._request):
+                words=self._request["text"]
+                matches=list(re.finditer(r"\bbetween\b",words,re.I))
+                if matches:
+                    before, after=words[:matches[-1].start()], words[matches[-1].end():]
+                    if named_vehicle_pair(after) or (PAIR_PRONOUN.match(after) and named_vehicle_pair(before,prefatory=True)):
+                        state["unmatched_described_pair"]=True
             return state
 
     def select_pair(self, track_ids, placement):

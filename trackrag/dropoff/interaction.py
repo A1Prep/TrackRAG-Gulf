@@ -498,11 +498,14 @@ class PassengerSession:
             self._save_turn("submitted",{"request":self._request,"outcome":outcome,"speech":speech})
             return self.view()
 
+    def _can_mark_area(self):
+        return self._request is not None and self._state in {"proposed", "needs_clarification", "insufficient_visual_evidence"}
+
     def select_area(self, box):
         from .passenger import operational_code
 
         with self._lock:
-            if self._request is None or self._state in ("idle","cancelled","confirmed","error"):
+            if not self._can_mark_area():
                 raise ValueError("Give a passenger instruction before marking its destination")
             self._clear()
             self._state = "idle"

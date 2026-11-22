@@ -1,0 +1,2458 @@
+{
+  "scope": "First responses to typed, natural English 'between' requests on actual UAE driver-view photos. Frames and current RF-DETR/BoT-SORT predictions only. No new fitting. Prospective negatives include blocked or ambiguous scenes. No test of physical vehicle fit or permission to stop.",
+  "method": "Qwen3.5-9B identifies two current vehicles, Mapillary Mask2Former supplies parking-surface pixels, and Qwen chooses among the marked points or asks for clarification.",
+  "model_revisions": {
+    "Qwen/Qwen3.5-9B": "c202236235762e1c871ad0ccb60c8ee5ba337b9a",
+    "facebook/mask2former-swin-large-mapillary-vistas-semantic": "4772b6bf101d91f2534c106dc524d906aeb3c68a"
+  },
+  "methods": {
+    "native": "Default unassisted passenger app, tuned 8B plus prior road checks",
+    "direct": "Qwen3.5-9B directly producing image coordinates",
+    "old": "Same 9B selecting from original road points",
+    "parking": "Same 9B selecting parking points across possible vehicle pairs",
+    "anchor-parking": "Same 9B identifying the referenced pair first, then selecting from its parking points"
+  },
+  "fresh_reference": {
+    "reviewer": "Independent AI visual reviewer; no passenger participants",
+    "originals": "10 source sequences; none matched the 123 previously surveyed or the airport image",
+    "rules": "Reference polygons established before scoring. Continuous original-image point in polygon, boundary included. Only explicit asks count as correct clarifications.",
+    "image_credits": "© Grab and KartaView Contributors, CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
+    "source_terms": "https://kartaview.org/terms",
+    "inputs_sha256": "d9297e269c2c7704f1e0331073b97a0cf640cc1042693280f84aa82c04e1a568",
+    "frozen_reference_sha256": "43ead7e9f29447ace66ac04bc813695078470d01f33b12e39e5c052a772c08ae",
+    "sealed_predictions_sha256": "a4130d240fe41b416ca5a50858a9d5ee1838413dd1f9dc65a0757271a6a8dd53",
+    "independent_raw_audit_sha256": "8e677178aae3b8614459f62a7ca48042452b2441d8452a9f2295bfadeb90d221",
+    "published_annotation_free_inputs": {
+      "file": "passenger-uae-gap-requests-20261123.jsonl",
+      "sha256": "3458894b997dcd5db998a1b568184b737d9c633aecb5985ca4b478fe2622604f",
+      "predicted_observations": 411
+    }
+  },
+  "cohorts": {
+    "development": {
+      "positives": 8,
+      "negatives": 7,
+      "automatic": {
+        "native": {
+          "correct_ask": 7,
+          "missed_positive": 8
+        },
+        "direct": {
+          "false_on_negative": 4,
+          "correct_ask": 3,
+          "wrong_on_positive": 7,
+          "hit": 1
+        },
+        "old": {
+          "correct_ask": 5,
+          "false_on_negative": 2,
+          "hit": 3,
+          "wrong_on_positive": 5
+        },
+        "parking": {
+          "correct_ask": 6,
+          "missed_positive": 2,
+          "false_on_negative": 1,
+          "hit": 5,
+          "wrong_on_positive": 1
+        },
+        "anchor-parking": {
+          "correct_ask": 6,
+          "error_negative": 1,
+          "wrong_on_positive": 1,
+          "hit": 3,
+          "missed_positive": 4
+        }
+      },
+      "assisted_vehicle_boxes": {
+        "description": "After the sealed automatic evaluation, supplied independently identified boxes around just the two vehicles in the current image. No destination points or regions went to the models.",
+        "available": 10,
+        "outcomes": {
+          "wrong_on_positive": 1,
+          "correct_ask": 2,
+          "hit": 3,
+          "missed_positive": 4
+        }
+      },
+      "cases": [
+        {
+          "id": "uae-drive-001",
+          "recording": "video_142911",
+          "frame": 833,
+          "original_size": [
+            3840,
+            2160
+          ],
+          "sha256": "291c45642e149c91ce0b9f419f56c9f078b60479062295d1120e5c91637c52e8",
+          "request": "Drop me off between the two dark cars.",
+          "source_url": null,
+          "reference_polygons_xy": [],
+          "reference_note": "Rain, glare and multiple vehicles spread over the moving traffic lanes; no distinguishable roadside pair with a visible gap.",
+          "fraction_of_reference_with_parking_label": null,
+          "automatic": {
+            "native": {
+              "outcome": "correct_ask",
+              "state": "ask",
+              "point": null,
+              "detail": "Which two vehicles do you mean? Describe each one or select both on the photo."
+            },
+            "direct": {
+              "outcome": "false_on_negative",
+              "state": "propose",
+              "point": [
+                1735.68,
+                1570.32
+              ],
+              "detail": null
+            },
+            "old": {
+              "outcome": "correct_ask",
+              "state": "ask",
+              "point": null,
+              "detail": null
+            },
+            "parking": {
+              "outcome": "correct_ask",
+              "state": "ask",
+              "point": null,
+              "detail": "no candidate"
+            },
+            "anchor-parking": {
+              "outcome": "correct_ask",
+              "state": "ask",
+              "point": null,
+              "detail": "no candidate"
+            }
+          }
+        },
+        {
+          "id": "uae-drive-003",
+          "recording": "video_115833",
+          "frame": 633,
+          "original_size": [
+            2560,
+            1440
+          ],
+          "sha256": "147d7271233466f65e97b34d4441fa425fbe3140c8c74f88c4b811b41a80118f",
+          "request": "Drop me off between the two dark cars.",
+          "source_url": null,
+          "reference_polygons_xy": [],
+          "reference_note": "Several small vehicles occupy different traffic lanes. No identifiable pair flanks a visible roadside receiving area.",
+          "fraction_of_reference_with_parking_label": null,
+          "automatic": {
+            "native": {
+              "outcome": "correct_ask",
+              "state": "ask",
+              "point": null,
+              "detail": "Which two vehicles do you mean? Describe each one or select both on the photo."
+            },
+            "direct": {
+              "outcome": "false_on_negative",
+              "state": "propose",
+              "point": [
+                768.0,
+                1069.92
+              ],
+              "detail": null
+            },
+            "old": {
+              "outcome": "false_on_negative",
+              "state": "propose",
+              "point": [
+                1132.5,
+                1112.5
+              ],
+              "detail": null
+            },
+            "parking": {
+              "outcome": "correct_ask",
+              "state": "ask",
+              "point": null,
+              "detail": "no candidate"
+            },
+            "anchor-parking": {
+              "outcome": "correct_ask",
+              "state": "ask",
+              "point": null,
+              "detail": "no candidate"
+            }
+          }
+        },
+        {
+          "id": "uae-drive-005",
+          "recording": "video_143739",
+          "frame": 188,
+          "original_size": [
+            3840,
+            2160
+          ],
+          "sha256": "cbbafac72d36620a8200924fffa8a9c0ac86376c845e4d6c4e51561d13329d4f",
+          "request": "Can you show me the curb gap between those two black cars?",
+          "source_url": null,
+          "reference_polygons_xy": [],
+          "reference_note": "The packed queue shows numerous dark vehicles spread across lanes, with their positions blocking the curb. No unique dark curb pair or visible open section between it.",
+          "fraction_of_reference_with_parking_label": null,
+          "automatic": {
+            "native": {
+              "outcome": "correct_ask",
+              "state": "ask",
+              "point": null,
+              "detail": "Which two vehicles do you mean? Select both on the photo or describe each one."
+            },
+            "direct": {
+              "outcome": "correct_ask",
+              "state": "ask",
+              "point": null,
+              "detail": null
+            },
+            "old": {
+              "outcome": "correct_ask",
+              "state": "ask",
+              "point": null,
+              "detail": null
+            },
+            "parking": {
+              "outcome": "correct_ask",
+              "state": "ask",
+              "point": null,
+              "detail": "no candidate"
+            },
+            "anchor-parking": {
+              "outcome": "correct_ask",
+              "state": "ask",
+              "point": null,
+              "detail": "no candidate"
+            }
+          }
+        },
+        {
+          "id": "kv-1644950905",
+          "recording": "kv-6315193",
+          "frame": 227,
+          "original_size": [
+            3264,
+            1836
+          ],
+          "sha256": "f56573acd7f6ffe0b141b23d394c1c519db4a71752fe486807e6f41290101882",
+          "request": "Drop me off between the two dark cars.",
+          "source_url": null,
+          "reference_polygons_xy": [],
+          "reference_note": "A narrow street, pedestrians on both sides and a clearly visible bonnet. Neither foreground curb has two dark cars bounding a pavement gap.",
+          "fraction_of_reference_with_parking_label": null,
+          "automatic": {
+            "native": {
+              "outcome": "correct_ask",
+              "state": "ask",
+              "point": null,
+              "detail": "Which two vehicles do you mean? Describe each one or select both on the photo."
+            },
+            "direct": {
+              "outcome": "correct_ask",
+              "state": "ask",
+              "point": null,
+              "detail": null
+            },
+            "old": {
+              "outcome": "correct_ask",
+              "state": "ask",
+              "point": null,
+              "detail": "No open road patch between detected vehicles."
+            },
+            "parking": {
+              "outcome": "correct_ask",
+              "state": "ask",
+              "point": null,
+              "detail": "no candidate"
+            },
+            "anchor-parking": {
+              "outcome": "error_negative",
+              "state": "error",
+              "point": null,
+              "detail": "unparseable upstream anchor reply"
+            }
+          }
+        },
+        {
+          "id": "kv-1480813097",
+          "recording": "kv-5139497",
+          "frame": 182,
+          "original_size": [
+            3264,
+            1836
+          ],
+          "sha256": "fcfeadb33521e8b7b9a4fc15b2a4f252e8b545dd43a51772cefcee13187cbf7d",
+          "request": "Drop me off between the two dark cars.",
+          "source_url": null,
+          "reference_polygons_xy": [
+            [
+              [
+                1093.44,
+                1583.039592
+              ],
+              [
+                1289.28,
+                1544.959116
+              ],
+              [
+                1506.881088,
+                1506.880476
+              ],
+              [
+                1515.041088,
+                1583.039592
+              ],
+              [
+                1267.518912,
+                1640.159388
+              ],
+              [
+                1147.8410880000001,
+                1651.039524
+              ]
+            ]
+          ],
+          "reference_note": "The two prominent dark SUVs bound a visibly vacant, white-lined parking bay on the same side. The projected inner pavement core lies between their wheels and within the colored boundary of the parking row. The near silver sedan does not occupy the bay.",
+          "fraction_of_reference_with_parking_label": 1.0,
+          "automatic": {
+            "native": {
+              "outcome": "missed_positive",
+              "state": "ask",
+              "point": null,
+              "detail": "Which two vehicles do you mean? Describe each one or select both on the photo."
+            },
+            "direct": {
+              "outcome": "wrong_on_positive",
+              "state": "propose",
+              "point": [
+                1707.07,
+                1531.22
+              ],
+              "detail": null
+            },
+            "old": {
+              "outcome": "hit",
+              "state": "propose",
+              "point": [
+                1310.06,
+                1590.56
+              ],
+              "detail": null
+            },
+            "parking": {
+              "outcome": "missed_positive",
+              "state": "ask",
+              "point": null,
+              "detail": "selector rejected"
+            },
+            "anchor-parking": {
+              "outcome": "wrong_on_positive",
+              "state": "propose",
+              "point": [
+                1651.9466666666665,
+                1674.5335968379447
+              ],
+              "detail": null
+            }
+          },
+          "assisted_vehicle_boxes": {
+            "state": "propose",
+            "point": [
+              1651.9466666666665,
+              1674.5335968379447
+            ],
+            "outcome": "wrong_on_positive",
+            "number_of_options": 2
+          }
+        },
+        {
+          "id": "kv-1447047097",
+          "recording": "kv-4720873",
+          "frame": 228,
+          "original_size": [
+            3264,
+            1836
+          ],
+          "sha256": "e3c8e743498547562a7ed994f4a2cd8ef9af77b3a9268e27666b874096194f9b",
+          "request": "Drop me off between the two dark cars.",
+          "source_url": null,
+          "reference_polygons_xy": [],
+          "reference_note": "A broad unoccupied section of an Abu Dhabi arterial and a curb island on the right. No pair of dark curb vehicles bounds a visible roadside gap.",
+          "fraction_of_reference_with_parking_label": null,
+          "automatic": {
+            "native": {
+              "outcome": "correct_ask",
+              "state": "ask",
+              "point": null,
+              "detail": "Which two vehicles do you mean? Describe each one or select both on the photo."
+            },
+            "direct": {
+              "outcome": "correct_ask",
+              "state": "ask",
+              "point": null,
+              "detail": null
+            },
+            "old": {
+              "outcome": "correct_ask",
+              "state": "ask",
+              "point": null,
+              "detail": "No open road patch between detected vehicles."
+            },
+            "parking": {
+              "outcome": "correct_ask",
+              "state": "ask",
+              "point": null,
+              "detail": "no candidate"
+            },
+            "anchor-parking": {
+              "outcome": "correct_ask",
+              "state": "ask",
+              "point": null,
+              "detail": "no candidate"
+            }
+          }
+        },
+        {
+          "id": "kv-1744059497",
+          "recording": "kv-7434857",
+          "frame": 28,
+          "original_size": [
+            3840,
+            2160
+          ],
+          "sha256": "144fe679f8334c1c4856a1aa1c43d31f73502c9697cce2ce01b4c356abdbcde7",
+          "request": "Drop me off between the two dark cars.",
+          "source_url": null,
+          "reference_polygons_xy": [],
+          "reference_note": "Two dark vehicles can be identified along the right-hand row, but their silhouettes and ground contacts nearly meet. The open part of the image is the adjacent through lane. No visible drop-off-sized intervehicle bay can be established.",
+          "fraction_of_reference_with_parking_label": null,
+          "automatic": {
+            "native": {
+              "outcome": "correct_ask",
+              "state": "ask",
+              "point": null,
+              "detail": "Which two vehicles do you mean? Describe each one or select both on the photo."
+            },
+            "direct": {
+              "outcome": "false_on_negative",
+              "state": "propose",
+              "point": [
+                2231.04,
+                1000.08
+              ],
+              "detail": null
+            },
+            "old": {
+              "outcome": "false_on_negative",
+              "state": "propose",
+              "point": [
+                1826.25,
+                1068.75
+              ],
+              "detail": null
+            },
+            "parking": {
+              "outcome": "false_on_negative",
+              "state": "propose",
+              "point": [
+                1905.0666666666666,
+                1039.4466403162055
+              ],
+              "detail": null
+            },
+            "anchor-parking": {
+              "outcome": "correct_ask",
+              "state": "ask",
+              "point": null,
+              "detail": "selector rejected"
+            }
+          },
+          "assisted_vehicle_boxes": {
+            "state": "ask",
+            "point": null,
+            "outcome": "correct_ask",
+            "number_of_options": 1
+          }
+        },
+        {
+          "id": "kv-1644952489",
+          "recording": "kartaview_6315209",
+          "frame": 29,
+          "original_size": [
+            3264,
+            1836
+          ],
+          "sha256": "22c92e0d5f3199c415d0ea1ab5f7eb7002c6346849d396b48c50c3ba8965831b",
+          "request": "Across the junction, there's a dark sedan facing us and a tall white van farther right. Can you show me the empty marked space immediately to the sedan's right, between those two?",
+          "source_url": null,
+          "reference_polygons_xy": [
+            [
+              [
+                1882,
+                1231
+              ],
+              [
+                2138,
+                1226
+              ],
+              [
+                2167,
+                1262
+              ],
+              [
+                1860,
+                1276
+              ]
+            ]
+          ],
+          "reference_note": "The marked car-parking spaces stop at the far curb. Select the first empty slot beside the dark sedan; exclude the second empty space, person's legs and street in the foreground.",
+          "fraction_of_reference_with_parking_label": 0.2821387940841866,
+          "automatic": {
+            "native": {
+              "outcome": "missed_positive",
+              "state": "ask",
+              "point": null,
+              "detail": "Which two vehicles do you mean? Select both on the photo or describe each one."
+            },
+            "direct": {
+              "outcome": "hit",
+              "state": "propose",
+              "point": [
+                1889.86,
+                1255.82
+              ],
+              "detail": null
+            },
+            "old": {
+              "outcome": "wrong_on_positive",
+              "state": "propose",
+              "point": [
+                1915.69,
+                1227.19
+              ],
+              "detail": null
+            },
+            "parking": {
+              "outcome": "hit",
+              "state": "propose",
+              "point": [
+                2105.2799999999997,
+                1242.7470355731225
+              ],
+              "detail": null
+            },
+            "anchor-parking": {
+              "outcome": "hit",
+              "state": "propose",
+              "point": [
+                2105.2799999999997,
+                1242.7470355731225
+              ],
+              "detail": null
+            }
+          },
+          "assisted_vehicle_boxes": {
+            "state": "propose",
+            "point": [
+              2105.2799999999997,
+              1242.7470355731225
+            ],
+            "outcome": "hit",
+            "number_of_options": 3
+          }
+        },
+        {
+          "id": "kv-1476078601",
+          "recording": "kartaview_5083481",
+          "frame": 62,
+          "original_size": [
+            3264,
+            1836
+          ],
+          "sha256": "2ea77946173b105649eca013e2f5b7c5d6200b39acefd87cec4cfca8e508703c",
+          "request": "On the left, mark the open bit between the nearest white SUV, the one cut off by the picture, and the white crossover with writing on the side a little farther up.",
+          "source_url": null,
+          "reference_polygons_xy": [
+            [
+              [
+                459,
+                1240
+              ],
+              [
+                616,
+                1226
+              ],
+              [
+                661,
+                1248
+              ],
+              [
+                678,
+                1271
+              ],
+              [
+                495,
+                1316
+              ],
+              [
+                425,
+                1319
+              ]
+            ]
+          ],
+          "reference_note": "Two separated vehicles face across the street from the left-hand parking row. The visible asphalt between their exposed noses is bounded behind by the parking-row curb, and opens at the street side.",
+          "fraction_of_reference_with_parking_label": 1.0,
+          "automatic": {
+            "native": {
+              "outcome": "missed_positive",
+              "state": "ask",
+              "point": null,
+              "detail": "I couldn't identify both landmarks. Which two objects bound the area you mean?"
+            },
+            "direct": {
+              "outcome": "wrong_on_positive",
+              "state": "propose",
+              "point": [
+                427.58,
+                1208.09
+              ],
+              "detail": null
+            },
+            "old": {
+              "outcome": "hit",
+              "state": "propose",
+              "point": [
+                494.06,
+                1310.06
+              ],
+              "detail": null
+            },
+            "parking": {
+              "outcome": "hit",
+              "state": "propose",
+              "point": [
+                495.03999999999996,
+                1282.6600790513833
+              ],
+              "detail": null
+            },
+            "anchor-parking": {
+              "outcome": "missed_positive",
+              "state": "ask",
+              "point": null,
+              "detail": "no candidate"
+            }
+          },
+          "assisted_vehicle_boxes": {
+            "state": "ask",
+            "point": null,
+            "outcome": "missed_positive",
+            "number_of_options": 0
+          }
+        },
+        {
+          "id": "kv-1644952617",
+          "recording": "kartaview_6315209",
+          "frame": 37,
+          "original_size": [
+            3264,
+            1836
+          ],
+          "sha256": "80396121e7f1a251f928ad971600e11814ae5da8d47ce94ee912a3b108377b5b",
+          "request": "Drop me off between the two dark cars.",
+          "source_url": null,
+          "reference_polygons_xy": [
+            [
+              [
+                2037,
+                1395
+              ],
+              [
+                2214,
+                1361
+              ],
+              [
+                2268,
+                1341
+              ],
+              [
+                2290,
+                1381
+              ],
+              [
+                2310,
+                1411
+              ],
+              [
+                2200,
+                1420
+              ],
+              [
+                2065,
+                1423
+              ]
+            ]
+          ],
+          "reference_note": "Two conspicuous dark vehicles in the right-side marked row face opposite ways. A narrow triangle of the marked dark asphalt is visible behind the farther SUV and beside the rear of the near minivan. Full bay and metric clearance cannot be inferred.",
+          "fraction_of_reference_with_parking_label": 0.930379746835443,
+          "automatic": {
+            "native": {
+              "outcome": "missed_positive",
+              "state": "ask",
+              "point": null,
+              "detail": "Which two vehicles do you mean? Describe each one or select both on the photo."
+            },
+            "direct": {
+              "outcome": "wrong_on_positive",
+              "state": "propose",
+              "point": [
+                2483.9,
+                1347.62
+              ],
+              "detail": null
+            },
+            "old": {
+              "outcome": "wrong_on_positive",
+              "state": "propose",
+              "point": [
+                2113.31,
+                1507.69
+              ],
+              "detail": null
+            },
+            "parking": {
+              "outcome": "hit",
+              "state": "propose",
+              "point": [
+                2275.733333333333,
+                1384.2569169960475
+              ],
+              "detail": null
+            },
+            "anchor-parking": {
+              "outcome": "hit",
+              "state": "propose",
+              "point": [
+                2275.733333333333,
+                1384.2569169960475
+              ],
+              "detail": null
+            }
+          },
+          "assisted_vehicle_boxes": {
+            "state": "propose",
+            "point": [
+              2275.733333333333,
+              1384.2569169960475
+            ],
+            "outcome": "hit",
+            "number_of_options": 2
+          }
+        },
+        {
+          "id": "kv-1476078825",
+          "recording": "kartaview_5083497",
+          "frame": 1,
+          "original_size": [
+            3264,
+            1836
+          ],
+          "sha256": "2f42cb77a8b0442362951c4b872dd67fa29e3fdebcf8a902d3d8ba942065cc6d",
+          "request": "Over on the left, show me the open strip of road between the big white SUV right here and the dark sedan parked side-on by the crossing farther ahead.",
+          "source_url": null,
+          "reference_polygons_xy": [
+            [
+              [
+                819,
+                1189
+              ],
+              [
+                920,
+                1178
+              ],
+              [
+                1024,
+                1170
+              ],
+              [
+                1061,
+                1189
+              ],
+              [
+                974,
+                1223
+              ],
+              [
+                839,
+                1254
+              ],
+              [
+                782,
+                1251
+              ]
+            ]
+          ],
+          "reference_note": "An opening in the left roadside separates the big near white SUV cluster from the side-on dark sedan farther up. The target is the visible paved mouth, excluding the vehicles and the raised island behind the gap.",
+          "fraction_of_reference_with_parking_label": 0.0,
+          "automatic": {
+            "native": {
+              "outcome": "missed_positive",
+              "state": "ask",
+              "point": null,
+              "detail": "which dark sedan is parked side-on by the crossing farther ahead"
+            },
+            "direct": {
+              "outcome": "wrong_on_positive",
+              "state": "propose",
+              "point": [
+                848.64,
+                1167.7
+              ],
+              "detail": null
+            },
+            "old": {
+              "outcome": "wrong_on_positive",
+              "state": "propose",
+              "point": [
+                366.56,
+                1341.94
+              ],
+              "detail": null
+            },
+            "parking": {
+              "outcome": "missed_positive",
+              "state": "ask",
+              "point": null,
+              "detail": "selector rejected"
+            },
+            "anchor-parking": {
+              "outcome": "missed_positive",
+              "state": "ask",
+              "point": null,
+              "detail": "no candidate"
+            }
+          },
+          "assisted_vehicle_boxes": {
+            "state": "ask",
+            "point": null,
+            "outcome": "missed_positive",
+            "number_of_options": 0
+          }
+        },
+        {
+          "id": "kv-1476074857",
+          "recording": "kv-5083289",
+          "frame": 32,
+          "original_size": [
+            3264,
+            1836
+          ],
+          "sha256": "8c1bbddb0f8260f0b201dfc76757b302373324ef297baeeda3e1606a06da5b26",
+          "request": "Drop me off between the two dark cars.",
+          "source_url": null,
+          "reference_polygons_xy": [
+            [
+              [
+                616.09632,
+                1342.865088
+              ],
+              [
+                790.1328000000001,
+                1319.364288
+              ],
+              [
+                983.50848,
+                1293.100308
+              ],
+              [
+                987.65376,
+                1337.336892
+              ],
+              [
+                834.3338879999999,
+                1360.835856
+              ],
+              [
+                708.640512,
+                1374.660936
+              ]
+            ]
+          ],
+          "reference_note": "The two prominent black cars are separated by a third, empty marked parking bay. Both painted edges of that vacant bay are visible on asphalt. The foreground raised reddish paving and nearer black/yellow curb are outside the target.",
+          "fraction_of_reference_with_parking_label": 0.9732381801962533,
+          "automatic": {
+            "native": {
+              "outcome": "missed_positive",
+              "state": "ask",
+              "point": null,
+              "detail": "Which two vehicles do you mean? Describe each one or select both on the photo."
+            },
+            "direct": {
+              "outcome": "wrong_on_positive",
+              "state": "propose",
+              "point": [
+                1370.88,
+                1213.6
+              ],
+              "detail": null
+            },
+            "old": {
+              "outcome": "hit",
+              "state": "propose",
+              "point": [
+                889.31,
+                1335.56
+              ],
+              "detail": null
+            },
+            "parking": {
+              "outcome": "hit",
+              "state": "propose",
+              "point": [
+                959.2533333333333,
+                1326.201581027668
+              ],
+              "detail": null
+            },
+            "anchor-parking": {
+              "outcome": "missed_positive",
+              "state": "ask",
+              "point": null,
+              "detail": "selector rejected"
+            }
+          },
+          "assisted_vehicle_boxes": {
+            "state": "ask",
+            "point": null,
+            "outcome": "missed_positive",
+            "number_of_options": 1
+          }
+        },
+        {
+          "id": "kv-1648471945",
+          "recording": "kartaview_6327433",
+          "frame": 413,
+          "original_size": [
+            3840,
+            2160
+          ],
+          "sha256": "4f189d2765f3f47c67bf04e2d1485f75ff8b215b898e36c6f8ab9f0f36d3ef73",
+          "request": "Drop me in the gap between the white SUV and the white convertible on the right.",
+          "source_url": null,
+          "reference_polygons_xy": [
+            [
+              [
+                1702,
+                1459
+              ],
+              [
+                1917,
+                1449
+              ],
+              [
+                2076,
+                1439
+              ],
+              [
+                2099,
+                1462
+              ],
+              [
+                2095,
+                1489
+              ],
+              [
+                2006,
+                1505
+              ],
+              [
+                1821,
+                1515
+              ],
+              [
+                1718,
+                1495
+              ]
+            ]
+          ],
+          "reference_note": "Open marked road paving visibly extends across the unoccupied stalls between the white convertible and the white SUV. The large empty space on the near side of the SUV is outside the requested pair.",
+          "fraction_of_reference_with_parking_label": 0.9813717188823031,
+          "automatic": {
+            "native": {
+              "outcome": "missed_positive",
+              "state": "ask",
+              "point": null,
+              "detail": "The two descriptions point to the same or overlapping visible area. Which two separate landmarks do you mean?"
+            },
+            "direct": {
+              "outcome": "wrong_on_positive",
+              "state": "propose",
+              "point": [
+                2449.92,
+                1438.56
+              ],
+              "detail": null
+            },
+            "old": {
+              "outcome": "wrong_on_positive",
+              "state": "propose",
+              "point": [
+                2958.75,
+                1541.25
+              ],
+              "detail": null
+            },
+            "parking": {
+              "outcome": "wrong_on_positive",
+              "state": "propose",
+              "point": [
+                2084.2666666666664,
+                1509.01185770751
+              ],
+              "detail": null
+            },
+            "anchor-parking": {
+              "outcome": "missed_positive",
+              "state": "ask",
+              "point": null,
+              "detail": "selector rejected"
+            }
+          },
+          "assisted_vehicle_boxes": {
+            "state": "ask",
+            "point": null,
+            "outcome": "missed_positive",
+            "number_of_options": 1
+          }
+        },
+        {
+          "id": "kv-1208259705",
+          "recording": "kartaview_3330553",
+          "frame": 0,
+          "original_size": [
+            3264,
+            1836
+          ],
+          "sha256": "8f508b10329d27e71b8210d86388df724e3702b08956d290ab2466a6d22179d5",
+          "request": "Drop me off between the two dark cars.",
+          "source_url": null,
+          "reference_polygons_xy": [],
+          "reference_note": "The two dark vehicles are real and identifiable, but a raised brick island with a painted curb occupies the apparent gap. The genuinely empty marked parking bay is on the other side of the near sedan. A point inside that empty bay would be outside the named pair.",
+          "fraction_of_reference_with_parking_label": null,
+          "automatic": {
+            "native": {
+              "outcome": "correct_ask",
+              "state": "ask",
+              "point": null,
+              "detail": "Which two vehicles do you mean? Describe each one or select both on the photo."
+            },
+            "direct": {
+              "outcome": "false_on_negative",
+              "state": "propose",
+              "point": [
+                1015.1,
+                794.99
+              ],
+              "detail": null
+            },
+            "old": {
+              "outcome": "correct_ask",
+              "state": "ask",
+              "point": null,
+              "detail": null
+            },
+            "parking": {
+              "outcome": "correct_ask",
+              "state": "ask",
+              "point": null,
+              "detail": "selector rejected"
+            },
+            "anchor-parking": {
+              "outcome": "correct_ask",
+              "state": "ask",
+              "point": null,
+              "detail": "selector rejected"
+            }
+          },
+          "assisted_vehicle_boxes": {
+            "state": "ask",
+            "point": null,
+            "outcome": "correct_ask",
+            "number_of_options": 1
+          }
+        },
+        {
+          "id": "kv-1507952777",
+          "recording": "kartaview_5299833",
+          "frame": 431,
+          "original_size": [
+            3264,
+            1836
+          ],
+          "sha256": "e818a455fd375d1dc4d0e6444ebcd7777ffdbada2bf41d00725f6ded033be4ca",
+          "request": "Between the two dark cars parked along the right-hand curb, please.",
+          "source_url": null,
+          "reference_polygons_xy": [
+            [
+              [
+                1593,
+                1184
+              ],
+              [
+                1716,
+                1175
+              ],
+              [
+                1860,
+                1201
+              ],
+              [
+                1964,
+                1226
+              ],
+              [
+                1967,
+                1293
+              ],
+              [
+                1953,
+                1316
+              ],
+              [
+                1846,
+                1282
+              ],
+              [
+                1728,
+                1234
+              ]
+            ]
+          ],
+          "reference_note": "At least one empty marked parallel space separates the two parked sedans. The arrow-lane and dark car driving to the left are outside the target. Use only the lighter parking strip between the pair.",
+          "fraction_of_reference_with_parking_label": 1.0,
+          "automatic": {
+            "native": {
+              "outcome": "missed_positive",
+              "state": "ask",
+              "point": null,
+              "detail": "Which two vehicles do you mean? Select both on the photo or describe each one."
+            },
+            "direct": {
+              "outcome": "wrong_on_positive",
+              "state": "propose",
+              "point": [
+                2317.44,
+                1202.58
+              ],
+              "detail": null
+            },
+            "old": {
+              "outcome": "wrong_on_positive",
+              "state": "propose",
+              "point": [
+                1418.44,
+                1137.94
+              ],
+              "detail": null
+            },
+            "parking": {
+              "outcome": "hit",
+              "state": "propose",
+              "point": [
+                1902.1866666666665,
+                1264.5177865612648
+              ],
+              "detail": null
+            },
+            "anchor-parking": {
+              "outcome": "hit",
+              "state": "propose",
+              "point": [
+                1902.1866666666665,
+                1264.5177865612648
+              ],
+              "detail": null
+            }
+          },
+          "assisted_vehicle_boxes": {
+            "state": "propose",
+            "point": [
+              1902.1866666666665,
+              1264.5177865612648
+            ],
+            "outcome": "hit",
+            "number_of_options": 2
+          }
+        }
+      ]
+    },
+    "fresh": {
+      "positives": 6,
+      "negatives": 4,
+      "automatic": {
+        "native": {
+          "error_positive": 2,
+          "missed_positive": 4,
+          "error_negative": 2,
+          "correct_ask": 2
+        },
+        "direct": {
+          "wrong_on_positive": 5,
+          "hit": 1,
+          "false_on_negative": 3,
+          "correct_ask": 1
+        },
+        "old": {
+          "hit": 3,
+          "missed_positive": 2,
+          "false_on_negative": 3,
+          "correct_ask": 1,
+          "wrong_on_positive": 1
+        },
+        "parking": {
+          "missed_positive": 1,
+          "hit": 3,
+          "correct_ask": 3,
+          "wrong_on_positive": 2,
+          "false_on_negative": 1
+        },
+        "anchor-parking": {
+          "missed_positive": 2,
+          "hit": 4,
+          "correct_ask": 4
+        }
+      },
+      "assisted_vehicle_boxes": {
+        "description": "After the sealed automatic evaluation, supplied independently identified boxes around just the two vehicles in the current image. No destination points or regions went to the models.",
+        "available": 10,
+        "outcomes": {
+          "missed_positive": 2,
+          "hit": 4,
+          "correct_ask": 4
+        }
+      },
+      "cases": [
+        {
+          "id": "fresh-01",
+          "recording": "kartaview_1258531",
+          "frame": 39,
+          "original_size": [
+            3840,
+            2160
+          ],
+          "sha256": "976a275111769a8fbd066f25a3b6fd2b231dc7ddf5a42d6d6bfd2f74233b09a0",
+          "request": "Drop me off between the two nearest light-colored SUVs on the right.",
+          "source_url": "https://kartaview.org/details/1258531/39/",
+          "reference_polygons_xy": [
+            [
+              [
+                2636.800128,
+                1946.561328
+              ],
+              [
+                2952.533376,
+                1946.561328
+              ],
+              [
+                2978.133504,
+                1895.336064
+              ],
+              [
+                3131.7335040000003,
+                1920.948696
+              ],
+              [
+                3229.8666240000002,
+                1955.098728
+              ],
+              [
+                3251.200128,
+                2053.280664
+              ],
+              [
+                3268.266624,
+                2155.7311919999997
+              ],
+              [
+                2948.266752,
+                2155.7311919999997
+              ],
+              [
+                2773.333248,
+                2044.743048
+              ]
+            ]
+          ],
+          "reference_note": "A cobbled curbside parking strip is visible between the two nearest light SUVs on the right, continuous with the surface on which they are parked. The polygon follows its diagonal boundary with the driving lane.",
+          "fraction_of_reference_with_parking_label": 0.0,
+          "automatic": {
+            "native": {
+              "outcome": "error_positive",
+              "state": "error",
+              "point": null,
+              "detail": {
+                "code": "invalid_model_output",
+                "message": "Landmarks must refer to one or two distinct current detector IDs"
+              }
+            },
+            "direct": {
+              "outcome": "wrong_on_positive",
+              "state": "propose",
+              "point": [
+                2799.36,
+                1797.12
+              ],
+              "detail": null
+            },
+            "old": {
+              "outcome": "hit",
+              "state": "propose",
+              "point": [
+                3101.25,
+                2051.25
+              ],
+              "detail": null
+            },
+            "parking": {
+              "outcome": "missed_positive",
+              "state": "ask",
+              "point": null,
+              "detail": "selector rejected"
+            },
+            "anchor-parking": {
+              "outcome": "missed_positive",
+              "state": "ask",
+              "point": null,
+              "detail": "no candidate"
+            }
+          },
+          "assisted_vehicle_boxes": {
+            "state": "ask",
+            "point": null,
+            "outcome": "missed_positive",
+            "number_of_options": 0
+          },
+          "automatically_identified_vehicle_pair": {
+            "both_independent_taps_inside_boxes": true,
+            "min_pair_iou": 0.9232449874813727,
+            "parking_options": 0
+          },
+          "original_image_url": "https://cdn.kartaview.org/pr:sharp/aHR0cHM6Ly9zdG9yYWdlOC5vcGVuc3RyZWV0Y2FtLm9yZy9maWxlcy9waG90by8yMDE4LzYvMzAvcHJvYy8xMjU4NTMxXzBfMTY3NjVfNDAuanBn",
+          "photo_metadata_url": "https://api.kartaview.org/2.0/photo/274151813"
+        },
+        {
+          "id": "fresh-02",
+          "recording": "kartaview_980209",
+          "frame": 34,
+          "original_size": [
+            3840,
+            2160
+          ],
+          "sha256": "a8cb3c5926766d950eca0588e6bdd178e72026f07d5710f027d2e695d6628de2",
+          "request": "Drop me off between the flatbed truck with the metal rack and the silver hatchback.",
+          "source_url": "https://kartaview.org/details/980209/34/",
+          "reference_polygons_xy": [
+            [
+              [
+                2103.466752,
+                1733.12244
+              ],
+              [
+                2193.066624,
+                1728.853848
+              ],
+              [
+                2210.133504,
+                1720.316232
+              ],
+              [
+                2534.4,
+                1720.316232
+              ],
+              [
+                2547.199872,
+                1775.810304
+              ],
+              [
+                2560.0001279999997,
+                1827.035568
+              ],
+              [
+                2538.666624,
+                1869.7232159999999
+              ],
+              [
+                1894.399872,
+                1865.454624
+              ],
+              [
+                1958.4,
+                1809.960552
+              ],
+              [
+                2052.266496,
+                1758.735072
+              ]
+            ]
+          ],
+          "reference_note": "The open asphalt on the warehouse frontage is between the right-front corner of the flatbed and the small hatchback, in the same row of parked vehicles. The pedestrian is on the curb at the back edge.",
+          "fraction_of_reference_with_parking_label": 0.9450350599411897,
+          "automatic": {
+            "native": {
+              "outcome": "error_positive",
+              "state": "error",
+              "point": null,
+              "detail": {
+                "code": "invalid_input_or_output",
+                "message": "Landmarks must refer to one or two distinct current detector IDs"
+              }
+            },
+            "direct": {
+              "outcome": "wrong_on_positive",
+              "state": "propose",
+              "point": [
+                2188.8,
+                1693.44
+              ],
+              "detail": null
+            },
+            "old": {
+              "outcome": "hit",
+              "state": "propose",
+              "point": [
+                2328.75,
+                1773.75
+              ],
+              "detail": null
+            },
+            "parking": {
+              "outcome": "hit",
+              "state": "propose",
+              "point": [
+                2267.733333333333,
+                1777.9446640316207
+              ],
+              "detail": null
+            },
+            "anchor-parking": {
+              "outcome": "hit",
+              "state": "propose",
+              "point": [
+                2267.733333333333,
+                1777.9446640316207
+              ],
+              "detail": null
+            }
+          },
+          "assisted_vehicle_boxes": {
+            "state": "propose",
+            "point": [
+              2267.733333333333,
+              1777.9446640316207
+            ],
+            "outcome": "hit",
+            "number_of_options": 1
+          },
+          "automatically_identified_vehicle_pair": {
+            "both_independent_taps_inside_boxes": true,
+            "min_pair_iou": 0.8300920693459402,
+            "parking_options": 1
+          },
+          "original_image_url": "https://cdn.kartaview.org/pr:sharp/aHR0cHM6Ly9zdG9yYWdlNi5vcGVuc3RyZWV0Y2FtLm9yZy9maWxlcy9waG90by8yMDE3LzEyLzMvcHJvYy85ODAyMDlfMTcwMGNfMzUuanBn",
+          "photo_metadata_url": "https://api.kartaview.org/2.0/photo/173706319"
+        },
+        {
+          "id": "fresh-03",
+          "recording": "kartaview_5139785",
+          "frame": 165,
+          "original_size": [
+            3264,
+            1836
+          ],
+          "sha256": "6ae04a49e1e911130e5786a75ed4b74e54aaaec98e873f57b1c2faf24bc82ae8",
+          "request": "Drop me off between the white box truck and the white van, please.",
+          "source_url": "https://kartaview.org/details/5139785/165/",
+          "reference_polygons_xy": [
+            [
+              [
+                388.0533696,
+                1222.7905044
+              ],
+              [
+                942.9333696,
+                1201.0197672
+              ],
+              [
+                1004.5867392,
+                1211.9052276
+              ],
+              [
+                1019.0932608,
+                1248.1897284
+              ],
+              [
+                1087.9998912,
+                1248.1897284
+              ],
+              [
+                1095.2534784,
+                1222.7905044
+              ],
+              [
+                1719.0401088,
+                1298.9881764000002
+              ],
+              [
+                1715.4134784,
+                1429.6125995999998
+              ],
+              [
+                1095.2534784,
+                1509.4387584
+              ],
+              [
+                837.7601088000001,
+                1407.8418624
+              ],
+              [
+                591.1466303999999,
+                1309.8734531999999
+              ]
+            ]
+          ],
+          "reference_note": "The white truck and panel van bracket several open, line-marked spaces at the same curb. The blue outer parking line separates them from the roadway. The continuous polygon accepts multiple stalls, with a notch below the curbside pedestrian.",
+          "fraction_of_reference_with_parking_label": 0.5677601060304838,
+          "automatic": {
+            "native": {
+              "outcome": "missed_positive",
+              "state": "ask",
+              "point": null,
+              "detail": "Which two vehicles do you mean? Select both on the photo or describe each one."
+            },
+            "direct": {
+              "outcome": "hit",
+              "state": "propose",
+              "point": [
+                887.808,
+                1222.776
+              ],
+              "detail": null
+            },
+            "old": {
+              "outcome": "missed_positive",
+              "state": "ask",
+              "point": null,
+              "detail": "selector rejected"
+            },
+            "parking": {
+              "outcome": "hit",
+              "state": "propose",
+              "point": [
+                1448.8533333333332,
+                1315.3162055335968
+              ],
+              "detail": null
+            },
+            "anchor-parking": {
+              "outcome": "hit",
+              "state": "propose",
+              "point": [
+                1224.0,
+                1271.7747035573123
+              ],
+              "detail": null
+            }
+          },
+          "assisted_vehicle_boxes": {
+            "state": "propose",
+            "point": [
+              1224.0,
+              1271.7747035573123
+            ],
+            "outcome": "hit",
+            "number_of_options": 5
+          },
+          "automatically_identified_vehicle_pair": {
+            "both_independent_taps_inside_boxes": true,
+            "min_pair_iou": 0.9194337660007923,
+            "parking_options": 5
+          },
+          "original_image_url": "https://cdn.kartaview.org/pr:sharp/aHR0cHM6Ly9zdG9yYWdlMTMub3BlbnN0cmVldGNhbS5vcmcvZmlsZXMvcGhvdG8vMjAyMi80LzI4L3Byb2MvNTEzOTc4NV9mNWFiODkzMmE3ZGY3NDMxODExOTMxY2ZmMDk3MDk5OC5qcGc",
+          "photo_metadata_url": "https://api.kartaview.org/2.0/photo/1480817385"
+        },
+        {
+          "id": "fresh-04",
+          "recording": "kartaview_5124937",
+          "frame": 12,
+          "original_size": [
+            3264,
+            1836
+          ],
+          "sha256": "c4d59cba6fe27a9aa31b27decb3b5c5dd40945ef3e8a89865f325b307e577411",
+          "request": "Drop me off between the silver sedan and the gray GMC on the right.",
+          "source_url": "https://kartaview.org/details/5124937/12/",
+          "reference_polygons_xy": [
+            [
+              [
+                1563.0933696,
+                1357.0434143999998
+              ],
+              [
+                1893.12,
+                1346.1581376
+              ],
+              [
+                2263.0398912,
+                1371.5573616000001
+              ],
+              [
+                2266.6665215999997,
+                1415.098836
+              ],
+              [
+                2331.9465216,
+                1415.098836
+              ],
+              [
+                2339.2001088,
+                1378.8141516
+              ],
+              [
+                2687.3598912,
+                1404.2133755999998
+              ],
+              [
+                2701.8667392,
+                1484.0395344
+              ],
+              [
+                2774.4,
+                1531.2094956
+              ],
+              [
+                2850.5598912,
+                1571.1224832
+              ],
+              [
+                2458.8798911999997,
+                1611.0356543999999
+              ],
+              [
+                2074.4534783999998,
+                1491.296508
+              ]
+            ]
+          ],
+          "reference_note": "The silver sedan and the front of the GMC bracket a continuous run of marked empty bays. The polygon covers the visible parking row inside its street-side edge and below the curb along the building.",
+          "fraction_of_reference_with_parking_label": 0.8550028966316312,
+          "automatic": {
+            "native": {
+              "outcome": "missed_positive",
+              "state": "ask",
+              "point": null,
+              "detail": "Which two vehicles do you mean? Select both on the photo or describe each one."
+            },
+            "direct": {
+              "outcome": "wrong_on_positive",
+              "state": "propose",
+              "point": [
+                2385.984,
+                1325.592
+              ],
+              "detail": null
+            },
+            "old": {
+              "outcome": "missed_positive",
+              "state": "ask",
+              "point": null,
+              "detail": "selector rejected"
+            },
+            "parking": {
+              "outcome": "hit",
+              "state": "propose",
+              "point": [
+                1644.6933333333332,
+                1355.2292490118577
+              ],
+              "detail": null
+            },
+            "anchor-parking": {
+              "outcome": "missed_positive",
+              "state": "ask",
+              "point": null,
+              "detail": "no candidate"
+            }
+          },
+          "assisted_vehicle_boxes": {
+            "state": "ask",
+            "point": null,
+            "outcome": "missed_positive",
+            "number_of_options": 0
+          },
+          "automatically_identified_vehicle_pair": {
+            "both_independent_taps_inside_boxes": false,
+            "min_pair_iou": 0.0,
+            "parking_options": 0
+          },
+          "original_image_url": "https://cdn.kartaview.org/pr:sharp/aHR0cHM6Ly9zdG9yYWdlMTMub3BlbnN0cmVldGNhbS5vcmcvZmlsZXMvcGhvdG8vMjAyMi80LzI2L3Byb2MvNTEyNDkzN19jOGRiZjFiZTlhNjllODJiZmM3MGNmNjVkMDEzY2U4Yy5qcGc",
+          "photo_metadata_url": "https://api.kartaview.org/2.0/photo/1480052857"
+        },
+        {
+          "id": "fresh-05",
+          "recording": "kartaview_6951113",
+          "frame": 266,
+          "original_size": [
+            3840,
+            2160
+          ],
+          "sha256": "cc939b757441dcbe24cde9101ad577d60ceda970abc67a2a57498fe06648dd0e",
+          "request": "Drop me off between the white SUV ahead of us and the white van with yellow arrows on the back.",
+          "source_url": "https://kartaview.org/details/6951113/266/",
+          "reference_polygons_xy": [],
+          "reference_note": "The white SUV and the arrow-marked van are in separate traffic streams. A raised brick median runs between them; the adjacent asphalt is in active travel lanes.",
+          "fraction_of_reference_with_parking_label": null,
+          "automatic": {
+            "native": {
+              "outcome": "error_negative",
+              "state": "error",
+              "point": null,
+              "detail": {
+                "code": "invalid_input_or_output",
+                "message": "Landmarks must refer to one or two distinct current detector IDs"
+              }
+            },
+            "direct": {
+              "outcome": "false_on_negative",
+              "state": "propose",
+              "point": [
+                1463.04,
+                1170.72
+              ],
+              "detail": null
+            },
+            "old": {
+              "outcome": "false_on_negative",
+              "state": "propose",
+              "point": [
+                1256.25,
+                1308.75
+              ],
+              "detail": null
+            },
+            "parking": {
+              "outcome": "correct_ask",
+              "state": "ask",
+              "point": null,
+              "detail": "no candidate"
+            },
+            "anchor-parking": {
+              "outcome": "correct_ask",
+              "state": "ask",
+              "point": null,
+              "detail": "no candidate"
+            }
+          },
+          "assisted_vehicle_boxes": {
+            "state": "ask",
+            "point": null,
+            "outcome": "correct_ask",
+            "number_of_options": 0
+          },
+          "automatically_identified_vehicle_pair": {
+            "both_independent_taps_inside_boxes": true,
+            "min_pair_iou": 0.9021051505406855,
+            "parking_options": 0
+          },
+          "original_image_url": "https://cdn.kartaview.org/pr:sharp/aHR0cHM6Ly9zdG9yYWdlMTMub3BlbnN0cmVldGNhbS5vcmcvZmlsZXMvcGhvdG8vMjAyMy8zLzE1L3Byb2MvNjk1MTExM183NDE4NzNlN2M2MGI5Yzc3MjAyMGRjMGIxZjJkYjJkMS5qcGc",
+          "photo_metadata_url": "https://api.kartaview.org/2.0/photo/1704644649"
+        },
+        {
+          "id": "fresh-06",
+          "recording": "kartaview_3329429",
+          "frame": 213,
+          "original_size": [
+            3264,
+            1836
+          ],
+          "sha256": "5b635a7c2e4f7eebd4ae50b91b725fd9054bf7b41bda28248e36e5bfa0de7e5b",
+          "request": "Drop me off between the blue sedan on the left and the white sedan on the right.",
+          "source_url": "https://kartaview.org/details/3329429/213/",
+          "reference_polygons_xy": [],
+          "reference_note": "The blue sedan faces the camera in a traffic lane and the white sedan is at the right curb. The area between them spans the active street. A tempting empty marked bay behind the white sedan is outside the requested relation.",
+          "fraction_of_reference_with_parking_label": null,
+          "automatic": {
+            "native": {
+              "outcome": "error_negative",
+              "state": "error",
+              "point": null,
+              "detail": {
+                "code": "invalid_input_or_output",
+                "message": "Landmarks must refer to one or two distinct current detector IDs"
+              }
+            },
+            "direct": {
+              "outcome": "false_on_negative",
+              "state": "propose",
+              "point": [
+                1560.192,
+                1272.348
+              ],
+              "detail": null
+            },
+            "old": {
+              "outcome": "correct_ask",
+              "state": "ask",
+              "point": null,
+              "detail": "selector rejected"
+            },
+            "parking": {
+              "outcome": "correct_ask",
+              "state": "ask",
+              "point": null,
+              "detail": "selector rejected"
+            },
+            "anchor-parking": {
+              "outcome": "correct_ask",
+              "state": "ask",
+              "point": null,
+              "detail": "selector rejected"
+            }
+          },
+          "assisted_vehicle_boxes": {
+            "state": "ask",
+            "point": null,
+            "outcome": "correct_ask",
+            "number_of_options": 1
+          },
+          "automatically_identified_vehicle_pair": {
+            "both_independent_taps_inside_boxes": true,
+            "min_pair_iou": 0.86960748171094,
+            "parking_options": 1
+          },
+          "original_image_url": "https://cdn.kartaview.org/pr:sharp/aHR0cHM6Ly9zdG9yYWdlMTMub3BlbnN0cmVldGNhbS5vcmcvZmlsZXMvcGhvdG8vMjAyMC8xMi8xOS9wcm9jLzMzMjk0MjlfNTZkM2RmOTk0YjFkZTZiZjZiZmJlMjc0NmI0YzBjNWMuanBn",
+          "photo_metadata_url": "https://api.kartaview.org/2.0/photo/1207259309"
+        },
+        {
+          "id": "fresh-07",
+          "recording": "kartaview_3336817",
+          "frame": 14,
+          "original_size": [
+            3264,
+            1836
+          ],
+          "sha256": "e42cb766f40a42ac9ccd31bb27d446371bf7972f721883fb64c315713baa5f6f",
+          "request": "Drop me off between the white sedan and the blue SUV on the right.",
+          "source_url": "https://kartaview.org/details/3336817/14/",
+          "reference_polygons_xy": [
+            [
+              [
+                1816.9601088,
+                1063.1383704
+              ],
+              [
+                2074.4534783999998,
+                1059.5098836
+              ],
+              [
+                2244.9067392,
+                1066.7668572
+              ],
+              [
+                2632.9601088,
+                1055.8813968
+              ],
+              [
+                2701.8667392,
+                1044.99612
+              ],
+              [
+                2719.9998912,
+                1084.9091076
+              ],
+              [
+                2767.1467392,
+                1121.1936084000001
+              ],
+              [
+                2854.1865216,
+                1150.2213192
+              ],
+              [
+                2868.6933696,
+                1175.6205432
+              ],
+              [
+                2001.9198912,
+                1175.6205432
+              ]
+            ]
+          ],
+          "reference_note": "The side-on sedan and nearer blue SUV occupy different positions in the right-hand parking strip. Several rows of raised white studs outline continuous open asphalt between them. The polygon spans the visible available portion of these adjacent spaces.",
+          "fraction_of_reference_with_parking_label": 0.5457755689249281,
+          "automatic": {
+            "native": {
+              "outcome": "missed_positive",
+              "state": "ask",
+              "point": null,
+              "detail": "Which two vehicles do you mean? Select both on the photo or describe each one."
+            },
+            "direct": {
+              "outcome": "wrong_on_positive",
+              "state": "propose",
+              "point": [
+                2637.312,
+                991.44
+              ],
+              "detail": null
+            },
+            "old": {
+              "outcome": "hit",
+              "state": "propose",
+              "point": [
+                2674.3125,
+                1131.5625
+              ],
+              "detail": null
+            },
+            "parking": {
+              "outcome": "wrong_on_positive",
+              "state": "propose",
+              "point": [
+                2536.853333333333,
+                1057.695652173913
+              ],
+              "detail": null
+            },
+            "anchor-parking": {
+              "outcome": "hit",
+              "state": "propose",
+              "point": [
+                2594.8799999999997,
+                1152.0355731225295
+              ],
+              "detail": null
+            }
+          },
+          "assisted_vehicle_boxes": {
+            "state": "propose",
+            "point": [
+              2594.8799999999997,
+              1152.0355731225295
+            ],
+            "outcome": "hit",
+            "number_of_options": 2
+          },
+          "automatically_identified_vehicle_pair": {
+            "both_independent_taps_inside_boxes": true,
+            "min_pair_iou": 0.915146700780475,
+            "parking_options": 2
+          },
+          "original_image_url": "https://cdn.kartaview.org/pr:sharp/aHR0cHM6Ly9zdG9yYWdlMTMub3BlbnN0cmVldGNhbS5vcmcvZmlsZXMvcGhvdG8vMjAyMC8xMi8yNC9wcm9jLzMzMzY4MTdfMDg1ODA3MmZmNDZhZWFiMGRmOTQ4NjNiMjU3N2M0NWUuanBn",
+          "photo_metadata_url": "https://api.kartaview.org/2.0/photo/1210054241"
+        },
+        {
+          "id": "fresh-08",
+          "recording": "kartaview_5331945",
+          "frame": 29,
+          "original_size": [
+            3264,
+            1836
+          ],
+          "sha256": "cb01925b9b3beb0377212524b9c02680e777d1371536dc0c373b0a7809eb533a",
+          "request": "Drop me off between the two nearest silver sedans on the right.",
+          "source_url": "https://kartaview.org/details/5331945/29/",
+          "reference_polygons_xy": [
+            [
+              [
+                2299.3065216,
+                1288.102716
+              ],
+              [
+                2632.9601088,
+                1280.845926
+              ],
+              [
+                2734.5067392,
+                1306.24515
+              ],
+              [
+                2959.3601088,
+                1357.0434143999998
+              ],
+              [
+                2970.2400000000002,
+                1407.8418624
+              ],
+              [
+                2995.6267392,
+                1465.897284
+              ],
+              [
+                2723.6265215999997,
+                1469.5257708000001
+              ],
+              [
+                2506.0267392,
+                1371.5573616000001
+              ]
+            ]
+          ],
+          "reference_note": "A vacant parallel curbside space is visible between the two nearest silver sedans on the right; white parking lines, the gray curb and the two vehicle ends establish its boundaries.",
+          "fraction_of_reference_with_parking_label": 0.9983651226158038,
+          "automatic": {
+            "native": {
+              "outcome": "missed_positive",
+              "state": "ask",
+              "point": null,
+              "detail": "Which two vehicles do you mean? Select both on the photo or describe each one."
+            },
+            "direct": {
+              "outcome": "wrong_on_positive",
+              "state": "propose",
+              "point": [
+                3055.104,
+                1377.0
+              ],
+              "detail": null
+            },
+            "old": {
+              "outcome": "wrong_on_positive",
+              "state": "propose",
+              "point": [
+                2196.1875,
+                1233.5625
+              ],
+              "detail": null
+            },
+            "parking": {
+              "outcome": "wrong_on_positive",
+              "state": "propose",
+              "point": [
+                2232.213333333333,
+                1235.490118577075
+              ],
+              "detail": null
+            },
+            "anchor-parking": {
+              "outcome": "hit",
+              "state": "propose",
+              "point": [
+                2747.2,
+                1384.2569169960475
+              ],
+              "detail": null
+            }
+          },
+          "assisted_vehicle_boxes": {
+            "state": "propose",
+            "point": [
+              2747.2,
+              1384.2569169960475
+            ],
+            "outcome": "hit",
+            "number_of_options": 2
+          },
+          "automatically_identified_vehicle_pair": {
+            "both_independent_taps_inside_boxes": true,
+            "min_pair_iou": 0.8936597440409718,
+            "parking_options": 2
+          },
+          "original_image_url": "https://cdn.kartaview.org/pr:sharp/aHR0cHM6Ly9zdG9yYWdlMTMub3BlbnN0cmVldGNhbS5vcmcvZmlsZXMvcGhvdG8vMjAyMi82LzExL3Byb2MvNTMzMTk0NV8xOWNkYTNiNWE0ZWE4YzQxZGY3OTMxMDU1NzM2NGFlMC5qcGc",
+          "photo_metadata_url": "https://api.kartaview.org/2.0/photo/1514721897"
+        },
+        {
+          "id": "fresh-09",
+          "recording": "kartaview_1129101",
+          "frame": 0,
+          "original_size": [
+            3840,
+            2160
+          ],
+          "sha256": "0dfd8dadbb1ad54388d3ca1c9bb6473aa5eeebf407cb7cbdd7a45ee1b5b0c836",
+          "request": "Drop me off between the black sedan and the nearest white SUV on the right.",
+          "source_url": "https://kartaview.org/details/1129101/0/",
+          "reference_polygons_xy": [],
+          "reference_note": "The named black sedan and nearest white SUV occupy neighboring marked stalls on the right. The small clearances at their bumpers are part of occupied bays; the only broad asphalt in front is the aisle.",
+          "fraction_of_reference_with_parking_label": null,
+          "automatic": {
+            "native": {
+              "outcome": "correct_ask",
+              "state": "ask",
+              "point": null,
+              "detail": "The two descriptions point to the same or overlapping visible area. Which two separate landmarks do you mean?"
+            },
+            "direct": {
+              "outcome": "false_on_negative",
+              "state": "propose",
+              "point": [
+                3018.24,
+                1794.96
+              ],
+              "detail": null
+            },
+            "old": {
+              "outcome": "false_on_negative",
+              "state": "propose",
+              "point": [
+                2748.75,
+                1916.25
+              ],
+              "detail": null
+            },
+            "parking": {
+              "outcome": "false_on_negative",
+              "state": "propose",
+              "point": [
+                2980.2666666666664,
+                1987.114624505929
+              ],
+              "detail": null
+            },
+            "anchor-parking": {
+              "outcome": "correct_ask",
+              "state": "ask",
+              "point": null,
+              "detail": "no candidate"
+            }
+          },
+          "assisted_vehicle_boxes": {
+            "state": "ask",
+            "point": null,
+            "outcome": "correct_ask",
+            "number_of_options": 0
+          },
+          "automatically_identified_vehicle_pair": {
+            "both_independent_taps_inside_boxes": true,
+            "min_pair_iou": 0.8954125147587161,
+            "parking_options": 0
+          },
+          "original_image_url": "https://cdn.kartaview.org/pr:sharp/aHR0cHM6Ly9zdG9yYWdlNy5vcGVuc3RyZWV0Y2FtLm9yZy9maWxlcy9waG90by8yMDE4LzIvMjMvcHJvYy8xMTI5MTAxXzRkMjFhXzEuanBn",
+          "photo_metadata_url": "https://api.kartaview.org/2.0/photo/203326269"
+        },
+        {
+          "id": "fresh-10",
+          "recording": "kartaview_5053433",
+          "frame": 0,
+          "original_size": [
+            3264,
+            1836
+          ],
+          "sha256": "7cc82c9152e1c0bada060789698e19b695cba6a92d6dd67efa982eddb1c97965",
+          "request": "Drop me off between the two dark cars.",
+          "source_url": "https://kartaview.org/details/5053433/0/",
+          "reference_polygons_xy": [],
+          "reference_note": "The two prominent dark SUVs are side by side in active lanes at a signal. The visible wedge of asphalt is a traffic-lane separator area rather than a curbside stopping space.",
+          "fraction_of_reference_with_parking_label": null,
+          "automatic": {
+            "native": {
+              "outcome": "correct_ask",
+              "state": "ask",
+              "point": null,
+              "detail": "Which two vehicles do you mean? Describe each one or select both on the photo."
+            },
+            "direct": {
+              "outcome": "correct_ask",
+              "state": "ask",
+              "point": null,
+              "detail": null
+            },
+            "old": {
+              "outcome": "false_on_negative",
+              "state": "propose",
+              "point": [
+                1169.8125,
+                1431.1875
+              ],
+              "detail": null
+            },
+            "parking": {
+              "outcome": "correct_ask",
+              "state": "ask",
+              "point": null,
+              "detail": "no candidate"
+            },
+            "anchor-parking": {
+              "outcome": "correct_ask",
+              "state": "ask",
+              "point": null,
+              "detail": "no candidate"
+            }
+          },
+          "assisted_vehicle_boxes": {
+            "state": "ask",
+            "point": null,
+            "outcome": "correct_ask",
+            "number_of_options": 0
+          },
+          "automatically_identified_vehicle_pair": {
+            "both_independent_taps_inside_boxes": true,
+            "min_pair_iou": 0.9319489926479181,
+            "parking_options": 0
+          },
+          "original_image_url": "https://cdn.kartaview.org/pr:sharp/aHR0cHM6Ly9zdG9yYWdlMTMub3BlbnN0cmVldGNhbS5vcmcvZmlsZXMvcGhvdG8vMjAyMi80LzE1L3Byb2MvNTA1MzQzM18xMGRiNmQyMjk2YzI5ZmE4MTY3NjZhOGY1ZjdmNGJjOS5qcGc",
+          "photo_metadata_url": "https://api.kartaview.org/2.0/photo/1468797945"
+        }
+      ]
+    }
+  },
+  "portable_reproduction": {
+    "real_gpu": "A100-40GB",
+    "elapsed_command_seconds_cached_models": 61.74,
+    "model_load_included": true,
+    "paired_originals": 10,
+    "decisions_matched": 10,
+    "coordinates_matched": 4,
+    "segmentation_and_chooser": true,
+    "thinking": false,
+    "versions": {
+      "torch": "2.6.0",
+      "transformers": "5.6.2",
+      "numpy": "1.26.4",
+      "Pillow": "11.1.0",
+      "scipy": "1.15.2",
+      "accelerate": "1.12.0",
+      "tokenizers": "0.22.2"
+    },
+    "study_source_sha256": "691616aabc08529348332043fdee4b11e27fcc8a4d47b2dd9c6623e4102c87bb",
+    "raw_replies_sha256": "21babac56c16e68b3accb7c23934082a965e9047946bf52d1cdd0236cf25bb6d",
+    "decisions_sha256": "427f053f10f83db7e5390e6c1f9a093417e342c3cefa7ff4bfce725a2bd916b1",
+    "returned_archive_sha256": "f9cf7d349eedf1f364e68492ab9900db025ba337e5aba3b7cb7ec9254a6da853",
+    "two_cached_gpu_command_times_s": [
+      60.36,
+      61.74
+    ],
+    "identical_decisions_on_repeat": true
+  },
+  "passenger_area_recovery": {
+    "scope": "Two original model misses, exact-input saved first turns, then AI-operated passenger taps in headed Edge.",
+    "two_missed_positives_only": true,
+    "operator_read_scoring_reference": false,
+    "original_automatic_score_changed": false,
+    "receipts": [
+      {
+        "id": "fresh-01",
+        "original_failed_state": "error",
+        "native_request_and_outcome_unchanged": true,
+        "new_native_calls": 0,
+        "gesture_count": 1,
+        "retries": 0,
+        "selected_by": "passenger",
+        "point_original_xy": [
+          3078.75,
+          2006.25
+        ],
+        "passenger_confirmed": true,
+        "road_and_objects_replay": {
+          "current_image_and_tracks_checked": true,
+          "submitted_mark": [
+            3040.0,
+            1970.0,
+            3120.0,
+            2050.0
+          ],
+          "road_mask_replayed": true,
+          "decision_reproduced": true,
+          "independent_model_proposal": false,
+          "road_mask_sha256": "0793223ef108eb2aa5cc9b80284429711a7f897cf8d162875b87e97e5f7ffe61"
+        },
+        "journal_sha256": "745e8139d47e2e8a384a50b9eddf178b1d344e7783c794f336f93789f2165072",
+        "visible_screenshot_sha256": "1c1d2e815c01967ba10e62e53d07099acf66c2e2c9817533e6c1827fc6858ccc",
+        "independent_model_success": false,
+        "strictly_inside_frozen_reference": true
+      },
+      {
+        "id": "fresh-04",
+        "original_failed_state": "needs_clarification",
+        "native_request_and_outcome_unchanged": true,
+        "new_native_calls": 0,
+        "gesture_count": 1,
+        "retries": 0,
+        "selected_by": "passenger",
+        "point_original_xy": [
+          2247.1875,
+          1437.5625
+        ],
+        "passenger_confirmed": true,
+        "road_and_objects_replay": {
+          "current_image_and_tracks_checked": true,
+          "submitted_mark": [
+            2216.0,
+            1406.0,
+            2284.0,
+            1474.0
+          ],
+          "road_mask_replayed": true,
+          "decision_reproduced": true,
+          "independent_model_proposal": false,
+          "road_mask_sha256": "52b1aff0e21ee3378bc7b539a9bb4d255f18af6eebcbb841baec94ba0a6ab23f"
+        },
+        "journal_sha256": "d30fe225079c6f42b3df2722bd427bda6ec7d5c5547726f68e370c5c404052d3",
+        "visible_screenshot_sha256": "88babd09ca9ee6e5c96cd5c3edb244c2c3904bd2d286504a8387f414fa05d290",
+        "independent_model_success": false,
+        "strictly_inside_frozen_reference": true
+      }
+    ],
+    "verification_sha256": "0e871c45de0f103d5870204b1f973ed2aada7d2741d1a2253a20089aa4035910"
+  },
+  "postscore_perspective_control": {
+    "purpose": "Diagnostic on supplied two-vehicle boxes after scores were known. Remove only the 3.5 relative vehicle-height bound. Report separately from automatic results.",
+    "matched_pair_inputs": 20,
+    "changed_inputs": [
+      "fresh-04"
+    ],
+    "original_detailed_checks": {
+      "fresh-01": {
+        "model-anchors": {
+          "track_ids": [
+            4,
+            9
+          ],
+          "boxes": [
+            [
+              2582.823486328125,
+              1610.1771240234375,
+              2972.4063720703125,
+              1936.96435546875
+            ],
+            [
+              3243.2083740234375,
+              1457.5939636230469,
+              3840.0,
+              2154.9882202148438
+            ]
+          ],
+          "larger_to_smaller_projected_height_ratio": 2.1340927352251984,
+          "geometry": {
+            "frozen": {
+              "number_of_options": 0,
+              "points_xy": [],
+              "number_inside_frozen_reference": 0
+            },
+            "only_remove_3p5_relative_height_gate": {
+              "number_of_options": 0,
+              "points_xy": [],
+              "number_inside_frozen_reference": 0
+            }
+          }
+        },
+        "operator-anchors": {
+          "track_ids": [
+            4,
+            9
+          ],
+          "boxes": [
+            [
+              2582.823486328125,
+              1610.1771240234375,
+              2972.4063720703125,
+              1936.96435546875
+            ],
+            [
+              3243.2083740234375,
+              1457.5939636230469,
+              3840.0,
+              2154.9882202148438
+            ]
+          ],
+          "larger_to_smaller_projected_height_ratio": 2.1340927352251984,
+          "geometry": {
+            "frozen": {
+              "number_of_options": 0,
+              "points_xy": [],
+              "number_inside_frozen_reference": 0
+            },
+            "only_remove_3p5_relative_height_gate": {
+              "number_of_options": 0,
+              "points_xy": [],
+              "number_inside_frozen_reference": 0
+            }
+          }
+        }
+      },
+      "fresh-04": {
+        "model-anchors": {
+          "track_ids": [
+            6,
+            1
+          ],
+          "boxes": [
+            [
+              660.8586318969726,
+              1201.522833251953,
+              966.4070434570311,
+              1438.7487854003905
+            ],
+            [
+              2696.8323120117184,
+              1047.790704345703,
+              3263.8415588378903,
+              1607.636325073242
+            ]
+          ],
+          "larger_to_smaller_projected_height_ratio": 2.359967851987928,
+          "geometry": {
+            "frozen": {
+              "number_of_options": 0,
+              "points_xy": [],
+              "number_inside_frozen_reference": 0
+            },
+            "only_remove_3p5_relative_height_gate": {
+              "number_of_options": 0,
+              "points_xy": [],
+              "number_inside_frozen_reference": 0
+            }
+          }
+        },
+        "operator-anchors": {
+          "track_ids": [
+            2,
+            1
+          ],
+          "boxes": [
+            [
+              1505.7085418701172,
+              1212.2456268310546,
+              1930.207434082031,
+              1353.8622985839843
+            ],
+            [
+              2696.8323120117184,
+              1047.790704345703,
+              3263.8415588378903,
+              1607.636325073242
+            ]
+          ],
+          "larger_to_smaller_projected_height_ratio": 3.95324656198861,
+          "geometry": {
+            "frozen": {
+              "number_of_options": 0,
+              "points_xy": [],
+              "number_inside_frozen_reference": 0
+            },
+            "only_remove_3p5_relative_height_gate": {
+              "number_of_options": 2,
+              "points_xy": [
+                [
+                  2087.1466666666665,
+                  1416.9130434782608
+                ],
+                [
+                  2544.1066666666666,
+                  1543.9090909090908
+                ]
+              ],
+              "number_inside_frozen_reference": 2
+            }
+          }
+        }
+      }
+    },
+    "real_selector_choice": "A",
+    "point_original_xy": [
+      2087.1466666666665,
+      1416.9130434782608
+    ],
+    "inside_frozen_reference": true,
+    "raw_receipt_sha256": "72bbc8b6559639d9026073c4c50b7e96bd6e9ed9372f43ee2455f5f56c026832"
+  }
+}

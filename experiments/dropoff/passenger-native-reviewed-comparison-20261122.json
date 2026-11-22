@@ -1,0 +1,564 @@
+{
+  "kind": "three_matched_native_models_on_six_nonfinal_inputs",
+  "registered_pair_sha256": "a8483a2cee1d17b4b919c7c3e39f96f651dfe4f9178e524194a7518504543c67",
+  "original_trial_sha256": "702c5f5575431df621b0e78847ddadb67d102e487a4be44016050773e4af8b81",
+  "model_outputs_checked": 18,
+  "reserved_predictions": 0,
+  "settings_excluding_adapter": {
+    "model_id": "unsloth/Qwen3-VL-8B-Instruct-bnb-4bit",
+    "revision": "10d842936325905934ea24e64325d774693f166e",
+    "adapter_dir": null,
+    "cache_dir": "models/dropoff-processor-cache/hub",
+    "device": "cuda",
+    "dtype": "bfloat16",
+    "quantization": "nf4",
+    "local_files_only": true,
+    "allow_annotated": false,
+    "max_new_tokens": 192,
+    "max_input_tokens": 3072,
+    "max_time_s": 300,
+    "min_pixels": 65536,
+    "max_pixels": 262144,
+    "max_image_bytes": 33554432,
+    "max_original_pixels": 48000000,
+    "download_min_free_gib": 24.0,
+    "runtime": "streamed",
+    "model_dir": "models/qwen3-vl-8b-local-nf4",
+    "suffix_layers": 8,
+    "inference_resident_layers": 2,
+    "observation_format": "compact_rows_v1"
+  },
+  "conditions": {
+    "pretrained": {
+      "run_sha256": "2eec3e77dc0c4440fdcb4e6475fa9d038419d2e45c1a675296c43c50c5144952",
+      "raw_files": {
+        "input-snapshot.jsonl": "7d805dc9f478f894e198892c435df00db897586f40465c393b8644b64c8aadc0",
+        "resolved-requests.jsonl": "329cbdc8ca5531fc13f715562d6cbde68722cc68558a076e201a4862e0bd2d7b",
+        "receipts.jsonl": "051fc83f04d252a9fe923dfaad073856a2cb10bc83aaa3289104338b497c79ed",
+        "model-outcomes.jsonl": "c875fd39622ddc37e4531f47532bf5214a7341bcf9a01e4ad1857806d16b516b"
+      },
+      "weights_sha256": null,
+      "by_reference_group": {
+        "two_reviewer_confirmations_same_wording": {
+          "requested": 2,
+          "matching_status": 0,
+          "operational_errors": 0
+        },
+        "unreviewed_paraphrase_same_scene": {
+          "requested": 2,
+          "matching_status": 1,
+          "operational_errors": 0
+        },
+        "existing_ai_development_control": {
+          "requested": 2,
+          "matching_status": 1,
+          "operational_errors": 0
+        }
+      },
+      "rows": [
+        {
+          "request_id": "local-dev-video_054907-00781",
+          "image_sha256": "c411cf6760695905334f32e5590083cf144543df1ca98e68aae55fb345eb583e",
+          "ok": true,
+          "request_sha256": "899691afb3554b144175b4bc299fb457ebbc01c976015f9c78f97b0c0a3ae207",
+          "raw_text": "{\n  \"status\": \"proposed\",\n  \"destination_point_xy\": [\n    592,\n    767\n  ],\n  \"destination_box_xyxy\": [\n    570,\n    740,\n    630,\n    800\n  ],\n  \"clarification_question\": null\n}",
+          "result": {
+            "clarification_question": null,
+            "destination_box_xyxy": [
+              1459.2,
+              1065.6,
+              1612.8,
+              1152.0
+            ],
+            "destination_point_xy": [
+              1515.52,
+              1104.48
+            ],
+            "status": "proposed"
+          },
+          "verified_prompt_sha256": "68c4dbe81fb25525916d14079a18500b93cac4c4baee094c5fabe2049213b042",
+          "reference_group": "two_reviewer_confirmations_same_wording",
+          "expected_status": "needs_clarification",
+          "matching_status": false,
+          "exact_reviewed_question": false
+        },
+        {
+          "request_id": "local-dev-video_054907-00781-paraphrase",
+          "image_sha256": "c411cf6760695905334f32e5590083cf144543df1ca98e68aae55fb345eb583e",
+          "ok": true,
+          "request_sha256": "6fdf7ea9f0da2767349a93d672e2179373f91f905a2e900fb65c4fe47cf8729f",
+          "raw_text": "{\n  \"status\": \"proposed\",\n  \"destination_point_xy\": [\n    500,\n    700\n  ],\n  \"destination_box_xyxy\": [\n    400,\n    600,\n    600,\n    800\n  ],\n  \"clarification_question\": null\n}",
+          "result": {
+            "clarification_question": null,
+            "destination_box_xyxy": [
+              1024.0,
+              864.0,
+              1536.0,
+              1152.0
+            ],
+            "destination_point_xy": [
+              1280.0,
+              1008.0
+            ],
+            "status": "proposed"
+          },
+          "verified_prompt_sha256": "b726f5fd850db40da9418a8233fd89997104a53d00e146a18995709d8ed8a986",
+          "reference_group": "unreviewed_paraphrase_same_scene",
+          "expected_status": "needs_clarification",
+          "matching_status": false,
+          "exact_reviewed_question": null
+        },
+        {
+          "request_id": "local-dev-video_174340-00781",
+          "image_sha256": "693e7f2769f9336d15d3ef3fef37594cfab297c819626d913f734077dfa7bd4a",
+          "ok": true,
+          "request_sha256": "7b6a916d11d5f4b27f47de18a245154ce165b9e652c788dc7b51a886619804d7",
+          "raw_text": "{\n  \"status\": \"proposed\",\n  \"destination_point_xy\": [\n    450,\n    540\n  ],\n  \"destination_box_xyxy\": [\n    400,\n    500,\n    500,\n    580\n  ],\n  \"clarification_question\": null\n}",
+          "result": {
+            "clarification_question": null,
+            "destination_box_xyxy": [
+              1024.0,
+              720.0,
+              1280.0,
+              835.2
+            ],
+            "destination_point_xy": [
+              1152.0,
+              777.6
+            ],
+            "status": "proposed"
+          },
+          "verified_prompt_sha256": "fe3440bee2caf6dc0014f685e1e61c2407a77e51ed5efe829097f2565436dc83",
+          "reference_group": "two_reviewer_confirmations_same_wording",
+          "expected_status": "needs_clarification",
+          "matching_status": false,
+          "exact_reviewed_question": false
+        },
+        {
+          "request_id": "local-dev-video_174340-00781-paraphrase",
+          "image_sha256": "693e7f2769f9336d15d3ef3fef37594cfab297c819626d913f734077dfa7bd4a",
+          "ok": true,
+          "request_sha256": "e23fad47c27ee76dccdd92203d88d0145c1ff222c0b47fab6afe63ae908a0800",
+          "raw_text": "{\n  \"status\": \"needs_clarification\",\n  \"destination_point_xy\": null,\n  \"destination_box_xyxy\": null,\n  \"clarification_question\": \"Which specific car in front is intended for the exit location, as there are multiple vehicles ahead on the road?\" \n}",
+          "result": {
+            "clarification_question": "Which specific car in front is intended for the exit location, as there are multiple vehicles ahead on the road?",
+            "destination_box_xyxy": null,
+            "destination_point_xy": null,
+            "status": "needs_clarification"
+          },
+          "verified_prompt_sha256": "8c22a1fd3f93ad58b66a9269351f43ff641a0b26e079c518160b8f3b6103355a",
+          "reference_group": "unreviewed_paraphrase_same_scene",
+          "expected_status": "needs_clarification",
+          "matching_status": true,
+          "exact_reviewed_question": null
+        },
+        {
+          "request_id": "passenger-b07",
+          "image_sha256": "175602c7dc418c0ababa6cea56daec7f5e2779452370a9ace398cdc3780041a6",
+          "ok": true,
+          "request_sha256": "f115f5e810511c9fad7a7cbbb007d53537b9264204fae02a0a7be972258ec926",
+          "raw_text": "{\n  \"status\": \"proposed\",\n  \"destination_point_xy\": [\n    330.0,\n    740.0\n  ],\n  \"destination_box_xyxy\": [\n    300.0,\n    700.0,\n    360.0,\n    780.0\n  ],\n  \"clarification_question\": null\n}",
+          "result": {
+            "clarification_question": null,
+            "destination_box_xyxy": [
+              768.0,
+              1008.0,
+              921.6,
+              1123.2
+            ],
+            "destination_point_xy": [
+              844.8,
+              1065.6
+            ],
+            "status": "proposed"
+          },
+          "verified_prompt_sha256": "19a6c375a6e5ccfc6485a1affd4f559c6e5023048b38c339886db46afa880fbc",
+          "reference_group": "existing_ai_development_control",
+          "expected_status": "proposed",
+          "matching_status": true,
+          "exact_reviewed_question": null
+        },
+        {
+          "request_id": "passenger-b10",
+          "image_sha256": "175602c7dc418c0ababa6cea56daec7f5e2779452370a9ace398cdc3780041a6",
+          "ok": true,
+          "request_sha256": "91a1c5a1d88435698597c93fd388c5ea4222cf097c6629e050963ac9c3c78a31",
+          "raw_text": "{\n  \"status\": \"needs_clarification\",\n  \"destination_point_xy\": null,\n  \"destination_box_xyxy\": null,\n  \"clarification_question\": \"Is the railway signal visible ahead in the scene, or is the reference to it ambiguous in the current view?\" \n}",
+          "result": {
+            "clarification_question": "Is the railway signal visible ahead in the scene, or is the reference to it ambiguous in the current view?",
+            "destination_box_xyxy": null,
+            "destination_point_xy": null,
+            "status": "needs_clarification"
+          },
+          "verified_prompt_sha256": "4237cce0f9bf618b1d463ed401cfc41fdc96fd00518f0764cad97ed0102ce85b",
+          "reference_group": "existing_ai_development_control",
+          "expected_status": "insufficient_visual_evidence",
+          "matching_status": false,
+          "exact_reviewed_question": null
+        }
+      ]
+    },
+    "public_parent": {
+      "run_sha256": "3c2b54edc4915a98e97a9292b4abeae837b8a65e933390959df298cfad5de9a5",
+      "raw_files": {
+        "input-snapshot.jsonl": "7d805dc9f478f894e198892c435df00db897586f40465c393b8644b64c8aadc0",
+        "resolved-requests.jsonl": "329cbdc8ca5531fc13f715562d6cbde68722cc68558a076e201a4862e0bd2d7b",
+        "receipts.jsonl": "3718dba1721cbf49aaa43f826e9e7344e3cb54fed5c1ddab02613e64c77d7755",
+        "model-outcomes.jsonl": "38f621a53fd473554a6b0b6f82922ce9e4b82d16cde8e3c5669582657a064421"
+      },
+      "weights_sha256": "76bfb3230b17a86248b52ca6a9f8d2ffca324aa80216d6b93845ccb12ad86743",
+      "by_reference_group": {
+        "two_reviewer_confirmations_same_wording": {
+          "requested": 2,
+          "matching_status": 0,
+          "operational_errors": 0
+        },
+        "unreviewed_paraphrase_same_scene": {
+          "requested": 2,
+          "matching_status": 0,
+          "operational_errors": 0
+        },
+        "existing_ai_development_control": {
+          "requested": 2,
+          "matching_status": 1,
+          "operational_errors": 0
+        }
+      },
+      "rows": [
+        {
+          "request_id": "local-dev-video_054907-00781",
+          "image_sha256": "c411cf6760695905334f32e5590083cf144543df1ca98e68aae55fb345eb583e",
+          "ok": true,
+          "request_sha256": "899691afb3554b144175b4bc299fb457ebbc01c976015f9c78f97b0c0a3ae207",
+          "raw_text": "{\"status\":\"proposed\",\"destination_point_xy\":[425,825],\"destination_box_xyxy\":[395,754,455,875],\"clarification_question\":null}",
+          "result": {
+            "clarification_question": null,
+            "destination_box_xyxy": [
+              1011.2,
+              1085.76,
+              1164.8,
+              1260.0
+            ],
+            "destination_point_xy": [
+              1088.0,
+              1188.0
+            ],
+            "status": "proposed"
+          },
+          "verified_prompt_sha256": "68c4dbe81fb25525916d14079a18500b93cac4c4baee094c5fabe2049213b042",
+          "reference_group": "two_reviewer_confirmations_same_wording",
+          "expected_status": "needs_clarification",
+          "matching_status": false,
+          "exact_reviewed_question": false
+        },
+        {
+          "request_id": "local-dev-video_054907-00781-paraphrase",
+          "image_sha256": "c411cf6760695905334f32e5590083cf144543df1ca98e68aae55fb345eb583e",
+          "ok": true,
+          "request_sha256": "6fdf7ea9f0da2767349a93d672e2179373f91f905a2e900fb65c4fe47cf8729f",
+          "raw_text": "{\"status\":\"proposed\",\"destination_point_xy\":[488,825],\"destination_box_xyxy\":[462,757,514,877],\"clarification_question\":null}",
+          "result": {
+            "clarification_question": null,
+            "destination_box_xyxy": [
+              1182.72,
+              1090.08,
+              1315.84,
+              1262.88
+            ],
+            "destination_point_xy": [
+              1249.28,
+              1188.0
+            ],
+            "status": "proposed"
+          },
+          "verified_prompt_sha256": "b726f5fd850db40da9418a8233fd89997104a53d00e146a18995709d8ed8a986",
+          "reference_group": "unreviewed_paraphrase_same_scene",
+          "expected_status": "needs_clarification",
+          "matching_status": false,
+          "exact_reviewed_question": null
+        },
+        {
+          "request_id": "local-dev-video_174340-00781",
+          "image_sha256": "693e7f2769f9336d15d3ef3fef37594cfab297c819626d913f734077dfa7bd4a",
+          "ok": true,
+          "request_sha256": "7b6a916d11d5f4b27f47de18a245154ce165b9e652c788dc7b51a886619804d7",
+          "raw_text": "{\"status\":\"proposed\",\"destination_point_xy\":[455,654],\"destination_box_xyxy\":[430,620,480,708],\"clarification_question\":null}",
+          "result": {
+            "clarification_question": null,
+            "destination_box_xyxy": [
+              1100.8,
+              892.8,
+              1228.8,
+              1019.52
+            ],
+            "destination_point_xy": [
+              1164.8,
+              941.76
+            ],
+            "status": "proposed"
+          },
+          "verified_prompt_sha256": "fe3440bee2caf6dc0014f685e1e61c2407a77e51ed5efe829097f2565436dc83",
+          "reference_group": "two_reviewer_confirmations_same_wording",
+          "expected_status": "needs_clarification",
+          "matching_status": false,
+          "exact_reviewed_question": false
+        },
+        {
+          "request_id": "local-dev-video_174340-00781-paraphrase",
+          "image_sha256": "693e7f2769f9336d15d3ef3fef37594cfab297c819626d913f734077dfa7bd4a",
+          "ok": true,
+          "request_sha256": "e23fad47c27ee76dccdd92203d88d0145c1ff222c0b47fab6afe63ae908a0800",
+          "raw_text": "{\"status\":\"proposed\",\"destination_point_xy\":[455,583],\"destination_box_xyxy\":[430,555,480,611],\"clarification_question\":null}",
+          "result": {
+            "clarification_question": null,
+            "destination_box_xyxy": [
+              1100.8,
+              799.2,
+              1228.8,
+              879.84
+            ],
+            "destination_point_xy": [
+              1164.8,
+              839.52
+            ],
+            "status": "proposed"
+          },
+          "verified_prompt_sha256": "8c22a1fd3f93ad58b66a9269351f43ff641a0b26e079c518160b8f3b6103355a",
+          "reference_group": "unreviewed_paraphrase_same_scene",
+          "expected_status": "needs_clarification",
+          "matching_status": false,
+          "exact_reviewed_question": null
+        },
+        {
+          "request_id": "passenger-b07",
+          "image_sha256": "175602c7dc418c0ababa6cea56daec7f5e2779452370a9ace398cdc3780041a6",
+          "ok": true,
+          "request_sha256": "f115f5e810511c9fad7a7cbbb007d53537b9264204fae02a0a7be972258ec926",
+          "raw_text": "{\"status\":\"proposed\",\"destination_point_xy\":[335,745],\"destination_box_xyxy\":[280,680,400,800],\"clarification_question\":null}",
+          "result": {
+            "clarification_question": null,
+            "destination_box_xyxy": [
+              716.8,
+              979.2,
+              1024.0,
+              1152.0
+            ],
+            "destination_point_xy": [
+              857.6,
+              1072.8
+            ],
+            "status": "proposed"
+          },
+          "verified_prompt_sha256": "19a6c375a6e5ccfc6485a1affd4f559c6e5023048b38c339886db46afa880fbc",
+          "reference_group": "existing_ai_development_control",
+          "expected_status": "proposed",
+          "matching_status": true,
+          "exact_reviewed_question": null
+        },
+        {
+          "request_id": "passenger-b10",
+          "image_sha256": "175602c7dc418c0ababa6cea56daec7f5e2779452370a9ace398cdc3780041a6",
+          "ok": true,
+          "request_sha256": "91a1c5a1d88435698597c93fd388c5ea4222cf097c6629e050963ac9c3c78a31",
+          "raw_text": "{\"status\":\"proposed\",\"destination_point_xy\":[587,737],\"destination_box_xyxy\":[550,710,624,784],\"clarification_question\":null}",
+          "result": {
+            "clarification_question": null,
+            "destination_box_xyxy": [
+              1408.0,
+              1022.4,
+              1597.44,
+              1128.96
+            ],
+            "destination_point_xy": [
+              1502.72,
+              1061.28
+            ],
+            "status": "proposed"
+          },
+          "verified_prompt_sha256": "4237cce0f9bf618b1d463ed401cfc41fdc96fd00518f0764cad97ed0102ce85b",
+          "reference_group": "existing_ai_development_control",
+          "expected_status": "insufficient_visual_evidence",
+          "matching_status": false,
+          "exact_reviewed_question": null
+        }
+      ]
+    },
+    "human_child": {
+      "run_sha256": "7ad608ba3ed6e33f166fe66d81ee3a12b01dcf548e1c5c67b9c0659429a4d1b6",
+      "raw_files": {
+        "input-snapshot.jsonl": "7d805dc9f478f894e198892c435df00db897586f40465c393b8644b64c8aadc0",
+        "resolved-requests.jsonl": "329cbdc8ca5531fc13f715562d6cbde68722cc68558a076e201a4862e0bd2d7b",
+        "receipts.jsonl": "b19a702a4a057e6dde1f470e41f8ec6121e68bd8edc2a343258ed239a18e6733",
+        "model-outcomes.jsonl": "c6c292e2346f12554b9c0c153730df26f2ce1b9f52cfbd0c2cee336fbe2b968e"
+      },
+      "weights_sha256": "6c3d54a6baadf5a269f8cdb81ed565469aa0d75bc006698c8d355f79b3e774ca",
+      "by_reference_group": {
+        "two_reviewer_confirmations_same_wording": {
+          "requested": 2,
+          "matching_status": 0,
+          "operational_errors": 0
+        },
+        "unreviewed_paraphrase_same_scene": {
+          "requested": 2,
+          "matching_status": 1,
+          "operational_errors": 0
+        },
+        "existing_ai_development_control": {
+          "requested": 2,
+          "matching_status": 1,
+          "operational_errors": 0
+        }
+      },
+      "rows": [
+        {
+          "request_id": "local-dev-video_054907-00781",
+          "image_sha256": "c411cf6760695905334f32e5590083cf144543df1ca98e68aae55fb345eb583e",
+          "ok": true,
+          "request_sha256": "899691afb3554b144175b4bc299fb457ebbc01c976015f9c78f97b0c0a3ae207",
+          "raw_text": "{\"status\":\"proposed\",\"destination_point_xy\":[405,855],\"destination_box_xyxy\":[375,787,435,924],\"clarification_question\":null}",
+          "result": {
+            "clarification_question": null,
+            "destination_box_xyxy": [
+              960.0,
+              1133.28,
+              1113.6,
+              1330.56
+            ],
+            "destination_point_xy": [
+              1036.8,
+              1231.2
+            ],
+            "status": "proposed"
+          },
+          "verified_prompt_sha256": "68c4dbe81fb25525916d14079a18500b93cac4c4baee094c5fabe2049213b042",
+          "reference_group": "two_reviewer_confirmations_same_wording",
+          "expected_status": "needs_clarification",
+          "matching_status": false,
+          "exact_reviewed_question": false
+        },
+        {
+          "request_id": "local-dev-video_054907-00781-paraphrase",
+          "image_sha256": "c411cf6760695905334f32e5590083cf144543df1ca98e68aae55fb345eb583e",
+          "ok": true,
+          "request_sha256": "6fdf7ea9f0da2767349a93d672e2179373f91f905a2e900fb65c4fe47cf8729f",
+          "raw_text": "{\"status\":\"proposed\",\"destination_point_xy\":[488,835],\"destination_box_xyxy\":[462,775,514,893],\"clarification_question\":null}",
+          "result": {
+            "clarification_question": null,
+            "destination_box_xyxy": [
+              1182.72,
+              1116.0,
+              1315.84,
+              1285.92
+            ],
+            "destination_point_xy": [
+              1249.28,
+              1202.4
+            ],
+            "status": "proposed"
+          },
+          "verified_prompt_sha256": "b726f5fd850db40da9418a8233fd89997104a53d00e146a18995709d8ed8a986",
+          "reference_group": "unreviewed_paraphrase_same_scene",
+          "expected_status": "needs_clarification",
+          "matching_status": false,
+          "exact_reviewed_question": null
+        },
+        {
+          "request_id": "local-dev-video_174340-00781",
+          "image_sha256": "693e7f2769f9336d15d3ef3fef37594cfab297c819626d913f734077dfa7bd4a",
+          "ok": true,
+          "request_sha256": "7b6a916d11d5f4b27f47de18a245154ce165b9e652c788dc7b51a886619804d7",
+          "raw_text": "{\"status\":\"proposed\",\"destination_point_xy\":[453,653],\"destination_box_xyxy\":[430,620,476,687],\"clarification_question\":null}",
+          "result": {
+            "clarification_question": null,
+            "destination_box_xyxy": [
+              1100.8,
+              892.8,
+              1218.56,
+              989.28
+            ],
+            "destination_point_xy": [
+              1159.68,
+              940.32
+            ],
+            "status": "proposed"
+          },
+          "verified_prompt_sha256": "fe3440bee2caf6dc0014f685e1e61c2407a77e51ed5efe829097f2565436dc83",
+          "reference_group": "two_reviewer_confirmations_same_wording",
+          "expected_status": "needs_clarification",
+          "matching_status": false,
+          "exact_reviewed_question": false
+        },
+        {
+          "request_id": "local-dev-video_174340-00781-paraphrase",
+          "image_sha256": "693e7f2769f9336d15d3ef3fef37594cfab297c819626d913f734077dfa7bd4a",
+          "ok": true,
+          "request_sha256": "e23fad47c27ee76dccdd92203d88d0145c1ff222c0b47fab6afe63ae908a0800",
+          "raw_text": "{\"status\":\"needs_clarification\",\"destination_point_xy\":null,\"destination_box_xyxy\":null,\"clarification_question\":\"Which car in front is intended for the exit?\"}",
+          "result": {
+            "clarification_question": "Which car in front is intended for the exit?",
+            "destination_box_xyxy": null,
+            "destination_point_xy": null,
+            "status": "needs_clarification"
+          },
+          "verified_prompt_sha256": "8c22a1fd3f93ad58b66a9269351f43ff641a0b26e079c518160b8f3b6103355a",
+          "reference_group": "unreviewed_paraphrase_same_scene",
+          "expected_status": "needs_clarification",
+          "matching_status": true,
+          "exact_reviewed_question": null
+        },
+        {
+          "request_id": "passenger-b07",
+          "image_sha256": "175602c7dc418c0ababa6cea56daec7f5e2779452370a9ace398cdc3780041a6",
+          "ok": true,
+          "request_sha256": "f115f5e810511c9fad7a7cbbb007d53537b9264204fae02a0a7be972258ec926",
+          "raw_text": "{\"status\":\"proposed\",\"destination_point_xy\":[335,745],\"destination_box_xyxy\":[280,680,400,800],\"clarification_question\":null}",
+          "result": {
+            "clarification_question": null,
+            "destination_box_xyxy": [
+              716.8,
+              979.2,
+              1024.0,
+              1152.0
+            ],
+            "destination_point_xy": [
+              857.6,
+              1072.8
+            ],
+            "status": "proposed"
+          },
+          "verified_prompt_sha256": "19a6c375a6e5ccfc6485a1affd4f559c6e5023048b38c339886db46afa880fbc",
+          "reference_group": "existing_ai_development_control",
+          "expected_status": "proposed",
+          "matching_status": true,
+          "exact_reviewed_question": null
+        },
+        {
+          "request_id": "passenger-b10",
+          "image_sha256": "175602c7dc418c0ababa6cea56daec7f5e2779452370a9ace398cdc3780041a6",
+          "ok": true,
+          "request_sha256": "91a1c5a1d88435698597c93fd388c5ea4222cf097c6629e050963ac9c3c78a31",
+          "raw_text": "{\"status\":\"proposed\",\"destination_point_xy\":[587,737],\"destination_box_xyxy\":[550,710,624,784],\"clarification_question\":null}",
+          "result": {
+            "clarification_question": null,
+            "destination_box_xyxy": [
+              1408.0,
+              1022.4,
+              1597.44,
+              1128.96
+            ],
+            "destination_point_xy": [
+              1502.72,
+              1061.28
+            ],
+            "status": "proposed"
+          },
+          "verified_prompt_sha256": "4237cce0f9bf618b1d463ed401cfc41fdc96fd00518f0764cad97ed0102ce85b",
+          "reference_group": "existing_ai_development_control",
+          "expected_status": "insufficient_visual_evidence",
+          "matching_status": false,
+          "exact_reviewed_question": null
+        }
+      ]
+    }
+  }
+}

@@ -3,6 +3,7 @@
 from dataclasses import replace
 import gc
 import hashlib
+from importlib.util import find_spec
 import json
 from pathlib import Path
 import struct
@@ -403,23 +404,46 @@ def test_restore_keeps_original_cpu_storage_without_copy():
 
 
 def test_nf4_restore_preserves_quant_state_and_hf_metadata():
-    torch = pytest.importorskip("torch")
-    bnb = pytest.importorskip("bitsandbytes")
+    if find_spec("torch") is None or find_spec("bitsandbytes") is None:
+        pytest.skip("Optional local NF4 runtime is unavailable")
+    # Keep native libraries in a separate interpreter, as the streamed worker does.
+    child = subprocess.run([sys.executable, "-c",
+        "from tests.test_dropoff_streamed import _verify_packed_restore; _verify_packed_restore()"],
+        capture_output=True, text=True, check=False, timeout=90)
+    assert child.returncode == 0, (child.returncode, child.stderr)
+
+
+def _verify_packed_restore():
+    import bitsandbytes as bnb
+    import torch
     from trackrag.dropoff.streamed_weights import preserve_frozen_cpu_views
+    # The shipped base loads packed NF4 values and their saved nested scales.
+    # Construct the same small checkpoint representation directly on CPU.
     module = bnb.nn.Linear4bit(16, 16, bias=False, compute_dtype=torch.float32,
-                               compress_statistics=True, quant_type="nf4").to("cpu")
+                               compress_statistics=True, quant_type="nf4")
+    nested_state = bnb.functional.QuantState(absmax=torch.tensor([0.5]), blocksize=256,
+                                            code=bnb.functional.create_dynamic_map(), dtype=torch.float32)
+    state = bnb.functional.QuantState(absmax=torch.tensor([8, 20, 90, 155], dtype=torch.uint8),
+                                     shape=torch.Size([16, 16]), dtype=torch.float32, blocksize=64,
+                                     quant_type="nf4", code=bnb.functional.get_4bit_type("nf4", device="cpu"),
+                                     offset=torch.tensor(1.0), state2=nested_state)
+    module.weight = bnb.nn.Params4bit.from_prequantized(torch.arange(128, dtype=torch.uint8).view(-1, 1),
+                                                        state.as_dict(packed=True), device="cpu", module=module)
     module.requires_grad_(False)
     module.weight._is_hf_initialized = True
     packed = module.weight.data.clone()
     code = module.weight.quant_state.code.clone()
+    nested = module.weight.quant_state.state2.absmax.clone()
     hook = SimpleNamespace(offload=None)
     preserve_frozen_cpu_views(module, hook)
     module.weight.data = torch.zeros_like(module.weight.data)
     module.weight.quant_state.code = torch.ones_like(module.weight.quant_state.code)
+    module.weight.quant_state.state2.absmax.zero_()
     hook.offload()
     assert module.weight._is_hf_initialized is True
     assert torch.equal(module.weight.data, packed)
     assert torch.equal(module.weight.quant_state.code, code)
+    assert torch.equal(module.weight.quant_state.state2.absmax, nested)
 
 
 @pytest.mark.parametrize("dtype_name", ["float32", "bfloat16"])

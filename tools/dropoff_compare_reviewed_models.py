@@ -1,12 +1,28 @@
 """Check the registered pretrained, public-adapted and locally continued runs on six nonfinal requests."""
 import argparse
 from collections import defaultdict
+from hashlib import sha256
 import json
 from pathlib import Path
 
 from tools.dropoff_ai_acceptance import check_native_run
 from tools.dropoff_reviewed_trial import normalized_question, save
 from trackrag.dropoff.data import file_sha256
+from trackrag.dropoff.formatting import build_messages
+
+
+def verify_prompt(receipt, settings):
+    """Verify the messages actually recorded at inference against model-visible inputs alone."""
+    source = receipt["provenance"]
+    messages = receipt.get("messages")
+    if messages is None and receipt.get("status") == "error" and "messages_sha256" not in source:
+        return None  # An error before prompt construction remains in the denominator.
+    expected = build_messages(receipt["request"], allow_annotated=settings["allow_annotated"],
+                              observation_format=settings["observation_format"])
+    digest = sha256(json.dumps(expected, sort_keys=True, separators=(",", ":"), allow_nan=False).encode()).hexdigest()
+    if messages != expected or source.get("messages_sha256") != digest:
+        raise ValueError("Recorded prompt differs from the original passenger request, photo or observations")
+    return digest
 
 
 def compare(trial, conditions, earlier_results):
@@ -36,6 +52,9 @@ def compare(trial, conditions, earlier_results):
             raise ValueError(f"{name} has a different request bank, weights or inference settings")
         if name in earlier["fresh_generation"] and native["run_sha256"] != earlier["fresh_generation"][name]["run_sha256"]:
             raise ValueError(f"The original {name} output has changed")
+        receipts = [json.loads(line) for line in (run/"receipts.jsonl").read_bytes().splitlines() if line.strip()]
+        for row, receipt in zip(native["rows"], receipts, strict=True):
+            row["verified_prompt_sha256"] = verify_prompt(receipt, cfg)
         identities = {r["request_id"]: (r["request_sha256"], r["image_sha256"]) for r in native["rows"]}
         if fingerprint and identities != fingerprint:
             raise ValueError(f"{name} saw different words, photos or observations")

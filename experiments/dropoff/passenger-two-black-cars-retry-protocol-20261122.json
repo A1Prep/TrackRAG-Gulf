@@ -1,0 +1,17 @@
+{
+  "registered_utc": "2026-11-22T06:16:22.793443+00:00",
+  "first_runner_sha256": "3b916558e6b450456f7a148d1490dbd575410723ce32d4a34eb5b0623bc6cba7",
+  "repeat_runner_sha256": "cf1124cf25f44377a92db5bd043a695b10655abbbfcde7c0b91e3bfb23e1ca6b",
+  "protocol_sha256": "bbdd0b98496ef72062a286ecc100ef3ffc7eb06c1ab595ead840b4a766b7aa0c",
+  "original_runtime_failure": "Windows imported the unguarded operator script again in each GPU worker. It failed opening the parent runtime config with exclusive-create. No change to model or questions.",
+  "first_attempt_result": "experiments/dropoff/passenger-two-black-cars-results-20261122.json",
+  "repeat_outputs": "experiments/dropoff/passenger-two-black-cars-repeated-results-20261122.json",
+  "only_updates": [
+    "guard operating code with Python main entry point",
+    "new artifact directory, new result destination"
+  ],
+  "same_scoring_rules": true,
+  "same_input_scenes": "1d78a5bcc22334cb6c7565c54530bb51806eb29709fc389af867fbfd1d95cafd",
+  "no_resubmission_until_prior_attempts_seal": true,
+  "keep_every_first_attempt": true
+}

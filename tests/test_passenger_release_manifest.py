@@ -105,3 +105,24 @@ def test_packaged_speech_chooses_installed_model_and_respects_explicit_modes(tmp
     assert release.speech_arguments([]) == ["--whisper-model", str(whisper)]
     with pytest.raises(ValueError):
         release.speech_arguments([], text_only=True, whisper=whisper)
+
+
+def test_standard_launch_adds_installed_still_and_honors_explicit_banks(bundle, tmp_path, monkeypatch):
+    from types import SimpleNamespace
+    from trackrag import passenger_app
+    monkeypatch.setattr(release, "ROOT", tmp_path)
+    monkeypatch.setattr(passenger_app, "main", lambda argv: [path for prev, path in zip(argv, argv[1:]) if prev == "--requests"])
+    normal = tmp_path/"runs/passenger-inputs/requests.jsonl"
+    still = tmp_path/"runs/passenger-pair-scene/requests.jsonl"
+    normal.parent.mkdir(parents=True)
+    normal.touch()
+    args = SimpleNamespace(bundle=bundle[0], base_dir=tmp_path, processor_cache=tmp_path, vision_cache=tmp_path,
+                           text_only=True, asr_model=None, requests=None, qa_model="test", qa_data_root=None,
+                           qa_predictions=None, qa_frame_rate=None, port=8765, out=tmp_path/"sessions")
+    monkeypatch.setenv("GEMINI_MODEL", "test")
+    assert release.start(args) == [str(normal)]
+    still.parent.mkdir(parents=True)
+    still.touch()
+    assert release.start(args) == [str(normal), str(still)]
+    args.requests = [still]
+    assert release.start(args) == [str(still)]

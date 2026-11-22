@@ -137,6 +137,32 @@ def test_open_unbookmarked_frame_uses_the_same_provenance_and_current_prediction
     assert len(site.catalog()["scenes"])==2
 
 
+def test_photo_bookmark_does_not_become_a_searchable_recording(scene_fixture):
+    from trackrag.footage_app import FootageReview
+    from trackrag.passenger_app import PassengerRequestError, PassengerSite, load_scenes, scene_key
+    f = scene_fixture
+    f.artifacts()
+    f.run([instruction()])
+    scenes = load_scenes([f.root/"prepared"/"requests.jsonl"])
+    main_key, original = next(iter(scenes.items()))
+    still = deepcopy(original)
+    still["frame"].update(frame_id=781, timestamp_s=39.0)
+    still["provenance"]["tracks_sha256"] = "1" * 64
+    still_key = scene_key(still["frame"]["recording_id"], 781)
+    scenes[still_key] = still
+    site = PassengerSite(scenes, None, None, f.root/"app", None,
+                         FootageReview(f.data, f.predictions, f.config_path, f.root/"footage", frame_rate=20.))
+    assert len(site.catalog()["scenes"]) == 2
+    assert site.catalog()["footage_scenes"] == [main_key]
+    assert site.open_recording_frame(main_key, 781)["key"] == still_key
+    with pytest.raises(PassengerRequestError, match="passenger photo"):
+        site.open_recording_frame(main_key, 781, for_footage=True)
+    # Opening a real recorded frame from the passenger's extra bookmark still uses the correct detector run.
+    new = site.open_recording_frame(still_key, 3)
+    assert new["key"] in site.catalog()["footage_scenes"]
+    assert site.scenes[new["key"]]["provenance"]["tracks_sha256"] == original["provenance"]["tracks_sha256"]
+
+
 def test_two_recordings_export_portable_annotation_free_inputs(scene_fixture):
     f = scene_fixture
     first, second = f.artifacts(), f.artifacts("rec_b")

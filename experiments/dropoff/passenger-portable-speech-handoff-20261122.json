@@ -1,0 +1,70 @@
+{
+  "version": 1,
+  "kind": "offline_read_speech_collector_software_handoff",
+  "checked_utc": "2026-11-22T06:22:42.433835+00:00",
+  "frozen_formal_protocol_sha256": "1b86207a62479a0f0d90026e17a849911b9508632f216fe15c93ebaa5819ffd5",
+  "intended_speakers": [
+    "S01",
+    "S02",
+    "S03"
+  ],
+  "scripts_each": 10,
+  "blank": {
+    "release_filename": "TrackRAG-passenger-voice-study.html",
+    "bytes": 21132,
+    "sha256": "6c748dc48cfe66364e304290414d08f80a44686acfed18a38dbed78861b1e231",
+    "form_id": "b71c3b39b3a3485ae126622529d45719c60409b4d6f7f60a52df353622ea41f5",
+    "data_inputs": "Three anonymous code slots and the ten public project scripts. Blank with no recording, speaker reference or consent."
+  },
+  "software_browser": {
+    "kind": "marked_fixture_offline_browser_exercise",
+    "browser": "148.0.7778.96",
+    "tested_form_id": "47fcba32f5fa4d4f3ce7deeb72a18c8e376a25a1bc67b6296a359067bf1a0cba",
+    "external_page_requests": 0,
+    "page_errors": 0,
+    "restored_unchanged_takes": 1,
+    "verified_software_takes": 2,
+    "microphone_and_original_wav": true,
+    "original_words_verified_before_asr": true,
+    "formal_human_speakers": 0,
+    "formal_human_recordings": 0
+  },
+  "fixture_import": {
+    "new_takes": 2,
+    "identical_repeated_takes": 1,
+    "occupied_slots": 2,
+    "planned_slots": 30,
+    "software_fixture": true,
+    "human_clips_imported": 0,
+    "initial_asr_shown": 0
+  },
+  "identical_resubmission": {
+    "new_takes": 0,
+    "identical_repeated_takes": 2,
+    "occupied_slots": 2,
+    "planned_slots": 30,
+    "software_fixture": true,
+    "human_clips_imported": 0,
+    "initial_asr_shown": 0
+  },
+  "negative_formal_intake": {
+    "rejected": true,
+    "reason": "Wrong protocol, form, fixture marker or consent",
+    "resident_formal_rows": 0
+  },
+  "real_formal_study_at_check": {
+    "consented_speakers": 0,
+    "recorded": 0,
+    "missing": 30,
+    "planned": 30
+  },
+  "software_tests": {
+    "passed": 21,
+    "files": [
+      "tests/test_passenger_voice_form.py",
+      "tests/test_passenger_speech_study.py"
+    ]
+  },
+  "scoring_contract": "The importer calls the original check_entry for every human slot with the bound WAV, protocol and prompt. It records imported_wav and the actual acquisition origin, no initial ASR and no participant edit of ASR. Actual speech can be scored by the original Whisper/Vosk replay after private human return.",
+  "data_handling": "Browser exercise used a generated test signal, a fake microphone and an explicitly marked separate form. All raw software audio and private JSON stayed under ignored runs. Endpoint access and genuine consented recording remain unmeasured on volunteer devices."
+}

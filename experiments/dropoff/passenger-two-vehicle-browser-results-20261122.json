@@ -1,0 +1,317 @@
+{
+  "purpose": "Two-landmark selection and explicit confirmation in the normal passenger browser on original photographs.",
+  "protocol_sha256": "3cc4acb208357a62326ce3ac316e1088d212ec623697e852d44058fc98ff9711",
+  "prospective_note": "The protocol was fixed before this browser operator observed any assisted outputs. A separate developer was implementing and testing the same algorithm in parallel.",
+  "typed_source": "Stored genuine 8B receipts were revalidated before replaying their exact inputs and outputs. Each subsequent two-landmark choice and road computation ran live on CPU.",
+  "typed_replay_sha256": "4fbf389c3af676be3a75c35118ec260dbb08be6a965155ba93fa2bee94b6bf3e",
+  "typed_results": [
+    {
+      "recording": "video_054907",
+      "frame": 781,
+      "original_jpeg_sha256": "c411cf6760695905334f32e5590083cf144543df1ca98e68aae55fb345eb583e",
+      "operator_method": "click",
+      "incoming": [
+        {
+          "text": "Drop me between these two black cars.",
+          "state": "needs_clarification",
+          "result": {
+            "status": "needs_clarification",
+            "destination_point_xy": null,
+            "destination_box_xyxy": null,
+            "clarification_question": "I can identify the landmark, but I can't place a road area beside it. Can you mark the intended patch?"
+          },
+          "error": null,
+          "decision_method": "qwen_landmark_region",
+          "raw_native": "L1 L2",
+          "active_request_sha256": "62d7177a40c8a077ce73f4fec86891d05d3937f08b7ded64201fbd96a039f38d",
+          "verified_native_source_sha256": "ffb45389310261c355081e5177014798f8f90d2f7f533d0c71066e22c46f3c33",
+          "native_track_ids": [
+            66865,
+            65692
+          ],
+          "pair_guard": null,
+          "view_selected_by": "model"
+        },
+        {
+          "text": "I mean the patch of road just behind the gap between the black sedan next to the concrete median on our left and the black sedan immediately to its right.",
+          "state": "proposed",
+          "result": {
+            "status": "proposed",
+            "destination_point_xy": [
+              927.5,
+              1112.5
+            ],
+            "destination_box_xyxy": [
+              338.9819540793638,
+              1044.169515066354,
+              1076.5261314070074,
+              1141.0979714851742
+            ],
+            "clarification_question": null,
+            "anchor_boxes_xyxy": [
+              [
+                202.859375,
+                953.1180419921875,
+                281.6097717285156,
+                978.5709838867188
+              ],
+              [
+                1451.215087890625,
+                1044.64453125,
+                1627.0533447265625,
+                1174.2886962890625
+              ]
+            ]
+          },
+          "error": null,
+          "decision_method": "qwen_landmark_region",
+          "raw_native": "LANDMARK L1 L2",
+          "active_request_sha256": "2b6ff4a942df322661e837e5c104753f15bfa59d5a114394b58218d14ae130ed",
+          "verified_native_source_sha256": "f1344ac5d93ae6d359faa48bf4eb2671f930b49f5fdb211f405314cc3d77f9bb",
+          "native_track_ids": [
+            66865,
+            59438
+          ],
+          "pair_guard": null,
+          "view_selected_by": "model"
+        }
+      ],
+      "assisted": [
+        {
+          "placement": "between",
+          "selected_track_ids": [
+            61108,
+            59268
+          ],
+          "selected_original_boxes": [
+            [
+              996.9368896484375,
+              1041.7906494140625,
+              1115.8541259765625,
+              1124.109619140625
+            ],
+            [
+              1103.184326171875,
+              1042.60888671875,
+              1182.374755859375,
+              1105.36376953125
+            ]
+          ],
+          "selection_sha256": "441799bb48d491fafec97d627ea98185bc4d6ae03df849e11dab72384bedb745",
+          "state": "needs_clarification",
+          "selected_by": "passenger_landmarks",
+          "question": "Their boxes overlap in this view. Do you mean the road just behind both vehicles, or another area?",
+          "point_xy": null,
+          "previous_token_rejected": true,
+          "inside_preexisting_reference": null,
+          "matches_original_anchor_boxes": null,
+          "supported_on_cached_SegFormer_mask": null,
+          "outside_all_current_detections": null,
+          "mask_sha256": "7d365ac84782697ebad451604d1f23b0781c73045dad48de17aefd410c2ee7e5",
+          "positive_target_score": false,
+          "old_native_outcome_sha256": "e1ded22fcf0e8f1ae353dceed8c312431c2a314b4f031e278fd85ba6e0533d4a"
+        },
+        {
+          "placement": "behind",
+          "selected_track_ids": [
+            61108,
+            59268
+          ],
+          "selected_original_boxes": [
+            [
+              996.9368896484375,
+              1041.7906494140625,
+              1115.8541259765625,
+              1124.109619140625
+            ],
+            [
+              1103.184326171875,
+              1042.60888671875,
+              1182.374755859375,
+              1105.36376953125
+            ]
+          ],
+          "selection_sha256": "9eeccca16ca37c8a50a403793723e52f1648bce09d80e325fc4c6898cf536c62",
+          "state": "proposed",
+          "selected_by": "passenger_landmarks",
+          "question": null,
+          "point_xy": [
+            1097.5,
+            1132.5
+          ],
+          "previous_token_rejected": true,
+          "inside_preexisting_reference": true,
+          "matches_original_anchor_boxes": true,
+          "supported_on_cached_SegFormer_mask": true,
+          "outside_all_current_detections": true,
+          "mask_sha256": "7d365ac84782697ebad451604d1f23b0781c73045dad48de17aefd410c2ee7e5",
+          "positive_target_score": true,
+          "old_native_outcome_sha256": "e1ded22fcf0e8f1ae353dceed8c312431c2a314b4f031e278fd85ba6e0533d4a"
+        }
+      ],
+      "end_state": "confirmed",
+      "raw_session_sha256": "7e5e6e3193e1e3b4fa9970c4ac6cc217a827b58cea84a6cac9c7e00ab9a72657"
+    },
+    {
+      "recording": "video_054907",
+      "frame": 1,
+      "original_jpeg_sha256": "033fc370408c4bc99a1ec9fbb845b6618a5f53b680a235baba336b8fe8ddba80",
+      "operator_method": "select",
+      "incoming": [
+        {
+          "text": "I mean the open road between the white SUV on our left and the large open-sided truck on our right, just behind them.",
+          "state": "proposed",
+          "result": {
+            "anchor_boxes_xyxy": [
+              [
+                340.90081787109375,
+                988.8248291015625,
+                660.7312622070312,
+                1190.044921875
+              ],
+              [
+                1526.108154296875,
+                668.238037109375,
+                2190.817626953125,
+                1280.4095458984375
+              ]
+            ],
+            "clarification_question": null,
+            "destination_box_xyxy": [
+              774.1282784201643,
+              1141.1372080272404,
+              1304.2392363226838,
+              1429.8790701585933
+            ],
+            "destination_point_xy": [
+              1037.5,
+              1282.5
+            ],
+            "status": "proposed"
+          },
+          "error": null,
+          "decision_method": "qwen_landmark_region",
+          "raw_native": "LANDMARK L35",
+          "active_request_sha256": "45d78468f76056d349dea84dfaa08d1919fc0a50bfec52839841499c55829bc3",
+          "verified_native_source_sha256": "9abc93f8f35e45e2bbc79e2ccfe0f5a841d877c03bd06c44fc4f57ede085068f",
+          "native_track_ids": [
+            1,
+            2
+          ],
+          "pair_guard": null,
+          "view_selected_by": "model"
+        }
+      ],
+      "assisted": [
+        {
+          "placement": "behind",
+          "selected_track_ids": [
+            1,
+            2
+          ],
+          "selected_original_boxes": [
+            [
+              340.90081787109375,
+              988.8248291015625,
+              660.7312622070312,
+              1190.044921875
+            ],
+            [
+              1526.108154296875,
+              668.238037109375,
+              2190.817626953125,
+              1280.4095458984375
+            ]
+          ],
+          "selection_sha256": "ac10fa9e9323de7a93c6622e1052c297433f625a3a3fff55c8c2e2a31d2dea22",
+          "state": "proposed",
+          "selected_by": "passenger_landmarks",
+          "question": null,
+          "point_xy": [
+            1037.5,
+            1292.5
+          ],
+          "previous_token_rejected": true,
+          "inside_preexisting_reference": true,
+          "matches_original_anchor_boxes": true,
+          "supported_on_cached_SegFormer_mask": true,
+          "outside_all_current_detections": true,
+          "mask_sha256": "91ad83cc2cfa37d9c913ab069196c4636c8d21296d45e4e142df1004e0ab8e84",
+          "positive_target_score": true,
+          "old_native_outcome_sha256": "77b75b0346a838fc4cefe6137a46b113675d5e9f783f12f911012a7e641e702d"
+        }
+      ],
+      "end_state": "confirmed",
+      "raw_session_sha256": "92a579786d9f7f97d3932c2f88d75a4012c1d849520f1bce979dbbd7c9b7450b"
+    }
+  ],
+  "spoken_trial": {
+    "kind": "genuine normal application with synthetic Zira file-fed Chromium microphone and offline CPU Whisper",
+    "voice_preregistration_sha256": "86e2c8b987f0c3199e9587abacb5e921b775b2515199e48cb50d5f006a13b6b6",
+    "model_source": "--whisper-model",
+    "synthetic_speaker": "Microsoft Zira Desktop",
+    "genuine_human_voices": 0,
+    "physical_microphones": 0,
+    "official_final_cases": 0,
+    "scope": "One existing development intent, scripted selections, same visible daytime photo.",
+    "original_frame_sha256": "c411cf6760695905334f32e5590083cf144543df1ca98e68aae55fb345eb583e",
+    "spoken_source": "Drop me between these two black cars.",
+    "original_Whisper_transcript": "Drop me between these two black cars.",
+    "reviewed_text_submitted": "Drop me between these two black cars.",
+    "operator_changed_words": false,
+    "recognizer": {
+      "transcript": "Drop me between these two black cars.",
+      "audio_sha256": "3358e8384e4d84df0f7de26b6e0a1e22e33b1496c1b026d7181c49c8c11a4bc9",
+      "duration_s": 6.584,
+      "elapsed_s": 4.008964599983301,
+      "sample_rate_hz": 16000,
+      "channels": 1,
+      "model_id": "Systran/faster-whisper-small.en",
+      "model_revision": "d1d751a5f8271d482d14ca55d9e2deeebbae577f",
+      "model_content_sha256": "bab18bb764bed442791b59bf681c5aed8b9c27808ca487399cd5ac79d02a6efd",
+      "engine": "faster-whisper",
+      "engine_version": "1.2.1",
+      "ctranslate2_version": "4.6.1",
+      "av_version": "15.1.0",
+      "device": "cpu",
+      "compute_type": "int8"
+    },
+    "original_TTS_sha256": "6ec02795aff4c6e1eb73472789056e8bacfc231ca58d1ef2422a7cd9b3f4e2de",
+    "virtual_microphone_input_sha256": "8e095a85b7095aade2f6ef255023477d69a85fc8b6fe3d30517afb3829ccf506",
+    "captured_wav_sha256": "3358e8384e4d84df0f7de26b6e0a1e22e33b1496c1b026d7181c49c8c11a4bc9",
+    "speech_route": "real getUserMedia to AudioWorklet to recorded WAV",
+    "original_request_sha256": "646d9e6958ddf1f49c60b1e3785ec421df963d7ff0a0bb9b8388130f0c33b516",
+    "automatic_clarification": "Which two vehicles do you mean? Describe each one or select both on the photo.",
+    "automatic_method": "deictic_pair_clarification",
+    "native_generation_calls": 0,
+    "attempted_fallbacks": 0,
+    "explicit_passenger_selected_ids": [
+      61108,
+      59268
+    ],
+    "placement": "behind",
+    "model_estimated_point": [
+      1097.5,
+      1132.5
+    ],
+    "current_road_mask_sha256": "7d365ac84782697ebad451604d1f23b0781c73045dad48de17aefd410c2ee7e5",
+    "point_on_current_road_and_inside_old_intent_and_outside_current_observations": true,
+    "draft_protection_checked_in_browser": true,
+    "selected_by": "passenger_landmarks",
+    "final_state": "confirmed",
+    "separate_current_token_confirmed": true,
+    "normal_absolute_road_frame_unchanged": true,
+    "browser_sha256": "5a8d75dd6db8ac45dc8d06287621b97f71ee3d225449319cc646c9a1873a2fb5",
+    "raw_journal_sha256": "09eeb83877522aeb561ac6da9bcf5d3c9081cf3fa7032522800ff7835146eb16",
+    "screen_images_local_only": true,
+    "browser_source_sha256": "4d1d5a16667af17e325aac987e8b53249581debf555cb8fcde25d3428f88c6fe"
+  },
+  "spoken_trial_sha256": "6c8290a1e595092402b298d1443429317429c29428ea4a88795c7bd7dfbab8fc",
+  "full_fitted_model_and_original_mask_replay_sha256": "c40d70df2aa50cc0902b2a3744b5489826b7cd661522c763236a184f6f884e2d",
+  "first_UI_replay_sha256": "ba59a40e2dc99f126d6ae02b4b2387347043ce628dc4607ba1ffbdf788809569",
+  "strict_receipt_update_UI_replay_sha256": "5076ac063d0c7db86f092f19312a469b0c229f4e44a6d1c2ba85bb04683d57d1",
+  "manual_rectangle_predecessor_sha256": "88a5442265b551202111ed3ef0e62d8fd773ce0db001a1a54ec49bf22fdc978d",
+  "corrected_automatic_policies_100_control_replay_sha256": "cef1bdcc238b6dc47c987a374d8d3101ecd32bf4e9f45a284250b6f4aa433612",
+  "raw_evidence_zip": "TrackRAG-passenger-two-vehicle-browser-20261122.zip",
+  "limits": "Two nonfinal photos from one daytime recording, both previously used in development. One synthetic utterance. The same F781 intent was reused for audio. Zero human passengers or official final cases."
+}

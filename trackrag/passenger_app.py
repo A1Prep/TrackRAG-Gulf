@@ -30,6 +30,7 @@ STATIC = {"/": ("index.html", "text/html; charset=utf-8"),
           "/footage": ("footage.html", "text/html; charset=utf-8"),
           "/footage.js": ("footage.js", "text/javascript"),
           "/frames.js": ("frames.js", "text/javascript"),
+          "/pair-choices.js": ("pair-choices.js", "text/javascript"),
           "/app.css": ("app.css", "text/css"), "/app.js": ("app.js", "text/javascript"),
           "/capture.js": ("capture.js", "text/javascript")}
 
@@ -124,6 +125,8 @@ class BrowserSession:
         if self.voice_stage:
             # Replacing a recording invalidates any previously displayed confirmation.
             view.update(proposal_id=None, result=None)
+            if "pair_choices" in view:
+                view["pair_choices"] = []
         return {"session": self.identity, "scene": self.scene_key, "revision": self.revision,
                 "view": view, "voice_stage": self.voice_stage, "speech_error": self.speech_error,
                 "audio_sha256": self.receipt["audio_sha256"] if self.receipt else None,
@@ -137,6 +140,7 @@ class PassengerSite:
     def __init__(self, scenes, model, recognizer, out, session_factory, footage=None):
         self.scenes = scenes
         self.footage = footage
+        self.footage_scenes = {key for key, scene in scenes.items() if footage is not None and footage.covers(scene)}
         self.model = model
         self.recognizer = recognizer
         self.out = Path(out)
@@ -149,24 +153,34 @@ class PassengerSite:
     def catalog(self):
         with self.scene_lock:
             frames = [public_frame(key, s) for key, s in self.scenes.items()]
+            covered = sorted(self.footage_scenes)
         return {"scenes": sorted(frames, key=lambda f: (f["recording_id"], f["frame_id"])),
-                "speech_available": self.recognizer is not None,"footage_available":self.footage is not None}
+                "speech_available": self.recognizer is not None, "footage_available": bool(covered),
+                "footage_scenes": covered}
 
-    def open_recording_frame(self, origin, frame_id):
+    def open_recording_frame(self, origin, frame_id, *, for_footage=False):
         if self.footage is None:
             raise PassengerRequestError(503,"Attach the original recording and saved predictions to open other frames.")
         if not isinstance(origin,str) or origin not in self.scenes or type(frame_id) is not int or frame_id < 0:
             raise PassengerRequestError(400,"Choose a loaded recording and a nonnegative whole frame number.")
+        if type(for_footage) is not bool:
+            raise PassengerRequestError(400,"Invalid frame selection.")
         template = self.scenes[origin]
         key = scene_key(template["frame"]["recording_id"], frame_id)
         with self.scene_lock:
             scene = self.scenes.get(key)
+            if scene is not None and for_footage and key not in self.footage_scenes:
+                raise PassengerRequestError(400, "Only a passenger photo is available at that frame. Choose a frame in the attached recording.")
+            if scene is None and origin not in self.footage_scenes:
+                template = next((s for k, s in self.scenes.items() if k in self.footage_scenes and
+                                 s["frame"]["recording_id"] == template["frame"]["recording_id"]), template)
         if scene is None:
             scene = self.footage.frame_scene(template, frame_id)
             with self.scene_lock:
                 existing = self.scenes.setdefault(key, scene)
                 if existing != scene:
                     raise PassengerRequestError(409,"The recording changed while this frame was opening.")
+                self.footage_scenes.add(key)
         return public_frame(key, scene)
 
     def open(self, scene_key, previous=None):
@@ -265,6 +279,11 @@ class PassengerSite:
                     raise PassengerRequestError(409, "Finish your new instruction before marking its area.")
                 with self.model_lock:
                     s.dialogue.select_area(payload.get("box"))
+            elif action == "select-pair":
+                if s.voice_stage:
+                    raise PassengerRequestError(409, "Finish your new instruction before selecting its vehicles.")
+                with self.model_lock:
+                    s.dialogue.select_pair(payload.get("track_ids"), payload.get("placement"))
             elif action == "confirm":
                 token = payload.get("proposal_id")
                 current = s.dialogue.view()
@@ -350,12 +369,13 @@ def handler(site):
                 if path == "/api/sessions":
                     return self.respond(site.open(payload.get("scene"), payload.get("previous")))
                 if path == "/api/frames":
-                    return self.respond(site.open_recording_frame(payload.get("scene"),payload.get("frame_id")))
+                    return self.respond(site.open_recording_frame(payload.get("scene"),payload.get("frame_id"),
+                                                                  for_footage=payload.get("for_footage", False)))
                 if path == "/api/footage":
                     if not site.footage:
                         raise PassengerRequestError(503,"Start the app with recording and prediction folders to enable footage search.")
-                    if payload.get("scene") not in site.scenes:
-                        raise PassengerRequestError(400,"Select an available original frame.")
+                    if payload.get("scene") not in site.footage_scenes:
+                        raise PassengerRequestError(400,"Choose a frame in the attached footage recording.")
                     return self.respond(site.footage.ask(site.scenes[payload["scene"]],payload.get("question"),
                                                          hosted=payload.get("hosted",False)))
                 if m:
@@ -410,7 +430,7 @@ def main(argv=None):
     parser.add_argument("--out", type=Path, required=True, help="Local session receipts and source WAVs")
     parser.add_argument("--port", type=int, default=8765)
     args = parser.parse_args(argv)
-    from trackrag.dropoff.interaction import PassengerSession
+    from trackrag.dropoff.passenger_pair_choice import PassengerSession
     from trackrag.dropoff.passenger import load_passenger_model
 
     scenes = load_scenes(args.requests)

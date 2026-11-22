@@ -164,6 +164,11 @@ def review(request, outcome):
 
 
 class PassengerDialogueGrounder(PassengerViewpoint):
+    def passenger_pair(self, request, track_ids, placement):
+        from .passenger_pair_choice import choose
+        with self.model.lock:
+            return choose(self.model, request, track_ids, placement)
+
     def _checked_viewpoint(self, request, outcome):
         """Reopen the bound original and reproduce the ranking before offering a new choice."""
         if (not isinstance(outcome, dict) or outcome.get("ok") is not True
@@ -224,5 +229,10 @@ class PassengerDialogueGrounder(PassengerViewpoint):
             return outcome
 
     def interpret(self, request):
+        from .pair_dialogue import review_pair_disagreement, unpointed_pair
+        question = unpointed_pair(self.model, request)
+        if question is not None:
+            return question
         native = self.model.interpret(request)
+        native = review_pair_disagreement(self.model, request, native)
         return review(request, self._checked_viewpoint(request, native))

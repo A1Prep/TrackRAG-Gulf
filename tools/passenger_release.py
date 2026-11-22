@@ -208,6 +208,9 @@ def start(args):
     cfg.update(adapter_dir=str(folder/"adapter"),model_dir=str(args.base_dir.resolve()),
                cache_dir=str(args.processor_cache.resolve()))
     banks = args.requests or [ROOT/"runs/passenger-inputs/requests.jsonl"]
+    optional_still = ROOT/"runs/passenger-pair-scene/requests.jsonl"
+    if args.requests is None and optional_still.is_file():
+        banks.append(optional_still)
     for path in banks:
         if not path.is_file():
             raise FileNotFoundError(f"Prepared scene bank unavailable: {path}")

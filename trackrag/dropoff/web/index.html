@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>TrackRAG Gulf · Scene workspace</title>
+  <link rel="stylesheet" href="/app.css">
+  <script src="/app.js" defer></script>
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="/" aria-label="TrackRAG Gulf home"><span class="brand-mark" aria-hidden="true">T</span><span>TrackRAG <strong>Gulf</strong></span></a>
+    <span class="workspace-label">Recorded-scene workspace</span>
+    <a id="audit-download" class="quiet-link" href="/api/audit" download="trackrag-session.json">Download session</a>
+  </header>
+  <main>
+    <div class="intro"><div><p class="eyebrow">SCENE EXPLORER</p><h1>Understand the scene.<br><span>Choose a destination.</span></h1></div><p>Ask questions with frame evidence, or describe where you would like to be dropped off.</p></div>
+    <div id="condition-banner" class="condition-banner" hidden></div>
+    <section class="selector" aria-label="Select a recorded scene">
+      <label>Recording<select id="recording"><option value="">Choose a recording</option></select></label>
+      <label class="frame-label">Original frame<input id="frame" type="number" min="0" step="1" aria-describedby="frame-help"></label>
+      <div class="frame-nav"><button id="previous" class="icon-button" aria-label="Previous available frame">‹</button><button id="next" class="icon-button" aria-label="Next available frame">›</button></div>
+      <button id="load-scene" class="primary">Open scene</button>
+      <span id="frame-help" class="muted">Select a recording to see its available frames.</span>
+    </section>
+    <div id="notice" role="alert" hidden></div>
+    <div class="workspace">
+      <section class="scene-card" aria-label="Selected original frame">
+        <div class="panel-heading"><div><span class="small-label">ORIGINAL FRAME</span><h2 id="scene-title">Your scene starts here</h2></div><label class="toggle"><input type="checkbox" id="show-tracks"> Show tracks</label></div>
+        <div id="stage" class="stage empty">
+          <div id="empty-scene"><div class="empty-symbol" aria-hidden="true">▣</div><h3>Open a recorded scene</h3><p>Choose a recording and an original frame above.</p></div>
+          <img id="scene-image" alt="Selected original road scene" hidden>
+          <svg id="overlay" xmlns="http://www.w3.org/2000/svg" aria-label="Destination and landmark overlay" hidden></svg>
+        </div>
+        <div class="scene-footer"><span id="scene-meta">Exact original frames · original pixel coordinates</span><div class="legend"><span><i class="destination-key"></i>Destination</span><span><i class="anchor-key"></i>Landmark</span></div></div>
+        <div class="scene-note">A proposed destination interprets the passenger’s request. It does not establish stopping legality or physical clearance.</div>
+        <details class="run-details"><summary>Execution details</summary><dl id="execution-details"></dl></details>
+      </section>
+      <aside class="interaction-card" aria-label="Scene interaction">
+        <div class="tabs" role="tablist" aria-label="Choose interaction route"><button id="tab-dropoff" class="tab active" role="tab" aria-selected="true" aria-controls="dropoff-panel">Drop-off instruction</button><button id="tab-qa" class="tab" role="tab" aria-selected="false" aria-controls="qa-panel">Footage question</button></div>
+        <section id="dropoff-panel" role="tabpanel" aria-labelledby="tab-dropoff">
+          <div class="route-intro"><h2>Where would you like to stop?</h2><p>Describe the destination using visible landmarks.</p></div>
+          <label class="editor-label" for="instruction">Passenger text <span id="mode-label">Typed input</span></label>
+          <textarea id="instruction" rows="4" maxlength="8192" placeholder="Drop me off beside the white car."></textarea>
+          <details id="original-asr" hidden><summary>Original recognized transcript</summary><p id="original-text"></p></details>
+          <div class="audio-controls"><label class="upload-button" for="audio-file">Upload audio<input id="audio-file" type="file" accept="audio/*,.webm,.mp4"></label><button id="record-audio" class="secondary" type="button">Record voice</button><button id="typed-mode" class="text-button" type="button" hidden>Use typed text</button></div>
+          <audio id="audio-preview" controls hidden></audio>
+          <p id="speech-note" class="helper">Audio transcripts stay editable before interpretation.</p>
+          <div class="submit-row"><button id="interpret" class="primary" disabled>Interpret instruction</button><button id="new-instruction" class="secondary" disabled>New instruction</button></div>
+          <div id="grounding-status" class="status-card neutral" role="status"><span class="status-kicker">READY WHEN YOU ARE</span><h3>Choose a scene to begin</h3><p>Any proposed destination will need your explicit confirmation.</p></div>
+          <div id="clarification" class="clarification" hidden><label for="reply">Your clarification reply</label><textarea id="reply" rows="2" maxlength="4096" placeholder="The one on the right."></textarea><button id="send-reply" class="primary">Send reply</button></div>
+          <div id="proposal-controls" class="proposal-controls" hidden><button id="confirm" class="confirm-button">Confirm this destination</button></div>
+          <button id="cancel" class="text-button danger" hidden>Cancel instruction</button>
+          <details id="conversation" hidden><summary>Dialogue context</summary><ol id="turns"></ol></details>
+        </section>
+        <section id="qa-panel" role="tabpanel" aria-labelledby="tab-qa" hidden>
+          <div class="route-intro"><h2>Ask about the footage</h2><p>Answers use retrieved evidence at or before the selected frame.</p></div>
+          <label for="question">Your question</label><textarea id="question" rows="4" maxlength="8192" placeholder="Which cars are visible on the right?"></textarea><button id="ask-question" class="primary" disabled>Find evidence and answer</button>
+          <p class="helper">Retrieval uses the existing lexical baseline. Open evidence to inspect the original frame and highlighted road user.</p>
+          <div id="qa-results" aria-live="polite"><div class="qa-empty">Your answer and cited frames will appear here.</div></div>
+        </section>
+      </aside>
+    </div>
+    <footer>TrackRAG Gulf <span>Recorded prototype · no vehicle control</span></footer>
+  </main>
+</body>
+</html>

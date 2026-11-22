@@ -21,13 +21,18 @@ The existing QA implementation, its retriever and its configured hosted answerer
 
 ## Task 4: application interface
 
-Import GroundingConfig and GroundingModel from trackrag.dropoff.model. Constructing a model object does not download weights or start a GPU backend. The first interpretation call does. Use the selected trained artifact's `inference_config.json`; `configs/dropoff/model-streamed-pretrained.json` selects the pretrained baseline and does not contain a trained adapter.
+The [Task 4 shared-record walkthrough](task4-shared-contracts.md) documents the
+compatible session extension, app-owned proposal/confirmation records and boundary
+validators. Existing batch requests and model response fields remain valid.
+
+Import GroundingConfig and GroundingModel from trackrag.dropoff.model. Constructing a model object does not download weights or start a GPU backend; loading begins on the first interpretation call, subject to the configured artifact, offline and resource checks. Use the selected trained artifact's `inference_config.json`; `configs/dropoff/model-streamed-pretrained.json` selects the pretrained baseline and does not contain a trained adapter. Reuse one model instance, obtain each outcome and its matching receipt with `interpret_with_receipt`, and close the model when the owning application session ends.
 
 The request format is defined in trackrag/dropoff/contracts.py:
 
 | Field | Meaning |
 | --- | --- |
 | request_id | Unique identifier for this request |
+| session_id | Optional app session identity; preserved in receipts and excluded from the model prompt |
 | scene.frame | Existing Frame record: recording_id, original frame_id, timestamp_s, width, height and image_path |
 | scene.source | predicted for the final route; annotated needs an explicit development override |
 | scene.tracks | Existing TrackObservation records, all from the same recording/source and no later than the frame |
@@ -68,7 +73,7 @@ if __name__ == "__main__":
     main()
 ```
 
-The `__main__` guard is required for standalone Windows scripts using the spawned worker. Task 4 replaces the smoke request with the current image and predicted observations. Its application should reuse one model instance, call `interpret_with_receipt` for each request, and close it when the owning application session ends. The atomic method prevents another request from replacing the receipt before it is copied.
+The `__main__` guard is required for standalone Windows scripts using the spawned worker. Task 4 replaces the smoke request with the current image and predicted observations. The atomic method prevents another request from replacing the receipt before it is copied.
 
 Successful semantic results contain status, destination_point_xy, destination_box_xyxy and clarification_question. The shared contract permits optional anchor_boxes_xyxy, but the current streamed four-field decoding route does not emit that optional field. All returned geometry uses original-image pixels. Unresolved results have null destination geometry. Missing checkpoints, timeouts, invalid JSON and other operational failures return ok=false; they are not semantic abstentions.
 

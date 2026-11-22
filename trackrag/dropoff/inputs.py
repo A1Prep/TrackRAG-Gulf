@@ -77,6 +77,7 @@ def build_instruction_request(
     input_mode: str = "typed",
     dialogue: list[dict] | None = None,
     original_transcript: str | None = None,
+    session_id: str | None = None,
     provenance: dict | None = None,
 ) -> InstructionRequest:
     """Return a validated request containing only this frame's predictions.
@@ -119,6 +120,8 @@ def build_instruction_request(
     }
     if original_transcript is not None:
         request["original_transcript"] = original_transcript
+    if session_id is not None:
+        request["session_id"] = session_id
     # Validate IDs, dimensions, text, dialogue and JSON metadata before file IO.
     request = validate_request(request)
     frame = request["scene"]["frame"]

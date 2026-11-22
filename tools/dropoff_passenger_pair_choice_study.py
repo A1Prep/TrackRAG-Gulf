@@ -45,8 +45,8 @@ def independent_rectangle(request, outcome, cache):
     visited = road[top:bottom, left:right]
     overlaps = []
     for row in current_tracks(request):
-        l, t, c, d = row["bbox_xyxy"]
-        if max(x, l) < min(r, c) and max(y, t) < min(b, d):
+        obj_left, obj_top, obj_right, obj_bottom = row["bbox_xyxy"]
+        if max(x, obj_left) < min(r, obj_right) and max(y, obj_top) < min(b, obj_bottom):
             overlaps.append(row["track_id"])
     if visited.size < 9 or not visited.all() or overlaps:
         raise ValueError("Reported patch includes unsupported road or a current road user")
@@ -79,7 +79,11 @@ def study(journal, bank, geometry, cache):
     selected_wrong = original["outcome"]["provenance"]["selected_track_ids"]
     targets = [("previously_registered_f781_landmarks", q, [61108, 59268], p) for p in ("between", "behind")]
     targets.append(("replay_incorrect_original_selected_ids", q, selected_wrong, "behind"))
-    other = next(row for row in read_rows(bank) if row['scene']['frame']['recording_id']=='video_054604' and row['scene']['frame']['frame_id']==1)
+    other = next(
+        row
+        for row in read_rows(bank)
+        if row["scene"]["frame"]["recording_id"] == "video_054604" and row["scene"]["frame"]["frame_id"] == 1
+    )
     other = deepcopy(other)
     other.update(
         request_id="nonfinal-second-recording-pair-choice",

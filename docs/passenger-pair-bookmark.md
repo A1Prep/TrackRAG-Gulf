@@ -25,3 +25,5 @@ Choose recording **054907**, frame **781** in the passenger view. Type or record
 4. Inspect the displayed point and choose **Confirm this area** or **Cancel request**. You can also describe a change, or choose **Mark an area myself** to draw a different road patch. Each replacement needs its own confirmation.
 
 This bookmark adds one still photograph for the passenger feature. The packaged footage search continues to cover the first 150 frames of each of its two recordings. Frame 781 has no attached intervening footage. The private local folder contains the photo, the scene bank and an image-free source receipt. The converter reads no target labels or example passenger answers.
+
+A fresh private clone downloaded both released archives, fetched the original photo from Task 2, and reproduced all 23 vehicle observations and the same proposed point. It shared the project laptop's Python environment, base model and speech and road caches. A 390-pixel-wide browser also completed the selection and cancellation through the main application. [Installation and browser measurements](../experiments/dropoff/passenger-pair-install-20261122.json)

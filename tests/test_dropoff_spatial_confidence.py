@@ -6,6 +6,7 @@ import pytest
 from trackrag.dropoff.spatial_confidence import HEADS, choose, features, fit
 from tools.dropoff_pack_matched import json_archive
 from tools.dropoff_spatial_confidence import score
+from tests.test_dropoff_contracts_data import case as generated_public_shape
 
 
 def candidate(x,peak=.08):
@@ -39,6 +40,42 @@ def test_matched_evaluation_refuses_unsealed_qwen_before_opening_participant_ann
                          references=tmp_path/"must-never-be-opened.jsonl")
     with pytest.raises(ValueError,match="sealed Qwen"):
         score(args)
+
+
+def test_matched_score_reads_actual_public_scorer_output_schema(tmp_path,monkeypatch,generated_public_shape):
+    """Use the unmodified source-mask scorer on a controlled scene, stubbing only the GPU receipt audit."""
+    from types import SimpleNamespace
+    from tools import dropoff_audit_passenger_release as audit
+    from tools.dropoff_spatial_confidence import PROTOCOL,PROTOCOL_HASH,protocol
+    from trackrag.dropoff.data import file_sha256,inference_input_sha256
+    from trackrag.dropoff import data
+    case=generated_public_shape
+    case['partition']='development'
+    case['source'].update(dataset='Talk2Car-RegSeg',source_index=0,scene_token='fixture-source',scene_group_verified=True,mask_path=str(tmp_path/'mask.png'))
+    # This synthetic image exercises the publication contract, not the real public enrolment rules.
+    monkeypatch.setattr(data,'_regseg_group_guard',lambda c:None)
+    req=case['request']; photo=case['source']['image_sha256']
+    req['scene']['frame']['image_path']=str(tmp_path/'image.png')
+    req['scene']['provenance']={'image_sha256':photo}
+    fresh=tmp_path/'fresh';(fresh/'inputs').mkdir(parents=True);(fresh/'corpus').mkdir()
+    def put(p,v):p.write_text(json.dumps(v)+'\n',encoding='utf8')
+    inputs=fresh/'inputs/requests.jsonl';refs=fresh/'corpus/references.jsonl'; meta=fresh/'manifest.json'
+    put(inputs,req);put(refs,case)
+    (fresh/'selection-protocol.json').write_bytes(PROTOCOL.read_bytes())
+    put(meta,{'protocol_sha256':PROTOCOL_HASH,'request_file_sha256':file_sha256(inputs),'reference_file_sha256':file_sha256(refs),'source_scenes':['fixture-source'],'source_indices':[0],'cases':1})
+    held=fresh/'predictions.json'
+    inp=inference_input_sha256(req,photo)
+    row={'request_id':req['request_id'],'image_sha256':photo,'inference_input_sha256':inp,'candidates':{name:candidate(38) for name in HEADS},'choice':{'head':HEADS[0],'meets_selected_threshold':True}}
+    put(held,{'protocol_sha256':PROTOCOL_HASH,'references_read':False,'requests_sha256':file_sha256(inputs),'conditions':protocol()['head_conditions'],'calibrator_sha256':'fixture','rows':[row]})
+    release=fresh/'deployed';release.mkdir();put(release/'run.json',{'software_fixture':True})
+    result=release/'outcomes.jsonl';put(result,{'request_id':req['request_id'],'ok':True,'provenance':{'image':{'sha256':photo},'inference_input_sha256':inp},'result':case['target']})
+    def audit_stub(*args,**kwargs):return {},{},{'outcomes_sha256':file_sha256(result),'requests_sha256':file_sha256(inputs),'counts':{'software_fixture':1}}
+    monkeypatch.setattr(audit,'audit_batch',audit_stub)
+    out=fresh/'scores.json'
+    score(SimpleNamespace(bank=meta,predictions=held,deployed_run=release,references=refs,vision_cache=tmp_path,out=out))
+    scored=json.loads(out.read_bytes())
+    assert scored['deployed_comparison']['outcomes_sha256']==file_sha256(result)
+    assert scored['deployed_comparison']['metrics']['mask_hits_all']==1 and scored['metrics'][HEADS[0]]['mask_hits_all']==1
 
 
 def test_publication_preserves_paired_hits_and_full_geometry_denominator(tmp_path,monkeypatch):

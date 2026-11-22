@@ -191,7 +191,7 @@ def score(args):
         _,_,receipt=audit_batch("trained-public",args.deployed_run.parent,request_path,freeze,release,
                                 args.vision_cache,batch_dir=args.deployed_run)
         native=score_public(args.bank.parent,args.deployed_run/"outcomes.jsonl")
-        required(native["cases"]==len(ids) and native["outputs_sha256"]==receipt["outcomes_sha256"]
+        required(native["cases"]==len(ids) and native["outcomes_sha256"]==receipt["outcomes_sha256"]
                  and not native["unexpected_output_ids"],"Different Qwen inputs or primary scorer")
         deployed={"counts":receipt["counts"],"outcomes_sha256":receipt["outcomes_sha256"],
                   "requests_sha256":receipt["requests_sha256"],"primary_rows":native["rows"]}

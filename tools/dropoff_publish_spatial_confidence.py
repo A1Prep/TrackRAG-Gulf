@@ -6,6 +6,7 @@ from pathlib import Path
 
 from PIL import Image
 
+from tools.dropoff_audit_passenger_release import public_endpoints
 from tools.dropoff_pack_matched import encoded, json_archive
 from tools.dropoff_score_methods import point_hit
 from tools.dropoff_spatial_confidence import CONDITIONS, PROTOCOL, PROTOCOL_HASH, required
@@ -42,6 +43,10 @@ def publish(fresh, calibration, results, out, bundle):
     qwen_by_id={r["request_id"]:r for r in qwen["primary_rows"]}
     qwen_raw={r["request_id"]:r for r in map(json.loads,(outdir/"outcomes.jsonl").read_bytes().splitlines())}
     required(set(qwen_raw)==set(qwen_by_id) and len(qwen_raw)==len(cases),"Missing or duplicate live deployed outcomes")
+    # This evaluator has its own original-coordinate mask lookup and IoU implementation.
+    # The primary public scorer uses tools.dropoff_score_methods.point_hit and vision.geometry.iou.
+    _, audit_rows=public_endpoints(cases,qwen_raw)
+    qwen_audit={row['id']:row for row in audit_rows}
     crosses={name:{"both_hit":0,"only_dense_hit":0,"only_deployed_hit":0,"neither_hit":0} for name in CONDITIONS}
     totals={name:Counter() for name in (*CONDITIONS,"deployed_trained_qwen")}
     for prediction,scored,case in zip(cpu["rows"],held["per_case"],cases,strict=True):
@@ -53,9 +58,9 @@ def publish(fresh, calibration, results, out, bundle):
             qr=qwen_raw[key]
             reply=qr.get("result",{}) if qr["ok"] else {}
             point=reply.get("destination_point_xy")
-            qwen_hit=bool(point is not None and point_hit(point,mask,f["width"],f["height"]))
-            overlap=iou(reply["destination_box_xyxy"],case["target"]["destination_box_xyxy"]) if point is not None else 0.
-            required(qwen_hit==qwen_by_id[key]["point_in_public_mask"] and (point is not None)==qwen_by_id[key]["destination_provided"]
+            independent=qwen_audit[key]
+            qwen_hit,overlap=independent['point_in_original_mask'],independent['coarse_iou']
+            required(qwen_hit==qwen_by_id[key]["point_in_public_mask"] and (point is not None)==independent['proposed']==qwen_by_id[key]["destination_provided"]
                      and abs(overlap-qwen_by_id[key]["coarse_box_iou"])<1e-10,"Independent deployed-model mask scorer disagrees")
             totals["deployed_trained_qwen"].update(hits=qwen_hit,proposals=point is not None,iou=overlap,errors=not qr["ok"])
             for name in CONDITIONS:

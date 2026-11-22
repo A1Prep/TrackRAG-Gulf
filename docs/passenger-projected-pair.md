@@ -20,7 +20,7 @@ Use the existing public-trained application configuration with its installed ada
 python -m tools.dropoff_projected_pair --config <installed-grounding-config.json> --geometry models/passenger-feature/geometry.json --road-cache <segformer-cache> --out <new-result.json> turn --journal <session.jsonl> --request-id <submitted-request-id>
 ```
 
-Add `--verify-with-local-model` after the request ID to run the eligible crop check on the local 8B model. Give each invocation a new output path. The original journal stays available and the new record contains the original outcome digest. An application experiment can explicitly wrap its normal model in `ProjectedPairGrounder(model)` from `trackrag.dropoff.projected_pair` and use the existing `PassengerSession`. In that route a proposal from a matching crop still needs a separate passenger confirmation. The default web application and the sealed study retain their original grounders.
+Add `--verify-with-local-model` after the request ID to run the eligible crop check on the local 8B model. Give each invocation a new output path. The original journal stays available and the new record contains the original outcome digest. An application experiment can explicitly wrap its normal model in `ProjectedPairGrounder(model)` from `trackrag.dropoff.projected_pair` and use the existing `PassengerSession`. In that route a proposal from a matching crop still needs a separate passenger confirmation. The sealed three-turn study used the original resolver. The normal web application offers the passenger-controlled selection below.
 
 ## When the passenger identifies the vehicles
 

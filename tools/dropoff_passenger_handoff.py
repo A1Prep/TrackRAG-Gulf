@@ -249,7 +249,8 @@ def session(journal_path, *, referent_path=None, pair_geometry=None, road_cache=
         events.append(item)
         previous = view
     return dict(evidence_head(), origin="passenger_interaction_journal", journal_sha256=file_sha256(journal_path),
-                application_source_commit_recorded_by_journal=False,
+                application_source_commit_recorded_by_journal=False, actor_identity_verified=False,
+                confirmation_scope="A client explicitly accepted the current proposal. Human identity and consent require separate evidence.",
                 source_scene=scene["provenance"], events=events)
 
 

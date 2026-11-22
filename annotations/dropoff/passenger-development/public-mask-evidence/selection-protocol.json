@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "predeclared_utc": "2026-11-21T18:36:51.066359+00:00",
+  "seed": "trackrag-public-new-scene-20261121-night-v1",
+  "target_count": 16,
+  "source": "Pinned Talk2Car-RegSeg images member of the Google Drive ZIP, original train commands and existing signed-by-SHA256 scene guards. Public train partition only; nuScenes source scene must be absent from every prior local model/input corpus.",
+  "pool_plan": "First complete bounded 48 MiB compressed window beginning 256 MiB into images.tar ZIP member. If it produces fewer than 16 eligible unique groups, add one consecutive 32 MiB window; report shortfall if still below 16. Include every complete train JPEG found with validated TAR header and same decoded bytes under two different presynchronization dictionaries. Do not use test/val commands, masks, frames, final EMT, or dataset rewrite cases.",
+  "selection": "Filter prior case ID, image SHA, source command token, source scene, source sample, exact normalized utterance, frozen reserved scene, absent/corrupt/empty source mask and invalid image-mask join. Rank eligible IDs by SHA256(seed + colon + scene_token + colon + decimal index). Take first per new scene and image and unique normalized utterance until 16. No selection by instruction difficulty, positive grounding, output availability or any model output.",
+  "output_policy": "Export model inputs separately with original image and instruction, predicted source, zero detector tracks. Such requests provide no road-user detections. Metric is source human destination mask success and coarse box IoU on all requests including misses, nonproposals and operational errors. Public masks do not supervise semantic status or dialogue.",
+  "prior_runs": "Both frozen 500/125 splits, all prior public cases in data/dropoff*/cases.jsonl, earlier split registry, every concise-test source scene and historical source-audit pilot IDs. Compact learned geometry/vision programs use the existing training partition. This is a new diagnostic, not an official test split."
+}

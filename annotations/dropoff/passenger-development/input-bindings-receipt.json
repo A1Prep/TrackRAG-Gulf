@@ -1,0 +1,8 @@
+{
+  "schema_version": 1,
+  "checked_utc": "2026-11-21T18:24:03.934750+00:00",
+  "method": "Original bytes and dimensions, original timestamp, scene-bound instruction/dialogue, full checked Task 1 saved prediction file and exact per-frame track rows (all fields), portable model-input digest. No targets or model outcomes compared.",
+  "freeze_file_sha256": "def382f8f57a8a7e311403435435cd32ddcce6e539ed3c4310f8abb88eacc86f",
+  "bindings_file_sha256": "7d751e255bb9114cd7160e7c85b2b44f3cb235a33a497ef2f07ab48c10321e37",
+  "entry_count": 36
+}

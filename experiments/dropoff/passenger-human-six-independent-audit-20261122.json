@@ -1,0 +1,535 @@
+{
+  "kind": "independent_nonfinal_task2_review_provenance_audit",
+  "checked_utc": "2026-11-22T04:37:42.770056+00:00",
+  "source_commit": "2d96dcb6afdffb46c5d94d299768fe6a92acc094",
+  "source_folder": "Task2_56_Case_Human_Review_Corrected",
+  "peer_package_zip_sha256": "afb109373d1fdf5899fcb85f0d935febf7fafd14190273fcde5c182c10d1017d",
+  "per_source_sha256": {
+    "review_cases.jsonl": {
+      "package_sha256": "37f21c01f44f1a35fffc8092285d997713965dbad22086ac3a3de2fcb0557373",
+      "git_blob_sha256": "37f21c01f44f1a35fffc8092285d997713965dbad22086ac3a3de2fcb0557373",
+      "exact_bytes_equal": true
+    },
+    "history/original_confirmed_review_cases.jsonl": {
+      "package_sha256": "76f325f08a3e0156a7afa97fb8844fc503ff3801aeef94216fe776b0a48738b9",
+      "git_blob_sha256": "76f325f08a3e0156a7afa97fb8844fc503ff3801aeef94216fe776b0a48738b9",
+      "exact_bytes_equal": true
+    },
+    "reviewer_1.csv": {
+      "package_sha256": "60f65f29529a9c8cf8b750c9f156455e7e49227f563f275d061d380bcb854cf4",
+      "git_blob_sha256": "0962e60dc6ca674f6caa117f2d875915707fabfc4cc0a45b6c8126c8270cdf69",
+      "exact_bytes_equal": false
+    },
+    "reviewer_2.csv": {
+      "package_sha256": "380142978d39de0df5fd1f8544bccfcd4f08df7e9e2f9630bb14e9a7c437cfaa",
+      "git_blob_sha256": "891f48e1d1c5e52efd87b676686c662dde7421be870b3180a5bdcb4fc790c5c8",
+      "exact_bytes_equal": false
+    },
+    "review_status.json": {
+      "package_sha256": "2af87d56644f10abf18c09dda0b502ce85dfa10b3952619199ac2a670b21e784",
+      "git_blob_sha256": "2af87d56644f10abf18c09dda0b502ce85dfa10b3952619199ac2a670b21e784",
+      "exact_bytes_equal": true
+    },
+    "split_audit.json": {
+      "package_sha256": "e9ab22b4b0317c1535b3d3fa8a5bd03d7372675240fc541d65afaa37ba57c1ef",
+      "git_blob_sha256": "e9ab22b4b0317c1535b3d3fa8a5bd03d7372675240fc541d65afaa37ba57c1ef",
+      "exact_bytes_equal": true
+    },
+    "reconfirmation_cases.jsonl": {
+      "package_sha256": "bc28de2c8cd574b9431227e366a362217b29c574d1ebc054709108982048af23",
+      "git_blob_sha256": "bc28de2c8cd574b9431227e366a362217b29c574d1ebc054709108982048af23",
+      "exact_bytes_equal": true
+    },
+    "images/development/video_054907/00781.jpg": {
+      "package_sha256": "c411cf6760695905334f32e5590083cf144543df1ca98e68aae55fb345eb583e",
+      "git_blob_sha256": "c411cf6760695905334f32e5590083cf144543df1ca98e68aae55fb345eb583e",
+      "exact_bytes_equal": true
+    },
+    "images/development/video_174340/00781.jpg": {
+      "package_sha256": "693e7f2769f9336d15d3ef3fef37594cfab297c819626d913f734077dfa7bd4a",
+      "git_blob_sha256": "693e7f2769f9336d15d3ef3fef37594cfab297c819626d913f734077dfa7bd4a",
+      "exact_bytes_equal": true
+    },
+    "images/train/video_054604/01051.jpg": {
+      "package_sha256": "d3e025fbfcfb3ecad5a4b3d0a3463aef41ee02b4ed303037884ce9a2022c1f22",
+      "git_blob_sha256": "d3e025fbfcfb3ecad5a4b3d0a3463aef41ee02b4ed303037884ce9a2022c1f22",
+      "exact_bytes_equal": true
+    },
+    "images/train/video_131333/00811.jpg": {
+      "package_sha256": "9edd517a5127fcc7a4003865ffa4c6c3b79191d4b1bf7ee9517a1d2612978d00",
+      "git_blob_sha256": "9edd517a5127fcc7a4003865ffa4c6c3b79191d4b1bf7ee9517a1d2612978d00",
+      "exact_bytes_equal": true
+    },
+    "images/train/video_142911/01501.jpg": {
+      "package_sha256": "653f1f6aa5213850684800d294d0f08a26e464d53751485b233e69902de7d1ce",
+      "git_blob_sha256": "653f1f6aa5213850684800d294d0f08a26e464d53751485b233e69902de7d1ce",
+      "exact_bytes_equal": true
+    },
+    "images/train/video_210906/01261.jpg": {
+      "package_sha256": "38c5cbd0be01da83a378cb3b42e51114cd30945468f13c81a0ab8220ee3ce667",
+      "git_blob_sha256": "38c5cbd0be01da83a378cb3b42e51114cd30945468f13c81a0ab8220ee3ce667",
+      "exact_bytes_equal": true
+    }
+  },
+  "review_form_notes_verbatim": {
+    "arjun": "User confirmed the AI-assisted review; current target accepted. Current instruction and target bindings are unchanged.",
+    "reviewer_2": "Second independent human confirmation reported by the user; final target accepted. Current instruction and target bindings are unchanged."
+  },
+  "interpretation": "The two forms contain recorded human confirmations of AI-assisted review. The files identify the reviewers by the handles shown. This audit verifies their decisions, timestamps and bindings, not personal identity or independent attendance.",
+  "original_case_scope": "All six cover status and clarification wording with intentionally null point/box targets. Each reviewed input has an original JPEG, empty scene tracks, no previous turns and a typed instruction.",
+  "alternative_tracks": "The two original Task 1 prediction ZIPs independently match pinned full-file checksums. Adding their rows changes model-visible input and requires a different review binding. Absence signifies missing published artifacts for a recording, not an observed empty road.",
+  "original_frame_scope": "All six are full JPEGs, byte-identical between the two distributed Task 2 forms (Git and ZIP) and bound to both approvals. Three exact frames are independently corroborated by the Task 1 original pixel manifest. The other three have no entry in that independent manifest.",
+  "form_newlines": "Published ZIP CSVs have CRLF and match the peer package manifest exactly. Git forms differ only in newline encoding. All nonfinal reviewer decisions and hashes match.",
+  "final_aggregate_only": {
+    "admitted": 44,
+    "reconfirmation_pending": 6,
+    "reserved_recordings": 5,
+    "individual_reference_rows_parsed": 0,
+    "final_images_opened": 0
+  },
+  "nonfinal": {
+    "training": 4,
+    "development": 2,
+    "distinct_source_recordings": 6,
+    "recording_overlap": false,
+    "human_approved_precise_proposals": 0,
+    "original_approved_cases": {
+      "local-dev-video_054907-00781": {
+        "partition": "development",
+        "recording_id": "video_054907",
+        "frame_id": 781,
+        "timestamp_s": 78.0,
+        "image_path_in_package": "images/development/video_054907/00781.jpg",
+        "jpeg_sha256": "c411cf6760695905334f32e5590083cf144543df1ca98e68aae55fb345eb583e",
+        "jpeg_bytes": 1109226,
+        "pixels": [
+          2560,
+          1440
+        ],
+        "source_review_input_sha256": "2a5787a590b8f5eac66402b21dfd68a3b225cbab7eaf4ab4205325b83244c60e",
+        "reviewed_four_field_sha256": "c96c66a3425a474372d1c75f4b591e8e47301fef0a722f4028b5adbe61688156",
+        "case_schema_validation": "passed",
+        "history_input_and_supervision_bindings_unchanged": true,
+        "reviewers": [
+          {
+            "reviewer_id": "arjun",
+            "decision": "accept",
+            "reviewed_at": "2026-11-21T18:12:10+00:00"
+          },
+          {
+            "reviewer_id": "reviewer_2",
+            "decision": "accept",
+            "reviewed_at": "2026-11-21T18:17:25+00:00"
+          }
+        ],
+        "source_mode": "image_only_local_annotation",
+        "reviewed_track_count": 0,
+        "target_status": "needs_clarification",
+        "supervised_fields": [
+          "status",
+          "destination_point_xy",
+          "destination_box_xyxy",
+          "clarification_question"
+        ],
+        "independent_task1_original_pixel_manifest_agrees": true,
+        "task1_verified_alternate_inputs": {
+          "finetuned": {
+            "available": true,
+            "tracks_at_requested_frame": 23,
+            "class_histogram": {
+              "Car": 21,
+              "Large_vehicle": 2
+            },
+            "track_ids": [
+              38877,
+              53772,
+              56320,
+              59268,
+              59438,
+              61108,
+              61279,
+              62799,
+              63029,
+              63269,
+              63740,
+              63962,
+              64840,
+              65608,
+              65692,
+              65915,
+              65918,
+              66286,
+              66341,
+              66427,
+              66649,
+              66865,
+              66871
+            ],
+            "identity_sha256": "acf21b53525d5729541aaedbf961a9c634399fa881fc7976909d48575c5e870d",
+            "tracks_sha256": "7d3e650b6a8e5f4ca1d5e1197e9efaaa724e9ffb3d2d649d7266659774f239f8",
+            "provenance_sha256": "9b7e9264ea021fd8cfa070d7479b43c82faa51257819c036ab5498a98373dbde"
+          },
+          "pretrained": {
+            "available": true,
+            "tracks_at_requested_frame": 23,
+            "class_histogram": {
+              "Car": 19,
+              "Large_vehicle": 4
+            },
+            "track_ids": [
+              882,
+              1458,
+              1534,
+              1607,
+              1638,
+              1666,
+              1672,
+              1685,
+              1691,
+              1745,
+              1774,
+              1781,
+              1782,
+              1783,
+              1788,
+              1802,
+              1808,
+              1810,
+              1816,
+              1826,
+              1828,
+              1831,
+              1832
+            ],
+            "identity_sha256": "98c88b08a77ae7775eaa4a5f19bec3829bc40143272be414c6125070ab6de5ca",
+            "tracks_sha256": "2e6f469c9671793e3dcf4295fb720cd5f82119f76e40a5aed42dde9dc11067eb",
+            "provenance_sha256": "9958c1c7ebc4f721fe9881f8413445697cd8aa8b8e5d37f1855abad05dec16d5"
+          }
+        }
+      },
+      "local-dev-video_174340-00781": {
+        "partition": "development",
+        "recording_id": "video_174340",
+        "frame_id": 781,
+        "timestamp_s": 78.0,
+        "image_path_in_package": "images/development/video_174340/00781.jpg",
+        "jpeg_sha256": "693e7f2769f9336d15d3ef3fef37594cfab297c819626d913f734077dfa7bd4a",
+        "jpeg_bytes": 689161,
+        "pixels": [
+          2560,
+          1440
+        ],
+        "source_review_input_sha256": "7fe3e20daf22e95175a6ad20cb8dbd14cfc1e52dbd36ece09820c98545742075",
+        "reviewed_four_field_sha256": "c96c66a3425a474372d1c75f4b591e8e47301fef0a722f4028b5adbe61688156",
+        "case_schema_validation": "passed",
+        "history_input_and_supervision_bindings_unchanged": true,
+        "reviewers": [
+          {
+            "reviewer_id": "arjun",
+            "decision": "accept",
+            "reviewed_at": "2026-11-21T18:12:10+00:00"
+          },
+          {
+            "reviewer_id": "reviewer_2",
+            "decision": "accept",
+            "reviewed_at": "2026-11-21T18:17:25+00:00"
+          }
+        ],
+        "source_mode": "image_only_local_annotation",
+        "reviewed_track_count": 0,
+        "target_status": "needs_clarification",
+        "supervised_fields": [
+          "status",
+          "destination_point_xy",
+          "destination_box_xyxy",
+          "clarification_question"
+        ],
+        "independent_task1_original_pixel_manifest_agrees": true,
+        "task1_verified_alternate_inputs": {
+          "finetuned": {
+            "available": true,
+            "tracks_at_requested_frame": 5,
+            "class_histogram": {
+              "Car": 5
+            },
+            "track_ids": [
+              2013,
+              11015,
+              13042,
+              17467,
+              18072
+            ],
+            "identity_sha256": "acf21b53525d5729541aaedbf961a9c634399fa881fc7976909d48575c5e870d",
+            "tracks_sha256": "16fc153eb316532aedc116db284fadef750349758241fad4324bf20b7811ea03",
+            "provenance_sha256": "62a7bd613ed3290c710f4892743db9011da0fb7a17ee85d5cc55f127014ffd98"
+          },
+          "pretrained": {
+            "available": true,
+            "tracks_at_requested_frame": 8,
+            "class_histogram": {
+              "Car": 8
+            },
+            "track_ids": [
+              44,
+              520,
+              626,
+              642,
+              661,
+              663,
+              703,
+              704
+            ],
+            "identity_sha256": "98c88b08a77ae7775eaa4a5f19bec3829bc40143272be414c6125070ab6de5ca",
+            "tracks_sha256": "9d2f9b354117ae893fc1b0c9d7dafbcea2de1e4a40502eb291822fd72b87441b",
+            "provenance_sha256": "d49a8515b58d8c7a1fd012e8c0c4cbba537767df8a9163bf3b449c6533a63a3b"
+          }
+        }
+      },
+      "local-train-video_054604-01051": {
+        "partition": "train",
+        "recording_id": "video_054604",
+        "frame_id": 1051,
+        "timestamp_s": 105.0,
+        "image_path_in_package": "images/train/video_054604/01051.jpg",
+        "jpeg_sha256": "d3e025fbfcfb3ecad5a4b3d0a3463aef41ee02b4ed303037884ce9a2022c1f22",
+        "jpeg_bytes": 1047060,
+        "pixels": [
+          2560,
+          1440
+        ],
+        "source_review_input_sha256": "64d3b59a2620c65971a8506f1cf3b1fb42e3bafbd9063e19a5ee0f196d20a392",
+        "reviewed_four_field_sha256": "c96c66a3425a474372d1c75f4b591e8e47301fef0a722f4028b5adbe61688156",
+        "case_schema_validation": "passed",
+        "history_input_and_supervision_bindings_unchanged": true,
+        "reviewers": [
+          {
+            "reviewer_id": "arjun",
+            "decision": "accept",
+            "reviewed_at": "2026-11-21T18:12:10+00:00"
+          },
+          {
+            "reviewer_id": "reviewer_2",
+            "decision": "accept",
+            "reviewed_at": "2026-11-21T18:17:25+00:00"
+          }
+        ],
+        "source_mode": "image_only_local_annotation",
+        "reviewed_track_count": 0,
+        "target_status": "needs_clarification",
+        "supervised_fields": [
+          "status",
+          "destination_point_xy",
+          "destination_box_xyxy",
+          "clarification_question"
+        ],
+        "independent_task1_original_pixel_manifest_agrees": true,
+        "task1_verified_alternate_inputs": {
+          "finetuned": {
+            "available": true,
+            "tracks_at_requested_frame": 17,
+            "class_histogram": {
+              "Bus": 3,
+              "Car": 10,
+              "Large_vehicle": 1,
+              "Medium_vehicle": 3
+            },
+            "track_ids": [
+              25368,
+              36961,
+              38593,
+              49940,
+              50134,
+              50684,
+              51869,
+              53061,
+              53067,
+              53559,
+              53635,
+              53814,
+              53972,
+              54150,
+              54191,
+              54392,
+              54484
+            ],
+            "identity_sha256": "acf21b53525d5729541aaedbf961a9c634399fa881fc7976909d48575c5e870d",
+            "tracks_sha256": "ba02a60e44314a6f3e3ecf59db7aed4750eb4c040e23ceea3bfafc4b3e9db139",
+            "provenance_sha256": "c0f4dc049029f94e54f99f714b903701cb87fe87f203bde03618e1f26fffa796"
+          },
+          "pretrained": {
+            "available": true,
+            "tracks_at_requested_frame": 18,
+            "class_histogram": {
+              "Car": 12,
+              "Large_vehicle": 6
+            },
+            "track_ids": [
+              1363,
+              1487,
+              1550,
+              1560,
+              1617,
+              1824,
+              1832,
+              1838,
+              1854,
+              1872,
+              1884,
+              1898,
+              1902,
+              1904,
+              1911,
+              1913,
+              1914,
+              1926
+            ],
+            "identity_sha256": "98c88b08a77ae7775eaa4a5f19bec3829bc40143272be414c6125070ab6de5ca",
+            "tracks_sha256": "2461d73575d8f7640e331086dac2b3443ca91e7718fa39c092855a400017f0f8",
+            "provenance_sha256": "09d8c18f0b35e55612ab55c874b0b62e92464d93fed94336336def33e16be07a"
+          }
+        }
+      },
+      "local-train-video_131333-00811": {
+        "partition": "train",
+        "recording_id": "video_131333",
+        "frame_id": 811,
+        "timestamp_s": 81.0,
+        "image_path_in_package": "images/train/video_131333/00811.jpg",
+        "jpeg_sha256": "9edd517a5127fcc7a4003865ffa4c6c3b79191d4b1bf7ee9517a1d2612978d00",
+        "jpeg_bytes": 1068945,
+        "pixels": [
+          2560,
+          1440
+        ],
+        "source_review_input_sha256": "ae32049c0e5e2d053d84bfc18a5dfb8e957f2af1e71d77f79ac6d892abcc5e19",
+        "reviewed_four_field_sha256": "c96c66a3425a474372d1c75f4b591e8e47301fef0a722f4028b5adbe61688156",
+        "case_schema_validation": "passed",
+        "history_input_and_supervision_bindings_unchanged": true,
+        "reviewers": [
+          {
+            "reviewer_id": "arjun",
+            "decision": "accept",
+            "reviewed_at": "2026-11-21T18:12:10+00:00"
+          },
+          {
+            "reviewer_id": "reviewer_2",
+            "decision": "accept",
+            "reviewed_at": "2026-11-21T18:17:25+00:00"
+          }
+        ],
+        "source_mode": "image_only_local_annotation",
+        "reviewed_track_count": 0,
+        "target_status": "needs_clarification",
+        "supervised_fields": [
+          "status",
+          "destination_point_xy",
+          "destination_box_xyxy",
+          "clarification_question"
+        ],
+        "independent_task1_original_pixel_manifest_agrees": false,
+        "task1_verified_alternate_inputs": {
+          "finetuned": {
+            "available": false
+          },
+          "pretrained": {
+            "available": false
+          }
+        }
+      },
+      "local-train-video_142911-01501": {
+        "partition": "train",
+        "recording_id": "video_142911",
+        "frame_id": 1501,
+        "timestamp_s": 150.0,
+        "image_path_in_package": "images/train/video_142911/01501.jpg",
+        "jpeg_sha256": "653f1f6aa5213850684800d294d0f08a26e464d53751485b233e69902de7d1ce",
+        "jpeg_bytes": 1346089,
+        "pixels": [
+          3840,
+          2160
+        ],
+        "source_review_input_sha256": "9ab7406126941ad365330004f7072b425c6323a6ce1933f6572ccf585b24b99f",
+        "reviewed_four_field_sha256": "c96c66a3425a474372d1c75f4b591e8e47301fef0a722f4028b5adbe61688156",
+        "case_schema_validation": "passed",
+        "history_input_and_supervision_bindings_unchanged": true,
+        "reviewers": [
+          {
+            "reviewer_id": "arjun",
+            "decision": "accept",
+            "reviewed_at": "2026-11-21T18:12:10+00:00"
+          },
+          {
+            "reviewer_id": "reviewer_2",
+            "decision": "accept",
+            "reviewed_at": "2026-11-21T18:17:25+00:00"
+          }
+        ],
+        "source_mode": "image_only_local_annotation",
+        "reviewed_track_count": 0,
+        "target_status": "needs_clarification",
+        "supervised_fields": [
+          "status",
+          "destination_point_xy",
+          "destination_box_xyxy",
+          "clarification_question"
+        ],
+        "independent_task1_original_pixel_manifest_agrees": false,
+        "task1_verified_alternate_inputs": {
+          "finetuned": {
+            "available": false
+          },
+          "pretrained": {
+            "available": false
+          }
+        }
+      },
+      "local-train-video_210906-01261": {
+        "partition": "train",
+        "recording_id": "video_210906",
+        "frame_id": 1261,
+        "timestamp_s": 126.0,
+        "image_path_in_package": "images/train/video_210906/01261.jpg",
+        "jpeg_sha256": "38c5cbd0be01da83a378cb3b42e51114cd30945468f13c81a0ab8220ee3ce667",
+        "jpeg_bytes": 817060,
+        "pixels": [
+          2560,
+          1440
+        ],
+        "source_review_input_sha256": "787ac43c07caea055dc21e659dc4f3c0b923cddcc6e7dfbebb8fef2bb7299c44",
+        "reviewed_four_field_sha256": "c96c66a3425a474372d1c75f4b591e8e47301fef0a722f4028b5adbe61688156",
+        "case_schema_validation": "passed",
+        "history_input_and_supervision_bindings_unchanged": true,
+        "reviewers": [
+          {
+            "reviewer_id": "arjun",
+            "decision": "accept",
+            "reviewed_at": "2026-11-21T18:12:10+00:00"
+          },
+          {
+            "reviewer_id": "reviewer_2",
+            "decision": "accept",
+            "reviewed_at": "2026-11-21T18:17:25+00:00"
+          }
+        ],
+        "source_mode": "image_only_local_annotation",
+        "reviewed_track_count": 0,
+        "target_status": "needs_clarification",
+        "supervised_fields": [
+          "status",
+          "destination_point_xy",
+          "destination_box_xyxy",
+          "clarification_question"
+        ],
+        "independent_task1_original_pixel_manifest_agrees": false,
+        "task1_verified_alternate_inputs": {
+          "finetuned": {
+            "available": false
+          },
+          "pretrained": {
+            "available": false
+          }
+        }
+      }
+    }
+  }
+}

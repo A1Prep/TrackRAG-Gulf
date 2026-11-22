@@ -10,8 +10,13 @@ on:
       - 'requirements-review.txt'
       - 'requirements-integration.txt'
       - 'requirements-hosted.txt'
+      - 'requirements-grounding*.txt'
+      - 'configs/dropoff/**'
+      - 'experiments/dropoff/**'
+      - 'notebooks/dropoff_gpu_pilot.ipynb'
       - 'annotations/**'
       - '.github/workflows/task5-tests.yml'
+      - '.gitattributes'
   push:
     branches: [main]
     paths:
@@ -22,8 +27,13 @@ on:
       - 'requirements-review.txt'
       - 'requirements-integration.txt'
       - 'requirements-hosted.txt'
+      - 'requirements-grounding*.txt'
+      - 'configs/dropoff/**'
+      - 'experiments/dropoff/**'
+      - 'notebooks/dropoff_gpu_pilot.ipynb'
       - 'annotations/**'
       - '.github/workflows/task5-tests.yml'
+      - '.gitattributes'
   workflow_dispatch:
 
 permissions:
@@ -46,8 +56,11 @@ jobs:
         with:
           python-version: '3.11'
           cache: pip
-          cache-dependency-path: requirements-hosted.txt
+          cache-dependency-path: |
+            requirements-hosted.txt
+            requirements-grounding-format.txt
       - run: python -m pip install -r requirements-hosted.txt
+      - run: python -m pip install -r requirements-grounding-format.txt
       - run: python -m unittest discover -s tests -p "test_review*.py" -v
       - run: python -m unittest discover -s tests -p "test_score*.py" -v
       - run: python -m pytest tests -q
@@ -57,3 +70,6 @@ jobs:
       - run: python -m evaluation review-template --help
       - run: python -m evaluation verify-retrieval --help
       - run: python -m evaluation prepare-annotations --help
+      - run: python -m tools.dropoff_fit_local --help
+      - run: python -m tools.dropoff_predict --help
+      - run: python -m tools.dropoff_prepare_streamed_model --help

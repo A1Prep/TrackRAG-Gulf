@@ -1,0 +1,74 @@
+{
+  "frozen_utc": "2026-11-21T20:09:24.799611+00:00",
+  "original_freeze_sha256": "6e19b7bac7512b6e113c546f2a71970fecc66799003534b31c1411e6fc2f82b0",
+  "input_banks": {
+    "night": {
+      "file_sha256": "a58a9656a4ce0ded1bce610716787ec37af7d1f95600f2bc51bd9733782f84bd",
+      "ids": [
+        "passenger-c01",
+        "passenger-c02",
+        "passenger-c03",
+        "passenger-c04",
+        "passenger-c05",
+        "passenger-c06",
+        "passenger-c07",
+        "passenger-c08",
+        "passenger-c09",
+        "passenger-c10",
+        "passenger-c11",
+        "passenger-c12",
+        "passenger-c13",
+        "passenger-c14",
+        "passenger-c15",
+        "passenger-c16",
+        "passenger-c17",
+        "passenger-c18",
+        "passenger-c19",
+        "passenger-c20"
+      ]
+    },
+    "public": {
+      "file_sha256": "e73ba6408263869b68c9ea377f6fa161f54c5e09d052d8583afd5cb7d5fb1ddf",
+      "ids": [
+        "regseg-train-3400",
+        "regseg-train-2836",
+        "regseg-train-2825",
+        "regseg-train-6376",
+        "regseg-train-8332",
+        "regseg-train-8338",
+        "regseg-train-5219",
+        "regseg-train-2639",
+        "regseg-train-2521",
+        "regseg-train-4100",
+        "regseg-train-1864",
+        "regseg-train-6683",
+        "regseg-train-2557",
+        "regseg-train-7219",
+        "regseg-train-6411",
+        "regseg-train-7201"
+      ]
+    },
+    "frozen_protocol_sha256": "6e19b7bac7512b6e113c546f2a71970fecc66799003534b31c1411e6fc2f82b0"
+  },
+  "source_commit": "24c1ea6",
+  "production_resident_layers": 8,
+  "policy": "Native low-memory direct-format recovery splits the adapter-bearing suffix from the number of resident layers. The passenger eight-resident/eight-suffix layer boundary is unchanged. Frozen before external inference or scoring.",
+  "source_sha256_utf8_lf": {
+    "trackrag/dropoff/anchor_geometry.py": "8b02fbdd204e06916c1a83d33a50a108a15d5383ffff9c2997e34d4e461c7b3e",
+    "trackrag/dropoff/contracts.py": "06226b35298303df8fe6b808cae90b97738fa520051c857c82fa1d8506da08ca",
+    "trackrag/dropoff/data.py": "38fb533fde5556ca265719874d1dfd819abe0e4c39b5f8c0fda354c9473aadf3",
+    "trackrag/dropoff/interaction.py": "bed95433189eb710aafe8b369c91d9768aebf4a0c398e10b2c57bc9be2f1d0c4",
+    "trackrag/dropoff/landmark_check.py": "544aab4fc96ab134699a68a75a43021560a796f423fc7e3002fcb76151beef05",
+    "trackrag/dropoff/landmarks.py": "5b5daa4276237488b9e1c7861c834fc0ca5d0541c43340ef10e1e871b42b19f8",
+    "trackrag/dropoff/pair_geometry.py": "845ab41a62c9254570e8b40788dc6c66edbea27eccd8769c9c111d87ca916e0e",
+    "trackrag/dropoff/pair_resolution.py": "b17f8116e431fea2f733ac6593247d71c34f4374ebe7e8b5fd5489b3c99a9c9c",
+    "trackrag/dropoff/passenger.py": "9b92261a418d7f36cb07daee6b92f19c83f0f32a6320f9aabbdc81e20e323909",
+    "trackrag/dropoff/referent.py": "589f3aa02bafb13a6a73a89a55a5c174c04176bb1114c046147d09bd236b2d75",
+    "trackrag/dropoff/referent_policy.py": "4c5cd8be4f8e3b22e11deaf98bf40a38a6544745f11bb27e33a85eaeff3340d1",
+    "trackrag/dropoff/road_cache.py": "bf0debfc8e62c679fa85b0671db3ea9ac8d1dc4262a198e12c233eb7c4aff529",
+    "trackrag/dropoff/spatial.py": "55ca7fc37dfbe86f0e5168eda9264726d9e6d954d6fc9d4e9aaf460a888defe1",
+    "trackrag/dropoff/structured.py": "d4ba7d76e7b7cdf623d6c3bf225f7e756f1c52bd757bd6aeabc436aa6d206277",
+    "trackrag/dropoff/streamed.py": "170084a8c0fe30e7dd77b885b432e79c18613dd95bb5f0c43214eef213c0c6be"
+  },
+  "native_model_wrapper_sha256_utf8_lf": "d95484114b4a53ba28a07a081336e8ab8582a8e341c439b403754f16b33f3fed"
+}

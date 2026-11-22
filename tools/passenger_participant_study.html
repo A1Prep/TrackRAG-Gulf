@@ -1,0 +1,226 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; img-src 'self' file:; style-src 'unsafe-inline'; script-src 'unsafe-inline'; connect-src 'none'; base-uri 'none'; form-action 'none'">
+<title>Passenger intention study</title>
+<style>
+*{box-sizing:border-box}body{margin:0;color:#182d25;background:#edf1ed;font:16px/1.45 "Segoe UI",system-ui,sans-serif}main{max-width:1450px;margin:auto;padding:18px clamp(12px,3vw,42px) 35px}h1,h2,p{margin:0 0 .65rem}h1{font-size:clamp(1.7rem,3vw,2.4rem);letter-spacing:-.04em}h2{font-size:1.18rem}.card{background:#fff;border:1px solid #cdd8cf;border-radius:10px;padding:16px;margin-bottom:14px}.row{display:flex;align-items:center;gap:10px;flex-wrap:wrap}.columns{display:grid;grid-template-columns:minmax(0,1.65fr) minmax(270px,.8fr);align-items:start;gap:16px}.controls{margin:10px 0}.scene{width:100%;position:relative;background:#1c2421;overflow:hidden;margin:12px 0 6px}.scene img{display:block;width:100%;height:auto}.scene canvas{position:absolute;touch-action:manipulation;inset:0;width:100%;height:100%;cursor:crosshair}.muted,.small{color:#445e50}.small{font-size:.87rem}.main-action,button{font:inherit;cursor:pointer;border:1px solid #829a8a;border-radius:5px;background:#fff;padding:6px 11px;color:#164c39}.main-action{background:#16553e;color:white;border-color:#16553e}button:disabled{opacity:.45;cursor:default}label{display:block;margin:9px 0}input,textarea,select{font:inherit}input[type=text],textarea,select{padding:6px 9px;border:1px solid #738c7a;border-radius:4px;max-width:100%}textarea{display:block;width:100%;margin-top:4px}fieldset{border:1px solid #cad6cd;border-radius:5px;margin:10px 0;padding:8px 12px}legend{font-weight:650}.quote{font-size:1.16rem;font-weight:650}.result{min-height:1.5em;color:#174f38;font-weight:600}[hidden]{display:none!important}:focus-visible{outline:3px solid #2157aa;outline-offset:2px}#history p{margin:.2rem 0}footer .small{margin-top:.5rem}.notice{background:#f6f1e7;padding:8px;border-radius:5px}.topline{display:flex;gap:12px;align-items:baseline;justify-content:space-between}.location{font-variant-numeric:tabular-nums}
+@media(max-width:850px){.columns{grid-template-columns:1fr}.card{padding:12px}.topline{display:block}}
+</style></head><body><main>
+<h1>Passenger intention study</h1>
+<p>Imagine you are the passenger giving each instruction. Use the original road image to show where you mean and describe it in your own words.</p>
+<section class="card" aria-label="Participant and saved progress">
+  <div class="row"><label>Participant name or study code <input type="text" id="person" placeholder="Enter your own name or code" maxlength="80" autocomplete="off"></label>
+    <button id="start" class="main-action">Start or resume</button><button id="resume">Open a previous export</button>
+    <input id="return-file" hidden type="file" accept=".json,application/json">
+  </div><p class="small">Saved cases stay in this browser. Download a partial return to keep a copy or resume on another device.</p>
+  <p id="setup-message" class="result" role="status"></p>
+</section>
+<section id="study" aria-label="Review road scenes" hidden>
+<div class="columns">
+  <section class="card"><div class="topline"><label>Road scene <select id="jump"></select></label><span id="position" class="muted"></span></div>
+    <div id="history" aria-label="Earlier conversation"></div><p id="instruction" class="quote"></p>
+    <div class="scene"><img id="original" alt="Original road scene"><canvas id="drawing" aria-label="Draw the intended road region and stopping point"></canvas></div>
+    <p id="frame" class="small location"></p>
+    <div class="row controls"><button id="prev">Previous scene</button><button id="next">Next scene</button></div>
+    <p class="small">You can skip a scene if you cannot settle on an intention. Leave it unsaved and open the next scene.</p>
+  </section>
+  <section class="card">
+    <fieldset><legend>Your intended destination</legend>
+      <label><input type="radio" name="choice" value="drawn_area"> I can show my intended area</label>
+      <label><input type="radio" name="choice" value="landmark_missing"> I cannot see the landmark I mean</label>
+    </fieldset>
+    <div id="mark-tools" hidden><p id="mark-help" class="small"></p>
+      <div class="row"><button id="finish">Finish outline</button><button id="undo">Undo last point</button><button id="redraw">Redraw region</button></div>
+    </div>
+    <label>What would you say if asked to clarify where you mean?
+      <textarea id="answer" rows="3" maxlength="2000"></textarea></label>
+    <label>What would you say if the assistant selected the wrong location?
+      <textarea id="rejection" rows="3" maxlength="2000"></textarea></label>
+    <button class="main-action" id="save">Save this case</button>
+    <p class="result" id="case-message" role="status" aria-live="polite"></p>
+  </section>
+</div>
+<footer class="card"><h2 id="count"></h2><label><input type="checkbox" id="attest"> <span id="declaration"></span></label>
+  <button id="download" class="main-action" disabled>Download reviewed cases</button>
+  <p class="small">The export contains your intended coordinates and replies. The original road photographs stay in the private form folder.</p>
+</footer></section></main>
+<script type="application/json" id="study-data">{{PARTICIPANT_STUDY}}</script>
+<script>
+"use strict";
+const pack=JSON.parse(document.getElementById("study-data").textContent);
+const $=id=>document.getElementById(id), canvas=$("drawing"), ctx=canvas.getContext("2d"), image=$("original");
+const keys=["case_id","recording_id","frame_id","image_sha256","request_sha256","instruction_sha256"];
+let participant="", saved={}, index=0, vertices=[], point=null, closed=false, loaded=false, dirty=false;
+const current=()=>pack.rows[index], selected=()=>document.querySelector('input[name="choice"]:checked')?.value;
+const storageKey=id=>"trackrag-passenger-intention-v1:"+pack.input_bank_sha256+":"+(pack.software_fixture?"fixture:":"human:")+id;
+const notice=(id,text)=>$(id).textContent=text;
+$("declaration").textContent=pack.software_fixture?"Software fixture only. I am testing the collection controls.":pack.declaration;
+function refreshCount(){
+  const n=Object.keys(saved).length;
+  $("count").textContent=n+" of "+pack.rows.length+" reviewed";
+  $("download").disabled=!n||!$("attest").checked||dirty;
+  [...$("jump").options].forEach((option,i)=>{option.textContent=(i+1)+(saved[pack.rows[i].case_id]?" · saved":"");});
+}
+function connect(id,recovered){
+  if(!id||id.length>80){notice("setup-message","Enter your own name or study code.");return false;}
+  if(participant&&participant!==id){notice("setup-message","Open a fresh copy of the page to change participant.");return false;}
+  participant=id; $("person").value=id; $("person").readOnly=true; $("start").disabled=true;
+  saved=recovered||{}; $("study").hidden=false;
+  notice("setup-message","Reviewing as "+id+"."); show(0,true); return true;
+}
+function exactKeys(value,fields){return value&&typeof value==="object"&&!Array.isArray(value)&&Object.keys(value).length===fields.length&&fields.every(k=>Object.hasOwn(value,k));}
+function timeValue(value){return typeof value==="string"&&/(Z|[+-]\d{2}:\d{2})$/.test(value)?Date.parse(value):NaN;}
+function goodText(value,limit){return typeof value==="string"&&value===value.trim()&&value.length>0&&value.length<=limit;}
+function checkEntries(entries,id,asOf){
+  const known=new Map(pack.rows.map(r=>[r.case_id,r])), seen=new Set();
+  const fields=[...keys,"participant_id","input_bank_sha256","reviewed_utc","choice","polygon_xy","point_xy","answer","rejection"];
+  if(!goodText(id,80)||!Number.isFinite(asOf)||!Array.isArray(entries)||!entries.length||entries.length>pack.rows.length)throw Error("Invalid participant, time or number of saved cases.");
+  for(const e of entries){
+    if(!exactKeys(e,fields))throw Error("Unexpected fields in a participant case.");
+    const r=known.get(e.case_id);
+    if(!r||seen.has(e.case_id)||keys.some(k=>e[k]!==r[k])||e.input_bank_sha256!==pack.input_bank_sha256||e.participant_id!==id
+       ||!["drawn_area","landmark_missing"].includes(e.choice)||!goodText(e.answer,2000)||!goodText(e.rejection,2000)
+       ||!Number.isFinite(timeValue(e.reviewed_utc))||timeValue(e.reviewed_utc)>asOf)
+      throw Error("This return contains a different scene, participant or incomplete case.");
+    const validPoint=p=>Array.isArray(p)&&p.length===2&&p.every(Number.isInteger)&&p[0]>=0&&p[0]<r.width&&p[1]>=0&&p[1]<r.height;
+    if(e.choice==="landmark_missing"?(e.point_xy!==null||e.polygon_xy!==null):
+       (!Array.isArray(e.polygon_xy)||!e.polygon_xy.every(validPoint)||!validPoint(e.point_xy)
+        ||!validPolygon(e.polygon_xy)||!inDrawing(e.point_xy,e.polygon_xy)))throw Error("Invalid original-image polygon or selected point in this return.");
+    seen.add(e.case_id);
+  }
+  return Object.fromEntries(entries.map(e=>[e.case_id,e]));
+}
+$("start").onclick=()=>{
+  const id=$("person").value.trim();let previous={}, data=null, storageAvailable=true;
+  try{data=localStorage.getItem(storageKey(id));}catch{storageAvailable=false;}
+  try{if(data){
+    const state=JSON.parse(data);
+    if(!exactKeys(state,["kind","version","input_bank_sha256","participant_id","updated_utc","source","software_fixture","completed"])
+       ||state.kind!=="passenger_local_progress"||state.version!==pack.version||state.input_bank_sha256!==pack.input_bank_sha256
+       ||state.participant_id!==id||state.software_fixture!==pack.software_fixture||state.source!==(pack.software_fixture?"software_fixture":"human_participant_draft"))throw Error("Invalid draft provenance.");
+    previous=checkEntries(state.completed,id,timeValue(state.updated_utc));
+  }}catch{notice("setup-message","The saved cases could not be opened. Restore a downloaded return.");return;}
+  if(connect(id,previous)&&!storageAvailable)notice("setup-message","Browser storage is unavailable. Download reviewed cases to keep your progress.");
+};
+$("resume").onclick=()=>$("return-file").click();
+$("return-file").onchange=async e=>{
+  const file=e.target.files[0];e.target.value="";if(!file)return;
+  try{
+    if(file.size>4*1024*1024)throw Error("This file is too large.");
+    const ret=JSON.parse(await file.text());
+    if(!exactKeys(ret,["kind","version","input_bank_sha256","participant_id","exported_utc","source","software_fixture","human_attested","declaration","completed"])
+       ||ret.kind!=="passenger_preproposal_return"||ret.version!==pack.version||ret.input_bank_sha256!==pack.input_bank_sha256
+       ||ret.software_fixture!==pack.software_fixture||ret.human_attested!==!pack.software_fixture||ret.declaration!==pack.declaration
+       ||ret.source!==(pack.software_fixture?"software_fixture":"human_participant"))throw Error("This export belongs to a different study or lacks its declaration.");
+    const recovered=checkEntries(ret.completed,ret.participant_id,timeValue(ret.exported_utc));
+    if(participant&&Object.keys(saved).some(k=>!recovered[k]||JSON.stringify(recovered[k])!==JSON.stringify(saved[k]))){
+      notice("setup-message","This file differs from the open progress. Open a fresh page to review it separately.");return;
+    }
+    if(connect(ret.participant_id,recovered)){persist();notice("setup-message","Restored "+ret.completed.length+" reviewed cases for "+participant+".");}
+  }catch(err){notice("setup-message",err.message);}
+};
+function persist(){
+  const state={kind:"passenger_local_progress",version:pack.version,input_bank_sha256:pack.input_bank_sha256,participant_id:participant,
+    updated_utc:new Date().toISOString(),source:pack.software_fixture?"software_fixture":"human_participant_draft",
+    software_fixture:pack.software_fixture,completed:Object.values(saved)};
+  try{localStorage.setItem(storageKey(participant),JSON.stringify(state));return true;}catch{return false;}
+}
+function nextFrameText(r){return r.recording_id+" · frame "+r.frame_id+" · "+r.width+" × "+r.height+" original pixels";}
+function show(i,force=false){
+  if(!force&&dirty&&!window.confirm("Discard unsaved edits to this case?")){$("jump").value=index;return;}
+  index=i;dirty=false;loaded=false;const r=current(), previous=saved[r.case_id];
+  $("jump").value=i; $("position").textContent="Scene "+(i+1)+" of "+pack.rows.length;
+  $("instruction").textContent=r.text; $("history").replaceChildren();
+  for(const t of r.dialogue){const p=document.createElement("p");p.className="small";p.textContent=(t.role==="user"?"Passenger — ":"Assistant — ")+t.text;$("history").append(p);}
+  $("frame").textContent=nextFrameText(r); $("answer").value=previous?.answer||"";$("rejection").value=previous?.rejection||"";
+  document.querySelectorAll('input[name="choice"]').forEach(el=>el.checked=el.value===previous?.choice);
+  vertices=(previous?.polygon_xy||[]).map(x=>x.slice());point=previous?.point_xy?.slice()||null;closed=Boolean(point);
+  canvas.width=r.width;canvas.height=r.height;ctx.clearRect(0,0,canvas.width,canvas.height);
+  image.alt="Original road scene "+(i+1);image.width=r.width;image.height=r.height;
+  const caseID=r.case_id;
+  image.onload=()=>{if(current().case_id===caseID){loaded=image.naturalWidth===r.width&&image.naturalHeight===r.height;
+    if(!loaded)notice("case-message","These image dimensions differ from the original. Verify the private form folder.");paint();}};
+  image.onerror=()=>{loaded=false;notice("case-message","The original photograph could not be opened. Keep review.html beside the images folder.");};
+  image.src="images/"+r.image_sha256+".jpg";
+  $("prev").disabled=i===0;$("next").disabled=i===pack.rows.length-1;notice("case-message",previous?"Your saved response is open.":"");
+  controls();refreshCount();
+}
+function controls(){
+  $("mark-tools").hidden=selected()!=="drawn_area"; $("finish").disabled=closed||vertices.length<3;
+  $("undo").disabled=closed||vertices.length===0;$("redraw").disabled=vertices.length===0;
+  $("mark-help").textContent=closed?(point?"The dot is your chosen location. Click inside the outline to move it.":"Click inside your outline to choose your stopping point."):
+    "Click around the boundary of your intended patch of road. Finish the outline after at least three corners.";
+}
+function paint(){
+  ctx.clearRect(0,0,canvas.width,canvas.height);if(selected()!=="drawn_area"||!vertices.length)return;
+  const scale=canvas.width/Math.max(canvas.clientWidth,1);ctx.lineWidth=2.4*scale;
+  ctx.lineJoin="round";ctx.strokeStyle="#ffe264";ctx.fillStyle="rgba(255,226,100,0.18)";
+  ctx.beginPath();vertices.forEach(([x,y],i)=>i?ctx.lineTo(x,y):ctx.moveTo(x,y));
+  if(closed){ctx.closePath();ctx.fill();}ctx.stroke();
+  for(const [x,y] of vertices){ctx.beginPath();ctx.arc(x,y,3*scale,0,Math.PI*2);ctx.fillStyle="#ffe264";ctx.fill();}
+  if(point){ctx.beginPath();ctx.arc(...point,5*scale,0,Math.PI*2);ctx.fillStyle="#16563e";ctx.fill();ctx.strokeStyle="white";ctx.stroke();}
+}
+function edits(){dirty=true;$("attest").checked=false;notice("case-message","");refreshCount();}
+function cross(a,b,p){return (b[0]-a[0])*(p[1]-a[1])-(b[1]-a[1])*(p[0]-a[0]);}
+function overlap(a,b,c,d){
+  return Math.max(Math.min(a[0],b[0]),Math.min(c[0],d[0]))<=Math.min(Math.max(a[0],b[0]),Math.max(c[0],d[0]))
+    && Math.max(Math.min(a[1],b[1]),Math.min(c[1],d[1]))<=Math.min(Math.max(a[1],b[1]),Math.max(c[1],d[1]))
+    && cross(a,b,c)*cross(a,b,d)<=0&&cross(c,d,a)*cross(c,d,b)<=0;
+}
+function validPolygon(polygon=vertices){
+  if(polygon.length<3||polygon.length>128||new Set(polygon.map(v=>v.join(","))).size!==polygon.length)return false;
+  let total=0;const n=polygon.length;
+  for(let i=0;i<n;i++){
+    const a=polygon[i],b=polygon[(i+1)%n];total+=a[0]*b[1]-b[0]*a[1];
+    for(let j=i+2;j<n;j++)if((i!==0||j!==n-1)&&overlap(a,b,polygon[j],polygon[(j+1)%n]))return false;
+  }return total!==0;
+}
+function inDrawing(p,polygon=vertices){
+  let inside=false;
+  for(let i=0,j=polygon.length-1;i<polygon.length;j=i++){
+    const a=polygon[i],b=polygon[j];
+    if(cross(a,b,p)===0&&p[0]>=Math.min(a[0],b[0])&&p[0]<=Math.max(a[0],b[0])&&p[1]>=Math.min(a[1],b[1])&&p[1]<=Math.max(a[1],b[1]))return true;
+    if((a[1]>p[1])!==(b[1]>p[1])&&p[0]<(b[0]-a[0])*(p[1]-a[1])/(b[1]-a[1])+a[0])inside=!inside;
+  }return inside;
+}
+canvas.onclick=e=>{
+  if(!loaded||selected()!=="drawn_area")return;
+  const b=canvas.getBoundingClientRect(), r=current();
+  const p=[Math.min(r.width-1,Math.max(0,Math.floor((e.clientX-b.left)*r.width/b.width))),
+           Math.min(r.height-1,Math.max(0,Math.floor((e.clientY-b.top)*r.height/b.height)))];
+  if(closed){if(!inDrawing(p)){notice("case-message","Choose a point inside your own outline.");return;}point=p;}
+  else{
+    if(vertices.length>=128||vertices.some(v=>v[0]===p[0]&&v[1]===p[1])){notice("case-message","Choose a new corner or finish the outline.");return;}
+    vertices.push(p);
+  }edits();controls();paint();
+};
+$("finish").onclick=()=>{if(!validPolygon()){notice("case-message","Use a single outline with area and no crossing edges.");return;}closed=true;edits();controls();paint();};
+$("undo").onclick=()=>{vertices.pop();edits();controls();paint();};
+$("redraw").onclick=()=>{vertices=[];point=null;closed=false;edits();controls();paint();};
+document.querySelectorAll('input[name="choice"]').forEach(n=>n.onchange=()=>{edits();controls();paint();});
+["answer","rejection"].forEach(k=>$(k).oninput=edits);
+$("prev").onclick=()=>show(index-1);$("next").onclick=()=>show(index+1);$("jump").onchange=()=>show(Number($("jump").value));
+$("save").onclick=()=>{
+  const r=current(), choice=selected(), answer=$("answer").value.trim(), rejection=$("rejection").value.trim();
+  if(!loaded||!choice){notice("case-message","View the original image and choose an option.");return;}
+  if(choice==="drawn_area"&&(!closed||!validPolygon()||!point||!inDrawing(point))){notice("case-message","Finish your own outline and choose a point inside it.");return;}
+  if(!answer||!rejection){notice("case-message","Enter both replies in your own words.");return;}
+  const e={participant_id:participant,input_bank_sha256:pack.input_bank_sha256,reviewed_utc:new Date().toISOString(),choice,
+           polygon_xy:choice==="drawn_area"?vertices.map(v=>v.slice()):null,point_xy:choice==="drawn_area"?point.slice():null,answer,rejection};
+  for(const k of keys)e[k]=r[k];saved[r.case_id]=e;dirty=false;
+  notice("case-message",persist()?"Saved on this device.":"Saved in this page. Download your return before closing it.");
+  refreshCount();
+};
+$("attest").onchange=refreshCount;
+$("download").onclick=()=>{
+  if(dirty||!participant||!$("attest").checked||!Object.keys(saved).length)return;
+  const result={kind:"passenger_preproposal_return",version:pack.version,input_bank_sha256:pack.input_bank_sha256,
+    participant_id:participant,exported_utc:new Date().toISOString(),source:pack.software_fixture?"software_fixture":"human_participant",
+    software_fixture:pack.software_fixture,human_attested:!pack.software_fixture,declaration:pack.declaration,
+    completed:pack.rows.filter(r=>saved[r.case_id]).map(r=>saved[r.case_id])};
+  const link=document.createElement("a"), url=URL.createObjectURL(new Blob([JSON.stringify(result,null,2)+"\n"],{type:"application/json"}));
+  link.href=url;link.download="passenger-intentions-"+participant.replace(/[^a-z0-9_-]/gi,"-")+"-"+Date.now()+".json";link.click();setTimeout(()=>URL.revokeObjectURL(url),1000);
+};
+pack.rows.forEach((r,i)=>{const option=document.createElement("option");option.value=i;option.textContent=String(i+1);$("jump").append(option);});
+window.addEventListener("resize",paint);
+</script></body></html>

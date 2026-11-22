@@ -1,7 +1,10 @@
-"""Validate saved reviewer artifacts without importing or calling model adapters."""
+"""Validate saved reviewer artifacts without running inference or contacting a provider."""
 
 import json
 import math
+import os
+import shutil
+import tempfile
 from hashlib import sha256
 from pathlib import Path, PureWindowsPath
 
@@ -55,6 +58,54 @@ def _box(box):
             or any(isinstance(v, bool) or not isinstance(v, (float, int)) or not math.isfinite(v) for v in box)
             or not 0 <= box[0] < box[2] or not 0 <= box[1] < box[3]):
         raise ValueError("Observation boxes require four finite original-pixel coordinates and positive area")
+
+
+def _verified_grounding_abstention(directory, question, evidence, answer, receipt, response):
+    """Reproduce a source or temporal veto from original observations, submitted pixels and raw response."""
+    if (response.get("answer_status") != "answered" or answer.get("answer_status") != "insufficient_evidence"
+            or receipt.get("public_question") != question):
+        return False
+    metadata = read_object(directory / "run.json")
+    config = metadata.get("configuration", {})
+    from trackrag.answering import prepare_evidence, unavailable_observation_source, validate_answer
+    source_reason = unavailable_observation_source(question["question"], evidence)
+    has_temporal = "trackrag.retrieval_temporal" in (config.get("retrieval"), config.get("retrieval_adapter"))
+    if not source_reason and not has_temporal:
+        return False
+    # A private scratch folder keeps the audited run read-only while the normal
+    # processor recomputes the original opaque masks, observations and temporal policy.
+    with tempfile.TemporaryDirectory() as temporary:
+        scratch = Path(temporary)
+        assets = {"run.json", "tracks.jsonl"}
+        assets.update(im["image_path"] for e in evidence for im in e["images"])
+        for relative in assets:
+            original = local_asset(directory, relative)
+            target = scratch / original.relative_to(directory)
+            target.parent.mkdir(parents=True, exist_ok=True)
+            try:
+                os.link(original, target)
+            except OSError:
+                shutil.copyfile(original, target)
+        prepared = prepare_evidence(evidence, scratch, question)
+        scope = next((e["temporal_scope"] for e in prepared if "temporal_scope" in e), None)
+        if scope is None and not source_reason:
+            return False
+        if scope is not None and ("\nTemporal evidence: " + json.dumps(scope) + "\n") not in receipt.get("prompt", ""):
+            return False
+        if scope is None and "\nTemporal evidence: " in receipt.get("prompt", ""):
+            return False
+        inventory = [{"evidence_id": e["evidence_id"], "interval": e["interval"],
+                      "images": [{k: im[k] for k in ("frame_id", "bbox_xyxy", "observations", "privacy")}
+                                 for im in e["images"]]} for e in prepared]
+        actual = [(e["evidence_id"], im["frame_id"], fingerprint(im["image_path"]))
+                  for e in prepared for im in e["images"]]
+        sent = [(im.get("evidence_id"), im.get("frame_id"), im.get("sha256"))
+                for im in receipt.get("sent", [])]
+        if inventory != receipt.get("evidence_inventory") or actual != sent:
+            return False
+        if validate_answer(response, prepared, question) != answer:
+            return False
+        return "recomputed_source_abstention" if source_reason else "recomputed_temporal_abstention"
 
 
 def audit_run(directory, expected):
@@ -185,6 +236,7 @@ def audit_run(directory, expected):
             receipt = read_object(path)
             if receipt.get("question_id", qid) != qid:
                 raise ValueError("Provider receipt belongs to a different question")
+            verified_veto = False
             if name == "receipt.json":
                 if receipt.get("request_status") == "error" and status != "error":
                     raise ValueError("Delivered answer contradicts its failed final provider receipt")
@@ -196,7 +248,9 @@ def audit_run(directory, expected):
                     supplied = response["cited_evidence_ids"]
                     if (response["answer_status"] != status or not isinstance(supplied, list)
                             or any(not isinstance(c, str) for c in supplied) or set(supplied) != set(citations)):
-                        raise ValueError("Delivered status or citations contradict the final provider response")
+                        verified_veto = _verified_grounding_abstention(directory, question, evidence, answer, receipt, response)
+                        if not verified_veto:
+                            raise ValueError("Delivered status or citations contradict the final provider response")
             for sent in receipt.get("sent", []):
                 frame = integer(sent["frame_id"], "provider frame_id")
                 if frame > question["query_frame"] or (sent["evidence_id"], frame) not in image_pairs:
@@ -207,7 +261,10 @@ def audit_run(directory, expected):
                     raise ValueError('Processed provider input differs from the saved sent-byte hash')
                 record_file(processed, "provider_input")
             record_file(path, "provider_receipt")
-            receipt_rows.append({key: receipt.get(key) for key in ("model", "reported_model", "role", "request_status", "cached")})
+            receipt_provenance = {key: receipt.get(key) for key in ("model", "reported_model", "role", "request_status", "cached")}
+            if verified_veto:
+                receipt_provenance["delivered_via"] = verified_veto
+            receipt_rows.append(receipt_provenance)
         results[qid] = row
     config = metadata.get("configuration", {})
     if not isinstance(config, dict):

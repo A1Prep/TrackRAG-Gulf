@@ -1,0 +1,26 @@
+{
+  "kind": "predeclared_zero_detector_dense_head_calibration_v1",
+  "frozen_utc": "2026-11-22T04:13:23.800863+00:00",
+  "source": "Original Talk2Car-RegSeg training-partition commands, fronts and participant-authored region masks; no rewritten, validation, test, reserved source scenes or final EMT.",
+  "head_conditions": {
+    "instruction_conditioned": "7300ee2861e4d7a5e140b7b86c983699f93a10086817e7df399e2bca2b53d74e",
+    "language_blind": "fda5f770317b146027a10a5c9beed6c7ebe0dbe8835826d9c59e90e9d7b44fd3"
+  },
+  "known_data": {
+    "train": "The two frozen spatial heads were fitted on the same 500 public cases from 295 groups. Neither uses detector boxes as model input.",
+    "calibration": "125 existing development examples across 65 groups; original images, saved candidate outputs and participant mask-hit supervision only. The development labels have been seen before.",
+    "calibration_input_sha256": "533cbcf9a2059b2890a606e896d9a216d5fc663606693c7dc8121b9ddf222556",
+    "conditioned_predictions_sha256": "56f9b47504611d46945eeaf934bca5f837f176190430992fbf965f18a3d74678",
+    "blind_predictions_sha256": "54f0ed52a1ada00557a738686162875dc86818eaecd337f59dc0ed39804398b4"
+  },
+  "calibration_model": "One regularized logistic model predicts a native reference mask hit for either frozen candidate. The inputs are candidate geometry, agreement between candidate points and boxes, softmax peak mass, road probability, eligible grid area and candidate identity. Interactions of candidate identity with these same feature values are allowed. No image IDs or reference geometry enter the deployed scorer. Standardize using fit rows only; unpenalized intercept, L2 coefficient 2.0. For development reporting, leave out every group in its SHA256('spatial-coverage-v1:'+scene_group) mod 5 fold. Then fit on the 125 cases once for the new cohort. Choose the higher predicted success probability; ties favor the conditioned candidate. Also report a prespecified probability >=0.30 coverage operating point, counting every abstention as a geometry miss.",
+  "selection": {
+    "seed": "trackrag-spatial-confidence-fresh-20261122-v1",
+    "target_distinct_scenes": 12,
+    "minimum_to_report": 6,
+    "range_windows_mib": [[384, 16], [400, 12]],
+    "method": "Recover complete, verified train JPEGs from the first bounded window. If under target, add the second contiguous window. Exclude every public source scene, image, ID, token, sample and normalized command used in the original 625-row corpus, historical audits, and previous 16 independent cases. Use the prior cohort solely as an exclusion list. Exclude all reserved and rewritten train source cases. Rank by SHA256(seed + ':' + scene-token + ':' + original-index); take first distinct eligible image, command and scene. Only check source mask/image validity. No selection by geometry, predicted result or description difficulty."
+  },
+  "inference": "All dense conditions see the same original RGB, command and zero tracks. The method's current-frame predicted road support is frozen. Save all new predictions before scoring the original masks. If a matched deployed Qwen inference can run later, use the same requests; otherwise disclose it was unavailable. Do not substitute a surrogate for Qwen.",
+  "endpoints": "Native mask hits/all, mean coarse-box IoU/all with missing geometry zero, proposals/all, errors; separately show hits/proposals, including the declared selective operating point. Keep all failures. Small new diagnostic, not confirmation quality, driving safety, or tuned deployment."
+}

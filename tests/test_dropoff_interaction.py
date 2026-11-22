@@ -486,6 +486,52 @@ def test_controller_accepts_the_existing_model_adapter_and_preserves_its_raw_rec
     assert saved["request"]["request_id"] == instruction["request_id"]
 
 
+def test_controller_uses_atomic_outcome_and_receipt_instead_of_shared_latest_receipt(instruction):
+    class AtomicAdapter:
+        def interpret(self, request):
+            raise AssertionError("The atomic model must not use the legacy call")
+
+        def interpret_with_receipt(self, request):
+            return semantic(request), {"request_id": request["request_id"],
+                                       "raw_text": "matching atomic receipt"}
+
+        @property
+        def last_receipt(self):
+            raise AssertionError("Another caller may have replaced the shared receipt")
+
+    flow = InteractionController(AtomicAdapter(), session_id="session-1")
+    assert flow.submit(instruction)["status"] == "proposed"
+    flow.revise_instruction("Beside the other car.")
+    calls = flow.snapshot()["calls"]
+    for call in calls:
+        receipt = call["adapter_receipt"]
+        assert receipt["request_binding"] == "matches"
+        assert receipt["value"]["request_id"] == call["request"]["request_id"]
+        assert receipt["value"]["raw_text"] == "matching atomic receipt"
+    assert calls[0]["request"]["request_id"] != calls[1]["request"]["request_id"]
+
+
+def test_atomic_failure_is_retained_without_retrying_the_legacy_method(instruction):
+    class AtomicAdapter:
+        def interpret(self, request):
+            raise AssertionError("A failed model call must not be silently retried")
+
+        def interpret_with_receipt(self, request):
+            raise TimeoutError("atomic inference timed out")
+
+        @property
+        def last_receipt(self):
+            raise AssertionError("There is no atomic receipt for the failed call")
+
+    flow = InteractionController(AtomicAdapter(), session_id="session-1")
+    state = flow.submit(instruction)
+    assert state["status"] == "error"
+    assert state["proposal"] is None
+    call = flow.snapshot()["calls"][0]
+    assert call["outcome"]["error"]["code"] == "timeout"
+    assert call["adapter_receipt"] is None
+
+
 def test_old_adapter_receipt_after_an_exception_is_explicitly_marked_as_foreign(instruction):
     class Adapter:
         def interpret(self, request):

@@ -1,0 +1,19 @@
+{"request_id":"passenger-b01","recording_id":"video_054907","frame_id":1,"text":"I'd like the patch of road just behind the white SUV on the left."}
+{"request_id":"passenger-b02","recording_id":"video_054907","frame_id":1,"text":"The space behind the big white truck with metal sides on the right, please."}
+{"request_id":"passenger-b03","recording_id":"video_054907","frame_id":1,"text":"Behind that white vehicle, please."}
+{"request_id":"passenger-b04","recording_id":"video_054907","frame_id":1,"text":"The big truck with the metal sides on the right.","dialogue":[{"role":"user","text":"Behind that white vehicle, please.","recording_id":"video_054907","frame_id":1},{"role":"assistant","text":"Do you mean the white SUV on the left, the smaller pickup ahead, or the large metal-sided truck on the right?","recording_id":"video_054907","frame_id":1}]}
+{"request_id":"passenger-b05","recording_id":"video_054907","frame_id":1,"text":"Next to the tram waiting at the platform, please."}
+{"request_id":"passenger-b06","recording_id":"video_054907","frame_id":42,"text":"I mean the open space between the white Toyota pickup and the black SUV, behind both."}
+{"request_id":"passenger-b07","recording_id":"video_054907","frame_id":42,"text":"I'd like the road immediately behind the white Toyota pickup with the rack."}
+{"request_id":"passenger-b08","recording_id":"video_054907","frame_id":42,"text":"Drop me behind the truck."}
+{"request_id":"passenger-b09","recording_id":"video_054907","frame_id":42,"text":"The Toyota pickup with the rack in front of us.","dialogue":[{"role":"user","text":"Drop me behind the truck.","recording_id":"video_054907","frame_id":42},{"role":"assistant","text":"Which truck do you mean: the pickup with a rack ahead or the tall-sided truck alongside us on the right?","recording_id":"video_054907","frame_id":42}]}
+{"request_id":"passenger-b10","recording_id":"video_054907","frame_id":42,"text":"Leave me by the railway signal just ahead of us."}
+{"request_id":"passenger-b11","recording_id":"video_054907","frame_id":59,"text":"Behind the black SUV to the right of the yellow car, please."}
+{"request_id":"passenger-b12","recording_id":"video_054907","frame_id":59,"text":"Drop me just behind the white Toyota pickup under the overpass."}
+{"request_id":"passenger-b13","recording_id":"video_054907","frame_id":59,"text":"Actually I meant behind the white Toyota pickup, not the black SUV.","dialogue":[{"role":"user","text":"I'm looking at the black SUV to the right of the yellow car.","recording_id":"video_054907","frame_id":59}]}
+{"request_id":"passenger-b14","recording_id":"video_054907","frame_id":59,"text":"Can you let me out by that car under the bridge?"}
+{"request_id":"passenger-b15","recording_id":"video_054907","frame_id":59,"text":"Drop me beside the green school bus under the flyover."}
+{"request_id":"passenger-b16","recording_id":"video_054907","frame_id":103,"text":"I'd like the road edge by the right guardrail, just before the yellow work sign."}
+{"request_id":"passenger-b17","recording_id":"video_054907","frame_id":103,"text":"Let me out behind the white sedan just to the right of the Toyota pickup."}
+{"request_id":"passenger-b18","recording_id":"video_054907","frame_id":103,"text":"By the sign on the right."}
+{"request_id":"passenger-b19","recording_id":"video_054907","frame_id":103,"text":"I'm getting out by the service-station fuel pumps."}

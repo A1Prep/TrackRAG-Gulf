@@ -1,0 +1,272 @@
+{
+  "scope": "Fresh typed browser on three previously used development photos from two UAE recordings. Both positive operators used the same recording; F42 is an ambiguity control. Zero human passengers or formal evaluation cases.",
+  "protocol_sha256": "3cc4acb208357a62326ce3ac316e1088d212ec623697e852d44058fc98ff9711",
+  "raw_receipt_sha256": "1af63ea6ff1a029928fef25edf240baea879e8db85f69b33cf577d02edd61297",
+  "fresh_cuda_native_generations": 6,
+  "raw_release": {
+    "name": "passenger-fresh-two-vehicle-application.zip",
+    "sha256": "e52190cb682e8be335b10fc47552ece24f0a9cebdd7633e35bf662d3a63ffac7",
+    "bytes": 39817
+  },
+  "scenes": [
+    {
+      "recording": "video_054907",
+      "frame": 781,
+      "original_sha256": "c411cf6760695905334f32e5590083cf144543df1ca98e68aae55fb345eb583e",
+      "user_input": [
+        {
+          "text": "Drop me between these two black cars.",
+          "status": "needs_clarification",
+          "method": "deictic_pair_clarification",
+          "question": "Which two vehicles do you mean? Describe each one or select both on the photo.",
+          "point_xy": null,
+          "disagreement": null,
+          "native_calls": []
+        },
+        {
+          "text": "I mean the patch of road just behind the gap between the black sedan next to the concrete median on our left and the black sedan immediately to its right.",
+          "status": "needs_clarification",
+          "method": "qwen_landmark_region",
+          "question": "Which two vehicles do you mean? Describe each one or select both on the photo.",
+          "point_xy": null,
+          "disagreement": {
+            "reason": "different_current_tracks_from_full_and_separate_descriptions",
+            "whole_sentence_ids": [
+              66865,
+              65692
+            ],
+            "separate_description_ids": [
+              66865,
+              59438
+            ],
+            "original_proposal": {
+              "status": "proposed",
+              "destination_point_xy": [
+                927.5,
+                1112.5
+              ],
+              "destination_box_xyxy": [
+                338.9819540793638,
+                1044.169515066354,
+                1076.5261314070074,
+                1141.0979714851742
+              ],
+              "clarification_question": null,
+              "anchor_boxes_xyxy": [
+                [
+                  202.859375,
+                  953.1180419921875,
+                  281.6097717285156,
+                  978.5709838867188
+                ],
+                [
+                  1451.215087890625,
+                  1044.64453125,
+                  1627.0533447265625,
+                  1174.2886962890625
+                ]
+              ]
+            },
+            "pair_receipt_sha256": "35380b83168c761f5bd033107a1e2af8bdd3165ecc90aa5061e19de59741054b"
+          },
+          "native_calls": [
+            {
+              "raw_text": "LANDMARK L1 L2",
+              "device": "cuda:0",
+              "generated_tokens": 7,
+              "request_sha256": "fc564b91c7f6e5e42adf76340f191682290d4eb1fafcbb9e8821991524641e79"
+            },
+            {
+              "raw_text": "LANDMARK L1",
+              "device": "cuda:0",
+              "generated_tokens": 5,
+              "request_sha256": "543ef2c0306136d2aab329bb6232b6cb64ed5d85b2174e2daf2f90358fedea36"
+            },
+            {
+              "raw_text": "LANDMARK L18",
+              "device": "cuda:0",
+              "generated_tokens": 6,
+              "request_sha256": "513576550fd158d2251fdf23f42d5b4121704880583d20f13540b337a2934f34"
+            }
+          ]
+        }
+      ],
+      "selection": [
+        {
+          "placement": "between",
+          "selected_track_ids": [
+            61108,
+            59268
+          ],
+          "selected_original_boxes": [
+            [
+              996.9368896484375,
+              1041.7906494140625,
+              1115.8541259765625,
+              1124.109619140625
+            ],
+            [
+              1103.184326171875,
+              1042.60888671875,
+              1182.374755859375,
+              1105.36376953125
+            ]
+          ],
+          "selection_sha256": "78e9dd9ade1807200695aa8c892555b3524b1de5527e8f67d09a46d0763a4b2c",
+          "state": "needs_clarification",
+          "selected_by": "passenger_landmarks",
+          "question": "Their boxes overlap in this view. Do you mean the road just behind both vehicles, or another area?",
+          "point_xy": null,
+          "previous_token_rejected": null,
+          "inside_preexisting_reference": null,
+          "matches_original_anchor_boxes": null,
+          "supported_on_cached_SegFormer_mask": null,
+          "outside_all_current_detections": null,
+          "mask_sha256": "7d365ac84782697ebad451604d1f23b0781c73045dad48de17aefd410c2ee7e5",
+          "positive_target_score": false,
+          "old_native_outcome_sha256": "cfc74477ee54f5f540bcc7062184f0f64358dc779b38401dff39cbc36ae4a892",
+          "independently_reproduced": true
+        },
+        {
+          "placement": "behind",
+          "selected_track_ids": [
+            61108,
+            59268
+          ],
+          "selected_original_boxes": [
+            [
+              996.9368896484375,
+              1041.7906494140625,
+              1115.8541259765625,
+              1124.109619140625
+            ],
+            [
+              1103.184326171875,
+              1042.60888671875,
+              1182.374755859375,
+              1105.36376953125
+            ]
+          ],
+          "selection_sha256": "7dc6a5771080e2af5ca77feca2de5be1aeffdcb222607e99a607b84b07ea65e9",
+          "state": "proposed",
+          "selected_by": "passenger_landmarks",
+          "question": null,
+          "point_xy": [
+            1097.5,
+            1132.5
+          ],
+          "previous_token_rejected": null,
+          "inside_preexisting_reference": true,
+          "matches_original_anchor_boxes": true,
+          "supported_on_cached_SegFormer_mask": true,
+          "outside_all_current_detections": true,
+          "mask_sha256": "7d365ac84782697ebad451604d1f23b0781c73045dad48de17aefd410c2ee7e5",
+          "positive_target_score": true,
+          "old_native_outcome_sha256": "cfc74477ee54f5f540bcc7062184f0f64358dc779b38401dff39cbc36ae4a892",
+          "independently_reproduced": true
+        }
+      ],
+      "last_state": "confirmed",
+      "journal_sha256": "9d1696733880f858cefe5fa1e73218233b51db76a6899ca63f3f741bfcee003f"
+    },
+    {
+      "recording": "video_054907",
+      "frame": 1,
+      "original_sha256": "033fc370408c4bc99a1ec9fbb845b6618a5f53b680a235baba336b8fe8ddba80",
+      "user_input": [
+        {
+          "text": "I mean the open road between the white SUV on our left and the large open-sided truck on our right, just behind them.",
+          "status": "proposed",
+          "method": "qwen_landmark_region",
+          "question": null,
+          "point_xy": [
+            1037.5,
+            1282.5
+          ],
+          "disagreement": null,
+          "native_calls": [
+            {
+              "raw_text": "LANDMARK L35",
+              "device": "cuda:0",
+              "generated_tokens": 6,
+              "request_sha256": "8a5952ee46ca76e3ddc1298977116b65f3efd493f20779fbc25fdb86b8bc41b3"
+            },
+            {
+              "raw_text": "L3",
+              "device": "cuda:0",
+              "generated_tokens": 3,
+              "request_sha256": "8871df02634c32bfaa248af01f1904e6cce613ce65910d36f98833024c6ac8cb"
+            },
+            {
+              "raw_text": "LANDMARK L35",
+              "device": "cuda:0",
+              "generated_tokens": 6,
+              "request_sha256": "9c4d4d58622c62e241a15550a81afca60a62f7cc85f3407e86e756daf8eeb95e"
+            }
+          ]
+        }
+      ],
+      "selection": [
+        {
+          "placement": "behind",
+          "selected_track_ids": [
+            1,
+            2
+          ],
+          "selected_original_boxes": [
+            [
+              340.90081787109375,
+              988.8248291015625,
+              660.7312622070312,
+              1190.044921875
+            ],
+            [
+              1526.108154296875,
+              668.238037109375,
+              2190.817626953125,
+              1280.4095458984375
+            ]
+          ],
+          "selection_sha256": "4fc67164690d946d39e4352051e9a7a6f78d4522aa3c1510df43b738fd71122c",
+          "state": "proposed",
+          "selected_by": "passenger_landmarks",
+          "question": null,
+          "point_xy": [
+            1037.5,
+            1292.5
+          ],
+          "previous_token_rejected": true,
+          "inside_preexisting_reference": true,
+          "matches_original_anchor_boxes": true,
+          "supported_on_cached_SegFormer_mask": true,
+          "outside_all_current_detections": true,
+          "mask_sha256": "91ad83cc2cfa37d9c913ab069196c4636c8d21296d45e4e142df1004e0ab8e84",
+          "positive_target_score": true,
+          "old_native_outcome_sha256": "ba9312cbb6493aacd93f7c1dc8186eaa135a502dc1495f65a4fd336b2ae36c99",
+          "independently_reproduced": true
+        }
+      ],
+      "last_state": "confirmed",
+      "journal_sha256": "584dba8bad84e84771fc7535fbf0939812621fb9c466e20f2af0157988b18a70"
+    },
+    {
+      "recording": "video_054604",
+      "frame": 42,
+      "original_sha256": "f32976e9f019f3009c04608a4dd7b3446ffd46d7bc28a04c7d05fab5994b9e94",
+      "user_input": [
+        {
+          "text": "Drop me between these two black cars.",
+          "status": "needs_clarification",
+          "method": "deictic_pair_clarification",
+          "question": "Which two vehicles do you mean? Describe each one or select both on the photo.",
+          "point_xy": null,
+          "disagreement": null,
+          "native_calls": []
+        }
+      ],
+      "selection": [],
+      "last_state": "needs_clarification",
+      "journal_sha256": "0f63a210eecef165133beb4906099d241acdf505670c8c9923c2d087db9370d5"
+    }
+  ]
+}

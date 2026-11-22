@@ -1,0 +1,183 @@
+{
+  "calibration": {
+    "cases": 125,
+    "metrics": {
+      "instruction_conditioned": {
+        "cases": 125,
+        "mask_hits_all": 28,
+        "mean_coarse_iou_all_missing_zero": 0.10480558629619371,
+        "operational_failures": 0,
+        "precision_among_proposals": 0.224,
+        "proposals": 125
+      },
+      "language_blind": {
+        "cases": 125,
+        "mask_hits_all": 20,
+        "mean_coarse_iou_all_missing_zero": 0.07858476917136466,
+        "operational_failures": 0,
+        "precision_among_proposals": 0.16,
+        "proposals": 125
+      },
+      "selected": {
+        "cases": 125,
+        "mask_hits_all": 23,
+        "mean_coarse_iou_all_missing_zero": 0.08833750329943656,
+        "operational_failures": 0,
+        "precision_among_proposals": 0.184,
+        "proposals": 125
+      },
+      "selected_confidence_030": {
+        "cases": 125,
+        "mask_hits_all": 7,
+        "mean_coarse_iou_all_missing_zero": 0.033518444966925486,
+        "operational_failures": 0,
+        "precision_among_proposals": 0.17073170731707318,
+        "proposals": 41
+      }
+    },
+    "report": "Grouped five-fold out-of-sample calibration predictions on the previously used development set.",
+    "selected_heads": {
+      "instruction_conditioned": 85,
+      "language_blind": 40
+    },
+    "source_groups": 65
+  },
+  "design": "Two learned 500-command public spatial heads and a logistic selector fit on separate calibration groups. The matched Qwen comparison uses the actual deployed composite, including its ability to ask or abstain.",
+  "evidence_zip": {
+    "bytes": 46697,
+    "name": "passenger-spatial-confidence-evidence-20261122.zip",
+    "sha256": "f375f741e2af6e58d4176a3eab54833d962623bd8b069dce3808ff6978a3d7cd"
+  },
+  "independent": {
+    "all_initial_outcomes_retained": true,
+    "cases": 12,
+    "groups": 12,
+    "metrics": {
+      "deployed_trained_qwen": {
+        "cases": 12,
+        "mask_hits_all": 3,
+        "mean_coarse_iou_all_missing_zero": 0.09695196895930361,
+        "operational_failures": 0,
+        "precision_among_proposals": 0.75,
+        "proposals": 4
+      },
+      "instruction_conditioned": {
+        "cases": 12,
+        "mask_hits_all": 4,
+        "mean_coarse_iou_all_missing_zero": 0.14984013235497984,
+        "operational_failures": 0,
+        "precision_among_proposals": 0.3333333333333333,
+        "proposals": 12
+      },
+      "language_blind": {
+        "cases": 12,
+        "mask_hits_all": 3,
+        "mean_coarse_iou_all_missing_zero": 0.10923357917867421,
+        "operational_failures": 0,
+        "precision_among_proposals": 0.25,
+        "proposals": 12
+      },
+      "selected": {
+        "cases": 12,
+        "mask_hits_all": 4,
+        "mean_coarse_iou_all_missing_zero": 0.14252263624451955,
+        "operational_failures": 0,
+        "precision_among_proposals": 0.3333333333333333,
+        "proposals": 12
+      },
+      "selected_confidence_030": {
+        "cases": 12,
+        "mask_hits_all": 3,
+        "mean_coarse_iou_all_missing_zero": 0.1056994345159253,
+        "operational_failures": 0,
+        "precision_among_proposals": 0.75,
+        "proposals": 4
+      }
+    },
+    "paired_native_mask_hits_versus_deployed": {
+      "instruction_conditioned": {
+        "both_hit": 2,
+        "neither_hit": 7,
+        "only_dense_hit": 2,
+        "only_deployed_hit": 1
+      },
+      "language_blind": {
+        "both_hit": 2,
+        "neither_hit": 8,
+        "only_dense_hit": 1,
+        "only_deployed_hit": 1
+      },
+      "selected": {
+        "both_hit": 2,
+        "neither_hit": 7,
+        "only_dense_hit": 2,
+        "only_deployed_hit": 1
+      },
+      "selected_confidence_030": {
+        "both_hit": 2,
+        "neither_hit": 8,
+        "only_dense_hit": 1,
+        "only_deployed_hit": 1
+      }
+    },
+    "selected_heads": {
+      "instruction_conditioned": 9,
+      "language_blind": 3
+    },
+    "source_overlap_counts": {
+      "image_sha256": 0,
+      "normalized_command": 0,
+      "scene": 0,
+      "source_index": 0,
+      "source_sample": 0
+    },
+    "two_mask_scorers_agreed_every_dense_and_deployed_row_and_total": true
+  },
+  "kind": "matched_composite_qwen_and_experimental_dense_destination_geometry",
+  "model_checks": {
+    "calibrator_sha256": "1b2e40d2d5087b54c085b88f06e6f96cfc0530e3e1bcd3171533fa70198b1ded",
+    "cold_cpu_prediction_sha256": "04b7be5ce7fc1adc3339bb776433bf33433515fabc203779eeed5a81e5b46e22",
+    "fresh_qwen_outcomes_sha256": "8c8235effa5c8216e5f10600653f40810148b602871e0ed5d0451598c8d972a1",
+    "spatial_weights_archive": {
+      "name": "passenger-spatial-geometry-20261121.zip",
+      "sha256": "90d6ca62688b8b7081dab46b90e4322d735df68f11dbcedb2fc684baf861fcdb"
+    },
+    "verified_cold_reload": {
+      "instruction_conditioned": {
+        "head_weights_sha256": "7300ee2861e4d7a5e140b7b86c983699f93a10086817e7df399e2bca2b53d74e",
+        "max_abs_error": {
+          "destination_box_xyxy": 0.0013113021850585938,
+          "destination_point_xy": 0.0,
+          "eligible_grid_cells": 0,
+          "peak_mass": 1.1665772766678018e-06,
+          "point_road_probability": 0.0
+        },
+        "normal_outcomes_sha256": "163257024fa6775a36096ddc64c69859c8b8a70a97c5ff6a7ca607cdff5ea895",
+        "rows": 12
+      },
+      "language_blind": {
+        "head_weights_sha256": "fda5f770317b146027a10a5c9beed6c7ebe0dbe8835826d9c59e90e9d7b44fd3",
+        "max_abs_error": {
+          "destination_box_xyxy": 0.004112720489501953,
+          "destination_point_xy": 0.0,
+          "eligible_grid_cells": 0,
+          "peak_mass": 2.8948949423440035e-06,
+          "point_road_probability": 0.0
+        },
+        "normal_outcomes_sha256": "85520f5bbe20fc8a5d180b8ec40a190c9d8e2956c5945e9bb91ad6d18e339e4a",
+        "rows": 12
+      }
+    },
+    "weights": {
+      "instruction_conditioned": "7300ee2861e4d7a5e140b7b86c983699f93a10086817e7df399e2bca2b53d74e",
+      "language_blind": "fda5f770317b146027a10a5c9beed6c7ebe0dbe8835826d9c59e90e9d7b44fd3"
+    }
+  },
+  "needs_confirmation_when_used_by_a_passenger": true,
+  "protocol_sha256": "e8e2795df9e92be772a96a61cb3f096f994c6ff4e65529342e13019641dfd6aa",
+  "reference_role": "Original participant destination masks on previously unused scenes from the public Talk2Car-RegSeg training source. No semantic or human-confirmation labels. Prior Qwen or SegFormer pretraining exposure is unknown.",
+  "requests_sha256": "e53f6dc152dbe81f4f692581e78ea3107fdd3ecc6dae9c4b92a58d59b85cc388",
+  "scope": "The dense heads return experimental original-pixel geometry. They do not decide ambiguity, detect unsafe stopping or replace the chosen application release. Twelve scenes give a small out-of-sample diagnostic.",
+  "source_reference_sha256": "3d997d3d0f4a801fb6edfa8ef18fea28006fc5793e3b42b10052584e5eab2c67",
+  "zero_detectors": true
+}

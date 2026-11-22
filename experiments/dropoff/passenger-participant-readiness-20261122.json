@@ -1,0 +1,68 @@
+{
+  "kind": "independent_participant_intention_and_reply_collection_readiness",
+  "created_utc": "2026-11-22T05:11:00.978527+00:00",
+  "input_only_bank_sha256": "e6006e632dd75c7d08866f860ee6fa4c6d806f519c1569aba683cb58aa96a0ef",
+  "displayed_input_metadata_sha256": "971af7ddf56ee695204b84cfb254e0d4ccb05d62a6376cfda5833fa106e9f105",
+  "html_sha256": "fcf27219cd257c442f06757ca20a5fe2f65f42270691dcd054957c8cb092e744",
+  "private_archive_sha256": "8e4ce3b1cb5b16f9503268c1eec65c728c066d320b26aaf813eb656c4e807174",
+  "private_archive_bytes": 48358556,
+  "copied_archive_extracted_and_reverified": true,
+  "originals": 44,
+  "reserved_recordings": 5,
+  "pictures_or_individual_passenger_responses_in_this_receipt": false,
+  "target_labels_opened": false,
+  "model_outputs_shown": false,
+  "detector_tracks_shown": false,
+  "participant_intentions_confirm_task2_detector_context": false,
+  "real_status": {
+    "participants": 0,
+    "completed_cases": 0,
+    "cases_awaiting_participant": 44,
+    "registered_replies": 0,
+    "drawn_pngs": 0,
+    "intended_rows": 0,
+    "designated_unresolved_ids_received": false,
+    "approved_task2_references": 0
+  },
+  "private_zero_return_receipt_sha256": "e607fc8e6f2fae7d205cd75e739fbe3ed552d738bea62d635aa0b81824b823ab",
+  "real_browser": {
+    "kind": "real_browser_read_only_production_form_and_synthetic_intake_controls",
+    "production_cases_opened": 44,
+    "original_production_photos_loaded_at_full_source_dimensions": 44,
+    "production_case_saves": 0,
+    "production_browser_exports": 0,
+    "production_participant_attributions": 0,
+    "software_fixture_cases_saved": 2,
+    "software_fixture_vertices_in_drawn_region": 6,
+    "software_fixture_missing_landmark_selected": true,
+    "previous_progress_reopened_in_same_browser": true,
+    "signed_partial_reopened_in_fresh_browser": true,
+    "software_fixture_export_sha256": "1e2fc559f215d8660cfb9c2bbf3c80eb007ed336c8fbd3368b8cc20ce4f86e2a",
+    "invalid_source_geometry_time_and_attestation_imports_rejected": 4,
+    "form_sha256": "fcf27219cd257c442f06757ca20a5fe2f65f42270691dcd054957c8cb092e744",
+    "outside_network_requests": [],
+    "page_errors": [],
+    "checked_utc": "2026-11-22T05:09:43.187Z"
+  },
+  "scoring_contract_fixture_only": {
+    "genuine_human_cases": 0,
+    "registered_replies": 4,
+    "drawn_mask_count": 1,
+    "drawn_region_vertices": 6,
+    "confirmed_participant_point_inside_fixture_mask": true,
+    "with_explicit_ids": {
+      "ambiguous": 1,
+      "missing_reference": 1
+    },
+    "without_explicit_ids": {
+      "intended_file_written": false,
+      "task2_candidate_regions": 1,
+      "approved_task2_references": 0
+    },
+    "browser_export_sha256": "1e2fc559f215d8660cfb9c2bbf3c80eb007ed336c8fbd3368b8cc20ce4f86e2a",
+    "software_intake_receipt_sha256": "34eec866a6adcdcdf537ee10aec56a92fe1ed978d72b6efde8de9374ebd3a842"
+  },
+  "unit_checks": {
+    "collector_contract_passed": 15
+  }
+}

@@ -1,0 +1,75 @@
+{
+  "schema_version": 1,
+  "kind": "pre_prediction_blind_emt_night_diagnostic",
+  "frozen_utc": "2026-11-21T18:19:04.764331+00:00",
+  "use": "One-time development diagnostic on a separate, nonadjacent recording. No outputs or model code were used to author targets. Release inputs only after inference settings freeze. Never use these rows for training or tuning during this comparison.",
+  "authored_by": "AI original-frame visual annotator",
+  "reviewed_by_humans": 0,
+  "real_passenger_intents": false,
+  "final_evaluation": false,
+  "recording_id": "video_174340",
+  "source_split": "EMT official train archive; Task 2 and Task 1 development recording",
+  "frame_hash_commit": "709e969260866a5476d8c199609c59de580589f7",
+  "prediction_run_hash_commit": "709e969260866a5476d8c199609c59de580589f7",
+  "dataset_revision": "4418cec01b03c6f797cadb06c9405843a30988e2",
+  "official_archive": "train_images.tar.gz",
+  "official_archive_size_bytes": 21848135924,
+  "original_frame_manifest": "experiments/vision/emt_frame_sha256_manifest.json",
+  "shared_prediction_manifest": "experiments/vision/shared_prediction_runs.json",
+  "saved_vision_kind": "replay",
+  "vision_config": "configs/vision/finetuned.json",
+  "acquisition": "Bounded compressed slices from the public training archive, TAR header checksums, full JPEG bytes verified against the published Task 1 frame SHA-256.",
+  "selected_frame_source_offsets": {
+    "1": 15677500000,
+    "327": 15920000000,
+    "533": 16060000000,
+    "863": 16300000000,
+    "1169": 16520000000,
+    "1429": 16710000000
+  },
+  "geometry": "2560x1440 original pixels. Hand-specified coarse plausible visible surface rectangles. No pixel mask, clearance, legality or claim of physical stop feasibility.",
+  "metrics": "Retain every requested ID, missing/error/invalid/stale scene as failures. Exact status counts and confusion matrix, proposal coverage/wrong proposals, point in original author rectangle and normalized point error on paired finite outputs, rectangle IoU, fixed same-image contrast cases and clarification response. Include bright/dark and relative-side observations only as qualitative diagnostics.",
+  "two_landmark_cases": [
+    "passenger-c15"
+  ],
+  "initial_unresolved_pairs": [
+    [
+      "passenger-c06",
+      "passenger-c07"
+    ]
+  ],
+  "same_frame_distinct_pairs": [
+    [
+      "passenger-c01",
+      "passenger-c02"
+    ],
+    [
+      "passenger-c04",
+      "passenger-c05"
+    ],
+    [
+      "passenger-c09",
+      "passenger-c10"
+    ],
+    [
+      "passenger-c13",
+      "passenger-c14"
+    ]
+  ],
+  "counts": {
+    "requests": 20,
+    "statuses": {
+      "proposed": 12,
+      "needs_clarification": 4,
+      "insufficient_visual_evidence": 4
+    },
+    "frames": 6
+  },
+  "files": {
+    "instructions.jsonl": "c4fb939e609861a0be835b6c0f521a2e5b11b6bf597ac2a9256c2c5cd95922af",
+    "references.jsonl": "3b3fed7379f8f3b7cf3b712fed0270f213300443a553d96dd863d64d57cb3072",
+    "requests.jsonl": "a58a9656a4ce0ded1bce610716787ec37af7d1f95600f2bc51bd9733782f84bd",
+    "frames.jsonl": "ae7730538118d1646794e9b5b60bda7f4d0d53434bdc2d8b2963a914746e076e",
+    "second-blind-packet.jsonl": "588ed716449cd8e55867b5d2b277b55736d556c0cfb8e38682c01b3d8c5117de"
+  }
+}

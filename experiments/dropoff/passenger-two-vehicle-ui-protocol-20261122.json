@@ -1,0 +1,24 @@
+{
+  "purpose": "Prospective evaluation of actual passenger-chosen landmarks in the original-photo browser. The native model outcomes below were already observed before the interaction was designed. No assisted algorithm was run before this record.",
+  "operator": "Scripted, using previously registered AI-authored intentions. Zero people, no official final cases.",
+  "scene_781": {
+    "recording": "video_054907", "frame": 781,
+    "image_sha256": "c411cf6760695905334f32e5590083cf144543df1ca98e68aae55fb345eb583e",
+    "registered_reference_sha256": "bbdd0b98496ef72062a286ecc100ef3ffc7eb06c1ab595ead840b4a766b7aa0c",
+    "native_event_sha256": ["ffb45389310261c355081e5177014798f8f90d2f7f533d0c71066e22c46f3c33","f1344ac5d93ae6d359faa48bf4eb2671f930b49f5fdb211f405314cc3d77f9bb"],
+    "operator_anchors": [61108,59268],
+    "actions": ["Replay actual short then detailed commands, retaining the original incorrect automatic proposal.", "Choose the left small sedan beside the median and adjacent small sedan to its right on the photograph. Select between. The cars overlap in projection. Record whether the app can propose or asks for another choice.", "Explicitly select the same two landmarks and just behind. Test that any earlier proposal token is stale. Confirm only if the proposed point passes the independent checks below; otherwise cancel or leave unresolved."],
+    "positive_target": "Behind. Both original selected boxes must match the old reference at IoU >= 0.5. The road point must be inside the frozen polygon from the original two-black-cars protocol and outside all 23 current saved road-user boxes. Withholding or a wrong point earns zero spatial credit."
+  },
+  "scene_1": {
+    "recording": "video_054907", "frame": 1,
+    "image_sha256": "033fc370408c4bc99a1ec9fbb845b6618a5f53b680a235baba336b8fe8ddba80",
+    "registered_reference_sha256": "540c775a7e02f9662f972f331912eef542d49b9cec88ac86cfb588e6b492a6b5",
+    "native_batch_outcome_line_sha256": "9abc93f8f35e45e2bbc79e2ccfe0f5a841d877c03bd06c44fc4f57ede085068f",
+    "operator_anchors": [1,2],
+    "actions": ["Replay the previous true typed pair-visible submission through the webpage.", "Use the matching numbered dropdowns to identify the white SUV on the left and open-sided truck on the right. Choose just behind. Confirm only if the independent road and reference checks pass, otherwise cancel or leave unresolved."],
+    "positive_target": "Both exact saved track IDs and original boxes. Dot inside the previously registered open road rectangle [748,1165,1515,1330] and outside all current saved road-user boxes."
+  },
+  "shared_checks": ["Freeze semantic scoring before observing either assisted output. Never feed the expected road point, reference polygon, correctness label or prototype rank to application inference.", "Verify actual current original bytes and every native saved model request before replay. Clearly distinguish the model's previous proposal, the operator's two selected anchors, and the independently computed new region.", "Source-check selected boxes against actual saved Task 1 observations in that image, and dot against the actual cached SegFormer mask. Require explicit choice, separate explicit confirmation and a matching current proposal token. Retain failures and earlier raw attempts.", "Keep unlabeled photos and local screenshots outside version control, publish no human voice. Both photos belong to one recording and are nonfinal."],
+  "manual_region_baseline_sha256": "88a5442265b551202111ed3ef0e62d8fd773ce0db001a1a54ec49bf22fdc978d"
+}

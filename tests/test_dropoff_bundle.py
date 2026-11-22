@@ -14,8 +14,8 @@ import zipfile
 import pytest
 
 from tools.dropoff_bundle import (
-    BundleError, MANIFEST, REQUIRED_SOURCE, _regular_bytes,
-    bundle_artifacts, bundle_source, verify_bundle,
+    BundleError, MANIFEST, REQUIRED_SOURCE, TEST_SUPPORT_NOTEBOOK, _regular_bytes,
+    bundle_artifacts, bundle_source, source_allowed, verify_bundle,
 )
 
 
@@ -88,6 +88,81 @@ def test_optional_docs_and_tests_are_explicit(tmp_path):
     with zipfile.ZipFile(output) as archive:
         assert "docs/dropoff-cloud-quickstart.md" in archive.namelist()
         assert "tests/test_dropoff_model.py" in archive.namelist()
+
+
+def support_notebook():
+    return {"nbformat":4,"nbformat_minor":5,"metadata":{},"cells":[{
+        "id":"generated-test-support","cell_type":"code","metadata":{},
+        "source":["value = 1\n"],"execution_count":None,"outputs":[]}]}
+
+
+def test_exact_unexecuted_notebook_is_optional_test_support_only(tmp_path):
+    root=source_fixture(tmp_path);path=root/TEST_SUPPORT_NOTEBOOK
+    path.parent.mkdir();path.write_text(json.dumps(support_notebook()),encoding='utf-8')
+    (path.parent/'unrelated-notebook.ipynb').write_text('not exported')
+    without=tmp_path/'without-tests.zip';with_tests=tmp_path/'with-tests.zip'
+    bundle_source(root,without)
+    with zipfile.ZipFile(without) as archive:assert TEST_SUPPORT_NOTEBOOK not in archive.namelist()
+    bundle_source(root,with_tests,include_tests=True)
+    with zipfile.ZipFile(with_tests) as archive:
+        assert archive.read(TEST_SUPPORT_NOTEBOOK)==path.read_bytes()
+        assert 'notebooks/unrelated-notebook.ipynb' not in archive.namelist()
+    assert source_allowed(TEST_SUPPORT_NOTEBOOK)
+    assert not source_allowed('notebooks/unrelated-notebook.ipynb')
+    extracted=tmp_path/'with-test-support'
+    cloud_validator()(with_tests.read_bytes(),extracted)
+    assert (extracted/TEST_SUPPORT_NOTEBOOK).read_bytes()==path.read_bytes()
+
+
+@pytest.mark.parametrize('mutation',['output','execution_count','invalid_json','invalid_shape','invalid_python'])
+def test_notebook_export_rejects_saved_execution_or_invalid_content(tmp_path,mutation):
+    root=source_fixture(tmp_path);path=root/TEST_SUPPORT_NOTEBOOK
+    path.parent.mkdir();value=support_notebook()
+    if mutation=='output':value['cells'][0]['outputs']=[{'output_type':'stream','name':'stdout','text':['saved runtime output']}]
+    elif mutation=='execution_count':value['cells'][0]['execution_count']=1
+    elif mutation=='invalid_shape':value['cells']='invalid cells'
+    elif mutation=='invalid_python':value['cells'][0]['source']=['def broken(\n']
+    path.write_text('not JSON' if mutation=='invalid_json' else json.dumps(value),encoding='utf-8')
+    output=tmp_path/'must-not-export.zip'
+    with pytest.raises(BundleError,match='notebook'):
+        bundle_source(root,output,include_tests=True)
+    assert not output.exists()
+
+
+def test_rehashed_executed_notebook_fails_verification_before_extraction(tmp_path):
+    root=source_fixture(tmp_path);path=root/TEST_SUPPORT_NOTEBOOK
+    path.parent.mkdir();path.write_text(json.dumps(support_notebook()),encoding='utf-8')
+    archive=tmp_path/'source.zip';bundle_source(root,archive,include_tests=True)
+    bad=support_notebook();bad['cells'][0]['execution_count']=7
+    content=json.dumps(bad).encode()
+    with zipfile.ZipFile(archive) as source:manifest=json.loads(source.read(MANIFEST))
+    manifest['files'][TEST_SUPPORT_NOTEBOOK]={'bytes':len(content),'sha256':hashlib.sha256(content).hexdigest()}
+    payload=rewritten_zip(archive,replace={TEST_SUPPORT_NOTEBOOK:content,MANIFEST:json.dumps(manifest).encode()})
+    tampered=tmp_path/'executed-source.zip';tampered.write_bytes(payload)
+    with pytest.raises(BundleError,match='notebook'):verify_bundle(tampered)
+    destination=tmp_path/'must-not-extract'
+    with pytest.raises(ValueError,match='notebook'):cloud_validator()(payload,destination)
+    assert not destination.exists()
+
+
+def test_local_source_requirements_are_packaged_without_environment_files(tmp_path):
+    root=source_fixture(tmp_path)
+    (root/'requirements-grounding-local.txt').write_bytes(b'torch==2.6.0\n')
+    (root/'requirements-grounding-format.txt').write_bytes(b'interegular==0.3.3\n')
+    protocol=root/'experiments/dropoff/public-contrast-protocol-20261121.json'
+    protocol.parent.mkdir(parents=True)
+    protocol.write_bytes(b'{"kind":"fixture_protocol"}\n')
+    output=tmp_path/'local-source.zip'
+    bundle_source(root,output)
+    with zipfile.ZipFile(output) as archive:
+        assert archive.read('requirements-grounding-local.txt')==b'torch==2.6.0\n'
+        assert archive.read('requirements-grounding-format.txt')==b'interegular==0.3.3\n'
+        assert archive.read(protocol.relative_to(root).as_posix())==protocol.read_bytes()
+        assert not any(name.startswith('models/') or name.startswith('.venv') for name in archive.namelist())
+    extracted=tmp_path/'validated-source'
+    cloud_validator()(output.read_bytes(),extracted)
+    assert (extracted/protocol.relative_to(root)).read_bytes()==protocol.read_bytes()
+    assert (extracted/'requirements-grounding-format.txt').read_bytes()==b'interegular==0.3.3\n'
 
 
 def test_minimal_training_bundle_excludes_full_emt_checkout_entrypoint(tmp_path):
@@ -257,6 +332,26 @@ def test_artifact_bundle_preserves_bound_adapter_and_probe_excludes_base_cache(t
         assert "probe-image.jpg" in names
         assert "adapter/adapter_model.safetensors" in names
         assert not names & {".env", "model.safetensors", "cache/base.bin", "checkpoints/optimizer.pt", "adapter/private.txt"}
+
+
+def test_public_destination_handoff_is_distinct_from_full_adaptation(tmp_path):
+    root=artifact_fixture(tmp_path)
+    for name in ['training_config.json','training_result.json','adapter/grounding_adapter_manifest.json']:
+        path=root/name;value=json.loads(path.read_text());value['run_kind']='public_destination'
+        write_json(path,value)
+    write_json(root/'completion.json',{'status':'public_destination_completed'})
+    evidence=root/'evaluation/trained.jsonl';evidence.parent.mkdir()
+    evidence.write_bytes(b'{"case_id":"fixture","ok":false}\n')
+    refresh_artifact_hashes(root)
+    output=tmp_path/'public-destination.zip'
+    assert bundle_artifacts(root,output)['bundle_kind']=='adapter'
+    with zipfile.ZipFile(output) as archive:
+        assert json.loads(archive.read('completion.json'))['status']=='public_destination_completed'
+        assert json.loads(archive.read('adapter/grounding_adapter_manifest.json'))['run_kind']=='public_destination'
+        assert archive.read('evaluation/trained.jsonl')==evidence.read_bytes()
+    write_json(root/'completion.json',{'status':'adaptation_completed'})
+    with pytest.raises(BundleError,match='fresh-reload'):
+        bundle_artifacts(root,tmp_path/'mislabelled.zip')
 
 
 @pytest.mark.parametrize("mutation", ("adapter", "probe", "reload", "training_record"))

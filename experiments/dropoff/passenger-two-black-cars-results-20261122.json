@@ -1,0 +1,115 @@
+{
+  "kind": "original_passenger_example_real_local_Qwen",
+  "protocol_sha256": "bbdd0b98496ef72062a286ecc100ef3ffc7eb06c1ab595ead840b4a766b7aa0c",
+  "released_adapter_sha256": "76bfb3230b17a86248b52ca6a9f8d2ffca324aa80216d6b93845ccb12ad86743",
+  "human_reference_authors": 0,
+  "formal_final_cases": 0,
+  "passenger_submissions": 3,
+  "completed_8B_calls_with_raw_receipts": 0,
+  "failed_pair_subqueries_with_receipts": 0,
+  "scoring_scope": "Two nonfinal photos with an AI-authored intent. A passenger never confirmed any point in this diagnostic.",
+  "records": [
+    {
+      "case_id": "car-pair-without-pointing",
+      "scene_index": 0,
+      "recorded_action": "submitted",
+      "source_image_sha256": "c411cf6760695905334f32e5590083cf144543df1ca98e68aae55fb345eb583e",
+      "original_full_journal_event_sha256": "de5a85465b3044a927249cec0455b1242eaf9bf7e5460bb6710ae75f260e69be",
+      "request_sha256": null,
+      "active_previous_turns": 0,
+      "elapsed_s": 120.11000000001513,
+      "ok": false,
+      "displayed_state": "error",
+      "completed_8B_receipts": 0,
+      "failed_pair_subqueries_recorded": 0,
+      "literal_pair_subqueries": [],
+      "error": {
+        "code": "resource_unavailable",
+        "message": "Local model worker exited natively (exit code 1)"
+      },
+      "result": {},
+      "raw_first_decision": null,
+      "constraint": null,
+      "selected_track_ids": null,
+      "pair_resolution": null,
+      "selection_source": null,
+      "proposal_sent_for_confirmation": false,
+      "confirmed": false,
+      "scoring": {
+        "both_boxes_minimum_iou": 0.0,
+        "point_in_registered_region": false,
+        "pair_specific_question_text_present": false,
+        "spatial_credit": false,
+        "expected_behavior": false
+      }
+    },
+    {
+      "case_id": "two-sedans-by-left-median",
+      "scene_index": 0,
+      "recorded_action": "submitted",
+      "source_image_sha256": "c411cf6760695905334f32e5590083cf144543df1ca98e68aae55fb345eb583e",
+      "original_full_journal_event_sha256": "262cc457bb635accc4696f4ef8505b17b75a2cfb94ae9753e1270b304c8288be",
+      "request_sha256": null,
+      "active_previous_turns": 1,
+      "elapsed_s": 120.06200000000536,
+      "ok": false,
+      "displayed_state": "error",
+      "completed_8B_receipts": 0,
+      "failed_pair_subqueries_recorded": 0,
+      "literal_pair_subqueries": [],
+      "error": {
+        "code": "resource_unavailable",
+        "message": "Local model worker exited natively (exit code 1)"
+      },
+      "result": {},
+      "raw_first_decision": null,
+      "constraint": null,
+      "selected_track_ids": null,
+      "pair_resolution": null,
+      "selection_source": null,
+      "proposal_sent_for_confirmation": false,
+      "confirmed": false,
+      "scoring": {
+        "both_boxes_minimum_iou": 0.0,
+        "point_in_registered_region": false,
+        "pair_specific_question_text_present": false,
+        "spatial_credit": false,
+        "expected_behavior": false
+      }
+    },
+    {
+      "case_id": "same-words-no-identifiable-pair",
+      "scene_index": 1,
+      "recorded_action": "submitted",
+      "source_image_sha256": "f32976e9f019f3009c04608a4dd7b3446ffd46d7bc28a04c7d05fab5994b9e94",
+      "original_full_journal_event_sha256": "21bfe55c1205b2b6e8e43bfbb91e73230be93e4d4d403a2beffdad943044bc58",
+      "request_sha256": null,
+      "active_previous_turns": 0,
+      "elapsed_s": 120.04699999999139,
+      "ok": false,
+      "displayed_state": "error",
+      "completed_8B_receipts": 0,
+      "failed_pair_subqueries_recorded": 0,
+      "literal_pair_subqueries": [],
+      "error": {
+        "code": "resource_unavailable",
+        "message": "Local model worker exited natively (exit code 1)"
+      },
+      "result": {},
+      "raw_first_decision": null,
+      "constraint": null,
+      "selected_track_ids": null,
+      "pair_resolution": null,
+      "selection_source": null,
+      "proposal_sent_for_confirmation": false,
+      "confirmed": false,
+      "scoring": {
+        "both_boxes_minimum_iou": null,
+        "point_in_registered_region": null,
+        "pair_specific_question_text_present": false,
+        "spatial_credit": false,
+        "expected_behavior": false
+      }
+    }
+  ]
+}

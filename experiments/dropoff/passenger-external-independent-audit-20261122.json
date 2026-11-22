@@ -1,0 +1,118 @@
+{
+  "all_four_outcome_files_sealed_and_verified_before_reference_read": true,
+  "audit_sha256": "18c1f035d33f6b3de51a550373915e518cfac6a19e4292db20bfef4732feba50",
+  "conditions": {
+    "pretrained-night": {
+      "counts": {
+        "initial_instruction": 18,
+        "original_road_and_current_exclusions_verified": 11,
+        "prior_dialogue": 2,
+        "ranker_consulted": 13,
+        "ranker_requested_clarification": 2,
+        "verified_pair_subqueries": 2
+      },
+      "metrics": {
+        "clear": 12,
+        "false_proposals_on_unresolved": 1,
+        "mean_coarse_iou_all_clear_missing_zero": 0.1397618917417705,
+        "operational_failures": 0,
+        "proposals": 11,
+        "reference_role": "AI-authored semantic and coarse spatial reference, zero human reviews",
+        "rows": 20,
+        "status_matches": 15,
+        "strict_hits_all_clear": 5,
+        "unresolved": 8,
+        "within_5pct_all_clear": 7
+      },
+      "outcomes_sha256": "dede36e2c801fd34723faa2f5d8ad99d8c78392a31618ffd69c42bf759f6c36e",
+      "primary_scorer_cross_check": {
+        "all_per_case_geometry_and_predeclared_totals_agree": true,
+        "case_count": 20
+      },
+      "requests_sha256": "a58a9656a4ce0ded1bce610716787ec37af7d1f95600f2bc51bd9733782f84bd"
+    },
+    "pretrained-public": {
+      "counts": {
+        "initial_instruction": 16,
+        "operational_errors": 1,
+        "original_road_and_current_exclusions_verified": 8,
+        "ranker_consulted": 8
+      },
+      "metrics": {
+        "mask_hits_all": 3,
+        "mean_coarse_iou_all_missing_zero": 0.06258985548536405,
+        "operational_failures": 1,
+        "proposals": 8,
+        "reference_role": "Original participant region mask; no semantic or confirmation labels",
+        "rows": 16
+      },
+      "outcomes_sha256": "7dace5f2c248eb5de92a4cdd27c847f243ccc3aed7229c948ca0fa23f9d90c2f",
+      "primary_scorer_cross_check": {
+        "all_per_case_geometry_and_predeclared_totals_agree": true,
+        "case_count": 16
+      },
+      "requests_sha256": "e73ba6408263869b68c9ea377f6fa161f54c5e09d052d8583afd5cb7d5fb1ddf"
+    },
+    "trained-night": {
+      "counts": {
+        "initial_instruction": 18,
+        "original_road_and_current_exclusions_verified": 11,
+        "prior_dialogue": 2,
+        "ranker_consulted": 13,
+        "ranker_requested_clarification": 2,
+        "verified_pair_subqueries": 2
+      },
+      "metrics": {
+        "clear": 12,
+        "false_proposals_on_unresolved": 1,
+        "mean_coarse_iou_all_clear_missing_zero": 0.1626490462553763,
+        "operational_failures": 0,
+        "proposals": 11,
+        "reference_role": "AI-authored semantic and coarse spatial reference, zero human reviews",
+        "rows": 20,
+        "status_matches": 15,
+        "strict_hits_all_clear": 7,
+        "unresolved": 8,
+        "within_5pct_all_clear": 8
+      },
+      "outcomes_sha256": "25b75c871a9efe773e1c29e9dfc45539b4bc708ed2e9891d69cda8e478772dba",
+      "primary_scorer_cross_check": {
+        "all_per_case_geometry_and_predeclared_totals_agree": true,
+        "case_count": 20
+      },
+      "requests_sha256": "a58a9656a4ce0ded1bce610716787ec37af7d1f95600f2bc51bd9733782f84bd"
+    },
+    "trained-public": {
+      "counts": {
+        "initial_instruction": 16,
+        "original_road_and_current_exclusions_verified": 8,
+        "ranker_consulted": 8
+      },
+      "metrics": {
+        "mask_hits_all": 1,
+        "mean_coarse_iou_all_missing_zero": 0.07394247025002751,
+        "operational_failures": 0,
+        "proposals": 8,
+        "reference_role": "Original participant region mask; no semantic or confirmation labels",
+        "rows": 16
+      },
+      "outcomes_sha256": "aac8d6747731d5311eeef3062cb396f04976cd5c641a87fb91371aae6c50a217",
+      "primary_scorer_cross_check": {
+        "all_per_case_geometry_and_predeclared_totals_agree": true,
+        "case_count": 16
+      },
+      "requests_sha256": "e73ba6408263869b68c9ea377f6fa161f54c5e09d052d8583afd5cb7d5fb1ddf"
+    }
+  },
+  "design": {
+    "conditions": "Matched 8B pretrained and public LoRA selectors with the same geometry, road support and clarification policy.",
+    "missing_destinations": "Zero credit on the full geometry denominator. Operational errors are retained.",
+    "night": "Twenty instructions on six original frames from one independently held-out EMT recording. Semantic status and coarse spatial labels were authored and checked by AI. Zero human reviews.",
+    "public": "Sixteen original Talk2Car-RegSeg participant region masks from sixteen separately selected, previously unused scenes. Passenger requests have no detector tracks. No status or confirmation labels.",
+    "scope": "A proposed area always requires passenger confirmation. Road support is a model prediction. No driving safety or human acceptance was measured."
+  },
+  "inference_completed_utc": "2026-11-22T04:07:57.170208+00:00",
+  "kind": "independent_frozen_passenger_evaluation",
+  "release_protocol_sha256": "6e19b7bac7512b6e113c546f2a71970fecc66799003534b31c1411e6fc2f82b0",
+  "runtime_freeze_sha256": "adc43bb643fd6abcaf28248ed35dae4a045fb7e9ec9488ea94728b19fff796e2"
+}

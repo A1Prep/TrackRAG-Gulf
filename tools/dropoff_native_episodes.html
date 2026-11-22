@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; img-src data:; script-src 'unsafe-inline'; style-src 'unsafe-inline'; connect-src 'none'; base-uri 'none'; form-action 'none'">
+<title>Passenger review of the model’s response</title>
+<style>
+body{font:17px/1.45 system-ui,sans-serif;color:#202722;background:#f3f4ef;margin:0}main{max-width:900px;margin:auto;padding:22px}section{background:white;padding:1rem;margin:1rem 0;border:1px solid #c5cec5;border-radius:6px}h1{font-size:1.55rem;margin:0 0 .6rem}h2{font-size:1.15rem}button,input,select{font:inherit;padding:.45rem}button{cursor:pointer}label{display:block;margin:.65em 0}.frame{position:relative;line-height:0}.frame img{width:100%;height:auto}.frame svg{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}#reply-options li{margin:.45rem 0}.muted{color:#46564b}.alert{color:#9b300e}#notice{min-height:1.4em}pre{white-space:pre-wrap;font:inherit}[hidden]{display:none!important}
+</style></head><body><main>
+<h1>Passenger review of the model’s response</h1>
+<p>Use the instruction and photograph to decide whether this is the location you intended. Your choice is saved only when you download your return. Keep this page open until then.</p>
+<section><label>Assigned participant code <input id="person" maxlength="80" autocomplete="off"></label><button id="start">Open my cases</button><div id="setup" role="status"></div></section>
+<section id="workspace" hidden><h2>Study instructions</h2><p id="rules"></p><label>Case <select id="cases"></select></label><p id="dialogue"></p><p><strong id="text"></strong></p>
+<div class="frame"><img id="photo" alt="Original road scene"><svg id="overlay" aria-hidden="true"></svg></div><p id="response"></p><p id="proposal"></p>
+<label>Your decision <select id="select"><option value="">Choose after reviewing the image</option></select></label><p id="reply-description"></p>
+<button id="save">Save this decision</button><p id="notice" role="status"></p><hr><p id="count"></p>
+<label><input id="consent" type="checkbox"> <span id="declaration"></span></label><button id="export" disabled>Download my reviewed decisions</button></section>
+<script type="application/json" id="data">{{REVIEW_DATA}}</script><script>
+'use strict';
+const data=JSON.parse(document.getElementById('data').textContent);
+const el=id=>document.getElementById(id), saved=new Map(), svgNS='http://www.w3.org/2000/svg';
+let person='', cases=[], current=null, imageReady=false, changed=false;
+const option=(select,value,label)=>{const o=document.createElement('option');o.value=value;o.textContent=label;select.append(o);};
+const line=(name,attrs)=>{const e=document.createElementNS(svgNS,name);for(const [key,val] of Object.entries(attrs))e.setAttribute(key,val);el('overlay').append(e);};
+function state(){el('count').textContent=saved.size+' of '+cases.length+' assigned decisions saved.';el('export').disabled=!saved.size||!el('consent').checked||changed;}
+function show(i){
+ if(changed&&!window.confirm('Discard your unsaved choice for this case?')){el('cases').value=String(cases.indexOf(current));return;}
+ current=cases[i];changed=false;imageReady=false;el('save').disabled=true;el('cases').value=String(i);
+ const row=current, result=row.result;el('text').textContent=row.text;
+ el('dialogue').textContent=row.dialogue.map(x=>(x.role==='user'?'Passenger — ':'Assistant — ')+x.text).join('\n');
+ el('overlay').replaceChildren();el('overlay').setAttribute('viewBox',`0 0 ${row.width} ${row.height}`);
+ const image=el('photo');image.onload=async()=>{if(current!==row)return;
+  try{const bytes=Uint8Array.from(atob(row.image.split(',')[1]),c=>c.charCodeAt(0));
+   const hashed=Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256',bytes)),v=>v.toString(16).padStart(2,'0')).join('');
+   if(current!==row)return;imageReady=hashed===row.image_sha256&&image.naturalWidth===row.width&&image.naturalHeight===row.height;
+  }catch{if(current!==row)return;imageReady=false;}
+  el('save').disabled=!imageReady;if(!imageReady)el('notice').textContent='The original image could not be verified. Contact the evaluator.';};
+ image.onerror=()=>{imageReady=false;el('save').disabled=true;el('notice').textContent='The original image could not be loaded.';};image.src=row.image;
+ if(row.proposal_id){const [x1,y1,x2,y2]=result.box,[x,y]=result.point;
+  line('rect',{x:x1,y:y1,width:x2-x1,height:y2-y1,fill:'#f8e250','fill-opacity':'.18',stroke:'#ffdc34','stroke-width':4});
+  line('circle',{cx:x,cy:y,r:10,fill:'#fff',stroke:'#122d22','stroke-width':4});}
+ el('response').textContent=row.status==='proposed'?'The yellow box and white point show the proposed area.':row.status==='needs_clarification'?result.clarification:'The model reported insufficient visible evidence.';
+ el('proposal').textContent=row.proposal_id?'Proposal '+row.proposal_id.slice(9,21):'';el('reply-description').textContent='';
+ const s=el('select');s.replaceChildren();option(s,'','Choose after reviewing the image');
+ if(row.proposal_id)option(s,'confirm','Confirm this displayed proposal');
+ row.reply_options.forEach((reply,n)=>option(s,'r'+n,(row.proposal_id?'Reject and reply — ':'Reply — ')+reply.text));
+ option(s,'finish','End this case without confirming a proposal');
+ const prior=saved.get(row.case_id);
+ if(prior){s.value=prior.action==='reply'?'r'+row.reply_options.findIndex(x=>x.reply_id===prior.reply_id):prior.action;}
+ el('notice').textContent=prior?'Your saved decision is open.':'';state();
+}
+el('start').onclick=()=>{const id=el('person').value.trim(), mine=data.rows.filter(r=>r.participant===id);
+ if(!id||!mine.length){el('setup').textContent='No assigned cases for this code in this round.';return;}
+ person=id;cases=mine;el('person').readOnly=true;el('start').disabled=true;el('workspace').hidden=false;el('rules').textContent=data.rules;
+ el('declaration').textContent=data.attestation;
+ mine.forEach((r,i)=>option(el('cases'),String(i),r.case_id));show(0);};
+el('cases').onchange=()=>show(Number(el('cases').value));
+el('select').onchange=()=>{changed=true;el('consent').checked=false;el('notice').textContent='';state();};
+el('save').onclick=()=>{const value=el('select').value;if(!current||!imageReady||!value)return;
+ const isReply=/^r\d+$/.test(value), reply=isReply?current.reply_options[Number(value.slice(1))]:null;
+ if((isReply&&!reply)||(value==='confirm'&&!current.proposal_id))return;
+ saved.set(current.case_id,{case_id:current.case_id,turn_id:current.turn_id,proposal_id:current.proposal_id,action:isReply?'reply':value,reply_id:reply?reply.reply_id:null});
+ changed=false;el('consent').checked=false;el('notice').textContent='Decision saved in this page.';state();};
+el('consent').onchange=state;
+el('export').onclick=()=>{if(changed||!el('consent').checked||!saved.size)return;
+ const result={kind:'native_clarification_human_decisions',session:data.session,round:data.round,form:data.form,participant:person,exported_utc:new Date().toISOString(),
+               software_fixture:data.software_fixture,consent:true,attestation:data.attestation,decisions:[...saved.values()]};
+ const link=document.createElement('a'),url=URL.createObjectURL(new Blob([JSON.stringify(result,null,2)+'\n'],{type:'application/json'}));
+ link.href=url;link.download='native-responses-'+person.replace(/[^a-z0-9_-]/gi,'-')+'-'+data.round+'-'+Date.now()+'.json';link.click();setTimeout(()=>URL.revokeObjectURL(url),1000);};
+</script></main></body></html>

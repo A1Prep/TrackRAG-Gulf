@@ -1,0 +1,150 @@
+{
+  "schema_version": 1,
+  "kind": "public_same_image_language_contrast",
+  "frozen_at": "2026-11-21T13:08:25.095133",
+  "development_source_sha256": "533cbcf9a2059b2890a606e896d9a216d5fc663606693c7dc8121b9ddf222556",
+  "selection": "All development image-byte hashes with multiple source instructions; no selection by model outcomes.",
+  "input_control": "Identical image bytes and scene metadata; canonical artificial public recording identity; only passenger instruction varies. Original case IDs remain scoring keys.",
+  "groups": [
+    {
+      "image_sha256": "004db0fe0169f4093d22eeed487dc54e10651f049c332b79a4169e2b0f010c32",
+      "case_ids": [
+        "regseg-train-2884",
+        "regseg-train-2885"
+      ],
+      "canonical_recording_id": "public-contrast-004db0fe0169",
+      "reference_mask_pairs": [
+        {
+          "case_ids": [
+            "regseg-train-2884",
+            "regseg-train-2885"
+          ],
+          "reference_masks_overlap": false,
+          "same_native_mask_grid": true
+        }
+      ],
+      "all_reference_masks_pairwise_disjoint": true
+    },
+    {
+      "image_sha256": "0fae436a6aa0dc75e3f0fa50052acc0c0f62bf85e885a30117dc92d286cf5077",
+      "case_ids": [
+        "regseg-train-1609",
+        "regseg-train-1615"
+      ],
+      "canonical_recording_id": "public-contrast-0fae436a6aa0",
+      "reference_mask_pairs": [
+        {
+          "case_ids": [
+            "regseg-train-1609",
+            "regseg-train-1615"
+          ],
+          "reference_masks_overlap": false,
+          "same_native_mask_grid": true
+        }
+      ],
+      "all_reference_masks_pairwise_disjoint": true
+    },
+    {
+      "image_sha256": "6bd645b30e118b6c9a6ff9947fa89aaa022f1396971a83dacfd5a14215253298",
+      "case_ids": [
+        "regseg-train-2334",
+        "regseg-train-2336"
+      ],
+      "canonical_recording_id": "public-contrast-6bd645b30e11",
+      "reference_mask_pairs": [
+        {
+          "case_ids": [
+            "regseg-train-2334",
+            "regseg-train-2336"
+          ],
+          "reference_masks_overlap": true,
+          "same_native_mask_grid": true
+        }
+      ],
+      "all_reference_masks_pairwise_disjoint": false
+    },
+    {
+      "image_sha256": "b2f25c6e8082108ee942783015f8c35a0a2ca404138af23bae996cd97634413b",
+      "case_ids": [
+        "regseg-train-4316",
+        "regseg-train-4317",
+        "regseg-train-4320"
+      ],
+      "canonical_recording_id": "public-contrast-b2f25c6e8082",
+      "reference_mask_pairs": [
+        {
+          "case_ids": [
+            "regseg-train-4316",
+            "regseg-train-4317"
+          ],
+          "reference_masks_overlap": false,
+          "same_native_mask_grid": true
+        },
+        {
+          "case_ids": [
+            "regseg-train-4316",
+            "regseg-train-4320"
+          ],
+          "reference_masks_overlap": false,
+          "same_native_mask_grid": true
+        },
+        {
+          "case_ids": [
+            "regseg-train-4317",
+            "regseg-train-4320"
+          ],
+          "reference_masks_overlap": true,
+          "same_native_mask_grid": true
+        }
+      ],
+      "all_reference_masks_pairwise_disjoint": false
+    },
+    {
+      "image_sha256": "b67e442ef48b0538512a27b0fc50c2568fceb090b5374318c72ce232ba323f05",
+      "case_ids": [
+        "regseg-train-4475",
+        "regseg-train-4477"
+      ],
+      "canonical_recording_id": "public-contrast-b67e442ef48b",
+      "reference_mask_pairs": [
+        {
+          "case_ids": [
+            "regseg-train-4475",
+            "regseg-train-4477"
+          ],
+          "reference_masks_overlap": false,
+          "same_native_mask_grid": true
+        }
+      ],
+      "all_reference_masks_pairwise_disjoint": true
+    },
+    {
+      "image_sha256": "d4e06464589427676c4aeb6bbb8ababfbdd90ad3e7539a312f5ea227d566c230",
+      "case_ids": [
+        "regseg-train-6546",
+        "regseg-train-6547"
+      ],
+      "canonical_recording_id": "public-contrast-d4e064645894",
+      "reference_mask_pairs": [
+        {
+          "case_ids": [
+            "regseg-train-6546",
+            "regseg-train-6547"
+          ],
+          "reference_masks_overlap": false,
+          "same_native_mask_grid": true
+        }
+      ],
+      "all_reference_masks_pairwise_disjoint": true
+    }
+  ],
+  "case_count": 13,
+  "metrics": [
+    "all_source_references_hit_per_image_group",
+    "per_case_point_in_mask",
+    "different_proposals_separately_not_accuracy"
+  ],
+  "final_test": false,
+  "local_clarification_labels": false,
+  "mask_overlap_rule": "All groups retained. Disjoint-reference joint hits are reported separately; shared-mask hits or numerical differences alone do not establish language sensitivity."
+}

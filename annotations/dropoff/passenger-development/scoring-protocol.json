@@ -1,0 +1,9 @@
+{
+  "frozen_utc": "2026-11-21T18:25:38.665207+00:00",
+  "scorer_sha256": "8d6fca7d1b64d13e655e9da1d1383f91195c7d31b0fadd2c3f034c49f72acc33",
+  "predictions_inspected_by_scorer_author": false,
+  "proposed_reference_geometry": "Point inside original authored box is strict agreement, secondary Euclidean location errors within 0.025 and 0.05 of full image diagonal. Misses and non-proposals stay in all-clear denominators. Paired-only median explicitly identified. IoU on clear references treats missing geometry as zero. These are diagnostic tolerances, not evidence of a legal or feasible stop.",
+  "language_contrasts": "Four predeclared pairs for each script, on distinct frames, compare both outputs against both intended points. A pair is distinguished only when both proposals lean closer to their own reference than the alternative. Rejected/missing/invalid count as failures.",
+  "clarification": "Count status separately. Evaluate whether a question resolves the specific ambiguity using a labelled qualitative read, not similarity to a single sentence.",
+  "assistance": "Model-only scores exclude passenger-selected boxes and downstream confirmation; scripted clarifying turns have their own case IDs."
+}

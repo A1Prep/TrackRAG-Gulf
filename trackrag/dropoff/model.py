@@ -16,6 +16,7 @@ import math
 from pathlib import Path
 import re
 import shutil
+import threading
 import time
 from typing import Any, Mapping, Protocol
 
@@ -54,16 +55,30 @@ class GroundingConfig:
     max_image_bytes: int = 32 * 1024 * 1024
     max_original_pixels: int = 48_000_000
     download_min_free_gib: float = 24.0
+    runtime: str = "resident"
+    model_dir: str | None = None
+    suffix_layers: int = 8
+    inference_resident_layers: int = 20
+    observation_format: str = 'json'
 
     def __post_init__(self):
+        if self.observation_format not in ('json', 'compact_rows_v1'):
+            raise ValueError('Unsupported observation formatting profile')
         if not isinstance(self.model_id, str) or not self.model_id.strip():
             raise ValueError("model_id must be nonempty")
         if not isinstance(self.revision, str) or not _REVISION.fullmatch(self.revision):
             raise ValueError("revision must be a pinned 40-character lowercase commit SHA")
-        for name in ("adapter_dir", "cache_dir"):
+        for name in ("adapter_dir", "cache_dir", "model_dir"):
             value = getattr(self, name)
             if value is not None and (not isinstance(value, str) or not value.strip()):
                 raise ValueError(f"{name} must be a nonempty path string or null")
+        if self.runtime not in ("resident", "streamed"):
+            raise ValueError("runtime must be resident or streamed")
+        if type(self.suffix_layers) is not int or not 1 <= self.suffix_layers <= 8:
+            raise ValueError("suffix_layers must be an integer between 1 and 8")
+        if (type(self.inference_resident_layers) is not int
+                or not 0 <= self.inference_resident_layers <= 24):
+            raise ValueError("inference_resident_layers must be between 0 and 24")
         if not isinstance(self.device, str) or (
             self.device not in ("auto", "cpu", "cuda") and not re.fullmatch(r"cuda:[0-9]+", self.device)
         ):
@@ -159,6 +174,8 @@ def verify_adapter(config: GroundingConfig) -> dict | None:
         raise ArtifactError("Adapter is bound to a different base model/revision")
     if "coordinate_system" in manifest and manifest["coordinate_system"] != "normalized_0_1000_image_edges":
         raise ArtifactError("Adapter uses a different coordinate convention")
+    if "observation_format" in manifest and manifest["observation_format"] != config.observation_format:
+        raise ArtifactError("Adapter observation serialization differs from this inference profile")
     if "image_processing" in manifest:
         processing = manifest["image_processing"]
         if not isinstance(processing, dict) or any(
@@ -400,8 +417,34 @@ class GroundingModel:
         self._injected = backend is not None
         self._loaded_adapter = None
         self.last_receipt: dict = {}
+        self._interpret_lock = threading.RLock()
 
     def interpret(self, request: Mapping) -> dict:
+        with self._interpret_lock:
+            return self._interpret(request)
+
+    def interpret_with_receipt(self, request: Mapping) -> tuple[dict, dict]:
+        """Return a per-call outcome/receipt snapshot atomically.
+
+        last_receipt remains the latest shared record for older callers. Use
+        this method when another thread may interpret a request immediately
+        after this call returns.
+        """
+        with self._interpret_lock:
+            outcome = self.interpret(request)
+            return deepcopy(outcome), deepcopy(self.last_receipt)
+
+    def close(self):
+        """Release an owned backend before another model is loaded."""
+        with self._interpret_lock:
+            if self._backend is not None and not self._injected:
+                close = getattr(self._backend, "close", None)
+                if close is not None:
+                    close()
+                self._backend = None
+                self._loaded_adapter = None
+
+    def _interpret(self, request: Mapping) -> dict:
         from .contracts import error_outcome, validate_request
         from .formatting import build_messages, parse_model_output
 
@@ -410,7 +453,9 @@ class GroundingModel:
         if not isinstance(request_id, str):
             request_id = ""
         provenance = {
-            "backend_kind": "injected_test_backend" if self._injected else "transformers_local",
+            "backend_kind": ("injected_test_backend" if self._injected else
+                             "transformers_local_streamed" if self.config.runtime == "streamed" else
+                             "transformers_local"),
             "model_id": self.config.model_id, "revision": self.config.revision,
             "requested_condition": "fine_tuned" if self.config.adapter_dir else "pretrained",
             "injected": self._injected,
@@ -445,7 +490,12 @@ class GroundingModel:
             if self._backend is not None and not self._injected and adapter != self._loaded_adapter:
                 raise ArtifactError("Adapter files changed after model loading; construct a fresh model")
             phase = "request"
-            messages = build_messages(validated, task="interpret", allow_annotated=self.config.allow_annotated)
+            if self.config.observation_format == 'json':
+                messages = build_messages(validated, task="interpret", allow_annotated=self.config.allow_annotated)
+            else:
+                provenance['observation_format'] = self.config.observation_format
+                messages = build_messages(validated, task="interpret", allow_annotated=self.config.allow_annotated,
+                                          observation_format=self.config.observation_format)
             self.last_receipt["messages"] = deepcopy(messages)
             # Bind prompt text and the exact original image content without
             # serializing a PIL object or rereading the image during generation.
@@ -455,7 +505,11 @@ class GroundingModel:
             messages = _materialize_image(messages, image)
             phase = "load"
             if self._backend is None:
-                self._backend = _TransformersBackend(self.config)
+                if self.config.runtime == "streamed":
+                    from .streamed import StreamedProcessBackend
+                    self._backend = StreamedProcessBackend(self.config)
+                else:
+                    self._backend = _TransformersBackend(self.config)
                 self._loaded_adapter = adapter
                 if verify_adapter(self.config) != adapter:
                     self._backend = None
@@ -487,6 +541,16 @@ class GroundingModel:
             )
             return {"ok": True, "request_id": request_id, "result": result, "provenance": provenance}
         except Exception as error:
+            # The isolated worker closes itself on a resource failure or deadline. A later,
+            # independent request must be allowed to create a fresh worker with the same config.
+            if (phase == "generate" and not self._injected and self.config.runtime == "streamed"
+                    and self._backend is not None and isinstance(error, (ResourceError, TimeoutError))):
+                failed_backend = self._backend
+                self._backend = self._loaded_adapter = None
+                try:
+                    failed_backend.close()
+                except Exception as cleanup_error:
+                    self.last_receipt["worker_cleanup_error"] = str(cleanup_error)[:1000]
             if isinstance(error, ArtifactError):
                 code = "artifact_invalid"
             elif isinstance(error, (TimeoutError,)):

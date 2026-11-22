@@ -18,15 +18,24 @@ SYSTEM = (
     "box edges use [0,1000]. A destination point must lie inside its coarse destination box. "
 )
 INTERPRET = (
-    "Return only one JSON object with status, destination_point_xy, "
-    "destination_box_xyxy and clarification_question. status is proposed, "
-    "needs_clarification, or insufficient_visual_evidence. For proposed, provide "
-    "a point [x,y], coarse destination box [left,top,right,bottom] and null "
-    "clarification_question. For unresolved status, both destination fields are null. "
-    "For needs_clarification ask a question distinguishing plausible references; "
-    "otherwise clarification_question is null. An unpointed 'here' is unresolved. "
-    "Optional anchor_boxes_xyxy may identify the observed landmarks; omit it if unavailable. "
-    "Do not create confirmation events or invent a confidence score."
+    "Return a single JSON object only, with all four required keys: "
+    '"status", "destination_point_xy", "destination_box_xyxy", "clarification_question". '
+    "Never omit a required key, including when its value is null. Do not add other keys. "
+    "Choose exactly one of these mutually exclusive structures. "
+    'For "status": "proposed", "destination_point_xy" must be a non-null array of two numbers '
+    'and "destination_box_xyxy" must be a non-null array of four numbers ordered left, top, right, bottom; '
+    '"clarification_question": null. Supply both geometry fields together, with the point inside the box. '
+    'For "status": "needs_clarification", set "destination_point_xy": null and '
+    '"destination_box_xyxy": null; "clarification_question" must be a nonempty question '
+    "that distinguishes the unresolved visible references or asks for the missing selection context. "
+    'For "status": "insufficient_visual_evidence", set "destination_point_xy": null, '
+    '"destination_box_xyxy": null and "clarification_question": null. '
+    "Never attach a destination box or point to either unresolved status. "
+    "Never combine a clarification question with destination coordinates. "
+    "Use the supplied image and instruction to choose the status; do not guess a location "
+    "when the reference remains unresolved. An unpointed 'here' is unresolved. "
+    "Before returning the JSON, check that all four keys are present and their null/non-null "
+    "values match the selected status. Do not create confirmation events or invent a confidence score."
 )
 DESTINATION_ONLY = (
     "This is a destination-only annotation task. Return only a JSON object with "
@@ -40,7 +49,7 @@ def _scale_box(box, width, height, factor):
             round(box[2] * factor / width, 6), round(box[3] * factor / height, 6)]
 
 
-def build_messages(request, task="interpret", *, allow_annotated=False):
+def build_messages(request, task="interpret", *, allow_annotated=False, observation_format="json"):
     request = validate_request(request, allow_annotated=allow_annotated)
     if task not in ("interpret", "destination_only"):
         raise ValueError("unknown grounding task")
@@ -57,11 +66,23 @@ def build_messages(request, task="interpret", *, allow_annotated=False):
             for row in request["scene"]["tracks"]
         ],
     }
+    if observation_format == 'json':
+        context = json.dumps(metadata, sort_keys=True)
+    elif observation_format == 'compact_rows_v1':
+        # Preserve each value from the established normalized-six-decimal model
+        # input. A column header replaces repeated object keys and separators.
+        observations = metadata.pop('observations')
+        metadata['observation_columns'] = ['frame_id', 'track_id', 'class_name', 'x1', 'y1', 'x2', 'y2']
+        context = json.dumps(metadata, sort_keys=True, separators=(',', ':'))
+        context += ''.join('\n' + json.dumps([r['frame_id'], r['track_id'], r['class_name'], *r['bbox_xyxy']],
+                           separators=(',', ':')) for r in observations)
+    else:
+        raise ValueError('Unsupported observation formatting profile')
     messages = [
         {"role": "system", "content": SYSTEM + (INTERPRET if task == "interpret" else DESTINATION_ONLY)},
         {"role": "user", "content": [
             {"type": "image", "image": frame["image_path"]},
-            {"type": "text", "text": "Observed scene context:\n" + json.dumps(metadata, sort_keys=True)},
+            {"type": "text", "text": "Observed scene context:\n" + context},
         ]},
     ]
     messages.extend({"role": turn["role"], "content": turn["text"]} for turn in request["dialogue"])

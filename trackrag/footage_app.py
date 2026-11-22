@@ -1,0 +1,106 @@
+"""Run the existing cited footage reviewer from a scene in the passenger application."""
+from dataclasses import dataclass
+import json
+import math
+from pathlib import Path
+import re
+import secrets
+
+from trackrag.dropoff.inputs import _inspect_image
+
+
+@dataclass
+class FootageReview:
+    images: Path
+    predictions: Path
+    vision_config: Path
+    out: Path
+    frame_rate: float | None = None
+
+    def _source(self, template, frame_id):
+        from tools.dropoff_prepare_scene import _RecordingPrefix
+        from tools.vision_saved_adapters import predict_tracks_with_receipt
+        from trackrag.emt import open_recording
+        from trackrag.vision.config import config_from_dict
+
+        if type(frame_id) is not int or frame_id < 0:
+            raise ValueError("Enter an original nonnegative whole frame number.")
+        recording = open_recording(self.images,template["frame"]["recording_id"],frame_rate=self.frame_rate)
+        prefix = _RecordingPrefix(recording,frame_id)
+        config = config_from_dict(json.loads(self.vision_config.read_bytes()),source_path=str(self.vision_config))
+        tracks, receipt = predict_tracks_with_receipt(prefix,directory=self.predictions,config=config)
+        for recorded, selected in (("vision_identity_hash","vision_identity_hash"),("tracks_sha256","tracks_sha256"),
+                                   ("provenance_sha256","prediction_provenance_sha256")):
+            if receipt[recorded] != template["provenance"].get(selected):
+                raise ValueError("The selected scene and the footage search use different saved predictions.")
+        return prefix, tracks, receipt
+
+    def frame_scene(self, template, frame_id):
+        """Construct the same passenger input as offline preparation at any available original frame."""
+        from trackrag.dropoff.inputs import build_instruction_request
+        prefix, tracks, receipt = self._source(template, frame_id)
+        return build_instruction_request(prefix, tracks, frame_id=frame_id, request_id="open-recorded-frame",
+            text="Open this recorded scene.", provenance={
+                "vision_source":"validated_saved_predictions", "vision_identity_hash":receipt["vision_identity_hash"],
+                "tracks_sha256":receipt["tracks_sha256"], "prediction_provenance_sha256":receipt["provenance_sha256"],
+                "prediction_image_hash_binding":"not_verified_in_historical_artifact"})["scene"]
+
+    def _bound_source(self, scene):
+        original = scene["frame"]
+        prefix, tracks, receipt = self._source(scene, original["frame_id"])
+        current = prefix.get_frame(original["frame_id"])
+        _, image_hash = _inspect_image(current)
+        if (image_hash != scene["provenance"].get("image_sha256")
+                or not math.isclose(current["timestamp_s"], original["timestamp_s"], abs_tol=1e-6)):
+            raise ValueError("The selected photo differs from the review recording.")
+        return prefix, tracks, receipt
+
+    def covers(self, scene):
+        """A passenger still can belong to a different run or fall outside the available footage."""
+        try:
+            self._bound_source(scene)
+        except (OSError, KeyError, ValueError):
+            return False
+        return True
+
+    def ask(self, scene, text, *, hosted=False):
+        from trackrag.answering import answer_question
+        from trackrag.retrieval_temporal import build_index, rank_evidence
+        from trackrag.review import review_recording
+
+        if not isinstance(text,str) or not 1 <= len(text.strip()) <= 4096 or type(hosted) is not bool:
+            raise ValueError("Enter a recording question and select an available answer mode.")
+        original = scene["frame"]
+        prefix, tracks, receipt = self._bound_source(scene)
+        key = secrets.token_hex(16)
+        folder = self.out/key
+        question = {"question_id":key,"recording_id":prefix.recording_id,
+                    "query_frame":original["frame_id"],"question":text.strip()}
+        result = review_recording(prefix,[question],source="predicted",load_tracks=lambda _: tracks,
+                                  build_index=build_index,rank_evidence=rank_evidence,
+                                  answer_question=answer_question if hosted else None,output_dir=folder,
+                                  run_metadata={"vision":"validated_saved_predictions","prediction_receipt":receipt,
+                                                "retrieval":"trackrag.retrieval_temporal","boundary_answer":"visual-candidate-v1",
+                                                "answerer":"gemini" if hosted else "none"})
+        row = json.loads(result.read_bytes())
+        evidence = []
+        for number, item in enumerate(row["evidence"]):
+            images = [{"frame_id":im["frame_id"],"url":f"/api/footage/{key}/{number}/{i}"}
+                      for i,im in enumerate(item["images"])]
+            evidence.append({"id":item["evidence_id"],"interval":item["interval"],"images":images})
+        return {"question":question,"answer":row["answer"],"evidence":evidence,"hosted_requested":hosted,
+                "vision":"validated_saved_predictions"}
+
+    def evidence_image(self,key,rank,index):
+        if re.fullmatch(r"[0-9a-f]{32}",key) is None or rank not in range(3) or index not in range(32):
+            raise ValueError("Unknown evidence image.")
+        folder = (self.out/key).resolve()
+        row = json.loads((folder/"results.jsonl").read_bytes())
+        try:
+            relative = row["evidence"][rank]["images"][index]["image_path"]
+        except IndexError as exc:
+            raise ValueError("Unknown evidence image.") from exc
+        path = (folder/relative).resolve()
+        if not path.is_relative_to(folder/"evidence") or not path.is_file():
+            raise ValueError("The saved evidence image is unavailable.")
+        return ("image/png" if path.suffix.lower()==".png" else "image/jpeg"), path.read_bytes()

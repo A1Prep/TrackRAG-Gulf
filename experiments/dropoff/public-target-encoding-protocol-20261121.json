@@ -1,0 +1,64 @@
+{
+  "schema_version": 1,
+  "kind": "controlled_public_target_serialization_variant",
+  "decision_basis": "V1 completed the 20-case development comparison: 3 mask hits versus 0 for pretrained. Three EMT proposals overlapped vehicles. This motivates one bounded training variant, without promising better performance.",
+  "model_id": "unsloth/Qwen3-VL-8B-Instruct-bnb-4bit",
+  "revision": "10d842936325905934ea24e64325d774693f166e",
+  "initialization": "Fresh LoRA on the same frozen base; no continuation from V1.",
+  "training_source_sha256": "79dfd904b155b1c537170aaba443254da37445c2e8a2f4380baaddd8520bc42b",
+  "development_source_sha256": "533cbcf9a2059b2890a606e896d9a216d5fc663606693c7dc8121b9ddf222556",
+  "matched_factors": {
+    "train_cases": 500,
+    "development_cases": 125,
+    "epochs": 2,
+    "presentations": 1000,
+    "optimizer_updates": 500,
+    "seed": 42,
+    "learning_rate": 0.0001,
+    "accumulation": 2,
+    "rank": 8,
+    "alpha": 16,
+    "dropout": 0,
+    "suffix_layers": 8,
+    "min_pixels": 65536,
+    "max_pixels": 262144,
+    "inference_resident_layers": 20,
+    "batch_size": 1,
+    "optimizer": "AdamW",
+    "weight_decay": 0.01,
+    "gradient_clip_norm": 1.0,
+    "warmup_fraction": 0.05,
+    "schedule": "cosine",
+    "compute_dtype": "bfloat16",
+    "base_quantization": "nf4"
+  },
+  "target_encoding": "point_first_mask_preserving_integer_v1",
+  "changed_together": [
+    "Point precedes box in assistant target",
+    "Normalized integer point and outward-rounded integer box",
+    "Nearest mask-valid adjacent integer teacher point when ordinary rounding leaves the source mask"
+  ],
+  "training_only_ground_truth_transform": true,
+  "runtime_predictions_never_snapped_using_masks": true,
+  "integer_encoding_is_hypothesis_not_official_requirement": true,
+  "single_factor_causal_attribution_allowed": false,
+  "updates_and_cases_matched_but_token_compute_not_matched": true,
+  "evaluation": {
+    "primary": "Same 20 frozen public development requests, original native-mask point agreement, all requests retained in the denominator.",
+    "secondary": [
+      "Original-reference coarse-box IoU",
+      "Normalized point distance",
+      "Coverage",
+      "Same-image instruction contrasts",
+      "Predeclared full-interpretation prompt comparison"
+    ],
+    "free_generation_inputs_and_decoding_unchanged": true,
+    "reference_masks_and_points_unchanged": true,
+    "compare_NLL_only_within_same_encoding": true,
+    "final_EMT_reserved_recording_used": false
+  },
+  "scope_limitations": [
+    "Public geometry labels do not supply status or clarification labels.",
+    "Reviewed local adaptation, voice integration and independent final evaluation remain separate."
+  ]
+}

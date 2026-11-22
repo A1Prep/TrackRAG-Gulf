@@ -1,0 +1,435 @@
+{
+  "kind": "single_additional_development_bookmark_and_scripted_manual_recovery",
+  "human_passengers": 0,
+  "human_confirmations": 0,
+  "official_final_cases": 0,
+  "bookmark_source": {
+    "purpose": "one additional local passenger bookmark",
+    "recording": "video_054907",
+    "frame": 781,
+    "original_photo_sha256": "c411cf6760695905334f32e5590083cf144543df1ca98e68aae55fb345eb583e",
+    "frame_registry_sha256": "dba1172aee36df82aadef5d19a595387330b0b3ba6e6677ce068b581c3f8d55f",
+    "prediction_registry_sha256": "0cc192518107f0f4d0d3f1e19307c531f030b7492ec97613346361b27a473a78",
+    "tracks_sha256": "7d3e650b6a8e5f4ca1d5e1197e9efaaa724e9ffb3d2d649d7266659774f239f8",
+    "prediction_provenance_sha256": "9b7e9264ea021fd8cfa070d7479b43c82faa51257819c036ab5498a98373dbde",
+    "detector_identity_sha256": "acf21b53525d5729541aaedbf961a9c634399fa881fc7976909d48575c5e870d",
+    "task2_revision": "2d96dcb6afdffb46c5d94d299768fe6a92acc094",
+    "task2_package": "Task2_56_Case_Human_Review_Corrected",
+    "original_photo_path_in_task2": "images/development/video_054907/00781.jpg",
+    "frame_rate": 10.0,
+    "timestamp_s": 78.0,
+    "current_predicted_observations": 23,
+    "saved_predictions": true,
+    "new_detector_run": false,
+    "human_target_rows_loaded": 0,
+    "instruction_examples_for_server": 0,
+    "footage_prefix_expanded": false,
+    "relative_image": "images/00781.jpg",
+    "request_bank_sha256": "902b1e32c462782a686287d8a7e7c0abace3a3720410a545268ab9d032156a99"
+  },
+  "normal_catalog_bookmarks": 11,
+  "footage_archives": {
+    "video_054604": [
+      1,
+      150
+    ],
+    "video_054907": [
+      1,
+      150
+    ],
+    "count_total": 300,
+    "QA_frame_781": "verified normal footage QA refuses the absent prefix"
+  },
+  "original_protocol_sha256": "bbdd0b98496ef72062a286ecc100ef3ffc7eb06c1ab595ead840b4a766b7aa0c",
+  "original_report_sha256": "0c5d6c29b83592885c98d5b885df0298e1b15dd7cae1740599fda2e6213de36f",
+  "manual_preregistration_sha256": "09246a78c150bea42097fa88f17376f0d6b8c4919d96dcee6aa6fcd1bc861e4b",
+  "native_journals_sha256": [
+    "694e6f9b9652c38b7bf73ddec69630aac98e6d4ced538b471343b1802a8db862",
+    "70e5088b74d7e40de8bb29460d59b37ad1a39a8ea37b56629eb44e19598655e7"
+  ],
+  "original_submissions_independently_verified": [
+    {
+      "case": "car-pair-without-pointing",
+      "frame": 781,
+      "text": "Drop me between these two black cars.",
+      "native_event_sha256": "ffb45389310261c355081e5177014798f8f90d2f7f533d0c71066e22c46f3c33",
+      "request_sha256": "62d7177a40c8a077ce73f4fec86891d05d3937f08b7ded64201fbd96a039f38d",
+      "state": "needs_clarification",
+      "geometry_result": {
+        "status": "needs_clarification",
+        "destination_point_xy": null,
+        "destination_box_xyxy": null,
+        "clarification_question": "I can identify the landmark, but I can't place a road area beside it. Can you mark the intended patch?"
+      },
+      "error": null,
+      "first_raw": "L1 L2",
+      "first_parsed_raw": {
+        "kind": "landmark",
+        "track_ids": [
+          66865,
+          65692
+        ],
+        "boxes": [
+          [
+            202.859375,
+            953.1180419921875,
+            281.6097717285156,
+            978.5709838867188
+          ],
+          [
+            212.9324951171875,
+            1002.0974731445312,
+            850.429931640625,
+            1339.536865234375
+          ]
+        ]
+      },
+      "subqueries": [],
+      "native_constraint": null,
+      "pair_decision": null,
+      "both_reference_anchors_min_IoU": 0.0,
+      "point_in_preregistered_road_reference": false,
+      "confirmed_in_original_run": false,
+      "replay_identical": true
+    },
+    {
+      "case": "two-sedans-by-left-median",
+      "frame": 781,
+      "text": "I mean the patch of road just behind the gap between the black sedan next to the concrete median on our left and the black sedan immediately to its right.",
+      "native_event_sha256": "f1344ac5d93ae6d359faa48bf4eb2671f930b49f5fdb211f405314cc3d77f9bb",
+      "request_sha256": "2b6ff4a942df322661e837e5c104753f15bfa59d5a114394b58218d14ae130ed",
+      "state": "proposed",
+      "geometry_result": {
+        "status": "proposed",
+        "destination_point_xy": [
+          927.5,
+          1112.5
+        ],
+        "destination_box_xyxy": [
+          338.9819540793638,
+          1044.169515066354,
+          1076.5261314070074,
+          1141.0979714851742
+        ],
+        "clarification_question": null,
+        "anchor_boxes_xyxy": [
+          [
+            202.859375,
+            953.1180419921875,
+            281.6097717285156,
+            978.5709838867188
+          ],
+          [
+            1451.215087890625,
+            1044.64453125,
+            1627.0533447265625,
+            1174.2886962890625
+          ]
+        ]
+      },
+      "error": null,
+      "first_raw": "LANDMARK L1 L2",
+      "first_parsed_raw": {
+        "kind": "landmark",
+        "track_ids": [
+          66865,
+          65692
+        ],
+        "boxes": [
+          [
+            202.859375,
+            953.1180419921875,
+            281.6097717285156,
+            978.5709838867188
+          ],
+          [
+            212.9324951171875,
+            1002.0974731445312,
+            850.429931640625,
+            1339.536865234375
+          ]
+        ]
+      },
+      "subqueries": [
+        {
+          "quote": "the black sedan next to the concrete median on our left",
+          "error": null,
+          "raw": "LANDMARK L1",
+          "decision": {
+            "kind": "landmark",
+            "track_ids": [
+              66865
+            ],
+            "boxes": [
+              [
+                202.859375,
+                953.1180419921875,
+                281.6097717285156,
+                978.5709838867188
+              ]
+            ]
+          },
+          "grounded_original_roi": [
+            [
+              202.859375,
+              953.1180419921875,
+              281.6097717285156,
+              978.5709838867188
+            ]
+          ],
+          "bound_request_sha256": "42a5c8aabd02a1f16e84bfeb852c53398d4695fdf635ef42373a396d76357a8e"
+        },
+        {
+          "quote": "the black sedan immediately to its right",
+          "error": null,
+          "raw": "LANDMARK L18",
+          "decision": {
+            "kind": "landmark",
+            "track_ids": [
+              59438
+            ],
+            "boxes": [
+              [
+                1451.215087890625,
+                1044.64453125,
+                1627.0533447265625,
+                1174.2886962890625
+              ]
+            ]
+          },
+          "grounded_original_roi": [
+            [
+              1451.215087890625,
+              1044.64453125,
+              1627.0533447265625,
+              1174.2886962890625
+            ]
+          ],
+          "bound_request_sha256": "fb9f526b3382a392f74e4d33a55bf819dc723df37e28a5c3ac3db95b74bc5f37"
+        }
+      ],
+      "native_constraint": null,
+      "pair_decision": {
+        "kind": "landmark",
+        "boxes": [
+          [
+            202.859375,
+            953.1180419921875,
+            281.6097717285156,
+            978.5709838867188
+          ],
+          [
+            1451.215087890625,
+            1044.64453125,
+            1627.0533447265625,
+            1174.2886962890625
+          ]
+        ],
+        "track_ids": [
+          66865,
+          59438
+        ],
+        "anchor_track_ids": [
+          66865,
+          59438
+        ]
+      },
+      "both_reference_anchors_min_IoU": 0.0,
+      "point_in_preregistered_road_reference": false,
+      "confirmed_in_original_run": false,
+      "replay_identical": true
+    },
+    {
+      "case": "same-words-no-identifiable-pair",
+      "frame": 42,
+      "text": "Drop me between these two black cars.",
+      "native_event_sha256": "c9053965a2868e66df4704161926c56689af13b175ae1573b3be9e73eb19d1a2",
+      "request_sha256": "20419d5d753c0e840208762835598502f1a25c78275a7d90f96b1e78ce50ecd0",
+      "state": "error",
+      "geometry_result": null,
+      "error": {
+        "code": "invalid_model_output",
+        "message": "Landmarks must refer to one or two distinct current detector IDs"
+      },
+      "first_raw": "LANDMARK L1 LANDMARK L2",
+      "first_parsed_raw": {
+        "parse_error": "Landmarks must refer to one or two distinct current detector IDs"
+      },
+      "subqueries": [],
+      "native_constraint": null,
+      "pair_decision": null,
+      "both_reference_anchors_min_IoU": null,
+      "point_in_preregistered_road_reference": null,
+      "confirmed_in_original_run": false,
+      "replay_identical": true
+    }
+  ],
+  "released_adapter_sha256": "76bfb3230b17a86248b52ca6a9f8d2ffca324aa80216d6b93845ccb12ad86743",
+  "fresh_Qwen_calls_during_replay": 0,
+  "same_photo_and_all_23_saved_predictions_as_portable_bookmark": true,
+  "observed_recovery_plan_sha256": "5aa993dd8a37a133270889e722f0f2f009b9e2ed2ef312c90ce6195edf091d22",
+  "original_manual_prereg_precondition_met": false,
+  "initial_windows_spawn_attempt": {
+    "receipt_sha256": "233d016b2185eef7b698fa9297c238e7846421ada856a1ca0f03e5d169bf4131",
+    "cause": "The unguarded test harness re-ran its exclusive runtime-config creation in the spawned interpreter.",
+    "registered_inputs_same_as_guarded_repeat": true,
+    "original_attempt_preserved": [
+      {
+        "case": "car-pair-without-pointing",
+        "state": "error",
+        "error": {
+          "code": "resource_unavailable",
+          "message": "Local model worker exited natively (exit code 1)"
+        },
+        "completed_8B_receipts": 0,
+        "original_event_sha256": "de5a85465b3044a927249cec0455b1242eaf9bf7e5460bb6710ae75f260e69be"
+      },
+      {
+        "case": "two-sedans-by-left-median",
+        "state": "error",
+        "error": {
+          "code": "resource_unavailable",
+          "message": "Local model worker exited natively (exit code 1)"
+        },
+        "completed_8B_receipts": 0,
+        "original_event_sha256": "262cc457bb635accc4696f4ef8505b17b75a2cfb94ae9753e1270b304c8288be"
+      },
+      {
+        "case": "same-words-no-identifiable-pair",
+        "state": "error",
+        "error": {
+          "code": "resource_unavailable",
+          "message": "Local model worker exited natively (exit code 1)"
+        },
+        "completed_8B_receipts": 0,
+        "original_event_sha256": "21bfe55c1205b2b6e8e43bfbb91e73230be93e4d4d403a2beffdad943044bc58"
+      }
+    ]
+  },
+  "browser_catalog": {
+    "sha256": "e7c72f5e76b3bc25b488f3095074c7dd664e014a958d982dcc38e33f6a13f4ce",
+    "passenger_bookmarks": 11,
+    "footage_bookmarks": 10,
+    "selected_public_option": {
+      "key": "fab2cb11fe5df88e0d1b86fa",
+      "recording_id": "video_054907",
+      "frame_id": 781,
+      "timestamp_s": 78,
+      "width": 2560,
+      "height": 1440
+    },
+    "served_original": {
+      "sha256": "c411cf6760695905334f32e5590083cf144543df1ca98e68aae55fb345eb583e",
+      "wh": [
+        2560,
+        1440
+      ]
+    },
+    "native_Qwen_calls": 0,
+    "passenger_state": "idle",
+    "footage_selector_excludes_extra_still": true,
+    "footage_open_rejection": {
+      "error": "Only a passenger photo is available at that frame. Choose a frame in the attached recording."
+    },
+    "footage_search_rejection": {
+      "error": "Choose a frame in the attached footage recording."
+    }
+  },
+  "scripted_browser_recoveries": [
+    {
+      "actor": "automated scripted passenger",
+      "recovery_case": "after-first",
+      "prior_state": "needs_clarification",
+      "original_model_point": null,
+      "prior_wrong_token_withdrawn": null,
+      "normal_application_browser_actions": [
+        "replay original typed submission(s)",
+        "mark with browser pointer",
+        "use my marked area",
+        "verify dot on current road mask outside all observed road-user rectangles",
+        "confirm same current proposal token"
+      ],
+      "source_last_request_sha256": "62d7177a40c8a077ce73f4fec86891d05d3937f08b7ded64201fbd96a039f38d",
+      "road_model_mask_sha256": "7d365ac84782697ebad451604d1f23b0781c73045dad48de17aefd410c2ee7e5",
+      "current_excluded_observations": 23,
+      "frozen_operator_rectangle": [
+        1065,
+        1146,
+        1152,
+        1192
+      ],
+      "actual_browser_rectangle": [
+        1065.0,
+        1146.0,
+        1152.0,
+        1193.0
+      ],
+      "proposed_point_in_operator_area_original_xy": [
+        1107.5,
+        1167.5
+      ],
+      "also_inside_earlier_AI_authored_reference_polygon": true,
+      "selected_by": "passenger",
+      "final_state": "confirmed",
+      "token_checked": true,
+      "independent_model_proposal": false,
+      "replayed_requests_and_outcomes_equal_to_original": true,
+      "browser_raw_sha256": "e2f6e9e60d571cd28fb76a4552d0319398d29d7ffb1c4b1c6e0003a3d6ab4ced",
+      "new_session_raw_sha256": "910250f04c3737508ba5c3c5b0091ed48120c79091a14b16eb001456e2ee0bea",
+      "browser_script_sha256": "0b26d794d87044670c89e22a919d1758f80d747ca583e77fcd5551cfbe43d36d",
+      "harness_sha256": "636a383fbfbd087f2c3f3f86948891f097b4b8a37bdb4757b6c97010204eebd6"
+    },
+    {
+      "actor": "automated scripted passenger",
+      "recovery_case": "after-detailed",
+      "prior_state": "proposed",
+      "original_model_point": [
+        927.5,
+        1112.5
+      ],
+      "prior_wrong_token_withdrawn": true,
+      "normal_application_browser_actions": [
+        "replay original typed submission(s)",
+        "mark with browser pointer",
+        "use my marked area",
+        "verify dot on current road mask outside all observed road-user rectangles",
+        "confirm same current proposal token"
+      ],
+      "source_last_request_sha256": "2b6ff4a942df322661e837e5c104753f15bfa59d5a114394b58218d14ae130ed",
+      "road_model_mask_sha256": "7d365ac84782697ebad451604d1f23b0781c73045dad48de17aefd410c2ee7e5",
+      "current_excluded_observations": 23,
+      "frozen_operator_rectangle": [
+        1065,
+        1146,
+        1152,
+        1192
+      ],
+      "actual_browser_rectangle": [
+        1065.0,
+        1146.0,
+        1152.0,
+        1193.0
+      ],
+      "proposed_point_in_operator_area_original_xy": [
+        1107.5,
+        1167.5
+      ],
+      "also_inside_earlier_AI_authored_reference_polygon": true,
+      "selected_by": "passenger",
+      "final_state": "confirmed",
+      "token_checked": true,
+      "independent_model_proposal": false,
+      "replayed_requests_and_outcomes_equal_to_original": true,
+      "browser_raw_sha256": "ef81ddacd777557da713bfc3b8a6039c7045c52dda6559f881d2045ca5849676",
+      "new_session_raw_sha256": "a7a4abdb392778fb59f730798d020e4afa35681885e73eb4f2d98ec15d2e66c9",
+      "browser_script_sha256": "0b26d794d87044670c89e22a919d1758f80d747ca583e77fcd5551cfbe43d36d",
+      "harness_sha256": "636a383fbfbd087f2c3f3f86948891f097b4b8a37bdb4757b6c97010204eebd6"
+    }
+  ],
+  "before_manual_source_code": {
+    "manual_region_policy": "same packaged explicit_passenger_region checker",
+    "operator_rectangle_frozen_before_any_native_result": true,
+    "assisted_actions_declared_only_after_observing_incorrect_or_withheld_predictions": true
+  },
+  "test_scope": "Two replay sessions use the exact original requests, prompts and genuine native outputs on frame 781. Both scripted recoveries used the same preselected rectangle. This verifies one destination twice through separate dialogue states and represents zero independently modeled or human-confirmed destinations."
+}

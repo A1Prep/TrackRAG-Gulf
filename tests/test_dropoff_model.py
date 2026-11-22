@@ -244,6 +244,32 @@ def test_backend_errors_are_operational_not_semantic_abstentions(grounding_reque
     assert model.last_receipt["status"] == "error"
 
 
+@pytest.mark.parametrize("code", ["resource_unavailable", "timeout"])
+def test_owned_streamed_failure_is_preserved_and_next_request_creates_a_fresh_worker(grounding_request, monkeypatch, code):
+    from trackrag.dropoff import streamed
+    from trackrag.dropoff.model import ResourceError
+
+    failure = ResourceError("test worker ran out of memory") if code == "resource_unavailable" else TimeoutError("deadline")
+    instances = []
+
+    class Worker(ReplyBackend):
+        def __init__(self, config):
+            super().__init__(error=failure if not instances else None)
+            self.closed = False
+            instances.append(self)
+
+        def close(self):
+            self.closed = True
+
+    monkeypatch.setattr(streamed, "StreamedProcessBackend", Worker)
+    model = GroundingModel({"runtime": "streamed"})
+    first, receipt = model.interpret_with_receipt(grounding_request)
+    assert first["error"]["code"] == code and receipt["error"] == first["error"] and instances[0].closed
+    second = model.interpret(dict(grounding_request, request_id="independent-next-request"))
+    assert second["ok"] and len(instances) == 2 and len(instances[0].calls) == len(instances[1].calls) == 1
+    model.close()
+
+
 @pytest.mark.parametrize("reply", [
     "not JSON", "{}", "null", '{"status":"insufficient_visual_evidence"}',
     '{"status":"proposed","destination_point_xy":[NaN,0]}',

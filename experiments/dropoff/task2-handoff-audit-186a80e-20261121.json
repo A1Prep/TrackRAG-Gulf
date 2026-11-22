@@ -1,0 +1,293 @@
+{
+  "schema_version": 1,
+  "kind": "read_only_task2_git_delivery_audit",
+  "created_at": "2026-11-21T14:04:59.920281+00:00",
+  "base_commit": "00a07dd",
+  "commit": "186a80eebf02e797ca5161ed42a77f24c6eada7d",
+  "branch": "origin/Task-2-arjun-emt-reader",
+  "changed_files": 41,
+  "unblocks_streamed_local_continuation": false,
+  "verified_local_full_interpretation_train_cases": 0,
+  "verified_local_full_interpretation_development_cases": 0,
+  "release_status": "draft_pending_independent_human_review",
+  "review_status": {
+    "status": "pending",
+    "required_independent_human_reviews": 2,
+    "cases_requiring_review": 56,
+    "completed_reviews": 0,
+    "disagreements_resolved": 0
+  },
+  "review_forms": {
+    "reviewer_1.csv": {
+      "rows": 56,
+      "completed_decisions": 0,
+      "decision_counts": {
+        "": 56
+      },
+      "split_counts": {
+        "train": 4,
+        "dev": 2,
+        "eval": 50
+      },
+      "named_reviewer_identity_present": false,
+      "local_rows_not_in_form": {
+        "train": 41,
+        "dev": 18
+      }
+    },
+    "reviewer_2.csv": {
+      "rows": 56,
+      "completed_decisions": 0,
+      "decision_counts": {
+        "": 56
+      },
+      "split_counts": {
+        "train": 4,
+        "dev": 2,
+        "eval": 50
+      },
+      "named_reviewer_identity_present": false,
+      "local_rows_not_in_form": {
+        "train": 41,
+        "dev": 18
+      }
+    }
+  },
+  "review_forms_byte_identical": true,
+  "local_splits": {
+    "train": {
+      "local_cases": 45,
+      "recordings": [
+        "video_054604",
+        "video_115533",
+        "video_115833",
+        "video_131333",
+        "video_141432-141733",
+        "video_142911",
+        "video_143739",
+        "video_151901",
+        "video_160902-161205",
+        "video_204347",
+        "video_210906",
+        "video_214547",
+        "video_220047"
+      ],
+      "tags_are_not_semantic_status_labels": {
+        "unique_destination": 13,
+        "two_landmark": 13,
+        "ambiguous": 4,
+        "occluded_landmark": 5,
+        "missing_reference": 4,
+        "correction": 3,
+        "contrasting": 3
+      },
+      "review_status_counts": {
+        "pending_independent_human_review": 45
+      },
+      "full_interpretation_target_rows": 0,
+      "explicit_status_counts": {
+        "ABSENT": 45
+      },
+      "image_hashes_present": 0,
+      "review_input_target_hashes_present": 0,
+      "declared_paths_available": 0,
+      "checkout_data_recording_frame_filename_matches": 1,
+      "candidate_images": [
+        {
+          "case_id": "local_train_video_054604_00121",
+          "candidates": [
+            {
+              "path": "D:\\PycharmProjects\\TrackRAG-Gulf\\data\\task1-image-only-20261119\\images\\train\\video_054604\\00121.jpg",
+              "dimensions": [
+                2560,
+                1440
+              ],
+              "sha256": "30e86f785feae639a4e029f43aded6374c37e60f7a5e551dff3c68df27bf8705"
+            },
+            {
+              "path": "D:\\PycharmProjects\\TrackRAG-Gulf\\data\\emt-official\\images\\train\\images\\video_054604\\00121.jpg",
+              "dimensions": [
+                2560,
+                1440
+              ],
+              "sha256": "30e86f785feae639a4e029f43aded6374c37e60f7a5e551dff3c68df27bf8705"
+            },
+            {
+              "path": "D:\\PycharmProjects\\TrackRAG-Gulf\\data\\emt-development\\video_054604\\frames\\00121.jpg",
+              "dimensions": [
+                2560,
+                1440
+              ],
+              "sha256": "30e86f785feae639a4e029f43aded6374c37e60f7a5e551dff3c68df27bf8705"
+            }
+          ]
+        }
+      ]
+    },
+    "dev": {
+      "local_cases": 20,
+      "recordings": [
+        "video_054907",
+        "video_174340"
+      ],
+      "tags_are_not_semantic_status_labels": {
+        "unique_destination": 6,
+        "two_landmark": 4,
+        "ambiguous": 2,
+        "missing_reference": 2,
+        "occluded_landmark": 2,
+        "correction": 2,
+        "contrasting": 2
+      },
+      "review_status_counts": {
+        "pending_independent_human_review": 20
+      },
+      "full_interpretation_target_rows": 0,
+      "explicit_status_counts": {
+        "ABSENT": 20
+      },
+      "image_hashes_present": 0,
+      "review_input_target_hashes_present": 0,
+      "declared_paths_available": 0,
+      "checkout_data_recording_frame_filename_matches": 1,
+      "candidate_images": [
+        {
+          "case_id": "local_dev_video_054907_00091",
+          "candidates": [
+            {
+              "path": "D:\\PycharmProjects\\TrackRAG-Gulf\\data\\task1-image-only-20261119\\images\\train\\video_054907\\00091.jpg",
+              "dimensions": [
+                2560,
+                1440
+              ],
+              "sha256": "40af6de5cd1533e1c014d40115187a0e9f6b31c9c16175455af93ee63b353e35"
+            },
+            {
+              "path": "D:\\PycharmProjects\\TrackRAG-Gulf\\data\\emt-official\\images\\train\\images\\video_054907\\00091.jpg",
+              "dimensions": [
+                2560,
+                1440
+              ],
+              "sha256": "40af6de5cd1533e1c014d40115187a0e9f6b31c9c16175455af93ee63b353e35"
+            },
+            {
+              "path": "D:\\PycharmProjects\\TrackRAG-Gulf\\data\\emt-development-2\\video_054907\\frames\\00091.jpg",
+              "dimensions": [
+                2560,
+                1440
+              ],
+              "sha256": "40af6de5cd1533e1c014d40115187a0e9f6b31c9c16175455af93ee63b353e35"
+            }
+          ]
+        }
+      ]
+    },
+    "eval": {
+      "local_cases": 50,
+      "recordings": [
+        "video_122233",
+        "video_125233",
+        "video_155425",
+        "video_160325",
+        "video_204647"
+      ],
+      "tags_are_not_semantic_status_labels": {
+        "unique_destination": 15,
+        "two_landmark": 10,
+        "ambiguous": 5,
+        "missing_reference": 5,
+        "occluded_landmark": 5,
+        "correction": 5,
+        "contrasting": 5
+      },
+      "review_status_counts": {
+        "pending_independent_human_review": 50
+      },
+      "full_interpretation_target_rows": 0,
+      "explicit_status_counts": {
+        "ABSENT": 50
+      },
+      "image_hashes_present": 0,
+      "review_input_target_hashes_present": 0
+    }
+  },
+  "local_case_ids_unique": true,
+  "recording_overlap": {
+    "train__dev": [],
+    "train__eval": [],
+    "dev__eval": []
+  },
+  "reserved_video_122233_counts": {
+    "train": 0,
+    "dev": 0,
+    "eval": 10
+  },
+  "reserved_eval_pixels_opened": false,
+  "image_assets_added": 0,
+  "image_search_scope": "Declared paths and checkout data/ only; filename matches are not delivered-source hash verification. No downloads/extraction or evaluation pixel inspection.",
+  "public_corpus_caution": {
+    "rows": 508,
+    "assigned_train_rows": 508,
+    "source_val_rows_assigned_train": 338,
+    "reserved_concise_train_ids_assigned_train": 170,
+    "scene_guard": {
+      "status": "not_enforceable",
+      "reason": "RegSeg supplies no image_id to scene_id mapping",
+      "unique_scenes_summary_value": 1,
+      "scene_mapping_available": false,
+      "mitigation": "public_train_only_local_dev_eval"
+    },
+    "use_for_existing_v1_v2": false
+  },
+  "blocking_findings": [
+    "All115local cases remain pending independent human review; both56-row reviewer forms contain zero decisions and no reviewer identities.",
+    "No local row supplies status, destination_point_xy, destination_box_xyxy or clarification_question; track IDs and difficulty tags cannot replace reviewed stopping-area/status labels.",
+    "The local CSV/schema/exporter requires track:<id> and exports track/landmark references only; completing current review forms alone cannot provide the missing full interpretation fields.",
+    "No local image hashes, input/supervision review hashes or image dimensions are delivered; all65declared train/dev paths reference another Windows workspace and are unavailable here.",
+    "Only1of45train and1of20dev frame names have candidate images in checkout data; those candidate bytes agree across local copies, but no delivered image hashes exist for identity comparison.",
+    "trackrag/dropoff.py conflicts with the existing trackrag/dropoff/ package; current imports resolve the package and do not expose the new pipeline functions.",
+    "The public553-row combined train release includes338source-validation rows and170current-reserved concise-test training IDs; it must not replace the frozen public corpus."
+  ],
+  "reversible_integration_after_real_labels_exist": [
+    "Join manifest/model-input/target records by case_id; map dev to development and eval to test while preserving recording-level grouping and the reserved final recording.",
+    "Resolve original frame paths through authoritative EMT manifests, verify dimensions/bytes, and retain human approved input/supervision bindings.",
+    "Relocate the Task2 preparation module under a nonconflicting module name and update its imports; no code was merged in this audit."
+  ],
+  "requires_new_human_annotation_not_schema_inference": [
+    "Reviewed semantic status for each local case",
+    "Original-pixel intended stopping point/coarse box for proposed cases",
+    "Null geometry and distinguishing question for clarification cases",
+    "Null geometry/question for insufficient-visual-evidence cases",
+    "Actual reviewer identities/timestamps bound to image, request and supervision hashes"
+  ],
+  "key_git_paths": [
+    "splits/dropoff_manifest.json",
+    "reviews/review_status.json",
+    "reviews/reviewer_1.csv",
+    "reviews/reviewer_2.csv",
+    "annotations/dropoff/model_inputs/train.json",
+    "annotations/dropoff/model_inputs/dev.json",
+    "annotations/dropoff/targets/train.json",
+    "annotations/dropoff/targets/dev.json",
+    "docs/DROPOFF_DATA.md",
+    "annotations/dropoff/schema.json",
+    "trackrag/dropoff.py"
+  ],
+  "git_blob_sha256": {
+    "splits/dropoff_manifest.json": "403b558e7cdf17431f95b9fb0744d105fe14c5592f04a88cdd3744bca9148d4f",
+    "reviews/review_status.json": "b6f0511801e253c7eb3846888068ed4f42aa656ba9dc3ac40bd39c35fcb5d757",
+    "reviews/reviewer_1.csv": "9867456e603d6ff375459896bfbb1709a6b91e2d96c9110e387857685b330933",
+    "reviews/reviewer_2.csv": "9867456e603d6ff375459896bfbb1709a6b91e2d96c9110e387857685b330933",
+    "annotations/dropoff/model_inputs/train.json": "c88fbf24f12b0b7b397ec6a8a0a5bbfaceeeab727df93f308217fdcc5102443f",
+    "annotations/dropoff/model_inputs/dev.json": "5ab70c5d48143c8b21341c765bf785b8b386064892703c556ded14aba7d7ce2b",
+    "annotations/dropoff/targets/train.json": "505b642418f9bfb088751cc9ee312140c0c536b2eb676c02aedf60a651cb0bab",
+    "annotations/dropoff/targets/dev.json": "b084620586d6d4d71d8be360e138b3731ea25665696d3d681db4dc1f4835c43e",
+    "docs/DROPOFF_DATA.md": "76894b2ade606751fdc984d95671880e3b8c1e94328e46dc0f8d870f9d140b0a",
+    "annotations/dropoff/schema.json": "b268a95ecf13e12bda3b1d74615b2fa80e8cc92aea03f27d38e7c99e8a536f92",
+    "trackrag/dropoff.py": "c2ec33cd1b33df44341087d126acf0c640b90c42cf28c3960f5c07e1f50fc22e"
+  },
+  "no_checkout_or_merge": true,
+  "no_source_or_dataset_or_existing_run_mutations": true,
+  "gpu_or_model_calls": 0,
+  "approvals_fabricated_or_repaired": false
+}

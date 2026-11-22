@@ -57,8 +57,10 @@ The public pilot keeps the selected **Qwen3-VL-8B-Instruct** model and loads all
 steps, with evaluation and checkpoint saving every five steps. Twenty steps do
 not imply that every training row has been consumed. The existing preflight
 floors remain **12 GiB total GPU memory, 10 GiB free GPU memory and 30 GiB free
-disk space**; passing them does not guarantee a fit. The laptop's 4 GiB GPU does
-not meet these floors.
+disk space**; passing them does not guarantee a fit. These floors describe this
+resident-model runner. The laptop's 4 GiB GPU uses the separately verified
+[streamed local route](dropoff-local-training.md), whose completed public runs
+retain their own pinned distribution, configuration and results.
 
 This is a public destination-geometry pilot. It cannot complete the final 8B
 adaptation: reviewed interpretation/status cases and independently reserved final

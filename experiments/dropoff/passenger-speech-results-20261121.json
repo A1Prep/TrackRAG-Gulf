@@ -1,0 +1,307 @@
+{
+  "scope": "Offline English recognizer on actual synthetically spoken WAV files. Grounding is outside this measurement. No human speakers, field microphone or cabin noise in this cohort.",
+  "engine": "vosk==0.3.45",
+  "model": "vosk-model-small-en-us-0.15",
+  "archive_sha256": "30f26242c4eb449f948e42cb302dd7a686cb29a3423a8367f99ff41780942498",
+  "model_content_sha256": "38655871e595540ec3bd39927a7e4b9f80ab7cf53abc34b3780fb05bd4cf94b6",
+  "device": "CPU",
+  "trial": {
+    "source": "Windows System.Speech scripted text-to-speech, two synthetic voices, no added noise",
+    "model_load_s": 1.4508073999895714,
+    "utterances": 16,
+    "exact": 15,
+    "critical_terms_preserved": 15,
+    "recognition_errors": 0,
+    "word_edits": 1,
+    "reference_words": 124,
+    "mean_elapsed_s": 1.423
+  },
+  "cases": [
+    {
+      "case": "bus-left",
+      "voice": "Microsoft David Desktop",
+      "reference": "Please drop me beside the yellow bus on the left.",
+      "transcript": "please drop me beside the yellow bus on the left",
+      "critical_terms": [
+        "beside",
+        "yellow",
+        "bus",
+        "left"
+      ],
+      "critical_terms_preserved": true,
+      "audio_sha256": "22daceeee5a85ea3aaeb6480d219af8b3d4595793d687262602ceffda252905d",
+      "duration_s": 3.495,
+      "elapsed_s": 1.531
+    },
+    {
+      "case": "bus-left",
+      "voice": "Microsoft Zira Desktop",
+      "reference": "Please drop me beside the yellow bus on the left.",
+      "transcript": "please drop me beside the yellow bus on the left",
+      "critical_terms": [
+        "beside",
+        "yellow",
+        "bus",
+        "left"
+      ],
+      "critical_terms_preserved": true,
+      "audio_sha256": "cf31c1df9140245a7113a9f5f630385c3bc19d2edc20ed6275ebd98abd1893e7",
+      "duration_s": 3.42,
+      "elapsed_s": 1.449
+    },
+    {
+      "case": "deictic",
+      "voice": "Microsoft David Desktop",
+      "reference": "Drop me here.",
+      "transcript": "drop me here",
+      "critical_terms": [
+        "here"
+      ],
+      "critical_terms_preserved": true,
+      "audio_sha256": "923b4f2aee3b3fe9c80089eb90d443dd2a6e94aeed801070da481f6007938623",
+      "duration_s": 1.665,
+      "elapsed_s": 0.98
+    },
+    {
+      "case": "deictic",
+      "voice": "Microsoft Zira Desktop",
+      "reference": "Drop me here.",
+      "transcript": "drop me here",
+      "critical_terms": [
+        "here"
+      ],
+      "critical_terms_preserved": true,
+      "audio_sha256": "89836fbd1526dc2b74c3abe691b53ee0ec7da94db981ddb7b46a4921c6d881a3",
+      "duration_s": 1.675,
+      "elapsed_s": 0.958
+    },
+    {
+      "case": "black-cars",
+      "voice": "Microsoft David Desktop",
+      "reference": "Drop me between the two parked black cars on the right.",
+      "transcript": "drop me between the two park black cars on the right",
+      "critical_terms": [
+        "between",
+        "two",
+        "parked",
+        "black",
+        "cars",
+        "right"
+      ],
+      "critical_terms_preserved": false,
+      "audio_sha256": "c4f2a080fcc522fb3a5db0b349051a1a4d6a7c21e18f6430dc3f5e5bd28912a9",
+      "duration_s": 3.635,
+      "elapsed_s": 1.593
+    },
+    {
+      "case": "black-cars",
+      "voice": "Microsoft Zira Desktop",
+      "reference": "Drop me between the two parked black cars on the right.",
+      "transcript": "drop me between the two parked black cars on the right",
+      "critical_terms": [
+        "between",
+        "two",
+        "parked",
+        "black",
+        "cars",
+        "right"
+      ],
+      "critical_terms_preserved": true,
+      "audio_sha256": "068ce34631b2a5cd1d1775a2e14169a73a06926d703d3cc2ab876d61de8964f1",
+      "duration_s": 3.69,
+      "elapsed_s": 1.794
+    },
+    {
+      "case": "truck-ahead",
+      "voice": "Microsoft David Desktop",
+      "reference": "I mean the area near the large white truck ahead.",
+      "transcript": "i mean the area near the large white truck ahead",
+      "critical_terms": [
+        "near",
+        "large",
+        "white",
+        "truck",
+        "ahead"
+      ],
+      "critical_terms_preserved": true,
+      "audio_sha256": "df6479db6c747e5a66cb15726371959a68d30175b7ae5f427ffab550879c5960",
+      "duration_s": 3.32,
+      "elapsed_s": 1.79
+    },
+    {
+      "case": "truck-ahead",
+      "voice": "Microsoft Zira Desktop",
+      "reference": "I mean the area near the large white truck ahead.",
+      "transcript": "i mean the area near the large white truck ahead",
+      "critical_terms": [
+        "near",
+        "large",
+        "white",
+        "truck",
+        "ahead"
+      ],
+      "critical_terms_preserved": true,
+      "audio_sha256": "ad8690654a5ce09ebbe0cf16b22b0c60ebcaef134fca3bb67f30676ea40ddb13",
+      "duration_s": 3.21,
+      "elapsed_s": 1.656
+    },
+    {
+      "case": "negation",
+      "voice": "Microsoft David Desktop",
+      "reference": "Near the white truck, not the black car.",
+      "transcript": "near the white truck not the black car",
+      "critical_terms": [
+        "white",
+        "truck",
+        "not",
+        "black",
+        "car"
+      ],
+      "critical_terms_preserved": true,
+      "audio_sha256": "00c246bdc5592390bd61142561649391c07155bfbdb521a969561f4b623c9d9d",
+      "duration_s": 3.36,
+      "elapsed_s": 1.682
+    },
+    {
+      "case": "negation",
+      "voice": "Microsoft Zira Desktop",
+      "reference": "Near the white truck, not the black car.",
+      "transcript": "near the white truck not the black car",
+      "critical_terms": [
+        "white",
+        "truck",
+        "not",
+        "black",
+        "car"
+      ],
+      "critical_terms_preserved": true,
+      "audio_sha256": "6871281be854cd6f579f53dfa784131553268d186b02f6e68a0c6d15e9298f39",
+      "duration_s": 3.295,
+      "elapsed_s": 1.62
+    },
+    {
+      "case": "ordinal",
+      "voice": "Microsoft David Desktop",
+      "reference": "Please stop in front of the second blue car.",
+      "transcript": "please stop in front of the second blue car",
+      "critical_terms": [
+        "front",
+        "second",
+        "blue",
+        "car"
+      ],
+      "critical_terms_preserved": true,
+      "audio_sha256": "cb140a4caf2dc130d3482961d753a0f4af0b86b71620c3ca1baa31a1a10ecf53",
+      "duration_s": 3.165,
+      "elapsed_s": 1.527
+    },
+    {
+      "case": "ordinal",
+      "voice": "Microsoft Zira Desktop",
+      "reference": "Please stop in front of the second blue car.",
+      "transcript": "please stop in front of the second blue car",
+      "critical_terms": [
+        "front",
+        "second",
+        "blue",
+        "car"
+      ],
+      "critical_terms_preserved": true,
+      "audio_sha256": "b2c2f4d228e2aecd8117effdedfdde24c8c35fcfa5c98b1c7cfa3205350cebea",
+      "duration_s": 3.175,
+      "elapsed_s": 1.437
+    },
+    {
+      "case": "correction",
+      "voice": "Microsoft David Desktop",
+      "reference": "Sorry, I meant the one on the right.",
+      "transcript": "sorry i meant the one on the right",
+      "critical_terms": [
+        "right"
+      ],
+      "critical_terms_preserved": true,
+      "audio_sha256": "3c16ea2720552d3aebdb207d8cb68d417d27b24afabb7a3594365676167228b9",
+      "duration_s": 3.015,
+      "elapsed_s": 1.235
+    },
+    {
+      "case": "correction",
+      "voice": "Microsoft Zira Desktop",
+      "reference": "Sorry, I meant the one on the right.",
+      "transcript": "sorry i meant the one on the right",
+      "critical_terms": [
+        "right"
+      ],
+      "critical_terms_preserved": true,
+      "audio_sha256": "1eda3e85c628b82077731e8b49d68f65eb85f985b3dc296991f05e184fd5e3a4",
+      "duration_s": 3.1,
+      "elapsed_s": 1.332
+    },
+    {
+      "case": "cancel",
+      "voice": "Microsoft David Desktop",
+      "reference": "Cancel that request.",
+      "transcript": "cancel that request",
+      "critical_terms": [
+        "cancel"
+      ],
+      "critical_terms_preserved": true,
+      "audio_sha256": "0ed00066dbe57bf5d4cfc369b90b72d0aab4caf776061c6261802c7129d5130c",
+      "duration_s": 2.1,
+      "elapsed_s": 1.055
+    },
+    {
+      "case": "cancel",
+      "voice": "Microsoft Zira Desktop",
+      "reference": "Cancel that request.",
+      "transcript": "cancel that request",
+      "critical_terms": [
+        "cancel"
+      ],
+      "critical_terms_preserved": true,
+      "audio_sha256": "9a9a671f021a0bc833aea4a701220a01eeb9b127143dcc674a5b898e1accf358",
+      "duration_s": 2.055,
+      "elapsed_s": 1.124
+    }
+  ],
+  "three_separate_scene_prompts": {
+    "passenger-a10-david.wav": {
+      "transcript": "let me out at the foot of those white medal panels on the right",
+      "audio_sha256": "c77267f5d01a16f18a0b82d47f000a298f88af85b4413bcf4dca15dba3425ad8"
+    },
+    "passenger-a10-zira.wav": {
+      "transcript": "let me out at the foot of those white metal panels on the right",
+      "audio_sha256": "44da28f992fee667edba51d6c788efe955926c3518f3e7111061ac0aa89476ce"
+    },
+    "passenger-b01-david.wav": {
+      "transcript": "i'd like the patch of road just behind the white as you v on the left",
+      "audio_sha256": "64288e81fd1abd13d4615ac4792491cf639a8c568c738ee2dba74caeae9d23bf"
+    },
+    "passenger-b01-zira.wav": {
+      "transcript": "i'd like the patch of road just behind the white s u v on the left",
+      "audio_sha256": "bff49abb78f8483332e2f855c34241e1c3f3184fb6d7231cf6da2497f4ce4d14"
+    },
+    "passenger-b02-david.wav": {
+      "transcript": "the space behind the big white truck with metal sites on the right please",
+      "audio_sha256": "1908d808cdf0bff93e0ec58af0ed931b8cc7f355af261199b346e37cec5a53f7"
+    },
+    "passenger-b02-zira.wav": {
+      "transcript": "the space behind the big white truck with metal sides on the right please",
+      "audio_sha256": "a50fc0e15c329ff6815f3e9b71844d27ff6fc49ab28f150ae585bd4ebfee0e5a"
+    }
+  },
+  "one_second_silence": {
+    "code": "no_speech"
+  },
+  "browser_virtual_microphone": [
+    {
+      "audio_sha256": "6512c0a42963c2880c31d3dc35b4560c713b0c10eb571139f99cea9fab4fe64b",
+      "original_transcript": "i mean the area near the large white truck ahead i mean the",
+      "edited_transcript": "I mean the area near the large white truck ahead.",
+      "duration_s": 5.104,
+      "grounder": "software substitute",
+      "later_confirmation": true
+    }
+  ],
+  "raw_result_sha256": "6958dce27d7de47d60d839a8cd95567f45de78a7737445bdb30befb6cdff5524"
+}

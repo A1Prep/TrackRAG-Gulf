@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "kind": "single_bounded_development_prompt_followup_after_observed_failures",
+  "reason": "The masked visual review found bus/SUV body points and a white-truck placement not convincingly on a ground area in the existing five-case trial.",
+  "selected_adapter_sha256": "76bfb3230b17a86248b52ca6a9f8d2ffca324aa80216d6b93845ccb12ad86743",
+  "request_file_sha256": "39638be35ba2ec7bc45f8ece02c711573437c29d63a2e0880c6b1a9a8efe221e",
+  "case_ids": [
+    "local-8b-video_054604-150-1",
+    "local-8b-video_054604-150-2",
+    "local-8b-video_054907-75-3",
+    "local-8b-video_054907-75-4",
+    "public-gray-sedan-schema-regression"
+  ],
+  "append_to_full_interpretation_system": " Referred objects and detection boxes are landmarks, not destination regions. A proposed drop-off point must identify visibly empty ground outside vehicle bodies. Do not copy a vehicle box or its centre as a drop-off. First check that all required landmarks are visible and identifiable. If the requested references or ground area remain unresolved, use clarification or insufficient evidence.",
+  "model_weights_preprocessing_grammar_and_decoding_fixed": true,
+  "trial_cases_were_already_observed_development_failures": true,
+  "independent_accuracy_claim_allowed": false,
+  "reference_coordinates_or_masks_used_for_prediction": false,
+  "no_scene_specific_coordinate_or_phrase_rules": true,
+  "one_prompt_variant_only": true,
+  "adoption_checks": [
+    "All five outputs remain operationally valid",
+    "Unpointed here and ambiguous gray sedan stay unresolved",
+    "No proposal is visibly on a vehicle body",
+    "At least one bus/truck request yields a visually plausible ground-area proposal",
+    "Unknown paired-black-car reference is not confidently localized without the visible pair"
+  ],
+  "reserved_test_data_used": false
+}

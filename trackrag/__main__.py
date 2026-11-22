@@ -106,6 +106,7 @@ def main(argv=None):
             rank_evidence=rank_evidence, answer_question=answer_question, output_dir=args.out,
             run_metadata={"adapter_module":args.adapters or 'task_modules','answerer':args.answerer,
                           'retrieval_adapter':retrieval_module or 'trackrag.retrieval',
+                           **({'boundary_answer':'visual-candidate-v1'} if retrieval_module=='trackrag.retrieval_temporal' else {}),
                           'answer_adapter':(args.answer_adapter or args.adapters or 'trackrag.answering') if answer_question else None},
         )
     except Exception as error:

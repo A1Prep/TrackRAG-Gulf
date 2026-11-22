@@ -1,0 +1,260 @@
+{
+  "kind": "independent_blind_ai_reference_comparison",
+  "human_reviews": 0,
+  "cohort_size": 36,
+  "second_reviewer_sha256": "10e86e996c433ee7f2eeba80961cfcf50595efee0d5b477f651550de9988637e",
+  "reference_hashes": {
+    "train": "b00053cdc2c05a58d5b688f54f1c06deb1cedbf99f555d5ea81696dfba570525",
+    "development": "ab01878a0ed1b73fdbb931c73bb167624aa115c9af5c21e4f41b4388e567cd8c"
+  },
+  "status_agreement": 36,
+  "both_proposed": 21,
+  "second_point_in_first_box": 12,
+  "median_point_to_point_pixels": 51.61,
+  "median_point_to_point_fraction_of_diagonal": 0.01757,
+  "rows": [
+    {
+      "request_id": "passenger-a01",
+      "partition": "train",
+      "status_agreement": true,
+      "second_point_in_first_box": true,
+      "point_to_point_pixels": 60.21,
+      "point_to_point_fraction_of_diagonal": 0.0205
+    },
+    {
+      "request_id": "passenger-a02",
+      "partition": "train",
+      "status_agreement": true,
+      "second_point_in_first_box": false,
+      "point_to_point_pixels": 177.1,
+      "point_to_point_fraction_of_diagonal": 0.0603
+    },
+    {
+      "request_id": "passenger-a03",
+      "partition": "train",
+      "status_agreement": true
+    },
+    {
+      "request_id": "passenger-a04",
+      "partition": "train",
+      "status_agreement": true,
+      "second_point_in_first_box": true,
+      "point_to_point_pixels": 60.21,
+      "point_to_point_fraction_of_diagonal": 0.0205
+    },
+    {
+      "request_id": "passenger-a05",
+      "partition": "train",
+      "status_agreement": true
+    },
+    {
+      "request_id": "passenger-a06",
+      "partition": "train",
+      "status_agreement": true,
+      "second_point_in_first_box": false,
+      "point_to_point_pixels": 213.6,
+      "point_to_point_fraction_of_diagonal": 0.07272
+    },
+    {
+      "request_id": "passenger-a07",
+      "partition": "train",
+      "status_agreement": true,
+      "second_point_in_first_box": true,
+      "point_to_point_pixels": 33.24,
+      "point_to_point_fraction_of_diagonal": 0.01132
+    },
+    {
+      "request_id": "passenger-a08",
+      "partition": "train",
+      "status_agreement": true
+    },
+    {
+      "request_id": "passenger-a09",
+      "partition": "train",
+      "status_agreement": true
+    },
+    {
+      "request_id": "passenger-a10",
+      "partition": "train",
+      "status_agreement": true,
+      "second_point_in_first_box": false,
+      "point_to_point_pixels": 68.41,
+      "point_to_point_fraction_of_diagonal": 0.02329
+    },
+    {
+      "request_id": "passenger-a11",
+      "partition": "train",
+      "status_agreement": true,
+      "second_point_in_first_box": false,
+      "point_to_point_pixels": 140.6,
+      "point_to_point_fraction_of_diagonal": 0.04787
+    },
+    {
+      "request_id": "passenger-a12",
+      "partition": "train",
+      "status_agreement": true
+    },
+    {
+      "request_id": "passenger-a13",
+      "partition": "train",
+      "status_agreement": true,
+      "second_point_in_first_box": false,
+      "point_to_point_pixels": 140.6,
+      "point_to_point_fraction_of_diagonal": 0.04787
+    },
+    {
+      "request_id": "passenger-a14",
+      "partition": "train",
+      "status_agreement": true
+    },
+    {
+      "request_id": "passenger-a15",
+      "partition": "train",
+      "status_agreement": true,
+      "second_point_in_first_box": true,
+      "point_to_point_pixels": 5.66,
+      "point_to_point_fraction_of_diagonal": 0.00193
+    },
+    {
+      "request_id": "passenger-a16",
+      "partition": "train",
+      "status_agreement": true,
+      "second_point_in_first_box": false,
+      "point_to_point_pixels": 25.06,
+      "point_to_point_fraction_of_diagonal": 0.00853
+    },
+    {
+      "request_id": "passenger-a17",
+      "partition": "train",
+      "status_agreement": true
+    },
+    {
+      "request_id": "passenger-b01",
+      "partition": "development",
+      "status_agreement": true,
+      "second_point_in_first_box": true,
+      "point_to_point_pixels": 68.07,
+      "point_to_point_fraction_of_diagonal": 0.02317
+    },
+    {
+      "request_id": "passenger-b02",
+      "partition": "development",
+      "status_agreement": true,
+      "second_point_in_first_box": true,
+      "point_to_point_pixels": 68.31,
+      "point_to_point_fraction_of_diagonal": 0.02326
+    },
+    {
+      "request_id": "passenger-b03",
+      "partition": "development",
+      "status_agreement": true
+    },
+    {
+      "request_id": "passenger-b04",
+      "partition": "development",
+      "status_agreement": true,
+      "second_point_in_first_box": true,
+      "point_to_point_pixels": 68.31,
+      "point_to_point_fraction_of_diagonal": 0.02326
+    },
+    {
+      "request_id": "passenger-b05",
+      "partition": "development",
+      "status_agreement": true
+    },
+    {
+      "request_id": "passenger-b06",
+      "partition": "development",
+      "status_agreement": true,
+      "second_point_in_first_box": true,
+      "point_to_point_pixels": 20.52,
+      "point_to_point_fraction_of_diagonal": 0.00699
+    },
+    {
+      "request_id": "passenger-b07",
+      "partition": "development",
+      "status_agreement": true,
+      "second_point_in_first_box": false,
+      "point_to_point_pixels": 33.62,
+      "point_to_point_fraction_of_diagonal": 0.01144
+    },
+    {
+      "request_id": "passenger-b08",
+      "partition": "development",
+      "status_agreement": true
+    },
+    {
+      "request_id": "passenger-b09",
+      "partition": "development",
+      "status_agreement": true,
+      "second_point_in_first_box": false,
+      "point_to_point_pixels": 33.62,
+      "point_to_point_fraction_of_diagonal": 0.01144
+    },
+    {
+      "request_id": "passenger-b10",
+      "partition": "development",
+      "status_agreement": true
+    },
+    {
+      "request_id": "passenger-b11",
+      "partition": "development",
+      "status_agreement": true,
+      "second_point_in_first_box": true,
+      "point_to_point_pixels": 14.87,
+      "point_to_point_fraction_of_diagonal": 0.00506
+    },
+    {
+      "request_id": "passenger-b12",
+      "partition": "development",
+      "status_agreement": true,
+      "second_point_in_first_box": true,
+      "point_to_point_pixels": 43.17,
+      "point_to_point_fraction_of_diagonal": 0.0147
+    },
+    {
+      "request_id": "passenger-b13",
+      "partition": "development",
+      "status_agreement": true,
+      "second_point_in_first_box": true,
+      "point_to_point_pixels": 43.17,
+      "point_to_point_fraction_of_diagonal": 0.0147
+    },
+    {
+      "request_id": "passenger-b14",
+      "partition": "development",
+      "status_agreement": true
+    },
+    {
+      "request_id": "passenger-b15",
+      "partition": "development",
+      "status_agreement": true
+    },
+    {
+      "request_id": "passenger-b16",
+      "partition": "development",
+      "status_agreement": true,
+      "second_point_in_first_box": false,
+      "point_to_point_pixels": 51.61,
+      "point_to_point_fraction_of_diagonal": 0.01757
+    },
+    {
+      "request_id": "passenger-b17",
+      "partition": "development",
+      "status_agreement": true,
+      "second_point_in_first_box": true,
+      "point_to_point_pixels": 20.59,
+      "point_to_point_fraction_of_diagonal": 0.00701
+    },
+    {
+      "request_id": "passenger-b18",
+      "partition": "development",
+      "status_agreement": true
+    },
+    {
+      "request_id": "passenger-b19",
+      "partition": "development",
+      "status_agreement": true
+    }
+  ]
+}

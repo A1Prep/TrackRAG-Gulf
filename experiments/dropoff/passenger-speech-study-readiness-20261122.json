@@ -1,0 +1,579 @@
+{
+  "schema_version": 1,
+  "kind": "passenger_speech_human_collection_readiness",
+  "created_utc": "2026-11-22T04:19:48.798073+00:00",
+  "study": {
+    "protocol_sha256": "1b86207a62479a0f0d90026e17a849911b9508632f216fe15c93ebaa5819ffd5",
+    "formatted_protocol_file_sha256": "9f188fb7b6cce3c9cf5a3498307eee45a18b0609dcb05fa92cab47fe3261e6ef",
+    "prompts": [
+      {
+        "prompt_id": "a01",
+        "source_case_id": "passenger-a01",
+        "recording_id": "video_054604",
+        "frame_id": 1,
+        "image_sha256": "8554bd37dc647488f6a496b2845f22a7a6bf21b2478d732b1340d99175a7e518",
+        "source_input_sha256": "5b83a2a08a086fd9c60bcd1e3a5afa96af0af8c2705ea4058fc8adc758741b82",
+        "scene_dialogue": [],
+        "script": "Let me out on the brick strip on the right, alongside the construction fence.",
+        "wording": "verbatim frozen instruction"
+      },
+      {
+        "prompt_id": "a06",
+        "source_case_id": "passenger-a06",
+        "recording_id": "video_054604",
+        "frame_id": 42,
+        "image_sha256": "f32976e9f019f3009c04608a4dd7b3446ffd46d7bc28a04c7d05fab5994b9e94",
+        "source_input_sha256": "8a827f7e8cf4e1a7bfa8f02ce85b76a1c1557e7e0f9ad7c2ad2094ab4121b7c9",
+        "scene_dialogue": [],
+        "script": "I'll get out along the left curb by the red and white arrow.",
+        "wording": "verbatim frozen instruction"
+      },
+      {
+        "prompt_id": "a10",
+        "source_case_id": "passenger-a10",
+        "recording_id": "video_054604",
+        "frame_id": 83,
+        "image_sha256": "4ffb09376f0cb211e74d46043ef47fa7b498063e308c8e3653bdc1d7381bcc08",
+        "source_input_sha256": "686417de74b8085506a3c1e10c0c6e87f11eba666cefc43de65763843a8ba2f5",
+        "scene_dialogue": [],
+        "script": "Let me out at the foot of those white metal panels on the right.",
+        "wording": "verbatim frozen instruction"
+      },
+      {
+        "prompt_id": "b01",
+        "source_case_id": "passenger-b01",
+        "recording_id": "video_054907",
+        "frame_id": 1,
+        "image_sha256": "033fc370408c4bc99a1ec9fbb845b6618a5f53b680a235baba336b8fe8ddba80",
+        "source_input_sha256": "8e7577669ac1e41b13bc10ad16c04cb2ae74517951abd9347c15560210c3178b",
+        "scene_dialogue": [],
+        "script": "I'd like the patch of road just behind the white SUV on the left.",
+        "wording": "verbatim frozen instruction"
+      },
+      {
+        "prompt_id": "b02",
+        "source_case_id": "passenger-b02",
+        "recording_id": "video_054907",
+        "frame_id": 1,
+        "image_sha256": "033fc370408c4bc99a1ec9fbb845b6618a5f53b680a235baba336b8fe8ddba80",
+        "source_input_sha256": "35af288b0a13057da0ca289c992d852dcdd7f9dcd778edb3191710eac12693c6",
+        "scene_dialogue": [],
+        "script": "The space behind the big white truck with metal sides on the right, please.",
+        "wording": "verbatim frozen instruction"
+      },
+      {
+        "prompt_id": "b06",
+        "source_case_id": "passenger-b06",
+        "recording_id": "video_054907",
+        "frame_id": 42,
+        "image_sha256": "175602c7dc418c0ababa6cea56daec7f5e2779452370a9ace398cdc3780041a6",
+        "source_input_sha256": "4dfb71ebfec8491bc9d0a3571382a822c760854048e7cf7afeabfd518aea4fde",
+        "scene_dialogue": [],
+        "script": "I mean the open space between the white Toyota pickup and the black SUV, behind both.",
+        "wording": "verbatim frozen instruction"
+      },
+      {
+        "prompt_id": "b11",
+        "source_case_id": "passenger-b11",
+        "recording_id": "video_054907",
+        "frame_id": 59,
+        "image_sha256": "2a735d35145f1998ead5ddb78bf960aebbe8b5d997b278e36f888b8e742e3cfd",
+        "source_input_sha256": "9029a093e7b925b8ca0300dd2c0ba2845087367ab8505afb302b81109ff45fb8",
+        "scene_dialogue": [],
+        "script": "Behind the black SUV to the right of the yellow car, please.",
+        "wording": "verbatim frozen instruction"
+      },
+      {
+        "prompt_id": "b13",
+        "source_case_id": "passenger-b13",
+        "recording_id": "video_054907",
+        "frame_id": 59,
+        "image_sha256": "2a735d35145f1998ead5ddb78bf960aebbe8b5d997b278e36f888b8e742e3cfd",
+        "source_input_sha256": "418fcc942054616b9cac7e1bd842bca8bcc96b2a310df4a656c1437ac745bde9",
+        "scene_dialogue": [
+          {
+            "role": "user",
+            "text": "I'm looking at the black SUV to the right of the yellow car.",
+            "recording_id": "video_054907",
+            "frame_id": 59
+          }
+        ],
+        "script": "Actually I meant behind the white Toyota pickup, not the black SUV.",
+        "wording": "verbatim frozen instruction"
+      },
+      {
+        "prompt_id": "b16",
+        "source_case_id": "passenger-b16",
+        "recording_id": "video_054907",
+        "frame_id": 103,
+        "image_sha256": "0448ff2ffa6959029f2af9d6f9fefc72af976679d400fe796e4e7064ce425213",
+        "source_input_sha256": "920051d75029950ede5a30f30e3224387295719af438a8593b079604bb8c6fc7",
+        "scene_dialogue": [],
+        "script": "I'd like the road edge by the right guardrail, just before the yellow work sign.",
+        "wording": "verbatim frozen instruction"
+      },
+      {
+        "prompt_id": "b06-count",
+        "source_case_id": "passenger-b06",
+        "recording_id": "video_054907",
+        "frame_id": 42,
+        "image_sha256": "175602c7dc418c0ababa6cea56daec7f5e2779452370a9ace398cdc3780041a6",
+        "source_input_sha256": "4dfb71ebfec8491bc9d0a3571382a822c760854048e7cf7afeabfd518aea4fde",
+        "scene_dialogue": [],
+        "script": "Let me out between those two vehicles, behind the white pickup and the black SUV.",
+        "wording": "predeclared counting paraphrase"
+      }
+    ],
+    "planned_speakers": 3,
+    "read_per_speaker": 10,
+    "elicitation": "English read speech",
+    "references": "Nine original frozen instructions and one predeclared count paraphrase. Speaker must separately listen back and attest to actual words before ASR.",
+    "task3_capture_api": "trackrag.speech.record_from_microphone",
+    "recognizer": "vosk==0.3.45, vosk-model-small-en-us-0.15",
+    "model_content_sha256": "38655871e595540ec3bd39927a7e4b9f80ab7cf53abc34b3780fb05bd4cf94b6",
+    "native_capture_library_imports_tested": {
+      "SpeechRecognition": "3.14.3",
+      "PyAudio": "0.2.14"
+    },
+    "physical_microphone_accessed_by_automation": false
+  },
+  "published_deliverables_inventory": {
+    "checked_utc": "2026-11-22T04:15:54.083433+00:00",
+    "branch_count": 29,
+    "distinct_trees": 29,
+    "tracked_audio_paths": 0,
+    "issue": {
+      "number": 3,
+      "url": "https://github.com/A1Prep/TrackRAG-Gulf/issues/3",
+      "updatedAt": "2026-11-20T06:41:59Z",
+      "comments": 0
+    },
+    "task3_pr": {
+      "number": 18,
+      "url": "https://github.com/A1Prep/TrackRAG-Gulf/pull/18",
+      "state": "OPEN",
+      "updatedAt": "2026-11-21T10:37:25Z",
+      "headRefOid": "474713a70ca9405e2df9245ba16f6c0e109b20b1",
+      "comments": 0,
+      "reviews": 0
+    },
+    "release_assets_checked": {
+      "task5-local-8b-20261121": [
+        "dropoff-8b-adapter-public-v2-20261121.zip",
+        "dropoff-8b-diagnostics-20261121.zip",
+        "dropoff-8b-source-20261121.zip",
+        "dropoff-method-comparison-20261121.zip",
+        "dropoff-quick-verification-20261121.zip",
+        "release_receipt.json",
+        "SHA256SUMS.txt"
+      ]
+    },
+    "source_inventory_sha256": "57997a2706209e2a786fefa30debe5aaff1d68fa90aaac722321f36ecbce46f7",
+    "scope": "Published branch paths and GitHub release asset names plus the Task 3 issue and open PR metadata. No private transfers inspected."
+  },
+  "real_zero_return": {
+    "recorded": 0,
+    "planned_cases": 30,
+    "speakers_with_returns": 0,
+    "planned_speakers": 3,
+    "overall_word_error_rate": null,
+    "by_speaker": {
+      "S01": {
+        "collected": 0,
+        "missing": 10,
+        "word_error_rate": null
+      },
+      "S02": {
+        "collected": 0,
+        "missing": 10,
+        "word_error_rate": null
+      },
+      "S03": {
+        "collected": 0,
+        "missing": 10,
+        "word_error_rate": null
+      }
+    },
+    "original_displayed_asr_word_error_rate": null,
+    "receipt_sha256": "e7e71d629e9e4ba518ab66427877366d875057e4658d56781adc549506cedca6",
+    "local_receipt": "runs/passenger-human-speech-20261122/zero-human-returns-both-asr.json"
+  },
+  "synthetic_cpu_test": {
+    "raw_receipt_sha256": "44284b671b8dc7ed26fef8d7664fd4b2f97e6f814763b6c0ed0620c2baf4e34f",
+    "source": "Windows System.Speech Microsoft David Desktop and Zira Desktop. No human or microphone.",
+    "raw_local_receipt": "runs/passenger-human-speech-20261122/synthetic-twenty-final.json",
+    "actual_human_clips": 0,
+    "overall": {
+      "planned": 20,
+      "recorded": 20,
+      "missing": 0,
+      "recognizer_errors": 0,
+      "reference_words": 278,
+      "word_edits": 41,
+      "word_error_rate": 0.1474820143884892,
+      "word_exact_clips": 5,
+      "recording_conditions": {
+        "quiet": 20
+      },
+      "critical_terms": {
+        "colour": {
+          "assessable_clips": 18,
+          "preserved_in_order": 18,
+          "exact_rate": 1.0
+        },
+        "direction": {
+          "assessable_clips": 20,
+          "preserved_in_order": 20,
+          "exact_rate": 1.0
+        },
+        "count": {
+          "assessable_clips": 4,
+          "preserved_in_order": 4,
+          "exact_rate": 1.0
+        },
+        "negation": {
+          "assessable_clips": 2,
+          "preserved_in_order": 2,
+          "exact_rate": 1.0
+        }
+      }
+    },
+    "by_voice": {
+      "david": {
+        "planned": 10,
+        "recorded": 10,
+        "missing": 0,
+        "recognizer_errors": 0,
+        "reference_words": 139,
+        "word_edits": 23,
+        "word_error_rate": 0.16546762589928057,
+        "word_exact_clips": 1,
+        "recording_conditions": {
+          "quiet": 10
+        },
+        "critical_terms": {
+          "colour": {
+            "assessable_clips": 9,
+            "preserved_in_order": 9,
+            "exact_rate": 1.0
+          },
+          "direction": {
+            "assessable_clips": 10,
+            "preserved_in_order": 10,
+            "exact_rate": 1.0
+          },
+          "count": {
+            "assessable_clips": 2,
+            "preserved_in_order": 2,
+            "exact_rate": 1.0
+          },
+          "negation": {
+            "assessable_clips": 1,
+            "preserved_in_order": 1,
+            "exact_rate": 1.0
+          }
+        }
+      },
+      "zira": {
+        "planned": 10,
+        "recorded": 10,
+        "missing": 0,
+        "recognizer_errors": 0,
+        "reference_words": 139,
+        "word_edits": 18,
+        "word_error_rate": 0.12949640287769784,
+        "word_exact_clips": 4,
+        "recording_conditions": {
+          "quiet": 10
+        },
+        "critical_terms": {
+          "colour": {
+            "assessable_clips": 9,
+            "preserved_in_order": 9,
+            "exact_rate": 1.0
+          },
+          "direction": {
+            "assessable_clips": 10,
+            "preserved_in_order": 10,
+            "exact_rate": 1.0
+          },
+          "count": {
+            "assessable_clips": 2,
+            "preserved_in_order": 2,
+            "exact_rate": 1.0
+          },
+          "negation": {
+            "assessable_clips": 1,
+            "preserved_in_order": 1,
+            "exact_rate": 1.0
+          }
+        }
+      }
+    },
+    "per_clip": [
+      {
+        "synthetic_voice": "david",
+        "prompt_id": "a01",
+        "wav_sha256": "e9f76e94cca045aa9071cd68193d6dc397289fbf03b7f87cabc2fcfedf3e841b",
+        "reference": "Let me out on the brick strip on the right, alongside the construction fence.",
+        "raw_transcript": "let me out on the brake strip on the right alongside the construction feds",
+        "duration_s": 5.245,
+        "decode_s": 1.7373436999914702,
+        "word_edits": 2,
+        "reference_words": 14
+      },
+      {
+        "synthetic_voice": "david",
+        "prompt_id": "a06",
+        "wav_sha256": "d0ac78537c2de4a20a02f1cf199ed07cd311e2e5cbd19f5729328b59e840e907",
+        "reference": "I'll get out along the left curb by the red and white arrow.",
+        "raw_transcript": "i'll get out along the left curb by the red and white arrow",
+        "duration_s": 3.78,
+        "decode_s": 1.3391831000044476,
+        "word_edits": 0,
+        "reference_words": 13
+      },
+      {
+        "synthetic_voice": "david",
+        "prompt_id": "a10",
+        "wav_sha256": "c77267f5d01a16f18a0b82d47f000a298f88af85b4413bcf4dca15dba3425ad8",
+        "reference": "Let me out at the foot of those white metal panels on the right.",
+        "raw_transcript": "let me out at the foot of those white medal panels on the right",
+        "duration_s": 3.92,
+        "decode_s": 1.388555500016082,
+        "word_edits": 1,
+        "reference_words": 14
+      },
+      {
+        "synthetic_voice": "david",
+        "prompt_id": "b01",
+        "wav_sha256": "64288e81fd1abd13d4615ac4792491cf639a8c568c738ee2dba74caeae9d23bf",
+        "reference": "I'd like the patch of road just behind the white SUV on the left.",
+        "raw_transcript": "i'd like the patch of road just behind the white as you v on the left",
+        "duration_s": 4.45,
+        "decode_s": 1.4501823000027798,
+        "word_edits": 3,
+        "reference_words": 14
+      },
+      {
+        "synthetic_voice": "david",
+        "prompt_id": "b02",
+        "wav_sha256": "1908d808cdf0bff93e0ec58af0ed931b8cc7f355af261199b346e37cec5a53f7",
+        "reference": "The space behind the big white truck with metal sides on the right, please.",
+        "raw_transcript": "the space behind the big white truck with metal sites on the right please",
+        "duration_s": 5.075,
+        "decode_s": 1.4449810000078287,
+        "word_edits": 1,
+        "reference_words": 14
+      },
+      {
+        "synthetic_voice": "david",
+        "prompt_id": "b06",
+        "wav_sha256": "6ef664498fbda2bf91986267df48e997a0b70fdd97eb7b5ffb9a0a61121f42d3",
+        "reference": "I mean the open space between the white Toyota pickup and the black SUV, behind both.",
+        "raw_transcript": "i mean the open space between the white toyota pickup and the black as you be behind both",
+        "duration_s": 6.085,
+        "decode_s": 1.7265466999961063,
+        "word_edits": 3,
+        "reference_words": 16
+      },
+      {
+        "synthetic_voice": "david",
+        "prompt_id": "b11",
+        "wav_sha256": "d2c9faab6088348cb53aa4fea1ee1e02887eac4d2a967cf41ece3f0e705f18eb",
+        "reference": "Behind the black SUV to the right of the yellow car, please.",
+        "raw_transcript": "behind the black as you v to the right of the yellow car please",
+        "duration_s": 4.55,
+        "decode_s": 1.398997500014957,
+        "word_edits": 3,
+        "reference_words": 12
+      },
+      {
+        "synthetic_voice": "david",
+        "prompt_id": "b13",
+        "wav_sha256": "b02269b87bf8ef5900f44da1f56b9e5fa233596d5f053410e849ce39d40e5f9e",
+        "reference": "Actually I meant behind the white Toyota pickup, not the black SUV.",
+        "raw_transcript": "actually i meant behind the white toyota pickup not the black as you be",
+        "duration_s": 5.11,
+        "decode_s": 1.5220489999919664,
+        "word_edits": 3,
+        "reference_words": 12
+      },
+      {
+        "synthetic_voice": "david",
+        "prompt_id": "b16",
+        "wav_sha256": "31f11e807acecc26fbf8a2b4115c71801a6eb86c8b9b0879c00646b05ac399a8",
+        "reference": "I'd like the road edge by the right guardrail, just before the yellow work sign.",
+        "raw_transcript": "i'd like the road edge by the right guard rail just before the yellow work sign",
+        "duration_s": 5.295,
+        "decode_s": 1.5258717999968212,
+        "word_edits": 2,
+        "reference_words": 15
+      },
+      {
+        "synthetic_voice": "david",
+        "prompt_id": "b06-count",
+        "wav_sha256": "1731803673b018635267e5fb326848078de78d64631e1f92be49f5e9122f8693",
+        "reference": "Let me out between those two vehicles, behind the white pickup and the black SUV.",
+        "raw_transcript": "let me out between those two vehicles behind the white pick up and the black as you v",
+        "duration_s": 5.635,
+        "decode_s": 1.9339595999917947,
+        "word_edits": 5,
+        "reference_words": 15
+      },
+      {
+        "synthetic_voice": "zira",
+        "prompt_id": "a01",
+        "wav_sha256": "1c0acc0452b3071385cc93c3011ad978fb7e37823b0cd0513316f8472bf288f4",
+        "reference": "Let me out on the brick strip on the right, alongside the construction fence.",
+        "raw_transcript": "let me out on the bricks strip on the right alongside the construction fence",
+        "duration_s": 5.115,
+        "decode_s": 1.854675100010354,
+        "word_edits": 1,
+        "reference_words": 14
+      },
+      {
+        "synthetic_voice": "zira",
+        "prompt_id": "a06",
+        "wav_sha256": "fc3dd543a91f96c614c3772f29a3b0adb7ededb72a2f324a085d4b7396b9e082",
+        "reference": "I'll get out along the left curb by the red and white arrow.",
+        "raw_transcript": "i'll get out along the left curb by the red and white arrow",
+        "duration_s": 3.765,
+        "decode_s": 1.7643799999787007,
+        "word_edits": 0,
+        "reference_words": 13
+      },
+      {
+        "synthetic_voice": "zira",
+        "prompt_id": "a10",
+        "wav_sha256": "44da28f992fee667edba51d6c788efe955926c3518f3e7111061ac0aa89476ce",
+        "reference": "Let me out at the foot of those white metal panels on the right.",
+        "raw_transcript": "let me out at the foot of those white metal panels on the right",
+        "duration_s": 3.885,
+        "decode_s": 1.4738491000025533,
+        "word_edits": 0,
+        "reference_words": 14
+      },
+      {
+        "synthetic_voice": "zira",
+        "prompt_id": "b01",
+        "wav_sha256": "bff49abb78f8483332e2f855c34241e1c3f3184fb6d7231cf6da2497f4ce4d14",
+        "reference": "I'd like the patch of road just behind the white SUV on the left.",
+        "raw_transcript": "i'd like the patch of road just behind the white s u v on the left",
+        "duration_s": 4.35,
+        "decode_s": 1.505356900015613,
+        "word_edits": 3,
+        "reference_words": 14
+      },
+      {
+        "synthetic_voice": "zira",
+        "prompt_id": "b02",
+        "wav_sha256": "a50fc0e15c329ff6815f3e9b71844d27ff6fc49ab28f150ae585bd4ebfee0e5a",
+        "reference": "The space behind the big white truck with metal sides on the right, please.",
+        "raw_transcript": "the space behind the big white truck with metal sides on the right please",
+        "duration_s": 4.97,
+        "decode_s": 1.5180377999786288,
+        "word_edits": 0,
+        "reference_words": 14
+      },
+      {
+        "synthetic_voice": "zira",
+        "prompt_id": "b06",
+        "wav_sha256": "f52fd1d482736b6b3b10cc1d3d1bf295955f7088f9b2f01d4fb5374fb8f720ca",
+        "reference": "I mean the open space between the white Toyota pickup and the black SUV, behind both.",
+        "raw_transcript": "i mean the open space between the white toyota pickup and the black s u v behind both",
+        "duration_s": 6.01,
+        "decode_s": 1.7757673999876715,
+        "word_edits": 3,
+        "reference_words": 16
+      },
+      {
+        "synthetic_voice": "zira",
+        "prompt_id": "b11",
+        "wav_sha256": "b38fd5ee57207c4c9c27720463e5bde1d721bb768d8225965cbd1fd99fe74cf5",
+        "reference": "Behind the black SUV to the right of the yellow car, please.",
+        "raw_transcript": "behind the black s u v to the right of the yellow car please",
+        "duration_s": 4.63,
+        "decode_s": 1.371159300004365,
+        "word_edits": 3,
+        "reference_words": 12
+      },
+      {
+        "synthetic_voice": "zira",
+        "prompt_id": "b13",
+        "wav_sha256": "960cb43741910129570546c695f8ba9d0f6d45b31fbf3639e9e1c65111c7e262",
+        "reference": "Actually I meant behind the white Toyota pickup, not the black SUV.",
+        "raw_transcript": "actually i meant behind the white toyota pickup not the black s u v",
+        "duration_s": 5.195,
+        "decode_s": 1.6755774000193924,
+        "word_edits": 3,
+        "reference_words": 12
+      },
+      {
+        "synthetic_voice": "zira",
+        "prompt_id": "b16",
+        "wav_sha256": "9f99d5e6015fcc19321ebd31cddee85c4eac82c4dde23b6e3954acc38dbeef6c",
+        "reference": "I'd like the road edge by the right guardrail, just before the yellow work sign.",
+        "raw_transcript": "i'd like the road edge by the right guardrail just before the yellow work sign",
+        "duration_s": 5.26,
+        "decode_s": 1.7975147000106517,
+        "word_edits": 0,
+        "reference_words": 15
+      },
+      {
+        "synthetic_voice": "zira",
+        "prompt_id": "b06-count",
+        "wav_sha256": "af35cc8f1484aff0e8ab712ec8bb7208a5b803cd1a97b6eb0b763de69c1f528b",
+        "reference": "Let me out between those two vehicles, behind the white pickup and the black SUV.",
+        "raw_transcript": "let me out between those two vehicles behind the white pick up and the black s u v",
+        "duration_s": 5.585,
+        "decode_s": 1.5459818000090308,
+        "word_edits": 5,
+        "reference_words": 15
+      }
+    ],
+    "limitations": [
+      "Noise, real microphones and accents have no human measurements.",
+      "Perfect ordered matches for the four declared word categories still allowed landmark errors such as SUV and metal. Those errors remain in the WER."
+    ]
+  },
+  "private_form_reproduction": {
+    "receipt_sha256": "c43bdc559d3d744eb71615d20f75de91183be4bb4ab8bbec465d984e61869944",
+    "kind": "isolated_team_blank_form_reproduction",
+    "source_commit": "24c1ea69d127129bec94413120b855c1052e8416",
+    "precommit_overlay_sha256": {
+      "tools/dropoff_passenger_references_pack.py": "949b6d8a0c00f4dfe8d715464489786b2ff68c7e697ae962883e9902ac6373dd",
+      "tools/dropoff_passenger_references_pack.html": "1912bfe09d8f3bf27eaec32a408e8f735a3045050871448e09aa1f47707d8ba9"
+    },
+    "private_run_files_required": 0,
+    "target_answers_supplied": 0,
+    "third_party_uploads": 0,
+    "partitions": {
+      "train": {
+        "partition": "train",
+        "recording_id": "video_054604",
+        "input_bank_sha256": "f6374fe85c21a85a1eafb16d46586285ff5d05afd837223520a9224069627a5d",
+        "requests": 17,
+        "original_frames": 4,
+        "model_outputs_included": false,
+        "reference_answers_included": false,
+        "sha256": "d196a6e700dcac05783349693406dba4b5137b7a939903429431c2ab6efab163"
+      },
+      "development": {
+        "partition": "development",
+        "recording_id": "video_054907",
+        "input_bank_sha256": "bba8253db53bb968af5b6b5b28524bd5f2b8d31513081b4bd478bee1456c217a",
+        "requests": 19,
+        "original_frames": 4,
+        "model_outputs_included": false,
+        "reference_answers_included": false,
+        "sha256": "7b1d0103e9285a4d66f5dbdc1df7844417710c0e8eed02481d13f1fc97fca49a"
+      }
+    }
+  },
+  "tests": {
+    "command": "python -m pytest -q tests/test_passenger_speech_study.py tests/test_speech.py tests/test_local_speech.py tests/test_passenger_app.py",
+    "passed": 36,
+    "skipped": 0
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "kind": "predeclared_public_prompt_ablation_not_final_EMT",
+  "selection": "First six IDs of the generation cohort frozen before training; declared before any trained free-generation outcomes. No selection by targets or scores.",
+  "case_ids": [
+    "regseg-train-7319",
+    "regseg-train-2069",
+    "regseg-train-4689",
+    "regseg-train-6546",
+    "regseg-train-6954",
+    "regseg-train-2939"
+  ],
+  "development_source_sha256": "533cbcf9a2059b2890a606e896d9a216d5fc663606693c7dc8121b9ddf222556",
+  "conditions": [
+    "trained_canonical_destination_only",
+    "trained_full_interpretation_worker"
+  ],
+  "public_masks_do_not_score_unresolved_status_correctness": true,
+  "coverage_and_mask_agreement_report_separately": true,
+  "reference_fields_sent_to_model": false
+}

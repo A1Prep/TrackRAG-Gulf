@@ -1,0 +1,359 @@
+{
+  "kind": "scripted_passenger_landmark_cpu_controls",
+  "selection_of_f781_was_informed_by_original_model_failure": true,
+  "registered_original_case_sha256": "bbdd0b98496ef72062a286ecc100ef3ffc7eb06c1ab595ead840b4a766b7aa0c",
+  "f781_native_journal_sha256": "694e6f9b9652c38b7bf73ddec69630aac98e6d4ced538b471343b1802a8db862",
+  "f781_original_automatic_result": {
+    "status": "proposed",
+    "destination_point_xy": [
+      927.5,
+      1112.5
+    ],
+    "destination_box_xyxy": [
+      338.9819540793638,
+      1044.169515066354,
+      1076.5261314070074,
+      1141.0979714851742
+    ],
+    "clarification_question": null,
+    "anchor_boxes_xyxy": [
+      [
+        202.859375,
+        953.1180419921875,
+        281.6097717285156,
+        978.5709838867188
+      ],
+      [
+        1451.215087890625,
+        1044.64453125,
+        1627.0533447265625,
+        1174.2886962890625
+      ]
+    ]
+  },
+  "f781_original_automatic_sha256": "e1ded22fcf0e8f1ae353dceed8c312431c2a314b4f031e278fd85ba6e0533d4a",
+  "other_recording_source_bank_sha256": "2eb97a38141c55f9f60aa820ecd48c8e4d2b3c7aaafb54131c40599b5128fc2c",
+  "trained_pair_geometry_sha256": "db9575ac6b82ff9828f29440bacf2349cd2371f23c2cfb747bd7dc05ee04c7e5",
+  "new_qwen_calls": 0,
+  "passenger_confirmations_in_this_cpu_control": 0,
+  "human_reference_authors": 0,
+  "formal_final_cases": 0,
+  "reference_intention_for_second_recording": null,
+  "recordings": 2,
+  "cases": 8,
+  "dispositions": {
+    "needs_clarification": 6,
+    "proposed": 1,
+    "invalid_choice": 1
+  },
+  "interpretation": "Analyst-selected labels exercise the same production method. Road-cell agreement checks the saved segmentation mask and observations. It does not measure rider intent, actual traffic safety, or successful autonomous recognition.",
+  "records": [
+    {
+      "case": "previously_registered_f781_landmarks",
+      "recording_id": "video_054907",
+      "frame_id": 781,
+      "request_sha256": "2b6ff4a942df322661e837e5c104753f15bfa59d5a114394b58218d14ae130ed",
+      "image_sha256": "c411cf6760695905334f32e5590083cf144543df1ca98e68aae55fb345eb583e",
+      "track_ids": [
+        61108,
+        59268
+      ],
+      "placement": "between",
+      "status": "needs_clarification",
+      "reason": "no_visible_between_gap",
+      "geometry_mode": null,
+      "original_selected_boxes": [
+        [
+          996.9368896484375,
+          1041.7906494140625,
+          1115.8541259765625,
+          1124.109619140625
+        ],
+        [
+          1103.184326171875,
+          1042.60888671875,
+          1182.374755859375,
+          1105.36376953125
+        ]
+      ],
+      "observed_tracks_sha256": "fed4a1801cb9c2fded16659535bcc193aec16e0ed0ce7512caecd999e452f9e1",
+      "selection_sha256": "441799bb48d491fafec97d627ea98185bc4d6ae03df849e11dab72384bedb745",
+      "geometry_replayed": {
+        "current_image_and_tracks_checked": true,
+        "learned_geometry_and_mask_replayed": false,
+        "decision_reproduced": true,
+        "fitted_geometry_sha256": "db9575ac6b82ff9828f29440bacf2349cd2371f23c2cfb747bd7dc05ee04c7e5",
+        "road_mask_needed": false
+      },
+      "point": null,
+      "area": null
+    },
+    {
+      "case": "previously_registered_f781_landmarks",
+      "recording_id": "video_054907",
+      "frame_id": 781,
+      "request_sha256": "2b6ff4a942df322661e837e5c104753f15bfa59d5a114394b58218d14ae130ed",
+      "image_sha256": "c411cf6760695905334f32e5590083cf144543df1ca98e68aae55fb345eb583e",
+      "track_ids": [
+        61108,
+        59268
+      ],
+      "placement": "behind",
+      "status": "proposed",
+      "reason": null,
+      "geometry_mode": "behind_weakly_overlapping_vehicles",
+      "original_selected_boxes": [
+        [
+          996.9368896484375,
+          1041.7906494140625,
+          1115.8541259765625,
+          1124.109619140625
+        ],
+        [
+          1103.184326171875,
+          1042.60888671875,
+          1182.374755859375,
+          1105.36376953125
+        ]
+      ],
+      "observed_tracks_sha256": "fed4a1801cb9c2fded16659535bcc193aec16e0ed0ce7512caecd999e452f9e1",
+      "selection_sha256": "9eeccca16ca37c8a50a403793723e52f1648bce09d80e325fc4c6898cf536c62",
+      "geometry_replayed": {
+        "current_image_and_tracks_checked": true,
+        "learned_geometry_and_mask_replayed": true,
+        "decision_reproduced": true,
+        "fitted_geometry_sha256": "db9575ac6b82ff9828f29440bacf2349cd2371f23c2cfb747bd7dc05ee04c7e5",
+        "road_mask_needed": true
+      },
+      "point": [
+        1097.5,
+        1132.5
+      ],
+      "area": [
+        1060.0,
+        1125.0,
+        1140.0,
+        1160.0
+      ],
+      "independent_pixel_check": {
+        "original_road_cells_checked": 112,
+        "all_cells_on_segformer_road": true,
+        "current_road_user_intersections": []
+      }
+    },
+    {
+      "case": "replay_incorrect_original_selected_ids",
+      "recording_id": "video_054907",
+      "frame_id": 781,
+      "request_sha256": "2b6ff4a942df322661e837e5c104753f15bfa59d5a114394b58218d14ae130ed",
+      "image_sha256": "c411cf6760695905334f32e5590083cf144543df1ca98e68aae55fb345eb583e",
+      "track_ids": [
+        66865,
+        59438
+      ],
+      "placement": "behind",
+      "status": "needs_clarification",
+      "reason": "objects_at_incompatible_projected_depth",
+      "geometry_mode": null,
+      "original_selected_boxes": [
+        [
+          202.859375,
+          953.1180419921875,
+          281.6097717285156,
+          978.5709838867188
+        ],
+        [
+          1451.215087890625,
+          1044.64453125,
+          1627.0533447265625,
+          1174.2886962890625
+        ]
+      ],
+      "observed_tracks_sha256": "fed4a1801cb9c2fded16659535bcc193aec16e0ed0ce7512caecd999e452f9e1",
+      "selection_sha256": "7b422816fb1cbad6e2b490c4e453a206674a741a8ee6f4dd1bf34055cf47a59a",
+      "geometry_replayed": {
+        "current_image_and_tracks_checked": true,
+        "learned_geometry_and_mask_replayed": false,
+        "decision_reproduced": true,
+        "fitted_geometry_sha256": "db9575ac6b82ff9828f29440bacf2349cd2371f23c2cfb747bd7dc05ee04c7e5",
+        "road_mask_needed": false
+      },
+      "point": null,
+      "area": null
+    },
+    {
+      "case": "smallest_positive_horizontal_gap",
+      "recording_id": "video_054604",
+      "frame_id": 1,
+      "request_sha256": "d8b2b7504447d0aa7c9054fcfd6c617a7bea6ebdb1e2270eae5d71e33870cd48",
+      "image_sha256": "8554bd37dc647488f6a496b2845f22a7a6bf21b2478d732b1340d99175a7e518",
+      "track_ids": [
+        21,
+        9
+      ],
+      "placement": "between",
+      "status": "needs_clarification",
+      "reason": "no_supported_neighborhood",
+      "geometry_mode": "between_separated_vehicles",
+      "original_selected_boxes": [
+        [
+          827.3658447265625,
+          1020.4862060546875,
+          852.822998046875,
+          1032.8876953125
+        ],
+        [
+          854.8595581054688,
+          1019.9716186523438,
+          887.9064331054688,
+          1033.74267578125
+        ]
+      ],
+      "observed_tracks_sha256": "d60516a231fcbdf926c732121f26f5119a55d3a44242eba637eaff7ef4dba0cd",
+      "selection_sha256": "a2defb79dd0c5b8571acf7aa6947cab6a458b26b98f02038095a1981f4f0f29e",
+      "geometry_replayed": {
+        "current_image_and_tracks_checked": true,
+        "learned_geometry_and_mask_replayed": true,
+        "decision_reproduced": true,
+        "fitted_geometry_sha256": "db9575ac6b82ff9828f29440bacf2349cd2371f23c2cfb747bd7dc05ee04c7e5",
+        "road_mask_needed": true
+      },
+      "point": null,
+      "area": null
+    },
+    {
+      "case": "smallest_positive_horizontal_gap",
+      "recording_id": "video_054604",
+      "frame_id": 1,
+      "request_sha256": "d8b2b7504447d0aa7c9054fcfd6c617a7bea6ebdb1e2270eae5d71e33870cd48",
+      "image_sha256": "8554bd37dc647488f6a496b2845f22a7a6bf21b2478d732b1340d99175a7e518",
+      "track_ids": [
+        21,
+        9
+      ],
+      "placement": "behind",
+      "status": "needs_clarification",
+      "reason": "no_supported_neighborhood",
+      "geometry_mode": "behind_separated_vehicles",
+      "original_selected_boxes": [
+        [
+          827.3658447265625,
+          1020.4862060546875,
+          852.822998046875,
+          1032.8876953125
+        ],
+        [
+          854.8595581054688,
+          1019.9716186523438,
+          887.9064331054688,
+          1033.74267578125
+        ]
+      ],
+      "observed_tracks_sha256": "d60516a231fcbdf926c732121f26f5119a55d3a44242eba637eaff7ef4dba0cd",
+      "selection_sha256": "d4e08ce8a5b08dc82b4a01ee04c4146ae0f3d74efb36ce0bc9694281c43f8f02",
+      "geometry_replayed": {
+        "current_image_and_tracks_checked": true,
+        "learned_geometry_and_mask_replayed": true,
+        "decision_reproduced": true,
+        "fitted_geometry_sha256": "db9575ac6b82ff9828f29440bacf2349cd2371f23c2cfb747bd7dc05ee04c7e5",
+        "road_mask_needed": true
+      },
+      "point": null,
+      "area": null
+    },
+    {
+      "case": "leftmost_and_rightmost",
+      "recording_id": "video_054604",
+      "frame_id": 1,
+      "request_sha256": "d8b2b7504447d0aa7c9054fcfd6c617a7bea6ebdb1e2270eae5d71e33870cd48",
+      "image_sha256": "8554bd37dc647488f6a496b2845f22a7a6bf21b2478d732b1340d99175a7e518",
+      "track_ids": [
+        4,
+        13
+      ],
+      "placement": "between",
+      "status": "needs_clarification",
+      "reason": "objects_at_incompatible_projected_depth",
+      "geometry_mode": null,
+      "original_selected_boxes": [
+        [
+          21.156015396118164,
+          954.0565795898438,
+          58.12609100341797,
+          979.6029052734375
+        ],
+        [
+          1838.0205078125,
+          1014.8694458007812,
+          1864.54541015625,
+          1026.73095703125
+        ]
+      ],
+      "observed_tracks_sha256": "d60516a231fcbdf926c732121f26f5119a55d3a44242eba637eaff7ef4dba0cd",
+      "selection_sha256": "7a4d3209a9f467872eb3fe11745092681e2df4cdae5742d30713e9113dfc39dd",
+      "geometry_replayed": {
+        "current_image_and_tracks_checked": true,
+        "learned_geometry_and_mask_replayed": false,
+        "decision_reproduced": true,
+        "fitted_geometry_sha256": "db9575ac6b82ff9828f29440bacf2349cd2371f23c2cfb747bd7dc05ee04c7e5",
+        "road_mask_needed": false
+      },
+      "point": null,
+      "area": null
+    },
+    {
+      "case": "leftmost_and_rightmost",
+      "recording_id": "video_054604",
+      "frame_id": 1,
+      "request_sha256": "d8b2b7504447d0aa7c9054fcfd6c617a7bea6ebdb1e2270eae5d71e33870cd48",
+      "image_sha256": "8554bd37dc647488f6a496b2845f22a7a6bf21b2478d732b1340d99175a7e518",
+      "track_ids": [
+        4,
+        13
+      ],
+      "placement": "behind",
+      "status": "needs_clarification",
+      "reason": "objects_at_incompatible_projected_depth",
+      "geometry_mode": null,
+      "original_selected_boxes": [
+        [
+          21.156015396118164,
+          954.0565795898438,
+          58.12609100341797,
+          979.6029052734375
+        ],
+        [
+          1838.0205078125,
+          1014.8694458007812,
+          1864.54541015625,
+          1026.73095703125
+        ]
+      ],
+      "observed_tracks_sha256": "d60516a231fcbdf926c732121f26f5119a55d3a44242eba637eaff7ef4dba0cd",
+      "selection_sha256": "12846d4e969ad7a0f29f53fca35b96b051e827dc3d88b643f033f57b25c1d0f8",
+      "geometry_replayed": {
+        "current_image_and_tracks_checked": true,
+        "learned_geometry_and_mask_replayed": false,
+        "decision_reproduced": true,
+        "fitted_geometry_sha256": "db9575ac6b82ff9828f29440bacf2349cd2371f23c2cfb747bd7dc05ee04c7e5",
+        "road_mask_needed": false
+      },
+      "point": null,
+      "area": null
+    },
+    {
+      "case": "foreign_track_ids_from_f781",
+      "recording_id": "video_054604",
+      "frame_id": 1,
+      "request_sha256": "d8b2b7504447d0aa7c9054fcfd6c617a7bea6ebdb1e2270eae5d71e33870cd48",
+      "image_sha256": "8554bd37dc647488f6a496b2845f22a7a6bf21b2478d732b1340d99175a7e518",
+      "track_ids": [
+        61108,
+        59268
+      ],
+      "placement": "behind",
+      "status": "invalid_choice",
+      "reason": "These vehicles are unavailable for this passenger request and original frame."
+    }
+  ]
+}

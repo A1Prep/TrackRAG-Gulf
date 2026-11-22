@@ -1,0 +1,523 @@
+{
+  "schema_version": 1,
+  "kind": "completed_local8B_public_stage_not_final_passenger_acceptance",
+  "recorded_at": "2026-11-21T14:22:22.839734+00:00",
+  "model": {
+    "id": "unsloth/Qwen3-VL-8B-Instruct-bnb-4bit",
+    "revision": "10d842936325905934ea24e64325d774693f166e",
+    "processor": "Qwen/Qwen3-VL-8B-Instruct",
+    "processor_revision": "0c351dd01ed87e9c1b53cbc748cba10e6187ff3b",
+    "method": "Frozen native8B image-language model; rank8 attention LoRA in final8 decoder layers; all36 language layers and visual encoder still execute."
+  },
+  "hardware": {
+    "schema_version": 1,
+    "platform": "Windows-10-10.0.26200-SP0",
+    "python": "3.11.3 (tags/v3.11.3:f3909b8, Apr  4 2023, 23:49:59) [MSC v.1934 64 bit (AMD64)]",
+    "gpu": "NVIDIA GeForce RTX 3050 Laptop GPU, 4096 MiB, 566.07",
+    "training_device": "cuda:0",
+    "separate_training_environment": true,
+    "fresh_environment_install_verified": false
+  },
+  "data": {
+    "train_cases": 500,
+    "development_cases": 125,
+    "train_scene_groups": 295,
+    "development_scene_groups": 65,
+    "train_sha256": "79dfd904b155b1c537170aaba443254da37445c2e8a2f4380baaddd8520bc42b",
+    "development_sha256": "533cbcf9a2059b2890a606e896d9a216d5fc663606693c7dc8121b9ddf222556",
+    "reserved58source_scenes_excluded": true,
+    "local_interpretation_training_performed": false
+  },
+  "completed_runs": {
+    "V1": {
+      "optimizer_steps": 500,
+      "examples_consumed": 1000,
+      "training_examples_unique": 500,
+      "epochs": 2,
+      "epochs_completed": 2,
+      "trainable_parameters": 1703936,
+      "changed_adapter_tensors": 64,
+      "selected_checkpoint": {
+        "epoch": 2,
+        "token_weighted_nll": 0.4212429461048077
+      },
+      "elapsed_s": 5492.077999999994,
+      "peak_pytorch_allocated_gib": 2.3514084815979004,
+      "peak_pytorch_reserved_gib": 2.529296875,
+      "selected_adapter_files": {
+        "adapter_config.json": "def2dc5ef0c641fe93cba691766f0cdd0cb8e212ef8308f492c3b6aa96ac5ba7",
+        "adapter_model.safetensors": "cee03ebc4cc676015e83d333971e0e8201284205bd46d93eb141a43a06e04d01"
+      },
+      "training_result_sha256": "8b9d193b36d7b13e09018de442baba564d20fd69fe6fc35db06fc49d86d2d94f"
+    },
+    "V2": {
+      "optimizer_steps": 500,
+      "examples_consumed": 1000,
+      "training_examples_unique": 500,
+      "epochs": 2,
+      "epochs_completed": 2,
+      "trainable_parameters": 1703936,
+      "changed_adapter_tensors": 64,
+      "selected_checkpoint": {
+        "epoch": 2,
+        "token_weighted_nll": 0.7436012595061225
+      },
+      "elapsed_s": 5145.891000000003,
+      "peak_pytorch_allocated_gib": 2.2546863555908203,
+      "peak_pytorch_reserved_gib": 2.435546875,
+      "selected_adapter_files": {
+        "adapter_config.json": "def2dc5ef0c641fe93cba691766f0cdd0cb8e212ef8308f492c3b6aa96ac5ba7",
+        "adapter_model.safetensors": "76bfb3230b17a86248b52ca6a9f8d2ffca324aa80216d6b93845ccb12ad86743"
+      },
+      "training_result_sha256": "33f583cd99ab4710320c73a4b4743eb0ad2f08403fa18854b635551ec5469eea"
+    }
+  },
+  "controlled_comparison": {
+    "same_initial64tensor_hashes": true,
+    "same1000case_order": true,
+    "V1_supervised_tokens": 65238,
+    "V2_supervised_tokens": 35842,
+    "compute_matched": false,
+    "combined_encoding_changes_prevent_single_factor_claim": true,
+    "NLL_is_not_spatial_accuracy": true
+  },
+  "selected_run": "V2",
+  "public20": {
+    "kind": "predeclared_development_selection_not_final_test",
+    "selected_run": "D:\\PycharmProjects\\TrackRAG-Gulf\\runs\\dropoff-point-first-local-20261121",
+    "protocol_sha256": "c251b2d63afae5424a5970e79ba7f7bad27e76b450eff10f128cef77214daca3",
+    "v1": {
+      "requested": 20,
+      "valid_geometry": 20,
+      "coverage": 1.0,
+      "point_hits": 3,
+      "point_accuracy_all_requests": 0.15,
+      "coarse_box_iou_all_requests": 0.09953610697795011,
+      "mean_normalized_point_error_valid_only": 0.1756129181681727,
+      "error_types": {}
+    },
+    "v2": {
+      "requested": 20,
+      "valid_geometry": 20,
+      "coverage": 1.0,
+      "point_hits": 7,
+      "point_accuracy_all_requests": 0.35,
+      "coarse_box_iou_all_requests": 0.1905300796589248,
+      "mean_normalized_point_error_valid_only": 0.14648649737262795,
+      "error_types": {}
+    },
+    "model_quality_verified": false,
+    "overall_task5_complete": false,
+    "teacher_nll_comparison": "Both primary full125 NLL files use source_float_box_first. V2 epoch selection uses its separate point-first encoding."
+  },
+  "V1_to_V2_changes": {
+    "kind": "V1_to_V2_same20_development_changes_not_model_selection_by_case",
+    "v1_hits": [
+      "regseg-train-2339",
+      "regseg-train-4689",
+      "regseg-train-4758"
+    ],
+    "v2_hits": [
+      "regseg-train-1615",
+      "regseg-train-2069",
+      "regseg-train-2339",
+      "regseg-train-4689",
+      "regseg-train-4758",
+      "regseg-train-522",
+      "regseg-train-6889"
+    ],
+    "new_hits": [
+      "regseg-train-1615",
+      "regseg-train-2069",
+      "regseg-train-522",
+      "regseg-train-6889"
+    ],
+    "lost_hits": [],
+    "selection_remains_frozen_overall_metric": true
+  },
+  "same_image13": {
+    "schema_version": 1,
+    "kind": "matched_public_development_comparison_not_final_EMT",
+    "pretrained": {
+      "requested": 13,
+      "valid_geometry": 13,
+      "coverage": 1.0,
+      "point_hits": 0,
+      "point_accuracy_all_requests": 0.0,
+      "coarse_box_iou_all_requests": 0.018953267675188092,
+      "mean_normalized_point_error_valid_only": 0.21573224102632518,
+      "error_types": {}
+    },
+    "trained": {
+      "requested": 13,
+      "valid_geometry": 13,
+      "coverage": 1.0,
+      "point_hits": 3,
+      "point_accuracy_all_requests": 0.23076923076923078,
+      "coarse_box_iou_all_requests": 0.12267567559764664,
+      "mean_normalized_point_error_valid_only": 0.1918720227477898,
+      "error_types": {}
+    },
+    "case_ids": [
+      "regseg-train-1609",
+      "regseg-train-1615",
+      "regseg-train-2334",
+      "regseg-train-2336",
+      "regseg-train-2884",
+      "regseg-train-2885",
+      "regseg-train-4316",
+      "regseg-train-4317",
+      "regseg-train-4320",
+      "regseg-train-4475",
+      "regseg-train-4477",
+      "regseg-train-6546",
+      "regseg-train-6547"
+    ],
+    "pretrained_results_sha256": "e63d33f075fb2b64a138a6c37eddabd77fe5acaf834b01b193c94261143cdbcf",
+    "trained_results_sha256": "5c34b0a42f43823285414dbbb3c1717fc86f1eb6e56d6a160f3ba5a0fa6d6fb3",
+    "development_source_sha256": "533cbcf9a2059b2890a606e896d9a216d5fc663606693c7dc8121b9ddf222556",
+    "preprocessing_and_decoding_matched": true,
+    "failures_retained_in_denominator": true,
+    "improved_case_ids": [
+      "regseg-train-1615",
+      "regseg-train-4475",
+      "regseg-train-6547"
+    ],
+    "regressed_case_ids": [],
+    "public_masks_score_clarification": false,
+    "same_image_contrast": {
+      "groups": [
+        {
+          "image_sha256": "004db0fe0169f4093d22eeed487dc54e10651f049c332b79a4169e2b0f010c32",
+          "case_ids": [
+            "regseg-train-2884",
+            "regseg-train-2885"
+          ],
+          "reference_masks_pairwise_disjoint": true,
+          "pretrained": {
+            "all_references_hit": false,
+            "different_proposals_beyond_one_pixel": true,
+            "numerical_difference_alone_is_accuracy": false
+          },
+          "trained": {
+            "all_references_hit": false,
+            "different_proposals_beyond_one_pixel": false,
+            "numerical_difference_alone_is_accuracy": false
+          }
+        },
+        {
+          "image_sha256": "0fae436a6aa0dc75e3f0fa50052acc0c0f62bf85e885a30117dc92d286cf5077",
+          "case_ids": [
+            "regseg-train-1609",
+            "regseg-train-1615"
+          ],
+          "reference_masks_pairwise_disjoint": true,
+          "pretrained": {
+            "all_references_hit": false,
+            "different_proposals_beyond_one_pixel": true,
+            "numerical_difference_alone_is_accuracy": false
+          },
+          "trained": {
+            "all_references_hit": false,
+            "different_proposals_beyond_one_pixel": true,
+            "numerical_difference_alone_is_accuracy": false
+          }
+        },
+        {
+          "image_sha256": "6bd645b30e118b6c9a6ff9947fa89aaa022f1396971a83dacfd5a14215253298",
+          "case_ids": [
+            "regseg-train-2334",
+            "regseg-train-2336"
+          ],
+          "reference_masks_pairwise_disjoint": false,
+          "pretrained": {
+            "all_references_hit": false,
+            "different_proposals_beyond_one_pixel": true,
+            "numerical_difference_alone_is_accuracy": false
+          },
+          "trained": {
+            "all_references_hit": false,
+            "different_proposals_beyond_one_pixel": true,
+            "numerical_difference_alone_is_accuracy": false
+          }
+        },
+        {
+          "image_sha256": "b2f25c6e8082108ee942783015f8c35a0a2ca404138af23bae996cd97634413b",
+          "case_ids": [
+            "regseg-train-4316",
+            "regseg-train-4317",
+            "regseg-train-4320"
+          ],
+          "reference_masks_pairwise_disjoint": false,
+          "pretrained": {
+            "all_references_hit": false,
+            "different_proposals_beyond_one_pixel": true,
+            "numerical_difference_alone_is_accuracy": false
+          },
+          "trained": {
+            "all_references_hit": false,
+            "different_proposals_beyond_one_pixel": true,
+            "numerical_difference_alone_is_accuracy": false
+          }
+        },
+        {
+          "image_sha256": "b67e442ef48b0538512a27b0fc50c2568fceb090b5374318c72ce232ba323f05",
+          "case_ids": [
+            "regseg-train-4475",
+            "regseg-train-4477"
+          ],
+          "reference_masks_pairwise_disjoint": true,
+          "pretrained": {
+            "all_references_hit": false,
+            "different_proposals_beyond_one_pixel": true,
+            "numerical_difference_alone_is_accuracy": false
+          },
+          "trained": {
+            "all_references_hit": false,
+            "different_proposals_beyond_one_pixel": true,
+            "numerical_difference_alone_is_accuracy": false
+          }
+        },
+        {
+          "image_sha256": "d4e06464589427676c4aeb6bbb8ababfbdd90ad3e7539a312f5ea227d566c230",
+          "case_ids": [
+            "regseg-train-6546",
+            "regseg-train-6547"
+          ],
+          "reference_masks_pairwise_disjoint": true,
+          "pretrained": {
+            "all_references_hit": false,
+            "different_proposals_beyond_one_pixel": true,
+            "numerical_difference_alone_is_accuracy": false
+          },
+          "trained": {
+            "all_references_hit": false,
+            "different_proposals_beyond_one_pixel": false,
+            "numerical_difference_alone_is_accuracy": false
+          }
+        }
+      ],
+      "group_count": 6,
+      "pretrained_all_reference_groups": 0,
+      "trained_all_reference_groups": 0,
+      "protocol_sha256": "73eed5641035a48f04c4b43989e44b48b6f311cad0fa69d9b8b3f1d8a434281e",
+      "accuracy_alone_establishes_language_sensitivity_for_overlapping_masks": false,
+      "disjoint_reference_group_count": 4,
+      "pretrained_disjoint_all_reference_groups": 0,
+      "trained_disjoint_all_reference_groups": 0
+    }
+  },
+  "full_application_interface6": {
+    "schema_version": 1,
+    "kind": "matched_full_interface_public_location_diagnostic_not_status_accuracy",
+    "protocol_sha256": "278dc858c127a6ab903cdc3b08ce4bd5a51d8e4e635f5ba7ffc871b37c524b1e",
+    "case_ids": [
+      "regseg-train-7319",
+      "regseg-train-2069",
+      "regseg-train-4689",
+      "regseg-train-6546",
+      "regseg-train-6954",
+      "regseg-train-2939"
+    ],
+    "public_masks_score_semantic_status_correctness": false,
+    "failures_retained": true,
+    "checkpoint_selection_from_this_followup": false,
+    "same_requests_prompt_images_and_decoding_verified": true,
+    "trained_canonical_same6": {
+      "requested": 6,
+      "mask_hits": 2,
+      "coverage": 1.0,
+      "comparison_changes_prompt_and_grammar_together": true
+    }
+  },
+  "full_application_conditions": {
+    "pretrained": {
+      "requested": 6,
+      "operational_errors": 0,
+      "status_counts": {
+        "needs_clarification": 2,
+        "proposed": 4
+      },
+      "proposals": 4,
+      "proposal_coverage": 0.6666666666666666,
+      "mask_hits_all_requests": 0,
+      "mask_agreement_all_requests": 0.0,
+      "coarse_box_iou_all_requests": 0.007249807427210566,
+      "semantic_accuracy": null,
+      "outcomes_sha256": "23474974f17fd414d2079f57cf59c8fc2e1fdcf703cf9a2ce1b3104f17b180c8",
+      "receipts_sha256": "244df4d7974eaaf23507eee946161233565695c83c6c078e1fb71cc294313a9b"
+    },
+    "trained": {
+      "requested": 6,
+      "operational_errors": 0,
+      "status_counts": {
+        "needs_clarification": 2,
+        "insufficient_visual_evidence": 1,
+        "proposed": 3
+      },
+      "proposals": 3,
+      "proposal_coverage": 0.5,
+      "mask_hits_all_requests": 0,
+      "mask_agreement_all_requests": 0.0,
+      "coarse_box_iou_all_requests": 0.037297051310271584,
+      "semantic_accuracy": null,
+      "outcomes_sha256": "171fde7061ab5a17858223294bf07e9fd85df902b6afe57ef8820ad0912ce4a3",
+      "receipts_sha256": "3b9059c92768c51d829ba8527cbe6080ae344e2f096dcbe18a4df5c68ffa6980"
+    }
+  },
+  "real_functional5": {
+    "two_EMT_recordings_with_actual_Task1_predictions": true,
+    "schema_valid": 5,
+    "AI_visual_review_only": true,
+    "ground_area_failures": [
+      "yellowbus body",
+      "single darkSUV rear for unidentified pairedcar request",
+      "white-truck request not convincingly on ground area"
+    ],
+    "here_and_gray_clarification_useful": true,
+    "microphone_or_ASR_test": false,
+    "manual_transcript_voice_input_only": true
+  },
+  "generic_prompt_trial": {
+    "kind": "development_prompt_adoption_decision",
+    "adopted": false,
+    "production_source_changed": false,
+    "weights_changed": false,
+    "one_variant_completed": true,
+    "requests": 5,
+    "operational_errors": 0,
+    "reason": "Independent visual follow-up found the bus body, SUV rear and white-truck-area placement failures persisted; the unknown paired-car reference still received a proposal. The predeclared adoption checks were not met.",
+    "review_sha256": "e3883ba365467fe6fc0aab248eab300e00972c31a137ccd5a490f890e761c651",
+    "outcomes_sha256": "f281d671dcace0d10f6615dc87af42ce181ed89fc349b1d771c1e751b50ce6df",
+    "next_training_requirement": "Genuinely reviewed local stopping-area geometry and full status/clarification targets."
+  },
+  "software": {
+    "schema_version": 1,
+    "kind": "software_and_independent_evidence_validation_not_final_model_acceptance",
+    "updated_at": "2026-11-21T13:03:29.477783+00:00",
+    "tested_source_commit": "e1c972d8b1f15010fd1c54319159c22e22168afe",
+    "repository_suite": {
+      "passed": 1122,
+      "skipped": 28,
+      "subtests_passed": 401,
+      "elapsed_s": 59.11
+    },
+    "isolated_export_suite": {
+      "passed": 597,
+      "skipped": 17,
+      "elapsed_s": 35.62,
+      "startup_commands_passed": 9,
+      "all_imported_modules_from_extraction": true,
+      "same_existing_environment_not_fresh_install": true,
+      "archive_sha256": "02e008c1a25ad374cfed0471680c4ed9142768d192fe0eb019fb3f779d010d07"
+    },
+    "core_torch_cpu_numerical_suite": {
+      "passed": 87,
+      "scope": "Unchanged core runtime math and tokenizer/schema checks; no GPU/model quality claim"
+    },
+    "logs": {
+      "repository": {
+        "path": "D:\\PycharmProjects\\TrackRAG-Gulf\\runs\\local-8b-attempt-20261121\\release-adaptation-software-tests.log",
+        "sha256": "ced66f3f0cd9dbfc79fb43996885f4913af08bbc6f2dffdeac83ea47236f4379"
+      },
+      "isolated_source": {
+        "path": "D:\\PycharmProjects\\TrackRAG-Gulf\\runs\\local-8b-attempt-20261121\\standalone-source-tests-rc.log",
+        "sha256": "80c6cf4d48b9d134c22812a5e40b73fd4bfb247c9dfa96e058c6c7628092c1f0"
+      },
+      "core_torch_cpu": {
+        "path": "D:\\PycharmProjects\\TrackRAG-Gulf\\runs\\local-8b-attempt-20261121\\structured-cpu-math-tests.log",
+        "sha256": "5810f4805df7a3ed9bb137d9d7af411fd6cd57ccfdc2a4c8169c4a6d3121549a"
+      }
+    },
+    "independent_v1_score_audit": {
+      "passed": true,
+      "receipt_sha256": "22a3c1b977216f613faeed38f16421b2c416df1e87cd2517ef7f83830c22dc17"
+    },
+    "independent_continuation_source_review": {
+      "passed": true,
+      "fixes_verified": [
+        "Pinned PEFT base identity on child save",
+        "Whole-recording train/development split",
+        "Known software fixtures rejected from actual continuation"
+      ]
+    },
+    "local_interpretation_continuation_actually_trained": false,
+    "overall_task5_complete": false,
+    "independent_v2_training_audit": {
+      "passed": true,
+      "sha256": "2c90208b557e4877e818214d794a9e937e68d5c7c6384d20eb6c37eba985804a"
+    },
+    "independent_v2_score_audit": {
+      "passed": true,
+      "sha256": "097dc1dac2483dfae793a01c89ffbbc67d2254e8b89c39060450ace12cc746fc"
+    },
+    "same_initial_adapter_tensors_across_runs": true
+  },
+  "portable_GPU_reload": {
+    "schema_version": 1,
+    "kind": "actual_portable_source_and_trained_adapter_GPU_reload",
+    "passed": true,
+    "CLI_exit_code": 0,
+    "input_image_inside_new_extraction": true,
+    "original_training_dataset_required": false,
+    "same_existing_CUDA_environment_not_independent_install": true,
+    "native_streamed_model_and_weight_identity_verified": true,
+    "selected_adapter_file_sha256": "76bfb3230b17a86248b52ca6a9f8d2ffca324aa80216d6b93845ccb12ad86743",
+    "model_result": {
+      "clarification_question": null,
+      "destination_box_xyxy": [
+        1259.2,
+        588.6,
+        1475.2,
+        733.5
+      ],
+      "destination_point_xy": [
+        1352.0,
+        661.5
+      ],
+      "status": "proposed"
+    },
+    "same_result_as_original_public_probe": true,
+    "generation_elapsed_s": 52.54700000002049,
+    "end_to_end_elapsed_s": 76.51499999998487,
+    "worker_pid": 39436,
+    "outputs_sha256": "5d85462ef9e1286d9b26321f0842dfa22f5208b63c67e0ab33d8c83ef8b0b1a2",
+    "receipts_sha256": "fe37579469081649828536a7515177e0c1dae2571788a03be80080bc44463389",
+    "quality_verified": false,
+    "local_adaptation_complete": false
+  },
+  "final_source_archive": {
+    "path": "dropoff-8b-source-20261121.zip",
+    "sha256": "31b19dbdf1ac3d9a21e7fb9048b6f06d3f2860a61901c571e3daa9654534bc11",
+    "source_code_matches_tested_and_GPU_reloaded_source": true
+  },
+  "verified_adapter_archive": {
+    "path": "dropoff-8b-adapter-public-v2-20261121.zip",
+    "sha256": "2c8ea088ad7eb4916ecba007a52b9906eaf726f008d2fb6514f8c165c3e34050",
+    "scope": "Completed public destination stage; quality false; not reviewed local adaptation"
+  },
+  "latest_Task2_commit": "186a80e",
+  "latest_Task2_approved_full_local_cases": 0,
+  "local_continuation_source_and_real_parent_validation_passed": true,
+  "all_GPU_jobs_finished": true,
+  "temporary_awake_helper_stopped": true,
+  "overall_task5_complete": false,
+  "model_quality_verified": false,
+  "remaining_gates": [
+    "Task2 actual ground/status/question labels, human review and portable images/hashes",
+    "Task5 actual reviewed-local continuation, fresh reload and full-interface quality checks",
+    "Task3 speech fixes and actual audio evidence",
+    "Task4 app/dialogue/confirmation integration",
+    "Task1 independent reserved evaluation",
+    "Teammate independent installation acceptance"
+  ],
+  "artifact_release": "https://github.com/A1Prep/TrackRAG-Gulf/releases/tag/task5-local-8b-20261121",
+  "diagnostics_archive": {
+    "path": "D:\\PycharmProjects\\TrackRAG-Gulf\\runs\\dropoff-8b-diagnostics-20261121.zip",
+    "files": 80,
+    "bytes": 326321,
+    "sha256": "6d2a833412f8acc39c5a374b23e1e78217e072049e65f24211ed43ca2c611318",
+    "all_payload_hashes_and_CRC_verified": true
+  },
+  "final_independent_evidence_audit_sha256": "14df79af8d5ecf2286d9b43c8fb08c94304e4068fedbb988be87f9b3557d9a6d"
+}

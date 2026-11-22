@@ -1,0 +1,531 @@
+{
+  "purpose": "Real isolated packaged-browser check after the two application clarification policies. Frozen weights and earlier benchmark results are unchanged.",
+  "utc": "2026-11-22T05:57:59.881086+00:00",
+  "plan_sha256": "2b5544144547858fee24ee5d9e6b85a23443eb85728bbd98c81b2b3aaa61c3b8",
+  "driver_sha256": "ae0fbf80be914b67c03ad9f33c46bfa53895ea585c54b8634500ee10e023d0e9",
+  "runner_sha256": "57958d51d5154d8ffde29d29f10e05e41b270d13b7aecf9964cdcdb07c24fe18",
+  "infrastructure_source_sha256": "87170788bdbc6285ad39649acc8aea7bd74ea347569ff2ee64e775354f54aa6b",
+  "viewpoint_source_sha256": "4c1896885afc9168206adc3f9e98f8320c639d8881c689c93ed8ea2058e52380",
+  "app_source_sha256": "22c1d60ead75bcaf6eb2f0a0dde1dc2d0a9245739566244a0978629af8b85ecc",
+  "model_bundle_files": {
+    "adapter/adapter_config.json": "def2dc5ef0c641fe93cba691766f0cdd0cb8e212ef8308f492c3b6aa96ac5ba7",
+    "adapter/adapter_model.safetensors": "76bfb3230b17a86248b52ca6a9f8d2ffca324aa80216d6b93845ccb12ad86743",
+    "adapter/grounding_adapter_manifest.json": "92e32dc900d919b7e137c70692c51b57921edbda77ff5b772e6dfdc221a12983",
+    "geometry.json": "db9575ac6b82ff9828f29440bacf2349cd2371f23c2cfb747bd7dc05ee04c7e5",
+    "grounding.json": "bf73538110c52cbb50059964fe8a6230e0674c754592fc2e96a4529d0dc6a169",
+    "referent.json": "d96a9a69e2e52ddbc21851d5ff6f79b344de6c8558600e54be5cb2712480a07d"
+  },
+  "browser_evidence_sha256": "323ef92a3ece718fba177d0ef133792a2a922fed9e52b6feed3e2c3b3d6481c0",
+  "visible_browser_errors": [],
+  "launch_error": null,
+  "owned_gpu_pids_observed": [
+    31732
+  ],
+  "all_owned_processes_exited": true,
+  "n_private_task1_final_inputs": 0,
+  "operators": "Scripted. The two F137 recordings are original Microsoft Windows synthetic voices. No human acceptance. The two new photos have approximate preregistered geometry from one visual AI observer, for engineering only.",
+  "cases": [
+    {
+      "id": "fresh-right-shoulder-lamp",
+      "group": "new_original_photo_only",
+      "recording": "video_054604",
+      "frame": 126,
+      "image_sha256": "95544d64cd88097e424da0dab1bd195cee644559388d89ed52a56cb55dd8be70",
+      "frame_opened_via": "frame_number",
+      "automatic": {
+        "state": "proposed",
+        "selected_by": "model",
+        "max_anchor_iou": 0.07197221374375437,
+        "point_in_polygon": false
+      },
+      "operator_area": null,
+      "scripted_action": "cancel",
+      "terminal": "cancelled",
+      "error": null,
+      "turns": [
+        {
+          "sent_text": "Could you mark the asphalt just left of the base of the tall street lamp on the right shoulder?",
+          "input_mode": "typed",
+          "status": "proposed",
+          "displayed_result": {
+            "status": "proposed",
+            "destination_point_xy": [
+              1682.5,
+              1132.5
+            ],
+            "destination_box_xyxy": [
+              1523.3202454063123,
+              1084.7270728765416,
+              1848.2586584100268,
+              1176.853245758942
+            ],
+            "clarification_question": null,
+            "anchor_boxes_xyxy": [
+              [
+                1630.72,
+                1062.72,
+                1720.32,
+                1116
+              ]
+            ]
+          },
+          "native_error": null,
+          "semantic_receipt_available": true,
+          "confirm_button_visible": true,
+          "has_current_proposal_token": true,
+          "request_sha256": "bf442e25b32ccaa2584fe65689564a07c27e90cd5be8edbe2636f0979941136b",
+          "inner_request_sha256": "bf442e25b32ccaa2584fe65689564a07c27e90cd5be8edbe2636f0979941136b",
+          "requested_image_sha256": "95544d64cd88097e424da0dab1bd195cee644559388d89ed52a56cb55dd8be70",
+          "native_image_sha256": "95544d64cd88097e424da0dab1bd195cee644559388d89ed52a56cb55dd8be70",
+          "detector_track_count_current": 11,
+          "raw_qwen": "OBJECT 637 738 672 775",
+          "native_selected_observations": [],
+          "native_backend": {
+            "device": "cuda:0",
+            "runtime": "streamed",
+            "effective_resident_layers": 8,
+            "generation_elapsed_s": 41.01500000001397,
+            "output_tokens": 18,
+            "worker_pid": 31732
+          },
+          "model_id": "unsloth/Qwen3-VL-8B-Instruct-bnb-4bit",
+          "revision": "10d842936325905934ea24e64325d774693f166e",
+          "adapter_sha256": "76bfb3230b17a86248b52ca6a9f8d2ffca324aa80216d6b93845ccb12ad86743",
+          "infrastructure_intervention": null,
+          "viewpoint_intervention": null,
+          "elapsed_s": 72.911
+        }
+      ],
+      "journal_sha256": "10f59855b4451bcae1042180282675d613252eb81566f7776224c7eee86de8b8"
+    },
+    {
+      "id": "fresh-SUV-guardrail",
+      "group": "new_original_photo_only",
+      "recording": "video_054907",
+      "frame": 86,
+      "image_sha256": "a169eb131b1228a0887e43cf8a0c641dc6c8d8706a120ac926ed216d17a5c8aa",
+      "frame_opened_via": "frame_number",
+      "automatic": {
+        "state": "proposed",
+        "selected_by": "model",
+        "max_anchor_iou": 0.8921788790560466,
+        "point_in_polygon": true
+      },
+      "operator_area": null,
+      "scripted_action": "confirm",
+      "terminal": "confirmed",
+      "error": null,
+      "turns": [
+        {
+          "sent_text": "I mean the patch behind the dark SUV in the right lane beside the metal guardrail.",
+          "input_mode": "typed",
+          "status": "proposed",
+          "displayed_result": {
+            "status": "proposed",
+            "destination_point_xy": [
+              1532.5,
+              1162.5
+            ],
+            "destination_box_xyxy": [
+              1365.3699157035926,
+              1106.0390599206628,
+              1697.9715616075123,
+              1219.2165017955724
+            ],
+            "clarification_question": null,
+            "anchor_boxes_xyxy": [
+              [
+                1405.44,
+                1029.6,
+                1538.56,
+                1131.84
+              ]
+            ]
+          },
+          "native_error": null,
+          "semantic_receipt_available": true,
+          "confirm_button_visible": true,
+          "has_current_proposal_token": true,
+          "request_sha256": "0d382e138cdc331987a10f3fa8dedbd9f7d5e55f2120c15c02171d2ae064da1f",
+          "inner_request_sha256": "0d382e138cdc331987a10f3fa8dedbd9f7d5e55f2120c15c02171d2ae064da1f",
+          "requested_image_sha256": "a169eb131b1228a0887e43cf8a0c641dc6c8d8706a120ac926ed216d17a5c8aa",
+          "native_image_sha256": "a169eb131b1228a0887e43cf8a0c641dc6c8d8706a120ac926ed216d17a5c8aa",
+          "detector_track_count_current": 11,
+          "raw_qwen": "OBJECT 549 715 601 786",
+          "native_selected_observations": [],
+          "native_backend": {
+            "device": "cuda:0",
+            "runtime": "streamed",
+            "effective_resident_layers": 8,
+            "generation_elapsed_s": 31.53100000001723,
+            "output_tokens": 18,
+            "worker_pid": 31732
+          },
+          "model_id": "unsloth/Qwen3-VL-8B-Instruct-bnb-4bit",
+          "revision": "10d842936325905934ea24e64325d774693f166e",
+          "adapter_sha256": "76bfb3230b17a86248b52ca6a9f8d2ffca324aa80216d6b93845ccb12ad86743",
+          "infrastructure_intervention": null,
+          "viewpoint_intervention": null,
+          "elapsed_s": 32.311
+        }
+      ],
+      "journal_sha256": "61e4ab2f6f96f4be4ec037f8b2e3cb3ced4f0354a19d8c1b965650c4b3d027e2"
+    },
+    {
+      "id": "repeat-sign-divider",
+      "group": "original_failure_repeat",
+      "recording": "video_054604",
+      "frame": 137,
+      "image_sha256": "d868d577e285898fbaf7796acfd93a8c6a86fa7958b9e790b0031420d5d9a361",
+      "frame_opened_via": "frame_number",
+      "automatic": {
+        "state": "needs_clarification",
+        "selected_by": "model",
+        "max_anchor_iou": 0,
+        "point_in_polygon": false
+      },
+      "operator_area": {
+        "state": "proposed",
+        "selected_by": "passenger",
+        "result": {
+          "status": "proposed",
+          "destination_point_xy": [
+            1102.5,
+            1192.5
+          ],
+          "destination_box_xyxy": [
+            1046,
+            1176,
+            1162,
+            1207
+          ],
+          "clarification_question": null
+        }
+      },
+      "scripted_action": "cancel",
+      "terminal": "cancelled",
+      "error": null,
+      "turns": [
+        {
+          "sent_text": "Could you drop me off over there?",
+          "input_mode": "voice",
+          "status": "needs_clarification",
+          "displayed_result": {
+            "status": "needs_clarification",
+            "destination_point_xy": null,
+            "destination_box_xyxy": null,
+            "clarification_question": "Which visible landmark is beside your drop-off, or can you mark the area on the photo?"
+          },
+          "native_error": null,
+          "semantic_receipt_available": true,
+          "confirm_button_visible": false,
+          "has_current_proposal_token": false,
+          "request_sha256": "1450d3af3b90c4ab5d10de483f028aa57bdd2725a529448c9183fa5a9f4173e8",
+          "inner_request_sha256": "1450d3af3b90c4ab5d10de483f028aa57bdd2725a529448c9183fa5a9f4173e8",
+          "requested_image_sha256": "d868d577e285898fbaf7796acfd93a8c6a86fa7958b9e790b0031420d5d9a361",
+          "native_image_sha256": "d868d577e285898fbaf7796acfd93a8c6a86fa7958b9e790b0031420d5d9a361",
+          "detector_track_count_current": 4,
+          "raw_qwen": "ASK Could you drop me off over there near the yellow bus?",
+          "native_selected_observations": [],
+          "native_backend": {
+            "device": "cuda:0",
+            "runtime": "streamed",
+            "effective_resident_layers": 8,
+            "generation_elapsed_s": 26.20299999997951,
+            "output_tokens": 14,
+            "worker_pid": 31732
+          },
+          "model_id": "unsloth/Qwen3-VL-8B-Instruct-bnb-4bit",
+          "revision": "10d842936325905934ea24e64325d774693f166e",
+          "adapter_sha256": "76bfb3230b17a86248b52ca6a9f8d2ffca324aa80216d6b93845ccb12ad86743",
+          "infrastructure_intervention": null,
+          "viewpoint_intervention": null,
+          "elapsed_s": 26.356,
+          "speech": {
+            "transcript": "Could you drop me off over there?",
+            "audio_sha256": "d61b7398ec85be2c932f068962f2240815efcf3f4efb1cd26f6fd5294ba8f8a9",
+            "model_id": "Systran/faster-whisper-small.en",
+            "model_revision": "d1d751a5f8271d482d14ca55d9e2deeebbae577f",
+            "device": "cpu",
+            "engine": "faster-whisper",
+            "elapsed_s": 2.4144859999942128
+          },
+          "transcript_edited": false
+        },
+        {
+          "sent_text": "I mean the road on our side of the concrete divider, below the big blue exit sign.",
+          "input_mode": "voice",
+          "status": "needs_clarification",
+          "displayed_result": {
+            "status": "needs_clarification",
+            "destination_point_xy": null,
+            "destination_box_xyxy": null,
+            "clarification_question": "Could you mark the road area you mean on the photo, or describe another visible landmark?"
+          },
+          "native_error": null,
+          "semantic_receipt_available": true,
+          "confirm_button_visible": false,
+          "has_current_proposal_token": false,
+          "request_sha256": "e59148a71139222925da0cd4641ba91b8583e5ed37cb3ea2c57d0f7695e77fc7",
+          "inner_request_sha256": "e59148a71139222925da0cd4641ba91b8583e5ed37cb3ea2c57d0f7695e77fc7",
+          "requested_image_sha256": "d868d577e285898fbaf7796acfd93a8c6a86fa7958b9e790b0031420d5d9a361",
+          "native_image_sha256": "d868d577e285898fbaf7796acfd93a8c6a86fa7958b9e790b0031420d5d9a361",
+          "detector_track_count_current": 4,
+          "raw_qwen": "LANDMARK L3",
+          "native_selected_observations": [
+            {
+              "id": 1721,
+              "class": "Car",
+              "box": [
+                1112.02685546875,
+                1031.012939453125,
+                1172.2818603515625,
+                1067.727294921875
+              ]
+            }
+          ],
+          "native_backend": {
+            "device": "cuda:0",
+            "runtime": "streamed",
+            "effective_resident_layers": 8,
+            "generation_elapsed_s": 10.389999999984866,
+            "output_tokens": 5,
+            "worker_pid": 31732
+          },
+          "model_id": "unsloth/Qwen3-VL-8B-Instruct-bnb-4bit",
+          "revision": "10d842936325905934ea24e64325d774693f166e",
+          "adapter_sha256": "76bfb3230b17a86248b52ca6a9f8d2ffca324aa80216d6b93845ccb12ad86743",
+          "infrastructure_intervention": {
+            "version": "infrastructure-road-user-clarification-v1",
+            "action": "ask_for_location",
+            "reason": "explicit_fixed_infrastructure_with_only_a_tracked_road_user",
+            "passenger_reference_spans": [
+              {
+                "text": "divider",
+                "start": 44,
+                "end": 51
+              },
+              {
+                "text": "exit sign",
+                "start": 72,
+                "end": 81
+              }
+            ],
+            "selected_observation": {
+              "recording_id": "video_054604",
+              "frame_id": 137,
+              "track_id": 1721,
+              "class_name": "Car",
+              "bbox_xyxy": [
+                1112.02685546875,
+                1031.012939453125,
+                1172.2818603515625,
+                1067.727294921875
+              ],
+              "source": "predicted"
+            },
+            "request_sha256": "e59148a71139222925da0cd4641ba91b8583e5ed37cb3ea2c57d0f7695e77fc7",
+            "image_sha256": "d868d577e285898fbaf7796acfd93a8c6a86fa7958b9e790b0031420d5d9a361",
+            "original_method": "qwen_landmark_region",
+            "raw_landmark_response": "LANDMARK L3",
+            "original_result": {
+              "status": "proposed",
+              "destination_point_xy": [
+                1132.5,
+                1087.5
+              ],
+              "destination_box_xyxy": [
+                935.1437163034225,
+                1041.0565171998137,
+                1296.8689476992574,
+                1138.0228523367098
+              ],
+              "clarification_question": null,
+              "anchor_boxes_xyxy": [
+                [
+                  1112.02685546875,
+                  1031.012939453125,
+                  1172.2818603515625,
+                  1067.727294921875
+                ]
+              ]
+            }
+          },
+          "viewpoint_intervention": null,
+          "elapsed_s": 10.571,
+          "speech": {
+            "transcript": "I mean the road on our side of the concrete divider, below the big blue exit sign.",
+            "audio_sha256": "640862751cf538fb9b6877377d2a1966ce68f7a51fa07caee27e94839ea9236e",
+            "model_id": "Systran/faster-whisper-small.en",
+            "model_revision": "d1d751a5f8271d482d14ca55d9e2deeebbae577f",
+            "device": "cpu",
+            "engine": "faster-whisper",
+            "elapsed_s": 2.700478800019482
+          },
+          "transcript_edited": false
+        }
+      ],
+      "journal_sha256": "7fbe21be70b57638dd7ac1b8b7a2d458288834547a4ccc5b89986fe681233e16"
+    },
+    {
+      "id": "repeat-Arjun-ego-paraphrase",
+      "group": "operational_paraphrase_repeat",
+      "recording": "video_054907",
+      "frame": 781,
+      "image_sha256": "c411cf6760695905334f32e5590083cf144543df1ca98e68aae55fb345eb583e",
+      "frame_opened_via": "additional_verified_scene_bank",
+      "automatic": {
+        "state": "needs_clarification",
+        "selected_by": "model",
+        "max_anchor_iou": null,
+        "point_in_polygon": null
+      },
+      "operator_area": null,
+      "scripted_action": "cancel",
+      "terminal": "cancelled",
+      "error": null,
+      "turns": [
+        {
+          "sent_text": "Could you let me out alongside the vehicle straight ahead?",
+          "input_mode": "typed",
+          "status": "needs_clarification",
+          "displayed_result": {
+            "status": "needs_clarification",
+            "destination_point_xy": null,
+            "destination_box_xyxy": null,
+            "clarification_question": "Which vehicle do you mean? Is it toward the left of the picture, toward the right, or somewhere else?"
+          },
+          "native_error": null,
+          "semantic_receipt_available": true,
+          "confirm_button_visible": false,
+          "has_current_proposal_token": false,
+          "request_sha256": "2d659d982afb53613e8d30d9d1efeb4f5a3229417458f87c3214ced0d42805af",
+          "inner_request_sha256": "2d659d982afb53613e8d30d9d1efeb4f5a3229417458f87c3214ced0d42805af",
+          "requested_image_sha256": "c411cf6760695905334f32e5590083cf144543df1ca98e68aae55fb345eb583e",
+          "native_image_sha256": "c411cf6760695905334f32e5590083cf144543df1ca98e68aae55fb345eb583e",
+          "detector_track_count_current": 23,
+          "raw_qwen": "LANDMARK L23",
+          "native_selected_observations": [
+            {
+              "id": 66286,
+              "class": "Large_vehicle",
+              "box": [
+                2059.6513671875,
+                810.5264892578125,
+                2560.0,
+                1113.3870849609375
+              ]
+            }
+          ],
+          "native_backend": {
+            "device": "cuda:0",
+            "runtime": "streamed",
+            "effective_resident_layers": 8,
+            "generation_elapsed_s": 12.937999999994645,
+            "output_tokens": 6,
+            "worker_pid": 31732
+          },
+          "model_id": "unsloth/Qwen3-VL-8B-Instruct-bnb-4bit",
+          "revision": "10d842936325905934ea24e64325d774693f166e",
+          "adapter_sha256": "76bfb3230b17a86248b52ca6a9f8d2ffca324aa80216d6b93845ccb12ad86743",
+          "infrastructure_intervention": null,
+          "viewpoint_intervention": {
+            "decision": {
+              "policy": "vehicle-relative-to-passenger-v1",
+              "reason": "multiple_current_objects_fit_single_reference",
+              "question": "Which vehicle do you mean? Is it toward the left of the picture, toward the right, or somewhere else?",
+              "category": "vehicle",
+              "candidate_count": 14,
+              "track_ids": [
+                65692,
+                56320
+              ],
+              "ranked_plausible_track_ids": [
+                65692,
+                56320,
+                59438,
+                66286,
+                63740,
+                61108,
+                65918,
+                59268,
+                38877,
+                65608,
+                61279,
+                64840,
+                63269,
+                66865
+              ],
+              "descriptions": [],
+              "requested_category": "vehicle",
+              "base_policy": "visible-single-vehicle-clarification-v2",
+              "viewpoint_phrases": [
+                "straight ahead"
+              ]
+            },
+            "original_proposal": {
+              "status": "proposed",
+              "destination_point_xy": [
+                1832.5,
+                1127.5
+              ],
+              "destination_box_xyxy": [
+                1786.837469997946,
+                959.0339466546902,
+                2535.2737759100055,
+                1177.2382553944954
+              ],
+              "clarification_question": null,
+              "anchor_boxes_xyxy": [
+                [
+                  2059.6513671875,
+                  810.5264892578125,
+                  2560.0,
+                  1113.3870849609375
+                ]
+              ]
+            },
+            "source_binding": {
+              "request_sha256": "2d659d982afb53613e8d30d9d1efeb4f5a3229417458f87c3214ced0d42805af",
+              "inference_input_sha256": "0c578496631156e4f1fed3c5dc219ff83555038b79825a7f4a59716c97013a31",
+              "image_sha256": "c411cf6760695905334f32e5590083cf144543df1ca98e68aae55fb345eb583e",
+              "checkpoint_sha256": "d96a9a69e2e52ddbc21851d5ff6f79b344de6c8558600e54be5cb2712480a07d",
+              "ranked_evidence_sha256": "e82bb20ab5d17db52b79348e6324f692c7641a3d77623b9e4b9744ac566bbf08",
+              "current_observations": [
+                {
+                  "bbox_xyxy": [
+                    212.9324951171875,
+                    1002.0974731445312,
+                    850.429931640625,
+                    1339.536865234375
+                  ],
+                  "class_name": "Car",
+                  "frame_id": 781,
+                  "recording_id": "video_054907",
+                  "source": "predicted",
+                  "track_id": 65692
+                },
+                {
+                  "bbox_xyxy": [
+                    1970.071533203125,
+                    1027.3779296875,
+                    2559.38330078125,
+                    1369.305419921875
+                  ],
+                  "class_name": "Car",
+                  "frame_id": 781,
+                  "recording_id": "video_054907",
+                  "source": "predicted",
+                  "track_id": 56320
+                }
+              ],
+              "verification": "ranking_recomputed_from_current_original_pixels"
+            }
+          },
+          "elapsed_s": 13.147
+        }
+      ],
+      "journal_sha256": "8a329012434fe53c827a86ca83eadf747ef5bc1dee15e996cd6b10429d41ef18"
+    }
+  ]
+}

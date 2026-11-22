@@ -373,6 +373,7 @@ def test_http_serves_the_app_and_registered_images_only(http_app):
     app, base = http_app
     assert b"Drop-off instruction" in http(base + "/")[2]
     assert b"refresh" in http(base + "/app.js")[2]
+    assert b"registerProcessor" in http(base + "/capture.js")[2]
     http(base + "/api/select", {"recording_id": "recording_a", "frame_id": 4})
     current = idle(app)
     status, headers, payload = http(base + current["selected"]["image_url"])

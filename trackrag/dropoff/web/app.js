@@ -10,7 +10,7 @@ const element = (tag, text, className) => {
 let view = null, frameIds = [], epoch = 0, sceneToken = null;
 let dirty = false, fresh = true, renderedRequest = null, audioId = null, renderedAudio = null;
 let speechPending = false, actionQueue = Promise.resolve(), qaSignature = null, initialized = false;
-let recorder = null, microphone = null, audioUrl = null;
+let capture = null, microphoneEpoch = 0, audioUrl = null;
 const seenErrors = new Set();
 
 function notice(message) {
@@ -45,6 +45,7 @@ async function refresh() {
 }
 
 function clearScene() {
+  void stopMicrophone(true);
   sceneToken = null;
   dirty = false; fresh = true; audioId = null; renderedAudio = null; renderedRequest = null;
   $("scene-image").hidden = true;
@@ -71,7 +72,6 @@ function clearScene() {
 async function invalidateSelection() {
   epoch++;
   clearScene();
-  if (recorder?.state === "recording") recorder.stop();
   try { await post("/api/reset", {}); } catch (error) { notice(error.message); }
 }
 
@@ -282,6 +282,7 @@ function render(data) {
   if (data.selected) {
     const selected = data.selected, frame = selected.frame;
     if (sceneToken !== selected.token) {
+      void stopMicrophone(true);
       sceneToken = selected.token;
       $("scene-image").src = selected.image_url;
       $("scene-image").alt = `Original frame ${frame.frame_id}, recording ${frame.recording_id}`;
@@ -293,6 +294,7 @@ function render(data) {
     $("scene-title").textContent = `${frame.recording_id} · frame ${frame.frame_id}`;
     $("scene-meta").textContent = `${frame.width} × ${frame.height} px · ${frame.timestamp_s.toFixed(2)} s · ${selected.tracks.length} current observation${selected.tracks.length === 1 ? "" : "s"}`;
   } else {
+    if (sceneToken !== null) void stopMicrophone(true);
     sceneToken = null;
     $("scene-image").hidden = true; $("overlay").setAttribute("hidden", ""); $("empty-scene").hidden = false;
     $("stage").classList.add("empty");
@@ -326,6 +328,7 @@ for (const route of ["dropoff", "qa"]) $("tab-" + route).onclick = () => {
   }
 };
 $("instruction").addEventListener("input", () => {
+  void stopMicrophone(true);
   const wasDirty = dirty; dirty = true; drawOverlay();
   if (sceneToken && (speechPending || (!wasDirty && ["proposed", "confirmed", "pending"].includes(view?.state?.status)))) {
     const discardAudio = speechPending;
@@ -335,6 +338,7 @@ $("instruction").addEventListener("input", () => {
   if (view) renderInteraction(view);
 });
 $("interpret").onclick = async () => {
+  void stopMicrophone(true);
   if (!sceneToken) return;
   notice("");
   const current = view?.state;
@@ -346,17 +350,20 @@ $("interpret").onclick = async () => {
   catch (error) { notice(error.message); await refresh(); }
 };
 $("send-reply").onclick = async () => {
+  void stopMicrophone(true);
   try {
     await post("/api/reply", {scene_token: sceneToken, request_id: view.state.request.request_id, text: $("reply").value});
     $("reply").value = ""; dirty = false; fresh = false; await refresh();
   } catch (error) { notice(error.message); }
 };
 $("cancel").onclick = async () => {
+  void stopMicrophone(true);
   dirty = false;
   try { await post("/api/cancel", {scene_token: sceneToken}); await refresh(); }
   catch (error) { notice(error.message); }
 };
 $("new-instruction").onclick = async () => {
+  void stopMicrophone(true);
   fresh = true; dirty = false; audioId = null;
   $("instruction").value = ""; $("original-asr").hidden = true; $("typed-mode").hidden = true;
   $("mode-label").textContent = "Typed input";
@@ -365,6 +372,7 @@ $("new-instruction").onclick = async () => {
   catch (error) { notice(error.message); }
 };
 $("typed-mode").onclick = () => {
+  void stopMicrophone(true);
   audioId = null; fresh = true; dirty = true;
   $("original-asr").hidden = true; $("typed-mode").hidden = true; $("mode-label").textContent = "Typed input";
   drawOverlay(); if (view) renderInteraction(view);
@@ -376,13 +384,16 @@ $("ask-question").onclick = async () => {
   catch (error) { notice(error.message); }
 };
 
-async function uploadAudio(blob, filename, boundToken = sceneToken) {
+async function uploadAudio(blob, filename, boundToken = sceneToken, recordingVersion = null) {
+  if (recordingVersion !== null && recordingVersion !== microphoneEpoch) return;
   if (boundToken !== sceneToken) return notice("The scene changed while recording. Record again for the current scene.");
   if (!sceneToken) return notice("Open a scene before uploading or recording audio.");
+  const inputVersion = ++microphoneEpoch;
   notice(""); dirty = true; fresh = true; audioId = null; speechPending = true;
   drawOverlay(); $("proposal-controls").hidden = true;
   try { await post("/api/cancel", {scene_token: boundToken, discard_audio: true}); }
   catch (error) { return notice(error.message); }
+  if (inputVersion !== microphoneEpoch || boundToken !== sceneToken) return;
   if (!blob.size || blob.size > 16 * 1024 * 1024) {
     speechPending = false;
     return notice("Audio must be nonempty and no larger than 16 MiB.");
@@ -391,49 +402,148 @@ async function uploadAudio(blob, filename, boundToken = sceneToken) {
   audioUrl = URL.createObjectURL(blob); $("audio-preview").src = audioUrl; $("audio-preview").hidden = false;
   try {
     await post("/api/audio", blob, {"Content-Type": blob.type || "application/octet-stream",
-      "X-Scene-Token": sceneToken, "X-Filename": encodeURIComponent(filename)});
+      "X-Scene-Token": boundToken, "X-Filename": encodeURIComponent(filename)});
     await refresh();
   } catch (error) { speechPending = false; notice(error.message); }
 }
 $("audio-file").onchange = async event => {
   const file = event.target.files[0];
+  void stopMicrophone(true);
   if (file) await uploadAudio(file, file.name);
   event.target.value = "";
 };
-$("record-audio").onclick = async () => {
-  if (recorder?.state === "recording") { recorder.stop(); return; }
+
+// Same mono 16-bit PCM encoding as the existing passenger browser. Retain the
+// actual AudioContext rate so the recognizer can validate the source recording.
+function encodeWav(chunks, rate) {
+  const samples = chunks.reduce((total, chunk) => total + chunk.length, 0);
+  if (!Number.isInteger(rate) || rate < 16000 || rate > 48000) throw new Error("Use a microphone sample rate between 16 and 48 kHz.");
+  if (!samples || samples > rate * 60) throw new Error("Record a nonempty WAV of at most 60 seconds.");
+  const buffer = new ArrayBuffer(44 + samples * 2), data = new DataView(buffer);
+  const ascii = (offset, word) => {
+    for (let i = 0; i < word.length; i++) data.setUint8(offset + i, word.charCodeAt(i));
+  };
+  ascii(0, "RIFF"); data.setUint32(4, 36 + samples * 2, true); ascii(8, "WAVE"); ascii(12, "fmt ");
+  data.setUint32(16, 16, true); data.setUint16(20, 1, true); data.setUint16(22, 1, true);
+  data.setUint32(24, rate, true); data.setUint32(28, rate * 2, true);
+  data.setUint16(32, 2, true); data.setUint16(34, 16, true);
+  ascii(36, "data"); data.setUint32(40, samples * 2, true);
+  let offset = 44;
+  for (const chunk of chunks) for (const sample of chunk) {
+    if (!Number.isFinite(sample)) throw new Error("The microphone returned invalid audio samples.");
+    const value = Math.max(-1, Math.min(1, sample));
+    data.setInt16(offset, Math.round(value * (value < 0 ? 32768 : 32767)), true); offset += 2;
+  }
+  return new Blob([buffer], {type: "audio/wav"});
+}
+
+function microphoneButtonIdle() {
+  $("record-audio").disabled = false;
+  $("record-audio").textContent = "Record voice";
+  $("record-audio").classList.remove("recording");
+}
+
+async function stopMicrophone(discard = false) {
+  const version = ++microphoneEpoch, owned = capture;
+  capture = null;
+  microphoneButtonIdle();
+  if (!owned) return;
+  clearTimeout(owned.timer);
+  owned.stream.getTracks().forEach(track => track.stop());
+  try {
+    // The acknowledgement follows all preceding sample messages on this port.
+    // It drains the final worklet samples before publishing the WAV.
+    await new Promise((resolve, reject) => {
+      owned.stopped = resolve;
+      owned.drainTimer = setTimeout(() => reject(new Error("The microphone did not finish recording. Try again or upload a WAV.")), 2000);
+      owned.node.port.postMessage("stop");
+    });
+    if (!discard && version === microphoneEpoch && owned.scene === sceneToken) {
+      await uploadAudio(encodeWav(owned.blocks, owned.rate), "microphone.wav", owned.scene, version);
+    }
+  } catch (error) {
+    if (!discard && version === microphoneEpoch) notice(`Audio recording failed: ${error.message}`);
+  } finally {
+    clearTimeout(owned.drainTimer);
+    owned.node.port.onmessage = null;
+    owned.source.disconnect(); owned.node.disconnect(); owned.gain.disconnect();
+    if (owned.context.state !== "closed") await owned.context.close();
+  }
+}
+
+async function startMicrophone() {
   if (!sceneToken) return notice("Open a scene before recording audio.");
-  const recordingScene = sceneToken;
+  const recordingScene = sceneToken, version = ++microphoneEpoch;
+  let stream, context, source, node, gain, permissionTimer, expired = false;
+  const current = () => version === microphoneEpoch && recordingScene === sceneToken;
   $("record-audio").disabled = true;
   try {
     dirty = true; fresh = true; audioId = null;
     drawOverlay(); if (view) renderInteraction(view);
     await post("/api/cancel", {scene_token: recordingScene, discard_audio: true});
-    if (!navigator.mediaDevices?.getUserMedia || !window.MediaRecorder) throw new Error("Recording is unavailable in this browser. Upload an audio file instead.");
-    microphone = await navigator.mediaDevices.getUserMedia({audio: true});
-    if (recordingScene !== sceneToken) throw new Error("The scene changed. Start recording again for the current scene.");
-    const ownedStream = microphone;
-    const chunks = [];
-    let recordingFailed = false;
-    const ownedRecorder = new MediaRecorder(ownedStream);
-    recorder = ownedRecorder;
-    ownedRecorder.ondataavailable = event => { if (event.data.size) chunks.push(event.data); };
-    ownedRecorder.onerror = () => {
-      recordingFailed = true;
-      ownedStream.getTracks().forEach(track => track.stop());
-      $("record-audio").textContent = "Record voice"; $("record-audio").classList.remove("recording");
-      notice("Audio recording failed. No destination was submitted; try uploading an audio file.");
+    if (!current()) return;
+    if (!navigator.mediaDevices?.getUserMedia || !window.AudioContext || !window.AudioWorkletNode) {
+      throw new Error("Recording is unavailable in this browser. Upload a PCM WAV or type instead.");
+    }
+    const permission = navigator.mediaDevices.getUserMedia({audio: {channelCount: 1, echoCancellation: true}});
+    permission.then(result => {
+      if (expired || !current()) result.getTracks().forEach(track => track.stop());
+    }, () => {});
+    stream = await Promise.race([permission, new Promise((_, reject) => {
+      permissionTimer = setTimeout(() => {
+        expired = true;
+        reject(new Error("Microphone permission timed out. Upload a WAV or type instead."));
+      }, 20000);
+    })]);
+    clearTimeout(permissionTimer);
+    if (!current()) return;
+    context = new AudioContext({sampleRate: 16000});
+    if (context.sampleRate < 16000 || context.sampleRate > 48000) throw new Error("This microphone does not support 16–48 kHz PCM WAV.");
+    await context.audioWorklet.addModule("/capture.js");
+    if (!current()) return;
+    source = context.createMediaStreamSource(stream);
+    node = new AudioWorkletNode(context, "trackrag-pcm-capture", {channelCount: 1, channelCountMode: "explicit"});
+    gain = context.createGain(); gain.gain.value = 0;
+    const owned = {stream, context, source, node, gain, scene: recordingScene,
+      blocks: [], samples: 0, rate: context.sampleRate, stopped: null};
+    node.port.onmessage = event => {
+      if (event.data?.type === "stopped") { owned.stopped?.(); return; }
+      // Stopping advances the version, but the old port must drain its queued
+      // samples. Its private buffer can never replace another recording's data.
+      const remaining = owned.rate * 60 - owned.samples;
+      if (!remaining || !(event.data instanceof Float32Array)) return;
+      const block = event.data.length > remaining ? event.data.slice(0, remaining) : event.data;
+      owned.blocks.push(block); owned.samples += block.length;
+      if (owned.samples === owned.rate * 60 && capture === owned) void stopMicrophone();
     };
-    ownedRecorder.onstop = async () => {
-      ownedStream.getTracks().forEach(track => track.stop());
-      $("record-audio").textContent = "Record voice"; $("record-audio").classList.remove("recording");
-      if (recordingFailed) return;
-      const type = ownedRecorder.mimeType || "audio/webm";
-      await uploadAudio(new Blob(chunks, {type}), type.includes("mp4") ? "microphone.mp4" : "microphone.webm", recordingScene);
+    node.onprocessorerror = () => {
+      if (capture !== owned) return;
+      void stopMicrophone(true);
+      notice("Audio recording failed. Try again, upload a PCM WAV or type the instruction.");
     };
-    ownedRecorder.start(); $("record-audio").disabled = false; $("record-audio").textContent = "Stop recording"; $("record-audio").classList.add("recording");
-    setTimeout(() => { if (ownedRecorder.state === "recording") ownedRecorder.stop(); }, 60000);
-  } catch (error) { $("record-audio").disabled = false; microphone?.getTracks().forEach(track => track.stop()); notice(`Microphone unavailable: ${error.message}`); }
+    source.connect(node); node.connect(gain); gain.connect(context.destination);
+    await context.resume();
+    if (!current()) return;
+    capture = owned;
+    owned.timer = setTimeout(() => { if (capture === owned) void stopMicrophone(); }, 60000);
+    $("record-audio").disabled = false; $("record-audio").textContent = "Stop recording"; $("record-audio").classList.add("recording");
+  } catch (error) {
+    if (current()) notice(`Microphone unavailable: ${error.message}`);
+  } finally {
+    clearTimeout(permissionTimer);
+    if (!capture || capture.stream !== stream) {
+      stream?.getTracks().forEach(track => track.stop());
+      source?.disconnect(); node?.disconnect(); gain?.disconnect();
+      if (context && context.state !== "closed") await context.close();
+    }
+    if (current() && !capture) microphoneButtonIdle();
+  }
+}
+
+$("record-audio").onclick = () => {
+  if (capture) return stopMicrophone();
+  return startMicrophone();
 };
+window.addEventListener("pagehide", () => { void stopMicrophone(true); });
 refresh();
 setInterval(refresh, 800);

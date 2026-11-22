@@ -21,6 +21,8 @@ from threading import RLock
 from urllib.parse import unquote, urlsplit
 from uuid import uuid4
 
+from trackrag.local_speech import SpeechInputError
+
 from .contracts import error_outcome, proposal_fingerprint
 from .inputs import MAX_IMAGE_BYTES, build_instruction_request
 from .interaction import InteractionController, InvalidTransition
@@ -75,6 +77,8 @@ class AppConfig:
     grounding_backend: str = "transformers"
     qa_answerer: str = "gemini"
     speech_adapter: str | None = None
+    asr_model: Path | None = None
+    whisper_model: Path | None = None
     adapters: str | None = None
     frame_rate: float | None = None
     split: str | None = None
@@ -112,6 +116,8 @@ class LocalApplication:
     def __init__(self, config: AppConfig):
         self.config = config
         self._lock = RLock()
+        self._close_lock = RLock()
+        self._closed = False
         self._recordings = {}
         self._media = {}
         self._selected = None
@@ -132,6 +138,8 @@ class LocalApplication:
             raise ValueError("unknown grounding backend")
         if config.qa_answerer not in ("none", "gemini"):
             raise ValueError("unknown QA answerer")
+        if sum(value is not None for value in (config.speech_adapter, config.asr_model, config.whisper_model)) > 1:
+            raise ValueError("select only one of --speech-adapter, --asr-model and --whisper-model")
         self._vision = None
         if self._vision_data is not None:
             from trackrag.vision.config import config_from_dict
@@ -152,12 +160,20 @@ class LocalApplication:
         else:
             from .model import GroundingModel
             model = GroundingModel(self._grounding_data)
+        # The application owns adapters created for this session, including an
+        # explicitly selected development factory. Older adapters need no close.
+        self._owned_model = model
         speech_module = import_module(config.speech_adapter) if config.speech_adapter else self._adapters
         if config.speech_adapter and getattr(speech_module, "DEVELOPMENT_ONLY", False) and self._adapters is None:
             raise ValueError("development speech adapters require explicit --adapters mode")
         self._transcribe = getattr(speech_module, "transcribe_audio", None)
-        if self._transcribe is not None and not callable(self._transcribe):
+        if (config.speech_adapter or self._transcribe is not None) and not callable(self._transcribe):
             raise ValueError("speech adapter transcribe_audio must be callable")
+        self._native_speech = None
+        if config.asr_model is not None or config.whisper_model is not None:
+            from .speech import NativeSpeechAdapter
+            self._native_speech = NativeSpeechAdapter(asr_model=config.asr_model, whisper_model=config.whisper_model)
+            self._transcribe = self._native_speech.transcribe_audio
         self.controller = InteractionController(model)
         self._catalog = self._discover_recordings()
         if not self._catalog:
@@ -214,7 +230,9 @@ class LocalApplication:
             "model_id": (self._grounding_data or {}).get("model_id", "Development adapter" if self._adapters else "Not configured"),
             "qa_answerer": "development" if self._adapters and callable(getattr(self._adapters, "answer_question", None))
                 else self.config.qa_answerer,
-            "speech": self.config.speech_adapter or (self.config.adapters if self._transcribe else "unavailable"),
+            "speech": self._native_speech.engine if self._native_speech else
+                self.config.speech_adapter or (self.config.adapters if self._transcribe else "unavailable"),
+            "speech_model_path": str(self._native_speech.model_path) if self._native_speech else None,
         }
 
     def register_media(self, path):
@@ -515,7 +533,7 @@ class LocalApplication:
             def recognize():
                 try:
                     if not callable(self._transcribe):
-                        raise RuntimeError("Task 3 speech adapter is unavailable; supply --speech-adapter")
+                        raise RuntimeError("Task 3 speech adapter is unavailable; supply --speech-adapter, --asr-model or --whisper-model")
                     result = self._transcribe(path)
                     _fields(result, ("text",), ("provenance",))
                     text = result["text"]
@@ -523,6 +541,9 @@ class LocalApplication:
                         raise ValueError("speech adapter returned an empty or invalid transcript")
                     if not isinstance(result.get("provenance", {}), dict):
                         raise ValueError("speech provenance must be an object")
+                    declared_audio = result.get("provenance", {}).get("audio_sha256")
+                    if declared_audio is not None and declared_audio != call["sha256"]:
+                        raise ValueError("speech receipt belongs to different audio bytes")
                     json.dumps(result, allow_nan=False)
                     with self._lock:
                         call.update(status="transcribed", text=text, provenance=deepcopy(result.get("provenance", {})))
@@ -532,7 +553,8 @@ class LocalApplication:
                             call["status"] = "discarded"
                 except Exception as error:
                     with self._lock:
-                        call.update(status="error", error={"code": "transcription_error",
+                        call.update(status="error", error={"code": error.code if isinstance(error, SpeechInputError)
+                                    else "transcription_error",
                                     "message": f"{type(error).__name__}: {error}"[:4096]})
                     raise
 
@@ -541,11 +563,33 @@ class LocalApplication:
             return job
 
     def close(self):
-        with self._lock:
-            self._persist()
-        self._executor.shutdown(wait=True)
-        with self._lock:
-            self._persist()
+        # A streamed model owns a persistent GPU worker. Drain application jobs
+        # before releasing it, and make repeated/concurrent shutdown harmless.
+        with self._close_lock:
+            if self._closed:
+                return
+            self._closed = True
+            try:
+                with self._lock:
+                    self._persist()
+            finally:
+                try:
+                    self._executor.shutdown(wait=True)
+                finally:
+                    try:
+                        close = getattr(self._owned_model, "close", None)
+                        if callable(close):
+                            close()
+                    except Exception as error:
+                        with self._lock:
+                            self._api_errors.append({
+                                "code": "grounding_shutdown_failed",
+                                "message": f"{type(error).__name__}: {error}"[:4096],
+                            })
+                        raise
+                    finally:
+                        with self._lock:
+                            self._persist()
 
 
 def make_server(application, port=8765):
@@ -583,7 +627,7 @@ def make_server(application, port=8765):
                         with Image.open(file) as image:
                             kind = Image.MIME.get(image.format, "application/octet-stream")
                     return self.send(200, file.read_bytes(), kind or "application/octet-stream")
-                names = {"/": "index.html", "/app.js": "app.js", "/app.css": "app.css"}
+                names = {"/": "index.html", "/app.js": "app.js", "/app.css": "app.css", "/capture.js": "capture.js"}
                 if path not in names:
                     return self.send(404, {"error": "not_found"})
                 file = WEB_ROOT / names[path]
@@ -638,7 +682,10 @@ def main(argv=None):
     parser.add_argument("--grounding-config", type=Path)
     parser.add_argument("--grounding-backend", choices=("transformers", "ollama"), default="transformers")
     parser.add_argument("--qa-answerer", choices=("none", "gemini"), default="gemini")
-    parser.add_argument("--speech-adapter", help="Task 3 module exposing transcribe_audio(path)")
+    speech = parser.add_mutually_exclusive_group()
+    speech.add_argument("--speech-adapter", help="Task 3 module exposing transcribe_audio(path)")
+    speech.add_argument("--asr-model", type=Path, help="verified local Vosk English model; accepts 16-bit PCM WAV")
+    speech.add_argument("--whisper-model", type=Path, help="verified local Whisper Small English model on CPU; accepts PCM WAV")
     parser.add_argument("--adapters", help="explicit development adapters; labelled in UI and receipts")
     parser.add_argument("--frame-rate", type=float)
     parser.add_argument("--split", choices=("train", "test"))
@@ -646,21 +693,28 @@ def main(argv=None):
     args = vars(parser.parse_args(argv))
     port = args.pop("port")
     args["output_dir"] = args.pop("out") or Path("runs") / ("dropoff-app-" + str(uuid4())[:12])
+    application = None
+    server = None
     try:
-        application = LocalApplication(AppConfig(**args))
-        server = make_server(application, port)
-    except (ValueError, OSError, ImportError) as error:
-        parser.error(str(error))
-    print(f"TrackRAG-Gulf local application: http://127.0.0.1:{server.server_port}", flush=True)
-    print(f"Run receipts: {application.output_dir}", flush=True)
-    print(f"Execution condition: {json.dumps(application._condition())}", flush=True)
-    try:
-        server.serve_forever()
-    except KeyboardInterrupt:
-        pass
+        try:
+            application = LocalApplication(AppConfig(**args))
+            server = make_server(application, port)
+        except (ValueError, OSError, ImportError, SpeechInputError) as error:
+            parser.error(str(error))
+        print(f"TrackRAG-Gulf local application: http://127.0.0.1:{server.server_port}", flush=True)
+        print(f"Run receipts: {application.output_dir}", flush=True)
+        print(f"Execution condition: {json.dumps(application._condition())}", flush=True)
+        try:
+            server.serve_forever()
+        except KeyboardInterrupt:
+            pass
     finally:
-        server.server_close()
-        application.close()
+        try:
+            if server is not None:
+                server.server_close()
+        finally:
+            if application is not None:
+                application.close()
     return 0
 
 

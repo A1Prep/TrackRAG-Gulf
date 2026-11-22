@@ -432,6 +432,8 @@ def main(argv=None):
     parser.add_argument("--vision-cache", type=Path, required=True)
     parser.add_argument("--between-road-mode", choices=("edge", "edge-or-bay"), default="edge",
                         help="Check the visible road edge, or also check angled and facing parking bays")
+    parser.add_argument("--parking-backend", choices=("modal",),
+                        help="Use the hosted parking model on active English instructions between two vehicles")
     parser.add_argument("--verify-landmarks", action="store_true", help="Enable the model's additional landmark check")
     parser.add_argument("--asr-model", type=Path, help="Unpacked local Vosk English model")
     parser.add_argument("--whisper-model", type=Path, help="Use this verified local English Whisper Small model on CPU")
@@ -456,7 +458,13 @@ def main(argv=None):
             parser.error("Footage search needs both --qa-data-root and --qa-predictions.")
         from trackrag.footage_app import FootageReview
         footage = FootageReview(args.qa_data_root,args.qa_predictions,args.qa_vision_config,args.out/"footage",args.qa_frame_rate)
-    site = PassengerSite(scenes, dialogue_model, asr, args.out, PassengerSession,footage)
+    session_factory = PassengerSession
+    if args.parking_backend:
+        from functools import partial
+        from trackrag.dropoff.parking_evidence import make_backend
+        from trackrag.dropoff.passenger_parking_session import ParkingPassengerSession
+        session_factory = partial(ParkingPassengerSession, parking_backend=make_backend(args.parking_backend))
+    site = PassengerSite(scenes, dialogue_model, asr, args.out, session_factory,footage)
     with ThreadingHTTPServer(("127.0.0.1", args.port), handler(site)) as server:
         print(f"Open http://127.0.0.1:{server.server_port}/  ({len(scenes)} prepared frames)", flush=True)
         try:

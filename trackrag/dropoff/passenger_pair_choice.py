@@ -165,8 +165,12 @@ def current_tracks(request):
 
 
 def options(request, *, passenger_requested=False):
-    if request["scene"]["source"] != "predicted" or not (passenger_requested or pair_intent(request)):
+    if request["scene"]["source"] != "predicted":
         return []
+    if not (passenger_requested or pair_intent(request)):
+        from .passenger_parking import parking_instruction
+        if not parking_instruction(request):
+            return []
     selected = [
         {k: deepcopy(t[k]) for k in ("track_id", "class_name", "bbox_xyxy")}
         for t in current_tracks(request)
@@ -542,11 +546,19 @@ class PassengerSession(OriginalPassengerSession):
 
     def _accept(self, outcome, selected_by):
         from . import qualified_pair
+        from . import passenger_parking
+        from . import parking_clarification
         base = getattr(self.model, "model", self.model)
         if isinstance(outcome, dict) and outcome.get("ok") is True:
             method=outcome.get("provenance",{}).get("method")
             source_actors={METHOD:"passenger_landmarks", "explicit_passenger_region":"passenger",
-                           "passenger_requested_pointing":"passenger", qualified_pair.METHOD:qualified_pair.ACTOR}
+                           "passenger_requested_pointing":"passenger", qualified_pair.METHOD:qualified_pair.ACTOR,
+                           passenger_parking.METHOD:passenger_parking.ACTOR,
+                           parking_clarification.METHOD:parking_clarification.ACTOR}
+            if (method == parking_clarification.METHOD) != (selected_by == parking_clarification.ACTOR):
+                raise ValueError("Reference clarification and its source disagree")
+            if method == parking_clarification.METHOD:
+                parking_clarification.verify(self._request, outcome)
             if ((method in source_actors and source_actors[method] != selected_by)
                     or (selected_by in {"passenger_landmarks", qualified_pair.ACTOR} and method not in source_actors)
                     or (selected_by == "passenger" and method in {"qwen_landmark_region","deictic_pair_clarification"})):
@@ -579,6 +591,10 @@ class PassengerSession(OriginalPassengerSession):
     def _interpret_submission(self, request):
         if self._passenger_requested:
             return pointing_question(request), "passenger"
+        from . import parking_clarification
+        clarification = parking_clarification.clarify(request)
+        if clarification is not None:
+            return clarification, parking_clarification.ACTOR
         outcome, actor = super()._interpret_submission(request)
         from . import qualified_pair
         if isinstance(outcome,dict) and outcome.get("provenance",{}).get("method") == qualified_pair.METHOD:

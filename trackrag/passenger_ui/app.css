@@ -35,7 +35,7 @@ select { max-width:72%; color:inherit; border:1px solid #b3beb0; border-radius:7
 canvas { position:absolute; inset:0; width:100%; height:100%; pointer-events:none; }
 canvas.drawing { pointer-events:auto; touch-action:none; cursor:crosshair; }
 canvas.choosing-pair { pointer-events:auto; touch-action:manipulation; cursor:pointer; }
-.scene-foot { font-size:.9rem; color:#4b5d52; min-height:49px; }
+.scene-foot { flex-wrap:wrap; font-size:.9rem; color:#4b5d52; min-height:49px; }
 #legend { display:flex; flex-wrap:wrap; gap:4px 14px; }
 .legend-key { display:inline-flex; align-items:center; gap:6px; }
 .legend-key i { flex-shrink:0; display:inline-block; }
@@ -43,7 +43,7 @@ canvas.choosing-pair { pointer-events:auto; touch-action:manipulation; cursor:po
 .key-region { width:20px; height:12px; border:2px dashed #806300; }
 .key-point.passenger { background:#52effa; }
 .key-region.passenger { border-style:solid; border-color:#007b87; }
-.scene-foot .text-btn { flex-shrink:0; }
+.scene-foot .text-btn { max-width:100%; overflow-wrap:anywhere; }
 .scene-actions { display:flex; gap:8px 16px; align-items:center; flex-wrap:wrap; }
 #pair-tools { background:#eef3e9; border-top:1px solid #d3ddce; padding:14px 18px; }
 #pair-tools p { color:#354a3c; font-size:.92rem; }

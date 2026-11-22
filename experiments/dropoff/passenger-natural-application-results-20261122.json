@@ -1,0 +1,270 @@
+{
+  "kind": "unassisted_browser_language_variation",
+  "registered_protocol_sha256": "99c5a2132f35ed928c1e46fac5c98d4dc07411c30c226d4db63eda39c9ec7b11",
+  "assessed_utc": "2026-11-22T07:21:33.788716+00:00",
+  "complete_requested": 12,
+  "grade_counts": {
+    "pair_specific_question": 6,
+    "operational_error": 3,
+    "generic_clarification": 2,
+    "incorrect_spatial": 1
+  },
+  "confirmed_native_generations": 8,
+  "methods": {
+    "deictic_pair_clarification": 4,
+    "qwen_landmark_region": 8
+  },
+  "human_raters": 0,
+  "assisted_selections": 0,
+  "official_final_cases": 0,
+  "recordings": 1,
+  "distinct_original_images": 1,
+  "raw_archive": "passenger-natural-application-evidence.zip",
+  "records": [
+    {
+      "id": "unpointed_pair-01",
+      "text": "Would you mind dropping us off in the gap between those two black sedans?",
+      "status": "needs_clarification",
+      "method": "deictic_pair_clarification",
+      "grade": "pair_specific_question",
+      "native_generation_receipts": 0,
+      "raw": [],
+      "point": null,
+      "inside_registered_region": null,
+      "matched_minimum_anchor_iou": null,
+      "question": "Which two vehicles do you mean? Describe each one or select both on the photo.",
+      "error": null,
+      "can_select_two_vehicles": true,
+      "human_confirmed": false,
+      "portable_input_sha256": "4c467a852d97c56c315245b44a79e25f928bbd6ef3098800d7a92ef4d4c0cbdc",
+      "journal_sha256": "6f47f2cce12f55272b7603d039f322e0e157bc5439f9b0fc827ac2f5358798e7"
+    },
+    {
+      "id": "unpointed_pair-02",
+      "text": "Somewhere between these two black cars would be good.",
+      "status": "error",
+      "method": "qwen_landmark_region",
+      "grade": "operational_error",
+      "native_generation_receipts": 1,
+      "raw": [
+        "LANDMARK L18 LANDMARK L22"
+      ],
+      "point": null,
+      "inside_registered_region": null,
+      "matched_minimum_anchor_iou": null,
+      "question": null,
+      "error": {
+        "code": "invalid_model_output",
+        "message": "Landmarks must refer to one or two distinct current detector IDs"
+      },
+      "can_select_two_vehicles": true,
+      "human_confirmed": false,
+      "portable_input_sha256": "088bd7c7f20c65dbea3c38f238088b469a18d20b1982d12b184c5299fece8daf",
+      "journal_sha256": "f76d8f2d0c256c3ce3789f73fe9bf1183796ad2b1f957f421bb31a1abe518313"
+    },
+    {
+      "id": "unpointed_pair-03",
+      "text": "Between those two black cars, if you can.",
+      "status": "needs_clarification",
+      "method": "qwen_landmark_region",
+      "grade": "generic_clarification",
+      "native_generation_receipts": 1,
+      "raw": [
+        "LANDMARK L1 L2"
+      ],
+      "point": null,
+      "inside_registered_region": null,
+      "matched_minimum_anchor_iou": null,
+      "question": "I can identify the landmark, but I can't place a road area beside it. Can you mark the intended patch?",
+      "error": null,
+      "can_select_two_vehicles": true,
+      "human_confirmed": false,
+      "portable_input_sha256": "9de82b6b816e39571570c343784601bd8f380386b141f2b65ba00c3dd40fcb11",
+      "journal_sha256": "513e4df768e177ac95cb6e9a64913252ac2e99b03d12aa252683ca09e977076a"
+    },
+    {
+      "id": "unpointed_pair-04",
+      "text": "Put me down in the middle of those two black cars.",
+      "status": "proposed",
+      "method": "qwen_landmark_region",
+      "grade": "incorrect_spatial",
+      "native_generation_receipts": 1,
+      "raw": [
+        "LANDMARK L18"
+      ],
+      "point": [
+        1562.5,
+        1217.5
+      ],
+      "inside_registered_region": false,
+      "matched_minimum_anchor_iou": 0.0,
+      "question": null,
+      "error": null,
+      "can_select_two_vehicles": false,
+      "human_confirmed": false,
+      "portable_input_sha256": "8f24255a566980557bc65b41979b22a85bde86dc4373bbf13b1b0fb3827b081b",
+      "journal_sha256": "ce973aed420dfa7df0f33296f3777f2cd3393bb4d778b82163b8a98e508ceb1a"
+    },
+    {
+      "id": "unpointed_pair-05",
+      "text": "See those two black cars there? I want to get out between them.",
+      "status": "needs_clarification",
+      "method": "deictic_pair_clarification",
+      "grade": "pair_specific_question",
+      "native_generation_receipts": 0,
+      "raw": [],
+      "point": null,
+      "inside_registered_region": null,
+      "matched_minimum_anchor_iou": null,
+      "question": "Which two vehicles do you mean? Describe each one or select both on the photo.",
+      "error": null,
+      "can_select_two_vehicles": true,
+      "human_confirmed": false,
+      "portable_input_sha256": "993da25946f6149f5048706534f4e3d55d727c687c61146ec5b653aa33278085",
+      "journal_sha256": "95d8f6c4f043979f26c5830cb3866d6bef1c318a25ce244506eab488b79d6155"
+    },
+    {
+      "id": "unpointed_pair-06",
+      "text": "Here's my stop, just between those two black cars.",
+      "status": "needs_clarification",
+      "method": "qwen_landmark_region",
+      "grade": "pair_specific_question",
+      "native_generation_receipts": 1,
+      "raw": [
+        "LANDMARK L18"
+      ],
+      "point": null,
+      "inside_registered_region": null,
+      "matched_minimum_anchor_iou": null,
+      "question": "I couldn't identify both landmarks. Which two objects bound the area you mean?",
+      "error": null,
+      "can_select_two_vehicles": true,
+      "human_confirmed": false,
+      "portable_input_sha256": "2c4e89f7a23b18b4f4a58f133c83a499cb4eafb3ab4719da27d18a78abcf4663",
+      "journal_sha256": "722be458b21a89fbdb92be59f240ab0e88a9d9b084f9e84ce3fb35b954d15ec7"
+    },
+    {
+      "id": "unpointed_pair-07",
+      "text": "The gap between these two black cars is where I need to get out.",
+      "status": "needs_clarification",
+      "method": "qwen_landmark_region",
+      "grade": "generic_clarification",
+      "native_generation_receipts": 1,
+      "raw": [
+        "LANDMARK L1 L2"
+      ],
+      "point": null,
+      "inside_registered_region": null,
+      "matched_minimum_anchor_iou": null,
+      "question": "I can identify the landmark, but I can't place a road area beside it. Can you mark the intended patch?",
+      "error": null,
+      "can_select_two_vehicles": true,
+      "human_confirmed": false,
+      "portable_input_sha256": "c6b45af56f8a1953edabe8cd657837f05d8971bafca88107423a4f5d5cd7cabe",
+      "journal_sha256": "b7a23f5827fb913c22ee9a764d783f156ef657e0bdb46c9214deaeda169efab3"
+    },
+    {
+      "id": "unpointed_pair-08",
+      "text": "Please leave me right in between those two black cars.",
+      "status": "needs_clarification",
+      "method": "deictic_pair_clarification",
+      "grade": "pair_specific_question",
+      "native_generation_receipts": 0,
+      "raw": [],
+      "point": null,
+      "inside_registered_region": null,
+      "matched_minimum_anchor_iou": null,
+      "question": "Which two vehicles do you mean? Describe each one or select both on the photo.",
+      "error": null,
+      "can_select_two_vehicles": true,
+      "human_confirmed": false,
+      "portable_input_sha256": "c6452070a79b4fc293eac87f1c9e96e000759d67f18f33674ba3a88a42ecc6a6",
+      "journal_sha256": "c0d8bc8f3c293faf8abf6620dcc7c7bd69a0cae1df1e73c6cce7a7ac510c19f3"
+    },
+    {
+      "id": "unpointed_pair-09",
+      "text": "Could we pull over between these two black cars, please?",
+      "status": "needs_clarification",
+      "method": "deictic_pair_clarification",
+      "grade": "pair_specific_question",
+      "native_generation_receipts": 0,
+      "raw": [],
+      "point": null,
+      "inside_registered_region": null,
+      "matched_minimum_anchor_iou": null,
+      "question": "Which two vehicles do you mean? Describe each one or select both on the photo.",
+      "error": null,
+      "can_select_two_vehicles": true,
+      "human_confirmed": false,
+      "portable_input_sha256": "6f42b79dd2428913db7c071b81effb8e3740d1edcd18432d100f9d22d104efb1",
+      "journal_sha256": "43509816d5c998cfe0a28422ad78ca90d7119708fd88c43e1a90e703d66fe9f2"
+    },
+    {
+      "id": "unpointed_pair-10",
+      "text": "Let me off between these two black cars.",
+      "status": "error",
+      "method": "qwen_landmark_region",
+      "grade": "operational_error",
+      "native_generation_receipts": 1,
+      "raw": [
+        "LANDMARK L18 LANDMARK L22"
+      ],
+      "point": null,
+      "inside_registered_region": null,
+      "matched_minimum_anchor_iou": null,
+      "question": null,
+      "error": {
+        "code": "invalid_model_output",
+        "message": "Landmarks must refer to one or two distinct current detector IDs"
+      },
+      "can_select_two_vehicles": true,
+      "human_confirmed": false,
+      "portable_input_sha256": "3613fdd45a1789da1d09aeffcc23c5b903c56ef13adf9e51c4865be0b4702651",
+      "journal_sha256": "aa8ab26dc55bf39ca1c0390ad0675d319fb15b7f6463241ed62cba0e0bf7b8f8"
+    },
+    {
+      "id": "unpointed_pair-11",
+      "text": "Take me to the space between those two black cars over there, thanks.",
+      "status": "needs_clarification",
+      "method": "qwen_landmark_region",
+      "grade": "pair_specific_question",
+      "native_generation_receipts": 1,
+      "raw": [
+        "LANDMARK L3"
+      ],
+      "point": null,
+      "inside_registered_region": null,
+      "matched_minimum_anchor_iou": null,
+      "question": "I couldn't identify both landmarks. Which two objects bound the area you mean?",
+      "error": null,
+      "can_select_two_vehicles": true,
+      "human_confirmed": false,
+      "portable_input_sha256": "63ab96fa45a8af1fd4ee4ec244a568e70db04460a79ba9e351627e94d255ef1d",
+      "journal_sha256": "27ba3bf63c649336842a98111b1b45a8f6125ea2483ac60c7ffe2ff02a7a495f"
+    },
+    {
+      "id": "unpointed_pair-12",
+      "text": "Can I hop out between those two black cars?",
+      "status": "error",
+      "method": "qwen_landmark_region",
+      "grade": "operational_error",
+      "native_generation_receipts": 1,
+      "raw": [
+        "LANDMARK L18 LANDMARK L22"
+      ],
+      "point": null,
+      "inside_registered_region": null,
+      "matched_minimum_anchor_iou": null,
+      "question": null,
+      "error": {
+        "code": "invalid_model_output",
+        "message": "Landmarks must refer to one or two distinct current detector IDs"
+      },
+      "can_select_two_vehicles": true,
+      "human_confirmed": false,
+      "portable_input_sha256": "63bc2a9bc923d45848606b68166255e4c136254c79e8574be9b4ba3d1a594086",
+      "journal_sha256": "b14669e30a5b1bcf1a8bacc09ace68e811b3c2c4340c510e670ab4b41f940ddd"
+    }
+  ],
+  "limits": "All 12 ambiguous positives originally supplied by an independent AI author on original frame video_054907 F781. All use the same intended vehicles/area. Fresh natural typed input per browser page with empty history. No pointing or correction. Twelve counterexamples were previously checked separately for the special clarification rule."
+}

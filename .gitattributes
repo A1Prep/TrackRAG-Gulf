@@ -71,3 +71,5 @@ tools/dropoff_passenger_pair_choice_study.py text eol=lf
 tools/dropoff_passenger_handoff.py text eol=lf
 tools/dropoff_spatial_confidence.py text eol=lf
 tools/dropoff_publish_spatial_confidence.py text eol=lf
+tools/dropoff_restore_evaluator.py text eol=lf
+experiments/dropoff/passenger-evaluator-*-20261122.json text eol=lf

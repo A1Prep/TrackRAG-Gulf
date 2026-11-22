@@ -16,11 +16,11 @@ The private team handoff is `runs/passenger-participant-study-20261122/TrackRAG-
 
 ## Build or verify a copy
 
-Use Python 3.11 and the project’s reviewer/integration dependencies. The input-only final handoff contains `requests-with-saved-tracks.jsonl` and the `source/images/test` subtree in their original relative locations. The pinned input covers 44 cases on five reserved recordings. Six cases awaiting reconfirmation are outside this form. If your team already has a private form folder, the `verify` command checks the 44 original JPEG hashes and dimensions, the display inputs and the HTML against this checkout. Verification is possible without access to private case targets.
+Use Python 3.11 and the project’s reviewer/integration dependencies. Follow the [evaluator restore instructions](passenger-evaluator-handoff.md#restore-the-published-inputs-on-another-checkout) to download the input files and restore the original JPEGs from Task 2’s exact Git revision. The resulting `inputs` directory contains `requests-with-saved-tracks.jsonl` beside `source/images/test`. The pinned input covers 44 cases on five reserved recordings. Six cases awaiting reconfirmation are outside this form. If your team already has a private form folder, the `verify` command checks the 44 original JPEG hashes and dimensions, the display inputs and the HTML against this checkout. Verification is possible without access to private case targets.
 
 ~~~~powershell
 $py = ".venv/Scripts/python.exe"
-& $py -m tools.passenger_participant_study prepare --requests runs/passenger-final-inputs-20261122/requests-with-saved-tracks.jsonl --out runs/my-private-passenger-form
+& $py -m tools.passenger_participant_study prepare --requests runs/evaluator-inputs/inputs/requests-with-saved-tracks.jsonl --out runs/my-private-passenger-form
 & $py -m tools.passenger_participant_study verify --form-dir runs/my-private-passenger-form
 ~~~~
 

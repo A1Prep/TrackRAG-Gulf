@@ -87,3 +87,21 @@ def test_duplicate_json_fields_are_rejected(bundle):
     (path/"manifest.json").write_text(text[:-1]+',"verify_landmarks":false}')
     with pytest.raises(ValueError,match="Duplicate"):
         release.verify_bundle(path)
+
+
+def test_packaged_speech_chooses_installed_model_and_respects_explicit_modes(tmp_path, monkeypatch):
+    monkeypatch.delenv("TRACKRAG_PASSENGER_WHISPER", raising=False)
+    vosk = tmp_path / release.ASR_ID
+    whisper = tmp_path / "faster-whisper-small.en"
+    vosk.mkdir()
+    whisper.mkdir()
+    monkeypatch.setattr(release, "find_spec", lambda name: None)
+    assert release.speech_arguments([tmp_path]) == ["--asr-model", str(vosk)]
+    monkeypatch.setattr(release, "find_spec", lambda name: object())
+    assert release.speech_arguments([tmp_path]) == ["--whisper-model", str(whisper)]
+    assert release.speech_arguments([tmp_path], text_only=True) == []
+    monkeypatch.setenv("TRACKRAG_PASSENGER_WHISPER", str(whisper))
+    assert release.speech_arguments([], vosk=vosk) == ["--asr-model", str(vosk)]
+    assert release.speech_arguments([]) == ["--whisper-model", str(whisper)]
+    with pytest.raises(ValueError):
+        release.speech_arguments([], text_only=True, whisper=whisper)

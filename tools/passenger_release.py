@@ -1,6 +1,7 @@
 """Verify and start a passenger application handoff from the project checkout."""
 import argparse
 from dataclasses import asdict, replace
+from importlib.util import find_spec
 import json
 import os
 from pathlib import Path
@@ -164,6 +165,28 @@ def support(folder):
     return {"vision":str(folder/"segformer-b0"),"speech":str(dest)}
 
 
+def speech_arguments(caches, *, text_only=False, vosk=None, whisper=None):
+    if sum((bool(text_only), vosk is not None, whisper is not None)) > 1:
+        raise ValueError("Choose one of text only, a Vosk model, or a Whisper model.")
+    if text_only:
+        return []
+    if whisper is not None:
+        return ["--whisper-model", str(Path(whisper).resolve())]
+    if vosk is not None:
+        return ["--asr-model", str(Path(vosk).resolve())]
+    selected = os.environ.get("TRACKRAG_PASSENGER_WHISPER")
+    if selected:
+        return ["--whisper-model", str(Path(selected).resolve())]
+    if find_spec("faster_whisper") is not None:
+        installed = next((p/"faster-whisper-small.en" for p in caches if (p/"faster-whisper-small.en").is_dir()), None)
+        if installed is not None:
+            return ["--whisper-model", str(installed.resolve())]
+    installed = next((p/ASR_ID for p in caches if (p/ASR_ID).is_dir()), None)
+    if installed is None:
+        raise FileNotFoundError("Install a local speech model using the passenger release instructions, or use --text-only.")
+    return ["--asr-model", str(installed.resolve())]
+
+
 def start(args):
     folder = args.bundle.resolve()
     manifest = verify_bundle(folder)
@@ -179,7 +202,8 @@ def start(args):
             raise FileNotFoundError(f"Missing {name}. Run python -m tools.passenger_release fetch-support.")
         return found
     road = locate(args.vision_cache,"segformer-b0")
-    voice = locate(args.asr_model,ASR_ID) if not args.text_only else None
+    voice = speech_arguments(caches, text_only=args.text_only, vosk=args.asr_model,
+                             whisper=getattr(args, "whisper_model", None))
     cfg = json.loads((folder/"grounding.json").read_text(encoding="utf8"))
     cfg.update(adapter_dir=str(folder/"adapter"),model_dir=str(args.base_dir.resolve()),
                cache_dir=str(args.processor_cache.resolve()))
@@ -200,8 +224,7 @@ def start(args):
             argv.append("--verify-landmarks")
         if manifest.get("referent_policy"):
             argv.extend(["--referent",str(folder/"referent.json")])
-        if voice is not None:
-            argv.extend(["--asr-model",str(voice)])
+        argv.extend(voice)
         if bool(args.qa_data_root) != bool(args.qa_predictions):
             raise ValueError("Supply both original recordings and their saved predictions for footage search")
         if args.qa_frame_rate:
@@ -234,6 +257,7 @@ def main():
             p.add_argument("--processor-cache",type=Path,default=ROOT/"models/dropoff-processor-cache/hub")
             p.add_argument("--vision-cache",type=Path)
             p.add_argument("--asr-model",type=Path)
+            p.add_argument("--whisper-model",type=Path,help="Use the pinned English Whisper Small model on CPU")
             p.add_argument("--text-only",action="store_true")
             p.add_argument("--qa-data-root",type=Path)
             p.add_argument("--qa-predictions",type=Path)

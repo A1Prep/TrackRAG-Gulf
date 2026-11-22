@@ -1,0 +1,28 @@
+{
+  "version": 1,
+  "purpose": "Predeclared comparison of one offline CPU English recognizer against the project's fixed Vosk model after the original 16-clip diagnostic.",
+  "candidate": {
+    "model_id": "Systran/faster-whisper-small.en",
+    "revision": "d1d751a5f8271d482d14ca55d9e2deeebbae577f",
+    "model_sha256": "62b2a45b05ee59acb4a5341b33ee35e041395d378d418a18acfe4c9e768ee37a",
+    "source": "https://huggingface.co/Systran/faster-whisper-small.en",
+    "original_model": "https://huggingface.co/openai/whisper-small.en",
+    "weights_license": "MIT",
+    "engine": "faster-whisper 1.2.1; CTranslate2 4.6.1; PyAV 15.1.0",
+    "device": "CPU", "compute_type": "int8", "cpu_threads": 4, "workers": 1,
+    "language": "en", "task": "transcribe", "beam_size": 5, "temperature": 0.0,
+    "condition_on_previous_text": false, "initial_prompt": null, "hotwords": null,
+    "vad_filter": true, "vad_parameters": {"min_silence_duration_ms": 500},
+    "changed_after_outcomes": false
+  },
+  "baseline": {"model_id": "vosk-model-small-en-us-0.15", "model_content_sha256": "38655871e595540ec3bd39927a7e4b9f80ab7cf53abc34b3780fb05bd4cf94b6", "version": "0.3.45"},
+  "comparative_development": {"original_receipt_sha256": "d1df7be546dc81e843bfc0eba7919a95fab03628194a16f57e3394b8a3261523", "selection_sha256": "f4751547ae261de7b5d5a94b09da9ac0517b869ff836ff4a909194da7312cd30", "purpose": "Reuse the original Vosk outputs, and score the single chosen candidate on the exact same sixteen WAVs."},
+  "fresh_external_cohort": {
+    "source": "Same unmodified original SLURP real archive prefix and source-text revision as the first experiment.",
+    "archive_prefix_sha256": "924da6ef738c7fcb1ee123256e2f6bdb56490c914b456cb2797d223d8a58b1b7",
+    "sampling": "From the beginning of the fixed 160 MiB prefix, take the first eligible distinct speaker and normalized sentence per source tar order under each quota. Exclude all speakers and source sentences from the original sixteen, both microphone versions of each excluded utterance, and all earlier fresh-panel selections. Require a published place_name and a real known speaker. No source WER or quality field, listening or ASR outcome participates. Retain any quota shortfall.",
+    "quotas": {"transport_taxi": 4, "transport_query": 6, "transport_ticket": 6}
+  },
+  "measures": "Use the identical original WAV for both conditions. Report raw WER against the released prompt, exact utterances, ordered exact place-name mentions and clips preserving all names, failures, elapsed decoding time per clip, and per-intent counts. Empty or failed recognition is a deletion of every reference word. No prompt correction, post-processing or output selection.",
+  "deployment": "Offer the measured candidate as an explicitly configured optional passenger recognizer if it is usable locally. Keep the established release reproducible during the outstanding three-speaker, 30-clip project study. No auto-correction of place names or passenger confirmation."
+}

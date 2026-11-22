@@ -386,6 +386,13 @@ def handler(site):
     return Handler
 
 
+def load_speech_recognizer(vosk_model, whisper_model=None):
+    if whisper_model:
+        from trackrag.whisper_speech import WhisperSpeechRecognizer
+        return WhisperSpeechRecognizer(whisper_model)
+    return LocalSpeechRecognizer(vosk_model) if vosk_model is not None else None
+
+
 def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--requests", action="append", type=Path, required=True, help="Prepared JSONL scene bank; repeat for additional banks")
@@ -399,6 +406,7 @@ def main(argv=None):
     parser.add_argument("--vision-cache", type=Path, required=True)
     parser.add_argument("--verify-landmarks", action="store_true", help="Enable the model's additional landmark check")
     parser.add_argument("--asr-model", type=Path, help="Unpacked local Vosk English model")
+    parser.add_argument("--whisper-model", type=Path, help="Use this verified local English Whisper Small model on CPU")
     parser.add_argument("--out", type=Path, required=True, help="Local session receipts and source WAVs")
     parser.add_argument("--port", type=int, default=8765)
     args = parser.parse_args(argv)
@@ -406,7 +414,7 @@ def main(argv=None):
     from trackrag.dropoff.passenger import load_passenger_model
 
     scenes = load_scenes(args.requests)
-    asr = LocalSpeechRecognizer(args.asr_model) if args.asr_model else None
+    asr = load_speech_recognizer(args.asr_model, args.whisper_model)
     model = load_passenger_model(args.config, geometry_path=args.geometry, vision_cache=args.vision_cache,
                                  verify_landmarks=args.verify_landmarks,referent_path=args.referent)
     footage = None

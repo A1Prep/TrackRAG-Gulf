@@ -1,0 +1,107 @@
+{
+  "kind": "independent_cold_evaluator_restore_and_preservation_check",
+  "started_utc": "2026-11-22T08:19:13.242171+00:00",
+  "finished_utc": "2026-11-22T08:19:29.487538+00:00",
+  "source_revision": "e9b9091adf9c49444e8772bf9df4f4f798f61195",
+  "restore_module_sha256": "4247856daca695a5115ae4919181a3715883d0a5ce1c05b26c54be234e50b646",
+  "release_tag": "passenger-feature-20261122",
+  "source": "Private GitHub release downloaded into a previously absent directory and verified against the three GitHub asset digests. A clean detached local clone shared only Git objects; its remote then fetched the exact Task 2 revision.",
+  "platform": "Windows",
+  "working_path_contains_spaces": true,
+  "restricted_runtime": {
+    "all_code_from_detached_checkout": true,
+    "python": "3.11.3",
+    "machine_learning_modules_loaded": false
+  },
+  "initial": {
+    "adapter_installed": false,
+    "8b_base_weights_installed": false,
+    "working_tree_jpegs": 0,
+    "output_directory_present": false
+  },
+  "downloaded_assets": {
+    "passenger-44-canonical-scenes-20261122.zip": {
+      "asset_id": 777989104,
+      "bytes": 77943,
+      "sha256": "96b3541df732452d191164ef365575d596e9d4e6bc4a265a00a2488785f6881c",
+      "url": "https://github.com/A1Prep/TrackRAG-Gulf/releases/download/passenger-feature-20261122/passenger-44-canonical-scenes-20261122.zip"
+    },
+    "passenger-44-inputs-only-20261122.zip": {
+      "asset_id": 777989105,
+      "bytes": 65867,
+      "sha256": "ba913ade83b690acd1fb7f886344d0775e38439134665c6a9a05bb89a7876a13",
+      "url": "https://github.com/A1Prep/TrackRAG-Gulf/releases/download/passenger-feature-20261122/passenger-44-inputs-only-20261122.zip"
+    },
+    "passenger-human-native-clarification.zip": {
+      "asset_id": 777962547,
+      "bytes": 6371327,
+      "sha256": "68fbd8cf3c151ef066227d11146bb2ec7350d23536fc80f0fd1c825b2e9fbd4d",
+      "url": "https://github.com/A1Prep/TrackRAG-Gulf/releases/download/passenger-feature-20261122/passenger-human-native-clarification.zip"
+    }
+  },
+  "total_archive_bytes": 6515137,
+  "restore_result": {
+    "cases": 44,
+    "recordings": 5,
+    "detector_observations": 494,
+    "reviewed_input_observations": 0,
+    "original_photo_bytes": 48333742,
+    "adapter_sha256": "6c3d54a6baadf5a269f8cdb81ed565469aa0d75bc006698c8d355f79b3e774ca",
+    "trained_config": "models/passenger-reviewed-clarification/inference_config.json",
+    "pretrained_config": "configs/dropoff/passenger-final-pretrained.json",
+    "source_commit": "2d96dcb6afdffb46c5d94d299768fe6a92acc094",
+    "final_model_calls": 0,
+    "base_model_and_processor_checked": false
+  },
+  "independent_task1_reader": {
+    "scene_sha256_identities": 44,
+    "recordings": 5,
+    "observations": 494
+  },
+  "installed_regular_files": 106,
+  "installed_file_names_sizes_and_bytes_sha256": "4b9c795a49a8604373516e29ea71cc475077b79e69287ed42cfdbb8c628a854a",
+  "jpeg_count": 44,
+  "fresh_and_retry_operations": [
+    {
+      "action": "cold_install",
+      "exit_code": 0,
+      "duration_seconds": 6.656
+    },
+    {
+      "action": "unchanged_retry",
+      "exit_code": 0,
+      "duration_seconds": 2.328,
+      "all_existing_file_contents_and_modification_times_preserved": true
+    },
+    {
+      "action": "tampered_jpeg_and_unregistered_reference_like_file",
+      "exit_code": 1,
+      "duration_seconds": 0.672,
+      "rejection": "ValueError: Unexpected evaluator input: <checkout>\\runs\\evaluator-inputs\\references.jsonl",
+      "preserved_tampered_jpeg_and_extra_file_and_other_files": true
+    },
+    {
+      "action": "unregistered_reference_like_file_only",
+      "exit_code": 1,
+      "duration_seconds": 0.703,
+      "rejection": "ValueError: Unexpected evaluator input: <checkout>\\runs\\evaluator-inputs\\references.jsonl",
+      "preserved_extra_file_and_other_files": true
+    },
+    {
+      "action": "tampered_jpeg_only",
+      "exit_code": 1,
+      "duration_seconds": 2.141,
+      "rejection": "ValueError: Wrong original image for local-eval-video_122233-00061",
+      "preserved_tampered_jpeg_and_other_files": true
+    },
+    {
+      "action": "recovered_retry_after_removing_only_the_two_simulated_changes",
+      "exit_code": 0,
+      "duration_seconds": 2.25,
+      "identical_to_initial_install_including_file_modification_times": true
+    }
+  ],
+  "source_git_status_after_verification": "clean",
+  "scope": "Packaging and integrity verification only. No participant response, target label, model call, or quality score. All simulated damage was confined to the audit copy. Reference-like probe contained only a software-test marker.",
+  "final_base_weights_present": false
+}

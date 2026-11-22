@@ -1,0 +1,20 @@
+{"request_id":"passenger-c01","recording_id":"video_174340","frame_id":1,"text":"Right behind the dark car in front of us, please."}
+{"request_id":"passenger-c02","recording_id":"video_174340","frame_id":1,"text":"Over on the left by the divider, as we come up to the big blue street sign."}
+{"request_id":"passenger-c03","recording_id":"video_174340","frame_id":1,"text":"Let me out by the crossing guard with a red flag."}
+{"request_id":"passenger-c04","recording_id":"video_174340","frame_id":327,"text":"Behind the white minibus on the right, please."}
+{"request_id":"passenger-c05","recording_id":"video_174340","frame_id":327,"text":"Drop me just behind the car in our lane, to the left of the minibus."}
+{"request_id":"passenger-c06","recording_id":"video_174340","frame_id":327,"text":"Can you drop me by that vehicle?"}
+{"request_id":"passenger-c07","recording_id":"video_174340","frame_id":327,"text":"Directly behind the white minibus on the right.","dialogue":[{"role":"user","text":"Can you drop me by that vehicle?","recording_id":"video_174340","frame_id":327},{"role":"assistant","text":"Which vehicle do you mean: the white minibus beside us on the right, or the smaller car ahead in our lane?","recording_id":"video_174340","frame_id":327}]}
+{"request_id":"passenger-c08","recording_id":"video_174340","frame_id":327,"text":"At the yellow school bus parked by the bridge, please."}
+{"request_id":"passenger-c09","recording_id":"video_174340","frame_id":533,"text":"The bit of road behind the nearer sedan by the left divider."}
+{"request_id":"passenger-c10","recording_id":"video_174340","frame_id":533,"text":"I mean the road just behind the light SUV by the wall on the right."}
+{"request_id":"passenger-c11","recording_id":"video_174340","frame_id":533,"text":"Behind one of those two cars, please."}
+{"request_id":"passenger-c12","recording_id":"video_174340","frame_id":533,"text":"Right beside the station entrance with the big red postbox."}
+{"request_id":"passenger-c13","recording_id":"video_174340","frame_id":863,"text":"Drop me behind the black car to our left."}
+{"request_id":"passenger-c14","recording_id":"video_174340","frame_id":863,"text":"No, it's the grey car on the right. I mean just behind it.","dialogue":[{"role":"user","text":"I was looking at the black car to the left.","recording_id":"video_174340","frame_id":863}]}
+{"request_id":"passenger-c15","recording_id":"video_174340","frame_id":863,"text":"I'm after the open patch between the black car and the grey one, this side of both."}
+{"request_id":"passenger-c16","recording_id":"video_174340","frame_id":863,"text":"Here would be good."}
+{"request_id":"passenger-c17","recording_id":"video_174340","frame_id":1169,"text":"The spot on the road just behind the dark car on the left, before the lit walkway."}
+{"request_id":"passenger-c18","recording_id":"video_174340","frame_id":1169,"text":"Put the marker beside the ice-cream truck with the striped awning."}
+{"request_id":"passenger-c19","recording_id":"video_174340","frame_id":1429,"text":"I'd like the road right behind the closest dark sedan in front of us."}
+{"request_id":"passenger-c20","recording_id":"video_174340","frame_id":1429,"text":"Over by the building, please."}

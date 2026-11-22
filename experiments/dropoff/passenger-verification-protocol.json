@@ -1,0 +1,14 @@
+{
+  "purpose": "Choose one passenger-model setting using the 19 daytime development commands, before opening the separate night bank or scoring the new public cases.",
+  "development_requests_sha256": "0160bf67789bc6d7f3a362f2a6d607b1028b1b81ca0490863a5971ede224846f",
+  "base_model": "unsloth/Qwen3-VL-8B-Instruct-bnb-4bit",
+  "base_revision": "10d842936325905934ea24e64325d774693f166e",
+  "parent_lora_sha256": "76bfb3230b17a86248b52ca6a9f8d2ffca324aa80216d6b93845ccb12ad86743",
+  "geometry_sha256": "267fbba478838a9864ad888405d7a62969079279c45851fd806fc87f0fa52b6e",
+  "geometry_selection": "Training-only four-fold source-group exploration favored the mode of retrieved offsets. The daytime development replay improved approximate location and recovered a clarification follow-up. Retain the linear head as the comparison because it hit more of the 125 public masks under oracle landmarks.",
+  "conditions": ["model-selected landmark with learned retrieved geometry", "same plus a second visual check of selected landmarks and alternative crops"],
+  "gpu": {"resident_layers": 8, "max_input_tokens": 3072, "max_new_tokens": 60, "max_time_s": 75},
+  "choice": "Select visual checking for the normal application if fewer than 3 of the 8 unresolved requests get a proposal, at least 8 of 11 clear requests get a proposal, and at least 7 of 11 are within 5% of image diagonal. Otherwise retain single-pass as the reference. Validate the selected condition on new groups and report all misses. These are internal development selection rules.",
+  "extra_pair_stress_cases": "passenger-pair-protocol-20261121.json, reported separately",
+  "counts": "Keep every request, including malformed output, timeout and resource failure. A scripted confirmation, a passenger-drawn box and a direct model proposal are separate measurements."
+}

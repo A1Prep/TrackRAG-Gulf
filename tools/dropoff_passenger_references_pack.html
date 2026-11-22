@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; img-src data:; script-src 'unsafe-inline'; style-src 'unsafe-inline'; connect-src 'none'">
+<title>Passenger instruction review</title>
+<style>
+*{box-sizing:border-box} [hidden]{display:none!important} body{margin:0;background:#f6f7f8;color:#122434;font:16px/1.5 "Atkinson Hyperlegible Next","Segoe UI",sans-serif}
+main{max-width:1080px;margin:auto;padding:20px}header,footer,.bar{display:flex;align-items:center;flex-wrap:wrap;gap:12px;justify-content:space-between}
+h1{font-size:1.55rem;margin:.15em 0}h2{font-size:1.2rem;margin:.35em 0}label{display:block}
+section{padding:16px;background:white;border:1px solid #c7d3dc;border-radius:8px;margin:13px 0}
+button,input,select,textarea{font:inherit;color:inherit}button,input,textarea,select{border:1px solid #637e90;border-radius:4px;padding:6px 10px;background:white}
+button{cursor:pointer}button:disabled{opacity:.45;cursor:default}.action{background:#135d78;color:white;border-color:#135d78}
+.wide{width:100%}fieldset{border:0;margin:0;padding:0}fieldset label{margin:4px 0}
+figure{margin:10px 0;background:#13212b;line-height:0}canvas{width:100%;height:auto;touch-action:none}
+input[type=number]{width:6em;margin:2px 4px}summary{cursor:pointer}button:focus-visible,input:focus-visible,textarea:focus-visible,summary:focus-visible{outline:3px solid #e38b17}
+.note{font-size:.9rem;color:#395164}#message{min-height:1.4em;color:#7b2e04}#history p{margin:.1em 0}p{margin:.4em 0}
+@media(max-width:650px){main{padding:10px}section{padding:10px}}
+</style>
+</head>
+<body><main>
+<header><h1>Passenger instruction review</h1><label>Your reviewer name or team ID <input id="name" autocomplete="off" maxlength="100" required></label></header>
+<p class="note">Review independently. Judge the location meant in this paused image. The picture cannot establish permission or clearance to stop. Export your reviewed cases before closing.</p>
+<section>
+<div class="bar"><strong id="position"></strong><label>Jump to case <select id="jump"></select></label></div>
+<div id="history" class="note"></div><h2 id="instruction"></h2>
+<figure><canvas id="view" aria-label="Original scene and chosen ground region"></canvas></figure>
+<p id="dimensions" class="note"></p>
+</section>
+<section>
+<fieldset id="choices"><legend><strong>How should the driver’s assistant respond?</strong></legend>
+<label><input type="radio" name="status" value="proposed"> Show a specific area for the passenger to confirm</label>
+<label><input type="radio" name="status" value="needs_clarification"> Ask which visible place or object they mean</label>
+<label><input type="radio" name="status" value="insufficient_visual_evidence"> The named place or object cannot be located</label>
+</fieldset>
+<div id="geometry" hidden><p>Drag a box around a plausible patch of ground. Then click an interior point to mark the intended spot. You can also enter original-image pixel coordinates.</p>
+<details><summary>Enter pixel coordinates</summary><div id="numbers"></div></details>
+<button type="button" id="reset">Redraw area</button></div>
+<label id="ask" hidden>What would you ask the passenger?<textarea id="question" class="wide" rows="2" maxlength="1000"></textarea></label>
+<label>Reason or uncertainty <span class="note">(optional)</span><textarea id="notes" class="wide" rows="2" maxlength="2000"></textarea></label>
+<p id="message" role="status"></p><div class="bar"><button id="prev" type="button">Previous</button><button class="action" id="save" type="button">Save this review</button><button id="next" type="button">Next</button></div>
+</section>
+<footer><strong id="count"></strong><label><input id="attest" type="checkbox"> I reviewed these original images myself and entered my own judgments.</label><button id="export" type="button">Download reviewed cases</button></footer>
+</main>
+<script id="data" type="application/json">{{BLANK_REVIEW_DATA}}</script>
+<script>
+"use strict";
+const pack=JSON.parse(document.querySelector("#data").textContent);
+const el=id=>document.getElementById(id);
+const canvas=el("view"), ctx=canvas.getContext("2d");
+const coordinateNames=["left","top","right","bottom","x","y"];
+let index=0, original=null, box=null, point=null, drag=null, phase="box", saved={}, fixedName="", dirty=false;
+const row=()=>pack.rows[index];
+const status=()=>document.querySelector('input[name="status"]:checked')?.value||null;
+function name(){return el("name").value.trim();}
+function notice(text){el("message").textContent=text;}
+function pointAt(event){const b=canvas.getBoundingClientRect(),r=row();return [Math.floor(Math.max(0,Math.min(r.width-1,(event.clientX-b.left)*r.width/b.width))),Math.floor(Math.max(0,Math.min(r.height-1,(event.clientY-b.top)*r.height/b.height)))];}
+function inside(p,b){return p&&b&&p[0]>=b[0]&&p[0]<b[2]&&p[1]>=b[1]&&p[1]<b[3];}
+function draw(){if(!original)return;ctx.drawImage(original,0,0);if(status()!=="proposed")return;const b=drag?[...drag[0],...drag[1]]:box;
+ if(b){ctx.strokeStyle="#ffec59";ctx.lineWidth=Math.max(3,canvas.width*.002);ctx.strokeRect(b[0],b[1],b[2]-b[0],b[3]-b[1]);}
+ if(point){ctx.beginPath();ctx.arc(point[0],point[1],Math.max(5,canvas.width*.004),0,Math.PI*2);ctx.fillStyle="#ee6358";ctx.fill();ctx.strokeStyle="#fff";ctx.stroke();}}
+function coords(){const vals=box?[...box,...(point||["",""])]:["","","","","",""];coordinateNames.forEach((n,i)=>el(n).value=vals[i]);}
+function toggles(){el("geometry").hidden=status()!=="proposed";el("ask").hidden=status()!=="needs_clarification";draw();}
+function selectCase(i){if(dirty&&i!==index&&!window.confirm("Discard unsaved edits for this case?")){el("jump").value=index;return;}index=i;dirty=false;
+ const r=row(),previous=saved[r.request_id],target=previous?.target;
+ el("jump").value=i;el("position").textContent="Case "+(i+1)+" of "+pack.rows.length;el("instruction").textContent=r.text;el("history").replaceChildren();
+ for(const turn of r.dialogue){const p=document.createElement("p");p.textContent=(turn.role==="user"?"Passenger — ":"Assistant — ")+turn.text;el("history").append(p);}
+ document.querySelectorAll('input[name="status"]').forEach(n=>n.checked=n.value===target?.status);
+ el("notes").value=previous?.notes||"";el("question").value=target?.clarification_question||"";
+ box=target?.destination_box_xyxy?.slice()||null;point=target?.destination_point_xy?.slice()||null;drag=null;phase=box?"point":"box";coords();
+ el("dimensions").textContent=r.recording_id+" · frame "+r.frame_id+" · "+r.width+" × "+r.height+" original pixels";canvas.width=r.width;canvas.height=r.height;original=null;const image=new Image(),caseId=r.request_id;image.onload=()=>{if(row().request_id===caseId){original=image;draw();}};image.src=pack.images[r.image_sha256];
+ el("prev").disabled=i===0;el("next").disabled=i===pack.rows.length-1;notice("");toggles();count();}
+function count(){const n=Object.keys(saved).length;el("count").textContent=n+" of "+pack.rows.length+" reviewed";el("export").disabled=!n||!el("attest").checked;}
+el("attest").onchange=count;
+function setStatus(){dirty=true;notice("");toggles();}
+document.querySelectorAll('input[name="status"]').forEach(i=>i.onchange=setStatus);
+for(const k of ["notes","question"]){el(k).oninput=()=>{dirty=true;};}
+coordinateNames.forEach((k,i)=>{const label=document.createElement("label");label.style.display="inline";label.textContent=k+" ";const input=document.createElement("input");input.type="number";input.min="0";input.step="any";input.id=k;input.oninput=()=>{dirty=true;const ns=coordinateNames.map(n=>el(n).value===""?null:Number(el(n).value));box=ns.slice(0,4).every(v=>v!==null)?ns.slice(0,4):null;point=ns.slice(4).every(v=>v!==null)?ns.slice(4):null;draw();};label.append(input);el("numbers").append(label);});
+canvas.onpointerdown=e=>{if(!original||status()!=="proposed")return;e.preventDefault();const p=pointAt(e);if(phase==="point"){if(!inside(p,box)){notice("Choose a point inside the outlined region.");return;}point=p;dirty=true;notice("");coords();draw();return;}drag=[p,p];canvas.setPointerCapture(e.pointerId);draw();};
+canvas.onpointermove=e=>{if(drag){drag[1]=pointAt(e);draw();}};
+canvas.onpointerup=e=>{if(!drag)return;const a=drag[0],b=pointAt(e);drag=null;if(a[0]!==b[0]&&a[1]!==b[1]){box=[Math.min(a[0],b[0]),Math.min(a[1],b[1]),Math.max(a[0],b[0]),Math.max(a[1],b[1])];point=null;phase="point";dirty=true;notice("Click the intended point inside the region.");}coords();draw();};
+canvas.onpointercancel=()=>{drag=null;draw();};
+el("reset").onclick=()=>{drag=box=point=null;phase="box";dirty=true;coords();draw();notice("Drag to outline the intended ground area.");};
+el("save").onclick=()=>{const r=row(),s=status(),id=name();if(!id){notice("Enter your reviewer name or team ID.");return;}if(fixedName&&fixedName!==id){notice("A single export belongs to one reviewer.");return;}
+ if(!original){notice("Wait for the original image to load before saving this review.");return;}
+ if(!s){notice("Choose a response for this case.");return;}const q=el("question").value.trim();
+ if(s==="proposed"&&(!box||!inside(point,box)||!([...point,...box].every(Number.isFinite))||box[0]<0||box[1]<0||box[2]>r.width||box[3]>r.height)){notice("Draw a region inside the image and select an interior point.");return;}
+ if(s==="needs_clarification"&&!q){notice("Write a question that distinguishes the possible places.");return;}
+ fixedName=id;el("name").readOnly=true;
+ saved[r.request_id]={request_id:r.request_id,reviewer:id,reviewed_at:new Date().toISOString(),recording_id:r.recording_id,frame_id:r.frame_id,image_sha256:r.image_sha256,input_sha256:r.input_sha256,
+ target:{status:s,destination_point_xy:s==="proposed"?point.slice():null,destination_box_xyxy:s==="proposed"?box.slice():null,clarification_question:s==="needs_clarification"?q:null},notes:el("notes").value.trim()};
+ dirty=false;notice("Saved this case in the current page. Download to keep a copy.");count();};
+el("prev").onclick=()=>selectCase(index-1);el("next").onclick=()=>selectCase(index+1);el("jump").onchange=()=>selectCase(Number(el("jump").value));
+el("export").onclick=()=>{if(!el("attest").checked||!fixedName)return;const value={kind:"independent_passenger_review",version:2,partition:pack.partition,source:"human",human_attested:true,reviewer:fixedName,input_bank_sha256:pack.input_bank_sha256,expected_cases:pack.rows.length,completed:pack.rows.filter(r=>saved[r.request_id]).map(r=>saved[r.request_id])};
+ const url=URL.createObjectURL(new Blob([JSON.stringify(value,null,2)+"\n"],{type:"application/json"}));const a=document.createElement("a");a.href=url;a.download="passenger-review-"+pack.partition+"-"+fixedName.replace(/[^a-z0-9_-]+/gi,"-")+".json";a.click();setTimeout(()=>URL.revokeObjectURL(url),800);};
+pack.rows.forEach((r,i)=>{const opt=document.createElement("option");opt.value=i;opt.textContent=(i+1)+" · "+r.request_id;el("jump").append(opt);});
+selectCase(0);
+</script></body></html>

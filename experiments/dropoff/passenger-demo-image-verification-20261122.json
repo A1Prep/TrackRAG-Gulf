@@ -1,0 +1,81 @@
+{
+  "source_download": {
+    "source_revision": "4418cec01b03c6f797cadb06c9405843a30988e2",
+    "source": "https://huggingface.co/datasets/KuAvLab/EMT/resolve/4418cec01b03c6f797cadb06c9405843a30988e2/train_images.tar.gz",
+    "full_archive_bytes": 21848135924,
+    "original_registry_sha256": "de04ed9ec3354c0d832629df8837680f59465a9e633525957c6b761b22357923",
+    "recordings": [
+      {
+        "recording": "video_054604",
+        "requested": 150,
+        "already_verified": 0,
+        "newly_verified": 150,
+        "bytes_downloaded": 146259232
+      },
+      {
+        "recording": "video_054907",
+        "requested": 150,
+        "already_verified": 0,
+        "newly_verified": 150,
+        "bytes_downloaded": 150598640
+      }
+    ],
+    "verified_original_frames": 300
+  },
+  "resumed_network_bytes": 0,
+  "prediction_archive_sha256": "b841750f79889420963574806593457fe04d03bd4b84562060e0d8f8457a704c",
+  "public_images_redistributed": false,
+  "all_ten_original_demo_model_inputs_reproduced": true,
+  "requests": [
+    {
+      "request_id": "demo-video_054604-1",
+      "input_sha256": "6e8c913a45400f59c35adbd702b45633953deada3de61e4944bcb1da71e02992",
+      "actual_detector_tracks": 23
+    },
+    {
+      "request_id": "demo-video_054604-42",
+      "input_sha256": "d602168a71e81372c5c494286ab3b0a6b49afabc2abf8353ff271c8018119ec5",
+      "actual_detector_tracks": 2
+    },
+    {
+      "request_id": "demo-video_054604-83",
+      "input_sha256": "6748a07007430b7d5ad7b96e6b04d49d52b37150d2d246f7927880a465b0a01d",
+      "actual_detector_tracks": 0
+    },
+    {
+      "request_id": "demo-video_054604-103",
+      "input_sha256": "78b7b0fb761cee709b2f849ec4b2dd0ee78e15233dd1dc2466c23a9ef65cac20",
+      "actual_detector_tracks": 2
+    },
+    {
+      "request_id": "demo-video_054604-150",
+      "input_sha256": "7d3bcef150ae0b666d6311fbeff93fefb84c516101986648ebfdf0892678163c",
+      "actual_detector_tracks": 6
+    },
+    {
+      "request_id": "demo-video_054907-1",
+      "input_sha256": "56963fe148dc0351a1eb99fb1f4f404fec9e1a970e3ba64227f213b30efa24db",
+      "actual_detector_tracks": 38
+    },
+    {
+      "request_id": "demo-video_054907-42",
+      "input_sha256": "94881fd4fac60b1f27172ab786e104880107d0b0020690f259d4fe162146c7a3",
+      "actual_detector_tracks": 11
+    },
+    {
+      "request_id": "demo-video_054907-59",
+      "input_sha256": "543cd59353012b033d7e3253c0fc02f8415e6776cf6f4fdaaf8e06e062e91c28",
+      "actual_detector_tracks": 10
+    },
+    {
+      "request_id": "demo-video_054907-75",
+      "input_sha256": "cf85532450cff265f0bcc4ca5f20a9966eedb089120f0eae58bdf1cadce65d20",
+      "actual_detector_tracks": 12
+    },
+    {
+      "request_id": "demo-video_054907-103",
+      "input_sha256": "13360b85449091ddf0d86620ffee8a0d479df3a90e2be5233dc4932e60fcfffe",
+      "actual_detector_tracks": 12
+    }
+  ]
+}

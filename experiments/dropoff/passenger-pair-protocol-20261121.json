@@ -1,0 +1,18 @@
+{
+  "kind": "development_pair_stress_test_predeclared_after_single_anchor_trials",
+  "recording_id": "video_054907",
+  "frame_id": 1,
+  "image_sha256": "033fc370408c4bc99a1ec9fbb845b6618a5f53b680a235baba336b8fe8ddba80",
+  "reference_source": "AI inspection of original daytime frame. These passenger intents are constructed for development. Other individual landmark requests on this image were examined previously.",
+  "human_reviews": 0,
+  "requests": [
+    {"request_id": "pair-visible", "text": "I mean the open road between the white SUV on our left and the large open-sided truck on our right, just behind them."},
+    {"request_id": "pair-ambiguous", "text": "Drop me between those two cars."},
+    {"request_id": "pair-absent", "text": "Let me off between the purple coach and the green tanker, please."}
+  ],
+  "scoring_only": {
+    "pair-visible": {"status": "proposed", "observed_anchor_track_ids": [1, 2], "coarse_open_road_xyxy": [748, 1165, 1515, 1330]},
+    "pair-ambiguous": {"status": "needs_clarification", "reason": "The passenger has not distinguished which two among many cars."},
+    "pair-absent": {"status": "insufficient_visual_evidence", "reason": "The purple coach and green tanker cannot be located."}
+  }
+}

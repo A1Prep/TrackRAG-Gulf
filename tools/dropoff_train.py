@@ -614,6 +614,9 @@ def train(train_path: str | Path, dev_path: str | Path | None, config: TrainConf
     if not check["ready"]:
         raise RuntimeError("Training preflight blocked: " + "; ".join(check["blockers"]))
     train_cases, dev_cases, data_manifest = load_training_cases(train_path, dev_path, config)
+    if any(case["review"].get("software_fixture") is True or case["source"].get("target_origin") == "software_fixture"
+           for case in train_cases + dev_cases):
+        raise ValueError("Software fixtures cannot be used for real model training or checkpoint selection")
     output_dir.mkdir(parents=True)
     cache_dir.mkdir(parents=True, exist_ok=True)
     write_json(output_dir / "training_config.json", asdict(config))

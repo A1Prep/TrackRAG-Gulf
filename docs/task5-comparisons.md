@@ -76,3 +76,21 @@ Predicted-ID scoring needs annotated reference observations in each applicable r
 The supplied manifest compares the earlier compact-context Gemini prototype with the later temporal reference on the same 36 development questions and two recordings. It preserves all original reviews, including three final failures and one ambiguous manual question. The conditions change several pipeline components and use human-labeled tracks plus AI-assisted content reviews. They do not isolate a training effect, establish final model accuracy, or measure the unfinished CV/Qwen models.
 
 For final assessment comparisons, prepare human-reviewed evaluation questions and the separate answer key, load the real pretrained/trained components through the normal reviewer command, save their runs, and compare those outputs. Hold the generator, prompt, data, query cutoffs and scoring thresholds fixed when testing the reranker's effect. Report unsuccessful or regressed cases alongside improvements.
+
+## Original 36 footage questions with predicted tracks
+
+Task 5 ran the same 36 questions from two development recordings using the team’s saved fine-tuned RF-DETR/BoT-SORT predictions and Gemini 3.5 Flash-Lite. The baseline used the published lexical search. The revised search retrieved exact requested frames, comparisons and track history. Both routes sent privacy-processed images. The original questions, query cutoffs, physical input hashes and failed attempts are retained. An independent AI reviewer used the existing rubrics, source images, actual submitted frames and cited identities. No human reviewed the answers in this study. [Baseline](../experiments/dropoff/passenger-qa-full36-20261122.json) · [Final case-by-case results](../experiments/dropoff/passenger-qa-final36-20261122.json)
+
+| Measure | Baseline | Final |
+|---|---:|---:|
+| Correct first retrieved interval on the 25 prespecified retrieval questions | 7/25 | 19/25 |
+| Correct interval among the first three on those questions | 10/25 | 20/25 |
+| Fully supported answers or justified abstentions | 14/36 | 19/36 |
+| Correct core answer with a qualification | 4/36 | 13/36 |
+| Answerable in the original recording, withheld by the system | 15/36 | 3/36 |
+| Incorrect or unsupported primary conclusion | 2/36 | 0/36 |
+| Provider errors retained in the primary comparison | 1/36 | 1/36 |
+
+The initial system inferred that a bus entered at frame 121 because its selected window started there. The final answer identified the yellow bus at the left edge, cited both the tracked bus and an opening comparison scene, and stated that the footage could not establish the crossing. In the other clip, the initial search supplied opening-frame pictures for a question about the SUV near the end. The final answer identified the black SUV at frame 150. It cited one unrelated detection along with the correct target and scene, so the reviewer qualified the answer. [Exact boundary trial](../experiments/dropoff/passenger-qa-boundary36-20261122.json) · [Final receipts and review](../experiments/dropoff/passenger-qa-final36-20261122.json)
+
+The final run still missed the motorbike movement, a question explicitly referencing an unavailable human annotation ID, and the pickup’s bed rack. In several qualified answers, Gemini identified the right object but cited an extra track or added an unsupported explanation. A separate retry recovered the disconnected bus-size answer. Its first attempt remains a provider error in the table. The team used these same two recordings while fixing the feature, so these figures measure a development regression. [Paired study and separate recovery](../experiments/dropoff/passenger-qa-paired36-20261122.json)

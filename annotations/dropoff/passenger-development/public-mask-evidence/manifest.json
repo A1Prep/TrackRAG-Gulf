@@ -1,0 +1,75 @@
+{
+  "kind": "genuine_public_mask_new_scene_diagnostic",
+  "created_utc": "2026-11-21T19:34:42.413839+00:00",
+  "protocol_sha256": "939295ae238bb2e6ef5f196292db2ed0b93604923735e5ecdf39ddf4209bd636",
+  "groups": 16,
+  "cases": 16,
+  "source_indices": [
+    3400,
+    2836,
+    2825,
+    6376,
+    8332,
+    8338,
+    5219,
+    2639,
+    2521,
+    4100,
+    1864,
+    6683,
+    2557,
+    7219,
+    6411,
+    7201
+  ],
+  "source_scenes": [
+    "d0b2d916178a402a842c88f394d7d7e8",
+    "5557f4edc1464442812293e2ea90a586",
+    "2ffd7e2a1daf4b928464ddb2ed3dca59",
+    "8fe2dd6f533646b39c8e81316597c52b",
+    "96a410b8fe5e4b57bf69b844bfd4d28c",
+    "1d25e9071ea94891b5eb7554e77a11bb",
+    "04219bfdc9004ba2af16d3079ecc4353",
+    "3359935281a34136992997acab7cdddd",
+    "05d5241d4d5a4c2a9c670dc8c9853c74",
+    "30a1a4ccd60047b4a22ee3bf0645f3ad",
+    "2121cc12888e47ce856dc5391f202594",
+    "77c9f156f8594ed59dcdacb8b877a7ac",
+    "4ed628299b1e45a3a73704e8cf8287a9",
+    "2755560e05784e5cbc76619793d36e86",
+    "c7b8d96173bf41dc8df8c0d16adfc71e",
+    "62d9a581c7114d90a48bacfb2a47b104"
+  ],
+  "never_used_in_project_training_or_selection_verified_against_known_corpora": true,
+  "model_pretraining_exposure_unknown": true,
+  "prior_scene_count": 360,
+  "reserved_concise_scene_count": 58,
+  "prior_unique_images": 609,
+  "prior_source_ids": 625,
+  "overlap_counts": {
+    "scene": 0,
+    "source_index": 0,
+    "source_sample": 0,
+    "normalized_command": 0,
+    "image_sha256": 0
+  },
+  "download_receipts": [
+    {
+      "http_start": 268435558,
+      "bytes": 50331648,
+      "sha256": "e4b05772c4a5baa4d6807a1fe8fde8fa1538a0afc53fb8dfeec32af0ccf77f3e",
+      "complete_train_jpegs": 287
+    }
+  ],
+  "read_from_network_bytes": 50331704,
+  "mask_tar_sha256": "c2f83477a50763cdcef9885bc20dd3ffc7202871c6f1fca4c268b6cceefc9d3f",
+  "selection_filter_counts_before_stop": {
+    "historical_or_reserved": 85,
+    "duplicate_new_scene_image_or_utterance": 1
+  },
+  "request_file_sha256": "e73ba6408263869b68c9ea377f6fa161f54c5e09d052d8583afd5cb7d5fb1ddf",
+  "reference_file_sha256": "75b1ead162556baa5108627e874ad159ce88c54c5e12f4cb14b03d7442682fcb",
+  "response_status_gold": false,
+  "input_mode": "image and authentic passenger instruction only, zero track observations",
+  "new_human_review": false
+}

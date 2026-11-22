@@ -1,0 +1,111 @@
+{
+  "archive": "passenger-finetuned-emt-tracks-20261122.zip",
+  "bytes": 77746,
+  "extracted_validation": "Loaded using the real saved-prediction adapter from a newly extracted ZIP for all ten packaged scenes, checked source-byte digests and vision identity against each prepared scene. No fresh detector inference.",
+  "manifest_sha256": "3211ba137563d9fdac3fa3f3413750d591920ed4385691e14ee050523da34617",
+  "members": [
+    "README.txt",
+    "manifest.json",
+    "verification-execution.json",
+    "video_054604.provenance.json",
+    "video_054604.tracks.jsonl",
+    "video_054907.provenance.json",
+    "video_054907.tracks.jsonl"
+  ],
+  "recordings": {
+    "video_054604": {
+      "checkpoint_sha256": "9ea96f1050f1d3375c5cf0f25a086cd5bb9c6a290fa5fdc009804d9a31181d95",
+      "config_name": "rfdetr-large-2026-finetuned-emt",
+      "created_utc": "2026-11-19T17:46:00Z",
+      "first_frame": 1,
+      "first_frame_size": [
+        2560,
+        1440
+      ],
+      "frames": 150,
+      "identities": 115,
+      "identity_hash": "acf21b53525d5729541aaedbf961a9c634399fa881fc7976909d48575c5e870d",
+      "last_frame": 150,
+      "observations": 476
+    },
+    "video_054907": {
+      "checkpoint_sha256": "9ea96f1050f1d3375c5cf0f25a086cd5bb9c6a290fa5fdc009804d9a31181d95",
+      "config_name": "rfdetr-large-2026-finetuned-emt",
+      "created_utc": "2026-11-19T18:12:54Z",
+      "first_frame": 1,
+      "first_frame_size": [
+        2560,
+        1440
+      ],
+      "frames": 150,
+      "identities": 110,
+      "identity_hash": "acf21b53525d5729541aaedbf961a9c634399fa881fc7976909d48575c5e870d",
+      "last_frame": 150,
+      "observations": 1840
+    }
+  },
+  "sha256": "b841750f79889420963574806593457fe04d03bd4b84562060e0d8f8457a704c",
+  "source_commit": "dee9d4abf1efd4662e26110c3465eab12491f7ec",
+  "validated_scenes": [
+    {
+      "frame": 1,
+      "observations": 23,
+      "prefix_frames": 1,
+      "recording": "video_054604"
+    },
+    {
+      "frame": 42,
+      "observations": 171,
+      "prefix_frames": 42,
+      "recording": "video_054604"
+    },
+    {
+      "frame": 83,
+      "observations": 211,
+      "prefix_frames": 83,
+      "recording": "video_054604"
+    },
+    {
+      "frame": 103,
+      "observations": 220,
+      "prefix_frames": 103,
+      "recording": "video_054604"
+    },
+    {
+      "frame": 150,
+      "observations": 476,
+      "prefix_frames": 150,
+      "recording": "video_054604"
+    },
+    {
+      "frame": 1,
+      "observations": 38,
+      "prefix_frames": 1,
+      "recording": "video_054907"
+    },
+    {
+      "frame": 42,
+      "observations": 482,
+      "prefix_frames": 42,
+      "recording": "video_054907"
+    },
+    {
+      "frame": 59,
+      "observations": 639,
+      "prefix_frames": 59,
+      "recording": "video_054907"
+    },
+    {
+      "frame": 75,
+      "observations": 808,
+      "prefix_frames": 75,
+      "recording": "video_054907"
+    },
+    {
+      "frame": 103,
+      "observations": 1154,
+      "prefix_frames": 103,
+      "recording": "video_054907"
+    }
+  ]
+}

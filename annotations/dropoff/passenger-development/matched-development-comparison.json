@@ -1,0 +1,574 @@
+{
+  "kind": "matched_gpu_landmark_decisions_and_cpu_geometry_development",
+  "independent_scored_utc": "2026-11-21T18:34:37.023167+00:00",
+  "case_bank": "AI-authored development on video_054907; narrow rectangular references, zero human reviews. video_054604 is temporally adjacent. No final evaluation.",
+  "protocol_source_sha256": "8d6fca7d1b64d13e655e9da1d1383f91195c7d31b0fadd2c3f034c49f72acc33",
+  "request_file_sha256": "0160bf67789bc6d7f3a362f2a6d607b1028b1b81ca0490863a5971ede224846f",
+  "matched_evidence": {
+    "case_count": 19,
+    "same_message_digests_and_original_image_sha256": true,
+    "same_geometry_artifact": "be1a2e5eac071aad41f745b3003cee3aa8a14f588799d1fb372cab3a5a6b6661",
+    "same_replay_sources": {
+      "trackrag/dropoff/passenger.py": "9289a69ce859394c86a0bb92e08ef7e55ee486f1298cb3dc24fbab1cde8881d4",
+      "trackrag/dropoff/landmarks.py": "aeaf21bbcdc4ff45d03b636922bfd417651c1bc63cb6c74ee4873775470111f9",
+      "trackrag/dropoff/landmark_check.py": "544aab4fc96ab134699a68a75a43021560a796f423fc7e3002fcb76151beef05",
+      "trackrag/dropoff/anchor_geometry.py": "cfe4553e6a0665273dad4c180dc3a311403566b6f2cbbd6d2ff669479b8a56cb",
+      "trackrag/dropoff/streamed.py": "47b5337a6c115342393ee2a0b0ca71b9ae5d58176ff5269b2b96b1ebfef1c4a0",
+      "trackrag/dropoff/interaction.py": "bed95433189eb710aafe8b369c91d9768aebf4a0c398e10b2c57bc9be2f1d0c4"
+    },
+    "configurations_differ_only_in_adapter_dir": true
+  },
+  "qualitative_findings": {
+    "reviewer": "AI annotator with access to the original scenes, saved outputs and frozen references after completion",
+    "b03_b08_b14": "Both conditions proposed a specific referent for ambiguous instructions: white vehicle, truck, car under bridge.",
+    "b06": "The trained route landed inside the intended ground rectangle but its second anchor box outlined the yellow vehicle instead of the black SUV. A location hit alone does not imply both visual references were resolved.",
+    "b11_and_b17": "Trained anchor overlays identify the wrong vehicle for the black SUV right of the yellow car and the white sedan right of the Toyota.",
+    "b04": "Same truck recognized as b02, but a scripted clarification reply produced no supported point.",
+    "b15": "Trained asked a leading question about an unverified green bus; pretrained correctly returned insufficient visual evidence.",
+    "b18": "Trained asked a nonspecific question about the right hand sign without naming the visible alternatives."
+  },
+  "conditions": {
+    "pretrained": {
+      "outputs_sha256": "0697782c88a3b2de121694508d0da5e2bd3994321a704de266e48c35ee39907f",
+      "requested": 19,
+      "expected_status_counts": {
+        "proposed": 11,
+        "needs_clarification": 4,
+        "insufficient_visual_evidence": 4
+      },
+      "status_matches": 14,
+      "confusion": {
+        "insufficient_visual_evidence": {
+          "insufficient_visual_evidence": 3,
+          "needs_clarification": 1
+        },
+        "needs_clarification": {
+          "proposed": 3,
+          "needs_clarification": 1
+        },
+        "proposed": {
+          "proposed": 10,
+          "needs_clarification": 1
+        }
+      },
+      "failures": {},
+      "unexpected_output_ids": [],
+      "proposal_count": 13,
+      "proposals_on_nonproposal_cases": 3,
+      "clear_reference_count": 11,
+      "clear_reference_and_model_proposal_count": 10,
+      "point_in_authored_box_count": 2,
+      "missed_authored_rectangle_on_paired_proposals": 8,
+      "proposal_on_wrong_status_or_outside_authored_rectangle": 11,
+      "normalized_tolerance_hits_all_clear": {
+        "0.025": 1,
+        "0.05": 6
+      },
+      "mean_box_iou_all_clear_missing_as_zero": 0.06344655629631449,
+      "median_normalized_point_error_paired_proposals_only": 0.0466841378905636,
+      "same_frame_contrasts": [
+        {
+          "requests": [
+            "passenger-b01",
+            "passenger-b02"
+          ],
+          "both_proposed": true,
+          "each_closer_to_own_provisional_point": true,
+          "both_in_authored_rectangle": false
+        },
+        {
+          "requests": [
+            "passenger-b06",
+            "passenger-b07"
+          ],
+          "both_proposed": true,
+          "each_closer_to_own_provisional_point": false,
+          "both_in_authored_rectangle": false
+        },
+        {
+          "requests": [
+            "passenger-b11",
+            "passenger-b12"
+          ],
+          "both_proposed": true,
+          "each_closer_to_own_provisional_point": true,
+          "both_in_authored_rectangle": false
+        },
+        {
+          "requests": [
+            "passenger-b16",
+            "passenger-b17"
+          ],
+          "both_proposed": true,
+          "each_closer_to_own_provisional_point": true,
+          "both_in_authored_rectangle": false
+        }
+      ],
+      "score_file_sha256": "34135e235b783d8b5eac10230dc74a5bc861a4316135155bf0be099ba96da027",
+      "raw_decisions_sha256": "8a115b169a432106831ae487511c5c1243f5fdb60ef21d50f54cd32bafadfccd",
+      "per_case": [
+        {
+          "request_id": "passenger-b01",
+          "expected_status": "proposed",
+          "status": "proposed",
+          "failure": null,
+          "status_matches": true,
+          "point_in_authored_box": true,
+          "normalized_point_error": 0.03126019863254221,
+          "box_iou": 0.10376404957279826
+        },
+        {
+          "request_id": "passenger-b02",
+          "expected_status": "proposed",
+          "status": "proposed",
+          "failure": null,
+          "status_matches": true,
+          "point_in_authored_box": false,
+          "normalized_point_error": 0.04787841708641062,
+          "box_iou": 0.0
+        },
+        {
+          "request_id": "passenger-b03",
+          "expected_status": "needs_clarification",
+          "status": "proposed",
+          "failure": null,
+          "status_matches": false,
+          "point_in_authored_box": false,
+          "normalized_point_error": null,
+          "box_iou": null
+        },
+        {
+          "request_id": "passenger-b04",
+          "expected_status": "proposed",
+          "status": "needs_clarification",
+          "failure": null,
+          "status_matches": false,
+          "point_in_authored_box": false,
+          "normalized_point_error": null,
+          "box_iou": null
+        },
+        {
+          "request_id": "passenger-b05",
+          "expected_status": "insufficient_visual_evidence",
+          "status": "insufficient_visual_evidence",
+          "failure": null,
+          "status_matches": true,
+          "point_in_authored_box": false,
+          "normalized_point_error": null,
+          "box_iou": null
+        },
+        {
+          "request_id": "passenger-b06",
+          "expected_status": "proposed",
+          "status": "proposed",
+          "failure": null,
+          "status_matches": true,
+          "point_in_authored_box": true,
+          "normalized_point_error": 0.0026915662599591972,
+          "box_iou": 0.13688110985937635
+        },
+        {
+          "request_id": "passenger-b07",
+          "expected_status": "proposed",
+          "status": "proposed",
+          "failure": null,
+          "status_matches": true,
+          "point_in_authored_box": false,
+          "normalized_point_error": 0.06588963000342414,
+          "box_iou": 0.07527584688281495
+        },
+        {
+          "request_id": "passenger-b08",
+          "expected_status": "needs_clarification",
+          "status": "proposed",
+          "failure": null,
+          "status_matches": false,
+          "point_in_authored_box": false,
+          "normalized_point_error": null,
+          "box_iou": null
+        },
+        {
+          "request_id": "passenger-b09",
+          "expected_status": "proposed",
+          "status": "proposed",
+          "failure": null,
+          "status_matches": true,
+          "point_in_authored_box": false,
+          "normalized_point_error": 0.05650443199050613,
+          "box_iou": 0.07516850415014448
+        },
+        {
+          "request_id": "passenger-b10",
+          "expected_status": "insufficient_visual_evidence",
+          "status": "insufficient_visual_evidence",
+          "failure": null,
+          "status_matches": true,
+          "point_in_authored_box": false,
+          "normalized_point_error": null,
+          "box_iou": null
+        },
+        {
+          "request_id": "passenger-b11",
+          "expected_status": "proposed",
+          "status": "proposed",
+          "failure": null,
+          "status_matches": true,
+          "point_in_authored_box": false,
+          "normalized_point_error": 0.04166767122923545,
+          "box_iou": 0.019006755587958602
+        },
+        {
+          "request_id": "passenger-b12",
+          "expected_status": "proposed",
+          "status": "proposed",
+          "failure": null,
+          "status_matches": true,
+          "point_in_authored_box": false,
+          "normalized_point_error": 0.06486306121314853,
+          "box_iou": 0.060786687096650166
+        },
+        {
+          "request_id": "passenger-b13",
+          "expected_status": "proposed",
+          "status": "proposed",
+          "failure": null,
+          "status_matches": true,
+          "point_in_authored_box": false,
+          "normalized_point_error": 0.06490772167536042,
+          "box_iou": 0.07842253268694283
+        },
+        {
+          "request_id": "passenger-b14",
+          "expected_status": "needs_clarification",
+          "status": "proposed",
+          "failure": null,
+          "status_matches": false,
+          "point_in_authored_box": false,
+          "normalized_point_error": null,
+          "box_iou": null
+        },
+        {
+          "request_id": "passenger-b15",
+          "expected_status": "insufficient_visual_evidence",
+          "status": "needs_clarification",
+          "failure": null,
+          "status_matches": false,
+          "point_in_authored_box": false,
+          "normalized_point_error": null,
+          "box_iou": null
+        },
+        {
+          "request_id": "passenger-b16",
+          "expected_status": "proposed",
+          "status": "proposed",
+          "failure": null,
+          "status_matches": true,
+          "point_in_authored_box": false,
+          "normalized_point_error": 0.034226733796548885,
+          "box_iou": 0.0
+        },
+        {
+          "request_id": "passenger-b17",
+          "expected_status": "proposed",
+          "status": "proposed",
+          "failure": null,
+          "status_matches": true,
+          "point_in_authored_box": false,
+          "normalized_point_error": 0.045489858694716584,
+          "box_iou": 0.14860663342277378
+        },
+        {
+          "request_id": "passenger-b18",
+          "expected_status": "needs_clarification",
+          "status": "needs_clarification",
+          "failure": null,
+          "status_matches": true,
+          "point_in_authored_box": false,
+          "normalized_point_error": null,
+          "box_iou": null
+        },
+        {
+          "request_id": "passenger-b19",
+          "expected_status": "insufficient_visual_evidence",
+          "status": "insufficient_visual_evidence",
+          "failure": null,
+          "status_matches": true,
+          "point_in_authored_box": false,
+          "normalized_point_error": null,
+          "box_iou": null
+        }
+      ]
+    },
+    "trained": {
+      "outputs_sha256": "67b67e2ed4516c414ecf6a697379e9de8ee92992cfb56af5651cad183ce6c4e3",
+      "requested": 19,
+      "expected_status_counts": {
+        "proposed": 11,
+        "needs_clarification": 4,
+        "insufficient_visual_evidence": 4
+      },
+      "status_matches": 13,
+      "confusion": {
+        "insufficient_visual_evidence": {
+          "insufficient_visual_evidence": 2,
+          "needs_clarification": 2
+        },
+        "needs_clarification": {
+          "proposed": 3,
+          "needs_clarification": 1
+        },
+        "proposed": {
+          "proposed": 10,
+          "needs_clarification": 1
+        }
+      },
+      "failures": {},
+      "unexpected_output_ids": [],
+      "proposal_count": 13,
+      "proposals_on_nonproposal_cases": 3,
+      "clear_reference_count": 11,
+      "clear_reference_and_model_proposal_count": 10,
+      "point_in_authored_box_count": 2,
+      "missed_authored_rectangle_on_paired_proposals": 8,
+      "proposal_on_wrong_status_or_outside_authored_rectangle": 11,
+      "normalized_tolerance_hits_all_clear": {
+        "0.025": 1,
+        "0.05": 6
+      },
+      "mean_box_iou_all_clear_missing_as_zero": 0.07274745242453211,
+      "median_normalized_point_error_paired_proposals_only": 0.0466841378905636,
+      "same_frame_contrasts": [
+        {
+          "requests": [
+            "passenger-b01",
+            "passenger-b02"
+          ],
+          "both_proposed": true,
+          "each_closer_to_own_provisional_point": true,
+          "both_in_authored_rectangle": false
+        },
+        {
+          "requests": [
+            "passenger-b06",
+            "passenger-b07"
+          ],
+          "both_proposed": true,
+          "each_closer_to_own_provisional_point": false,
+          "both_in_authored_rectangle": false
+        },
+        {
+          "requests": [
+            "passenger-b11",
+            "passenger-b12"
+          ],
+          "both_proposed": true,
+          "each_closer_to_own_provisional_point": true,
+          "both_in_authored_rectangle": false
+        },
+        {
+          "requests": [
+            "passenger-b16",
+            "passenger-b17"
+          ],
+          "both_proposed": true,
+          "each_closer_to_own_provisional_point": true,
+          "both_in_authored_rectangle": false
+        }
+      ],
+      "score_file_sha256": "52fe6a5805bbc93fa0744c3e388f90e469984d74f831ecc0bf77ed75f490cc94",
+      "raw_decisions_sha256": "e9bda2e0ceb0b919578705a6fe64a900ac4a4705628085d0848a1bf336bec444",
+      "per_case": [
+        {
+          "request_id": "passenger-b01",
+          "expected_status": "proposed",
+          "status": "proposed",
+          "failure": null,
+          "status_matches": true,
+          "point_in_authored_box": true,
+          "normalized_point_error": 0.03126019863254221,
+          "box_iou": 0.10376404957279826
+        },
+        {
+          "request_id": "passenger-b02",
+          "expected_status": "proposed",
+          "status": "proposed",
+          "failure": null,
+          "status_matches": true,
+          "point_in_authored_box": false,
+          "normalized_point_error": 0.04787841708641062,
+          "box_iou": 0.0
+        },
+        {
+          "request_id": "passenger-b03",
+          "expected_status": "needs_clarification",
+          "status": "proposed",
+          "failure": null,
+          "status_matches": false,
+          "point_in_authored_box": false,
+          "normalized_point_error": null,
+          "box_iou": null
+        },
+        {
+          "request_id": "passenger-b04",
+          "expected_status": "proposed",
+          "status": "needs_clarification",
+          "failure": null,
+          "status_matches": false,
+          "point_in_authored_box": false,
+          "normalized_point_error": null,
+          "box_iou": null
+        },
+        {
+          "request_id": "passenger-b05",
+          "expected_status": "insufficient_visual_evidence",
+          "status": "insufficient_visual_evidence",
+          "failure": null,
+          "status_matches": true,
+          "point_in_authored_box": false,
+          "normalized_point_error": null,
+          "box_iou": null
+        },
+        {
+          "request_id": "passenger-b06",
+          "expected_status": "proposed",
+          "status": "proposed",
+          "failure": null,
+          "status_matches": true,
+          "point_in_authored_box": true,
+          "normalized_point_error": 0.0026915662599591972,
+          "box_iou": 0.13688110985937635
+        },
+        {
+          "request_id": "passenger-b07",
+          "expected_status": "proposed",
+          "status": "proposed",
+          "failure": null,
+          "status_matches": true,
+          "point_in_authored_box": false,
+          "normalized_point_error": 0.06588963000342414,
+          "box_iou": 0.07527584688281495
+        },
+        {
+          "request_id": "passenger-b08",
+          "expected_status": "needs_clarification",
+          "status": "proposed",
+          "failure": null,
+          "status_matches": false,
+          "point_in_authored_box": false,
+          "normalized_point_error": null,
+          "box_iou": null
+        },
+        {
+          "request_id": "passenger-b09",
+          "expected_status": "proposed",
+          "status": "proposed",
+          "failure": null,
+          "status_matches": true,
+          "point_in_authored_box": false,
+          "normalized_point_error": 0.05650443199050613,
+          "box_iou": 0.07516850415014448
+        },
+        {
+          "request_id": "passenger-b10",
+          "expected_status": "insufficient_visual_evidence",
+          "status": "insufficient_visual_evidence",
+          "failure": null,
+          "status_matches": true,
+          "point_in_authored_box": false,
+          "normalized_point_error": null,
+          "box_iou": null
+        },
+        {
+          "request_id": "passenger-b11",
+          "expected_status": "proposed",
+          "status": "proposed",
+          "failure": null,
+          "status_matches": true,
+          "point_in_authored_box": false,
+          "normalized_point_error": 0.04166767122923545,
+          "box_iou": 0.019006755587958602
+        },
+        {
+          "request_id": "passenger-b12",
+          "expected_status": "proposed",
+          "status": "proposed",
+          "failure": null,
+          "status_matches": true,
+          "point_in_authored_box": false,
+          "normalized_point_error": 0.06486306121314853,
+          "box_iou": 0.060786687096650166
+        },
+        {
+          "request_id": "passenger-b13",
+          "expected_status": "proposed",
+          "status": "proposed",
+          "failure": null,
+          "status_matches": true,
+          "point_in_authored_box": false,
+          "normalized_point_error": 0.06490772167536042,
+          "box_iou": 0.07842253268694283
+        },
+        {
+          "request_id": "passenger-b14",
+          "expected_status": "needs_clarification",
+          "status": "proposed",
+          "failure": null,
+          "status_matches": false,
+          "point_in_authored_box": false,
+          "normalized_point_error": null,
+          "box_iou": null
+        },
+        {
+          "request_id": "passenger-b15",
+          "expected_status": "insufficient_visual_evidence",
+          "status": "needs_clarification",
+          "failure": null,
+          "status_matches": false,
+          "point_in_authored_box": false,
+          "normalized_point_error": null,
+          "box_iou": null
+        },
+        {
+          "request_id": "passenger-b16",
+          "expected_status": "proposed",
+          "status": "proposed",
+          "failure": null,
+          "status_matches": true,
+          "point_in_authored_box": false,
+          "normalized_point_error": 0.03752240305087304,
+          "box_iou": 0.10230985741039379
+        },
+        {
+          "request_id": "passenger-b17",
+          "expected_status": "proposed",
+          "status": "proposed",
+          "failure": null,
+          "status_matches": true,
+          "point_in_authored_box": false,
+          "normalized_point_error": 0.045489858694716584,
+          "box_iou": 0.14860663342277378
+        },
+        {
+          "request_id": "passenger-b18",
+          "expected_status": "needs_clarification",
+          "status": "needs_clarification",
+          "failure": null,
+          "status_matches": true,
+          "point_in_authored_box": false,
+          "normalized_point_error": null,
+          "box_iou": null
+        },
+        {
+          "request_id": "passenger-b19",
+          "expected_status": "insufficient_visual_evidence",
+          "status": "needs_clarification",
+          "failure": null,
+          "status_matches": false,
+          "point_in_authored_box": false,
+          "normalized_point_error": null,
+          "box_iou": null
+        }
+      ]
+    }
+  }
+}

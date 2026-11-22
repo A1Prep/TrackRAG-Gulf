@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#162721">
+  <title>Passenger drop-off · TrackRAG-Gulf</title>
+  <link rel="stylesheet" href="/app.css">
+  <script type="module" src="/app.js"></script>
+</head>
+<body>
+  <header class="top"><span class="brand">TrackRAG<span>Gulf</span></span><span class="top-label">Passenger drop-off</span><a id="footage-link" href="/footage" hidden>Search footage</a></header>
+  <main>
+    <div class="intro"><h1>Passenger drop-off</h1><p>Point out where you would like to get out in a recorded road scene.</p></div>
+    <div class="layout">
+      <section class="card scene-card" aria-labelledby="scene-label">
+        <div class="scene-controls"><label id="scene-label" for="scene">Road scene</label><select id="scene" disabled aria-label="Road scene"></select></div>
+        <details id="frame-picker" class="frame-picker" hidden><summary>Open another frame in this recording</summary>
+          <div><label for="frame-id">Frame number</label><input id="frame-id" type="number" min="0" step="1">
+          <button type="button" id="open-frame" class="subtle">Open frame</button></div>
+        </details>
+        <div class="frame"><img id="frame" alt="Selected original road scene" draggable="false"><canvas id="overlay" aria-label="Destination overlay"></canvas></div>
+        <div class="scene-foot"><span id="legend">Original frame</span><button type="button" id="draw" class="text-btn" hidden>Mark an area myself</button></div>
+        <div id="draw-tools" class="draw-tools" hidden>
+          <span>Drag across the desired area on the image.</span>
+          <button id="use-box" disabled>Use my marked area</button><button id="discard-box" class="subtle">Discard mark</button>
+        </div>
+      </section>
+      <section class="card dialogue" aria-labelledby="destination-title">
+        <h2 id="destination-title">Your destination</h2>
+        <div id="messages" class="messages" aria-label="Conversation"></div>
+        <div id="status" role="status" aria-live="polite"></div>
+        <p id="error" role="alert" hidden></p>
+        <form id="form">
+          <label for="instruction" id="input-label">Passenger instruction</label>
+          <textarea rows="3" id="instruction" maxlength="4096" placeholder="Describe a landmark and where you mean." required></textarea>
+          <div id="speech-controls" class="speech-controls">
+            <button id="mic" type="button" class="subtle">Record voice</button>
+            <button id="upload" type="button" class="subtle">Upload WAV</button><input id="file" type="file" accept=".wav,audio/wav,audio/x-wav" hidden>
+          </div>
+          <button id="submit" class="primary" type="submit">Send instruction</button>
+        </form>
+        <div class="actions"><button id="confirm" class="primary" hidden>Confirm this area</button><button id="cancel" class="subtle" hidden>Cancel request</button></div>
+      </section>
+    </div>
+    <p class="footnote">The highlighted area represents a passenger’s requested destination in this frame. The passenger confirms the selection.</p>
+  </main>
+</body>
+</html>

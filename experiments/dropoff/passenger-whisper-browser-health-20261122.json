@@ -1,0 +1,77 @@
+{
+  "kind": "passenger_real_browser_cpu_whisper_review_with_grounding_runtime_imported",
+  "created_utc": "2026-11-22T04:51:43.993306+00:00",
+  "choice": "first file of the previously frozen fresh external SLURP panel, evaluated here only at the speech stage",
+  "source_slug": "audio-1498568032-headset.flac",
+  "wave_sha256": "02c1cde4a310d966fad07e579ac1f9804095639ffa79c9231065fb610aa49ab7",
+  "original_asr_sha256": "855d8013134d011e34264b9b7040a08d6a4dce98d60a5ec1c59d7d0306cedcbf",
+  "asr_model_content_sha256": "bab18bb764bed442791b59bf681c5aed8b9c27808ca487399cd5ac79d02a6efd",
+  "public_comparison_sha256": "dec6bd83ca530c2557b5878a31ddcee6db6e7d85a694996f61ae147bb13c32bc",
+  "actual_asr_matches_prerecorded_trial": true,
+  "actual_saved_wav_verified": true,
+  "browser_permitted_draft_edit": true,
+  "cancel_cleared_review": true,
+  "confirm_unavailable_during_review": true,
+  "browser_request_hosts_after_upload": [
+    "127.0.0.1"
+  ],
+  "visual_inference_calls": 0,
+  "volunteer_clips": 0,
+  "torch_cuda_initialized": false,
+  "qwen_imports": [
+    "AutoConfig",
+    "AutoProcessor",
+    "Qwen3VLForConditionalGeneration"
+  ],
+  "qwen_module": "transformers.models.qwen3_vl.modeling_qwen3_vl",
+  "packages": {
+    "torch": {
+      "version": "2.6.0+cu124",
+      "origin": "grounding-existing-CUDA-environment"
+    },
+    "torchvision": {
+      "version": "0.21.0",
+      "origin": "grounding-venv"
+    },
+    "transformers": {
+      "version": "5.1.0",
+      "origin": "grounding-venv"
+    },
+    "peft": {
+      "version": "0.18.1",
+      "origin": "grounding-venv"
+    },
+    "tokenizers": {
+      "version": "0.22.2",
+      "origin": "grounding-venv"
+    },
+    "huggingface-hub": {
+      "version": "1.33.0",
+      "origin": "grounding-venv"
+    },
+    "numpy": {
+      "version": "1.26.4",
+      "origin": "grounding-existing-CUDA-environment"
+    },
+    "onnxruntime": {
+      "version": "1.20.1",
+      "origin": "grounding-existing-CUDA-environment"
+    },
+    "faster-whisper": {
+      "version": "1.2.1",
+      "origin": "three-wheel-add-on"
+    },
+    "ctranslate2": {
+      "version": "4.6.1",
+      "origin": "three-wheel-add-on"
+    },
+    "av": {
+      "version": "15.1.0",
+      "origin": "three-wheel-add-on"
+    }
+  },
+  "python_version": "3.11.3",
+  "recognition_seconds": 2.91989960000501,
+  "audio_seconds": 3.136,
+  "peak_working_set_bytes_including_qwen_imports": 1301098496
+}

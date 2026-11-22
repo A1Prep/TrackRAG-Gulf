@@ -1,0 +1,96 @@
+{
+  "kind": "independent_source_pixel_corroboration_for_all_six_nonfinal_Task2_reviews",
+  "completed_utc": "2026-11-22T04:42:42.736926+00:00",
+  "peer_package_audit_sha256": "6d98c7f0066cf53b9a0f27a544b69ae2d7be5c296fc66636fafb0fc6597ca946",
+  "official_pinned_pixel_archive": "https://huggingface.co/datasets/KuAvLab/EMT/resolve/4418cec01b03c6f797cadb06c9405843a30988e2/train_images.tar.gz",
+  "official_archive_size_bytes": 21848135924,
+  "canonical_original_Task1_frame_hash_file_sha256": "de04ed9ec3354c0d832629df8837680f59465a9e633525957c6b761b22357923",
+  "official_annotation_training_archive_sha256": "58ac63c71f1b6c12dfc8b31dde20afdfbcac9af3066929526053968438fcfb44",
+  "official_annotation_test_archive_sha256": "a5d6bb56995738acd1251ffcdfea11432a2f47d96e1da5e3c34897debde45372",
+  "six_recordings_present_in_official_train_and_absent_from_official_test": true,
+  "verified_nonfinal_source_images": [
+    {
+      "recording_id": "video_054907",
+      "frame_id": 781,
+      "method": "Task1_original_frame_sha256_manifest",
+      "jpeg_sha256": "c411cf6760695905334f32e5590083cf144543df1ca98e68aae55fb345eb583e",
+      "pixels": [
+        2560,
+        1440
+      ],
+      "bytes": 1109226
+    },
+    {
+      "recording_id": "video_174340",
+      "frame_id": 781,
+      "method": "Task1_original_frame_sha256_manifest",
+      "jpeg_sha256": "693e7f2769f9336d15d3ef3fef37594cfab297c819626d913f734077dfa7bd4a",
+      "pixels": [
+        2560,
+        1440
+      ],
+      "bytes": 689161
+    },
+    {
+      "recording_id": "video_054604",
+      "frame_id": 1051,
+      "method": "Task1_original_frame_sha256_manifest",
+      "jpeg_sha256": "d3e025fbfcfb3ecad5a4b3d0a3463aef41ee02b4ed303037884ce9a2022c1f22",
+      "pixels": [
+        2560,
+        1440
+      ],
+      "bytes": 1047060
+    },
+    {
+      "recording_id": "video_131333",
+      "frame_id": 811,
+      "tar_path": "images/train/images/video_131333/00811.jpg",
+      "tar_header_checksum_verified": true,
+      "bytes": 1068945,
+      "jpeg_sha256": "9edd517a5127fcc7a4003865ffa4c6c3b79191d4b1bf7ee9517a1d2612978d00",
+      "pixels": [
+        2560,
+        1440
+      ],
+      "compressed_start": 7947468800,
+      "compressed_length": 2650000,
+      "method": "direct_pinned_official_training_TAR_member"
+    },
+    {
+      "recording_id": "video_142911",
+      "frame_id": 1501,
+      "tar_path": "images/train/images/video_142911/01501.jpg",
+      "tar_header_checksum_verified": true,
+      "bytes": 1346089,
+      "jpeg_sha256": "653f1f6aa5213850684800d294d0f08a26e464d53751485b233e69902de7d1ce",
+      "pixels": [
+        3840,
+        2160
+      ],
+      "compressed_start": 10687788544,
+      "compressed_length": 3500000,
+      "method": "direct_pinned_official_training_TAR_member"
+    },
+    {
+      "recording_id": "video_210906",
+      "frame_id": 1261,
+      "tar_path": "images/train/images/video_210906/01261.jpg",
+      "tar_header_checksum_verified": true,
+      "bytes": 817060,
+      "jpeg_sha256": "38c5cbd0be01da83a378cb3b42e51114cd30945468f13c81a0ab8220ee3ce667",
+      "pixels": [
+        2560,
+        1440
+      ],
+      "compressed_start": 18977628160,
+      "compressed_length": 2650000,
+      "method": "direct_pinned_official_training_TAR_member"
+    }
+  ],
+  "all_6_human_approved_image_hashes_independently_correspond_to_source": true,
+  "direct_public_HTTP_bytes_read_or_attempted": 64450000,
+  "method": "All read ranges required server status 206 with exact Content-Range. Each added source frame had a checksummed named TAR header, full JPEG bytes, original dimensions and SHA256 exactly matching both peer reviews. Only the three explicit nonfinal image payloads were decoded; the other three have independent original Task1 per-frame cryptographic hashes.",
+  "final_reference_rows_read": 0,
+  "reserved_image_payloads_decoded_or_saved": 0
+}

@@ -1,0 +1,4 @@
+-r requirements-speech.txt
+# Aditi's Task 3 microphone capture uses SpeechRecognition's PyAudio input.
+SpeechRecognition==3.14.3
+PyAudio==0.2.14

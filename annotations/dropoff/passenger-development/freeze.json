@@ -1,0 +1,62 @@
+{
+  "schema_version": 1,
+  "kind": "pre_prediction_ai_authored_emt_diagnostics",
+  "frozen_utc": "2026-11-21T18:00:17.973566+00:00",
+  "reference_author": "AI visual annotator (independent of implementations being evaluated)",
+  "reviewed_by_humans": 0,
+  "real_passenger_intents": false,
+  "review_status": "provisional_ai_review_required",
+  "partitions": {
+    "train": [
+      "video_054604"
+    ],
+    "development": [
+      "video_054907"
+    ]
+  },
+  "frame_manifest_git_commit": "709e969260866a5476d8c199609c59de580589f7",
+  "frame_manifest_path": "experiments/vision/emt_frame_sha256_manifest.json",
+  "source_training_status": "No outputs from the new passenger methods were examined to create these targets. These recordings appeared in earlier project diagnostics.",
+  "final_evaluation": false,
+  "model_input_files": [
+    "train-instructions.jsonl",
+    "development-instructions.jsonl"
+  ],
+  "geometry": "Original 2560x1440 pixels, x origin left/y origin top. Small boxes specify one plausible area on the visible surface; no mask, clearance or stopping permission is labelled.",
+  "current_frame_predictions": "Per-frame counts refer to prior genuine Task 1 fine-tuned saved inference on the local original-image-only folder. Local images match Task 1's frame manifest; the original saved prediction receipt itself lacks per-image hashes.",
+  "scoring": "Report per-status counts, point-in-authored-box and rectangle IoU for proposed-reference rows, clarification separately, and all operational errors. Never equate rectangular labels with pixel masks or use this one-recording development set as final performance.",
+  "files": {
+    "train-instructions.jsonl": {
+      "sha256": "f6374fe85c21a85a1eafb16d46586285ff5d05afd837223520a9224069627a5d",
+      "rows": 17
+    },
+    "train-references.jsonl": {
+      "sha256": "b00053cdc2c05a58d5b688f54f1c06deb1cedbf99f555d5ea81696dfba570525",
+      "rows": 17
+    },
+    "development-instructions.jsonl": {
+      "sha256": "bba8253db53bb968af5b6b5b28524bd5f2b8d31513081b4bd478bee1456c217a",
+      "rows": 19
+    },
+    "development-references.jsonl": {
+      "sha256": "ab01878a0ed1b73fdbb931c73bb167624aa115c9af5c21e4f41b4388e567cd8c",
+      "rows": 19
+    },
+    "frames.jsonl": {
+      "sha256": "ed470e2eaf7d7409e5bb720f5acef5fb613134accf006abe1b469d9380672b87",
+      "rows": 8
+    }
+  },
+  "status_counts": {
+    "train": {
+      "proposed": 10,
+      "needs_clarification": 3,
+      "insufficient_visual_evidence": 4
+    },
+    "development": {
+      "proposed": 11,
+      "needs_clarification": 4,
+      "insufficient_visual_evidence": 4
+    }
+  }
+}

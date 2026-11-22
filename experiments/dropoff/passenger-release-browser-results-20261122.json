@@ -1,0 +1,475 @@
+{
+  "description": "Actual browser with the packaged local Qwen3-VL-8B, learned region model, offline Vosk and two original EMT recordings. A Windows synthetic voice supplied each input, including the file-fed Chromium microphone. All transcript edits, confirmations and cancellations were scripted. These are selected development software trials.",
+  "started_utc": "2026-11-21T20:08:08.813Z",
+  "finished_utc": "2026-11-21T20:10:17.542Z",
+  "browser_errors": [],
+  "protocol_sha256": "abdc1e43f5c7ca791f887f9d9b3e65a7cec0cfeeba86c8d43e91a4cba5f7cedf",
+  "raw_browser_sha256": "4388bd9241c398a934a67523419bc724079643d4f288277512bcc5e9cdce6d6e",
+  "source_and_model_snapshot": {
+    "capture_utc": "2026-11-21T20:07:59.608018+00:00",
+    "bundle": {
+      "format": "passenger-app-handoff-v1",
+      "files": {
+        "adapter/adapter_config.json": "def2dc5ef0c641fe93cba691766f0cdd0cb8e212ef8308f492c3b6aa96ac5ba7",
+        "adapter/adapter_model.safetensors": "76bfb3230b17a86248b52ca6a9f8d2ffca324aa80216d6b93845ccb12ad86743",
+        "adapter/grounding_adapter_manifest.json": "92e32dc900d919b7e137c70692c51b57921edbda77ff5b772e6dfdc221a12983",
+        "geometry.json": "db9575ac6b82ff9828f29440bacf2349cd2371f23c2cfb747bd7dc05ee04c7e5",
+        "grounding.json": "bf73538110c52cbb50059964fe8a6230e0674c754592fc2e96a4529d0dc6a169",
+        "referent.json": "d96a9a69e2e52ddbc21851d5ff6f79b344de6c8558600e54be5cb2712480a07d"
+      },
+      "verify_landmarks": false,
+      "referent_policy": true,
+      "base_model": "unsloth/Qwen3-VL-8B-Instruct-bnb-4bit",
+      "revision": "10d842936325905934ea24e64325d774693f166e"
+    },
+    "bundle_manifest_sha256": "549e9df750c97a8999aebdb08e3ae54d5c7dd89a496e183f4c7d5e2fd32f6e45",
+    "resident_layers": 8,
+    "prepared_bank_sha256": "3c9e102ba0bf314a0caabd8ac64c728801cd933a799a8c7383c09dd64af2f960",
+    "files": {
+      "tools/passenger_release.py": "ee6ef4c650b4a0a8319d78447cb16f529185997c930c6235115e6db48a13f3b2",
+      "tools/dropoff_browser_trial.cjs": "9c5b7b4994caff243c3a6d9ea2a8d1c7b3407ff963f5ee1dd7c3a5a498fbdff5",
+      "trackrag/passenger_app.py": "4e926e99b3a974556f639f72e653dd403b2126244227be1437634f8d7e4a7b1e",
+      "trackrag/passenger_ui/app.js": "b0f09191cb659386062300dafc3ea609dbed6da55cf699b845db53ebff8c20b2",
+      "trackrag/passenger_ui/capture.js": "700aab031b9226e367d37973088e949f57836e2aab868f93f003d651a91c1c88",
+      "trackrag/dropoff/passenger.py": "9b92261a418d7f36cb07daee6b92f19c83f0f32a6320f9aabbdc81e20e323909",
+      "trackrag/dropoff/interaction.py": "bed95433189eb710aafe8b369c91d9768aebf4a0c398e10b2c57bc9be2f1d0c4",
+      "trackrag/dropoff/landmarks.py": "5b5daa4276237488b9e1c7861c834fc0ca5d0541c43340ef10e1e871b42b19f8",
+      "trackrag/dropoff/pair_resolution.py": "b17f8116e431fea2f733ac6593247d71c34f4374ebe7e8b5fd5489b3c99a9c9c",
+      "trackrag/dropoff/structured.py": "d4ba7d76e7b7cdf623d6c3bf225f7e756f1c52bd757bd6aeabc436aa6d206277",
+      "trackrag/dropoff/streamed.py": "170084a8c0fe30e7dd77b885b432e79c18613dd95bb5f0c43214eef213c0c6be",
+      "trackrag/dropoff/referent_policy.py": "4c5cd8be4f8e3b22e11deaf98bf40a38a6544745f11bb27e33a85eaeff3340d1",
+      "trackrag/local_speech.py": "7c3bb4d6c2c31bc1f32ecbb89eac3355ecfbe169289a3f65e85c9fffc9e5d977"
+    },
+    "command": "python -m tools.passenger_release start --port 18770 --out runs/passenger-voice-20261121/final/real-sessions-v1"
+  },
+  "turns": [
+    {
+      "id": "spoken-here",
+      "source_audio_sha256": "349b83d6dbd3453f57a20b3d1654f8ce66f9f487782a2beeda2b1e6df78bfeeb",
+      "source_audio": "deictic-zira-virtual-mic48k.wav",
+      "proposed_action": "keep_for_reply",
+      "audio_route": "virtual_microphone",
+      "captured_audio_sha256": "3ece85d8ed07c7798009fb1177deb3c79a5e819b492b82cade5cf5f8139f77c2",
+      "original_transcript": "drop me here",
+      "submitted_transcript": "Drop me here.",
+      "duration_s": 4.304,
+      "asr_elapsed_s": 0.869,
+      "asr_model": "vosk-model-small-en-us-0.15",
+      "asr_model_content_sha256": "38655871e595540ec3bd39927a7e4b9f80ab7cf53abc34b3780fb05bd4cf94b6",
+      "recording": "video_054907",
+      "frame": 1,
+      "image_sha256": "033fc370408c4bc99a1ec9fbb845b6618a5f53b680a235baba336b8fe8ddba80",
+      "previous_dialogue": [],
+      "raw_model_output": "ASK where is the intended drop-off point?",
+      "model_revision": "10d842936325905934ea24e64325d774693f166e",
+      "model_contract": "landmark_v1",
+      "model_trie": null,
+      "pair_subqueries": [],
+      "first_response": "needs_clarification",
+      "first_error": null,
+      "proposed_point": null,
+      "proposed_box": null,
+      "anchor_boxes": null,
+      "clarification": "Which visible landmark is beside your drop-off, or can you mark the area on the photo?",
+      "initial_overlay": {
+        "width": 2560,
+        "height": 1440,
+        "original_width": 2560,
+        "original_height": 1440,
+        "legend": "Original frame",
+        "painted_pixels": 0
+      },
+      "final_overlay": {
+        "width": 2560,
+        "height": 1440,
+        "original_width": 2560,
+        "original_height": 1440,
+        "legend": "Original frame",
+        "painted_pixels": 0
+      },
+      "final_state": "needs_clarification",
+      "confirmed_source": null,
+      "stale_after_cancel": null,
+      "journal_sha256": "a38b654790df72b415fc82d953fd73e33094aa89373068e9866ffeae1999c3ed",
+      "asr_receipt_sha256": "5a9f7acaf4df2ef049270be72eadab9a865b5fb535c9f2ff0d14bc4ac0a99f79",
+      "initial_screenshot_sha256": "dcc891e9c642944b0405c40bd75c8e77ec156f21e0cb05c358041d9c95cb0a07",
+      "final_screenshot_sha256": "dcc891e9c642944b0405c40bd75c8e77ec156f21e0cb05c358041d9c95cb0a07"
+    },
+    {
+      "id": "spoken-followup",
+      "source_audio_sha256": "64288e81fd1abd13d4615ac4792491cf639a8c568c738ee2dba74caeae9d23bf",
+      "source_audio": "passenger-b01-david.wav",
+      "proposed_action": "confirm_if_proposed",
+      "audio_route": "wav_upload",
+      "captured_audio_sha256": "64288e81fd1abd13d4615ac4792491cf639a8c568c738ee2dba74caeae9d23bf",
+      "original_transcript": "i'd like the patch of road just behind the white as you v on the left",
+      "submitted_transcript": "I'd like the patch of road just behind the white SUV on the left.",
+      "duration_s": 4.45,
+      "asr_elapsed_s": 1.228,
+      "asr_model": "vosk-model-small-en-us-0.15",
+      "asr_model_content_sha256": "38655871e595540ec3bd39927a7e4b9f80ab7cf53abc34b3780fb05bd4cf94b6",
+      "recording": "video_054907",
+      "frame": 1,
+      "image_sha256": "033fc370408c4bc99a1ec9fbb845b6618a5f53b680a235baba336b8fe8ddba80",
+      "previous_dialogue": [
+        {
+          "role": "user",
+          "text": "Drop me here.",
+          "recording_id": "video_054907",
+          "frame_id": 1
+        },
+        {
+          "role": "assistant",
+          "text": "Which visible landmark is beside your drop-off, or can you mark the area on the photo?",
+          "recording_id": "video_054907",
+          "frame_id": 1
+        }
+      ],
+      "raw_model_output": "OBJECT 133 687 258 826",
+      "model_revision": "10d842936325905934ea24e64325d774693f166e",
+      "model_contract": "landmark_v1",
+      "model_trie": null,
+      "pair_subqueries": [],
+      "first_response": "proposed",
+      "first_error": null,
+      "proposed_point": [
+        577.5,
+        1202.5
+      ],
+      "proposed_box": [
+        270.6203659326993,
+        1116.4767812347122,
+        886.1250081963658,
+        1291.3357024607776
+      ],
+      "anchor_boxes": [
+        [
+          340.48,
+          989.28,
+          660.48,
+          1189.44
+        ]
+      ],
+      "clarification": null,
+      "initial_overlay": {
+        "width": 2560,
+        "height": 1440,
+        "original_width": 2560,
+        "original_height": 1440,
+        "legend": "Model-proposed area",
+        "painted_pixels": 122169
+      },
+      "final_overlay": {
+        "width": 2560,
+        "height": 1440,
+        "original_width": 2560,
+        "original_height": 1440,
+        "legend": "Model-proposed area · confirmed",
+        "painted_pixels": 122169
+      },
+      "final_state": "confirmed",
+      "confirmed_source": "model",
+      "stale_after_cancel": null,
+      "journal_sha256": "a38b654790df72b415fc82d953fd73e33094aa89373068e9866ffeae1999c3ed",
+      "asr_receipt_sha256": "fdea8340a79e7290fe9a0107a4ceaa5158c9f0cf9962818a02eeb6181f75dcd6",
+      "initial_screenshot_sha256": "6fc15c16937751e6da8ad6d8f54af061602d6b444956e7d02ecde2425ac35446",
+      "final_screenshot_sha256": "ee499b094b915e185b34153d8966b07a29e7c05881756fd11b268007fa534d08"
+    },
+    {
+      "id": "spoken-explicit-pair",
+      "source_audio_sha256": "de128797e91a847e23705602cbac0682d64cad67811ccd03b2115892cb3c0964",
+      "source_audio": "pair-zira.wav",
+      "proposed_action": "confirm_if_proposed",
+      "audio_route": "wav_upload",
+      "captured_audio_sha256": "de128797e91a847e23705602cbac0682d64cad67811ccd03b2115892cb3c0964",
+      "original_transcript": "between the white s u v on are left and the large open sided truck on our right just behind them",
+      "submitted_transcript": "Between the white SUV on our left and the large open-sided truck on our right, just behind them.",
+      "duration_s": 6.28,
+      "asr_elapsed_s": 1.416,
+      "asr_model": "vosk-model-small-en-us-0.15",
+      "asr_model_content_sha256": "38655871e595540ec3bd39927a7e4b9f80ab7cf53abc34b3780fb05bd4cf94b6",
+      "recording": "video_054907",
+      "frame": 1,
+      "image_sha256": "033fc370408c4bc99a1ec9fbb845b6618a5f53b680a235baba336b8fe8ddba80",
+      "previous_dialogue": [],
+      "raw_model_output": "LANDMARK L35",
+      "model_revision": "10d842936325905934ea24e64325d774693f166e",
+      "model_contract": "landmark_v1",
+      "model_trie": null,
+      "pair_subqueries": [
+        {
+          "quote": {
+            "text": "the white SUV on our left",
+            "start": 8,
+            "end": 33
+          },
+          "raw_model_output": "L3",
+          "decision": {
+            "kind": "landmark",
+            "track_ids": [
+              1
+            ],
+            "boxes": [
+              [
+                340.90081787109375,
+                988.8248291015625,
+                660.7312622070312,
+                1190.044921875
+              ]
+            ]
+          },
+          "error": null,
+          "prompt_sha256": "5c9f05c7ae074cda74c007688332227ef909a62e4fec2e93658e4de41b7e386b",
+          "request_sha256": "f559dc55f67d089e3eb4988dca90cffb736a22c3948062f1181c1629281f1ca2"
+        },
+        {
+          "quote": {
+            "text": "the large open-sided truck on our right",
+            "start": 38,
+            "end": 77
+          },
+          "raw_model_output": "LANDMARK L35",
+          "decision": {
+            "kind": "landmark",
+            "track_ids": [
+              2
+            ],
+            "boxes": [
+              [
+                1526.108154296875,
+                668.238037109375,
+                2190.817626953125,
+                1280.4095458984375
+              ]
+            ]
+          },
+          "error": null,
+          "prompt_sha256": "2a001521260f25ab871629b4b738017b1a5496e4bd71ea59e73ed26776b4c8a8",
+          "request_sha256": "3f5b29c76cf74829f08996f14d5574c775aad95a4a26032fb7f2ec1158b4de60"
+        }
+      ],
+      "first_response": "proposed",
+      "first_error": null,
+      "proposed_point": [
+        1037.5,
+        1282.5
+      ],
+      "proposed_box": [
+        774.1282784201643,
+        1141.1372080272404,
+        1304.2392363226838,
+        1429.8790701585933
+      ],
+      "anchor_boxes": [
+        [
+          340.90081787109375,
+          988.8248291015625,
+          660.7312622070312,
+          1190.044921875
+        ],
+        [
+          1526.108154296875,
+          668.238037109375,
+          2190.817626953125,
+          1280.4095458984375
+        ]
+      ],
+      "clarification": null,
+      "initial_overlay": {
+        "width": 2560,
+        "height": 1440,
+        "original_width": 2560,
+        "original_height": 1440,
+        "legend": "Model-proposed area",
+        "painted_pixels": 168236
+      },
+      "final_overlay": {
+        "width": 2560,
+        "height": 1440,
+        "original_width": 2560,
+        "original_height": 1440,
+        "legend": "Model-proposed area · confirmed",
+        "painted_pixels": 168236
+      },
+      "final_state": "confirmed",
+      "confirmed_source": "model",
+      "stale_after_cancel": null,
+      "journal_sha256": "bd575d7c82ad2b4406a81072b7253451fbd1de6ce19184ff98b49402264da513",
+      "asr_receipt_sha256": "deec952b29316619f76930a3da9855852e5a4dcb3a4fb6e635b119dc4c675674",
+      "initial_screenshot_sha256": "b8fe227e05112b776d07e219ad87ab339ddc4cffbdc6fc23b96571855d27861b",
+      "final_screenshot_sha256": "63e72edd835c880690171e28396eb3f1501a5b10dec4b333c0e994881ba6f0d5"
+    },
+    {
+      "id": "spoken-cancel",
+      "source_audio_sha256": "cf31c1df9140245a7113a9f5f630385c3bc19d2edc20ed6275ebd98abd1893e7",
+      "source_audio": "bus-left-zira.wav",
+      "proposed_action": "cancel",
+      "audio_route": "wav_upload",
+      "captured_audio_sha256": "cf31c1df9140245a7113a9f5f630385c3bc19d2edc20ed6275ebd98abd1893e7",
+      "original_transcript": "please drop me beside the yellow bus on the left",
+      "submitted_transcript": "please drop me beside the yellow bus on the left",
+      "duration_s": 3.42,
+      "asr_elapsed_s": 0.973,
+      "asr_model": "vosk-model-small-en-us-0.15",
+      "asr_model_content_sha256": "38655871e595540ec3bd39927a7e4b9f80ab7cf53abc34b3780fb05bd4cf94b6",
+      "recording": "video_054604",
+      "frame": 150,
+      "image_sha256": "2b9128389843a3315820747e47c64c88106580ac5572fe0c7917345d7bcf56aa",
+      "previous_dialogue": [],
+      "raw_model_output": "LANDMARK L1",
+      "model_revision": "10d842936325905934ea24e64325d774693f166e",
+      "model_contract": "landmark_v1",
+      "model_trie": null,
+      "pair_subqueries": [],
+      "first_response": "proposed",
+      "first_error": null,
+      "proposed_point": [
+        627.5,
+        1117.5
+      ],
+      "proposed_box": [
+        72.38862729509731,
+        1025.5256173090866,
+        671.1462373788191,
+        1187.1591795031213
+      ],
+      "anchor_boxes": [
+        [
+          202.15277099609375,
+          881.1410522460938,
+          553.889404296875,
+          1081.7069091796875
+        ]
+      ],
+      "clarification": null,
+      "initial_overlay": {
+        "width": 2560,
+        "height": 1440,
+        "original_width": 2560,
+        "original_height": 1440,
+        "legend": "Model-proposed area",
+        "painted_pixels": 110443
+      },
+      "final_overlay": {
+        "width": 2560,
+        "height": 1440,
+        "original_width": 2560,
+        "original_height": 1440,
+        "legend": "Original frame",
+        "painted_pixels": 0
+      },
+      "final_state": "cancelled",
+      "confirmed_source": null,
+      "stale_after_cancel": {
+        "status": 409,
+        "body": {
+          "error": "Confirm the currently displayed proposal."
+        }
+      },
+      "journal_sha256": "55b4c95e39073d33ca03075f2fd5f727d25a55cf776622b0819b0ff98fee419d",
+      "asr_receipt_sha256": "8445e591527a2ecd3cfcda1f694caa713ee92fea69288a5611747cda36c32122",
+      "initial_screenshot_sha256": "eb9bae6ddb13867d90f40045cdc424b7c1499b112bc81bf008312be99cfaff34",
+      "final_screenshot_sha256": "6ec43c60f5c7a2919af4d35da33f5f9655506946e0d408c6b66c50832202f522"
+    }
+  ],
+  "footage": {
+    "release_entry": "python -m tools.passenger_release start --text-only",
+    "recordings": [
+      {
+        "recording": "video_054604",
+        "frame": 150,
+        "question": "When does the yellow bus on the left first appear?",
+        "response_status": 200,
+        "elapsed_s": 10.368,
+        "cards": 3,
+        "answer_status": "not_requested",
+        "hosted": false,
+        "journal_sha256": "60ae15e06fc4aeb35e829e089b789b4b3264ea413f831e5ab3df37e54ee5aeaf",
+        "thumbnails": 9
+      },
+      {
+        "recording": "video_054907",
+        "frame": 103,
+        "question": "Show the large truck on the right.",
+        "response_status": 200,
+        "elapsed_s": 9.796,
+        "cards": 3,
+        "answer_status": "not_requested",
+        "hosted": false,
+        "journal_sha256": "3721b7fe42c4c9375964febb57b60c0d299f270d8f84425b95127377774963e8",
+        "thumbnails": 9
+      }
+    ],
+    "available_scenes": 10,
+    "returned_to_passenger": true,
+    "raw_browser_sha256": "dbf41e943180c010c87c6c18ef56ed0bff8a3c83dd82ba5117736db5e19c5dce",
+    "responsive_after_fix": {
+      "measurements": [
+        {
+          "screen": "passenger",
+          "width": 320,
+          "document": 320,
+          "frames": 10,
+          "thumbnails": 0
+        },
+        {
+          "screen": "passenger",
+          "width": 390,
+          "document": 390,
+          "frames": 10,
+          "thumbnails": 0
+        },
+        {
+          "screen": "passenger",
+          "width": 768,
+          "document": 768,
+          "frames": 10,
+          "thumbnails": 0
+        },
+        {
+          "screen": "passenger",
+          "width": 1280,
+          "document": 1280,
+          "frames": 10,
+          "thumbnails": 0
+        },
+        {
+          "screen": "footage with local evidence",
+          "width": 320,
+          "document": 320,
+          "frames": 10,
+          "thumbnails": 3
+        },
+        {
+          "screen": "footage with local evidence",
+          "width": 390,
+          "document": 390,
+          "frames": 10,
+          "thumbnails": 3
+        },
+        {
+          "screen": "footage with local evidence",
+          "width": 768,
+          "document": 768,
+          "frames": 10,
+          "thumbnails": 3
+        },
+        {
+          "screen": "footage with local evidence",
+          "width": 1280,
+          "document": 1280,
+          "frames": 10,
+          "thumbnails": 3
+        }
+      ],
+      "error": null
+    },
+    "responsive_sha256": "a108f300a7f8c43519681253214bf1ec6ea32d4db82b5731cb10f68c3a5dab20"
+  },
+  "predeclared_observations": {
+    "real_microphone_route_returned_clarification": true,
+    "same_session_spoken_followup_reached_automatic_proposal_and_scripted_confirmation": true,
+    "spoken_explicit_pair_returned_two_separate_model_grounded_landmarks_and_confirmed": true,
+    "different_recording_bus_cancellation_rejected_its_old_token": true
+  }
+}

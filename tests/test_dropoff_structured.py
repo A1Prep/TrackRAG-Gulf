@@ -219,6 +219,22 @@ def test_explicit_interpretation_builds_once_but_callback_and_parser_are_per_req
     assert second.details["structured_decoding"] == first.details["structured_decoding"]
 
 
+def test_empty_landmarks_use_fresh_regex_and_share_existing_tokenizer_trie(monkeypatch):
+    runtime, generations = fake_runtime()
+    tries, parsers = mock_integrations(monkeypatch)
+    monkeypatch.setattr(structured, "new_empty_landmark_parser", object)
+    interpretation = runtime.generate([], output_contract=structured.INTERPRET_CONTRACT)
+    first = runtime.generate([], output_contract=structured.EMPTY_LANDMARK_CONTRACT)
+    second = runtime.generate([], output_contract=structured.EMPTY_LANDMARK_CONTRACT)
+    assert len(tries) == 1 and len({id(parser) for parser in parsers}) == 3
+    assert all("prefix_allowed_tokens_fn" in arguments for arguments in generations)
+    assert first.details["structured_decoding"] == second.details["structured_decoding"]
+    assert first.details["structured_decoding"]["contract"] == structured.EMPTY_LANDMARK_CONTRACT
+    assert first.details["structured_decoding"]["regex"] == structured.EMPTY_LANDMARK_PATTERN
+    assert "schema_sha256" not in first.details["structured_decoding"]
+    assert "regex" not in interpretation.details["structured_decoding"]
+
+
 def test_grammar_setup_is_included_in_cooperative_deadline(monkeypatch):
     runtime, calls = fake_runtime()
     clock = [0]
@@ -248,7 +264,9 @@ def test_unknown_contract_does_not_generate(monkeypatch):
     assert calls == []
 
 
-def test_application_worker_explicitly_selects_interpret_contract(monkeypatch):
+@pytest.mark.parametrize("contract,expected", [(None, structured.INTERPRET_CONTRACT),
+    (structured.LANDMARK_CONTRACT, None), (structured.EMPTY_LANDMARK_CONTRACT, structured.EMPTY_LANDMARK_CONTRACT)])
+def test_application_worker_selects_the_requested_output_contract(monkeypatch, contract, expected):
     from dataclasses import asdict
     calls = []
     class Runtime:
@@ -259,7 +277,10 @@ def test_application_worker_explicitly_selects_interpret_contract(monkeypatch):
         def close(self): calls.append("closed")
     class Connection:
         def __init__(self):
-            self.commands = iter([{"kind": "generate", "messages": []}, {"kind": "close"}])
+            command = {"kind": "generate", "messages": []}
+            if contract is not None:
+                command["contract"] = contract
+            self.commands = iter([command, {"kind": "close"}])
             self.sent, self.closed = [], False
         def recv(self): return next(self.commands)
         def send(self, response): self.sent.append(response)
@@ -273,7 +294,7 @@ def test_application_worker_explicitly_selects_interpret_contract(monkeypatch):
         quantization="nf4", dtype="bfloat16")
     connection = Connection()
     streamed._streamed_worker(connection, asdict(configuration))
-    assert calls == ["interpret_v1", "closed"] and connection.closed
+    assert calls == [expected, "closed"] and connection.closed
     assert connection.sent[0] == {"kind": "ready"}
-    assert connection.sent[1]["details"]["structured_decoding"]["contract"] == "interpret_v1"
+    assert connection.sent[1]["details"]["structured_decoding"]["contract"] == expected
     assert connection.sent[1]["details"]["native_fault_isolation"] == "spawn_process"

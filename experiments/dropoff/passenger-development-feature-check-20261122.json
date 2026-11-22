@@ -1,0 +1,259 @@
+{
+  "kind": "daytime_development_diagnostics",
+  "pair_and_empty_inventory": {
+    "procedure": "All nine live requests were selected before this retest. True Qwen weights, original frames and Task 1 predictions. The learned ambiguity policy was added after this run.",
+    "requested": 9,
+    "operational_errors": 0,
+    "rows": [
+      {
+        "request_id": "pair-visible",
+        "text": "I mean the open road between the white SUV on our left and the large open-sided truck on our right, just behind them.",
+        "image_sha256": "033fc370408c4bc99a1ec9fbb845b6618a5f53b680a235baba336b8fe8ddba80",
+        "raw_output": "LANDMARK L35",
+        "independent_named_reference_outputs": [
+          "L3",
+          "LANDMARK L35"
+        ],
+        "selected_track_ids": [
+          1,
+          2
+        ],
+        "status": "proposed",
+        "point": [
+          1037.5,
+          1282.5
+        ],
+        "region": [
+          774.1282784201643,
+          1141.1372080272404,
+          1304.2392363226838,
+          1429.8790701585933
+        ],
+        "clarification": null,
+        "row_sha256": "9abc93f8f35e45e2bbc79e2ccfe0f5a841d877c03bd06c44fc4f57ede085068f"
+      },
+      {
+        "request_id": "pair-ambiguous",
+        "text": "Drop me between those two cars.",
+        "image_sha256": "033fc370408c4bc99a1ec9fbb845b6618a5f53b680a235baba336b8fe8ddba80",
+        "raw_output": "ASK which two cars the passenger means",
+        "independent_named_reference_outputs": [],
+        "selected_track_ids": null,
+        "status": "needs_clarification",
+        "point": null,
+        "region": null,
+        "clarification": "which two cars the passenger means",
+        "row_sha256": "da2fae59df9cb85a05aa4690ff43dbb4356c33b4d1587d9afdaa4af7b2fdf2a8"
+      },
+      {
+        "request_id": "pair-absent",
+        "text": "Let me off between the purple coach and the green tanker, please.",
+        "image_sha256": "033fc370408c4bc99a1ec9fbb845b6618a5f53b680a235baba336b8fe8ddba80",
+        "raw_output": "ASK which coach is purple and which tanker is green",
+        "independent_named_reference_outputs": [
+          "ASK which purple coach you mean",
+          "MISSING"
+        ],
+        "selected_track_ids": null,
+        "status": "insufficient_visual_evidence",
+        "point": null,
+        "region": null,
+        "clarification": null,
+        "row_sha256": "d050f708440fa05f7bb077ee55877dda755a8cf0a9a59b66317701b1e0157380"
+      },
+      {
+        "request_id": "passenger-a01",
+        "text": "Let me out on the brick strip on the right, alongside the construction fence.",
+        "image_sha256": "8554bd37dc647488f6a496b2845f22a7a6bf21b2478d732b1340d99175a7e518",
+        "raw_output": "OBJECT 728 643 987 705",
+        "independent_named_reference_outputs": [],
+        "selected_track_ids": [],
+        "status": "needs_clarification",
+        "point": null,
+        "region": null,
+        "clarification": "I can identify the landmark, but I can't place a road area beside it. Can you mark the intended patch?",
+        "row_sha256": "5760510162928e10efa6cab47a9d60b262b1d4c4247eb2d04f5d8382561b38da"
+      },
+      {
+        "request_id": "passenger-a03",
+        "text": "Can you let me out here?",
+        "image_sha256": "8554bd37dc647488f6a496b2845f22a7a6bf21b2478d732b1340d99175a7e518",
+        "raw_output": "ASK where is the intended stop?",
+        "independent_named_reference_outputs": [],
+        "selected_track_ids": null,
+        "status": "needs_clarification",
+        "point": null,
+        "region": null,
+        "clarification": "Which visible landmark is beside your drop-off, or can you mark the area on the photo?",
+        "row_sha256": "797b1ade9424e446ffa818dca584c07cd7df462ee07346617cb002120594709f"
+      },
+      {
+        "request_id": "passenger-a05",
+        "text": "I'd like to get out beside the red bus shelter on this bend.",
+        "image_sha256": "8554bd37dc647488f6a496b2845f22a7a6bf21b2478d732b1340d99175a7e518",
+        "raw_output": "ASK Is the red bus shelter on the right side of the road?",
+        "independent_named_reference_outputs": [],
+        "selected_track_ids": null,
+        "status": "needs_clarification",
+        "point": null,
+        "region": null,
+        "clarification": "Is the red bus shelter on the right side of the road?",
+        "row_sha256": "fa265838749ced6f5b85f79fde667914a30f69de77ae737a4c3e2e9227b239ad"
+      },
+      {
+        "request_id": "passenger-a10",
+        "text": "Let me out at the foot of those white metal panels on the right.",
+        "image_sha256": "4ffb09376f0cb211e74d46043ef47fa7b498063e308c8e3653bdc1d7381bcc08",
+        "raw_output": "OBJECT 695 635 987 789",
+        "independent_named_reference_outputs": [],
+        "selected_track_ids": [],
+        "status": "proposed",
+        "point": [
+          1762.5,
+          1102.5
+        ],
+        "region": [
+          1380.0717169029685,
+          1026.1858851605225,
+          2463.74913956576,
+          1178.9208550256346
+        ],
+        "clarification": null,
+        "row_sha256": "0d65992bef28ff829b38810e719c579c85a9a0e14759da8ec94b90c239639885"
+      },
+      {
+        "request_id": "passenger-b01",
+        "text": "I'd like the patch of road just behind the white SUV on the left.",
+        "image_sha256": "033fc370408c4bc99a1ec9fbb845b6618a5f53b680a235baba336b8fe8ddba80",
+        "raw_output": "LANDMARK L3",
+        "independent_named_reference_outputs": [],
+        "selected_track_ids": [
+          1
+        ],
+        "status": "proposed",
+        "point": [
+          587.5,
+          1197.5
+        ],
+        "region": [
+          284.3412299736301,
+          1109.881354162116,
+          890.2026428574616,
+          1286.6046706422635
+        ],
+        "clarification": null,
+        "row_sha256": "88e578e301c97123df1fd0512ba86d04e73e53a42e11c1fd336ecc95e8cf8559"
+      },
+      {
+        "request_id": "passenger-b03",
+        "text": "Behind that white vehicle, please.",
+        "image_sha256": "033fc370408c4bc99a1ec9fbb845b6618a5f53b680a235baba336b8fe8ddba80",
+        "raw_output": "L35",
+        "independent_named_reference_outputs": [],
+        "selected_track_ids": [
+          2
+        ],
+        "status": "proposed",
+        "point": [
+          1847.5,
+          1282.5
+        ],
+        "region": [
+          1627.804907564334,
+          1133.765841379612,
+          2070.1645894421163,
+          1424.8905543850556
+        ],
+        "clarification": null,
+        "row_sha256": "7340304b7f533be0dbca2df55e07621ec4ed60543555b4e74931c6a178e37322"
+      }
+    ],
+    "pair_reference": "Predeclared AI visible-pair corridor, missing and ambiguous cases.",
+    "pair_point_inside_authored_corridor": true,
+    "pure_model_road_support_only_for_point": true
+  },
+  "matched_development_replay": {
+    "procedure": "Replay the 19 genuine original holistic native replies at 8 resident layers and run the final learned geometry and referent policy on the original pixels. The one explicit pair has its earlier holistic answer in this replay; the live paired path is measured separately. Labels are AI-authored. This is a development-informed result.",
+    "metrics": {
+      "kind": "offline_model_only_versus_ai_authored_rectangles",
+      "partition": "development",
+      "input_file_sha256": "0160bf67789bc6d7f3a362f2a6d607b1028b1b81ca0490863a5971ede224846f",
+      "outputs_sha256": "1c244bbd1b6adb875a68809306c23682c63ba447f2493fc3af33e6ed8b79b770",
+      "freeze_file_sha256": "def382f8f57a8a7e311403435435cd32ddcce6e539ed3c4310f8abb88eacc86f",
+      "requested": 19,
+      "expected_status_counts": {
+        "proposed": 11,
+        "needs_clarification": 4,
+        "insufficient_visual_evidence": 4
+      },
+      "status_matches": 17,
+      "confusion": {
+        "insufficient_visual_evidence": {
+          "insufficient_visual_evidence": 2,
+          "needs_clarification": 2
+        },
+        "needs_clarification": {
+          "needs_clarification": 4
+        },
+        "proposed": {
+          "proposed": 11
+        }
+      },
+      "failures": {},
+      "unexpected_output_ids": [],
+      "proposal_count": 11,
+      "proposals_on_nonproposal_cases": 0,
+      "clear_reference_count": 11,
+      "clear_reference_and_model_proposal_count": 11,
+      "point_in_authored_box_count": 3,
+      "missed_authored_rectangle_on_paired_proposals": 8,
+      "proposal_on_wrong_status_or_outside_authored_rectangle": 8,
+      "normalized_tolerance_hits_all_clear": {
+        "0.025": 4,
+        "0.05": 10
+      },
+      "mean_box_iou_all_clear_missing_as_zero": 0.10035119824608163,
+      "median_normalized_point_error_paired_proposals_only": 0.029829549468829614,
+      "same_frame_contrasts": [
+        {
+          "requests": [
+            "passenger-b01",
+            "passenger-b02"
+          ],
+          "both_proposed": true,
+          "each_closer_to_own_provisional_point": true,
+          "both_in_authored_rectangle": false
+        },
+        {
+          "requests": [
+            "passenger-b06",
+            "passenger-b07"
+          ],
+          "both_proposed": true,
+          "each_closer_to_own_provisional_point": true,
+          "both_in_authored_rectangle": false
+        },
+        {
+          "requests": [
+            "passenger-b11",
+            "passenger-b12"
+          ],
+          "both_proposed": true,
+          "each_closer_to_own_provisional_point": true,
+          "both_in_authored_rectangle": false
+        },
+        {
+          "requests": [
+            "passenger-b16",
+            "passenger-b17"
+          ],
+          "both_proposed": true,
+          "each_closer_to_own_provisional_point": true,
+          "both_in_authored_rectangle": false
+        }
+      ],
+      "human_reference_reviews": 0,
+      "final_evaluation": false
+    }
+  }
+}

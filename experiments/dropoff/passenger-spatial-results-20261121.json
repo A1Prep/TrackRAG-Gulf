@@ -1,0 +1,124 @@
+{
+  "kind": "experimental_spatial_grounding_controls",
+  "source_split": "500 public train commands on 295 scenes; 125 development commands on 65 separated scenes",
+  "source_train_sha256": "79dfd904b155b1c537170aaba443254da37445c2e8a2f4380baaddd8520bc42b",
+  "source_dev_sha256": "533cbcf9a2059b2890a606e896d9a216d5fc663606693c7dc8121b9ddf222556",
+  "geometry_supervision": "native public destination region only",
+  "optimizer_steps_per_condition": 640,
+  "parameter_count_per_condition": 88473,
+  "features_verified": 609,
+  "cached_features_recomputed_byte_equal": true,
+  "post_fit_feature_manifest_sha256": "ef8dcd4e22da3137f96c6682db7f85ff81a281a5c901a55ef3a6d3710735b081",
+  "visual_model": {
+    "id": "nvidia/segformer-b0-finetuned-cityscapes-1024-1024",
+    "revision": "21b3847fae21ddee674abd31129307b6a1235bd9",
+    "weights_sha256": "027ed78d8ff9c535df5a66361c92b9673cca3cb923cbeb8c5802385b6b93194c"
+  },
+  "comparison": {
+    "instruction_conditioned": {
+      "cases": 125,
+      "proposals": 125,
+      "mask_hits": 28,
+      "mean_box_iou_all_cases": 0.10480558629619374,
+      "same_image_cases": 13,
+      "same_image_groups": 6,
+      "same_image_hits": 4,
+      "all_in_group_hits": 1,
+      "checkpoint_sha256": "7300ee2861e4d7a5e140b7b86c983699f93a10086817e7df399e2bca2b53d74e",
+      "predictions_sha256": "56f9b47504611d46945eeaf934bca5f837f176190430992fbf965f18a3d74678",
+      "training_seconds": 52.4724710000155
+    },
+    "language_blind": {
+      "cases": 125,
+      "proposals": 125,
+      "mask_hits": 20,
+      "mean_box_iou_all_cases": 0.07858476917136469,
+      "same_image_cases": 13,
+      "same_image_groups": 6,
+      "same_image_hits": 2,
+      "all_in_group_hits": 1,
+      "checkpoint_sha256": "fda5f770317b146027a10a5c9beed6c7ebe0dbe8835826d9c59e90e9d7b44fd3",
+      "predictions_sha256": "54f0ed52a1ada00557a738686162875dc86818eaecd337f59dc0ed39804398b4",
+      "training_seconds": 33.802862100012135
+    }
+  },
+  "frozen_instruction_shuffle": {
+    "public_development_cases": 125,
+    "original": {
+      "cases": 125,
+      "proposals": 125,
+      "mask_hits": 28,
+      "mean_box_iou_all_cases": 0.10480558629619374,
+      "same_image_cases": 13,
+      "same_image_groups": 6,
+      "same_image_hits": 4,
+      "all_in_group_hits": 1
+    },
+    "separately_trained_blind": {
+      "cases": 125,
+      "proposals": 125,
+      "mask_hits": 20,
+      "mean_box_iou_all_cases": 0.07858476917136469,
+      "same_image_cases": 13,
+      "same_image_groups": 6,
+      "same_image_hits": 2,
+      "all_in_group_hits": 1
+    },
+    "cross_scene_shuffled_instruction": {
+      "cases": 125,
+      "proposals": 125,
+      "mask_hits": 11,
+      "mean_box_iou_all_cases": 0.050301505162608014,
+      "same_image_cases": 13,
+      "same_image_groups": 6,
+      "same_image_hits": 0,
+      "all_in_group_hits": 0
+    },
+    "original_vs_blind": {
+      "original_only_hits": 20,
+      "comparator_only_hits": 12
+    },
+    "original_vs_shuffled": {
+      "original_only_hits": 21,
+      "comparator_only_hits": 4
+    },
+    "same_scene_command_reuse": false,
+    "same_instruction_string_reuse": false,
+    "weights_sha256": "7300ee2861e4d7a5e140b7b86c983699f93a10086817e7df399e2bca2b53d74e",
+    "shuffled_predictions_sha256": "1ec86718a35520d0100fe6ef4546673f4e9a492b3d44a2a53fae169bd16c4cbf",
+    "scope": "frozen model, previously used public development scenes; no final holdout"
+  },
+  "second_implementation_native_scoring": {
+    "conditioned": {
+      "case_count": 125,
+      "point_hits_independently_recomputed": 28,
+      "predictions_sha256": "56f9b47504611d46945eeaf934bca5f837f176190430992fbf965f18a3d74678"
+    },
+    "blind": {
+      "case_count": 125,
+      "point_hits_independently_recomputed": 20,
+      "predictions_sha256": "54f0ed52a1ada00557a738686162875dc86818eaecd337f59dc0ed39804398b4"
+    },
+    "shuffled": {
+      "case_count": 125,
+      "point_hits_independently_recomputed": 11,
+      "predictions_sha256": "1ec86718a35520d0100fe6ef4546673f4e9a492b3d44a2a53fae169bd16c4cbf"
+    }
+  },
+  "two_recording_emt_geometry_only_reload": {
+    "cases": 4,
+    "source_file_sha256": "2d7c676270004309dff4b5e253148cda1aec92cd34191f7b6a3226889b2b56dc",
+    "outcomes_sha256": "bd63e170a2c0082a7f73804cfb182d163e7aa3125fe6cce647966f960709eb03",
+    "counts": {
+      "geometry_only": 4,
+      "no_predicted_road": 0,
+      "operational_error": 0
+    },
+    "semantic_status_tested": false,
+    "audio_transcribed_here": false,
+    "scope": "current-image geometry without a dialogue or authorization decision"
+  },
+  "trained_manifest_sha256": "3f186895b9c80208a00d9332053846fc396c1986cc26af2d9f6e8d31a36e09be",
+  "separate_speech_or_status_testing": false,
+  "held_out_emt_quality_estimate": false
+}

@@ -1,0 +1,24 @@
+{
+  "reviewer": "Independent AI visual reviewer / passenger_voice",
+  "reviewed_utc": "2026-11-21T18:15:29.815876+00:00",
+  "human_review": false,
+  "inputs": "Original eight unmarked EMT images, original-pixel ruler views, blind passenger instructions and prior dialogue only. No reference geometry or model outputs read. Three instructions had previously been read solely for speech synthesis.",
+  "blind_packet_sha256": "431ac554e16d5bdb798abf2d275d872f3978001e6c29962d0e3f380664b8531c",
+  "outputs_sha256": "10e86e996c433ee7f2eeba80961cfcf50595efee0d5b477f651550de9988637e",
+  "sample_units": "36 scripted requests on eight correlated frames from two recordings; rows and adjacent frames are dependent",
+  "status_counts": {
+    "proposed": 21,
+    "needs_clarification": 7,
+    "insufficient_visual_evidence": 8
+  },
+  "originals": {
+    "video_054604/00001.jpg": "8554bd37dc647488f6a496b2845f22a7a6bf21b2478d732b1340d99175a7e518",
+    "video_054604/00042.jpg": "f32976e9f019f3009c04608a4dd7b3446ffd46d7bc28a04c7d05fab5994b9e94",
+    "video_054604/00083.jpg": "4ffb09376f0cb211e74d46043ef47fa7b498063e308c8e3653bdc1d7381bcc08",
+    "video_054604/00103.jpg": "bae9a47cad0179b05aa1d8c36a3162599243051f10a360dc93b8e90cf2627aba",
+    "video_054907/00001.jpg": "033fc370408c4bc99a1ec9fbb845b6618a5f53b680a235baba336b8fe8ddba80",
+    "video_054907/00042.jpg": "175602c7dc418c0ababa6cea56daec7f5e2779452370a9ace398cdc3780041a6",
+    "video_054907/00059.jpg": "2a735d35145f1998ead5ddb78bf960aebbe8b5d997b278e36f888b8e742e3cfd",
+    "video_054907/00103.jpg": "0448ff2ffa6959029f2af9d6f9fefc72af976679d400fe796e4e7064ce425213"
+  }
+}

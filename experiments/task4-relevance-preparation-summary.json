@@ -1,0 +1,86 @@
+{
+  "schema_version": "trackrag.relevance-preparation-check.v1",
+  "recorded_at_utc": "2026-11-18T08:47:20.171204+00:00",
+  "base_commit": "1885051d8187321946978b1e4dae8c3ed93f828a",
+  "python_version": "3.14.7",
+  "scope": "Pilot relevance-review preparation on two existing development-use recordings. No actual human relevance labels, model inference or training.",
+  "source_files_sha256": {
+    "trackrag/retrieval_dataset.py": "f44c6d1b0f3bfbac472619af3176315f6a0afa567d028d4f6297a353612bfc64",
+    "trackrag/retrieval_review_html.py": "add451bc112196a508c12a9e2d08b7f6706cb6ce18b55df51471ab7304f97878",
+    "tests/test_retrieval_dataset.py": "bc96eead1ef9fd1a1d08a9749bf763f7c5cbf968050be414b2f2c61a64f30899"
+  },
+  "software_checks": {
+    "command": "python -B -m pytest tests -q -p no:cacheprovider",
+    "passed_tests": 334,
+    "passed_subtests": 343
+  },
+  "prepare_command": "python -B -m trackrag.retrieval_dataset prepare --candidates runs/task4-candidates-verification-01/temporal-09-candidates.json runs/task4-candidates-verification-01/second-07-candidates.json --split-manifest splits/task2_manifest.json --out runs/task4-relevance-review-01",
+  "local_review": "runs/task4-relevance-review-01/review.html",
+  "pack_sha256": "ecd043cbab58802838481b6b06f5f07a790c3b4566f39b9928be9652deadc56d",
+  "candidate_count": 230,
+  "question_source_cases": 2,
+  "copied_unique_images": 98,
+  "split_candidate_counts": {
+    "train": 61,
+    "dev": 169
+  },
+  "cases": [
+    {
+      "case_id": "ffbff53f525de86a0436ac06a0de04fbcaef7b4ee2b7cb9d0fddf5273ede0dee",
+      "question_id": "temporal-09",
+      "recording_id": "video_054604",
+      "source": "annotated",
+      "split": "train",
+      "metadata_sha256": "c9cdf90459378fbc0670f9789f9e6316ef9ae158a3cb933e6a942c7a46ace028",
+      "batch_file": "batches/ffbff53f525de86a0436ac06a0de04fbcaef7b4ee2b7cb9d0fddf5273ede0dee.json",
+      "batch_sha256": "63a863a4f2226a6f67eb0843a837c8d2ee4a25ff2b5e8b03699275d8b56c1722",
+      "candidate_count": 61,
+      "judgment_counts": {
+        "pending": 61
+      }
+    },
+    {
+      "case_id": "4255100644bbc1f52c8198711d0534da2a33f157be316a747154bd922e5be06b",
+      "question_id": "second-07",
+      "recording_id": "video_054907",
+      "source": "annotated",
+      "split": "dev",
+      "metadata_sha256": "41e4b5344b84068840087c2316b1e3f3ea4d1f3551042484f759b6f45947a00c",
+      "batch_file": "batches/4255100644bbc1f52c8198711d0534da2a33f157be316a747154bd922e5be06b.json",
+      "batch_sha256": "b8272868a8c308ee6d5960dcfd916130bde9818313f59fe3d8d3f9be0ba8d1c2",
+      "candidate_count": 169,
+      "judgment_counts": {
+        "pending": 169
+      }
+    }
+  ],
+  "human_review_status": "pending",
+  "reviewed_examples": 0,
+  "exported_examples": 0,
+  "pending_export_check": {
+    "split": "train",
+    "observed_cli_exit_code": 2,
+    "output_directory_created": false
+  },
+  "browser_checks": {
+    "worksheet_loaded": true,
+    "displayed_pending_candidates": 230,
+    "first_candidate_images_loaded_at_original_dimensions": [
+      2560,
+      1440
+    ],
+    "download_payload_checked_without_saving": {
+      "rows": 230,
+      "all_pending": true,
+      "all_unreviewed": true
+    },
+    "real_human_judgments_entered": false
+  },
+  "limitations": [
+    "This is a pilot review workflow, not a completed training dataset; a human must inspect and label evidence.",
+    "Existing AI-assisted reference reviews were not imported or relabeled as human judgments.",
+    "No test-partition recording was prepared. A manifest alone does not establish untouched final evaluation data.",
+    "Partial human review can be exported with coverage counts; enough diverse positive/negative examples must still be collected.",
+    "Snapshot hashes detect content changes, not who performed a review or whether its factual judgment is correct."
+  ]
+}

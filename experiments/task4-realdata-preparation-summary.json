@@ -1,0 +1,149 @@
+{
+    "schema_version":  "trackrag.realdata-preparation.v1",
+    "status":  "prepared_unreviewed",
+    "source":  "annotated",
+    "recordings":  [
+                       "video_054604",
+                       "video_054907"
+                   ],
+    "questions":  6,
+    "question_files_by_recording":  {
+                                        "video_054604":  "questions-0001.jsonl",
+                                        "video_054907":  "questions-0002.jsonl"
+                                    },
+    "retrieval_config":  {
+                             "window_frames":  10,
+                             "stride_frames":  10,
+                             "max_gap_frames":  5,
+                             "class_weight":  2.0,
+                             "location_weight":  1.0,
+                             "movement_weight":  1.0
+                         },
+    "cases":  [
+                  {
+                      "question":  {
+                                       "question_id":  "task4-real-train-01",
+                                       "recording_id":  "video_054604",
+                                       "query_frame":  1,
+                                       "question":  "Which bus is observed in frame 1?"
+                                   },
+                      "split":  "train",
+                      "candidate_count":  15,
+                      "candidate_kinds":  {
+                                              "track_history":  14,
+                                              "scene":  1
+                                          },
+                      "metadata_sha256":  "2870c65b02fa3f0fce3c9d16609ae3b20a2f97cd2fe3c496332f66dfbfde0680"
+                  },
+                  {
+                      "question":  {
+                                       "question_id":  "task4-real-train-02",
+                                       "recording_id":  "video_054604",
+                                       "query_frame":  13,
+                                       "question":  "Which motorbike moves leftward between frames 1 and 13?"
+                                   },
+                      "split":  "train",
+                      "candidate_count":  43,
+                      "candidate_kinds":  {
+                                              "track_history":  23,
+                                              "track_window":  18,
+                                              "scene":  2
+                                          },
+                      "metadata_sha256":  "d4990b88344aee4274947e813a50498e3d454d7305dd3131c198d71a2558591f"
+                  },
+                  {
+                      "question":  {
+                                       "question_id":  "task4-real-train-03",
+                                       "recording_id":  "video_054604",
+                                       "query_frame":  30,
+                                       "question":  "Which car is observed in frame 30?"
+                                   },
+                      "split":  "train",
+                      "candidate_count":  82,
+                      "candidate_kinds":  {
+                                              "track_history":  31,
+                                              "track_window":  49,
+                                              "scene":  2
+                                          },
+                      "metadata_sha256":  "b1d39f2dad33a989ebdfdf18c8ddfc06d9d617288d59d0924a0b9c71683e28db"
+                  },
+                  {
+                      "question":  {
+                                       "question_id":  "task4-real-dev-01",
+                                       "recording_id":  "video_054907",
+                                       "query_frame":  1,
+                                       "question":  "Which medium vehicle is observed in frame 1?"
+                                   },
+                      "split":  "dev",
+                      "candidate_count":  20,
+                      "candidate_kinds":  {
+                                              "track_history":  19,
+                                              "scene":  1
+                                          },
+                      "metadata_sha256":  "2b580b5d8fbb4797d987779719b2319a21e77a23a34e9d4333852a84621312b8"
+                  },
+                  {
+                      "question":  {
+                                       "question_id":  "task4-real-dev-02",
+                                       "recording_id":  "video_054907",
+                                       "query_frame":  20,
+                                       "question":  "Which large vehicle moves rightward between frames 1 and 20?"
+                                   },
+                      "split":  "dev",
+                      "candidate_count":  65,
+                      "candidate_kinds":  {
+                                              "track_history":  27,
+                                              "track_window":  36,
+                                              "scene":  2
+                                          },
+                      "metadata_sha256":  "1e7f8bb295f1609cf4b2e3fb9a077ff70ecf265a47cb65abbd278e4f3cb66535"
+                  },
+                  {
+                      "question":  {
+                                       "question_id":  "task4-real-dev-03",
+                                       "recording_id":  "video_054907",
+                                       "query_frame":  30,
+                                       "question":  "Which car is observed in frame 30?"
+                                   },
+                      "split":  "dev",
+                      "candidate_count":  88,
+                      "candidate_kinds":  {
+                                              "track_history":  27,
+                                              "track_window":  59,
+                                              "scene":  2
+                                          },
+                      "metadata_sha256":  "5fa70dda34f0a351768522d744e8994ebd8a54b2d0b07f5e356e183d19fc0b28"
+                  }
+              ],
+    "candidate_count":  313,
+    "pending_labels":  313,
+    "human_labels":  0,
+    "assets":  59,
+    "pack_sha256":  "34563d6fa632c92e372947d5abea0341c2c186ad7290f54b201b7c076486cbb4",
+    "worksheet":  "review/review.html",
+    "questions_file_sha256":  "0d268ae57e56973d7f26b20b60b290f2b238c1ac03ad9be6fe139da9f6e41f78",
+    "source_files_sha256":  {
+                                "retrieval.py":  "04cd554fe80b1e57901a37a5e868401dcd00bab6febaa58b15570c3d85e169c2",
+                                "retrieval_candidates.py":  "4b60add5e7a03b122aeeef755253c786945bb26ee94f44217e6ebafa157c9566",
+                                "retrieval_dataset.py":  "f44c6d1b0f3bfbac472619af3176315f6a0afa567d028d4f6297a353612bfc64",
+                                "retrieval_realdata.py":  "cb9f970d3b626fcd9f98a00df7ed3a2033d65d09489b4f48647ffa177ac6dce7"
+                            },
+    "training_completed":  false,
+    "accuracy_metrics":  null,
+    "limitations":  [
+                        "Questions and relevance remain subject to human review.",
+                        "All labels are pending; preparation creates no training labels.",
+                        "No model scoring, real-data training, final test evaluation or answer generation was performed.",
+                        "Use the saved pool policy for subsequent comparisons; do not equate this with the original 30-frame baseline pool."
+                    ],
+    "canonical_worksheet":  "runs/task4-realdata-review-01/review/review.html",
+    "verification_directory":  "runs/task4-realdata-verification-02",
+    "regenerated_pack_exact_match":  true,
+    "software_checks":  {
+                            "full_suite":  "394 tests and 401 subtests passed",
+                            "commands_help":  "passed",
+                            "browser_original_image":  "2560x1440 loaded",
+                            "regenerated_pack":  "exact hash match"
+                        },
+    "question_provenance":  "Task 4 development queries drafted by the agent; human review pending"
+}

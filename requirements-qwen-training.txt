@@ -1,0 +1,4 @@
+# Optional LoRA training; model weights and checkpoints stay outside Git.
+-r requirements-qwen.txt
+peft==0.18.1
+accelerate==1.12.0

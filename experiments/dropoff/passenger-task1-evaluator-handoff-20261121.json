@@ -1,0 +1,303 @@
+{
+  "purpose": "Input/receipt/mapping compatibility on a previously completed, non-final diagnostic run; no supplied final reference, no quality or assessment score.",
+  "upstream_commit": "709e969260866a5476d8c199609c59de580589f7",
+  "decoder_source_sha256": "e5399b4f7a2ff0e4bb63529b0664fa45d4cfee32510f019a1b7915d74940b1b3",
+  "converter_source_sha256": "66f513bb79327de1363f22257fca15e1b07443d53ce2539f82b6385c5ae1c02c",
+  "scene_source_sha256": "a3c73299fdfa7474a841d4656d6fb0eba82601299541bc2641604f93ce199d00",
+  "run_sha256": "15b4236cca116601814fcbbfd5d0bd66da1f0e98f638f37fdb31c63def598069",
+  "run_files": {
+    "resolved-requests.jsonl": "a5b1d676a62125209d6caad44417f213c2eb201b1e848542543add027ca45c5e",
+    "model-outcomes.jsonl": "015719db1811a66dc96dbcd4e856bd0ea337ef47f610d1dab74371a171554a4e",
+    "receipts.jsonl": "b0fcd372214f86eef67d7a1b2d2524697f35376c80b201951dbc58b1fccc6cf1"
+  },
+  "input_snapshot_sha256": "39638be35ba2ec7bc45f8ece02c711573437c29d63a2e0880c6b1a9a8efe221e",
+  "all_rows": 5,
+  "official_methods": [
+    "evaluation.grounding_inputs.find_scene",
+    "evaluation.grounding.from_task5_outcome"
+  ],
+  "official_converter_full_run": false,
+  "official_scoring_run": false,
+  "human_references_supplied": 0,
+  "rows": [
+    {
+      "request_id": "local-8b-video_054604-150-1",
+      "recording_id": "video_054604",
+      "frame_id": 150,
+      "image_sha256": "2b9128389843a3315820747e47c64c88106580ac5572fe0c7917345d7bcf56aa",
+      "image_bytes_verified": true,
+      "tracks_compared": 6,
+      "source_scene_sha256": null,
+      "upstream_find_scene_diagnostics": [
+        "predicted observations differ (another prediction run or profile)"
+      ],
+      "native_outcome": {
+        "outcome": "ok",
+        "error_code": null
+      },
+      "four_field_mapping": {
+        "clarification": null,
+        "box": [
+          158.72,
+          943.2,
+          552.96,
+          1087.2
+        ],
+        "point": [
+          273.92,
+          1000.8
+        ],
+        "status": "proposed"
+      },
+      "invalid_output": null,
+      "raw_text_sha256": "160f145f8308a6b4026345f266a3b82317daf5b56ce56867c1c071fc6ec196d5",
+      "instruction_sha256": "42eb4207400d61fe4df8f3eff37eee746067789570deb104650496c2f8b79d37",
+      "condition": "fine_tuned",
+      "backend": "transformers_local_streamed",
+      "adapter_manifest_sha256": "92e32dc900d919b7e137c70692c51b57921edbda77ff5b772e6dfdc221a12983",
+      "actual_development_source_scene_sha256": "a80d4e161ee2f4636a1995a1a996bcad465db9832f88582d3613db96e94729e6",
+      "actual_development_source_problems": []
+    },
+    {
+      "request_id": "local-8b-video_054604-150-2",
+      "recording_id": "video_054604",
+      "frame_id": 150,
+      "image_sha256": "2b9128389843a3315820747e47c64c88106580ac5572fe0c7917345d7bcf56aa",
+      "image_bytes_verified": true,
+      "tracks_compared": 6,
+      "source_scene_sha256": null,
+      "upstream_find_scene_diagnostics": [
+        "predicted observations differ (another prediction run or profile)"
+      ],
+      "native_outcome": {
+        "outcome": "ok",
+        "error_code": null
+      },
+      "four_field_mapping": {
+        "clarification": "What is the intended destination location within the current scene?",
+        "box": null,
+        "point": null,
+        "status": "needs_clarification"
+      },
+      "invalid_output": null,
+      "raw_text_sha256": "dfb3c9a4399decf69f21a33cbb7f85232869d4e4fce78bb3a95a17db1a2bde1c",
+      "instruction_sha256": "18626ab9720aaef99078988461cb9e71065ed10d730ed4b511e39412220b1713",
+      "condition": "fine_tuned",
+      "backend": "transformers_local_streamed",
+      "adapter_manifest_sha256": "92e32dc900d919b7e137c70692c51b57921edbda77ff5b772e6dfdc221a12983",
+      "actual_development_source_scene_sha256": "a80d4e161ee2f4636a1995a1a996bcad465db9832f88582d3613db96e94729e6",
+      "actual_development_source_problems": []
+    },
+    {
+      "request_id": "local-8b-video_054907-75-3",
+      "recording_id": "video_054907",
+      "frame_id": 75,
+      "image_sha256": "ea0663e1f8cf26045a1f58b45371c2db9abedf9d2362e52599130ab656d1415b",
+      "image_bytes_verified": true,
+      "tracks_compared": 12,
+      "source_scene_sha256": null,
+      "upstream_find_scene_diagnostics": [
+        "predicted observations differ (another prediction run or profile)"
+      ],
+      "native_outcome": {
+        "outcome": "ok",
+        "error_code": null
+      },
+      "four_field_mapping": {
+        "clarification": null,
+        "box": [
+          1374.72,
+          1031.04,
+          1587.2,
+          1140.48
+        ],
+        "point": [
+          1446.4,
+          1105.92
+        ],
+        "status": "proposed"
+      },
+      "invalid_output": null,
+      "raw_text_sha256": "1ce4248e1a863507b8cafbcc56e915856b79b6bf5d9b225142195be0882dec96",
+      "instruction_sha256": "d44301700f04ea4e41f1d5ce3ce0b67866e9a5ff91ab1a624a33e4995e03ab80",
+      "condition": "fine_tuned",
+      "backend": "transformers_local_streamed",
+      "adapter_manifest_sha256": "92e32dc900d919b7e137c70692c51b57921edbda77ff5b772e6dfdc221a12983",
+      "actual_development_source_scene_sha256": "87b5467c79bb5c0175866054b98b86c33cc1cf1898aba5bcf3e941dcb4840db1",
+      "actual_development_source_problems": []
+    },
+    {
+      "request_id": "local-8b-video_054907-75-4",
+      "recording_id": "video_054907",
+      "frame_id": 75,
+      "image_sha256": "ea0663e1f8cf26045a1f58b45371c2db9abedf9d2362e52599130ab656d1415b",
+      "image_bytes_verified": true,
+      "tracks_compared": 12,
+      "source_scene_sha256": null,
+      "upstream_find_scene_diagnostics": [
+        "predicted observations differ (another prediction run or profile)"
+      ],
+      "native_outcome": {
+        "outcome": "ok",
+        "error_code": null
+      },
+      "four_field_mapping": {
+        "clarification": null,
+        "box": [
+          1208.37717248,
+          1033.02392544,
+          1311.7033702400001,
+          1098.79626528
+        ],
+        "point": [
+          1237.61877504,
+          1050.99914592
+        ],
+        "status": "proposed"
+      },
+      "invalid_output": null,
+      "raw_text_sha256": "4e3d5c712314fc41408f2ebbbafc983549c60a7aa9109e3618baee69e7c92fbb",
+      "instruction_sha256": "67bcaecedc0ff7e6ad45ca638b7d6fe7117d71125ac49d9bce34238baeb0e67b",
+      "condition": "fine_tuned",
+      "backend": "transformers_local_streamed",
+      "adapter_manifest_sha256": "92e32dc900d919b7e137c70692c51b57921edbda77ff5b772e6dfdc221a12983",
+      "actual_development_source_scene_sha256": "87b5467c79bb5c0175866054b98b86c33cc1cf1898aba5bcf3e941dcb4840db1",
+      "actual_development_source_problems": []
+    },
+    {
+      "request_id": "public-gray-sedan-schema-regression",
+      "recording_id": "regseg-train-1022",
+      "frame_id": 0,
+      "image_sha256": "697fbedc17a36bb2bfd0ed33b5ac9dca890cae3f759be6274f222a969c761a50",
+      "image_bytes_verified": true,
+      "tracks_compared": 0,
+      "source_scene_sha256": null,
+      "upstream_find_scene_diagnostics": [
+        "no scene file for regseg-train-1022 frame 0"
+      ],
+      "native_outcome": {
+        "outcome": "ok",
+        "error_code": null
+      },
+      "four_field_mapping": {
+        "clarification": "Which gray sedan in the parking lot on the left is intended as the parking reference?",
+        "box": null,
+        "point": null,
+        "status": "needs_clarification"
+      },
+      "invalid_output": null,
+      "raw_text_sha256": "f30a85ede0794dc8b0b2a3bce203a6bc1179ceac667a1ba40fe5be3cad6770b9",
+      "instruction_sha256": "76694482b7f5cb88017253708f78095534324835b4e7d88011c65f62977a35d6",
+      "condition": "fine_tuned",
+      "backend": "transformers_local_streamed",
+      "adapter_manifest_sha256": "92e32dc900d919b7e137c70692c51b57921edbda77ff5b772e6dfdc221a12983",
+      "actual_development_source_scene_sha256": null,
+      "actual_development_source_problems": [
+        "no scene file for regseg-train-1022 frame 0"
+      ]
+    }
+  ],
+  "matched_source_summary": {
+    "historic_native": {
+      "request_file_sha256": "a5b1d676a62125209d6caad44417f213c2eb201b1e848542543add027ca45c5e",
+      "rows": 5,
+      "shared_zip_matches": 0,
+      "actual_fresh_run_matches": 4
+    },
+    "frozen_fresh_run_daytime": {
+      "request_file_sha256": "0160bf67789bc6d7f3a362f2a6d607b1028b1b81ca0490863a5971ede224846f",
+      "rows": 19,
+      "shared_zip_matches": 0,
+      "actual_fresh_run_matches": 19
+    },
+    "canonical_shared_zip_daytime": {
+      "request_file_sha256": "eaf05ad068fdd87ae9ad369f37ac4b67378ab84c03ccdc33f0d13dab27843e39",
+      "rows": 19,
+      "shared_zip_matches": 19,
+      "actual_fresh_run_matches": 0
+    }
+  },
+  "canonical_shared_matches": 0,
+  "same_source_matches": 4,
+  "metric_scope": "No native or composite quality score. The public image was unmatchable to an EMT scene and remains in this run.",
+  "source_manifests": {
+    "emt_frame_sha256_manifest.json": "de04ed9ec3354c0d832629df8837680f59465a9e633525957c6b761b22357923",
+    "shared_prediction_runs.json": "cf17ca8430610e58dae53cc8f7f2f133fac41f7952ff518374bdc972360395f8"
+  },
+  "scene_evidence": {
+    "canonical_shared": "Per-image and canonical shared-run manifests verified; no stubs",
+    "historical_development": "Per-image manifest plus the original two fresh RF-DETR outputs; these are development-specific."
+  },
+  "composite_exports": {
+    "passenger_batch": {
+      "full_local_export_sha256": "a039fb78f27156c9959b234849194825cc2e948f5705306687fe6f2f370ef19a",
+      "native_task1_condition": false,
+      "events": 19,
+      "source_run_sha256": "49c78bed0b6de988cf7b5d889a744b550cde9afe542e5789217e3db5642eddd6",
+      "raw_landmark_batch_sha256": "e9bda2e0ceb0b919578705a6fe64a900ac4a4705628085d0848a1bf336bec444",
+      "outcomes_sha256": "f0e8705894d1d22a9f0fe0fcbafe034d3bfeace421b16f15426e2cb5558339d3",
+      "requests_sha256": "0160bf67789bc6d7f3a362f2a6d607b1028b1b81ca0490863a5971ede224846f",
+      "stages": [
+        "initial_model",
+        "model_after_prior_dialogue"
+      ],
+      "original_provenance_contains": [
+        "raw model responses and prompts",
+        "local model + adapter identities",
+        "source prediction file hashes",
+        "original-frame binding",
+        "geometry, road and manual-intervention provenance"
+      ]
+    },
+    "passenger_interaction_journal": {
+      "full_local_export_sha256": "f1502b9fab0b32e90adeb8c54bd72dfc38a26778c1611dab100245d44158e6e9",
+      "native_task1_condition": false,
+      "events": 5,
+      "journal_sha256": "0083d346518363b1ecadc13546f317f14018e4b277777664596b8ef488f971f4",
+      "sequence": [
+        {
+          "action": "opened",
+          "phase": "opened",
+          "selected_by": null,
+          "status": "idle",
+          "raw_event_line_sha256": "a8aa3aa403a58bc3441fb197d0c092167fb2f6eeaadf48fd107b0166e6cef22d"
+        },
+        {
+          "action": "submitted",
+          "phase": "initial_model",
+          "selected_by": "model",
+          "status": "proposed",
+          "raw_event_line_sha256": "f5c4a75356d8cfd4d6d213c16c9857be6cc4b3854e0e47637a6d5670ea9f99d2"
+        },
+        {
+          "action": "passenger_marked",
+          "phase": "passenger_marked",
+          "selected_by": "passenger",
+          "status": "proposed",
+          "raw_event_line_sha256": "007c09f416496d849514503233368688d1978543d2ba543df3f18a50ed4ce201"
+        },
+        {
+          "action": "confirmed",
+          "phase": "confirmed_previous_selection",
+          "selected_by": "passenger",
+          "status": "confirmed",
+          "raw_event_line_sha256": "322330dfbcabc23a0f496454511b6d8bb3966c8ecc7ede9d86feac1f90e11484"
+        },
+        {
+          "action": "cancelled",
+          "phase": "cancelled",
+          "selected_by": null,
+          "status": "cancelled",
+          "raw_event_line_sha256": "3f01718b114ab60d5d2d58c4c31a03c7c3c441a56c9558cfdfe405bd6841ac5b"
+        }
+      ],
+      "original_audio_bound_by_exporter": true,
+      "application_source_commit_recorded_by_journal": false
+    }
+  },
+  "upstream_software_interop_tests": {
+    "passed": 80,
+    "failed": 0,
+    "scope": "Unmodified PR29 official synthetic evaluator and converter suite. Separately from the real images/model records above."
+  }
+}

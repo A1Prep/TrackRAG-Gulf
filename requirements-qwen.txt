@@ -1,0 +1,4 @@
+# Optional pretrained text reranking; no training dependencies or model weights.
+-r requirements-integration.txt
+torch==2.15.0
+transformers==4.57.6

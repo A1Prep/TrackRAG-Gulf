@@ -1,0 +1,274 @@
+{
+  "scope": "First preregistered CPU passenger-selected landmarks on four fresh exact frames in the second daytime demo recording",
+  "evaluation_start_utc": "2026-11-22T06:49:11.115362+00:00",
+  "registration_time_utc": "2026-11-22T06:47:34.790037+00:00",
+  "recording": "video_054604",
+  "source_split": "first 150 local nonfinal image-only EMT development/demo frames",
+  "sampling_registration_sha256": "69330f57b13a37661fea683944b70bb43833d76174bf2c39260ff7d20f6f2b8e",
+  "frame_draw_sha256": "3fe61a2edd27487e1d637c19405c52cc37720ec18c4bfb13b0d1723c84fa5be0",
+  "visual_references_sha256": "0b8d28d45c2a89aaeb9caa246e10d807b6859a52c7a83f042a3e8d66159000f4",
+  "sampling": "Partition the 150 original frame IDs into four consecutive nearly equal bins [1,37], [38,75], [76,112], [113,150]. Draw floor((first + last)/2) from each: 19,56,94,131. Check earlier nonfinal passenger trial input/catalog and opening metadata for exact reuse without opening those cases' model output. If an exact selected frame was previously submitted for a passenger model/evaluation, move one frame lower until new within the same bin, then upward if needed. No replacement for missing vehicles, occlusion, bad matches or scores.",
+  "earlier_exact_frames_in_reviewed_passenger_inputs_or_opening_journals": [
+    1,
+    42,
+    83,
+    103,
+    126,
+    137,
+    150
+  ],
+  "reference_source": "AI operator on original pixels and current Task 1 observations; alternate road users outside the current detector cannot be selected.",
+  "git_head": "18d0aab9f6170e60789e8425b535c164a420ac3b",
+  "geometry_source_changes_since_head": null,
+  "geometry_implementation_sha256": "7b6d5e1921b4874a39229eb25a83cd345e4dc0cb8db1943537114f83941dc76f",
+  "released_geometry_sha256": "db9575ac6b82ff9828f29440bacf2349cd2371f23c2cfb747bd7dc05ee04c7e5",
+  "assessment": "One first locked result per sampled frame. No selection, weight change or second attempt based on scores.",
+  "human_participants": 0,
+  "human_confirmations": 0,
+  "autonomous_grounding_credit": 0,
+  "Qwen_generation_calls": 0,
+  "GPU_jobs": 0,
+  "formal_final_cases": 0,
+  "records": [
+    {
+      "frame": 19,
+      "image_sha256": "9254f1e8fff93da34e300369df088c554486726f29432e6101682cc103185e86",
+      "current_observations": 1,
+      "available_pair_choice_track_ids": [],
+      "visually_eligible": false,
+      "reference_comment": "The road bends round a planted divider. One car beside the trees is tracked. Several very small, distant road users lie beyond the greenery, with no second independently selectable observation.",
+      "instruction": "Please drop me between those two vehicles.",
+      "source_scene_sha256": "df446cd2448f59ad8185d16c29a2b323176ffa2aae927af11680676c11ced796",
+      "request_sha256": "d2fb7a7b479d6b0a7ee0f2e86990baa3a05d60bd5b2744afb701a52a51088695",
+      "frozen_track_ids": [],
+      "frozen_reference_polygon_xy": [],
+      "placement": null,
+      "system_state": "no_current_selectable_pair",
+      "spatial_score": null,
+      "raw_model_outcome_sha256": null
+    },
+    {
+      "frame": 56,
+      "image_sha256": "90624d5701f677e9ea3d975c397216669ccad2f5f8c474a777f06ac1742b0eaf",
+      "current_observations": 4,
+      "available_pair_choice_track_ids": [
+        1365,
+        1342,
+        1341,
+        1366
+      ],
+      "visually_eligible": true,
+      "reference_comment": "Far-left white/light car partially cut by the image but distinguishable from another pale car immediately behind the closest dark SUV. There is a narrow strip of visible pavement between the cars, just to the right of the planted island. This small reference is on the other curved lane and does not establish a viable real-world stop.",
+      "instruction": "Let me out on the road between the light-colored car cut off at the far left and the silver car immediately behind the dark SUV on that curved road.",
+      "source_scene_sha256": "c70b18b95346d5b518e8c3733c5f70085967e9b871a5853c95d3a42992d7232c",
+      "request_sha256": "9cd1428f9062802a7bbbc527e2eb180fd6bf668dc32445793235965c75810764",
+      "frozen_track_ids": [
+        1365,
+        1342
+      ],
+      "frozen_reference_polygon_xy": [
+        [
+          48,
+          975
+        ],
+        [
+          55,
+          975
+        ],
+        [
+          67,
+          978
+        ],
+        [
+          69,
+          985
+        ],
+        [
+          66,
+          990
+        ],
+        [
+          58,
+          989
+        ],
+        [
+          58,
+          984
+        ],
+        [
+          54,
+          980
+        ],
+        [
+          48,
+          977
+        ]
+      ],
+      "placement": "between",
+      "system_state": "needs_clarification",
+      "question": "I couldn't place a visible road patch at that position relative to both vehicles. Could you choose another pair or mark the road area?",
+      "point_xy": null,
+      "frozen_intended_point": [
+        62,
+        983
+      ],
+      "frozen_anchor_boxes_xyxy": [
+        [
+          1.2443554401397705,
+          935.6439208984375,
+          38.069664001464844,
+          968.3450927734375
+        ],
+        [
+          65.28245544433594,
+          954.348876953125,
+          106.06813049316406,
+          990.585205078125
+        ]
+      ],
+      "original_point_in_frozen_polygon": null,
+      "on_current_segformer_road": null,
+      "outside_every_current_observation": null,
+      "offered_original_anchor_boxes_exact": null,
+      "nearest_frozen_polygon_edge_distance_px_if_missed": null,
+      "sampled_grid_centers_in_frozen_polygon": 8,
+      "sampled_road_centers_in_reference_after_box_exclusions": 0,
+      "frozen_polygon_area_original_pixels": 191,
+      "withheld_reason": "no_supported_neighborhood",
+      "geometry_mode": "between_separated_vehicles",
+      "raw_model_outcome_sha256": "81983fa2fc28097effba9906b682e6196839657ff0066971fd976ecb7cd69c5e",
+      "mask_sha256": "66908870744a0e1d4f5d80413bf101b32c6b55330d6b285d3fc47d06e6a8a074",
+      "actual_seconds": 8.953,
+      "independent_reproduction": {
+        "current_image_and_tracks_checked": true,
+        "learned_geometry_and_mask_replayed": true,
+        "decision_reproduced": true,
+        "fitted_geometry_sha256": "db9575ac6b82ff9828f29440bacf2349cd2371f23c2cfb747bd7dc05ee04c7e5",
+        "road_mask_needed": true
+      },
+      "spatial_score": false
+    },
+    {
+      "frame": 94,
+      "image_sha256": "f48cbdd8717abbd413a65c707823e619b020164fd7489870ca11b455088f26b2",
+      "current_observations": 0,
+      "available_pair_choice_track_ids": [],
+      "visually_eligible": false,
+      "reference_comment": "The foreground ramp is empty and traffic is visible across the junction behind the shrub and warning signs. The supplied detector has no current vehicle on this photo. No two genuine selectable anchors are available.",
+      "instruction": "Please drop me between those two vehicles.",
+      "source_scene_sha256": "8c980fd81e7a4d47956f4ba6ddc90a2a58e5cb9554549f696aa3db789183a4f6",
+      "request_sha256": "d86494d6fd544d1ee2b38b65aac3ea1f066e5932f43871de3fa59db3adfc454f",
+      "frozen_track_ids": [],
+      "frozen_reference_polygon_xy": [],
+      "placement": null,
+      "system_state": "no_current_selectable_pair",
+      "spatial_score": null,
+      "raw_model_outcome_sha256": null
+    },
+    {
+      "frame": 131,
+      "image_sha256": "2961f36de04f8a3770d27a622686c643dc0fb172421eae260389f03d655f462a",
+      "current_observations": 6,
+      "available_pair_choice_track_ids": [
+        2418,
+        1705,
+        1721,
+        3349,
+        3599,
+        2791
+      ],
+      "visually_eligible": true,
+      "reference_comment": "The van and sedan are distinct side-on vehicles beyond the guardrail. The intended patch is the visible strip of asphalt directly between their lower portions, immediately above the guardrail. The nearer ramp is a separate road and is outside this intention.",
+      "instruction": "Use the motorway lane between the red-and-white van and the silver sedan to its right, above the guardrail.",
+      "source_scene_sha256": "53b9d529936b8bb019cb6b6b7c4f2226620afca1be8e4e70e1f728241d78f239",
+      "request_sha256": "33b6e04f2c4c4d0bcd424ad57ba04933399d70d8cd96a32aa1fefc191d8473ff",
+      "frozen_track_ids": [
+        1705,
+        1721
+      ],
+      "frozen_reference_polygon_xy": [
+        [
+          1043,
+          1060
+        ],
+        [
+          1088,
+          1060
+        ],
+        [
+          1145,
+          1061
+        ],
+        [
+          1150,
+          1064
+        ],
+        [
+          1145,
+          1069
+        ],
+        [
+          1102,
+          1072
+        ],
+        [
+          1045,
+          1070
+        ]
+      ],
+      "placement": "between",
+      "system_state": "needs_clarification",
+      "question": "I couldn't place a visible road patch at that position relative to both vehicles. Could you choose another pair or mark the road area?",
+      "point_xy": null,
+      "frozen_intended_point": [
+        1094,
+        1066
+      ],
+      "frozen_anchor_boxes_xyxy": [
+        [
+          948.5540771484375,
+          1020.5534057617188,
+          1039.845458984375,
+          1072.970947265625
+        ],
+        [
+          1155.54150390625,
+          1026.927001953125,
+          1223.6075439453125,
+          1074.53564453125
+        ]
+      ],
+      "original_point_in_frozen_polygon": null,
+      "on_current_segformer_road": null,
+      "outside_every_current_observation": null,
+      "offered_original_anchor_boxes_exact": null,
+      "nearest_frozen_polygon_edge_distance_px_if_missed": null,
+      "sampled_grid_centers_in_frozen_polygon": 43,
+      "sampled_road_centers_in_reference_after_box_exclusions": 0,
+      "frozen_polygon_area_original_pixels": 1117,
+      "withheld_reason": "no_supported_neighborhood",
+      "geometry_mode": "between_separated_vehicles",
+      "raw_model_outcome_sha256": "d24c6761558662bc4583b6a30b3fa6aafb5a1b26281d4f1dfdbaf9de657b29cf",
+      "mask_sha256": "45c62304c1eb2697295872c3255c76dfbbe08b9803a44149321719243a23aa30",
+      "actual_seconds": 0.718,
+      "independent_reproduction": {
+        "current_image_and_tracks_checked": true,
+        "learned_geometry_and_mask_replayed": true,
+        "decision_reproduced": true,
+        "fitted_geometry_sha256": "db9575ac6b82ff9828f29440bacf2349cd2371f23c2cfb747bd7dc05ee04c7e5",
+        "road_mask_needed": true
+      },
+      "spatial_score": false
+    }
+  ],
+  "aggregate": {
+    "sampled_frames": 4,
+    "eligible_frames": 2,
+    "fewer_than_two_current_observations": 2,
+    "offered_points": 0,
+    "eligible_withheld": 2,
+    "independent_spatial_hits": 0
+  },
+  "limitations": "Four nearby frames from one short daytime recording. Both eligible references are narrow visible asphalt strips on an adjacent road. This tests image-space placement and current detector coverage; it does not evaluate physical reachability, legality, real passenger intention or autonomous selection.",
+  "finished_utc": "2026-11-22T06:49:20.980478+00:00"
+}

@@ -1,0 +1,180 @@
+{
+  "schema_version": 1,
+  "kind": "bounded_development_method_comparison_not_app_acceptance",
+  "decision": "do_not_adopt_tested_local_candidate_selectors",
+  "case_ids": [
+    "regseg-train-1194",
+    "regseg-train-1348",
+    "regseg-train-1566",
+    "regseg-train-2394",
+    "regseg-train-2650",
+    "regseg-train-2945"
+  ],
+  "methods": {
+    "selected_direct": {
+      "requested": 6,
+      "point_hits": 0,
+      "point_agreement_all_requests": 0.0,
+      "proposals": 2,
+      "proposal_coverage": 0.3333333333333333,
+      "operational_errors": 0,
+      "missing_outputs": 0,
+      "status_counts": {
+        "needs_clarification": 4,
+        "proposed": 2
+      },
+      "error_types": {},
+      "mean_latency_s_observed_only": 55.291666666666664,
+      "median_latency_s_observed_only": 47.14049999999406,
+      "total_latency_s_observed_only": 331.75,
+      "latency_observations": 6,
+      "candidate_coverable_cases": 5,
+      "point_hits_among_candidate_coverable": 0,
+      "point_agreement_among_candidate_coverable": 0.0,
+      "semantic_status_accuracy": null
+    },
+    "selected_candidates": {
+      "requested": 6,
+      "point_hits": 0,
+      "point_agreement_all_requests": 0.0,
+      "proposals": 0,
+      "proposal_coverage": 0.0,
+      "operational_errors": 0,
+      "missing_outputs": 0,
+      "status_counts": {
+        "needs_clarification": 6
+      },
+      "error_types": {},
+      "mean_latency_s_observed_only": 52.76833333333101,
+      "median_latency_s_observed_only": 51.85199999999895,
+      "total_latency_s_observed_only": 316.60999999998603,
+      "latency_observations": 6,
+      "candidate_coverable_cases": 5,
+      "point_hits_among_candidate_coverable": 0,
+      "point_agreement_among_candidate_coverable": 0.0,
+      "semantic_status_accuracy": null
+    },
+    "pretrained_candidates": {
+      "requested": 6,
+      "point_hits": 0,
+      "point_agreement_all_requests": 0.0,
+      "proposals": 0,
+      "proposal_coverage": 0.0,
+      "operational_errors": 0,
+      "missing_outputs": 0,
+      "status_counts": {
+        "needs_clarification": 6
+      },
+      "error_types": {},
+      "mean_latency_s_observed_only": 57.148500000000546,
+      "median_latency_s_observed_only": 56.89849999999569,
+      "total_latency_s_observed_only": 342.89100000000326,
+      "latency_observations": 6,
+      "candidate_coverable_cases": 5,
+      "point_hits_among_candidate_coverable": 0,
+      "point_agreement_among_candidate_coverable": 0.0,
+      "semantic_status_accuracy": null
+    }
+  },
+  "candidate_representative_point_ceiling": {
+    "covered": 5,
+    "requested": 6
+  },
+  "semantic_status_accuracy": null,
+  "reviewed_full_local_adaptation_data_available": false,
+  "new_training_performed": false,
+  "existing_adapter_unchanged": true,
+  "hosted": {
+    "planned_model": "gemini-3.8-flash",
+    "attempted_requests": 2,
+    "HTTP503": 2,
+    "fallback": "gemini-3.5-flash-lite",
+    "fallback_requests_completed": 8,
+    "only_privacy_processed_EMT_uploaded": true,
+    "public_RegSeg_uploaded": false,
+    "qualitative_only": true
+  },
+  "prepared_unrun": [
+    "crowded_EMT_max_input_tokens3072_retry",
+    "forced_choice_geometry_only_candidate_ID_diagnostic"
+  ],
+  "software": {
+    "passed": 1217,
+    "skipped": 28,
+    "subtests_passed": 401
+  },
+  "reserved_final_data_used": false,
+  "production_route_changed": false,
+  "artifacts": {
+    "public-method-scores-final-audit.json": {
+      "local_path": "D:\\PycharmProjects\\TrackRAG-Gulf\\runs\\dropoff-methods-20261121\\public-method-scores-final-audit.json",
+      "sha256": "22d84b4c1e5e8594784681e618407114f9a4aec4a7126fc672c5022f25db86d4",
+      "bytes": 16471
+    },
+    "pretrained-candidate-scores.json": {
+      "local_path": "D:\\PycharmProjects\\TrackRAG-Gulf\\runs\\dropoff-methods-20261121\\pretrained-candidate-scores.json",
+      "sha256": "23a37f9bd3d785dd54cfbcfa126aa60f941d9364170856e57c9f5710cb6ec382",
+      "bytes": 11856
+    },
+    "independent-comparison-receipt.json": {
+      "local_path": "D:\\PycharmProjects\\TrackRAG-Gulf\\runs\\dropoff-methods-20261121\\independent-comparison-receipt.json",
+      "sha256": "4d74ce01aeac5241893f36f1b7ba433bd275fcb1e5891e394158a96f00b1d930",
+      "bytes": 5685
+    },
+    "independent-source-review.json": {
+      "local_path": "D:\\PycharmProjects\\TrackRAG-Gulf\\runs\\dropoff-methods-20261121\\independent-source-review.json",
+      "sha256": "c1a1d431c6fde3814b9d9c68616fc7cd9815a6e940ac544828ae36945659ded9",
+      "bytes": 4363
+    },
+    "blind-review-initial/review.json": {
+      "local_path": "D:\\PycharmProjects\\TrackRAG-Gulf\\runs\\dropoff-methods-20261121\\blind-review-initial\\review.json",
+      "sha256": "b59f647f79cc7827aab79fdb187581b1129d91a5dbea22ce59d4fa540e364c55",
+      "bytes": 8822
+    },
+    "blind-review-local-candidates/review.json": {
+      "local_path": "D:\\PycharmProjects\\TrackRAG-Gulf\\runs\\dropoff-methods-20261121\\blind-review-local-candidates\\review.json",
+      "sha256": "ff41c63f7200da472262042a580b82d3d7b656acfcb6d3dfd0cf29876523e225",
+      "bytes": 4137
+    },
+    "local/run.json": {
+      "local_path": "D:\\PycharmProjects\\TrackRAG-Gulf\\runs\\dropoff-methods-20261121\\local\\run.json",
+      "sha256": "9eed675dab62fbc809c1739ac7adf364fa1f1d9d28655374ccc69603fece9e69",
+      "bytes": 317
+    },
+    "pretrained-candidates/run.json": {
+      "local_path": "D:\\PycharmProjects\\TrackRAG-Gulf\\runs\\dropoff-methods-20261121\\pretrained-candidates\\run.json",
+      "sha256": "639aa5f6e302004e65562396522cc8fbc98daab9ae5dd74ce649ce8a5002282d",
+      "bytes": 317
+    },
+    "hosted/run.json": {
+      "local_path": "D:\\PycharmProjects\\TrackRAG-Gulf\\runs\\dropoff-methods-20261121\\hosted\\run.json",
+      "sha256": "f15935b3035bc9630c4b9ae85ae4f001a4373ec74038346aceaabe6352b9fb4c",
+      "bytes": 317
+    },
+    "hosted-fallback/run.json": {
+      "local_path": "D:\\PycharmProjects\\TrackRAG-Gulf\\runs\\dropoff-methods-20261121\\hosted-fallback\\run.json",
+      "sha256": "570676aaaaf1f45d40fd4b6a93f62717a3135cb0cb68ec017f4ceb533a7c5092",
+      "bytes": 317
+    },
+    "hosted-fallback-declaration.json": {
+      "local_path": "D:\\PycharmProjects\\TrackRAG-Gulf\\runs\\dropoff-methods-20261121\\hosted-fallback-declaration.json",
+      "sha256": "456d0cbf18ac9c951a4995d84814b1dbcb91bfb6df13a1f857102391ffbe5751",
+      "bytes": 729
+    },
+    "token-recovery-declaration.json": {
+      "local_path": "D:\\PycharmProjects\\TrackRAG-Gulf\\runs\\dropoff-methods-20261121\\token-recovery-declaration.json",
+      "sha256": "6ae2886b0f2e7ac9d8982026c7e1e5ba5ed2440c04e754db73fd0841571ad5da",
+      "bytes": 598
+    },
+    "choice-protocol-reviewed.json": {
+      "local_path": "D:\\PycharmProjects\\TrackRAG-Gulf\\runs\\dropoff-methods-20261121\\choice-protocol-reviewed.json",
+      "sha256": "cc04b024bf0b021a53bd520c0ad4b0995258fb01d87d8146fb2f76c83e402831",
+      "bytes": 3319
+    },
+    "final-software-tests.log": {
+      "local_path": "D:\\PycharmProjects\\TrackRAG-Gulf\\runs\\dropoff-methods-20261121\\final-software-tests.log",
+      "sha256": "06976ee1b3883900de55bdd866b2e999dcf8a4e33440a9c622b7b48fff1ff9f8",
+      "bytes": 1492
+    }
+  }
+}

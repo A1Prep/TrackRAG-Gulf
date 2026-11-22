@@ -1,0 +1,16 @@
+{
+  "model_id": "Qwen/Qwen3-VL-8B-Instruct",
+  "revision": "0c351dd01ed87e9c1b53cbc748cba10e6187ff3b",
+  "adapter_dir": null,
+  "cache_dir": "models/dropoff-cache",
+  "device": "cuda",
+  "dtype": "auto",
+  "quantization": "nf4",
+  "local_files_only": true,
+  "allow_annotated": false,
+  "max_new_tokens": 192,
+  "max_input_tokens": 2048,
+  "max_time_s": 120.0,
+  "min_pixels": 65536,
+  "max_pixels": 262144
+}

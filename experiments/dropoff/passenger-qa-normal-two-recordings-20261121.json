@@ -1,0 +1,531 @@
+{
+  "kind": "current_normal_two_recording_finetuned_vision_cited_QA_technical_acceptance",
+  "original_recordings": [
+    "video_054604",
+    "video_054907"
+  ],
+  "selection": {
+    "predeclared_three_case_file_sha256": "f183e2caff3fa2edb843a3b1195b82b115a63fc4bdba3b09858e2fbe496615dc",
+    "additional_evidence_bearing_abstention_file_sha256": "88bf34e4d61d3336db97fee3d3fc5db8bdff8f7389e947e5d1c99f443bce7f92",
+    "previously_used_development": true
+  },
+  "route": "Normal trackrag review CLI, saved RF-DETR fine-tuned + BoT-SORT predicted observations from the shared ZIP, Task 4 published lexical track-window retrieval, genuine Task 3 three-argument stateless Gemini answerer, and privacy-processed marked frames. No substitute answerer.",
+  "google_genai_version": "2.34.0",
+  "source_hashes_current_at_audit": {
+    "trackrag/review.py": "de83a079039d70c532604c3eeac4dbe0eac202913ed4ba58f34403fd3913b2a9",
+    "trackrag/retrieval.py": "04cd554fe80b1e57901a37a5e868401dcd00bab6febaa58b15570c3d85e169c2",
+    "trackrag/answering.py": "a35a6b2d5d8d24383f7e3f223ce1fd2656ba198ea0bdd62004d24e11a110cd29",
+    "trackrag/model_client.py": "c98c8cf664f6a4fd4fb1fce8628f4ffe9958cfbc623186103c69a960a94aa713",
+    "trackrag/privacy.py": "07f1e6877cb616333fa257ce587182a617874f17db68de5be9e92d0f6a132645",
+    "tools/vision_saved_adapters.py": "8dbeb83969a08e3a63f24594f6793a01267e461d34e8ed00dcc33ddab4fc87be",
+    "configs/vision/finetuned.json": "9d638ad83a28cc566f307b5ed9c4d554c53584167761542e2bcaf1a91f90c380"
+  },
+  "checked_independent_of_model_output": {
+    "human_reviewers": 0,
+    "reference_review": "One AI visual reviewer inspected original/processed scenes and predeclared expected colour and nonmeasurable speed. These four chosen examples are a technical regression, not estimated general QA accuracy.",
+    "sent_image_occurrences_per_provider_condition": 21,
+    "checksum_verification": "Every actual sent payload hash matches the locally processed and inspected input for its question, evidence item and frame. The additional bus-speed question reused the nine identical inspected bus views."
+  },
+  "provider_attempt_summary": {
+    "distinct_questions": 4,
+    "primary_attempts_with_nonempty_evidence": 3,
+    "primary_successful_provider_calls": 0,
+    "primary_failures": [
+      "HTTP 503",
+      "HTTP 503",
+      "client timeout"
+    ],
+    "primary_empty_evidence_no_call": 1,
+    "fallback_attempts_with_nonempty_evidence": 3,
+    "fallback_successful_provider_calls": 3,
+    "fallback_with_cited_visual_answer": 2,
+    "fallback_with_semantic_abstention": 1,
+    "fallback_empty_evidence_no_call": 1
+  },
+  "independent_checks": {
+    "temporal-02": "Yellow bus left, with real track 2418 across all three cited intervals. Frame 150 appears in E2 and E3.",
+    "second-01": "White SUV at left in opening frame. E2 selects the actual SUV (track 1).",
+    "second-10": "Actual speed of the pickup is undetermined. Zero retrieved items; grounded answerer correctly returned insufficient evidence without calling Gemini.",
+    "temporal-21": "No calibrated ground speed for the bus is available. The visible dashcam speed relates to its own vehicle. Three tracked intervals with nine pictures went to Gemini; returned insufficient evidence and no citations."
+  },
+  "runs": [
+    {
+      "folder": "video_054604-primary",
+      "recording_id": "video_054604",
+      "question_file_sha256": "61c3b179e0064ee88bac8bcb9f6b5b07d090e6885a7d6fc9d965bc4a1b10dbf3",
+      "run_sha256": "723c2db8b5287744f80f58c1727391e5736494d57a923062de210f3e59fd1f35",
+      "results_sha256": "be0f5e427cda2a7bad93585ea3b10f6a3bea510e846e22e6afe0bdd80a4b322c",
+      "predicted_tracks_sha256": "4f5a3dfd392026627474bfd6bdcfaaa26eef0140fcb86cb196c8ffad6d82a556",
+      "artifact_audit_passed": true,
+      "rows": [
+        {
+          "question_id": "temporal-02",
+          "query_frame": 150,
+          "answer": {
+            "answer_status": "error",
+            "answer": "InternalServerError: Error code: 503 - {'error': {'message': 'gemini-3.8-flash is currently experiencing high demand, spikes in demand are usually temporary. Please try again later.', 'code': 'service_unavailable'}}",
+            "cited_evidence_ids": []
+          },
+          "evidence": [
+            {
+              "id": "E1",
+              "track_id": 2418,
+              "start_frame": 111,
+              "end_frame": 140,
+              "image_frames": [
+                111,
+                126,
+                140
+              ]
+            },
+            {
+              "id": "E2",
+              "track_id": 2418,
+              "start_frame": 121,
+              "end_frame": 150,
+              "image_frames": [
+                121,
+                135,
+                150
+              ]
+            },
+            {
+              "id": "E3",
+              "track_id": 2418,
+              "start_frame": 131,
+              "end_frame": 150,
+              "image_frames": [
+                131,
+                140,
+                150
+              ]
+            }
+          ],
+          "provider": {
+            "requested": "gemini-3.8-flash",
+            "reported": null,
+            "http_status": 503,
+            "request_status": "error",
+            "reported_response_id": null,
+            "error_type": "InternalServerError",
+            "receipt_sha256": "302c92f0e5c2c24a90a693068408c276470275c0af2e557d8c69141cfe8040af",
+            "request_arguments_sha256": "daa6e1936a82a09a3c57e9e13caaa722faec883904e6374c385651feeddb8ce4",
+            "sent_image_occurrences": 9,
+            "processed_image_hashes_were_independently_checked_before_sending": true,
+            "usage": null
+          }
+        }
+      ]
+    },
+    {
+      "folder": "video_054907-primary",
+      "recording_id": "video_054907",
+      "question_file_sha256": "59888c1fb89e93b58c65155ea5292a7c2a03176c018596668d4ad927ce336608",
+      "run_sha256": "915c599f6bdbab19d014bc053fbe31cba2abcdba29d9af8d50aee3e1f5fb3c9b",
+      "results_sha256": "e2a29dd252564a6781a3ff1690dbb1124425ab545b1edb4f456d0105c6070e1d",
+      "predicted_tracks_sha256": "a114f7ca95e29a9331bf64868e06e03e9a8570aa48e360d895a945fc559cb016",
+      "artifact_audit_passed": true,
+      "rows": [
+        {
+          "question_id": "second-01",
+          "query_frame": 1,
+          "answer": {
+            "answer_status": "error",
+            "answer": "InternalServerError: Error code: 503 - {'error': {'message': 'gemini-3.8-flash is currently experiencing high demand, spikes in demand are usually temporary. Please try again later.', 'code': 'service_unavailable'}}",
+            "cited_evidence_ids": []
+          },
+          "evidence": [
+            {
+              "id": "E1",
+              "track_id": 18,
+              "start_frame": 1,
+              "end_frame": 1,
+              "image_frames": [
+                1
+              ]
+            },
+            {
+              "id": "E2",
+              "track_id": 1,
+              "start_frame": 1,
+              "end_frame": 1,
+              "image_frames": [
+                1
+              ]
+            },
+            {
+              "id": "E3",
+              "track_id": 2,
+              "start_frame": 1,
+              "end_frame": 1,
+              "image_frames": [
+                1
+              ]
+            }
+          ],
+          "provider": {
+            "requested": "gemini-3.8-flash",
+            "reported": null,
+            "http_status": 503,
+            "request_status": "error",
+            "reported_response_id": null,
+            "error_type": "InternalServerError",
+            "receipt_sha256": "420bc9f8e00ddc137d6e99179342534de9f696b2432fcec4b5055b855f502eb8",
+            "request_arguments_sha256": "bf3f8943ad6d57c11ea9dd465583e4f7bbc67f528852a619f9104390669fb027",
+            "sent_image_occurrences": 3,
+            "processed_image_hashes_were_independently_checked_before_sending": true,
+            "usage": null
+          }
+        },
+        {
+          "question_id": "second-10",
+          "query_frame": 100,
+          "answer": {
+            "answer_status": "insufficient_evidence",
+            "answer": null,
+            "cited_evidence_ids": []
+          },
+          "evidence": [],
+          "provider": null
+        }
+      ]
+    },
+    {
+      "folder": "temporal21-primary",
+      "recording_id": "video_054604",
+      "question_file_sha256": "1fbefd2b59070c2912cf6dedc40d8d48c546ff7653d56183c4952db4d2ac7ebc",
+      "run_sha256": "723c2db8b5287744f80f58c1727391e5736494d57a923062de210f3e59fd1f35",
+      "results_sha256": "17facb54886a3604f6c22a0b35b0709aad983e55691ca5f2741ba511b3c13801",
+      "predicted_tracks_sha256": "4f5a3dfd392026627474bfd6bdcfaaa26eef0140fcb86cb196c8ffad6d82a556",
+      "artifact_audit_passed": true,
+      "rows": [
+        {
+          "question_id": "temporal-21",
+          "query_frame": 150,
+          "answer": {
+            "answer_status": "error",
+            "answer": "APITimeoutError: Request timed out. This is a client-side timeout. You can increase the timeout by setting the `timeout` argument on your request or in the client http options.",
+            "cited_evidence_ids": []
+          },
+          "evidence": [
+            {
+              "id": "E1",
+              "track_id": 2418,
+              "start_frame": 111,
+              "end_frame": 140,
+              "image_frames": [
+                111,
+                126,
+                140
+              ]
+            },
+            {
+              "id": "E2",
+              "track_id": 2418,
+              "start_frame": 121,
+              "end_frame": 150,
+              "image_frames": [
+                121,
+                135,
+                150
+              ]
+            },
+            {
+              "id": "E3",
+              "track_id": 2418,
+              "start_frame": 131,
+              "end_frame": 150,
+              "image_frames": [
+                131,
+                140,
+                150
+              ]
+            }
+          ],
+          "provider": {
+            "requested": "gemini-3.8-flash",
+            "reported": null,
+            "http_status": null,
+            "request_status": "error",
+            "reported_response_id": null,
+            "error_type": "APITimeoutError",
+            "receipt_sha256": "f4af1d068cda71d4374ac1059c94bd1536d58a5177ee9dbbc15c19dc3e7404a6",
+            "request_arguments_sha256": "dbd19a82f20f1b99dd5e410eec2c358a65ed5145ffafd393e117fc747cb8a543",
+            "sent_image_occurrences": 9,
+            "processed_image_hashes_were_independently_checked_before_sending": true,
+            "usage": null
+          }
+        }
+      ]
+    },
+    {
+      "folder": "video_054604-fallback",
+      "recording_id": "video_054604",
+      "question_file_sha256": "61c3b179e0064ee88bac8bcb9f6b5b07d090e6885a7d6fc9d965bc4a1b10dbf3",
+      "run_sha256": "723c2db8b5287744f80f58c1727391e5736494d57a923062de210f3e59fd1f35",
+      "results_sha256": "50fb452a3b96749330ffbe6682c70994c0891d1e02a218b7faf27a4b7b68043b",
+      "predicted_tracks_sha256": "4f5a3dfd392026627474bfd6bdcfaaa26eef0140fcb86cb196c8ffad6d82a556",
+      "artifact_audit_passed": true,
+      "rows": [
+        {
+          "question_id": "temporal-02",
+          "query_frame": 150,
+          "answer": {
+            "answer_status": "answered",
+            "answer": "The bus visible on the left near the end (frame 150) is yellow.",
+            "cited_evidence_ids": [
+              "E1",
+              "E2",
+              "E3"
+            ]
+          },
+          "evidence": [
+            {
+              "id": "E1",
+              "track_id": 2418,
+              "start_frame": 111,
+              "end_frame": 140,
+              "image_frames": [
+                111,
+                126,
+                140
+              ]
+            },
+            {
+              "id": "E2",
+              "track_id": 2418,
+              "start_frame": 121,
+              "end_frame": 150,
+              "image_frames": [
+                121,
+                135,
+                150
+              ]
+            },
+            {
+              "id": "E3",
+              "track_id": 2418,
+              "start_frame": 131,
+              "end_frame": 150,
+              "image_frames": [
+                131,
+                140,
+                150
+              ]
+            }
+          ],
+          "provider": {
+            "requested": "gemini-3.5-flash-lite",
+            "reported": "gemini-3.5-flash-lite",
+            "http_status": null,
+            "request_status": "completed",
+            "reported_response_id": null,
+            "error_type": null,
+            "receipt_sha256": "6ab458942fbd6ac77b9ce8a15c6f0484e8ac716c382bd9357506fa05b789bc50",
+            "request_arguments_sha256": "34b42200a5c49dfbf2e808564dfa73a3933cce3be609dccc17510e893d3e8cd9",
+            "sent_image_occurrences": 9,
+            "processed_image_hashes_were_independently_checked_before_sending": true,
+            "usage": {
+              "initial_input_tokens": 19734,
+              "input_tokens_by_modality": [
+                {
+                  "modality": "image",
+                  "tokens": 9900
+                },
+                {
+                  "modality": "text",
+                  "tokens": 9834
+                }
+              ],
+              "total_cached_tokens": 0,
+              "total_input_tokens": 19734,
+              "total_output_tokens": 69,
+              "total_thought_tokens": 0,
+              "total_tokens": 19803,
+              "total_tool_use_tokens": 0
+            }
+          }
+        }
+      ]
+    },
+    {
+      "folder": "video_054907-fallback",
+      "recording_id": "video_054907",
+      "question_file_sha256": "59888c1fb89e93b58c65155ea5292a7c2a03176c018596668d4ad927ce336608",
+      "run_sha256": "915c599f6bdbab19d014bc053fbe31cba2abcdba29d9af8d50aee3e1f5fb3c9b",
+      "results_sha256": "f47e26357e43f00b6f5f296e1456bdddb4d871eff6a42eb4adc8dd84c0162269",
+      "predicted_tracks_sha256": "a114f7ca95e29a9331bf64868e06e03e9a8570aa48e360d895a945fc559cb016",
+      "artifact_audit_passed": true,
+      "rows": [
+        {
+          "question_id": "second-01",
+          "query_frame": 1,
+          "answer": {
+            "answer_status": "answered",
+            "answer": "The large SUV (large vehicle) on the left in the opening frame is white.",
+            "cited_evidence_ids": [
+              "E2"
+            ]
+          },
+          "evidence": [
+            {
+              "id": "E1",
+              "track_id": 18,
+              "start_frame": 1,
+              "end_frame": 1,
+              "image_frames": [
+                1
+              ]
+            },
+            {
+              "id": "E2",
+              "track_id": 1,
+              "start_frame": 1,
+              "end_frame": 1,
+              "image_frames": [
+                1
+              ]
+            },
+            {
+              "id": "E3",
+              "track_id": 2,
+              "start_frame": 1,
+              "end_frame": 1,
+              "image_frames": [
+                1
+              ]
+            }
+          ],
+          "provider": {
+            "requested": "gemini-3.5-flash-lite",
+            "reported": "gemini-3.5-flash-lite",
+            "http_status": null,
+            "request_status": "completed",
+            "reported_response_id": null,
+            "error_type": null,
+            "receipt_sha256": "8ce397bb14b532a374644e7624e5874ba010b27b1bd237f03d446ceebc3cf2fc",
+            "request_arguments_sha256": "1d9fa3fe21d5f0de8050fcf8891562416ebdc3aaeab79207dec992f576ec2ceb",
+            "sent_image_occurrences": 3,
+            "processed_image_hashes_were_independently_checked_before_sending": true,
+            "usage": {
+              "initial_input_tokens": 18996,
+              "input_tokens_by_modality": [
+                {
+                  "modality": "image",
+                  "tokens": 3300
+                },
+                {
+                  "modality": "text",
+                  "tokens": 15696
+                }
+              ],
+              "total_cached_tokens": 0,
+              "total_input_tokens": 18996,
+              "total_output_tokens": 55,
+              "total_thought_tokens": 0,
+              "total_tokens": 19051,
+              "total_tool_use_tokens": 0
+            }
+          }
+        },
+        {
+          "question_id": "second-10",
+          "query_frame": 100,
+          "answer": {
+            "answer_status": "insufficient_evidence",
+            "answer": null,
+            "cited_evidence_ids": []
+          },
+          "evidence": [],
+          "provider": null
+        }
+      ]
+    },
+    {
+      "folder": "temporal21-fallback",
+      "recording_id": "video_054604",
+      "question_file_sha256": "1fbefd2b59070c2912cf6dedc40d8d48c546ff7653d56183c4952db4d2ac7ebc",
+      "run_sha256": "723c2db8b5287744f80f58c1727391e5736494d57a923062de210f3e59fd1f35",
+      "results_sha256": "797b1c9fbda87c00f0c913e35100745d69182933e4b2a7058f9b8f59e998c430",
+      "predicted_tracks_sha256": "4f5a3dfd392026627474bfd6bdcfaaa26eef0140fcb86cb196c8ffad6d82a556",
+      "artifact_audit_passed": true,
+      "rows": [
+        {
+          "question_id": "temporal-21",
+          "query_frame": 150,
+          "answer": {
+            "answer_status": "insufficient_evidence",
+            "answer": "The bus's speed in kilometres per hour cannot be established from the video evidence because no speedometer or speed measurement data is available.",
+            "cited_evidence_ids": []
+          },
+          "evidence": [
+            {
+              "id": "E1",
+              "track_id": 2418,
+              "start_frame": 111,
+              "end_frame": 140,
+              "image_frames": [
+                111,
+                126,
+                140
+              ]
+            },
+            {
+              "id": "E2",
+              "track_id": 2418,
+              "start_frame": 121,
+              "end_frame": 150,
+              "image_frames": [
+                121,
+                135,
+                150
+              ]
+            },
+            {
+              "id": "E3",
+              "track_id": 2418,
+              "start_frame": 131,
+              "end_frame": 150,
+              "image_frames": [
+                131,
+                140,
+                150
+              ]
+            }
+          ],
+          "provider": {
+            "requested": "gemini-3.5-flash-lite",
+            "reported": "gemini-3.5-flash-lite",
+            "http_status": null,
+            "request_status": "completed",
+            "reported_response_id": null,
+            "error_type": null,
+            "receipt_sha256": "30c5902dc0f33980b148253424fb7f18a79dc0f02025917c9034d9eb023df568",
+            "request_arguments_sha256": "1b767c6ee40ef3ffb77c07ca4f33ce7f9be6417a9e3b5db7bd0ab60fff5bf02b",
+            "sent_image_occurrences": 9,
+            "processed_image_hashes_were_independently_checked_before_sending": true,
+            "usage": {
+              "initial_input_tokens": 19730,
+              "input_tokens_by_modality": [
+                {
+                  "modality": "text",
+                  "tokens": 9830
+                },
+                {
+                  "modality": "image",
+                  "tokens": 9900
+                }
+              ],
+              "total_cached_tokens": 0,
+              "total_input_tokens": 19730,
+              "total_output_tokens": 58,
+              "total_thought_tokens": 0,
+              "total_tokens": 19788,
+              "total_tool_use_tokens": 0
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

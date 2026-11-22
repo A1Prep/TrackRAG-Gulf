@@ -1,0 +1,38 @@
+{
+  "schema_version": 1,
+  "kind": "predeclared_followup_full_interface_comparison_not_final_EMT",
+  "declared_before": "Either full-interface condition produced results on these six requests. The selected adapter already has a completed destination-only development result.",
+  "purpose": "Check whether the selected adapter's location improvement transfers to the actual full interpretation interface.",
+  "request_selection": "Reuse exactly the six target-independent request IDs in the previously frozen public prompt-ablation protocol. No additional case selection.",
+  "case_ids": [
+    "regseg-train-7319",
+    "regseg-train-2069",
+    "regseg-train-4689",
+    "regseg-train-6546",
+    "regseg-train-6954",
+    "regseg-train-2939"
+  ],
+  "development_source_sha256": "533cbcf9a2059b2890a606e896d9a216d5fc663606693c7dc8121b9ddf222556",
+  "conditions": [
+    "pretrained_full_interpretation_worker",
+    "selected_trained_full_interpretation_worker"
+  ],
+  "matched": [
+    "Pinned model and processor",
+    "Image bytes, instruction, scene and dialogue",
+    "Full interpretation prompt and interpret_v1 grammar",
+    "Image, token, deadline and resident-layer settings",
+    "Greedy decoding"
+  ],
+  "only_model_condition_difference": "Presence of the selected trained LoRA adapter.",
+  "report": [
+    "Operational errors with all requests retained",
+    "Status counts and proposal coverage",
+    "Original-mask point agreement and coarse-box IoU, clearly distinguished from semantic status accuracy",
+    "Per-request outcomes and elapsed times"
+  ],
+  "public_masks_cannot_score_clarification_or_unresolved_status_correctness": true,
+  "no_checkpoint_or_hyperparameter_selection_from_this_followup": true,
+  "no_reference_fields_sent_to_model": true,
+  "reserved_final_data_used": false
+}

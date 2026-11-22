@@ -1,0 +1,60 @@
+{
+  "audit_sha256": "9f45178523f32cf31b799383f1c1c4f4597b6e4b95e246ebffefb3bd5e928644",
+  "canonical_archive": {
+    "bytes": 77943,
+    "filename": "passenger-44-canonical-scenes-20261122.zip",
+    "sha256": "96b3541df732452d191164ef365575d596e9d4e6bc4a265a00a2488785f6881c"
+  },
+  "kind": "original_source_verified_input_only_publication",
+  "original_source": {
+    "compressed_bytes": 8720080037,
+    "compressed_sha256_verified": "d2e22df9070cac1b89c052ae97297297592d4c6715d7db55ef54c0c9297c5ddc",
+    "url": "https://huggingface.co/datasets/KuAvLab/EMT/resolve/4418cec01b03c6f797cadb06c9405843a30988e2/test_images.tar.gz"
+  },
+  "prior_input_overlap": {
+    "banks_with_identifier_or_frame_overlap": [],
+    "known_comparison_banks": 8,
+    "reused_normalized_wording_in_new_human_banks": {
+      "new_human_development": 4,
+      "new_human_training": 4
+    },
+    "scope": "The five EMT recordings previously supported Task 1 vision experiments. A historical metadata audit named a draft passenger handoff from video_122233; this is not evidence it trained the passenger model. The separate 20-case night bank used video_174340, the official development split. The formal leakage check includes temporal neighbor video_204347 for the official final recording video_204647."
+  },
+  "protocol_state": {
+    "final_model_calls": 0,
+    "formal_score": false,
+    "pending_nonconfirmed_cases_excluded": 6,
+    "reference_mask_paths_on_reviewed_source_records": 0,
+    "remaining": [
+      "Reviewed destination masks bound to source PNGs for all clear cases",
+      "Intended masks or missing classification for clarification cases, plus prespecified reply rules",
+      "Agreement on actual detector context: the corrected rows were human-reviewed with zero observed tracks",
+      "Task 1 protocol frozen before collecting any final model output, then four matched typed conditions"
+    ]
+  },
+  "reviewed_condition": {
+    "original_input_records_sha256": "fe8c8e310bc1c44eb8e768eb05b0f591c224c9baab85c838050d8954d777ad2c",
+    "rows_changed_by_rebinding_saved_detections": 44,
+    "rows_with_zero_tracks": 44
+  },
+  "saved_detector_condition": {
+    "frame_manifest_sha256": "dba1172aee36df82aadef5d19a595387330b0b3ba6e6677ce068b581c3f8d55f",
+    "input_records_sha256": "e6006e632dd75c7d08866f860ee6fa4c6d806f519c1569aba683cb58aa96a0ef",
+    "observations": 494,
+    "profile": "rfdetr-large-2026-finetuned-emt",
+    "profile_sha256": "9d638ad83a28cc566f307b5ed9c4d554c53584167761542e2bcaf1a91f90c380",
+    "run_manifest_sha256": "0cc192518107f0f4d0d3f1e19307c531f030b7492ec97613346361b27a473a78"
+  },
+  "source_asset_verification": {
+    "canonical_scenes": 44,
+    "human_label_files_opened": false,
+    "index_sha256": "b30662b15af9fab431dd7fc0cf2820b0c8ca613024b9f166476910f96306b406",
+    "recordings": 5,
+    "required_prefix_jpegs_verified_twice": 7235,
+    "unmodified_evaluator_reloaded": 44,
+    "verified_jpeg_bytes": 7390382727
+  },
+  "sparse_input_archive_sha256": "ba913ade83b690acd1fb7f886344d0775e38439134665c6a9a05bb89a7876a13",
+  "task1_commit": "709e969260866a5476d8c199609c59de580589f7",
+  "task2_commit": "2d96dcb6afdffb46c5d94d299768fe6a92acc094"
+}

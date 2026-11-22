@@ -1,0 +1,396 @@
+{
+  "version": 1,
+  "scope": "Offline development integration and context availability. No semantic retrieval or answer-accuracy grade. All answer statuses not_requested.",
+  "executed_code_commit": "18913b1b195f6347b99cda976a86257b6ab4ea77",
+  "command": "python -m evaluation verify-retrieval --data-root data/emt-official --questions experiments/temporal-development-questions.jsonl experiments/temporal-second-questions.jsonl experiments/scene-context-controls.jsonl --source annotated --retrieval-module tools.emt_trial_adapters --out runs/task5-scene-context-01",
+  "baseline_summary": "experiments/retrieval-acceptance-summary.json",
+  "local_report": "runs\\task5-scene-context-01\\report.json",
+  "local_report_sha256": "4360f1c53517ba8053db53683b72aad67adbaf6eab4de3680c98f7fec2e1fc73",
+  "question_inputs": [
+    {
+      "path": "experiments/temporal-development-questions.jsonl",
+      "sha256": "af907b3bda35ec311fd0e20d6f0a3a2bf0f66f3a4b69367915d583e63bcbc769"
+    },
+    {
+      "path": "experiments/temporal-second-questions.jsonl",
+      "sha256": "2dc223ebf820185418ef2ab7b5fa693a19691fb7e7c0da6322d8353046fd3433"
+    },
+    {
+      "path": "experiments/scene-context-controls.jsonl",
+      "sha256": "52354a6b911e0e899831952282e33a9f0daba066c100a8d37e6e6708cdd2d525"
+    }
+  ],
+  "recordings": [
+    {
+      "recording_id": "video_054604",
+      "source": "annotated",
+      "status": "passed_with_gaps",
+      "question_count": 30,
+      "frame_count": 150,
+      "observation_count": 2681,
+      "nonempty_rankings": 30,
+      "ranking_kind_counts": {
+        "retrieved": 23,
+        "zero_score_scene_context": 7
+      },
+      "positive_temporal_comparisons": 54,
+      "context_temporal_comparisons": 18,
+      "empty_temporal_comparisons": 0,
+      "check_counts": {
+        "passed": 162,
+        "not_applicable": 12
+      },
+      "input_content_sha256": "e5b499ac679d0c5fa8e03a78ca08e7097d92c1ddb0afda2d4c400f14d0ac7630"
+    },
+    {
+      "recording_id": "video_054907",
+      "source": "annotated",
+      "status": "passed_with_gaps",
+      "question_count": 18,
+      "frame_count": 150,
+      "observation_count": 2844,
+      "nonempty_rankings": 18,
+      "ranking_kind_counts": {
+        "retrieved": 8,
+        "zero_score_scene_context": 10
+      },
+      "positive_temporal_comparisons": 42,
+      "context_temporal_comparisons": 27,
+      "empty_temporal_comparisons": 0,
+      "check_counts": {
+        "passed": 110,
+        "not_applicable": 4
+      },
+      "input_content_sha256": "f3779640bbccc123a949590b04ec730f415200b40b4a16fa9e37ce9f7afea84e"
+    }
+  ],
+  "unchanged_original_result_count": 31,
+  "unchanged_original_question_ids": [
+    "temporal-01",
+    "temporal-02",
+    "temporal-03",
+    "temporal-04",
+    "temporal-05",
+    "temporal-06",
+    "temporal-07",
+    "temporal-08",
+    "temporal-09",
+    "temporal-10",
+    "temporal-11",
+    "temporal-12",
+    "temporal-13",
+    "temporal-14",
+    "temporal-15",
+    "temporal-17",
+    "temporal-18",
+    "temporal-19",
+    "temporal-20",
+    "temporal-21",
+    "temporal-22",
+    "temporal-23",
+    "temporal-24",
+    "second-01",
+    "second-02",
+    "second-04",
+    "second-05",
+    "second-06",
+    "second-08",
+    "second-09",
+    "second-12"
+  ],
+  "unchanged_cited_image_file_count": 98,
+  "original_empty_queries_now_with_zero_score_context": [
+    {
+      "question_id": "temporal-16",
+      "query_frame": 150,
+      "recording_id": "video_054604"
+    },
+    {
+      "question_id": "second-03",
+      "query_frame": 100,
+      "recording_id": "video_054907"
+    },
+    {
+      "question_id": "second-07",
+      "query_frame": 75,
+      "recording_id": "video_054907"
+    },
+    {
+      "question_id": "second-10",
+      "query_frame": 100,
+      "recording_id": "video_054907"
+    },
+    {
+      "question_id": "second-11",
+      "query_frame": 150,
+      "recording_id": "video_054907"
+    }
+  ],
+  "additional_context_controls": [
+    {
+      "question_id": "context-01",
+      "query_frame": 120,
+      "recording_id": "video_054604"
+    },
+    {
+      "question_id": "context-02",
+      "query_frame": 100,
+      "recording_id": "video_054604"
+    },
+    {
+      "question_id": "context-03",
+      "query_frame": 75,
+      "recording_id": "video_054604"
+    },
+    {
+      "question_id": "context-04",
+      "query_frame": 30,
+      "recording_id": "video_054604"
+    },
+    {
+      "question_id": "context-05",
+      "query_frame": 60,
+      "recording_id": "video_054604"
+    },
+    {
+      "question_id": "context-06",
+      "query_frame": 1,
+      "recording_id": "video_054604"
+    },
+    {
+      "question_id": "context-07",
+      "query_frame": 75,
+      "recording_id": "video_054907"
+    },
+    {
+      "question_id": "context-08",
+      "query_frame": 100,
+      "recording_id": "video_054907"
+    },
+    {
+      "question_id": "context-09",
+      "query_frame": 120,
+      "recording_id": "video_054907"
+    },
+    {
+      "question_id": "context-10",
+      "query_frame": 30,
+      "recording_id": "video_054907"
+    },
+    {
+      "question_id": "context-11",
+      "query_frame": 100,
+      "recording_id": "video_054907"
+    },
+    {
+      "question_id": "context-12",
+      "query_frame": 1,
+      "recording_id": "video_054907"
+    }
+  ],
+  "provider_request_regression": {
+    "mode": "offline_mock_only",
+    "identical_request_body_count": 31,
+    "live_model_calls": 0,
+    "baseline_code_commit": "162a0913995d2878fd1ce5769bcd2c485493f6d2",
+    "summary_sha256": "df37ac6ceeb932a1dd478ae0b84a5e4f697d8949cf9c9aa1de3a2631b91ad486",
+    "requests": [
+      {
+        "question_id": "temporal-01",
+        "request_body_sha256": "85e59273d7e0b9db040b744f365585a847503ec373093bf5cfae65e6e2aa44ed"
+      },
+      {
+        "question_id": "temporal-02",
+        "request_body_sha256": "cfaf1c505903a4f0e1f1346fe467de2c39d36503b08c6d50c4d2db6fd2c09265"
+      },
+      {
+        "question_id": "temporal-03",
+        "request_body_sha256": "87ddc564e10ceef5466d4353599d7cf02b7e9608bacc9378890ec25a805aa77a"
+      },
+      {
+        "question_id": "temporal-04",
+        "request_body_sha256": "e3fbd966db0c4ae31387fa7b4d6e16a3725b32ec5274ef9b5829484dd4f2d2a8"
+      },
+      {
+        "question_id": "temporal-05",
+        "request_body_sha256": "d4fe3dc872b39f145041fd49be9fd886d7bed8b72e4ac33ca519f6fd6357547b"
+      },
+      {
+        "question_id": "temporal-06",
+        "request_body_sha256": "7e58f06fb8fb3109832116af47822897d2d90c1804430819eff7b14d127cd8c2"
+      },
+      {
+        "question_id": "temporal-07",
+        "request_body_sha256": "0c38e53e71480901e69461eb618abe9b2bdd1c2ed6b470bb68b21bbafb62a5b0"
+      },
+      {
+        "question_id": "temporal-08",
+        "request_body_sha256": "7e62f670ba01d303cb02c3347fc7596ff4af38554ccc7f93b6374e0999a86041"
+      },
+      {
+        "question_id": "temporal-09",
+        "request_body_sha256": "8d74d1d893b173b167b2b4a9a9006e894540af600832a67e8f5d062237548bfa"
+      },
+      {
+        "question_id": "temporal-10",
+        "request_body_sha256": "9c99b18b60bb0ff39072be561867589a1f1969cb04b12d338492f5e05fe322ed"
+      },
+      {
+        "question_id": "temporal-11",
+        "request_body_sha256": "93580efc0bb1f27e50c3cfba955659b1546116eb91d8da21c5c9dcf43cc6bd7c"
+      },
+      {
+        "question_id": "temporal-12",
+        "request_body_sha256": "364e08c5f4ce6910889e159a32347b206aced566069d12cd389f9a6be40d6032"
+      },
+      {
+        "question_id": "temporal-13",
+        "request_body_sha256": "51c00ca88c8b9d6d7d198db808c7ff2695461fa5201501ef1a0c04cc6d94a269"
+      },
+      {
+        "question_id": "temporal-14",
+        "request_body_sha256": "33f007f911d77a297b62f8ac85168cc9b4140b5c16bef2f37ed415ba63604391"
+      },
+      {
+        "question_id": "temporal-15",
+        "request_body_sha256": "cc86f5e744578a9b71c22d22a0e814a05bb04d605a1a34a4916f1a491131f35f"
+      },
+      {
+        "question_id": "temporal-17",
+        "request_body_sha256": "c957aa63ce26bba7b60b96b36b1c2d591449a0fa8a8dbac77953c05c4505a87f"
+      },
+      {
+        "question_id": "temporal-18",
+        "request_body_sha256": "c9f9a78eb3dca5b111d062bd5974abbc3a3337ee995f97c909846a398f8697bc"
+      },
+      {
+        "question_id": "temporal-19",
+        "request_body_sha256": "66d0738b938e6386d565fa44d99795409538344804227658273f0a19d0cac217"
+      },
+      {
+        "question_id": "temporal-20",
+        "request_body_sha256": "b25b0e992d70c05680a27436c88c33aaf79d905eb6066efb703e79590de4cc2c"
+      },
+      {
+        "question_id": "temporal-21",
+        "request_body_sha256": "1dd78c6f690ff2a551fd6dd7f5f754f3d5bd300475534b1f413b1cdf47de9f83"
+      },
+      {
+        "question_id": "temporal-22",
+        "request_body_sha256": "648b13f28ff5f118b9b81793de03e89beb4c0cce58d19bac9541a99c10301200"
+      },
+      {
+        "question_id": "temporal-23",
+        "request_body_sha256": "fabadaafd006f316bf6a380f0540e9758d7b63b379442938b2687599a1efeb3e"
+      },
+      {
+        "question_id": "temporal-24",
+        "request_body_sha256": "de6de5e9ea34ff0a2b0a0a13cff4affaa7b0a7d62877fffc7bf1f13a77905334"
+      },
+      {
+        "question_id": "second-01",
+        "request_body_sha256": "f3877e556e46e5a58e05cd61f70f5d7114d9890d7b6fc7d3e498786714ddd030"
+      },
+      {
+        "question_id": "second-02",
+        "request_body_sha256": "b38493f796993f371e4f865a9bdd2a30d40abd10cb588aa5a888024b67325fae"
+      },
+      {
+        "question_id": "second-04",
+        "request_body_sha256": "ed2f1a7420940569c23b64cb64d3c637ebd89d5d64f6abe56143e642bc4a6dcf"
+      },
+      {
+        "question_id": "second-05",
+        "request_body_sha256": "715f5faeccc59ce7404518a13f9b51c3d2e6d507b906db279e7dcfbd10731978"
+      },
+      {
+        "question_id": "second-06",
+        "request_body_sha256": "fa2edddc7507298f231adae762ac0c9db52d40816a874140ad41287b3623f50b"
+      },
+      {
+        "question_id": "second-08",
+        "request_body_sha256": "3ce2a19f1e3add45e05fd388a7b159da0d4a21df43c538cea4cf1ed59731a645"
+      },
+      {
+        "question_id": "second-09",
+        "request_body_sha256": "de2c833fb76fbfe810bf239714f504605318e8c483d0a3b9bb774b11bea4311c"
+      },
+      {
+        "question_id": "second-12",
+        "request_body_sha256": "78edfa5066d0231251d8b4e94a094bfe0652b939fd219ada41bd7f6bae1a5f04"
+      }
+    ]
+  },
+  "answer_accuracy_assessed": false,
+  "limitations": [
+    "These checks do not measure detection, tracking, retrieval or answer accuracy. Gold scoring stays separate.",
+    "Zero-score scene contexts are counted separately. A nonempty fallback or passing temporal control does not establish a relevant match or answer.",
+    "Only the shared Recording protocol is proxied. Wrapper-dependent or unstable controls are inconclusive, not proof of leakage.",
+    "Passing perturbations cannot prove absence of leakage. Hidden/global caches can mask changes; use isolated or correctly invalidated model caches.",
+    "Saved or frozen observations may already contain future-dependent detector/tracker output. Task 1 causality is not tested.",
+    "Stable-empty outputs and cutoffs with no future frames remain explicit and do not count as positive temporal comparisons.",
+    "The runner does not call an answerer. A selected retrieval or detector adapter can load models or contact services; the explicit TF-IDF module runs locally.",
+    "Synthetic future images/observations are test controls, not detector predictions or measured driving performance.",
+    "Physical speed of the pickup and concealed cargo remain unestablished. Sign legibility and live answers require separate review."
+  ],
+  "scene_input_previews": {
+    "mode": "local_preview_only",
+    "live_model_calls": 0,
+    "pixel_identical_scene_exports_checked": 5,
+    "previews": [
+      {
+        "recording_id": "video_054604",
+        "frame_id": 150,
+        "question_ids": [
+          "temporal-16"
+        ],
+        "processed_size": [
+          1024,
+          576
+        ],
+        "sha256": "e172a1098fc310add6bfc1d673768459307c0fc2f8e2d5ecb4d6e99474e20d8f",
+        "path": "runs\\task5-scene-context-01\\processed-input-previews\\video_054604-150.jpg"
+      },
+      {
+        "recording_id": "video_054907",
+        "frame_id": 100,
+        "question_ids": [
+          "second-03",
+          "second-10"
+        ],
+        "processed_size": [
+          1024,
+          576
+        ],
+        "sha256": "1868a15ef18e4789532eccfeac6e0870de577b739dc22c33dd0f24ad43d9ee1a",
+        "path": "runs\\task5-scene-context-01\\processed-input-previews\\video_054907-100.jpg"
+      },
+      {
+        "recording_id": "video_054907",
+        "frame_id": 75,
+        "question_ids": [
+          "second-07"
+        ],
+        "processed_size": [
+          1024,
+          576
+        ],
+        "sha256": "e1879be4ef82eba3a612475bf8d04e16f1930b57970757c74ef83c900e0d78d7",
+        "path": "runs\\task5-scene-context-01\\processed-input-previews\\video_054907-75.jpg"
+      },
+      {
+        "recording_id": "video_054907",
+        "frame_id": 150,
+        "question_ids": [
+          "second-11"
+        ],
+        "processed_size": [
+          1024,
+          576
+        ],
+        "sha256": "bbf01057282451400e1af2d6202431216198a690949cfa6ebaa3128c63baa3e0",
+        "path": "runs\\task5-scene-context-01\\processed-input-previews\\video_054907-150.jpg"
+      }
+    ]
+  }
+}

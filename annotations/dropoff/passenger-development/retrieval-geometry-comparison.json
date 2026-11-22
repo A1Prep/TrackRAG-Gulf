@@ -1,0 +1,378 @@
+{
+  "independent_scored_utc": "2026-11-21T19:36:35.200182+00:00",
+  "cohort": "19 dependent daytime development instructions; geometry references from one AI author. Same raw 8B landmark decisions in each within-condition comparison.",
+  "conditions": {
+    "pretrained": {
+      "settings": {
+        "matched_request_and_decisions_digest": "8a115b169a432106831ae487511c5c1243f5fdb60ef21d50f54cd32bafadfccd",
+        "old_geometry": "be1a2e5eac071aad41f745b3003cee3aa8a14f588799d1fb372cab3a5a6b6661",
+        "new_geometry": "267fbba478838a9864ad888405d7a62969079279c45851fd806fc87f0fa52b6e",
+        "verified_raw_outputs_and_prompt_digests": true,
+        "added_replay_metadata": {
+          "observation_format": "json"
+        }
+      },
+      "old": {
+        "input_file_sha256": "0160bf67789bc6d7f3a362f2a6d607b1028b1b81ca0490863a5971ede224846f",
+        "outputs_sha256": "0697782c88a3b2de121694508d0da5e2bd3994321a704de266e48c35ee39907f",
+        "freeze_file_sha256": "def382f8f57a8a7e311403435435cd32ddcce6e539ed3c4310f8abb88eacc86f",
+        "requested": 19,
+        "expected_status_counts": {
+          "proposed": 11,
+          "needs_clarification": 4,
+          "insufficient_visual_evidence": 4
+        },
+        "status_matches": 14,
+        "confusion": {
+          "insufficient_visual_evidence": {
+            "insufficient_visual_evidence": 3,
+            "needs_clarification": 1
+          },
+          "needs_clarification": {
+            "proposed": 3,
+            "needs_clarification": 1
+          },
+          "proposed": {
+            "proposed": 10,
+            "needs_clarification": 1
+          }
+        },
+        "failures": {},
+        "unexpected_output_ids": [],
+        "proposal_count": 13,
+        "proposals_on_nonproposal_cases": 3,
+        "clear_reference_count": 11,
+        "clear_reference_and_model_proposal_count": 10,
+        "point_in_authored_box_count": 2,
+        "missed_authored_rectangle_on_paired_proposals": 8,
+        "proposal_on_wrong_status_or_outside_authored_rectangle": 11,
+        "normalized_tolerance_hits_all_clear": {
+          "0.025": 1,
+          "0.05": 6
+        },
+        "mean_box_iou_all_clear_missing_as_zero": 0.06344655629631449,
+        "median_normalized_point_error_paired_proposals_only": 0.0466841378905636,
+        "same_frame_contrasts": [
+          {
+            "requests": [
+              "passenger-b01",
+              "passenger-b02"
+            ],
+            "both_proposed": true,
+            "each_closer_to_own_provisional_point": true,
+            "both_in_authored_rectangle": false
+          },
+          {
+            "requests": [
+              "passenger-b06",
+              "passenger-b07"
+            ],
+            "both_proposed": true,
+            "each_closer_to_own_provisional_point": false,
+            "both_in_authored_rectangle": false
+          },
+          {
+            "requests": [
+              "passenger-b11",
+              "passenger-b12"
+            ],
+            "both_proposed": true,
+            "each_closer_to_own_provisional_point": true,
+            "both_in_authored_rectangle": false
+          },
+          {
+            "requests": [
+              "passenger-b16",
+              "passenger-b17"
+            ],
+            "both_proposed": true,
+            "each_closer_to_own_provisional_point": true,
+            "both_in_authored_rectangle": false
+          }
+        ]
+      },
+      "new": {
+        "input_file_sha256": "0160bf67789bc6d7f3a362f2a6d607b1028b1b81ca0490863a5971ede224846f",
+        "outputs_sha256": "278c966a7026b12492f14549635827ec20920677407f6bc9732b8de816e415e4",
+        "freeze_file_sha256": "def382f8f57a8a7e311403435435cd32ddcce6e539ed3c4310f8abb88eacc86f",
+        "requested": 19,
+        "expected_status_counts": {
+          "proposed": 11,
+          "needs_clarification": 4,
+          "insufficient_visual_evidence": 4
+        },
+        "status_matches": 15,
+        "confusion": {
+          "insufficient_visual_evidence": {
+            "insufficient_visual_evidence": 3,
+            "needs_clarification": 1
+          },
+          "needs_clarification": {
+            "proposed": 3,
+            "needs_clarification": 1
+          },
+          "proposed": {
+            "proposed": 11
+          }
+        },
+        "failures": {},
+        "unexpected_output_ids": [],
+        "proposal_count": 14,
+        "proposals_on_nonproposal_cases": 3,
+        "clear_reference_count": 11,
+        "clear_reference_and_model_proposal_count": 11,
+        "point_in_authored_box_count": 3,
+        "missed_authored_rectangle_on_paired_proposals": 8,
+        "proposal_on_wrong_status_or_outside_authored_rectangle": 11,
+        "normalized_tolerance_hits_all_clear": {
+          "0.025": 4,
+          "0.05": 11
+        },
+        "mean_box_iou_all_clear_missing_as_zero": 0.08941140161046038,
+        "median_normalized_point_error_paired_proposals_only": 0.034226733796548885,
+        "same_frame_contrasts": [
+          {
+            "requests": [
+              "passenger-b01",
+              "passenger-b02"
+            ],
+            "both_proposed": true,
+            "each_closer_to_own_provisional_point": true,
+            "both_in_authored_rectangle": false
+          },
+          {
+            "requests": [
+              "passenger-b06",
+              "passenger-b07"
+            ],
+            "both_proposed": true,
+            "each_closer_to_own_provisional_point": true,
+            "both_in_authored_rectangle": false
+          },
+          {
+            "requests": [
+              "passenger-b11",
+              "passenger-b12"
+            ],
+            "both_proposed": true,
+            "each_closer_to_own_provisional_point": true,
+            "both_in_authored_rectangle": false
+          },
+          {
+            "requests": [
+              "passenger-b16",
+              "passenger-b17"
+            ],
+            "both_proposed": true,
+            "each_closer_to_own_provisional_point": true,
+            "both_in_authored_rectangle": false
+          }
+        ]
+      },
+      "differences": {
+        "new_strict_hits": [
+          "passenger-b09",
+          "passenger-b12",
+          "passenger-b13"
+        ],
+        "lost_strict_hits": [
+          "passenger-b01",
+          "passenger-b06"
+        ],
+        "changed_statuses": [
+          {
+            "request": "passenger-b04",
+            "from": "needs_clarification",
+            "to": "proposed"
+          }
+        ]
+      }
+    },
+    "trained": {
+      "settings": {
+        "matched_request_and_decisions_digest": "e9bda2e0ceb0b919578705a6fe64a900ac4a4705628085d0848a1bf336bec444",
+        "old_geometry": "be1a2e5eac071aad41f745b3003cee3aa8a14f588799d1fb372cab3a5a6b6661",
+        "new_geometry": "267fbba478838a9864ad888405d7a62969079279c45851fd806fc87f0fa52b6e",
+        "verified_raw_outputs_and_prompt_digests": true,
+        "added_replay_metadata": {
+          "observation_format": "json"
+        }
+      },
+      "old": {
+        "input_file_sha256": "0160bf67789bc6d7f3a362f2a6d607b1028b1b81ca0490863a5971ede224846f",
+        "outputs_sha256": "67b67e2ed4516c414ecf6a697379e9de8ee92992cfb56af5651cad183ce6c4e3",
+        "freeze_file_sha256": "def382f8f57a8a7e311403435435cd32ddcce6e539ed3c4310f8abb88eacc86f",
+        "requested": 19,
+        "expected_status_counts": {
+          "proposed": 11,
+          "needs_clarification": 4,
+          "insufficient_visual_evidence": 4
+        },
+        "status_matches": 13,
+        "confusion": {
+          "insufficient_visual_evidence": {
+            "insufficient_visual_evidence": 2,
+            "needs_clarification": 2
+          },
+          "needs_clarification": {
+            "proposed": 3,
+            "needs_clarification": 1
+          },
+          "proposed": {
+            "proposed": 10,
+            "needs_clarification": 1
+          }
+        },
+        "failures": {},
+        "unexpected_output_ids": [],
+        "proposal_count": 13,
+        "proposals_on_nonproposal_cases": 3,
+        "clear_reference_count": 11,
+        "clear_reference_and_model_proposal_count": 10,
+        "point_in_authored_box_count": 2,
+        "missed_authored_rectangle_on_paired_proposals": 8,
+        "proposal_on_wrong_status_or_outside_authored_rectangle": 11,
+        "normalized_tolerance_hits_all_clear": {
+          "0.025": 1,
+          "0.05": 6
+        },
+        "mean_box_iou_all_clear_missing_as_zero": 0.07274745242453211,
+        "median_normalized_point_error_paired_proposals_only": 0.0466841378905636,
+        "same_frame_contrasts": [
+          {
+            "requests": [
+              "passenger-b01",
+              "passenger-b02"
+            ],
+            "both_proposed": true,
+            "each_closer_to_own_provisional_point": true,
+            "both_in_authored_rectangle": false
+          },
+          {
+            "requests": [
+              "passenger-b06",
+              "passenger-b07"
+            ],
+            "both_proposed": true,
+            "each_closer_to_own_provisional_point": false,
+            "both_in_authored_rectangle": false
+          },
+          {
+            "requests": [
+              "passenger-b11",
+              "passenger-b12"
+            ],
+            "both_proposed": true,
+            "each_closer_to_own_provisional_point": true,
+            "both_in_authored_rectangle": false
+          },
+          {
+            "requests": [
+              "passenger-b16",
+              "passenger-b17"
+            ],
+            "both_proposed": true,
+            "each_closer_to_own_provisional_point": true,
+            "both_in_authored_rectangle": false
+          }
+        ]
+      },
+      "new": {
+        "input_file_sha256": "0160bf67789bc6d7f3a362f2a6d607b1028b1b81ca0490863a5971ede224846f",
+        "outputs_sha256": "f0e8705894d1d22a9f0fe0fcbafe034d3bfeace421b16f15426e2cb5558339d3",
+        "freeze_file_sha256": "def382f8f57a8a7e311403435435cd32ddcce6e539ed3c4310f8abb88eacc86f",
+        "requested": 19,
+        "expected_status_counts": {
+          "proposed": 11,
+          "needs_clarification": 4,
+          "insufficient_visual_evidence": 4
+        },
+        "status_matches": 14,
+        "confusion": {
+          "insufficient_visual_evidence": {
+            "insufficient_visual_evidence": 2,
+            "needs_clarification": 2
+          },
+          "needs_clarification": {
+            "proposed": 3,
+            "needs_clarification": 1
+          },
+          "proposed": {
+            "proposed": 11
+          }
+        },
+        "failures": {},
+        "unexpected_output_ids": [],
+        "proposal_count": 14,
+        "proposals_on_nonproposal_cases": 3,
+        "clear_reference_count": 11,
+        "clear_reference_and_model_proposal_count": 11,
+        "point_in_authored_box_count": 3,
+        "missed_authored_rectangle_on_paired_proposals": 8,
+        "proposal_on_wrong_status_or_outside_authored_rectangle": 11,
+        "normalized_tolerance_hits_all_clear": {
+          "0.025": 4,
+          "0.05": 10
+        },
+        "mean_box_iou_all_clear_missing_as_zero": 0.09117505082891256,
+        "median_normalized_point_error_paired_proposals_only": 0.03544456558103776,
+        "same_frame_contrasts": [
+          {
+            "requests": [
+              "passenger-b01",
+              "passenger-b02"
+            ],
+            "both_proposed": true,
+            "each_closer_to_own_provisional_point": true,
+            "both_in_authored_rectangle": false
+          },
+          {
+            "requests": [
+              "passenger-b06",
+              "passenger-b07"
+            ],
+            "both_proposed": true,
+            "each_closer_to_own_provisional_point": true,
+            "both_in_authored_rectangle": false
+          },
+          {
+            "requests": [
+              "passenger-b11",
+              "passenger-b12"
+            ],
+            "both_proposed": true,
+            "each_closer_to_own_provisional_point": true,
+            "both_in_authored_rectangle": false
+          },
+          {
+            "requests": [
+              "passenger-b16",
+              "passenger-b17"
+            ],
+            "both_proposed": true,
+            "each_closer_to_own_provisional_point": true,
+            "both_in_authored_rectangle": false
+          }
+        ]
+      },
+      "differences": {
+        "new_strict_hits": [
+          "passenger-b09",
+          "passenger-b12",
+          "passenger-b13"
+        ],
+        "lost_strict_hits": [
+          "passenger-b01",
+          "passenger-b06"
+        ],
+        "changed_statuses": [
+          {
+            "request": "passenger-b04",
+            "from": "needs_clarification",
+            "to": "proposed"
+          }
+        ]
+      }
+    }
+  }
+}

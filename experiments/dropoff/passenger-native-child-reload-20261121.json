@@ -1,0 +1,83 @@
+{
+  "purpose": "Additional experimental native Qwen3-VL-8B direct interpretation checkpoint, continued from the public destination adapter on 17 image-linked AI-authored English instructions. This preserves the original human-review and final-assessment requirements.",
+  "archive": {
+    "filename": "native-direct-8b-v3-verified.zip",
+    "sha256": "2d76a77820d7a2330b30a9279f933cc7f88a538ac34a66f424fe8b23a4426350",
+    "bytes": 6336271,
+    "entries_verified_in_distinct_copy": 13,
+    "relative_default_adapter_dir": "models/passenger-ai-direct/adapter",
+    "native_deployment_resident_layers": 2
+  },
+  "cpu_independent_saved_tensor_verification": {
+    "kind": "fresh_process_cpu_reload_of_saved_adapter_tensors",
+    "parent_weights_sha256": "76bfb3230b17a86248b52ca6a9f8d2ffca324aa80216d6b93845ccb12ad86743",
+    "child_weights_sha256": "a7f9c2ede65879e0cdada9e90185e9b21151ea391b74a9973308f93f665abe24",
+    "adapter_manifest_sha256": "4f61d0de4d50992a24d7da629c7a30538439c303307cc7c3ad751aa635a5da35",
+    "base_model_id": "unsloth/Qwen3-VL-8B-Instruct-bnb-4bit",
+    "revision": "10d842936325905934ea24e64325d774693f166e",
+    "adapter_tensors": 64,
+    "changed_tensors": 64,
+    "trainable_parameters": 1703936,
+    "delta_l2": 0.6922948082304503,
+    "relative_l2": 0.06689383482797208,
+    "actual_presentations": 34,
+    "distinct_train_commands": 17,
+    "epochs": 2,
+    "optimizer_steps": 18,
+    "human_reviewed": false,
+    "training_used_development": false,
+    "full_gpu_generation_tested_here": false
+  },
+  "gpu_fresh_process": {
+    "run_sha256": "a9a097a5825c9c1a8a8a08ae956c922bcd435fa6e9cce6c8780c54495449be48",
+    "files": {
+      "input-snapshot.jsonl": "8eba7aab4d729cfc0a1fea867db9f17f026b08e21b711d90b8cb5cf89c977473",
+      "resolved-requests.jsonl": "8eba7aab4d729cfc0a1fea867db9f17f026b08e21b711d90b8cb5cf89c977473",
+      "receipts.jsonl": "d77733bb500a3f59bd780d2db0366ae3a41474e30f2059f0625fed35ccaa5e7e",
+      "model-outcomes.jsonl": "498516c834bac76778490d7fda2af771344a392039cabc53c6f545122a11459b"
+    },
+    "requested": 1,
+    "operational_errors": 0,
+    "base_model_id": "unsloth/Qwen3-VL-8B-Instruct-bnb-4bit",
+    "revision": "10d842936325905934ea24e64325d774693f166e",
+    "adapter_weights_sha256": "a7f9c2ede65879e0cdada9e90185e9b21151ea391b74a9973308f93f665abe24",
+    "inference_resident_layers": 2,
+    "rows": [
+      {
+        "request_id": "passenger-b01",
+        "image_sha256": "033fc370408c4bc99a1ec9fbb845b6618a5f53b680a235baba336b8fe8ddba80",
+        "ok": true,
+        "request_sha256": "0f9d083a590747307a68dfaba7ca5e29aed36b0aee83b0eeff5acf21c306eb66",
+        "raw_text": "{\"status\":\"proposed\",\"destination_point_xy\":[200.0,730.0],\"destination_box_xyxy\":[150.0,700.0,250.0,760.0],\"clarification_question\":null}",
+        "result": {
+          "clarification_question": null,
+          "destination_box_xyxy": [
+            384.0,
+            1008.0,
+            640.0,
+            1094.4
+          ],
+          "destination_point_xy": [
+            512.0,
+            1051.2
+          ],
+          "status": "proposed"
+        }
+      }
+    ],
+    "reported_input_tokens": 2727,
+    "reported_output_tokens": 58,
+    "generation_elapsed_s": 122.42199999999139,
+    "backend_kind": "transformers_local_streamed",
+    "injected": false
+  },
+  "prior_failed_8resident_attempt": {
+    "run_sha256": "5c840fdfaf82bee0c99a348b73764f95e3da2132407996377c436d5457a01aa4",
+    "outcomes_sha256": "15ef3c9188a40ede4349ce7ff96e7e022638b137d9b4c1680193e31a06064b19",
+    "requested": 19,
+    "operational_errors": 19,
+    "first_cuda_oom": "ResourceError: Local worker generate failure: OutOfMemoryError: CUDA out of memory. Tried to allocate 228.00 MiB. GPU 0 has a total capacity of 4.00 GiB of which 0 bytes is free. 3.60 GiB allowed; Of the allocated memory 3.23 GiB is allocated by PyTorch, and 335.20 MiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://pytorch.org/docs/stable/notes/cuda.html#environment-variables)",
+    "subsequent_reported_closed_worker": 18
+  },
+  "interpretation": "The calibration is a real containment-and-inference check, not a successful destination example. Its predicted (512,1051.2) lies outside the frozen b01 authored box. The matched 19-command evaluation is kept separate. No human labels or final recordings used."
+}

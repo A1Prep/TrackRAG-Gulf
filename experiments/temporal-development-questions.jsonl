@@ -1,0 +1,24 @@
+{"question_id":"temporal-01","recording_id":"video_054604","query_frame":150,"question":"Which bus entered the left edge of the image after the recording had already started?"}
+{"question_id":"temporal-02","recording_id":"video_054604","query_frame":150,"question":"What colour is the bus visible on the left near the end?"}
+{"question_id":"temporal-03","recording_id":"video_054604","query_frame":150,"question":"Which bus emerges into clearer view toward the end of the clip?"}
+{"question_id":"temporal-04","recording_id":"video_054604","query_frame":150,"question":"Does the yellow bus get larger or smaller in the image between frames 117 and 150?"}
+{"question_id":"temporal-05","recording_id":"video_054604","query_frame":150,"question":"Which bus looks bigger as the recording progresses?"}
+{"question_id":"temporal-06","recording_id":"video_054604","query_frame":20,"question":"Which bus moves out through the left side during the opening second?"}
+{"question_id":"temporal-07","recording_id":"video_054604","query_frame":30,"question":"What colour is the large SUV on the left around frame 30?"}
+{"question_id":"temporal-08","recording_id":"video_054604","query_frame":30,"question":"Is the large grey SUV on the left or right of the image at frame 30?"}
+{"question_id":"temporal-09","recording_id":"video_054604","query_frame":30,"question":"Does the grey SUV become larger in the image over its earlier observations?"}
+{"question_id":"temporal-10","recording_id":"video_054604","query_frame":1,"question":"What colour is the prominent car in the opening frame?"}
+{"question_id":"temporal-11","recording_id":"video_054604","query_frame":1,"question":"Which car appears largest in the opening image?"}
+{"question_id":"temporal-12","recording_id":"video_054604","query_frame":15,"question":"What type of road user is annotated as track 6 in the opening frames?"}
+{"question_id":"temporal-13","recording_id":"video_054604","query_frame":15,"question":"In which direction across the image does the early motorbike move?"}
+{"question_id":"temporal-14","recording_id":"video_054604","query_frame":120,"question":"Which large vehicle has a green container around frame 120?"}
+{"question_id":"temporal-15","recording_id":"video_054604","query_frame":120,"question":"Does the green container truck move toward the left or right of the image in its recent observations?"}
+{"question_id":"temporal-16","recording_id":"video_054604","query_frame":150,"question":"What street name is printed on the blue exit sign visible near the end?"}
+{"question_id":"temporal-17","recording_id":"video_054604","query_frame":150,"question":"Is this road scene shown in daylight or at night?"}
+{"question_id":"temporal-18","recording_id":"video_054604","query_frame":30,"question":"Is a bus visible in frame 30?"}
+{"question_id":"temporal-19","recording_id":"video_054604","query_frame":30,"question":"What colour is the bus that will appear after frame 70?"}
+{"question_id":"temporal-20","recording_id":"video_054604","query_frame":150,"question":"Is the driver of the bus on the left using a mobile phone?"}
+{"question_id":"temporal-21","recording_id":"video_054604","query_frame":150,"question":"What is the bus's speed in kilometres per hour?"}
+{"question_id":"temporal-22","recording_id":"video_054604","query_frame":150,"question":"Why did the bus driver choose that route?"}
+{"question_id":"temporal-23","recording_id":"video_054604","query_frame":150,"question":"How many passengers are inside the yellow bus?"}
+{"question_id":"temporal-24","recording_id":"video_054604","query_frame":150,"question":"What is the yellow bus's registration number?"}

@@ -1,0 +1,234 @@
+{
+  "altered_temporary_copy_checks": [
+    {
+      "disposition": "rejected",
+      "mutation": "changed_input",
+      "reason": "Input bank changed"
+    },
+    {
+      "disposition": "rejected",
+      "mutation": "different_adapter",
+      "reason": "Native configuration differs"
+    },
+    {
+      "disposition": "rejected",
+      "mutation": "wrong_mapping",
+      "reason": "Packaged development mapping differs from native source"
+    },
+    {
+      "disposition": "rejected",
+      "mutation": "changed_raw_and_rehash_native_envelope",
+      "reason": "Raw native text does not reproduce the saved interpretation"
+    },
+    {
+      "disposition": "rejected",
+      "mutation": "missing_native_case",
+      "reason": "Native run hash differs for model-outcomes.jsonl"
+    }
+  ],
+  "attempts": 4,
+  "evidence_zip": {
+    "bytes": 72857,
+    "contains_formal_or_human_labels": false,
+    "contains_original_photos": false,
+    "members": 34,
+    "name": "passenger-evaluator-paired-delivery-20261122.zip",
+    "sha256": "ef9f40c568bbcba9895f6d82daabdd9408d39240a0acdfd507e67a58782cb517"
+  },
+  "formal_evaluation": {
+    "final_requests_run": 0,
+    "formal_task5_run_converter_invoked": false,
+    "human_intentions_or_confirmations": 0,
+    "quality_score": null,
+    "reason": "The full Task 1 CLI loads reserved human references; development used the same scene, provenance, field and original-coordinate converters without providing any synthetic references. The observed proposals have no human correctness labels.",
+    "reserved_cases_scored": 0
+  },
+  "identical_model_visible_request_file_sha256": "115993da894a71185b9a76be8cc4119b9e5fe54fefa85fca929693f58ca07e7c",
+  "kind": "task5_native_paired_development_delivery",
+  "models": {
+    "pretrained": {
+      "adapter_manifest": null,
+      "config_sha256": "90047539bfef8e92112566a035bc214f24ce80c7038b69dd2f0b781df607acf6",
+      "operational_failures": 0,
+      "raw_text_receipts": 2,
+      "run_sha256": "ba39f8e969151ca8c4a3fe887a380ff5776c8eb7a7c8eb83eba99e42326c6545",
+      "semantic_outputs": 2
+    },
+    "trained": {
+      "adapter_manifest": "97e0ad27de46582a059775e4861f42aa0a1f803be2f640bf64b00a22f92f7b06",
+      "config_sha256": "3d827c42eab801557b69e41134bdab8a2da56892b9fa22b0dbe58aef2d35f022",
+      "operational_failures": 0,
+      "raw_text_receipts": 2,
+      "run_sha256": "d120b1d40bab144748f9baf2a0fca8f4ba3ed49150d130d2f5632bccf8e9c990",
+      "semantic_outputs": 2
+    }
+  },
+  "official_evaluator_functions": [
+    "evaluation.grounding.load_scenes",
+    "evaluation.grounding_inputs.find_scene",
+    "evaluation.grounding_inputs.scene_problems",
+    "evaluation.grounding_inputs._run_provenance",
+    "evaluation.grounding.instruction_sha256",
+    "evaluation.grounding.from_task5_outcome",
+    "evaluation.grounding._classify"
+  ],
+  "protocol_sha256": "92ae58e19f41327126663b1a376dc6c10f78290fa4a7aa6945b4a607ae7417be",
+  "registered_before_first_model_outcome": true,
+  "registered_conditions": {
+    "file": "experiments/dropoff/passenger-final-model-conditions-20261122.json",
+    "only_changed_configuration_field": "adapter_dir",
+    "sha256": "a8483a2cee1d17b4b919c7c3e39f96f651dfe4f9178e524194a7518504543c67"
+  },
+  "registered_trained_adapter_weights_sha256": "6c3d54a6baadf5a269f8cdb81ed565469aa0d75bc006698c8d355f79b3e774ca",
+  "requested_cases_per_model": 2,
+  "rows": [
+    {
+      "case_id": "passenger-a01",
+      "condition": {
+        "mode": "direct",
+        "model": "pretrained",
+        "transcript": "typed"
+      },
+      "current_observations": 23,
+      "frame": 1,
+      "instruction_sha256": "c1dd68de080e24347a5fd08d587a9394f4e8335a03af5bd8939493e2b631b1f0",
+      "model_completed_successfully": true,
+      "observed_status": "proposed",
+      "operational_error": null,
+      "original_size": [
+        2560,
+        1440
+      ],
+      "portable_input_sha256": "6b23798e56304f36448979e093531a8b2b750f826fef0571ddedece81f68a65e",
+      "raw_response_sha256": "febae2f9f9862947005c155d271dbec9fb587eb0b14909e29dd2ce253aff1200",
+      "recording": "video_054604",
+      "result": {
+        "box": [
+          1996.8,
+          1080.0,
+          2304.0,
+          1224.0
+        ],
+        "clarification": null,
+        "point": [
+          2099.2,
+          1123.2
+        ],
+        "status": "proposed"
+      },
+      "scene_sha256": "7d5a3f76274406494373f5347c8e9fc11cdfb4dd208bd25f455bfad591cdd78e"
+    },
+    {
+      "case_id": "passenger-b01",
+      "condition": {
+        "mode": "direct",
+        "model": "pretrained",
+        "transcript": "typed"
+      },
+      "current_observations": 38,
+      "frame": 1,
+      "instruction_sha256": "793b0a6760bfe6e941eceef0963c36f2cf754a87f5c07992a9f2b9fb59ec365d",
+      "model_completed_successfully": true,
+      "observed_status": "proposed",
+      "operational_error": null,
+      "original_size": [
+        2560,
+        1440
+      ],
+      "portable_input_sha256": "a287af0aa24fa0a0a5211195f4b8f50b7b5829726556a2e7e5ba834fbc8150bc",
+      "raw_response_sha256": "abfe3e998f035aa966adedf585f0d3567f686a2eebcec68e64194201f146a214",
+      "recording": "video_054907",
+      "result": {
+        "box": [
+          332.8,
+          979.2,
+          640.0,
+          1051.2
+        ],
+        "clarification": null,
+        "point": [
+          460.8,
+          1008.0
+        ],
+        "status": "proposed"
+      },
+      "scene_sha256": "07785a35fab21535f9bae84a8d4eb9bc9d6dd708d0636bafe5e4a34d31b36cf5"
+    },
+    {
+      "case_id": "passenger-a01",
+      "condition": {
+        "mode": "direct",
+        "model": "trained",
+        "transcript": "typed"
+      },
+      "current_observations": 23,
+      "frame": 1,
+      "instruction_sha256": "c1dd68de080e24347a5fd08d587a9394f4e8335a03af5bd8939493e2b631b1f0",
+      "model_completed_successfully": true,
+      "observed_status": "proposed",
+      "operational_error": null,
+      "original_size": [
+        2560,
+        1440
+      ],
+      "portable_input_sha256": "6b23798e56304f36448979e093531a8b2b750f826fef0571ddedece81f68a65e",
+      "raw_response_sha256": "4b4ca97fd37af308c560c7a9b0a2a28d2bfb9770e085b0a6ed101ef60f7141d0",
+      "recording": "video_054604",
+      "result": {
+        "box": [
+          1587.2,
+          1180.8,
+          1920.0,
+          1422.72
+        ],
+        "clarification": null,
+        "point": [
+          1753.6,
+          1301.76
+        ],
+        "status": "proposed"
+      },
+      "scene_sha256": "7d5a3f76274406494373f5347c8e9fc11cdfb4dd208bd25f455bfad591cdd78e"
+    },
+    {
+      "case_id": "passenger-b01",
+      "condition": {
+        "mode": "direct",
+        "model": "trained",
+        "transcript": "typed"
+      },
+      "current_observations": 38,
+      "frame": 1,
+      "instruction_sha256": "793b0a6760bfe6e941eceef0963c36f2cf754a87f5c07992a9f2b9fb59ec365d",
+      "model_completed_successfully": true,
+      "observed_status": "proposed",
+      "operational_error": null,
+      "original_size": [
+        2560,
+        1440
+      ],
+      "portable_input_sha256": "a287af0aa24fa0a0a5211195f4b8f50b7b5829726556a2e7e5ba834fbc8150bc",
+      "raw_response_sha256": "c263ba47b9d6bc1520353a9fad6d95b2c67dcd14dfc43ae93be024ff772b0044",
+      "recording": "video_054907",
+      "result": {
+        "box": [
+          307.2,
+          1008.0,
+          614.4,
+          1152.0
+        ],
+        "clarification": null,
+        "point": [
+          460.8,
+          1080.0
+        ],
+        "status": "proposed"
+      },
+      "scene_sha256": "07785a35fab21535f9bae84a8d4eb9bc9d6dd708d0636bafe5e4a34d31b36cf5"
+    }
+  ],
+  "scope": "Development handoff, two historical daytime recordings, no intended destinations and no quality score.",
+  "source_scene_check": "Both byte-verified original JPEGs and every full-precision current observation matched genuine shared Task 1 scenes. Case a01 uses the saved fine-tuned detector and tracker. For b01, the byte-verified delivered Task 1 tracks and provenance declare a tracking replay and the original upstream detection digest. That upstream detection file was unavailable for an independent rehash.",
+  "tested_recordings": 2,
+  "verification": "Verified native worker identity on computed outputs, raw request and prompt, exact adapter condition, complete successful raw-text reparsing, original-pixel range and task-field preservation. Reloaded every artifact and reproduced the mappings twice from the resulting ZIP, once without the photos and once with hash-verified originals."
+}

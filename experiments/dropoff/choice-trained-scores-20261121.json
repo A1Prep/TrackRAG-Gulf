@@ -1,0 +1,254 @@
+{
+  "schema_version": 1,
+  "kind": "independent_forced_choice_geometry_diagnostic_not_app_validation",
+  "condition": "trained",
+  "variant": null,
+  "case_ids": [
+    "regseg-train-1194",
+    "regseg-train-1348",
+    "regseg-train-1566",
+    "regseg-train-2394",
+    "regseg-train-2650",
+    "regseg-train-2945"
+  ],
+  "requested": 6,
+  "point_hits": 0,
+  "point_agreement_all_requests": 0.0,
+  "valid_choices": 6,
+  "errors_including_missing": 0,
+  "candidate_representative_point_covered": 5,
+  "point_agreement_among_candidate_coverable": 0.0,
+  "mean_observed_latency_s": 14.047000000001086,
+  "semantic_status_accuracy": null,
+  "application_status_predictions_produced": false,
+  "all_six_including_uncovered_and_failures_in_denominator": true,
+  "source_bindings": {
+    "outcomes": {
+      "path": "runs\\dropoff-methods-20261121\\quick-verify\\choice-trained\\outcomes.jsonl",
+      "sha256": "75a0ac004af6bbecdc01aea70148a0493b47e5fee2123a2dc31f3ec39ef4ff1d",
+      "bytes": 34214
+    },
+    "input": {
+      "path": "runs\\dropoff-methods-20261121\\quick-verify\\choice-trained\\input-snapshot.jsonl",
+      "sha256": "4ef2809827da0faa861fef6b95e21ccadadc5c44b04bea20e146f2928489056e",
+      "bytes": 3430
+    },
+    "reference_input": {
+      "path": "runs\\dropoff-methods-20261121\\quick-verify\\choice-trained\\reference-input-snapshot.jsonl",
+      "sha256": "259aca81769937387cf07c531f701868c81ea687eb2380547e59979136a6a324",
+      "bytes": 14706
+    },
+    "candidates": {
+      "path": "runs\\dropoff-methods-20261121\\quick-verify\\choice-trained\\candidates-snapshot.jsonl",
+      "sha256": "d852f8d2925775b74c8564df18f2bdf9ab6abd357c6623888fd1229538629738",
+      "bytes": 75172
+    },
+    "worker_protocol": {
+      "path": "runs\\dropoff-methods-20261121\\quick-verify\\choice-trained\\protocol-snapshot.json",
+      "sha256": "d882b05ec3bd3d9252a69d94a11ca666fa6e5f761e48711a7edf8896f01f8172",
+      "bytes": 2384
+    },
+    "worker_source": {
+      "path": "runs\\dropoff-methods-20261121\\quick-verify\\choice-trained\\source-snapshot.py",
+      "sha256": "3a3d1eb27538bd91a739576f30896585db3122760bcb93715f390c47e534a34b",
+      "bytes": 9845
+    },
+    "settings": {
+      "path": "runs\\dropoff-methods-20261121\\quick-verify\\choice-trained\\settings.json",
+      "sha256": "4f65a4d0d73096c6fc429e108b65820c362b23723eab6b87d5d342311e3c5067",
+      "bytes": 1820
+    },
+    "configuration": {
+      "path": "runs\\dropoff-methods-20261121\\quick-verify\\choice-trained\\configuration.json",
+      "sha256": "58c9777ad6ad63b07f0d1c0a871e9b680954f9def2794501342f2dd5523e187e",
+      "bytes": 769
+    },
+    "batch_protocol": {
+      "path": "runs\\dropoff-methods-20261121\\quick-verify\\protocol.json",
+      "sha256": "31c8bba11cb726091246558e14481a303f67cb5091f224907ec636672d34d61d",
+      "bytes": 4293
+    },
+    "development_cases": {
+      "path": "data\\dropoff-public-expanded-20261121\\splits\\development.jsonl",
+      "sha256": "533cbcf9a2059b2890a606e896d9a216d5fc663606693c7dc8121b9ddf222556",
+      "bytes": 324652
+    },
+    "run_manifest": {
+      "path": "runs\\dropoff-methods-20261121\\quick-verify\\choice-trained\\run.json",
+      "sha256": "d99809dfacd592086ba5398848782d0e13b2bbdbce068880c02561e18297f6ec",
+      "bytes": 325
+    },
+    "original_configuration": {
+      "path": "D:\\PycharmProjects\\TrackRAG-Gulf\\runs\\dropoff-point-first-local-20261121\\inference_config.json",
+      "sha256": "a526a02e63a234a614bcc263ddf9bfc9587740f9e93eff0d36b95d891cd6cb52",
+      "bytes": 771
+    },
+    "adapter_weights": {
+      "path": "D:\\PycharmProjects\\TrackRAG-Gulf\\runs\\dropoff-point-first-local-20261121\\adapter\\adapter_model.safetensors",
+      "sha256": "76bfb3230b17a86248b52ca6a9f8d2ffca324aa80216d6b93845ccb12ad86743",
+      "bytes": 6825168
+    }
+  },
+  "scorer_sha256": "fdc540702b96104965666c8868da02849c7bc2bc52e722defa19e31884b1cee3",
+  "cases": [
+    {
+      "case_id": "regseg-train-1194",
+      "ok": true,
+      "point_hit": false,
+      "candidate_covered": false,
+      "mask_sha256": "209baa5e31e72c6f2ea201ec5951aa8edf32f66aeae305cdf41a5c10a778d070",
+      "image_sha256": "72f1e8907aea57a60a8301a012f9184700be63913901c04c8b4b8817ae326fcd",
+      "mask_hitting_candidate_ids": [],
+      "elapsed_s": 18.23499999998603,
+      "error": null,
+      "selected_candidate_id": "R05",
+      "geometry": {
+        "destination_point_xy": [
+          1115.5,
+          535.5
+        ],
+        "destination_box_xyxy": [
+          1104.0,
+          524.0,
+          1127.0,
+          547.0
+        ]
+      }
+    },
+    {
+      "case_id": "regseg-train-1348",
+      "ok": true,
+      "point_hit": false,
+      "candidate_covered": true,
+      "mask_sha256": "416c1574b4ffcc23806dfaa3365a95af1769fbc2d30619596d247ac63f8e3c41",
+      "image_sha256": "67a81b1ef24bb52183d6edd1880085142c91f427b45a892dd494b2d489773545",
+      "mask_hitting_candidate_ids": [
+        "R02",
+        "R09"
+      ],
+      "elapsed_s": 12.953000000008615,
+      "error": null,
+      "selected_candidate_id": "R03",
+      "geometry": {
+        "destination_point_xy": [
+          763.5,
+          484.5
+        ],
+        "destination_box_xyxy": [
+          739.0,
+          462.0,
+          788.0,
+          507.0
+        ]
+      }
+    },
+    {
+      "case_id": "regseg-train-1566",
+      "ok": true,
+      "point_hit": false,
+      "candidate_covered": true,
+      "mask_sha256": "d1b2ad43ee71cb2a531101d21fb4e5704b03c1a405094fdd8ae1bfafcf80eb6e",
+      "image_sha256": "84078dcec181e15edd3e99da50da7c136793e000082cca00f6b9ec62e112e7c4",
+      "mask_hitting_candidate_ids": [
+        "R05"
+      ],
+      "elapsed_s": 12.76600000000326,
+      "error": null,
+      "selected_candidate_id": "R35",
+      "geometry": {
+        "destination_point_xy": [
+          1101.5,
+          864.5
+        ],
+        "destination_box_xyxy": [
+          1077.0,
+          842.0,
+          1126.0,
+          887.0
+        ]
+      }
+    },
+    {
+      "case_id": "regseg-train-2394",
+      "ok": true,
+      "point_hit": false,
+      "candidate_covered": true,
+      "mask_sha256": "c6688329494d61c4d21976aa1e69dd2912362f9337e9e6ba00e563c94001786c",
+      "image_sha256": "fa2a952ec3b98f20fe493435ca58f36df6188a0b2bed3e92e61176146f652cb9",
+      "mask_hitting_candidate_ids": [
+        "R14",
+        "R15",
+        "R20",
+        "R21"
+      ],
+      "elapsed_s": 12.796000000002095,
+      "error": null,
+      "selected_candidate_id": "R26",
+      "geometry": {
+        "destination_point_xy": [
+          406.5,
+          793.5
+        ],
+        "destination_box_xyxy": [
+          382.0,
+          771.0,
+          431.0,
+          816.0
+        ]
+      }
+    },
+    {
+      "case_id": "regseg-train-2650",
+      "ok": true,
+      "point_hit": false,
+      "candidate_covered": true,
+      "mask_sha256": "754a760721323246d3f1abb19261fb05febf26afe934391c4a4147b842973262",
+      "image_sha256": "a3d7f7b1cf47d5c0fc8e666e7ed2294f63c01b08dab40d671fd3764e296c89c4",
+      "mask_hitting_candidate_ids": [
+        "R07",
+        "R08"
+      ],
+      "elapsed_s": 15.26600000000326,
+      "error": null,
+      "selected_candidate_id": "R04",
+      "geometry": {
+        "destination_point_xy": [
+          986.5,
+          556.5
+        ],
+        "destination_box_xyxy": [
+          974.0,
+          544.0,
+          999.0,
+          569.0
+        ]
+      }
+    },
+    {
+      "case_id": "regseg-train-2945",
+      "ok": true,
+      "point_hit": false,
+      "candidate_covered": true,
+      "mask_sha256": "87cde8237824270e40cf0d2460576713f23f2c4d1827483cd532edcc72eadda2",
+      "image_sha256": "7000b5e9610afc2473c79896776c0a93b043f88ba44143a44eed4d4a09f734cf",
+      "mask_hitting_candidate_ids": [
+        "R05"
+      ],
+      "elapsed_s": 12.26600000000326,
+      "error": null,
+      "selected_candidate_id": "R12",
+      "geometry": {
+        "destination_point_xy": [
+          1404.5,
+          603.5
+        ],
+        "destination_box_xyxy": [
+          1401.0,
+          600.0,
+          1408.0,
+          607.0
+        ]
+      }
+    }
+  ]
+}

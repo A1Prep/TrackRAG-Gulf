@@ -1,0 +1,165 @@
+{
+  "schema_version": 1,
+  "kind": "nonfinal_daytime_human_review_readiness",
+  "created_utc": "2026-11-21T20:33:31.938656+00:00",
+  "scope": "Two frozen, nonfinal daytime instruction banks. Genuine human returns are still pending.",
+  "local_run": "runs/passenger-human-intake-20261122",
+  "real_intake": {
+    "receipt_sha256": "245f928f489a9903da012d0a8c91252d20a8dd1406f6ee84238d1d6fa715fad2",
+    "receipt": {
+      "schema_version": 1,
+      "kind": "nonfinal_passenger_human_review_intake",
+      "created_utc": "2026-11-21T20:30:25.168755+00:00",
+      "software_fixture": false,
+      "identity_basis": "Named reviewer self-attestation",
+      "externally_authenticated": false,
+      "partitions": {
+        "train": {
+          "recording_id": "video_054604",
+          "expected_cases": 17,
+          "input_bank_sha256": "f6374fe85c21a85a1eafb16d46586285ff5d05afd837223520a9224069627a5d",
+          "eligible_cases": 0,
+          "resolutions": {
+            "awaiting_review": 17
+          },
+          "eligible_status_counts": {
+            "insufficient_visual_evidence": 0,
+            "needs_clarification": 0,
+            "proposed": 0
+          }
+        },
+        "development": {
+          "recording_id": "video_054907",
+          "expected_cases": 19,
+          "input_bank_sha256": "bba8253db53bb968af5b6b5b28524bd5f2b8d31513081b4bd478bee1456c217a",
+          "eligible_cases": 0,
+          "resolutions": {
+            "awaiting_review": 19
+          },
+          "eligible_status_counts": {
+            "insufficient_visual_evidence": 0,
+            "needs_clarification": 0,
+            "proposed": 0
+          }
+        }
+      },
+      "returned_distinct_exports": 0,
+      "attested_human_exports": 0,
+      "unattested_legacy_exports": 0,
+      "cases_with_attested_human_returns": 0,
+      "conflicts_seen": 0,
+      "conflicts_adjudicated": 0,
+      "eligible_human_cases": 0,
+      "has_training_status_coverage_and_development": false,
+      "training_loader_validated": false,
+      "model_continuation_preflight_run": false,
+      "training_performed": false,
+      "reviewed_files": {},
+      "individual_response_ledger_sha256": "b0246d19edbf2a614aef950896a599d47a4246e301a7c761c1ccd8db48393558",
+      "archived_exports": []
+    }
+  },
+  "real_blank_forms": {
+    "original_frames_read_only_in_browser": true,
+    "external_network_requests": 0,
+    "browser_errors": [],
+    "browser_engine": "158.0.4370.33",
+    "human_returns_created": 0,
+    "browser_receipt_sha256": "e2de9a2ef73ed3869b5b9a2eb9d95b2ec0c189715142ba1f7fea541dd5594ff6",
+    "byte_identical_from_prepared_inputs_and_original_emt_tree": true,
+    "partitions": {
+      "train": {
+        "html": "blank-train.html",
+        "html_sha256": "d196a6e700dcac05783349693406dba4b5137b7a939903429431c2ab6efab163",
+        "bytes": 5112666,
+        "cases_read_without_answers": 17,
+        "original_jpeg_sha256": [
+          "8554bd37dc647488f6a496b2845f22a7a6bf21b2478d732b1340d99175a7e518",
+          "f32976e9f019f3009c04608a4dd7b3446ffd46d7bc28a04c7d05fab5994b9e94",
+          "4ffb09376f0cb211e74d46043ef47fa7b498063e308c8e3653bdc1d7381bcc08",
+          "bae9a47cad0179b05aa1d8c36a3162599243051f10a360dc93b8e90cf2627aba"
+        ]
+      },
+      "development": {
+        "html": "blank-development.html",
+        "html_sha256": "7b1d0103e9285a4d66f5dbdc1df7844417710c0e8eed02481d13f1fc97fca49a",
+        "bytes": 5503761,
+        "cases_read_without_answers": 19,
+        "original_jpeg_sha256": [
+          "033fc370408c4bc99a1ec9fbb845b6618a5f53b680a235baba336b8fe8ddba80",
+          "175602c7dc418c0ababa6cea56daec7f5e2779452370a9ace398cdc3780041a6",
+          "2a735d35145f1998ead5ddb78bf960aebbe8b5d997b278e36f888b8e742e3cfd",
+          "0448ff2ffa6959029f2af9d6f9fefc72af976679d400fe796e4e7064ce425213"
+        ]
+      }
+    }
+  },
+  "software_fixture_browser_check": {
+    "receipt_sha256": "608e90ef875ab0efd80789ad2beaa0ac06d4475dc82e4a2e0237dc7f7714fafe",
+    "kind": "synthetic_form_controls_only",
+    "browser": "158.0.4370.33",
+    "original_emt_images_used": 0,
+    "actual_human_reviews": 0,
+    "submitted_to_intake": false,
+    "checkbox_gated_download": true,
+    "verified_statuses": [
+      "proposed",
+      "needs_clarification",
+      "insufficient_visual_evidence"
+    ],
+    "export_bytes_sha256": "35b65c0b20474c08a5bbf77dacee4b47acfcf2ec9c17c268b55a1cb55bc7abf8",
+    "test_identity": "Software Fixture Browser"
+  },
+  "software_fixture_training_contract_check": {
+    "receipt_sha256": "07b4f6de188b11ed7b26982dbb049922c2fef5bea1caa50c14fdf1b6e1678021",
+    "kind": "cpu_review_intake_teacher_handoff_software_fixture_only",
+    "actual_human_cases": 0,
+    "source_images": "Artificial 64x40 pixel files generated in a temporary directory",
+    "parent_completion_sha256": "386d8a8e32fe186ad5fb66762ac34488d3dce19841e71a37ecb73b9b21be93a2",
+    "model_training_or_inference_performed": false,
+    "intake_training_loader_validated": true,
+    "local_continuation_validation": {
+      "schema_version": 1,
+      "kind": "local_continuation_cpu_validation",
+      "valid": true,
+      "train_cases": 3,
+      "development_cases": 3,
+      "status_counts": {
+        "train": {
+          "insufficient_visual_evidence": 1,
+          "needs_clarification": 1,
+          "proposed": 1
+        },
+        "development": {
+          "insufficient_visual_evidence": 1,
+          "needs_clarification": 1,
+          "proposed": 1
+        }
+      },
+      "development_has_all_statuses": true,
+      "parent_binding_sha256": "d82212df6c4bedcbce7d82c4d0d44eab5f34effb4ece246d64c3cc24b758f4cc",
+      "dataset_manifest_sha256": "0e4335a90133df5c972df048bc8c619de2a67caa6de6930cca89e3b3ace79b1b",
+      "target_encoding": "reviewed_interpretation_status_first_float_v1",
+      "target_encoding_sha256": "2814ab3dc6bc71c4fac7637f1bb57c1a18eb60f25031201c8888e174a1b0b557",
+      "software_fixture_cases": 6,
+      "actual_initialization_verified": false,
+      "gpu_fit_verified": false,
+      "local_quality_verified": false
+    }
+  },
+  "targeted_regressions": {
+    "tests": [
+      "tests/test_passenger_human_intake.py",
+      "tests/test_passenger_reference_scoring.py",
+      "tests/test_dropoff_adapt_local.py",
+      "tests/test_dropoff_train.py"
+    ],
+    "passed": 93,
+    "skipped": 0
+  },
+  "limits": [
+    "People self-attest their identities and independent judgments.",
+    "The held-out release and its collected outcomes were outside this intake.",
+    "The working passenger model received zero training updates from these empty human returns."
+  ]
+}

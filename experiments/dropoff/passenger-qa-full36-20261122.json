@@ -1,0 +1,3019 @@
+{
+  "kind": "full_original_development_footage_QA_diagnostic",
+  "collected_via": "Regular trackrag review CLI. Task 1 shared fine-tuned RF-DETR/BoT-SORT saved predictions, Task 4 published lexical track-window search, Task 3 real stateless Gemini answerer on processed frames. Frozen four input/output pairs were reused exactly.",
+  "scope": "The same two previously used development recordings. The prior 3.8 service failures are separately retained. These measures characterize this 3.5 Flash-Lite configuration, not the passenger candidate feature or unseen accuracy.",
+  "review": "One independent AI visual and factual review against the previously frozen public questions and AI-authored rubrics, released original labels, original images, actual returned text and sent pixels. No new human answer labels. Official ranking metric computed separately from answer grades.",
+  "classifications": {
+    "pass": "Correct answer with adequate evidence for the question, or justified abstention. Empty-answer paths receive this grade only when no answer is appropriate.",
+    "qualified": "Correct core conclusion with wrong track attribution, overstated visual explanation or incomplete support for a stated event.",
+    "missed_answer": "A question is answerable in its original recording but the system abstained, including where its selected evidence was insufficient.",
+    "incorrect": "Contradicted by original scene, or makes a factual event claim that the submitted evidence cannot establish.",
+    "provider_error": "The provider returned no final answer. No repeat request was made.",
+    "manual": "The original manual entry question is preserved separately in binary-status counts; its explicit prohibition on treating first selected observation as entry was independently evaluated."
+  },
+  "model": "gemini-3.5-flash-lite",
+  "model_inputs": {
+    "network_retries": 0,
+    "references_sent_to_model": false,
+    "selected_frames_privacy_checked": true,
+    "distinct_masked_images": 60,
+    "privacy_coverage_limitation": "Opaques are applied to predicted person and lower vehicle regions. A detected-region policy does not certify every possible identifying detail."
+  },
+  "predeclared_selection_sha256": "3b0e4a0f991761500634e654c1ed14850c9675aa3656ea54afa9d5e8f5b6be61",
+  "rubrics_and_question_file_sha256": {
+    "experiments/temporal-development-questions.jsonl": "af907b3bda35ec311fd0e20d6f0a3a2bf0f66f3a4b69367915d583e63bcbc769",
+    "experiments/temporal-development-rubric.jsonl": "9b94af1befe53c1631d0261ff4cf38221bd3712e7e4613058c34e7579f54fea4",
+    "experiments/temporal-second-questions.jsonl": "2dc223ebf820185418ef2ab7b5fa693a19691fb7e7c0da6322d8353046fd3433",
+    "experiments/temporal-second-rubric.jsonl": "0e1fc025a1131a7b6cd8100e6087baf3f41eb5fd158a57cb95c81e2545ceccaa"
+  },
+  "source_sha256_at_baseline_execution": {
+    "trackrag/review.py": "de83a079039d70c532604c3eeac4dbe0eac202913ed4ba58f34403fd3913b2a9",
+    "trackrag/retrieval.py": "04cd554fe80b1e57901a37a5e868401dcd00bab6febaa58b15570c3d85e169c2",
+    "trackrag/answering.py": "a35a6b2d5d8d24383f7e3f223ce1fd2656ba198ea0bdd62004d24e11a110cd29",
+    "trackrag/model_client.py": "c98c8cf664f6a4fd4fb1fce8628f4ffe9958cfbc623186103c69a960a94aa713",
+    "trackrag/privacy.py": "07f1e6877cb616333fa257ce587182a617874f17db68de5be9e92d0f6a132645",
+    "tools/vision_saved_adapters.py": "8dbeb83969a08e3a63f24594f6793a01267e461d34e8ed00dcc33ddab4fc87be",
+    "configs/vision/finetuned.json": "9d638ad83a28cc566f307b5ed9c4d554c53584167761542e2bcaf1a91f90c380"
+  },
+  "reference_groundtruth": {
+    "previous_frozen_retrieval_key_sha256": "5249904b39158718f4f85da607ec7c3131af13c819265295a460c6ae591f5bf2",
+    "previous_reference_protocol_sha256": "d1d658ab9547ef6fe55fb74d505b3cdf4ed4f2c2f91599af5d2615b8f638bd8a",
+    "original_annotation_files": {
+      "data/emt-official/annotations/train/video_054604.txt": "d94cfd72c176cab4ac7531a901c34051e6c2d1f36c602a06f223ec8d904652f3",
+      "data/emt-official/annotations/train/video_054907.txt": "20c48cd36e20acb302ac7f68b48df8ca976ae7a7fddf98dd0c48b28b7abdf67b"
+    }
+  },
+  "counts": {
+    "original_cases": 36,
+    "recordings": 2,
+    "new_cli_results": 32,
+    "resubmitted_prior_requests": 0,
+    "reuse_with_verified_sources": 4,
+    "unique_3p5_provider_attempts": 26,
+    "new_3p5_provider_attempts": 23,
+    "provider_completions": 25,
+    "provider_errors": {
+      "RateLimitError": 1
+    },
+    "empty_retrieval_no_provider": 10,
+    "empty_where_rubric_required_answer": 7,
+    "unique_masked_images": 60,
+    "sent_image_occurrences": 176,
+    "physical_provider_query_argument_hashes_verified": 26,
+    "outcome_status_counts": {
+      "answered": 11,
+      "error": 1,
+      "insufficient_evidence": 24
+    },
+    "rubric_status_counts": {
+      "answered": 26,
+      "insufficient_evidence": 9,
+      "manual": 1
+    },
+    "evaluable_binary_status_count": 35,
+    "status_matches_without_text_check": 19,
+    "ai_review_all36": {
+      "incorrect": 2,
+      "missed_answer": 15,
+      "pass": 14,
+      "provider_error": 1,
+      "qualified": 4
+    },
+    "ai_review_35_excluding_manual": {
+      "incorrect": 1,
+      "missed_answer": 15,
+      "pass": 14,
+      "provider_error": 1,
+      "qualified": 4
+    },
+    "by_rubric": {
+      "answered": {
+        "incorrect": 1,
+        "missed_answer": 15,
+        "pass": 7,
+        "provider_error": 1,
+        "qualified": 2
+      },
+      "insufficient_evidence": {
+        "pass": 7,
+        "qualified": 2
+      },
+      "manual": {
+        "incorrect": 1
+      }
+    },
+    "by_recording": {
+      "video_054604": {
+        "incorrect": 1,
+        "missed_answer": 9,
+        "pass": 10,
+        "provider_error": 1,
+        "qualified": 3
+      },
+      "video_054907": {
+        "incorrect": 1,
+        "missed_answer": 6,
+        "pass": 4,
+        "qualified": 1
+      }
+    }
+  },
+  "official_retrieval_score": {
+    "scored_answerable": 25,
+    "top1": 7,
+    "top3": 10,
+    "association": {
+      "matched": 32,
+      "ambiguous": 0,
+      "unmatched": 22
+    },
+    "missing_outcomes": 0,
+    "association_required_mean_box_iou": 0.5,
+    "temporal_iou": 0.5,
+    "limits": "25 prespecified identity/scene questions. The 9 abstentions, ambiguous event and one motion-only case have no primary retrieval metric. A correct retrieved interval can still omit necessary visual endpoints."
+  },
+  "source_runs": [
+    {
+      "run": "video_054604-live",
+      "scope": "new",
+      "recording_id": "video_054604",
+      "questions": 22,
+      "run_sha256": "edab44edfcc2a93e5b17e189ded8194d8d7ed4edb59fe21f2ecc355ca5e13ba8",
+      "results_sha256": "3e6815bcb585c7d466e534e6771c90cd73ad2a3ca311991591fba3bd8bb9efd2",
+      "tracks_sha256": "4f5a3dfd392026627474bfd6bdcfaaa26eef0140fcb86cb196c8ffad6d82a556",
+      "audit_run_verified": true
+    },
+    {
+      "run": "video_054907-live",
+      "scope": "new",
+      "recording_id": "video_054907",
+      "questions": 10,
+      "run_sha256": "be15506c2f85623aaeadfb642703233787a8dfd7b2a93428ca2720824f9b34a5",
+      "results_sha256": "6f405b10e244e98bb4e291c1d9ea97aa5a7013cf952c53cf339ea89ee1891523",
+      "tracks_sha256": "a114f7ca95e29a9331bf64868e06e03e9a8570aa48e360d895a945fc559cb016",
+      "audit_run_verified": true
+    },
+    {
+      "run": "video_054604-fallback",
+      "scope": "prior_exact_input",
+      "recording_id": "video_054604",
+      "questions": 1,
+      "run_sha256": "723c2db8b5287744f80f58c1727391e5736494d57a923062de210f3e59fd1f35",
+      "results_sha256": "50fb452a3b96749330ffbe6682c70994c0891d1e02a218b7faf27a4b7b68043b",
+      "tracks_sha256": "4f5a3dfd392026627474bfd6bdcfaaa26eef0140fcb86cb196c8ffad6d82a556",
+      "audit_run_verified": true
+    },
+    {
+      "run": "video_054907-fallback",
+      "scope": "prior_exact_input",
+      "recording_id": "video_054907",
+      "questions": 2,
+      "run_sha256": "915c599f6bdbab19d014bc053fbe31cba2abcdba29d9af8d50aee3e1f5fb3c9b",
+      "results_sha256": "f47e26357e43f00b6f5f296e1456bdddb4d871eff6a42eb4adc8dd84c0162269",
+      "tracks_sha256": "a114f7ca95e29a9331bf64868e06e03e9a8570aa48e360d895a945fc559cb016",
+      "audit_run_verified": true
+    },
+    {
+      "run": "temporal21-fallback",
+      "scope": "prior_exact_input",
+      "recording_id": "video_054604",
+      "questions": 1,
+      "run_sha256": "723c2db8b5287744f80f58c1727391e5736494d57a923062de210f3e59fd1f35",
+      "results_sha256": "797b1c9fbda87c00f0c913e35100745d69182933e4b2a7058f9b8f59e998c430",
+      "tracks_sha256": "4f5a3dfd392026627474bfd6bdcfaaa26eef0140fcb86cb196c8ffad6d82a556",
+      "audit_run_verified": true
+    }
+  ],
+  "rows": [
+    {
+      "question": {
+        "question_id": "temporal-01",
+        "recording_id": "video_054604",
+        "query_frame": 150,
+        "question": "Which bus entered the left edge of the image after the recording had already started?"
+      },
+      "expected_status": "manual",
+      "rubric_reference": "Identify the later yellow school bus, track 46, while qualifying that first visibility or a clean image-boundary crossing is unproven.",
+      "reference_grounding": "46 at 117-150, bus 2 already present at frame 1. Track 46 first annotation at 70 is inside the image, partly behind trees, with later annotation gaps.",
+      "captured_in": "video_054604-live",
+      "collection": "new",
+      "effective_answer_model": "gemini-3.5-flash-lite",
+      "delivered": {
+        "answer_status": "answered",
+        "answer": "Bus 2418 entered the left edge of the image after the recording had already started, as it is first observed in frame 121.",
+        "cited_evidence_ids": [
+          "E1"
+        ]
+      },
+      "summarised_evidence": [
+        {
+          "id": "E1",
+          "predicted_track_id": 2418,
+          "interval": [
+            121,
+            150
+          ],
+          "submitted_frames": [
+            121,
+            135,
+            150
+          ]
+        },
+        {
+          "id": "E2",
+          "predicted_track_id": 2418,
+          "interval": [
+            131,
+            150
+          ],
+          "submitted_frames": [
+            131,
+            140,
+            150
+          ]
+        },
+        {
+          "id": "E3",
+          "predicted_track_id": 2418,
+          "interval": [
+            141,
+            150
+          ],
+          "submitted_frames": [
+            141,
+            145,
+            150
+          ]
+        }
+      ],
+      "provider": {
+        "provider_called": true,
+        "receipt_sha256": "26afff18f7b0b3277644faf9cb1894b2c345a38bfc6707aa23280bfcc99a291c",
+        "request_status": "completed",
+        "http_status": null,
+        "reported_model": "gemini-3.5-flash-lite",
+        "error_type": null
+      },
+      "provider_input_sha256": "f8985729a0eb4ee96e2cc60106731ce02cd4f7e5b9c00c222094cc023e5789b2",
+      "public_question_utf8_sha256": "bacafb24148b645e4553175c2439c8880cbfd55570561e67e9cafafe29017694",
+      "selected_intervals_sha256": "42ce86b46d3fb9a3b4e3b185f1427bf03bfd145ff95d0530e1e63f0173e5db98",
+      "processed_image_occurrences": 9,
+      "ai_review": {
+        "grade": "incorrect",
+        "reason": "unsupported_event_and_time",
+        "note": "The later highlighted bus is the correct identity. Frame 121 is the first frame in one returned window. The released annotation already contains the same vehicle partly hidden inside the image at frame 70. None of the cited frames demonstrates a boundary crossing. Original wording is manual and this assertion fails its explicit caveat."
+      }
+    },
+    {
+      "question": {
+        "question_id": "temporal-02",
+        "recording_id": "video_054604",
+        "query_frame": 150,
+        "question": "What colour is the bus visible on the left near the end?"
+      },
+      "expected_status": "answered",
+      "rubric_reference": "Yellow bus.",
+      "reference_grounding": "Track 46 at 129-150 or scene 150.",
+      "captured_in": "video_054604-fallback",
+      "collection": "prior_exact_input",
+      "effective_answer_model": "gemini-3.5-flash-lite",
+      "delivered": {
+        "answer_status": "answered",
+        "answer": "The bus visible on the left near the end (frame 150) is yellow.",
+        "cited_evidence_ids": [
+          "E1",
+          "E2",
+          "E3"
+        ]
+      },
+      "summarised_evidence": [
+        {
+          "id": "E1",
+          "predicted_track_id": 2418,
+          "interval": [
+            111,
+            140
+          ],
+          "submitted_frames": [
+            111,
+            126,
+            140
+          ]
+        },
+        {
+          "id": "E2",
+          "predicted_track_id": 2418,
+          "interval": [
+            121,
+            150
+          ],
+          "submitted_frames": [
+            121,
+            135,
+            150
+          ]
+        },
+        {
+          "id": "E3",
+          "predicted_track_id": 2418,
+          "interval": [
+            131,
+            150
+          ],
+          "submitted_frames": [
+            131,
+            140,
+            150
+          ]
+        }
+      ],
+      "provider": {
+        "provider_called": true,
+        "receipt_sha256": "6ab458942fbd6ac77b9ce8a15c6f0484e8ac716c382bd9357506fa05b789bc50",
+        "request_status": "completed",
+        "http_status": null,
+        "reported_model": "gemini-3.5-flash-lite",
+        "error_type": null
+      },
+      "provider_input_sha256": "34b42200a5c49dfbf2e808564dfa73a3933cce3be609dccc17510e893d3e8cd9",
+      "public_question_utf8_sha256": "cce0959c5b848306bc4fcc6077f7fef3e992f48cf24b1807184afa9b667c1c77",
+      "selected_intervals_sha256": "4b8bc5512888ae87d42778060660c931efa8a82c34d050dd67e75aea25f1ff3c",
+      "processed_image_occurrences": 9,
+      "ai_review": {
+        "grade": "pass",
+        "reason": "supported",
+        "note": "The yellow bus is visible at left. All cited intervals map to annotated bus 46 and E2/E3 show frame 150."
+      },
+      "preregistered_retrieval_match": {
+        "matching_ranks": [
+          2,
+          3
+        ],
+        "predicted_track_match": [
+          {
+            "rank": 1,
+            "predicted_track_id": 2418,
+            "annotated_track_id": 46,
+            "mean_box_iou": 0.7934967329295106,
+            "status": "matched"
+          },
+          {
+            "rank": 2,
+            "predicted_track_id": 2418,
+            "annotated_track_id": 46,
+            "mean_box_iou": 0.9327000973171025,
+            "status": "matched"
+          },
+          {
+            "rank": 3,
+            "predicted_track_id": 2418,
+            "annotated_track_id": 46,
+            "mean_box_iou": 0.9539054397213184,
+            "status": "matched"
+          }
+        ]
+      }
+    },
+    {
+      "question": {
+        "question_id": "temporal-03",
+        "recording_id": "video_054604",
+        "query_frame": 150,
+        "question": "Which bus emerges into clearer view toward the end of the clip?"
+      },
+      "expected_status": "answered",
+      "rubric_reference": "Yellow school bus, track 46, comes into clearer view.",
+      "reference_grounding": "46 at 117-150.",
+      "captured_in": "video_054604-live",
+      "collection": "new",
+      "effective_answer_model": "gemini-3.5-flash-lite",
+      "delivered": {
+        "answer_status": "answered",
+        "answer": "The bus with track ID 2418 emerges into clearer view toward the left side of the frame as the clip progresses.",
+        "cited_evidence_ids": [
+          "E1",
+          "E2",
+          "E3"
+        ]
+      },
+      "summarised_evidence": [
+        {
+          "id": "E1",
+          "predicted_track_id": 2418,
+          "interval": [
+            111,
+            140
+          ],
+          "submitted_frames": [
+            111,
+            126,
+            140
+          ]
+        },
+        {
+          "id": "E2",
+          "predicted_track_id": 2418,
+          "interval": [
+            121,
+            150
+          ],
+          "submitted_frames": [
+            121,
+            135,
+            150
+          ]
+        },
+        {
+          "id": "E3",
+          "predicted_track_id": 2418,
+          "interval": [
+            131,
+            150
+          ],
+          "submitted_frames": [
+            131,
+            140,
+            150
+          ]
+        }
+      ],
+      "provider": {
+        "provider_called": true,
+        "receipt_sha256": "53a97a908637f86fe0e1cae34c82afd80973056da2a6f59921f1fd03c4636014",
+        "request_status": "completed",
+        "http_status": null,
+        "reported_model": "gemini-3.5-flash-lite",
+        "error_type": null
+      },
+      "provider_input_sha256": "f83cce80fb8e84d0eda8b1e6a9e988c2d94924a7d7ace4d8c069a207790bff4f",
+      "public_question_utf8_sha256": "bd1e26771fd66cd6d4e6a7953b6bea90db839da7a434cb4e152655c8a292ba43",
+      "selected_intervals_sha256": "b6ee608865237160ab78f5860ca6611cbf646082236c27c4d0f45292879082dc",
+      "processed_image_occurrences": 9,
+      "ai_review": {
+        "grade": "pass",
+        "reason": "supported",
+        "note": "Predicted bus 2418 matches annotated 46. The earlier and later submitted views show the same bus more clearly and larger on the left."
+      },
+      "preregistered_retrieval_match": {
+        "matching_ranks": [
+          1,
+          2,
+          3
+        ],
+        "predicted_track_match": [
+          {
+            "rank": 1,
+            "predicted_track_id": 2418,
+            "annotated_track_id": 46,
+            "mean_box_iou": 0.7934967329295106,
+            "status": "matched"
+          },
+          {
+            "rank": 2,
+            "predicted_track_id": 2418,
+            "annotated_track_id": 46,
+            "mean_box_iou": 0.9327000973171025,
+            "status": "matched"
+          },
+          {
+            "rank": 3,
+            "predicted_track_id": 2418,
+            "annotated_track_id": 46,
+            "mean_box_iou": 0.9539054397213184,
+            "status": "matched"
+          }
+        ]
+      }
+    },
+    {
+      "question": {
+        "question_id": "temporal-04",
+        "recording_id": "video_054604",
+        "query_frame": 150,
+        "question": "Does the yellow bus get larger or smaller in the image between frames 117 and 150?"
+      },
+      "expected_status": "answered",
+      "rubric_reference": "Larger visible image size.",
+      "reference_grounding": "46 at 117-150.",
+      "captured_in": "video_054604-live",
+      "collection": "new",
+      "effective_answer_model": "gemini-3.5-flash-lite",
+      "delivered": {
+        "answer_status": "answered",
+        "answer": "Between frames 117 and 150, the yellow bus gets larger in the image.",
+        "cited_evidence_ids": [
+          "E1",
+          "E2",
+          "E3"
+        ]
+      },
+      "summarised_evidence": [
+        {
+          "id": "E1",
+          "predicted_track_id": 2418,
+          "interval": [
+            111,
+            140
+          ],
+          "submitted_frames": [
+            111,
+            117,
+            126,
+            140
+          ]
+        },
+        {
+          "id": "E2",
+          "predicted_track_id": 2418,
+          "interval": [
+            121,
+            150
+          ],
+          "submitted_frames": [
+            121,
+            135,
+            150
+          ]
+        },
+        {
+          "id": "E3",
+          "predicted_track_id": 2418,
+          "interval": [
+            131,
+            150
+          ],
+          "submitted_frames": [
+            131,
+            140,
+            150
+          ]
+        }
+      ],
+      "provider": {
+        "provider_called": true,
+        "receipt_sha256": "cd04d9731a8dde799b82643f006d1ad44d71bc47993aaac3140c1abdc4145c84",
+        "request_status": "completed",
+        "http_status": null,
+        "reported_model": "gemini-3.5-flash-lite",
+        "error_type": null
+      },
+      "provider_input_sha256": "24ce077fc01d66398f9198293e9df601c0fb80653faaf617be45ccfb919a2730",
+      "public_question_utf8_sha256": "0cf7f513a658161d29514f585c85f533d78dfeaf02650f7bd820f066809e5fdc",
+      "selected_intervals_sha256": "b6ee608865237160ab78f5860ca6611cbf646082236c27c4d0f45292879082dc",
+      "processed_image_occurrences": 10,
+      "ai_review": {
+        "grade": "pass",
+        "reason": "supported",
+        "note": "The cited intervals contain the correct bus and the images across the requested span, including 117 and 150, show its projected size increasing."
+      },
+      "preregistered_retrieval_match": {
+        "matching_ranks": [
+          1,
+          2,
+          3
+        ],
+        "predicted_track_match": [
+          {
+            "rank": 1,
+            "predicted_track_id": 2418,
+            "annotated_track_id": 46,
+            "mean_box_iou": 0.7934967329295106,
+            "status": "matched"
+          },
+          {
+            "rank": 2,
+            "predicted_track_id": 2418,
+            "annotated_track_id": 46,
+            "mean_box_iou": 0.9327000973171025,
+            "status": "matched"
+          },
+          {
+            "rank": 3,
+            "predicted_track_id": 2418,
+            "annotated_track_id": 46,
+            "mean_box_iou": 0.9539054397213184,
+            "status": "matched"
+          }
+        ]
+      }
+    },
+    {
+      "question": {
+        "question_id": "temporal-05",
+        "recording_id": "video_054604",
+        "query_frame": 150,
+        "question": "Which bus looks bigger as the recording progresses?"
+      },
+      "expected_status": "answered",
+      "rubric_reference": "Later yellow bus, track 46, grows in the image.",
+      "reference_grounding": "46 at 100-150.",
+      "captured_in": "video_054604-live",
+      "collection": "new",
+      "effective_answer_model": "gemini-3.5-flash-lite",
+      "delivered": {
+        "answer_status": "answered",
+        "answer": "As the recording progresses from frame 111 to frame 150, bus track_id 2418 appears larger in the frame.",
+        "cited_evidence_ids": [
+          "E1",
+          "E2",
+          "E3"
+        ]
+      },
+      "summarised_evidence": [
+        {
+          "id": "E1",
+          "predicted_track_id": 2418,
+          "interval": [
+            111,
+            140
+          ],
+          "submitted_frames": [
+            111,
+            126,
+            140
+          ]
+        },
+        {
+          "id": "E2",
+          "predicted_track_id": 2418,
+          "interval": [
+            121,
+            150
+          ],
+          "submitted_frames": [
+            121,
+            135,
+            150
+          ]
+        },
+        {
+          "id": "E3",
+          "predicted_track_id": 2418,
+          "interval": [
+            131,
+            150
+          ],
+          "submitted_frames": [
+            131,
+            140,
+            150
+          ]
+        }
+      ],
+      "provider": {
+        "provider_called": true,
+        "receipt_sha256": "88c4907ab2a46fe8adfce7091b1cc7d978fa9528cd8bfcaa5aa46535a087867e",
+        "request_status": "completed",
+        "http_status": null,
+        "reported_model": "gemini-3.5-flash-lite",
+        "error_type": null
+      },
+      "provider_input_sha256": "3ad1fa64822e69af7fecf04ce4ee02bea768f57aeea6156a6c35653653dbfadf",
+      "public_question_utf8_sha256": "cf146b811b893f99537fd07294391c7dd1d21c95b9aea87ed546311a67de73db",
+      "selected_intervals_sha256": "b6ee608865237160ab78f5860ca6611cbf646082236c27c4d0f45292879082dc",
+      "processed_image_occurrences": 9,
+      "ai_review": {
+        "grade": "pass",
+        "reason": "supported",
+        "note": "The cited windows follow the later bus, with larger apparent size between earlier and later submitted frames."
+      },
+      "preregistered_retrieval_match": {
+        "matching_ranks": [
+          1,
+          2
+        ],
+        "predicted_track_match": [
+          {
+            "rank": 1,
+            "predicted_track_id": 2418,
+            "annotated_track_id": 46,
+            "mean_box_iou": 0.7934967329295106,
+            "status": "matched"
+          },
+          {
+            "rank": 2,
+            "predicted_track_id": 2418,
+            "annotated_track_id": 46,
+            "mean_box_iou": 0.9327000973171025,
+            "status": "matched"
+          },
+          {
+            "rank": 3,
+            "predicted_track_id": 2418,
+            "annotated_track_id": 46,
+            "mean_box_iou": 0.9539054397213184,
+            "status": "matched"
+          }
+        ]
+      }
+    },
+    {
+      "question": {
+        "question_id": "temporal-06",
+        "recording_id": "video_054604",
+        "query_frame": 20,
+        "question": "Which bus moves out through the left side during the opening second?"
+      },
+      "expected_status": "answered",
+      "rubric_reference": "Opening bus, track 2, moves left and becomes clipped.",
+      "reference_grounding": "2 at 1-10.",
+      "captured_in": "video_054604-live",
+      "collection": "new",
+      "effective_answer_model": "gemini-3.5-flash-lite",
+      "delivered": {
+        "answer_status": "answered",
+        "answer": "Bus track 6 moves out through the left side during the opening second of the recording.",
+        "cited_evidence_ids": [
+          "E1"
+        ]
+      },
+      "summarised_evidence": [
+        {
+          "id": "E1",
+          "predicted_track_id": 6,
+          "interval": [
+            1,
+            8
+          ],
+          "submitted_frames": [
+            1,
+            4,
+            8
+          ]
+        },
+        {
+          "id": "E2",
+          "predicted_track_id": 14,
+          "interval": [
+            1,
+            8
+          ],
+          "submitted_frames": [
+            1,
+            2,
+            8
+          ]
+        },
+        {
+          "id": "E3",
+          "predicted_track_id": 1,
+          "interval": [
+            1,
+            10
+          ],
+          "submitted_frames": [
+            1,
+            5,
+            10
+          ]
+        }
+      ],
+      "provider": {
+        "provider_called": true,
+        "receipt_sha256": "f6aec5869ff47234c9306fd1b512be551c444148d6734e8d21d7c5d3f3296923",
+        "request_status": "completed",
+        "http_status": null,
+        "reported_model": "gemini-3.5-flash-lite",
+        "error_type": null
+      },
+      "provider_input_sha256": "ca5845a628018113cbeb6863d0e729ae04d27c88f5695a5014a79db4e2eb6da4",
+      "public_question_utf8_sha256": "96f1b487d59cfe3bbefaa4d460a7655054c4bb667aca6bb7297b9672aaceb3f7",
+      "selected_intervals_sha256": "7e94a560e2676cf590914b6967b8e46f3379d09bbce9ea6ffed32565023d7fcc",
+      "processed_image_occurrences": 9,
+      "ai_review": {
+        "grade": "qualified",
+        "reason": "partial_event_coverage",
+        "note": "The cited predicted track 6 maps to the opening bus and its selected frames show movement left and clipping by frame 8. The cited views stop with the bus still partly visible; complete disappearance is stronger than the evidence."
+      },
+      "preregistered_retrieval_match": {
+        "matching_ranks": [
+          1
+        ],
+        "predicted_track_match": [
+          {
+            "rank": 1,
+            "predicted_track_id": 6,
+            "annotated_track_id": 2,
+            "mean_box_iou": 0.7000801120544267,
+            "status": "matched"
+          },
+          {
+            "rank": 2,
+            "predicted_track_id": 14,
+            "annotated_track_id": null,
+            "mean_box_iou": 0.0,
+            "status": "unmatched"
+          },
+          {
+            "rank": 3,
+            "predicted_track_id": 1,
+            "annotated_track_id": 7,
+            "mean_box_iou": 0.9171314155164236,
+            "status": "matched"
+          }
+        ]
+      }
+    },
+    {
+      "question": {
+        "question_id": "temporal-07",
+        "recording_id": "video_054604",
+        "query_frame": 30,
+        "question": "What colour is the large SUV on the left around frame 30?"
+      },
+      "expected_status": "answered",
+      "rubric_reference": "Grey or dark grey SUV.",
+      "reference_grounding": "8 at 25-30 or scene 30.",
+      "captured_in": "video_054604-live",
+      "collection": "new",
+      "effective_answer_model": "gemini-3.5-flash-lite",
+      "delivered": {
+        "answer_status": "insufficient_evidence",
+        "answer": "The inventory only provides evidence for frame 1, which is insufficient to determine conditions at frame 30.",
+        "cited_evidence_ids": []
+      },
+      "summarised_evidence": [
+        {
+          "id": "E1",
+          "predicted_track_id": 7,
+          "interval": [
+            1,
+            1
+          ],
+          "submitted_frames": [
+            1
+          ]
+        },
+        {
+          "id": "E2",
+          "predicted_track_id": 16,
+          "interval": [
+            1,
+            1
+          ],
+          "submitted_frames": [
+            1
+          ]
+        },
+        {
+          "id": "E3",
+          "predicted_track_id": 20,
+          "interval": [
+            1,
+            1
+          ],
+          "submitted_frames": [
+            1
+          ]
+        }
+      ],
+      "provider": {
+        "provider_called": true,
+        "receipt_sha256": "b13a771a8c6c0d4cd12605086a5c0369fd5edcfec8325146977d4ca36433753e",
+        "request_status": "completed",
+        "http_status": null,
+        "reported_model": "gemini-3.5-flash-lite",
+        "error_type": null
+      },
+      "provider_input_sha256": "76edba395fed26529d75fbab6aa730e57cd87929f98a625f18231b5dac36974c",
+      "public_question_utf8_sha256": "fd3d7fcf716174fe17d5e3c5783746a49c9962182b2378f7e23cdc9dd662ae44",
+      "selected_intervals_sha256": "a327bda39c6b8ebfacba89c472fbfa9d35d1ff729d1a0d16b3dde5ca3bb58c85",
+      "processed_image_occurrences": 3,
+      "ai_review": {
+        "grade": "missed_answer",
+        "reason": "wrong_time_retrieved",
+        "note": "The dark grey SUV is visible at original frame 30. Retrieval supplies only frame 1, so the abstention is reasonable for the provided evidence."
+      },
+      "preregistered_retrieval_match": {
+        "matching_ranks": [],
+        "predicted_track_match": [
+          {
+            "rank": 1,
+            "predicted_track_id": 7,
+            "annotated_track_id": null,
+            "mean_box_iou": 0.0,
+            "status": "unmatched"
+          },
+          {
+            "rank": 2,
+            "predicted_track_id": 16,
+            "annotated_track_id": null,
+            "mean_box_iou": 0.0,
+            "status": "unmatched"
+          },
+          {
+            "rank": 3,
+            "predicted_track_id": 20,
+            "annotated_track_id": null,
+            "mean_box_iou": 0.0,
+            "status": "unmatched"
+          }
+        ]
+      }
+    },
+    {
+      "question": {
+        "question_id": "temporal-08",
+        "recording_id": "video_054604",
+        "query_frame": 30,
+        "question": "Is the large grey SUV on the left or right of the image at frame 30?"
+      },
+      "expected_status": "answered",
+      "rubric_reference": "Left of the image.",
+      "reference_grounding": "8 at 28-30 or scene 30; x about 184-664 of 2560 at frame 30.",
+      "captured_in": "video_054604-live",
+      "collection": "new",
+      "effective_answer_model": "gemini-3.5-flash-lite",
+      "delivered": {
+        "answer_status": "answered",
+        "answer": "At frame 30, the large grey SUV (tracked as a large vehicle under ID 716) is on the left of the image.",
+        "cited_evidence_ids": [
+          "E1"
+        ]
+      },
+      "summarised_evidence": [
+        {
+          "id": "E1",
+          "predicted_track_id": 716,
+          "interval": [
+            30,
+            30
+          ],
+          "submitted_frames": [
+            30
+          ]
+        },
+        {
+          "id": "E2",
+          "predicted_track_id": 7,
+          "interval": [
+            1,
+            1
+          ],
+          "submitted_frames": [
+            1
+          ]
+        },
+        {
+          "id": "E3",
+          "predicted_track_id": 13,
+          "interval": [
+            1,
+            1
+          ],
+          "submitted_frames": [
+            1
+          ]
+        }
+      ],
+      "provider": {
+        "provider_called": true,
+        "receipt_sha256": "84e6d6b24fcd000906caa33c00d25f8bd6b2ac78f0ba26f07f6fad34e2cddd20",
+        "request_status": "completed",
+        "http_status": null,
+        "reported_model": "gemini-3.5-flash-lite",
+        "error_type": null
+      },
+      "provider_input_sha256": "9464ef44400e99805e1fa964c3de056a2a68c312a6556e7a14a368f1e7d9f3bf",
+      "public_question_utf8_sha256": "0055210928e9ba2cc8aaaff6042ba40525e0170998b4cb2e1adf372a53de61c9",
+      "selected_intervals_sha256": "4f65493d156ccbaf6bd958dd5436a553a703c7aa28d8f7ddec5800ea75ce339a",
+      "processed_image_occurrences": 3,
+      "ai_review": {
+        "grade": "qualified",
+        "reason": "scene_supports_location_wrong_track",
+        "note": "The original and sent full frame 30 show the large grey SUV on the left. The red highlight for stated ID 716 is far to its right; the official matcher finds no associated annotated track for 716."
+      },
+      "preregistered_retrieval_match": {
+        "matching_ranks": [],
+        "predicted_track_match": [
+          {
+            "rank": 1,
+            "predicted_track_id": 716,
+            "annotated_track_id": null,
+            "mean_box_iou": 0.0,
+            "status": "unmatched"
+          },
+          {
+            "rank": 2,
+            "predicted_track_id": 7,
+            "annotated_track_id": null,
+            "mean_box_iou": 0.0,
+            "status": "unmatched"
+          },
+          {
+            "rank": 3,
+            "predicted_track_id": 13,
+            "annotated_track_id": null,
+            "mean_box_iou": 0.0,
+            "status": "unmatched"
+          }
+        ]
+      }
+    },
+    {
+      "question": {
+        "question_id": "temporal-09",
+        "recording_id": "video_054604",
+        "query_frame": 30,
+        "question": "Does the grey SUV become larger in the image over its earlier observations?"
+      },
+      "expected_status": "answered",
+      "rubric_reference": "Yes, the grey SUV grows substantially in the image.",
+      "reference_grounding": "8 at roughly 10-30.",
+      "captured_in": "video_054604-live",
+      "collection": "new",
+      "effective_answer_model": null,
+      "delivered": {
+        "answer_status": "insufficient_evidence",
+        "answer": null,
+        "cited_evidence_ids": []
+      },
+      "summarised_evidence": [],
+      "provider": {
+        "provider_called": false,
+        "receipt_sha256": null
+      },
+      "provider_input_sha256": null,
+      "public_question_utf8_sha256": "41710bc171fbec68a592f7bf43c48f25f26ec3bdbd756bc757eb10708e40068e",
+      "selected_intervals_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "processed_image_occurrences": 0,
+      "ai_review": {
+        "grade": "missed_answer",
+        "reason": "empty_retrieval",
+        "note": "The rubric and earlier track support increasing image size; no evidence was retrieved."
+      },
+      "preregistered_retrieval_match": {
+        "matching_ranks": [],
+        "predicted_track_match": []
+      }
+    },
+    {
+      "question": {
+        "question_id": "temporal-10",
+        "recording_id": "video_054604",
+        "query_frame": 1,
+        "question": "What colour is the prominent car in the opening frame?"
+      },
+      "expected_status": "answered",
+      "rubric_reference": "Silver or light grey.",
+      "reference_grounding": "Prominent car 7 at frame 1 or scene 1.",
+      "captured_in": "video_054604-live",
+      "collection": "new",
+      "effective_answer_model": "gemini-3.5-flash-lite",
+      "delivered": {
+        "answer_status": "insufficient_evidence",
+        "answer": "The provided visual evidence and bounding box images are heavily compressed and privacy-masked, making it impossible to determine the color of the prominent car in the opening frame.",
+        "cited_evidence_ids": []
+      },
+      "summarised_evidence": [
+        {
+          "id": "E1",
+          "predicted_track_id": 1,
+          "interval": [
+            1,
+            1
+          ],
+          "submitted_frames": [
+            1
+          ]
+        },
+        {
+          "id": "E2",
+          "predicted_track_id": 2,
+          "interval": [
+            1,
+            1
+          ],
+          "submitted_frames": [
+            1
+          ]
+        },
+        {
+          "id": "E3",
+          "predicted_track_id": 3,
+          "interval": [
+            1,
+            1
+          ],
+          "submitted_frames": [
+            1
+          ]
+        }
+      ],
+      "provider": {
+        "provider_called": true,
+        "receipt_sha256": "3687f697e53bc831359c3c2cbd134ff1c8933269e482c528c4c275ec227dd50d",
+        "request_status": "completed",
+        "http_status": null,
+        "reported_model": "gemini-3.5-flash-lite",
+        "error_type": null
+      },
+      "provider_input_sha256": "c7d91ab6e35adc8531a399fa7981a83bd3aa64ff9da50ff92f342665f5bd721e",
+      "public_question_utf8_sha256": "a6d068e609b01352c99b19aced9324d26597900a984af58002cea9a138d46e1d",
+      "selected_intervals_sha256": "da93fe7266a69cb0bce9b13a6293fd9492338705445278b239e666a98285cdc2",
+      "processed_image_occurrences": 3,
+      "ai_review": {
+        "grade": "missed_answer",
+        "reason": "answerer_withheld_supported_attribute",
+        "note": "The correctly highlighted opening car maps to annotation 7. In E1 its light silver/grey upper body is visible above the privacy mask."
+      },
+      "preregistered_retrieval_match": {
+        "matching_ranks": [
+          1
+        ],
+        "predicted_track_match": [
+          {
+            "rank": 1,
+            "predicted_track_id": 1,
+            "annotated_track_id": 7,
+            "mean_box_iou": 0.7349055594241984,
+            "status": "matched"
+          },
+          {
+            "rank": 2,
+            "predicted_track_id": 2,
+            "annotated_track_id": 8,
+            "mean_box_iou": 0.6772233627668912,
+            "status": "matched"
+          },
+          {
+            "rank": 3,
+            "predicted_track_id": 3,
+            "annotated_track_id": 9,
+            "mean_box_iou": 0.8755377736409167,
+            "status": "matched"
+          }
+        ]
+      }
+    },
+    {
+      "question": {
+        "question_id": "temporal-11",
+        "recording_id": "video_054604",
+        "query_frame": 1,
+        "question": "Which car appears largest in the opening image?"
+      },
+      "expected_status": "answered",
+      "rubric_reference": "Prominent silver car, track 7.",
+      "reference_grounding": "7 has the largest annotated car box at frame 1.",
+      "captured_in": "video_054604-live",
+      "collection": "new",
+      "effective_answer_model": "gemini-3.5-flash-lite",
+      "delivered": {
+        "answer_status": "answered",
+        "answer": "Based on the opening image, the car that appears largest is track ID 1 (located near the center-left foreground).",
+        "cited_evidence_ids": [
+          "E1"
+        ]
+      },
+      "summarised_evidence": [
+        {
+          "id": "E1",
+          "predicted_track_id": 1,
+          "interval": [
+            1,
+            1
+          ],
+          "submitted_frames": [
+            1
+          ]
+        },
+        {
+          "id": "E2",
+          "predicted_track_id": 2,
+          "interval": [
+            1,
+            1
+          ],
+          "submitted_frames": [
+            1
+          ]
+        },
+        {
+          "id": "E3",
+          "predicted_track_id": 3,
+          "interval": [
+            1,
+            1
+          ],
+          "submitted_frames": [
+            1
+          ]
+        }
+      ],
+      "provider": {
+        "provider_called": true,
+        "receipt_sha256": "ac54febf07d1fa8168f141565088c72771438b8b0b92ba21e986909590c31d20",
+        "request_status": "completed",
+        "http_status": null,
+        "reported_model": "gemini-3.5-flash-lite",
+        "error_type": null
+      },
+      "provider_input_sha256": "0378fe96637913fc39195e538755f6602e26bb9fb91172813c61706a9c6ca77c",
+      "public_question_utf8_sha256": "5508a5af65817f951cc793608f6d6feab98125434812020408fa551cbcd65a57",
+      "selected_intervals_sha256": "da93fe7266a69cb0bce9b13a6293fd9492338705445278b239e666a98285cdc2",
+      "processed_image_occurrences": 3,
+      "ai_review": {
+        "grade": "pass",
+        "reason": "supported",
+        "note": "E1 at frame 1 highlights predicted car 1, matched to annotated car 7, the largest opening car in the released annotation and visible comparison."
+      },
+      "preregistered_retrieval_match": {
+        "matching_ranks": [
+          1
+        ],
+        "predicted_track_match": [
+          {
+            "rank": 1,
+            "predicted_track_id": 1,
+            "annotated_track_id": 7,
+            "mean_box_iou": 0.7349055594241984,
+            "status": "matched"
+          },
+          {
+            "rank": 2,
+            "predicted_track_id": 2,
+            "annotated_track_id": 8,
+            "mean_box_iou": 0.6772233627668912,
+            "status": "matched"
+          },
+          {
+            "rank": 3,
+            "predicted_track_id": 3,
+            "annotated_track_id": 9,
+            "mean_box_iou": 0.8755377736409167,
+            "status": "matched"
+          }
+        ]
+      }
+    },
+    {
+      "question": {
+        "question_id": "temporal-12",
+        "recording_id": "video_054604",
+        "query_frame": 15,
+        "question": "What type of road user is annotated as track 6 in the opening frames?"
+      },
+      "expected_status": "answered",
+      "rubric_reference": "Motorbike or motorcycle rider.",
+      "reference_grounding": "6 at 1-13, explicitly asks about the annotation.",
+      "captured_in": "video_054604-live",
+      "collection": "new",
+      "effective_answer_model": null,
+      "delivered": {
+        "answer_status": "insufficient_evidence",
+        "answer": null,
+        "cited_evidence_ids": []
+      },
+      "summarised_evidence": [],
+      "provider": {
+        "provider_called": false,
+        "receipt_sha256": null
+      },
+      "provider_input_sha256": null,
+      "public_question_utf8_sha256": "6fe56ea9b292ecd376c993c58424e3279fa88a492a36e594ffab05f2d296d208",
+      "selected_intervals_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "processed_image_occurrences": 0,
+      "ai_review": {
+        "grade": "missed_answer",
+        "reason": "empty_retrieval_annotation_namespace",
+        "note": "This explicitly asks for an annotation identity. The release identifies a motorbike; predicted track identifiers are a different namespace and no evidence was returned."
+      },
+      "preregistered_retrieval_match": {
+        "matching_ranks": [],
+        "predicted_track_match": []
+      }
+    },
+    {
+      "question": {
+        "question_id": "temporal-13",
+        "recording_id": "video_054604",
+        "query_frame": 15,
+        "question": "In which direction across the image does the early motorbike move?"
+      },
+      "expected_status": "answered",
+      "rubric_reference": "Toward the left of the image.",
+      "reference_grounding": "6 at 1-13.",
+      "captured_in": "video_054604-live",
+      "collection": "new",
+      "effective_answer_model": "gemini-3.5-flash-lite",
+      "delivered": {
+        "answer_status": "insufficient_evidence",
+        "answer": "There is no motorbike visible in the supplied evidence inventory or images to determine its direction of movement.",
+        "cited_evidence_ids": []
+      },
+      "summarised_evidence": [
+        {
+          "id": "E1",
+          "predicted_track_id": 8,
+          "interval": [
+            1,
+            5
+          ],
+          "submitted_frames": [
+            1,
+            5
+          ]
+        },
+        {
+          "id": "E2",
+          "predicted_track_id": 6,
+          "interval": [
+            1,
+            8
+          ],
+          "submitted_frames": [
+            1,
+            4,
+            8
+          ]
+        },
+        {
+          "id": "E3",
+          "predicted_track_id": 14,
+          "interval": [
+            1,
+            8
+          ],
+          "submitted_frames": [
+            1,
+            2,
+            8
+          ]
+        }
+      ],
+      "provider": {
+        "provider_called": true,
+        "receipt_sha256": "91f557a66d882ae998cda84a9a0e6e63a01ff9a3866ed630815cd6ca22c9f823",
+        "request_status": "completed",
+        "http_status": null,
+        "reported_model": "gemini-3.5-flash-lite",
+        "error_type": null
+      },
+      "provider_input_sha256": "e80944c329c5410c4214129fcc877bd12f9b368b15ee5f6553fb6c7c22399413",
+      "public_question_utf8_sha256": "83b002c56a9bc293c4c9b9f66725f0965da2cc23d12c92c7701eeabf2f0069a7",
+      "selected_intervals_sha256": "363c7f873ae7d8a80cbeba7d6f4e37644823dcb27a3680eed6249f9bd86e15cf",
+      "processed_image_occurrences": 8,
+      "ai_review": {
+        "grade": "missed_answer",
+        "reason": "wrong_target_retrieved",
+        "note": "None of the three highlighted tracks matches the annotated early motorbike 6. The original annotated movement and reference support leftward motion."
+      },
+      "preregistered_retrieval_match": {
+        "matching_ranks": [],
+        "predicted_track_match": [
+          {
+            "rank": 1,
+            "predicted_track_id": 8,
+            "annotated_track_id": null,
+            "mean_box_iou": 0.0,
+            "status": "unmatched"
+          },
+          {
+            "rank": 2,
+            "predicted_track_id": 6,
+            "annotated_track_id": 2,
+            "mean_box_iou": 0.7000801120544267,
+            "status": "matched"
+          },
+          {
+            "rank": 3,
+            "predicted_track_id": 14,
+            "annotated_track_id": null,
+            "mean_box_iou": 0.0,
+            "status": "unmatched"
+          }
+        ]
+      }
+    },
+    {
+      "question": {
+        "question_id": "temporal-14",
+        "recording_id": "video_054604",
+        "query_frame": 120,
+        "question": "Which large vehicle has a green container around frame 120?"
+      },
+      "expected_status": "answered",
+      "rubric_reference": "Green container truck, track 50; Evergreen container is visible.",
+      "reference_grounding": "50 around 110-120 or scene 120.",
+      "captured_in": "video_054604-live",
+      "collection": "new",
+      "effective_answer_model": "gemini-3.5-flash-lite",
+      "delivered": {
+        "answer_status": "insufficient_evidence",
+        "answer": "There is no evidence for frame 120 as the inventory only contains evidence up to frame 77, and none of the visible large vehicles show a green container.",
+        "cited_evidence_ids": []
+      },
+      "summarised_evidence": [
+        {
+          "id": "E1",
+          "predicted_track_id": 716,
+          "interval": [
+            30,
+            30
+          ],
+          "submitted_frames": [
+            30
+          ]
+        },
+        {
+          "id": "E2",
+          "predicted_track_id": 1102,
+          "interval": [
+            43,
+            43
+          ],
+          "submitted_frames": [
+            43
+          ]
+        },
+        {
+          "id": "E3",
+          "predicted_track_id": 1366,
+          "interval": [
+            56,
+            77
+          ],
+          "submitted_frames": [
+            56,
+            64,
+            77
+          ]
+        }
+      ],
+      "provider": {
+        "provider_called": true,
+        "receipt_sha256": "c1bfdb903d9efbbcb283bc87895da1d25ad6b733bef0c37ea24434dadfac8de3",
+        "request_status": "completed",
+        "http_status": null,
+        "reported_model": "gemini-3.5-flash-lite",
+        "error_type": null
+      },
+      "provider_input_sha256": "17db9ef9b2023ddfdd1186695633cb71d333e3e605b459bb09e156b46348dd67",
+      "public_question_utf8_sha256": "f9cf576493632553aef7136d4acfbbf2469d8165b615af45c7fc340864cbeb33",
+      "selected_intervals_sha256": "efc4d680a0a92060f11911fc9d5986992426a9f675e2192bd20389fe7a4ab01c",
+      "processed_image_occurrences": 5,
+      "ai_review": {
+        "grade": "missed_answer",
+        "reason": "wrong_time_retrieved",
+        "note": "Selected images stop at frame 77. The original frame 120 shows the green Evergreen container truck."
+      },
+      "preregistered_retrieval_match": {
+        "matching_ranks": [],
+        "predicted_track_match": [
+          {
+            "rank": 1,
+            "predicted_track_id": 716,
+            "annotated_track_id": null,
+            "mean_box_iou": 0.0,
+            "status": "unmatched"
+          },
+          {
+            "rank": 2,
+            "predicted_track_id": 1102,
+            "annotated_track_id": null,
+            "mean_box_iou": 0.0,
+            "status": "unmatched"
+          },
+          {
+            "rank": 3,
+            "predicted_track_id": 1366,
+            "annotated_track_id": null,
+            "mean_box_iou": 0.0,
+            "status": "unmatched"
+          }
+        ]
+      }
+    },
+    {
+      "question": {
+        "question_id": "temporal-15",
+        "recording_id": "video_054604",
+        "query_frame": 120,
+        "question": "Does the green container truck move toward the left or right of the image in its recent observations?"
+      },
+      "expected_status": "answered",
+      "rubric_reference": "Toward the left of the image.",
+      "reference_grounding": "50, observed recent history up to 120.",
+      "captured_in": "video_054604-live",
+      "collection": "new",
+      "effective_answer_model": null,
+      "delivered": {
+        "answer_status": "error",
+        "answer": "RateLimitError: Error code: 429 - {'error': {'message': 'Rate limit exceeded for model gemini-3.5-flash-lite (limit: 250000 input tokens per minute on Free Tier). Please retry in 34s or upgrade your tier at https://ai.dev/rate-limit.', 'code': 'too_many_requests'}}",
+        "cited_evidence_ids": []
+      },
+      "summarised_evidence": [
+        {
+          "id": "E1",
+          "predicted_track_id": 13,
+          "interval": [
+            1,
+            1
+          ],
+          "submitted_frames": [
+            1
+          ]
+        },
+        {
+          "id": "E2",
+          "predicted_track_id": 17,
+          "interval": [
+            1,
+            1
+          ],
+          "submitted_frames": [
+            1
+          ]
+        },
+        {
+          "id": "E3",
+          "predicted_track_id": 8,
+          "interval": [
+            1,
+            5
+          ],
+          "submitted_frames": [
+            1,
+            5
+          ]
+        }
+      ],
+      "provider": {
+        "provider_called": true,
+        "receipt_sha256": "ded581af741a3a5b4aa58131d20b37d0e8525b6d3d24f89fa4e01e8691186739",
+        "request_status": "error",
+        "http_status": 429,
+        "reported_model": null,
+        "error_type": "RateLimitError"
+      },
+      "provider_input_sha256": "3dca980cf2ae1040830f0f519856c4005b57ca9cf727824851b4ce90e2df36f6",
+      "public_question_utf8_sha256": "6e7c53c3571d0daccafe2d72414109b22b281531ff83207bd97e768e4a67b76f",
+      "selected_intervals_sha256": "b047933094b1e93c197618690c4ee53743f55b43ca832c8a24c90098fc262084",
+      "processed_image_occurrences": 4,
+      "ai_review": {
+        "grade": "provider_error",
+        "reason": "http_429",
+        "note": "Google returned HTTP 429. Selected images also end by frame 5 for a query about recent observations up to 120. No retry and no output imputed."
+      }
+    },
+    {
+      "question": {
+        "question_id": "temporal-16",
+        "recording_id": "video_054604",
+        "query_frame": 150,
+        "question": "What street name is printed on the blue exit sign visible near the end?"
+      },
+      "expected_status": "answered",
+      "rubric_reference": "Hessa Street or Hessa St.",
+      "reference_grounding": "Full scene frame 150. Recheck legibility on actual processed provider input.",
+      "captured_in": "video_054604-live",
+      "collection": "new",
+      "effective_answer_model": "gemini-3.5-flash-lite",
+      "delivered": {
+        "answer_status": "insufficient_evidence",
+        "answer": "The query frame is 150, but the provided evidence inventory only contains frames up to frame 11. Therefore, there is insufficient evidence to determine what street name is printed on the blue exit sign visible near the end.",
+        "cited_evidence_ids": []
+      },
+      "summarised_evidence": [
+        {
+          "id": "E1",
+          "predicted_track_id": 6,
+          "interval": [
+            1,
+            8
+          ],
+          "submitted_frames": [
+            1,
+            4,
+            8
+          ]
+        },
+        {
+          "id": "E2",
+          "predicted_track_id": 1,
+          "interval": [
+            1,
+            10
+          ],
+          "submitted_frames": [
+            1,
+            5,
+            10
+          ]
+        },
+        {
+          "id": "E3",
+          "predicted_track_id": 5,
+          "interval": [
+            1,
+            11
+          ],
+          "submitted_frames": [
+            1,
+            5,
+            11
+          ]
+        }
+      ],
+      "provider": {
+        "provider_called": true,
+        "receipt_sha256": "ddae1abcda877516e1f00a637569921d0e1335019fd779445d880d6a4d31e2e7",
+        "request_status": "completed",
+        "http_status": null,
+        "reported_model": "gemini-3.5-flash-lite",
+        "error_type": null
+      },
+      "provider_input_sha256": "ca95d9800c28988a51d1fc14aaa074c802223a981e13a5f6443026f2e2206890",
+      "public_question_utf8_sha256": "c726c911d8101a6bb3a150fe7b194903b70da04c987f1768ae4bce38fa9f5b1f",
+      "selected_intervals_sha256": "7038daf45ff1ad6f0ce556065b80fef2cb3b143bf9fac233916e240226f90f96",
+      "processed_image_occurrences": 9,
+      "ai_review": {
+        "grade": "missed_answer",
+        "reason": "wrong_time_retrieved",
+        "note": "The supplied images end at frame 11. The late sign required by the reference is outside that selection."
+      },
+      "preregistered_retrieval_match": {
+        "matching_ranks": [],
+        "predicted_track_match": [
+          {
+            "rank": 1,
+            "predicted_track_id": 6,
+            "annotated_track_id": 2,
+            "mean_box_iou": 0.7000801120544267,
+            "status": "matched"
+          },
+          {
+            "rank": 2,
+            "predicted_track_id": 1,
+            "annotated_track_id": 7,
+            "mean_box_iou": 0.9171314155164236,
+            "status": "matched"
+          },
+          {
+            "rank": 3,
+            "predicted_track_id": 5,
+            "annotated_track_id": null,
+            "mean_box_iou": 0.0,
+            "status": "unmatched"
+          }
+        ]
+      }
+    },
+    {
+      "question": {
+        "question_id": "temporal-17",
+        "recording_id": "video_054604",
+        "query_frame": 150,
+        "question": "Is this road scene shown in daylight or at night?"
+      },
+      "expected_status": "answered",
+      "rubric_reference": "Daylight.",
+      "reference_grounding": "Full scene 150 or another available earlier frame.",
+      "captured_in": "video_054604-live",
+      "collection": "new",
+      "effective_answer_model": null,
+      "delivered": {
+        "answer_status": "insufficient_evidence",
+        "answer": null,
+        "cited_evidence_ids": []
+      },
+      "summarised_evidence": [],
+      "provider": {
+        "provider_called": false,
+        "receipt_sha256": null
+      },
+      "provider_input_sha256": null,
+      "public_question_utf8_sha256": "41f8e31c82db4a9552ec9d35a1f40e93fa9e8719592ae8f3f3f1b9e3fc21c0f6",
+      "selected_intervals_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "processed_image_occurrences": 0,
+      "ai_review": {
+        "grade": "missed_answer",
+        "reason": "empty_retrieval",
+        "note": "Daylight is visible across the recording, including the query frame. The system selected no evidence."
+      },
+      "preregistered_retrieval_match": {
+        "matching_ranks": [],
+        "predicted_track_match": []
+      }
+    },
+    {
+      "question": {
+        "question_id": "temporal-18",
+        "recording_id": "video_054604",
+        "query_frame": 30,
+        "question": "Is a bus visible in frame 30?"
+      },
+      "expected_status": "answered",
+      "rubric_reference": "No clearly visible bus in frame 30.",
+      "reference_grounding": "Full scene 30 must support the absence, labels alone are insufficient.",
+      "captured_in": "video_054604-live",
+      "collection": "new",
+      "effective_answer_model": null,
+      "delivered": {
+        "answer_status": "insufficient_evidence",
+        "answer": null,
+        "cited_evidence_ids": []
+      },
+      "summarised_evidence": [],
+      "provider": {
+        "provider_called": false,
+        "receipt_sha256": null
+      },
+      "provider_input_sha256": null,
+      "public_question_utf8_sha256": "55960ececf2863167f7c67a67263fea00c87b6291ca2ff6c734661dc6fa50317",
+      "selected_intervals_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "processed_image_occurrences": 0,
+      "ai_review": {
+        "grade": "missed_answer",
+        "reason": "empty_retrieval",
+        "note": "The original frame 30 supports no clearly visible bus. An empty index result cannot establish a visual absence."
+      },
+      "preregistered_retrieval_match": {
+        "matching_ranks": [],
+        "predicted_track_match": []
+      }
+    },
+    {
+      "question": {
+        "question_id": "temporal-19",
+        "recording_id": "video_054604",
+        "query_frame": 30,
+        "question": "What colour is the bus that will appear after frame 70?"
+      },
+      "expected_status": "insufficient_evidence",
+      "rubric_reference": "Cannot use the later bus appearance at query frame 30.",
+      "reference_grounding": "All inference inputs must end at frame 30.",
+      "captured_in": "video_054604-live",
+      "collection": "new",
+      "effective_answer_model": null,
+      "delivered": {
+        "answer_status": "insufficient_evidence",
+        "answer": null,
+        "cited_evidence_ids": []
+      },
+      "summarised_evidence": [],
+      "provider": {
+        "provider_called": false,
+        "receipt_sha256": null
+      },
+      "provider_input_sha256": null,
+      "public_question_utf8_sha256": "f76335d57b4c91dc7b7dceaa8f2a6fe555737e8e611179d5758de59e076b1894",
+      "selected_intervals_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "processed_image_occurrences": 0,
+      "ai_review": {
+        "grade": "pass",
+        "reason": "correct_empty_abstention",
+        "note": "At cutoff 30 the question requests a future bus after 70. No evidence was returned; the early decision is appropriate."
+      }
+    },
+    {
+      "question": {
+        "question_id": "temporal-20",
+        "recording_id": "video_054604",
+        "query_frame": 150,
+        "question": "Is the driver of the bus on the left using a mobile phone?"
+      },
+      "expected_status": "insufficient_evidence",
+      "rubric_reference": "Driver activity is not visible.",
+      "reference_grounding": "Exterior bus views do not establish cabin activity.",
+      "captured_in": "video_054604-live",
+      "collection": "new",
+      "effective_answer_model": "gemini-3.5-flash-lite",
+      "delivered": {
+        "answer_status": "insufficient_evidence",
+        "answer": "The driver area of the bus on the left (track 2418) is masked due to privacy policies across the available frames, making it impossible to establish whether the driver is using a mobile phone.",
+        "cited_evidence_ids": []
+      },
+      "summarised_evidence": [
+        {
+          "id": "E1",
+          "predicted_track_id": 2418,
+          "interval": [
+            111,
+            140
+          ],
+          "submitted_frames": [
+            111,
+            126,
+            140
+          ]
+        },
+        {
+          "id": "E2",
+          "predicted_track_id": 2418,
+          "interval": [
+            121,
+            150
+          ],
+          "submitted_frames": [
+            121,
+            135,
+            150
+          ]
+        },
+        {
+          "id": "E3",
+          "predicted_track_id": 2418,
+          "interval": [
+            131,
+            150
+          ],
+          "submitted_frames": [
+            131,
+            140,
+            150
+          ]
+        }
+      ],
+      "provider": {
+        "provider_called": true,
+        "receipt_sha256": "5527b439adf5b787a44343471f78c12fb285b9a3f283a66be2a17a496400c460",
+        "request_status": "completed",
+        "http_status": null,
+        "reported_model": "gemini-3.5-flash-lite",
+        "error_type": null
+      },
+      "provider_input_sha256": "0594ac6744c35c9e1da4313fd8ce00ee602e0472be41d92346d8002e9484a119",
+      "public_question_utf8_sha256": "3d05cf49be3b1958470c3bd553ce5a6353b69412a3403f7379aa1a728b50a527",
+      "selected_intervals_sha256": "4b8bc5512888ae87d42778060660c931efa8a82c34d050dd67e75aea25f1ff3c",
+      "processed_image_occurrences": 9,
+      "ai_review": {
+        "grade": "qualified",
+        "reason": "right_abstention_overstates_mask",
+        "note": "Driver phone use cannot be seen. The selected exterior view masks the lower vehicle and shows dark upper windows. The explanation asserts the driver area itself is covered across every frame, which the visible masking does not establish."
+      }
+    },
+    {
+      "question": {
+        "question_id": "temporal-21",
+        "recording_id": "video_054604",
+        "query_frame": 150,
+        "question": "What is the bus's speed in kilometres per hour?"
+      },
+      "expected_status": "insufficient_evidence",
+      "rubric_reference": "No calibrated physical speed measurement.",
+      "reference_grounding": "Image movement and timestamps do not establish kilometres per hour.",
+      "captured_in": "temporal21-fallback",
+      "collection": "prior_exact_input",
+      "effective_answer_model": "gemini-3.5-flash-lite",
+      "delivered": {
+        "answer_status": "insufficient_evidence",
+        "answer": "The bus's speed in kilometres per hour cannot be established from the video evidence because no speedometer or speed measurement data is available.",
+        "cited_evidence_ids": []
+      },
+      "summarised_evidence": [
+        {
+          "id": "E1",
+          "predicted_track_id": 2418,
+          "interval": [
+            111,
+            140
+          ],
+          "submitted_frames": [
+            111,
+            126,
+            140
+          ]
+        },
+        {
+          "id": "E2",
+          "predicted_track_id": 2418,
+          "interval": [
+            121,
+            150
+          ],
+          "submitted_frames": [
+            121,
+            135,
+            150
+          ]
+        },
+        {
+          "id": "E3",
+          "predicted_track_id": 2418,
+          "interval": [
+            131,
+            150
+          ],
+          "submitted_frames": [
+            131,
+            140,
+            150
+          ]
+        }
+      ],
+      "provider": {
+        "provider_called": true,
+        "receipt_sha256": "30c5902dc0f33980b148253424fb7f18a79dc0f02025917c9034d9eb023df568",
+        "request_status": "completed",
+        "http_status": null,
+        "reported_model": "gemini-3.5-flash-lite",
+        "error_type": null
+      },
+      "provider_input_sha256": "1b767c6ee40ef3ffb77c07ca4f33ce7f9be6417a9e3b5db7bd0ab60fff5bf02b",
+      "public_question_utf8_sha256": "59be77a44d04c0e26aeaf8934cefa9db9f2f8d3b41151f45066b67066fa311ff",
+      "selected_intervals_sha256": "b6ee608865237160ab78f5860ca6611cbf646082236c27c4d0f45292879082dc",
+      "processed_image_occurrences": 9,
+      "ai_review": {
+        "grade": "pass",
+        "reason": "supported_abstention",
+        "note": "Views show a tracked bus and supply no physical speed measurement for that bus. The camera vehicle overlay does not provide its speed."
+      }
+    },
+    {
+      "question": {
+        "question_id": "temporal-22",
+        "recording_id": "video_054604",
+        "query_frame": 150,
+        "question": "Why did the bus driver choose that route?"
+      },
+      "expected_status": "insufficient_evidence",
+      "rubric_reference": "Driver intent or route choice reason is unobserved.",
+      "reference_grounding": "No source for motive.",
+      "captured_in": "video_054604-live",
+      "collection": "new",
+      "effective_answer_model": "gemini-3.5-flash-lite",
+      "delivered": {
+        "answer_status": "insufficient_evidence",
+        "answer": "The provided visual evidence and metadata do not contain information about the bus driver's internal motivations or reasons for choosing the route.",
+        "cited_evidence_ids": []
+      },
+      "summarised_evidence": [
+        {
+          "id": "E1",
+          "predicted_track_id": 2418,
+          "interval": [
+            111,
+            140
+          ],
+          "submitted_frames": [
+            111,
+            126,
+            140
+          ]
+        },
+        {
+          "id": "E2",
+          "predicted_track_id": 2418,
+          "interval": [
+            121,
+            150
+          ],
+          "submitted_frames": [
+            121,
+            135,
+            150
+          ]
+        },
+        {
+          "id": "E3",
+          "predicted_track_id": 2418,
+          "interval": [
+            131,
+            150
+          ],
+          "submitted_frames": [
+            131,
+            140,
+            150
+          ]
+        }
+      ],
+      "provider": {
+        "provider_called": true,
+        "receipt_sha256": "18ed7c8a80c320a66fcc207a9e1c8a7c7a77cea4d9e2eac76db625cd0cb8743d",
+        "request_status": "completed",
+        "http_status": null,
+        "reported_model": "gemini-3.5-flash-lite",
+        "error_type": null
+      },
+      "provider_input_sha256": "b1072443e5109ebb39e3f521d508d3374bc20aec9cfe254dcdcef3eb9d9a4d0d",
+      "public_question_utf8_sha256": "312083e8c5dcc5c9445ed1b028c35e4a20ffff9aafbba7a3da5d66236db497a9",
+      "selected_intervals_sha256": "b6ee608865237160ab78f5860ca6611cbf646082236c27c4d0f45292879082dc",
+      "processed_image_occurrences": 9,
+      "ai_review": {
+        "grade": "pass",
+        "reason": "supported_abstention",
+        "note": "The exterior images and tracked boxes provide no evidence for the driver’s reason for choosing a route."
+      }
+    },
+    {
+      "question": {
+        "question_id": "temporal-23",
+        "recording_id": "video_054604",
+        "query_frame": 150,
+        "question": "How many passengers are inside the yellow bus?"
+      },
+      "expected_status": "insufficient_evidence",
+      "rubric_reference": "Interior and passenger count are unobservable.",
+      "reference_grounding": "Exterior bus views.",
+      "captured_in": "video_054604-live",
+      "collection": "new",
+      "effective_answer_model": "gemini-3.5-flash-lite",
+      "delivered": {
+        "answer_status": "insufficient_evidence",
+        "answer": "It is not possible to determine how many passengers are inside the yellow bus because the windows are tinted, dark, or obscured by privacy masking, preventing any observation of the interior.",
+        "cited_evidence_ids": []
+      },
+      "summarised_evidence": [
+        {
+          "id": "E1",
+          "predicted_track_id": 2418,
+          "interval": [
+            111,
+            140
+          ],
+          "submitted_frames": [
+            111,
+            126,
+            140
+          ]
+        },
+        {
+          "id": "E2",
+          "predicted_track_id": 2418,
+          "interval": [
+            121,
+            150
+          ],
+          "submitted_frames": [
+            121,
+            135,
+            150
+          ]
+        },
+        {
+          "id": "E3",
+          "predicted_track_id": 2418,
+          "interval": [
+            131,
+            150
+          ],
+          "submitted_frames": [
+            131,
+            140,
+            150
+          ]
+        }
+      ],
+      "provider": {
+        "provider_called": true,
+        "receipt_sha256": "86d068f26627f57b7db6125f07762d67e0ad30e1564acf6028c07673b740a949",
+        "request_status": "completed",
+        "http_status": null,
+        "reported_model": "gemini-3.5-flash-lite",
+        "error_type": null
+      },
+      "provider_input_sha256": "980437ed3d269409539971dff637f63d3a3c746c9051d7fffd0a0ef0cb6d86c5",
+      "public_question_utf8_sha256": "d304216915074a157b2389a2a4c60cb03485e6f40e436abf40b3d66ff46038b1",
+      "selected_intervals_sha256": "b6ee608865237160ab78f5860ca6611cbf646082236c27c4d0f45292879082dc",
+      "processed_image_occurrences": 9,
+      "ai_review": {
+        "grade": "pass",
+        "reason": "supported_abstention",
+        "note": "Exterior bus views have dark side windows and do not reveal a count of the passengers."
+      }
+    },
+    {
+      "question": {
+        "question_id": "temporal-24",
+        "recording_id": "video_054604",
+        "query_frame": 150,
+        "question": "What is the yellow bus's registration number?"
+      },
+      "expected_status": "insufficient_evidence",
+      "rubric_reference": "Registration number cannot be read from the processed inputs.",
+      "reference_grounding": "Inspect actual provider input, lower vehicle regions are masked and plate detail is small.",
+      "captured_in": "video_054604-live",
+      "collection": "new",
+      "effective_answer_model": "gemini-3.5-flash-lite",
+      "delivered": {
+        "answer_status": "insufficient_evidence",
+        "answer": "The yellow bus's registration number cannot be established because the license plate and lower vehicle regions are obscured by privacy masking.",
+        "cited_evidence_ids": []
+      },
+      "summarised_evidence": [
+        {
+          "id": "E1",
+          "predicted_track_id": 2418,
+          "interval": [
+            111,
+            140
+          ],
+          "submitted_frames": [
+            111,
+            126,
+            140
+          ]
+        },
+        {
+          "id": "E2",
+          "predicted_track_id": 2418,
+          "interval": [
+            121,
+            150
+          ],
+          "submitted_frames": [
+            121,
+            135,
+            150
+          ]
+        },
+        {
+          "id": "E3",
+          "predicted_track_id": 2418,
+          "interval": [
+            131,
+            150
+          ],
+          "submitted_frames": [
+            131,
+            140,
+            150
+          ]
+        }
+      ],
+      "provider": {
+        "provider_called": true,
+        "receipt_sha256": "b33ae110be70618861770f46cdd59ae4f5698eaeac5eb23e24990e3c3f9cdb3b",
+        "request_status": "completed",
+        "http_status": null,
+        "reported_model": "gemini-3.5-flash-lite",
+        "error_type": null
+      },
+      "provider_input_sha256": "92e7264bab9c6d5a7a743ad15e51c4619bb485725802c8297ebb08a86181cd39",
+      "public_question_utf8_sha256": "441e6be5d76915126de4e93983e56e3fe51c61eefe327e152dd9128ffc521bb9",
+      "selected_intervals_sha256": "b6ee608865237160ab78f5860ca6611cbf646082236c27c4d0f45292879082dc",
+      "processed_image_occurrences": 9,
+      "ai_review": {
+        "grade": "pass",
+        "reason": "supported_abstention",
+        "note": "The lower target vehicle is masked in the submitted images. Its registration cannot be read."
+      }
+    },
+    {
+      "question": {
+        "question_id": "second-01",
+        "recording_id": "video_054907",
+        "query_frame": 1,
+        "question": "What colour is the large SUV on the left in the opening frame?"
+      },
+      "expected_status": "answered",
+      "rubric_reference": "White SUV.",
+      "reference_grounding": "2 at frame 1 or scene 1.",
+      "captured_in": "video_054907-fallback",
+      "collection": "prior_exact_input",
+      "effective_answer_model": "gemini-3.5-flash-lite",
+      "delivered": {
+        "answer_status": "answered",
+        "answer": "The large SUV (large vehicle) on the left in the opening frame is white.",
+        "cited_evidence_ids": [
+          "E2"
+        ]
+      },
+      "summarised_evidence": [
+        {
+          "id": "E1",
+          "predicted_track_id": 18,
+          "interval": [
+            1,
+            1
+          ],
+          "submitted_frames": [
+            1
+          ]
+        },
+        {
+          "id": "E2",
+          "predicted_track_id": 1,
+          "interval": [
+            1,
+            1
+          ],
+          "submitted_frames": [
+            1
+          ]
+        },
+        {
+          "id": "E3",
+          "predicted_track_id": 2,
+          "interval": [
+            1,
+            1
+          ],
+          "submitted_frames": [
+            1
+          ]
+        }
+      ],
+      "provider": {
+        "provider_called": true,
+        "receipt_sha256": "8ce397bb14b532a374644e7624e5874ba010b27b1bd237f03d446ceebc3cf2fc",
+        "request_status": "completed",
+        "http_status": null,
+        "reported_model": "gemini-3.5-flash-lite",
+        "error_type": null
+      },
+      "provider_input_sha256": "1d9fa3fe21d5f0de8050fcf8891562416ebdc3aaeab79207dec992f576ec2ceb",
+      "public_question_utf8_sha256": "1670ccd201f615266d860e5d9510788d7feac4f6e246d742c68024f10dfc2e0b",
+      "selected_intervals_sha256": "5ec734b81a3f5d8728558c1fbc2e671da7602325581e1bef9838f5404fc6ee64",
+      "processed_image_occurrences": 3,
+      "ai_review": {
+        "grade": "pass",
+        "reason": "supported",
+        "note": "The opening white SUV is visible on the left and E2 highlights the correct vehicle, matched to annotation 2."
+      },
+      "preregistered_retrieval_match": {
+        "matching_ranks": [
+          2
+        ],
+        "predicted_track_match": [
+          {
+            "rank": 1,
+            "predicted_track_id": 18,
+            "annotated_track_id": null,
+            "mean_box_iou": 0.0,
+            "status": "unmatched"
+          },
+          {
+            "rank": 2,
+            "predicted_track_id": 1,
+            "annotated_track_id": 2,
+            "mean_box_iou": 0.951405002249288,
+            "status": "matched"
+          },
+          {
+            "rank": 3,
+            "predicted_track_id": 2,
+            "annotated_track_id": 17,
+            "mean_box_iou": 0.9667339949269201,
+            "status": "matched"
+          }
+        ]
+      }
+    },
+    {
+      "question": {
+        "question_id": "second-02",
+        "recording_id": "video_054907",
+        "query_frame": 60,
+        "question": "Toward which side of the image does the very large white cage-bodied truck move during the opening six seconds?"
+      },
+      "expected_status": "answered",
+      "rubric_reference": "Toward image-right, becomes clipped and leaves the view.",
+      "reference_grounding": "17 at 1-57 plus scene 60.",
+      "captured_in": "video_054907-live",
+      "collection": "new",
+      "effective_answer_model": "gemini-3.5-flash-lite",
+      "delivered": {
+        "answer_status": "answered",
+        "answer": "During the opening six seconds, the very large white cage-bodied truck moves toward the right side of the image.",
+        "cited_evidence_ids": [
+          "E1",
+          "E2"
+        ]
+      },
+      "summarised_evidence": [
+        {
+          "id": "E1",
+          "predicted_track_id": 2,
+          "interval": [
+            1,
+            30
+          ],
+          "submitted_frames": [
+            1,
+            15,
+            30
+          ]
+        },
+        {
+          "id": "E2",
+          "predicted_track_id": 2,
+          "interval": [
+            11,
+            40
+          ],
+          "submitted_frames": [
+            11,
+            25,
+            40
+          ]
+        },
+        {
+          "id": "E3",
+          "predicted_track_id": 610,
+          "interval": [
+            21,
+            24
+          ],
+          "submitted_frames": [
+            21,
+            22,
+            24
+          ]
+        }
+      ],
+      "provider": {
+        "provider_called": true,
+        "receipt_sha256": "12735fe54df35433657e375e0b82b34e3ce6a919c469377139e15c605bea2c96",
+        "request_status": "completed",
+        "http_status": null,
+        "reported_model": "gemini-3.5-flash-lite",
+        "error_type": null
+      },
+      "provider_input_sha256": "a151ce25fc4a25377e01d9a191c8633b89cb93e96129f2a555a46ab9091cd28c",
+      "public_question_utf8_sha256": "e97869624f8e44bd3e9946801e71e420c8400d60daf458b4a1def05f1ea5efbe",
+      "selected_intervals_sha256": "f64e6a250a57b826c96f316a99b2fa9e571dccf32411ece97b6ab7a6805b0ba4",
+      "processed_image_occurrences": 9,
+      "ai_review": {
+        "grade": "pass",
+        "reason": "correct_direction_partial_window",
+        "note": "E1 and E2 follow the correct opening cage-bodied truck (annotation 17) toward the right. The output makes a direction claim; the selected frames through 40 do not establish the timing of its eventual disappearance."
+      },
+      "preregistered_retrieval_match": {
+        "matching_ranks": [
+          1,
+          2
+        ],
+        "predicted_track_match": [
+          {
+            "rank": 1,
+            "predicted_track_id": 2,
+            "annotated_track_id": 17,
+            "mean_box_iou": 0.9472134730840512,
+            "status": "matched"
+          },
+          {
+            "rank": 2,
+            "predicted_track_id": 2,
+            "annotated_track_id": 17,
+            "mean_box_iou": 0.9575372326863738,
+            "status": "matched"
+          },
+          {
+            "rank": 3,
+            "predicted_track_id": 610,
+            "annotated_track_id": 19,
+            "mean_box_iou": 0.7614964383365925,
+            "status": "matched"
+          }
+        ]
+      }
+    },
+    {
+      "question": {
+        "question_id": "second-03",
+        "recording_id": "video_054907",
+        "query_frame": 100,
+        "question": "What distinctive structure is mounted above the white pickup's bed?"
+      },
+      "expected_status": "answered",
+      "rubric_reference": "A tall open metal rack or framework with diagonal bracing.",
+      "reference_grounding": "6 at 75-100 or scene 100.",
+      "captured_in": "video_054907-live",
+      "collection": "new",
+      "effective_answer_model": null,
+      "delivered": {
+        "answer_status": "insufficient_evidence",
+        "answer": null,
+        "cited_evidence_ids": []
+      },
+      "summarised_evidence": [],
+      "provider": {
+        "provider_called": false,
+        "receipt_sha256": null
+      },
+      "provider_input_sha256": null,
+      "public_question_utf8_sha256": "91e044402b9c3c752762f4e65ae12940adf323d23049feb4d09c305ba0fd1878",
+      "selected_intervals_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "processed_image_occurrences": 0,
+      "ai_review": {
+        "grade": "missed_answer",
+        "reason": "empty_retrieval",
+        "note": "Original frame 100 shows the metal rack with diagonal bracing above the white pickup. No evidence was retrieved."
+      },
+      "preregistered_retrieval_match": {
+        "matching_ranks": [],
+        "predicted_track_match": []
+      }
+    },
+    {
+      "question": {
+        "question_id": "second-04",
+        "recording_id": "video_054907",
+        "query_frame": 100,
+        "question": "Does the white pickup shift toward the left or right of the image between the beginning and frame 100?"
+      },
+      "expected_status": "answered",
+      "rubric_reference": "Toward the left of the image.",
+      "reference_grounding": "6 at 1-100.",
+      "captured_in": "video_054907-live",
+      "collection": "new",
+      "effective_answer_model": "gemini-3.5-flash-lite",
+      "delivered": {
+        "answer_status": "insufficient_evidence",
+        "answer": "The provided image inventory only contains evidence for frame 1 and does not include frame 100.",
+        "cited_evidence_ids": []
+      },
+      "summarised_evidence": [
+        {
+          "id": "E1",
+          "predicted_track_id": 13,
+          "interval": [
+            1,
+            1
+          ],
+          "submitted_frames": [
+            1
+          ]
+        },
+        {
+          "id": "E2",
+          "predicted_track_id": 14,
+          "interval": [
+            1,
+            1
+          ],
+          "submitted_frames": [
+            1
+          ]
+        },
+        {
+          "id": "E3",
+          "predicted_track_id": 15,
+          "interval": [
+            1,
+            1
+          ],
+          "submitted_frames": [
+            1
+          ]
+        }
+      ],
+      "provider": {
+        "provider_called": true,
+        "receipt_sha256": "66fa9cca623731caf1bb2632ac9b3fa17bfad3cb7669de1e50a583e736c982f7",
+        "request_status": "completed",
+        "http_status": null,
+        "reported_model": "gemini-3.5-flash-lite",
+        "error_type": null
+      },
+      "provider_input_sha256": "6e7c85eaaec4133b1d207037a6ab3f0b3cd2e5717a41a9883a1ca5a2f1d28dc3",
+      "public_question_utf8_sha256": "66a429f33953dcc8aeac5dbee02327b2f30bf55c567f861cb9e581274deb30bc",
+      "selected_intervals_sha256": "e7f5b6889f70594af780313e7c2d9e41b00a95d6a37bf074e6fa5a05f7d5bee0",
+      "processed_image_occurrences": 3,
+      "ai_review": {
+        "grade": "missed_answer",
+        "reason": "wrong_time_retrieved",
+        "note": "Only opening-frame images were selected, so the answerer cannot compare the white pickup to frame 100 as requested."
+      },
+      "preregistered_retrieval_match": {
+        "matching_ranks": [],
+        "predicted_track_match": [
+          {
+            "rank": 1,
+            "predicted_track_id": 13,
+            "annotated_track_id": null,
+            "mean_box_iou": 0.0,
+            "status": "unmatched"
+          },
+          {
+            "rank": 2,
+            "predicted_track_id": 14,
+            "annotated_track_id": null,
+            "mean_box_iou": 0.0,
+            "status": "unmatched"
+          },
+          {
+            "rank": 3,
+            "predicted_track_id": 15,
+            "annotated_track_id": null,
+            "mean_box_iou": 0.0,
+            "status": "unmatched"
+          }
+        ]
+      }
+    },
+    {
+      "question": {
+        "question_id": "second-05",
+        "recording_id": "video_054907",
+        "query_frame": 100,
+        "question": "Does the white pickup appear larger at frame 100 than at the beginning?"
+      },
+      "expected_status": "answered",
+      "rubric_reference": "Yes, substantially larger in the image.",
+      "reference_grounding": "6 at frames 1 and 100.",
+      "captured_in": "video_054907-live",
+      "collection": "new",
+      "effective_answer_model": null,
+      "delivered": {
+        "answer_status": "insufficient_evidence",
+        "answer": null,
+        "cited_evidence_ids": []
+      },
+      "summarised_evidence": [],
+      "provider": {
+        "provider_called": false,
+        "receipt_sha256": null
+      },
+      "provider_input_sha256": null,
+      "public_question_utf8_sha256": "96e5d1aa616e5ad58a9c64222a299fff5d110bbfe1df66e38a806aa9decb2b06",
+      "selected_intervals_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "processed_image_occurrences": 0,
+      "ai_review": {
+        "grade": "missed_answer",
+        "reason": "empty_retrieval",
+        "note": "The released sequence and reference support increased pickup image size. Neither requested endpoint was returned."
+      },
+      "preregistered_retrieval_match": {
+        "matching_ranks": [],
+        "predicted_track_match": []
+      }
+    },
+    {
+      "question": {
+        "question_id": "second-06",
+        "recording_id": "video_054907",
+        "query_frame": 150,
+        "question": "What colour is the prominent SUV on the right near the end?"
+      },
+      "expected_status": "answered",
+      "rubric_reference": "Black or very dark coloured SUV.",
+      "reference_grounding": "16 at 140-150 or scene 150.",
+      "captured_in": "video_054907-live",
+      "collection": "new",
+      "effective_answer_model": "gemini-3.5-flash-lite",
+      "delivered": {
+        "answer_status": "answered",
+        "answer": "The prominent SUV on the right is white.",
+        "cited_evidence_ids": [
+          "E1",
+          "E2",
+          "E3"
+        ]
+      },
+      "summarised_evidence": [
+        {
+          "id": "E1",
+          "predicted_track_id": 14,
+          "interval": [
+            1,
+            1
+          ],
+          "submitted_frames": [
+            1
+          ]
+        },
+        {
+          "id": "E2",
+          "predicted_track_id": 22,
+          "interval": [
+            1,
+            1
+          ],
+          "submitted_frames": [
+            1
+          ]
+        },
+        {
+          "id": "E3",
+          "predicted_track_id": 33,
+          "interval": [
+            1,
+            1
+          ],
+          "submitted_frames": [
+            1
+          ]
+        }
+      ],
+      "provider": {
+        "provider_called": true,
+        "receipt_sha256": "c2a073789b379b52d31470a6c8d7b4217ebe10fe3a50211869364a703cce88cb",
+        "request_status": "completed",
+        "http_status": null,
+        "reported_model": "gemini-3.5-flash-lite",
+        "error_type": null
+      },
+      "provider_input_sha256": "23d89953cc99abab6faaf63f03415ea40049a20e1c36a3623cf1c0f02ae96790",
+      "public_question_utf8_sha256": "7c725dc08360090dc85a7c5b44b3fbcec9979e9ad10a1a084e54871fe5469e8d",
+      "selected_intervals_sha256": "2e9dee366186f3cc33e0cb9a6ad6a24369524955b97f675600e735c0bf13f210",
+      "processed_image_occurrences": 3,
+      "ai_review": {
+        "grade": "incorrect",
+        "reason": "wrong_time_wrong_vehicle",
+        "note": "All submitted images are from frame 1 with highlighted IDs 14/22/33. None matches the annotated final right SUV. Original frame 150 shows the black SUV, annotation 16."
+      },
+      "preregistered_retrieval_match": {
+        "matching_ranks": [],
+        "predicted_track_match": [
+          {
+            "rank": 1,
+            "predicted_track_id": 14,
+            "annotated_track_id": null,
+            "mean_box_iou": 0.0,
+            "status": "unmatched"
+          },
+          {
+            "rank": 2,
+            "predicted_track_id": 22,
+            "annotated_track_id": null,
+            "mean_box_iou": 0.0,
+            "status": "unmatched"
+          },
+          {
+            "rank": 3,
+            "predicted_track_id": 33,
+            "annotated_track_id": null,
+            "mean_box_iou": 0.0,
+            "status": "unmatched"
+          }
+        ]
+      }
+    },
+    {
+      "question": {
+        "question_id": "second-07",
+        "recording_id": "video_054907",
+        "query_frame": 75,
+        "question": "Is there an overpass directly above the roadway in the current frame?"
+      },
+      "expected_status": "answered",
+      "rubric_reference": "Yes, the camera is passing beneath an overpass.",
+      "reference_grounding": "Full scene 75.",
+      "captured_in": "video_054907-live",
+      "collection": "new",
+      "effective_answer_model": null,
+      "delivered": {
+        "answer_status": "insufficient_evidence",
+        "answer": null,
+        "cited_evidence_ids": []
+      },
+      "summarised_evidence": [],
+      "provider": {
+        "provider_called": false,
+        "receipt_sha256": null
+      },
+      "provider_input_sha256": null,
+      "public_question_utf8_sha256": "84435f211afcb3a5627a77d7ed4b17758ad5803736aa39323c8ed2cb55cd7f47",
+      "selected_intervals_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "processed_image_occurrences": 0,
+      "ai_review": {
+        "grade": "missed_answer",
+        "reason": "empty_retrieval",
+        "note": "Original frame 75 clearly shows the overpass above the roadway. The system returned no evidence."
+      },
+      "preregistered_retrieval_match": {
+        "matching_ranks": [],
+        "predicted_track_match": []
+      }
+    },
+    {
+      "question": {
+        "question_id": "second-08",
+        "recording_id": "video_054907",
+        "query_frame": 100,
+        "question": "Is the very large cage-bodied truck that filled the right side at the start still visible in frame 100?"
+      },
+      "expected_status": "answered",
+      "rubric_reference": "No, the opening cage-bodied truck is no longer visible. The box truck ahead is a separate vehicle.",
+      "reference_grounding": "17 at 1-57 plus full scene 100. Missing annotations alone are insufficient.",
+      "captured_in": "video_054907-live",
+      "collection": "new",
+      "effective_answer_model": "gemini-3.5-flash-lite",
+      "delivered": {
+        "answer_status": "insufficient_evidence",
+        "answer": "The provided image inventory and evidence do not include frame 100, as the available frames only extend up to frame 30.",
+        "cited_evidence_ids": []
+      },
+      "summarised_evidence": [
+        {
+          "id": "E1",
+          "predicted_track_id": 37,
+          "interval": [
+            1,
+            2
+          ],
+          "submitted_frames": [
+            1,
+            2
+          ]
+        },
+        {
+          "id": "E2",
+          "predicted_track_id": 20,
+          "interval": [
+            1,
+            4
+          ],
+          "submitted_frames": [
+            1,
+            2,
+            4
+          ]
+        },
+        {
+          "id": "E3",
+          "predicted_track_id": 2,
+          "interval": [
+            1,
+            30
+          ],
+          "submitted_frames": [
+            1,
+            15,
+            30
+          ]
+        }
+      ],
+      "provider": {
+        "provider_called": true,
+        "receipt_sha256": "dde57a31dfcd369cce98e75fda86e2c30697821bde07f5edb16bc5fb5e01ba2d",
+        "request_status": "completed",
+        "http_status": null,
+        "reported_model": "gemini-3.5-flash-lite",
+        "error_type": null
+      },
+      "provider_input_sha256": "a0684b962f8540734752a23521cb044d25a0dd2a47b9764881bcd0d365934379",
+      "public_question_utf8_sha256": "913f6d993d1cd362e7c5a2ed80ccdc1850b2674dabe111a2b458ccbff1475e7f",
+      "selected_intervals_sha256": "fa7b18eb8b536d0b88c739fc40b89aea6c437922b6c11e131a06abf6dfc29c8d",
+      "processed_image_occurrences": 8,
+      "ai_review": {
+        "grade": "missed_answer",
+        "reason": "wrong_time_retrieved",
+        "note": "E3 includes the actual opening truck, but no image at frame 100 is available in the submitted evidence to determine its later absence."
+      },
+      "preregistered_retrieval_match": {
+        "matching_ranks": [
+          3
+        ],
+        "predicted_track_match": [
+          {
+            "rank": 1,
+            "predicted_track_id": 37,
+            "annotated_track_id": null,
+            "mean_box_iou": 0.0,
+            "status": "unmatched"
+          },
+          {
+            "rank": 2,
+            "predicted_track_id": 20,
+            "annotated_track_id": null,
+            "mean_box_iou": 0.0,
+            "status": "unmatched"
+          },
+          {
+            "rank": 3,
+            "predicted_track_id": 2,
+            "annotated_track_id": 17,
+            "mean_box_iou": 0.9472134730840512,
+            "status": "matched"
+          }
+        ]
+      }
+    },
+    {
+      "question": {
+        "question_id": "second-09",
+        "recording_id": "video_054907",
+        "query_frame": 150,
+        "question": "What road name appears on the blue exit sign to the right of the large Abu Dhabi sign?"
+      },
+      "expected_status": "answered",
+      "rubric_reference": "Al Fay Road or Al Fay Rd.",
+      "reference_grounding": "Full scene 150. Confirm legibility in actual processed provider input.",
+      "captured_in": "video_054907-live",
+      "collection": "new",
+      "effective_answer_model": "gemini-3.5-flash-lite",
+      "delivered": {
+        "answer_status": "insufficient_evidence",
+        "answer": "The blue exit sign to the right of the large Abu Dhabi sign is not visible in the provided images.",
+        "cited_evidence_ids": []
+      },
+      "summarised_evidence": [
+        {
+          "id": "E1",
+          "predicted_track_id": 2,
+          "interval": [
+            1,
+            30
+          ],
+          "submitted_frames": [
+            1,
+            15,
+            30
+          ]
+        },
+        {
+          "id": "E2",
+          "predicted_track_id": 2,
+          "interval": [
+            11,
+            40
+          ],
+          "submitted_frames": [
+            11,
+            25,
+            40
+          ]
+        },
+        {
+          "id": "E3",
+          "predicted_track_id": 2,
+          "interval": [
+            21,
+            50
+          ],
+          "submitted_frames": [
+            21,
+            35,
+            50
+          ]
+        }
+      ],
+      "provider": {
+        "provider_called": true,
+        "receipt_sha256": "ea860c009c89ad172f750e168fb231eff8290880fa44c41b43121333885a2b6d",
+        "request_status": "completed",
+        "http_status": null,
+        "reported_model": "gemini-3.5-flash-lite",
+        "error_type": null
+      },
+      "provider_input_sha256": "183ee978109ebaea29ba8b718e04f4d6f4babc7303ff98e86e9432c03c777007",
+      "public_question_utf8_sha256": "1a4a2c8fab97440f72ca5753753275e203ca708b531107a0ecd3722b6dddf9d1",
+      "selected_intervals_sha256": "94d76969e6b97e28770c88922ba7ece89bc9d26006d617d88a2fc10a22cfdde3",
+      "processed_image_occurrences": 9,
+      "ai_review": {
+        "grade": "missed_answer",
+        "reason": "wrong_time_retrieved",
+        "note": "Selected frames stop at 50; the late sign needed for the question is missing."
+      },
+      "preregistered_retrieval_match": {
+        "matching_ranks": [],
+        "predicted_track_match": [
+          {
+            "rank": 1,
+            "predicted_track_id": 2,
+            "annotated_track_id": 17,
+            "mean_box_iou": 0.9472134730840512,
+            "status": "matched"
+          },
+          {
+            "rank": 2,
+            "predicted_track_id": 2,
+            "annotated_track_id": 17,
+            "mean_box_iou": 0.9575372326863738,
+            "status": "matched"
+          },
+          {
+            "rank": 3,
+            "predicted_track_id": 2,
+            "annotated_track_id": 17,
+            "mean_box_iou": 0.9299714493235276,
+            "status": "matched"
+          }
+        ]
+      }
+    },
+    {
+      "question": {
+        "question_id": "second-10",
+        "recording_id": "video_054907",
+        "query_frame": 100,
+        "question": "What is the white pickup's actual speed in kilometres per hour?"
+      },
+      "expected_status": "insufficient_evidence",
+      "rubric_reference": "Pickup physical speed cannot be established.",
+      "reference_grounding": "6 up to 100. The visible 88KMH overlay describes the camera vehicle, not the pickup.",
+      "captured_in": "video_054907-fallback",
+      "collection": "prior_exact_input",
+      "effective_answer_model": null,
+      "delivered": {
+        "answer_status": "insufficient_evidence",
+        "answer": null,
+        "cited_evidence_ids": []
+      },
+      "summarised_evidence": [],
+      "provider": {
+        "provider_called": false,
+        "receipt_sha256": null
+      },
+      "provider_input_sha256": null,
+      "public_question_utf8_sha256": "7a19ff154e777fbf3856bccd546dc2a34646efaceea9db93b308f3570303976e",
+      "selected_intervals_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "processed_image_occurrences": 0,
+      "ai_review": {
+        "grade": "pass",
+        "reason": "correct_empty_abstention",
+        "note": "The physical speed of the pickup is unavailable from the camera-vehicle overlay. Retrieval was empty, so no provider call occurred."
+      }
+    },
+    {
+      "question": {
+        "question_id": "second-11",
+        "recording_id": "video_054907",
+        "query_frame": 150,
+        "question": "What cargo is inside the closed box truck ahead?"
+      },
+      "expected_status": "insufficient_evidence",
+      "rubric_reference": "Contents of the closed cargo compartment are not visible.",
+      "reference_grounding": "14 around 130-150.",
+      "captured_in": "video_054907-live",
+      "collection": "new",
+      "effective_answer_model": null,
+      "delivered": {
+        "answer_status": "insufficient_evidence",
+        "answer": null,
+        "cited_evidence_ids": []
+      },
+      "summarised_evidence": [],
+      "provider": {
+        "provider_called": false,
+        "receipt_sha256": null
+      },
+      "provider_input_sha256": null,
+      "public_question_utf8_sha256": "c441e280f9d29707c355c8269d1d2c995ee7fc0b363089d9a47dc079af0e170f",
+      "selected_intervals_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "processed_image_occurrences": 0,
+      "ai_review": {
+        "grade": "pass",
+        "reason": "correct_empty_abstention",
+        "note": "The contents of a closed box are unobservable externally. The empty no-call outcome has the intended status; no reason was generated."
+      }
+    },
+    {
+      "question": {
+        "question_id": "second-12",
+        "recording_id": "video_054907",
+        "query_frame": 150,
+        "question": "Is the driver of the black SUV on the right using a mobile phone?"
+      },
+      "expected_status": "insufficient_evidence",
+      "rubric_reference": "Driver phone use cannot be determined from rear exterior views.",
+      "reference_grounding": "16 at 140-150.",
+      "captured_in": "video_054907-live",
+      "collection": "new",
+      "effective_answer_model": "gemini-3.5-flash-lite",
+      "delivered": {
+        "answer_status": "insufficient_evidence",
+        "answer": "It is not possible to establish whether the driver of the black SUV on the right is using a mobile phone because the interior cabin and driver's hands are not visible due to distance and privacy masking on the vehicle.",
+        "cited_evidence_ids": []
+      },
+      "summarised_evidence": [
+        {
+          "id": "E1",
+          "predicted_track_id": 14,
+          "interval": [
+            1,
+            1
+          ],
+          "submitted_frames": [
+            1
+          ]
+        },
+        {
+          "id": "E2",
+          "predicted_track_id": 22,
+          "interval": [
+            1,
+            1
+          ],
+          "submitted_frames": [
+            1
+          ]
+        },
+        {
+          "id": "E3",
+          "predicted_track_id": 33,
+          "interval": [
+            1,
+            1
+          ],
+          "submitted_frames": [
+            1
+          ]
+        }
+      ],
+      "provider": {
+        "provider_called": true,
+        "receipt_sha256": "ecc8bd8a66c4b5639fc30177c225be526714fab9ff27a30b245c148208c54d54",
+        "request_status": "completed",
+        "http_status": null,
+        "reported_model": "gemini-3.5-flash-lite",
+        "error_type": null
+      },
+      "provider_input_sha256": "a98cb916a23d7060e248f02e71213367620fd81af7378facadf49c597db8b302",
+      "public_question_utf8_sha256": "2f151fd9026c5b06e025a36ca0aff759ee92baf747e848f692a2f80ebec475ef",
+      "selected_intervals_sha256": "2e9dee366186f3cc33e0cb9a6ad6a24369524955b97f675600e735c0bf13f210",
+      "processed_image_occurrences": 3,
+      "ai_review": {
+        "grade": "qualified",
+        "reason": "right_abstention_wrong_time",
+        "note": "Driver phone use cannot be established from the exterior. Every supplied view is frame 1, so the explanation cannot be attributed to the actual late black SUV."
+      }
+    }
+  ]
+}

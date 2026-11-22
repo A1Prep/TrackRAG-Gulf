@@ -1,0 +1,2715 @@
+{
+  "kind": "matched_three_way_native_Qwen_full_response",
+  "measured_utc": "2026-11-22T07:12:50.465796+00:00",
+  "source": "Real local streamed Qwen3-VL-8B four-field inference. Each source row contains the same original EMT pixels, predicted tracks and passenger dialogue.",
+  "scope": "19 development instructions from one daytime recording. Their provisional references were AI-authored with a second blinded AI review. No human passenger labels, separate recordings or independent vehicle safety assessment.",
+  "request_bank_sha256": "0160bf67789bc6d7f3a362f2a6d607b1028b1b81ca0490863a5971ede224846f",
+  "frozen_profile_sha256": "deebd5536d3b5d5934991e486ad36fd0034055ed768c0a997d4e5a8e014443b1",
+  "verified_preexisting_adapter_reload_sha256": "cda4b7b6dc62226cec8490a6af9bf8b23a0109d5bb99a202e6a970fa676370c5",
+  "execution_sha256": "551990ffa0275ac3ffac4055517ed19c112b67d7359b70c49e0458aa51ac4d68",
+  "comparison_settings": {
+    "model_id": "unsloth/Qwen3-VL-8B-Instruct-bnb-4bit",
+    "revision": "10d842936325905934ea24e64325d774693f166e",
+    "cache_dir": "models/dropoff-processor-cache/hub",
+    "device": "cuda",
+    "dtype": "bfloat16",
+    "quantization": "nf4",
+    "local_files_only": true,
+    "allow_annotated": false,
+    "max_new_tokens": 192,
+    "max_input_tokens": 3072,
+    "max_time_s": 300,
+    "min_pixels": 65536,
+    "max_pixels": 262144,
+    "max_image_bytes": 33554432,
+    "max_original_pixels": 48000000,
+    "download_min_free_gib": 24.0,
+    "runtime": "streamed",
+    "model_dir": "models/qwen3-vl-8b-local-nf4",
+    "suffix_layers": 8,
+    "inference_resident_layers": 2,
+    "observation_format": "compact_rows_v1"
+  },
+  "source_hashes_frozen_for_execution": {
+    "trackrag/dropoff/model.py": "745d98f856381dddc79ff87e959998bb1255377d450c18235fb8525212f1b4df",
+    "trackrag/dropoff/streamed.py": "170084a8c0fe30e7dd77b885b432e79c18613dd95bb5f0c43214eef213c0c6be",
+    "trackrag/dropoff/contracts.py": "0522548e22ceb1ac156d71762e56eabab7f88fea72981543e4ad1fe64ed5bcef",
+    "trackrag/dropoff/data.py": "3ecc53ba51fb266a2db3d87794f53ec28359c5f450b3ccec24f971f34925cbe8",
+    "tools/dropoff_predict.py": "834317d1f2d410e7b23b41add4a8dee0e40ed212bea51284f14786123307be09",
+    "tools/dropoff_ai_acceptance.py": "c4a1f45c1cbcdfa0087442f99c1bf4ae089f3167bfc547c24f41d5c6f43de6e7"
+  },
+  "conditions": {
+    "local_child": {
+      "configuration_sha256": "b4d8ff80c582a6ce9cc236c1ad6bc4748365cdfaa4f707e5d0095e16e18f7c41",
+      "native_run_sha256": "313c39884ead514f18f333cecabea2836feadd5e5680d64743455a7608aa92c3",
+      "native_file_hashes": {
+        "input-snapshot.jsonl": "0160bf67789bc6d7f3a362f2a6d607b1028b1b81ca0490863a5971ede224846f",
+        "resolved-requests.jsonl": "147a8c4736df5f71c06f854537365fe18a62da9af18d09559cc0aacb9961a8ae",
+        "receipts.jsonl": "f877b4590dd178a0f279efd9866f6f4bbb53c6c79d9bf689957fd3a9ccbf1478",
+        "model-outcomes.jsonl": "891a22ba5f6a1d7ccbd1d74685187a0a9637632551026d0a2ad437d1c3281da6"
+      },
+      "actual_weight_sha256": "a7f9c2ede65879e0cdada9e90185e9b21151ea391b74a9973308f93f665abe24",
+      "operational_errors": 1,
+      "native_process": {
+        "worker_launched_utc": "2026-11-22T04:08:00.847706+00:00",
+        "native_results_sealed_utc": "2026-11-22T04:49:35.520132+00:00",
+        "dispatcher_observed_exit_utc": "2026-11-22T05:23:21.526497+00:00",
+        "exit_code": 0,
+        "independently_observed_process_tree_exit_utc": "2026-11-22T04:49:38.526913+00:00",
+        "worker_handoff_file_sha256": "c3b038647a8254b28a9757b649c0fe8e9aef4c485598779e9f2c287ebd7be1fe",
+        "timing_note": "The dispatcher reserved time for a separate training job after the native results sealed."
+      },
+      "metrics": {
+        "kind": "offline_model_only_versus_ai_authored_rectangles",
+        "partition": "development",
+        "input_file_sha256": "0160bf67789bc6d7f3a362f2a6d607b1028b1b81ca0490863a5971ede224846f",
+        "outputs_sha256": "891a22ba5f6a1d7ccbd1d74685187a0a9637632551026d0a2ad437d1c3281da6",
+        "freeze_file_sha256": "def382f8f57a8a7e311403435435cd32ddcce6e539ed3c4310f8abb88eacc86f",
+        "requested": 19,
+        "expected_status_counts": {
+          "proposed": 11,
+          "needs_clarification": 4,
+          "insufficient_visual_evidence": 4
+        },
+        "status_matches": 12,
+        "confusion": {
+          "insufficient_visual_evidence": {
+            "insufficient_visual_evidence": 1,
+            "proposed": 3
+          },
+          "needs_clarification": {
+            "proposed": 3,
+            "needs_clarification": 1
+          },
+          "proposed": {
+            "proposed": 10,
+            "failure": 1
+          }
+        },
+        "failures": {
+          "invalid_model_output": 1
+        },
+        "unexpected_output_ids": [],
+        "proposal_count": 16,
+        "proposals_on_nonproposal_cases": 6,
+        "clear_reference_count": 11,
+        "clear_reference_and_model_proposal_count": 10,
+        "point_in_authored_box_count": 0,
+        "missed_authored_rectangle_on_paired_proposals": 10,
+        "proposal_on_wrong_status_or_outside_authored_rectangle": 16,
+        "normalized_tolerance_hits_all_clear": {
+          "0.025": 0,
+          "0.05": 3
+        },
+        "mean_box_iou_all_clear_missing_as_zero": 0.021962999984837014,
+        "median_normalized_point_error_paired_proposals_only": 0.06534971913570056,
+        "same_frame_contrasts": [
+          {
+            "requests": [
+              "passenger-b01",
+              "passenger-b02"
+            ],
+            "both_proposed": true,
+            "each_closer_to_own_provisional_point": true,
+            "both_in_authored_rectangle": false
+          },
+          {
+            "requests": [
+              "passenger-b06",
+              "passenger-b07"
+            ],
+            "both_proposed": true,
+            "each_closer_to_own_provisional_point": true,
+            "both_in_authored_rectangle": false
+          },
+          {
+            "requests": [
+              "passenger-b11",
+              "passenger-b12"
+            ],
+            "both_proposed": true,
+            "each_closer_to_own_provisional_point": true,
+            "both_in_authored_rectangle": false
+          },
+          {
+            "requests": [
+              "passenger-b16",
+              "passenger-b17"
+            ],
+            "both_proposed": false,
+            "each_closer_to_own_provisional_point": false,
+            "both_in_authored_rectangle": false
+          }
+        ],
+        "human_reference_reviews": 0,
+        "final_evaluation": false
+      },
+      "cases": [
+        {
+          "request_id": "passenger-b01",
+          "ok": true,
+          "recorded_request_sha256": "0f9d083a590747307a68dfaba7ca5e29aed36b0aee83b0eeff5acf21c306eb66",
+          "image_sha256": "033fc370408c4bc99a1ec9fbb845b6618a5f53b680a235baba336b8fe8ddba80",
+          "recorded_message_sha256": "aad54d656ae8fa2bff5085d600eb127c98c5b94ab3d3bb1eb3b5503d26bf84ca",
+          "actual_input_tokens": 2727,
+          "raw_text_sha256": "185f4e79588b9f8e55aa05ed9fbf0012657902f2bce4f9a6efc2c79238e5e36e",
+          "native_four_field_result": {
+            "clarification_question": null,
+            "destination_box_xyxy": [
+              384.0,
+              1008.0,
+              640.0,
+              1094.4
+            ],
+            "destination_point_xy": [
+              512.0,
+              1051.2
+            ],
+            "status": "proposed"
+          },
+          "error": null,
+          "score": {
+            "request_id": "passenger-b01",
+            "recording_id": "video_054907",
+            "frame_id": 1,
+            "expected_status": "proposed",
+            "status": "proposed",
+            "failure": null,
+            "status_matches": true,
+            "point_in_authored_box": false,
+            "normalized_point_error": 0.06580930914865421,
+            "box_iou": 0.0,
+            "clarification_question": null,
+            "predicted_point": [
+              512.0,
+              1051.2
+            ],
+            "predicted_box": [
+              384.0,
+              1008.0,
+              640.0,
+              1094.4
+            ]
+          }
+        },
+        {
+          "request_id": "passenger-b02",
+          "ok": true,
+          "recorded_request_sha256": "633e37b5080abf41283a79ba9ad57375f3843ac667e20a9059a80e44393cede7",
+          "image_sha256": "033fc370408c4bc99a1ec9fbb845b6618a5f53b680a235baba336b8fe8ddba80",
+          "recorded_message_sha256": "90b549620d756080a91e84f6fc9673d601dcb7f282a6c40a1ab71a011699db99",
+          "actual_input_tokens": 2727,
+          "raw_text_sha256": "61a9038e9d5275b620519fd4488a8aeb4f4ce64fbeb1255e86030295d856d322",
+          "native_four_field_result": {
+            "clarification_question": null,
+            "destination_box_xyxy": [
+              1525.76,
+              1123.2,
+              2188.8,
+              1281.6
+            ],
+            "destination_point_xy": [
+              1740.8,
+              1195.2
+            ],
+            "status": "proposed"
+          },
+          "error": null,
+          "score": {
+            "request_id": "passenger-b02",
+            "recording_id": "video_054907",
+            "frame_id": 1,
+            "expected_status": "proposed",
+            "status": "proposed",
+            "failure": null,
+            "status_matches": true,
+            "point_in_authored_box": false,
+            "normalized_point_error": 0.080091084321751,
+            "box_iou": 0.0,
+            "clarification_question": null,
+            "predicted_point": [
+              1740.8,
+              1195.2
+            ],
+            "predicted_box": [
+              1525.76,
+              1123.2,
+              2188.8,
+              1281.6
+            ]
+          }
+        },
+        {
+          "request_id": "passenger-b03",
+          "ok": true,
+          "recorded_request_sha256": "9c93b41d994b57e57b8e9fa047e48934dd97f20398b3970b8e5600ddf1859b48",
+          "image_sha256": "033fc370408c4bc99a1ec9fbb845b6618a5f53b680a235baba336b8fe8ddba80",
+          "recorded_message_sha256": "ccc946a86ee3ba3825edf24d7982f8a667b5f40198ebfd10d76d2aedcc58b67a",
+          "actual_input_tokens": 2718,
+          "raw_text_sha256": "0a16395eacf2ccfcca44d8aecb54cce851318c4b4a5daa869c315f880c1e90c6",
+          "native_four_field_result": {
+            "clarification_question": null,
+            "destination_box_xyxy": [
+              340.90081791999995,
+              988.82482896,
+              660.7312614399999,
+              1190.0449224000001
+            ],
+            "destination_point_xy": [
+              660.7312614399999,
+              1190.0449224000001
+            ],
+            "status": "proposed"
+          },
+          "error": null,
+          "score": {
+            "request_id": "passenger-b03",
+            "recording_id": "video_054907",
+            "frame_id": 1,
+            "expected_status": "needs_clarification",
+            "status": "proposed",
+            "failure": null,
+            "status_matches": false,
+            "point_in_authored_box": false,
+            "normalized_point_error": null,
+            "box_iou": null,
+            "clarification_question": null
+          }
+        },
+        {
+          "request_id": "passenger-b04",
+          "ok": true,
+          "recorded_request_sha256": "2328bb7055da7976c8acb3152312b35c9c28c5993f3674ee0cbf00c51abeb995",
+          "image_sha256": "033fc370408c4bc99a1ec9fbb845b6618a5f53b680a235baba336b8fe8ddba80",
+          "recorded_message_sha256": "ce8b30adb2c5a0bb22a3dc096fea18ff508edbbee5f1203b639186b2d539b322",
+          "actual_input_tokens": 2764,
+          "raw_text_sha256": "a338eaf7a59ead0410ece7fb87c641443cde63c2921877ff38f2addba9be024f",
+          "native_four_field_result": {
+            "clarification_question": null,
+            "destination_box_xyxy": [
+              1525.76,
+              993.6,
+              2191.36,
+              1280.16
+            ],
+            "destination_point_xy": [
+              1740.8,
+              1123.2
+            ],
+            "status": "proposed"
+          },
+          "error": null,
+          "score": {
+            "request_id": "passenger-b04",
+            "recording_id": "video_054907",
+            "frame_id": 1,
+            "expected_status": "proposed",
+            "status": "proposed",
+            "failure": null,
+            "status_matches": true,
+            "point_in_authored_box": false,
+            "normalized_point_error": 0.09468382592444917,
+            "box_iou": 0.0,
+            "clarification_question": null,
+            "predicted_point": [
+              1740.8,
+              1123.2
+            ],
+            "predicted_box": [
+              1525.76,
+              993.6,
+              2191.36,
+              1280.16
+            ]
+          }
+        },
+        {
+          "request_id": "passenger-b05",
+          "ok": true,
+          "recorded_request_sha256": "3c087bfd404862cb84a0bd16d5813689be710704409613da2144be8473846fc4",
+          "image_sha256": "033fc370408c4bc99a1ec9fbb845b6618a5f53b680a235baba336b8fe8ddba80",
+          "recorded_message_sha256": "c126b9dce2e152c2a5069b3773aacfbad8b71f9ea670051e71147b61be3b3c7e",
+          "actual_input_tokens": 2722,
+          "raw_text_sha256": "bc082de31b155771833787726a8b29c79fab31eee69a0dacb1783c29771bc2bc",
+          "native_four_field_result": {
+            "clarification_question": null,
+            "destination_box_xyxy": null,
+            "destination_point_xy": null,
+            "status": "insufficient_visual_evidence"
+          },
+          "error": null,
+          "score": {
+            "request_id": "passenger-b05",
+            "recording_id": "video_054907",
+            "frame_id": 1,
+            "expected_status": "insufficient_visual_evidence",
+            "status": "insufficient_visual_evidence",
+            "failure": null,
+            "status_matches": true,
+            "point_in_authored_box": false,
+            "normalized_point_error": null,
+            "box_iou": null,
+            "clarification_question": null
+          }
+        },
+        {
+          "request_id": "passenger-b06",
+          "ok": true,
+          "recorded_request_sha256": "4e3b43be20cb97e49d54e202540b2846c324310c715e2d1b118f940a621b3caa",
+          "image_sha256": "175602c7dc418c0ababa6cea56daec7f5e2779452370a9ace398cdc3780041a6",
+          "recorded_message_sha256": "8b9ac0a6709e10c46b84b44510bb6cef5f431d63e30c1c5fe9f83bd32c2e4048",
+          "actual_input_tokens": 1348,
+          "raw_text_sha256": "7f16b1abe7f7beb5bdfe278947a28946db46d16c881ded64fb86dacf87a0512f",
+          "native_four_field_result": {
+            "clarification_question": null,
+            "destination_box_xyxy": [
+              1024.0,
+              1008.0,
+              1433.6,
+              1123.2
+            ],
+            "destination_point_xy": [
+              1228.8,
+              1065.6
+            ],
+            "status": "proposed"
+          },
+          "error": null,
+          "score": {
+            "request_id": "passenger-b06",
+            "recording_id": "video_054907",
+            "frame_id": 42,
+            "expected_status": "proposed",
+            "status": "proposed",
+            "failure": null,
+            "status_matches": true,
+            "point_in_authored_box": false,
+            "normalized_point_error": 0.04916400519209346,
+            "box_iou": 0.0,
+            "clarification_question": null,
+            "predicted_point": [
+              1228.8,
+              1065.6
+            ],
+            "predicted_box": [
+              1024.0,
+              1008.0,
+              1433.6,
+              1123.2
+            ]
+          }
+        },
+        {
+          "request_id": "passenger-b07",
+          "ok": true,
+          "recorded_request_sha256": "f115f5e810511c9fad7a7cbbb007d53537b9264204fae02a0a7be972258ec926",
+          "image_sha256": "175602c7dc418c0ababa6cea56daec7f5e2779452370a9ace398cdc3780041a6",
+          "recorded_message_sha256": "19a6c375a6e5ccfc6485a1affd4f559c6e5023048b38c339886db46afa880fbc",
+          "actual_input_tokens": 1345,
+          "raw_text_sha256": "9fac8eb22a73915725e810dfc2ff53ad0aa2b89efe64f87757a6285d31c04c13",
+          "native_four_field_result": {
+            "clarification_question": null,
+            "destination_box_xyxy": [
+              716.8,
+              979.2,
+              972.8,
+              1152.0
+            ],
+            "destination_point_xy": [
+              844.8,
+              1065.6
+            ],
+            "status": "proposed"
+          },
+          "error": null,
+          "score": {
+            "request_id": "passenger-b07",
+            "recording_id": "video_054907",
+            "frame_id": 42,
+            "expected_status": "proposed",
+            "status": "proposed",
+            "failure": null,
+            "status_matches": true,
+            "point_in_authored_box": false,
+            "normalized_point_error": 0.06489012912274693,
+            "box_iou": 0.0,
+            "clarification_question": null,
+            "predicted_point": [
+              844.8,
+              1065.6
+            ],
+            "predicted_box": [
+              716.8,
+              979.2,
+              972.8,
+              1152.0
+            ]
+          }
+        },
+        {
+          "request_id": "passenger-b08",
+          "ok": true,
+          "recorded_request_sha256": "088a9da5a78769d4b23b07da5824c075630d155160228dfba667d7624c83ac4b",
+          "image_sha256": "175602c7dc418c0ababa6cea56daec7f5e2779452370a9ace398cdc3780041a6",
+          "recorded_message_sha256": "8a3c38696d6dc8927c7fe32eb4340abbed3d48ce226a8dc79becef7759633e09",
+          "actual_input_tokens": 1336,
+          "raw_text_sha256": "877d8b0c68e01d24c08ffaafe3d472138f4c7bb9781610500fbd6be2332353c6",
+          "native_four_field_result": {
+            "clarification_question": null,
+            "destination_box_xyxy": [
+              1999.104,
+              682.56,
+              2560.0,
+              1365.84
+            ],
+            "destination_point_xy": [
+              2150.4,
+              1224.0
+            ],
+            "status": "proposed"
+          },
+          "error": null,
+          "score": {
+            "request_id": "passenger-b08",
+            "recording_id": "video_054907",
+            "frame_id": 42,
+            "expected_status": "needs_clarification",
+            "status": "proposed",
+            "failure": null,
+            "status_matches": false,
+            "point_in_authored_box": false,
+            "normalized_point_error": null,
+            "box_iou": null,
+            "clarification_question": null
+          }
+        },
+        {
+          "request_id": "passenger-b09",
+          "ok": true,
+          "recorded_request_sha256": "062436e8fd5a91f1eef9ebf6a7ea3bfb12831d79b6aa70ca2a82bcfe8ac67c90",
+          "image_sha256": "175602c7dc418c0ababa6cea56daec7f5e2779452370a9ace398cdc3780041a6",
+          "recorded_message_sha256": "80abb16989b7bb9064e159dbe6dd5c252b78819fd449df8a16c0a77be2fa827e",
+          "actual_input_tokens": 1380,
+          "raw_text_sha256": "bc256956d0513f99861538c455b0fa8cedb60607688d2f75c10a97d8ee834a6c",
+          "native_four_field_result": {
+            "clarification_question": null,
+            "destination_box_xyxy": [
+              716.8,
+              979.2,
+              960.0,
+              1152.0
+            ],
+            "destination_point_xy": [
+              838.656,
+              1071.36
+            ],
+            "status": "proposed"
+          },
+          "error": null,
+          "score": {
+            "request_id": "passenger-b09",
+            "recording_id": "video_054907",
+            "frame_id": 42,
+            "expected_status": "proposed",
+            "status": "proposed",
+            "failure": null,
+            "status_matches": true,
+            "point_in_authored_box": false,
+            "normalized_point_error": 0.063516445334206,
+            "box_iou": 0.0,
+            "clarification_question": null,
+            "predicted_point": [
+              838.656,
+              1071.36
+            ],
+            "predicted_box": [
+              716.8,
+              979.2,
+              960.0,
+              1152.0
+            ]
+          }
+        },
+        {
+          "request_id": "passenger-b10",
+          "ok": true,
+          "recorded_request_sha256": "91a1c5a1d88435698597c93fd388c5ea4222cf097c6629e050963ac9c3c78a31",
+          "image_sha256": "175602c7dc418c0ababa6cea56daec7f5e2779452370a9ace398cdc3780041a6",
+          "recorded_message_sha256": "4237cce0f9bf618b1d463ed401cfc41fdc96fd00518f0764cad97ed0102ce85b",
+          "actual_input_tokens": 1341,
+          "raw_text_sha256": "bbbee5430b9b58e7c08abd24b9543ea83a59f1e5bdb8c022e93293e6171450b0",
+          "native_four_field_result": {
+            "clarification_question": null,
+            "destination_box_xyxy": [
+              1408.0,
+              1022.4,
+              1600.0,
+              1103.04
+            ],
+            "destination_point_xy": [
+              1504.256,
+              1062.72
+            ],
+            "status": "proposed"
+          },
+          "error": null,
+          "score": {
+            "request_id": "passenger-b10",
+            "recording_id": "video_054907",
+            "frame_id": 42,
+            "expected_status": "insufficient_visual_evidence",
+            "status": "proposed",
+            "failure": null,
+            "status_matches": false,
+            "point_in_authored_box": false,
+            "normalized_point_error": null,
+            "box_iou": null,
+            "clarification_question": null
+          }
+        },
+        {
+          "request_id": "passenger-b11",
+          "ok": true,
+          "recorded_request_sha256": "fb7b7637e1816fff2498d67be69abe52c9928af6f5f5f767a80d12e42158f1e0",
+          "image_sha256": "2a735d35145f1998ead5ddb78bf960aebbe8b5d997b278e36f888b8e742e3cfd",
+          "recorded_message_sha256": "115418fff22f9ed332412249a5f068f62a5cd55a3871b82492da485ca3803ea5",
+          "actual_input_tokens": 1306,
+          "raw_text_sha256": "a15814a18ae21f9b3385cfb54715413e244a39164b2463bb8aaab9fc4aba1077",
+          "native_four_field_result": {
+            "clarification_question": null,
+            "destination_box_xyxy": [
+              1356.8,
+              1022.4,
+              1528.32,
+              1123.2
+            ],
+            "destination_point_xy": [
+              1442.56,
+              1072.8
+            ],
+            "status": "proposed"
+          },
+          "error": null,
+          "score": {
+            "request_id": "passenger-b11",
+            "recording_id": "video_054907",
+            "frame_id": 59,
+            "expected_status": "proposed",
+            "status": "proposed",
+            "failure": null,
+            "status_matches": true,
+            "point_in_authored_box": false,
+            "normalized_point_error": 0.0335979816274163,
+            "box_iou": 0.0,
+            "clarification_question": null,
+            "predicted_point": [
+              1442.56,
+              1072.8
+            ],
+            "predicted_box": [
+              1356.8,
+              1022.4,
+              1528.32,
+              1123.2
+            ]
+          }
+        },
+        {
+          "request_id": "passenger-b12",
+          "ok": true,
+          "recorded_request_sha256": "22279f7d4280379716773469ac11ac941b05d75f6e8def4018698d28b2de9cd5",
+          "image_sha256": "2a735d35145f1998ead5ddb78bf960aebbe8b5d997b278e36f888b8e742e3cfd",
+          "recorded_message_sha256": "cc1cbdbf97f24f12c3e29d6becc1a1948eec0241586ac0c0ab83ed52343fec2d",
+          "actual_input_tokens": 1305,
+          "raw_text_sha256": "cc7b31d94cfd90797bb958422314c25917c525d97d7819a372882caf28a9d8d8",
+          "native_four_field_result": {
+            "clarification_question": null,
+            "destination_box_xyxy": [
+              691.2,
+              993.6,
+              1100.8,
+              1166.4
+            ],
+            "destination_point_xy": [
+              908.8,
+              1080.0
+            ],
+            "status": "proposed"
+          },
+          "error": null,
+          "score": {
+            "request_id": "passenger-b12",
+            "recording_id": "video_054907",
+            "frame_id": 59,
+            "expected_status": "proposed",
+            "status": "proposed",
+            "failure": null,
+            "status_matches": true,
+            "point_in_authored_box": false,
+            "normalized_point_error": 0.06623418152789859,
+            "box_iou": 0.0,
+            "clarification_question": null,
+            "predicted_point": [
+              908.8,
+              1080.0
+            ],
+            "predicted_box": [
+              691.2,
+              993.6,
+              1100.8,
+              1166.4
+            ]
+          }
+        },
+        {
+          "request_id": "passenger-b13",
+          "ok": true,
+          "recorded_request_sha256": "06c4ba8507fc2a99e8f95fe14675e66122847f222d7cd70564c079059a3cc61f",
+          "image_sha256": "2a735d35145f1998ead5ddb78bf960aebbe8b5d997b278e36f888b8e742e3cfd",
+          "recorded_message_sha256": "2d424c05308b5637cfd502dda0e1d0d2bda0adeb582c631f7db0d2e1d683ccd3",
+          "actual_input_tokens": 1326,
+          "raw_text_sha256": "bb357b30b05cf8fa6926b0c2aa668fa8e43994a82819c40b03d45cc0e9c9c3ad",
+          "native_four_field_result": {
+            "clarification_question": null,
+            "destination_box_xyxy": [
+              1177.6,
+              1036.8,
+              1323.52,
+              1108.8
+            ],
+            "destination_point_xy": [
+              1250.56,
+              1072.8
+            ],
+            "status": "proposed"
+          },
+          "error": null,
+          "score": {
+            "request_id": "passenger-b13",
+            "recording_id": "video_054907",
+            "frame_id": 59,
+            "expected_status": "proposed",
+            "status": "proposed",
+            "failure": null,
+            "status_matches": true,
+            "point_in_authored_box": false,
+            "normalized_point_error": 0.14683469189303813,
+            "box_iou": 0.0,
+            "clarification_question": null,
+            "predicted_point": [
+              1250.56,
+              1072.8
+            ],
+            "predicted_box": [
+              1177.6,
+              1036.8,
+              1323.52,
+              1108.8
+            ]
+          }
+        },
+        {
+          "request_id": "passenger-b14",
+          "ok": true,
+          "recorded_request_sha256": "d12693fcf1c685f3c90db28dc200b261a0a194e139b368790cc290cda4291d29",
+          "image_sha256": "2a735d35145f1998ead5ddb78bf960aebbe8b5d997b278e36f888b8e742e3cfd",
+          "recorded_message_sha256": "597ef7988104ca79ef77615ef34be4a134e99ca22908ff8927779f2d09964399",
+          "actual_input_tokens": 1304,
+          "raw_text_sha256": "e4b8a9b427f851bccbc60a3f39e8eb058baeba7ef08f60fe31ae1daafa7a521e",
+          "native_four_field_result": {
+            "clarification_question": null,
+            "destination_box_xyxy": [
+              1203.2,
+              993.6,
+              1280.0,
+              1094.4
+            ],
+            "destination_point_xy": [
+              1236.10368,
+              1049.1523200000001
+            ],
+            "status": "proposed"
+          },
+          "error": null,
+          "score": {
+            "request_id": "passenger-b14",
+            "recording_id": "video_054907",
+            "frame_id": 59,
+            "expected_status": "needs_clarification",
+            "status": "proposed",
+            "failure": null,
+            "status_matches": false,
+            "point_in_authored_box": false,
+            "normalized_point_error": null,
+            "box_iou": null,
+            "clarification_question": null
+          }
+        },
+        {
+          "request_id": "passenger-b15",
+          "ok": true,
+          "recorded_request_sha256": "4090669805a4fb48ba0db7f034c4a7ab07a4d0ad9859cab4a230fab78bebae12",
+          "image_sha256": "2a735d35145f1998ead5ddb78bf960aebbe8b5d997b278e36f888b8e742e3cfd",
+          "recorded_message_sha256": "85d21a7b8ff63c7e588b7e706197a25c11f7c440ad509d4b9f319838712e5763",
+          "actual_input_tokens": 1304,
+          "raw_text_sha256": "81dee7cd4d6987dca54d7f2bd97d7201532680aba8d86516f55c77fcd90d03af",
+          "native_four_field_result": {
+            "clarification_question": null,
+            "destination_box_xyxy": [
+              1356.8,
+              993.6,
+              1464.32,
+              1080.0
+            ],
+            "destination_point_xy": [
+              1385.3459481599998,
+              1010.97198432
+            ],
+            "status": "proposed"
+          },
+          "error": null,
+          "score": {
+            "request_id": "passenger-b15",
+            "recording_id": "video_054907",
+            "frame_id": 59,
+            "expected_status": "insufficient_visual_evidence",
+            "status": "proposed",
+            "failure": null,
+            "status_matches": false,
+            "point_in_authored_box": false,
+            "normalized_point_error": null,
+            "box_iou": null,
+            "clarification_question": null
+          }
+        },
+        {
+          "request_id": "passenger-b16",
+          "ok": true,
+          "recorded_request_sha256": "ba749e9732ce25572a69e33c2c8c8c8f673b34785791a460bf81cf7d15d7c1df",
+          "image_sha256": "0448ff2ffa6959029f2af9d6f9fefc72af976679d400fe796e4e7064ce425213",
+          "recorded_message_sha256": "32bc8e3b9fff10f22b96348d0fd32968b91343aa887988aa90bd81063d5615f4",
+          "actual_input_tokens": 1436,
+          "raw_text_sha256": "88807d9b3d8cc9443348b965daffc10318cb5e04c117522e61eb63682504e063",
+          "native_four_field_result": {
+            "clarification_question": null,
+            "destination_box_xyxy": [
+              1945.6,
+              1123.2,
+              2073.6,
+              1209.6
+            ],
+            "destination_point_xy": [
+              2009.6,
+              1166.4
+            ],
+            "status": "proposed"
+          },
+          "error": null,
+          "score": {
+            "request_id": "passenger-b16",
+            "recording_id": "video_054907",
+            "frame_id": 103,
+            "expected_status": "proposed",
+            "status": "proposed",
+            "failure": null,
+            "status_matches": true,
+            "point_in_authored_box": false,
+            "normalized_point_error": 0.025071115469012046,
+            "box_iou": 0.24159299983320717,
+            "clarification_question": null,
+            "predicted_point": [
+              2009.6,
+              1166.4
+            ],
+            "predicted_box": [
+              1945.6,
+              1123.2,
+              2073.6,
+              1209.6
+            ]
+          }
+        },
+        {
+          "request_id": "passenger-b17",
+          "ok": false,
+          "recorded_request_sha256": "6e660d01090ced6212e7e6c4189babd7e90f14750a4f3c288f58e2c8dbd8344f",
+          "image_sha256": "0448ff2ffa6959029f2af9d6f9fefc72af976679d400fe796e4e7064ce425213",
+          "recorded_message_sha256": "77192eb21ca60d01218dbbb54d2409133d323adc9cbfec61a28ebb563a37abfd",
+          "actual_input_tokens": 1433,
+          "raw_text_sha256": "8162360a83a714b7eea01e87f4e6a572b9c8a9a352c479faff721ea72fa953b4",
+          "native_four_field_result": null,
+          "error": {
+            "code": "invalid_model_output",
+            "message": "ValueError: destination point lies outside its proposed coarse region"
+          },
+          "score": {
+            "request_id": "passenger-b17",
+            "recording_id": "video_054907",
+            "frame_id": 103,
+            "expected_status": "proposed",
+            "status": null,
+            "failure": "invalid_model_output",
+            "status_matches": false,
+            "point_in_authored_box": false,
+            "normalized_point_error": null,
+            "box_iou": null,
+            "clarification_question": null
+          }
+        },
+        {
+          "request_id": "passenger-b18",
+          "ok": true,
+          "recorded_request_sha256": "04877eed10172b313b2a84305dd54cf720361989ccb9e1505e34edf6a2a29a15",
+          "image_sha256": "0448ff2ffa6959029f2af9d6f9fefc72af976679d400fe796e4e7064ce425213",
+          "recorded_message_sha256": "d5ed596d269fd75fca0ad73d7f58d53e42407a3abb1cf8251db704e48125bd81",
+          "actual_input_tokens": 1424,
+          "raw_text_sha256": "a77ce011f64851f86d67f81aa323d85fa426684ec17874b762ae3c05d9f63296",
+          "native_four_field_result": {
+            "clarification_question": "Which sign on the right side of the road is being referred to?",
+            "destination_box_xyxy": null,
+            "destination_point_xy": null,
+            "status": "needs_clarification"
+          },
+          "error": null,
+          "score": {
+            "request_id": "passenger-b18",
+            "recording_id": "video_054907",
+            "frame_id": 103,
+            "expected_status": "needs_clarification",
+            "status": "needs_clarification",
+            "failure": null,
+            "status_matches": true,
+            "point_in_authored_box": false,
+            "normalized_point_error": null,
+            "box_iou": null,
+            "clarification_question": "Which sign on the right side of the road is being referred to?"
+          }
+        },
+        {
+          "request_id": "passenger-b19",
+          "ok": true,
+          "recorded_request_sha256": "db59bfd779adbd236b61d83f6477fa21bda47a412bf31c385169bcca443546bd",
+          "image_sha256": "0448ff2ffa6959029f2af9d6f9fefc72af976679d400fe796e4e7064ce425213",
+          "recorded_message_sha256": "8ae023b5f365d51449b54f4d374532bf8d1c8be60a1ad4498eab5c716ca0eb47",
+          "actual_input_tokens": 1429,
+          "raw_text_sha256": "9957a7d51be7c02be2ba9e97a057a72a8c5db623daeb5f59470375a09c162ef2",
+          "native_four_field_result": {
+            "clarification_question": null,
+            "destination_box_xyxy": [
+              1408.0,
+              1094.4,
+              1582.08,
+              1166.4
+            ],
+            "destination_point_xy": [
+              1495.04,
+              1130.4
+            ],
+            "status": "proposed"
+          },
+          "error": null,
+          "score": {
+            "request_id": "passenger-b19",
+            "recording_id": "video_054907",
+            "frame_id": 103,
+            "expected_status": "insufficient_visual_evidence",
+            "status": "proposed",
+            "failure": null,
+            "status_matches": false,
+            "point_in_authored_box": false,
+            "normalized_point_error": null,
+            "box_iou": null,
+            "clarification_question": null
+          }
+        }
+      ]
+    },
+    "public_parent": {
+      "configuration_sha256": "20a7a098d62e777ae8e186aa4b59ef4e70968fb1ec52a45d8183497b80c78f13",
+      "native_run_sha256": "ce2bc2d70f448285a2b5736c42d50e860a50c40d5021a3400b933e528dbac8f0",
+      "native_file_hashes": {
+        "input-snapshot.jsonl": "0160bf67789bc6d7f3a362f2a6d607b1028b1b81ca0490863a5971ede224846f",
+        "resolved-requests.jsonl": "147a8c4736df5f71c06f854537365fe18a62da9af18d09559cc0aacb9961a8ae",
+        "receipts.jsonl": "34207a2e79ef8cc8dcc2cfaa18abece33f57d8e6d6e071eaab96c5f4c069c9b1",
+        "model-outcomes.jsonl": "b6d94435138df686815ce270f3fb1150f40d49a8a1570770b4c2840e4026033c"
+      },
+      "actual_weight_sha256": "76bfb3230b17a86248b52ca6a9f8d2ffca324aa80216d6b93845ccb12ad86743",
+      "operational_errors": 0,
+      "native_process": {
+        "worker_launched_utc": "2026-11-22T05:23:21.563594+00:00",
+        "native_results_sealed_utc": "2026-11-22T05:54:53.256270+00:00",
+        "dispatcher_observed_exit_utc": "2026-11-22T06:20:15.756909+00:00",
+        "exit_code": 0,
+        "independently_observed_process_tree_exit_utc": "2026-11-22T05:54:54.980899+00:00",
+        "worker_handoff_file_sha256": "b7f9a6cc4b0aca15d837aac97a7a25139953214e063af18aa6a7c64b9a272133",
+        "timing_note": "The dispatcher reserved time for separate passenger application checks after the native results sealed."
+      },
+      "metrics": {
+        "kind": "offline_model_only_versus_ai_authored_rectangles",
+        "partition": "development",
+        "input_file_sha256": "0160bf67789bc6d7f3a362f2a6d607b1028b1b81ca0490863a5971ede224846f",
+        "outputs_sha256": "b6d94435138df686815ce270f3fb1150f40d49a8a1570770b4c2840e4026033c",
+        "freeze_file_sha256": "def382f8f57a8a7e311403435435cd32ddcce6e539ed3c4310f8abb88eacc86f",
+        "requested": 19,
+        "expected_status_counts": {
+          "proposed": 11,
+          "needs_clarification": 4,
+          "insufficient_visual_evidence": 4
+        },
+        "status_matches": 13,
+        "confusion": {
+          "insufficient_visual_evidence": {
+            "insufficient_visual_evidence": 1,
+            "proposed": 3
+          },
+          "needs_clarification": {
+            "proposed": 3,
+            "needs_clarification": 1
+          },
+          "proposed": {
+            "proposed": 11
+          }
+        },
+        "failures": {},
+        "unexpected_output_ids": [],
+        "proposal_count": 17,
+        "proposals_on_nonproposal_cases": 6,
+        "clear_reference_count": 11,
+        "clear_reference_and_model_proposal_count": 11,
+        "point_in_authored_box_count": 0,
+        "missed_authored_rectangle_on_paired_proposals": 11,
+        "proposal_on_wrong_status_or_outside_authored_rectangle": 17,
+        "normalized_tolerance_hits_all_clear": {
+          "0.025": 0,
+          "0.05": 2
+        },
+        "mean_box_iou_all_clear_missing_as_zero": 0.005992439808371484,
+        "median_normalized_point_error_paired_proposals_only": 0.05678263320095696,
+        "same_frame_contrasts": [
+          {
+            "requests": [
+              "passenger-b01",
+              "passenger-b02"
+            ],
+            "both_proposed": true,
+            "each_closer_to_own_provisional_point": true,
+            "both_in_authored_rectangle": false
+          },
+          {
+            "requests": [
+              "passenger-b06",
+              "passenger-b07"
+            ],
+            "both_proposed": true,
+            "each_closer_to_own_provisional_point": true,
+            "both_in_authored_rectangle": false
+          },
+          {
+            "requests": [
+              "passenger-b11",
+              "passenger-b12"
+            ],
+            "both_proposed": true,
+            "each_closer_to_own_provisional_point": true,
+            "both_in_authored_rectangle": false
+          },
+          {
+            "requests": [
+              "passenger-b16",
+              "passenger-b17"
+            ],
+            "both_proposed": true,
+            "each_closer_to_own_provisional_point": true,
+            "both_in_authored_rectangle": false
+          }
+        ],
+        "human_reference_reviews": 0,
+        "final_evaluation": false
+      },
+      "cases": [
+        {
+          "request_id": "passenger-b01",
+          "ok": true,
+          "recorded_request_sha256": "0f9d083a590747307a68dfaba7ca5e29aed36b0aee83b0eeff5acf21c306eb66",
+          "image_sha256": "033fc370408c4bc99a1ec9fbb845b6618a5f53b680a235baba336b8fe8ddba80",
+          "recorded_message_sha256": "aad54d656ae8fa2bff5085d600eb127c98c5b94ab3d3bb1eb3b5503d26bf84ca",
+          "actual_input_tokens": 2727,
+          "raw_text_sha256": "c263ba47b9d6bc1520353a9fad6d95b2c67dcd14dfc43ae93be024ff772b0044",
+          "native_four_field_result": {
+            "clarification_question": null,
+            "destination_box_xyxy": [
+              307.2,
+              1008.0,
+              614.4,
+              1152.0
+            ],
+            "destination_point_xy": [
+              460.8,
+              1080.0
+            ],
+            "status": "proposed"
+          },
+          "error": null,
+          "score": {
+            "request_id": "passenger-b01",
+            "recording_id": "video_054907",
+            "frame_id": 1,
+            "expected_status": "proposed",
+            "status": "proposed",
+            "failure": null,
+            "status_matches": true,
+            "point_in_authored_box": false,
+            "normalized_point_error": 0.05626219782021344,
+            "box_iou": 0.0,
+            "clarification_question": null,
+            "predicted_point": [
+              460.8,
+              1080.0
+            ],
+            "predicted_box": [
+              307.2,
+              1008.0,
+              614.4,
+              1152.0
+            ]
+          }
+        },
+        {
+          "request_id": "passenger-b02",
+          "ok": true,
+          "recorded_request_sha256": "633e37b5080abf41283a79ba9ad57375f3843ac667e20a9059a80e44393cede7",
+          "image_sha256": "033fc370408c4bc99a1ec9fbb845b6618a5f53b680a235baba336b8fe8ddba80",
+          "recorded_message_sha256": "90b549620d756080a91e84f6fc9673d601dcb7f282a6c40a1ab71a011699db99",
+          "actual_input_tokens": 2727,
+          "raw_text_sha256": "91204c0a9bddb5354a128fee4ff253a54becde2d733a3314e0f21c0360d3e833",
+          "native_four_field_result": {
+            "clarification_question": null,
+            "destination_box_xyxy": [
+              1525.76,
+              993.6,
+              2191.36,
+              1281.6
+            ],
+            "destination_point_xy": [
+              1753.6,
+              1152.0
+            ],
+            "status": "proposed"
+          },
+          "error": null,
+          "score": {
+            "request_id": "passenger-b02",
+            "recording_id": "video_054907",
+            "frame_id": 1,
+            "expected_status": "proposed",
+            "status": "proposed",
+            "failure": null,
+            "status_matches": true,
+            "point_in_authored_box": false,
+            "normalized_point_error": 0.08493345383368499,
+            "box_iou": 0.0,
+            "clarification_question": null,
+            "predicted_point": [
+              1753.6,
+              1152.0
+            ],
+            "predicted_box": [
+              1525.76,
+              993.6,
+              2191.36,
+              1281.6
+            ]
+          }
+        },
+        {
+          "request_id": "passenger-b03",
+          "ok": true,
+          "recorded_request_sha256": "9c93b41d994b57e57b8e9fa047e48934dd97f20398b3970b8e5600ddf1859b48",
+          "image_sha256": "033fc370408c4bc99a1ec9fbb845b6618a5f53b680a235baba336b8fe8ddba80",
+          "recorded_message_sha256": "ccc946a86ee3ba3825edf24d7982f8a667b5f40198ebfd10d76d2aedcc58b67a",
+          "actual_input_tokens": 2718,
+          "raw_text_sha256": "dd1fe92faf196ef7b91d010e06be5beec1e75fb971abee33bb6e8a2e7671299f",
+          "native_four_field_result": {
+            "clarification_question": null,
+            "destination_box_xyxy": [
+              340.48,
+              987.84,
+              660.48,
+              1189.44
+            ],
+            "destination_point_xy": [
+              581.12,
+              1033.92
+            ],
+            "status": "proposed"
+          },
+          "error": null,
+          "score": {
+            "request_id": "passenger-b03",
+            "recording_id": "video_054907",
+            "frame_id": 1,
+            "expected_status": "needs_clarification",
+            "status": "proposed",
+            "failure": null,
+            "status_matches": false,
+            "point_in_authored_box": false,
+            "normalized_point_error": null,
+            "box_iou": null,
+            "clarification_question": null
+          }
+        },
+        {
+          "request_id": "passenger-b04",
+          "ok": true,
+          "recorded_request_sha256": "2328bb7055da7976c8acb3152312b35c9c28c5993f3674ee0cbf00c51abeb995",
+          "image_sha256": "033fc370408c4bc99a1ec9fbb845b6618a5f53b680a235baba336b8fe8ddba80",
+          "recorded_message_sha256": "ce8b30adb2c5a0bb22a3dc096fea18ff508edbbee5f1203b639186b2d539b322",
+          "actual_input_tokens": 2764,
+          "raw_text_sha256": "6ba347fd54c0780135e1a56b6f818fa95232dacb52c6f46c20bc27a6ff3ebcaa",
+          "native_four_field_result": {
+            "clarification_question": null,
+            "destination_box_xyxy": [
+              1525.76,
+              1005.12,
+              2191.36,
+              1280.16
+            ],
+            "destination_point_xy": [
+              1656.32,
+              1087.2
+            ],
+            "status": "proposed"
+          },
+          "error": null,
+          "score": {
+            "request_id": "passenger-b04",
+            "recording_id": "video_054907",
+            "frame_id": 1,
+            "expected_status": "proposed",
+            "status": "proposed",
+            "failure": null,
+            "status_matches": true,
+            "point_in_authored_box": false,
+            "normalized_point_error": 0.12456860946639685,
+            "box_iou": 0.0,
+            "clarification_question": null,
+            "predicted_point": [
+              1656.32,
+              1087.2
+            ],
+            "predicted_box": [
+              1525.76,
+              1005.12,
+              2191.36,
+              1280.16
+            ]
+          }
+        },
+        {
+          "request_id": "passenger-b05",
+          "ok": true,
+          "recorded_request_sha256": "3c087bfd404862cb84a0bd16d5813689be710704409613da2144be8473846fc4",
+          "image_sha256": "033fc370408c4bc99a1ec9fbb845b6618a5f53b680a235baba336b8fe8ddba80",
+          "recorded_message_sha256": "c126b9dce2e152c2a5069b3773aacfbad8b71f9ea670051e71147b61be3b3c7e",
+          "actual_input_tokens": 2722,
+          "raw_text_sha256": "bc082de31b155771833787726a8b29c79fab31eee69a0dacb1783c29771bc2bc",
+          "native_four_field_result": {
+            "clarification_question": null,
+            "destination_box_xyxy": null,
+            "destination_point_xy": null,
+            "status": "insufficient_visual_evidence"
+          },
+          "error": null,
+          "score": {
+            "request_id": "passenger-b05",
+            "recording_id": "video_054907",
+            "frame_id": 1,
+            "expected_status": "insufficient_visual_evidence",
+            "status": "insufficient_visual_evidence",
+            "failure": null,
+            "status_matches": true,
+            "point_in_authored_box": false,
+            "normalized_point_error": null,
+            "box_iou": null,
+            "clarification_question": null
+          }
+        },
+        {
+          "request_id": "passenger-b06",
+          "ok": true,
+          "recorded_request_sha256": "4e3b43be20cb97e49d54e202540b2846c324310c715e2d1b118f940a621b3caa",
+          "image_sha256": "175602c7dc418c0ababa6cea56daec7f5e2779452370a9ace398cdc3780041a6",
+          "recorded_message_sha256": "8b9ac0a6709e10c46b84b44510bb6cef5f431d63e30c1c5fe9f83bd32c2e4048",
+          "actual_input_tokens": 1348,
+          "raw_text_sha256": "427345ec99955ad9ea37424431dc823bcebb44874a88442de50d4601bef606ce",
+          "native_four_field_result": {
+            "clarification_question": null,
+            "destination_box_xyxy": [
+              896.0,
+              1008.0,
+              1510.4,
+              1123.2
+            ],
+            "destination_point_xy": [
+              1203.2,
+              1065.6
+            ],
+            "status": "proposed"
+          },
+          "error": null,
+          "score": {
+            "request_id": "passenger-b06",
+            "recording_id": "video_054907",
+            "frame_id": 42,
+            "expected_status": "proposed",
+            "status": "proposed",
+            "failure": null,
+            "status_matches": true,
+            "point_in_authored_box": false,
+            "normalized_point_error": 0.050001854565012445,
+            "box_iou": 0.0,
+            "clarification_question": null,
+            "predicted_point": [
+              1203.2,
+              1065.6
+            ],
+            "predicted_box": [
+              896.0,
+              1008.0,
+              1510.4,
+              1123.2
+            ]
+          }
+        },
+        {
+          "request_id": "passenger-b07",
+          "ok": true,
+          "recorded_request_sha256": "f115f5e810511c9fad7a7cbbb007d53537b9264204fae02a0a7be972258ec926",
+          "image_sha256": "175602c7dc418c0ababa6cea56daec7f5e2779452370a9ace398cdc3780041a6",
+          "recorded_message_sha256": "19a6c375a6e5ccfc6485a1affd4f559c6e5023048b38c339886db46afa880fbc",
+          "actual_input_tokens": 1345,
+          "raw_text_sha256": "ec1f0239bcc0ecf4a1eb7de341a0c117b8b1b16d0804963f2bb00e53d8e73cc7",
+          "native_four_field_result": {
+            "clarification_question": null,
+            "destination_box_xyxy": [
+              716.8,
+              979.2,
+              1024.0,
+              1152.0
+            ],
+            "destination_point_xy": [
+              857.6,
+              1072.8
+            ],
+            "status": "proposed"
+          },
+          "error": null,
+          "score": {
+            "request_id": "passenger-b07",
+            "recording_id": "video_054907",
+            "frame_id": 42,
+            "expected_status": "proposed",
+            "status": "proposed",
+            "failure": null,
+            "status_matches": true,
+            "point_in_authored_box": false,
+            "normalized_point_error": 0.06160448953253163,
+            "box_iou": 0.0,
+            "clarification_question": null,
+            "predicted_point": [
+              857.6,
+              1072.8
+            ],
+            "predicted_box": [
+              716.8,
+              979.2,
+              1024.0,
+              1152.0
+            ]
+          }
+        },
+        {
+          "request_id": "passenger-b08",
+          "ok": true,
+          "recorded_request_sha256": "088a9da5a78769d4b23b07da5824c075630d155160228dfba667d7624c83ac4b",
+          "image_sha256": "175602c7dc418c0ababa6cea56daec7f5e2779452370a9ace398cdc3780041a6",
+          "recorded_message_sha256": "8a3c38696d6dc8927c7fe32eb4340abbed3d48ce226a8dc79becef7759633e09",
+          "actual_input_tokens": 1336,
+          "raw_text_sha256": "42760254a3ff63bff874053be7a3b3a1d827357e1a168883456480a46de76a29",
+          "native_four_field_result": {
+            "clarification_question": null,
+            "destination_box_xyxy": [
+              1920.0,
+              1008.0,
+              2560.0,
+              1368.0
+            ],
+            "destination_point_xy": [
+              2060.8,
+              1198.08
+            ],
+            "status": "proposed"
+          },
+          "error": null,
+          "score": {
+            "request_id": "passenger-b08",
+            "recording_id": "video_054907",
+            "frame_id": 42,
+            "expected_status": "needs_clarification",
+            "status": "proposed",
+            "failure": null,
+            "status_matches": false,
+            "point_in_authored_box": false,
+            "normalized_point_error": null,
+            "box_iou": null,
+            "clarification_question": null
+          }
+        },
+        {
+          "request_id": "passenger-b09",
+          "ok": true,
+          "recorded_request_sha256": "062436e8fd5a91f1eef9ebf6a7ea3bfb12831d79b6aa70ca2a82bcfe8ac67c90",
+          "image_sha256": "175602c7dc418c0ababa6cea56daec7f5e2779452370a9ace398cdc3780041a6",
+          "recorded_message_sha256": "80abb16989b7bb9064e159dbe6dd5c252b78819fd449df8a16c0a77be2fa827e",
+          "actual_input_tokens": 1380,
+          "raw_text_sha256": "3f411792922fe150236ca89cee7ffe1d9e856e0f238431e2a2b6cf702f4245ff",
+          "native_four_field_result": {
+            "clarification_question": null,
+            "destination_box_xyxy": [
+              762.88,
+              1008.0,
+              1003.52,
+              1163.52
+            ],
+            "destination_point_xy": [
+              857.6,
+              1087.2
+            ],
+            "status": "proposed"
+          },
+          "error": null,
+          "score": {
+            "request_id": "passenger-b09",
+            "recording_id": "video_054907",
+            "frame_id": 42,
+            "expected_status": "proposed",
+            "status": "proposed",
+            "failure": null,
+            "status_matches": true,
+            "point_in_authored_box": false,
+            "normalized_point_error": 0.05678263320095696,
+            "box_iou": 0.0,
+            "clarification_question": null,
+            "predicted_point": [
+              857.6,
+              1087.2
+            ],
+            "predicted_box": [
+              762.88,
+              1008.0,
+              1003.52,
+              1163.52
+            ]
+          }
+        },
+        {
+          "request_id": "passenger-b10",
+          "ok": true,
+          "recorded_request_sha256": "91a1c5a1d88435698597c93fd388c5ea4222cf097c6629e050963ac9c3c78a31",
+          "image_sha256": "175602c7dc418c0ababa6cea56daec7f5e2779452370a9ace398cdc3780041a6",
+          "recorded_message_sha256": "4237cce0f9bf618b1d463ed401cfc41fdc96fd00518f0764cad97ed0102ce85b",
+          "actual_input_tokens": 1341,
+          "raw_text_sha256": "d497003516a030cea0b1ceeabd0e7ec0eec42e2521ed0d9e37c0b0152ccadfb7",
+          "native_four_field_result": {
+            "clarification_question": null,
+            "destination_box_xyxy": [
+              1408.0,
+              1022.4,
+              1597.44,
+              1128.96
+            ],
+            "destination_point_xy": [
+              1502.72,
+              1061.28
+            ],
+            "status": "proposed"
+          },
+          "error": null,
+          "score": {
+            "request_id": "passenger-b10",
+            "recording_id": "video_054907",
+            "frame_id": 42,
+            "expected_status": "insufficient_visual_evidence",
+            "status": "proposed",
+            "failure": null,
+            "status_matches": false,
+            "point_in_authored_box": false,
+            "normalized_point_error": null,
+            "box_iou": null,
+            "clarification_question": null
+          }
+        },
+        {
+          "request_id": "passenger-b11",
+          "ok": true,
+          "recorded_request_sha256": "fb7b7637e1816fff2498d67be69abe52c9928af6f5f5f767a80d12e42158f1e0",
+          "image_sha256": "2a735d35145f1998ead5ddb78bf960aebbe8b5d997b278e36f888b8e742e3cfd",
+          "recorded_message_sha256": "115418fff22f9ed332412249a5f068f62a5cd55a3871b82492da485ca3803ea5",
+          "actual_input_tokens": 1306,
+          "raw_text_sha256": "35c01cd4f66e7908f63fd8ce4ffa95be35d4debfb94e84bd92998aeec45d5bfc",
+          "native_four_field_result": {
+            "clarification_question": null,
+            "destination_box_xyxy": [
+              1374.72,
+              1010.88,
+              1556.48,
+              1134.72
+            ],
+            "destination_point_xy": [
+              1492.48,
+              1072.8
+            ],
+            "status": "proposed"
+          },
+          "error": null,
+          "score": {
+            "request_id": "passenger-b11",
+            "recording_id": "video_054907",
+            "frame_id": 59,
+            "expected_status": "proposed",
+            "status": "proposed",
+            "failure": null,
+            "status_matches": true,
+            "point_in_authored_box": false,
+            "normalized_point_error": 0.0322840606370484,
+            "box_iou": 0.0,
+            "clarification_question": null,
+            "predicted_point": [
+              1492.48,
+              1072.8
+            ],
+            "predicted_box": [
+              1374.72,
+              1010.88,
+              1556.48,
+              1134.72
+            ]
+          }
+        },
+        {
+          "request_id": "passenger-b12",
+          "ok": true,
+          "recorded_request_sha256": "22279f7d4280379716773469ac11ac941b05d75f6e8def4018698d28b2de9cd5",
+          "image_sha256": "2a735d35145f1998ead5ddb78bf960aebbe8b5d997b278e36f888b8e742e3cfd",
+          "recorded_message_sha256": "cc1cbdbf97f24f12c3e29d6becc1a1948eec0241586ac0c0ab83ed52343fec2d",
+          "actual_input_tokens": 1305,
+          "raw_text_sha256": "aeb91a2d6577746e1e4368f4e9bd68d2a558087838c39b7871eb5177a8138263",
+          "native_four_field_result": {
+            "clarification_question": null,
+            "destination_box_xyxy": [
+              696.32,
+              1005.12,
+              1121.28,
+              1231.2
+            ],
+            "destination_point_xy": [
+              883.2,
+              1087.2
+            ],
+            "status": "proposed"
+          },
+          "error": null,
+          "score": {
+            "request_id": "passenger-b12",
+            "recording_id": "video_054907",
+            "frame_id": 59,
+            "expected_status": "proposed",
+            "status": "proposed",
+            "failure": null,
+            "status_matches": true,
+            "point_in_authored_box": false,
+            "normalized_point_error": 0.06247985580413607,
+            "box_iou": 0.0,
+            "clarification_question": null,
+            "predicted_point": [
+              883.2,
+              1087.2
+            ],
+            "predicted_box": [
+              696.32,
+              1005.12,
+              1121.28,
+              1231.2
+            ]
+          }
+        },
+        {
+          "request_id": "passenger-b13",
+          "ok": true,
+          "recorded_request_sha256": "06c4ba8507fc2a99e8f95fe14675e66122847f222d7cd70564c079059a3cc61f",
+          "image_sha256": "2a735d35145f1998ead5ddb78bf960aebbe8b5d997b278e36f888b8e742e3cfd",
+          "recorded_message_sha256": "2d424c05308b5637cfd502dda0e1d0d2bda0adeb582c631f7db0d2e1d683ccd3",
+          "actual_input_tokens": 1326,
+          "raw_text_sha256": "382e77a8ffd5bceced7f73c3511263b23b67851b7eb4b1575edc537e91f8b13b",
+          "native_four_field_result": {
+            "clarification_question": null,
+            "destination_box_xyxy": [
+              1177.6,
+              1036.8,
+              1326.08,
+              1123.2
+            ],
+            "destination_point_xy": [
+              1249.28,
+              1077.12
+            ],
+            "status": "proposed"
+          },
+          "error": null,
+          "score": {
+            "request_id": "passenger-b13",
+            "recording_id": "video_054907",
+            "frame_id": 59,
+            "expected_status": "proposed",
+            "status": "proposed",
+            "failure": null,
+            "status_matches": true,
+            "point_in_authored_box": false,
+            "normalized_point_error": 0.14577884364237906,
+            "box_iou": 0.0,
+            "clarification_question": null,
+            "predicted_point": [
+              1249.28,
+              1077.12
+            ],
+            "predicted_box": [
+              1177.6,
+              1036.8,
+              1326.08,
+              1123.2
+            ]
+          }
+        },
+        {
+          "request_id": "passenger-b14",
+          "ok": true,
+          "recorded_request_sha256": "d12693fcf1c685f3c90db28dc200b261a0a194e139b368790cc290cda4291d29",
+          "image_sha256": "2a735d35145f1998ead5ddb78bf960aebbe8b5d997b278e36f888b8e742e3cfd",
+          "recorded_message_sha256": "597ef7988104ca79ef77615ef34be4a134e99ca22908ff8927779f2d09964399",
+          "actual_input_tokens": 1304,
+          "raw_text_sha256": "6fd69eee063b9ce0fae5e4656c76a80a71fec73bc924e35fa20ae5535a29db1b",
+          "native_four_field_result": {
+            "clarification_question": null,
+            "destination_box_xyxy": [
+              1203.2,
+              993.6,
+              1280.0,
+              1094.4
+            ],
+            "destination_point_xy": [
+              1236.10368,
+              1049.1523200000001
+            ],
+            "status": "proposed"
+          },
+          "error": null,
+          "score": {
+            "request_id": "passenger-b14",
+            "recording_id": "video_054907",
+            "frame_id": 59,
+            "expected_status": "needs_clarification",
+            "status": "proposed",
+            "failure": null,
+            "status_matches": false,
+            "point_in_authored_box": false,
+            "normalized_point_error": null,
+            "box_iou": null,
+            "clarification_question": null
+          }
+        },
+        {
+          "request_id": "passenger-b15",
+          "ok": true,
+          "recorded_request_sha256": "4090669805a4fb48ba0db7f034c4a7ab07a4d0ad9859cab4a230fab78bebae12",
+          "image_sha256": "2a735d35145f1998ead5ddb78bf960aebbe8b5d997b278e36f888b8e742e3cfd",
+          "recorded_message_sha256": "85d21a7b8ff63c7e588b7e706197a25c11f7c440ad509d4b9f319838712e5763",
+          "actual_input_tokens": 1304,
+          "raw_text_sha256": "1ebe7002331d4cbd6f63d993f2e9539f682b3b1a918d3b2eed004c69240757bb",
+          "native_four_field_result": {
+            "clarification_question": null,
+            "destination_box_xyxy": [
+              1356.8,
+              993.6,
+              1464.32,
+              1080.0
+            ],
+            "destination_point_xy": [
+              1385.3459481599998,
+              1010.97198432
+            ],
+            "status": "proposed"
+          },
+          "error": null,
+          "score": {
+            "request_id": "passenger-b15",
+            "recording_id": "video_054907",
+            "frame_id": 59,
+            "expected_status": "insufficient_visual_evidence",
+            "status": "proposed",
+            "failure": null,
+            "status_matches": false,
+            "point_in_authored_box": false,
+            "normalized_point_error": null,
+            "box_iou": null,
+            "clarification_question": null
+          }
+        },
+        {
+          "request_id": "passenger-b16",
+          "ok": true,
+          "recorded_request_sha256": "ba749e9732ce25572a69e33c2c8c8c8f673b34785791a460bf81cf7d15d7c1df",
+          "image_sha256": "0448ff2ffa6959029f2af9d6f9fefc72af976679d400fe796e4e7064ce425213",
+          "recorded_message_sha256": "32bc8e3b9fff10f22b96348d0fd32968b91343aa887988aa90bd81063d5615f4",
+          "actual_input_tokens": 1436,
+          "raw_text_sha256": "aeba28acff66ad5ccd278621eb116611b40f0de515ec7414665ded24f07184d0",
+          "native_four_field_result": {
+            "clarification_question": null,
+            "destination_box_xyxy": [
+              1740.8,
+              1080.0,
+              2099.2,
+              1267.2
+            ],
+            "destination_point_xy": [
+              1932.8,
+              1188.0
+            ],
+            "status": "proposed"
+          },
+          "error": null,
+          "score": {
+            "request_id": "passenger-b16",
+            "recording_id": "video_054907",
+            "frame_id": 103,
+            "expected_status": "proposed",
+            "status": "proposed",
+            "failure": null,
+            "status_matches": true,
+            "point_in_authored_box": false,
+            "normalized_point_error": 0.050115593384661594,
+            "box_iou": 0.06591683789208633,
+            "clarification_question": null,
+            "predicted_point": [
+              1932.8,
+              1188.0
+            ],
+            "predicted_box": [
+              1740.8,
+              1080.0,
+              2099.2,
+              1267.2
+            ]
+          }
+        },
+        {
+          "request_id": "passenger-b17",
+          "ok": true,
+          "recorded_request_sha256": "6e660d01090ced6212e7e6c4189babd7e90f14750a4f3c288f58e2c8dbd8344f",
+          "image_sha256": "0448ff2ffa6959029f2af9d6f9fefc72af976679d400fe796e4e7064ce425213",
+          "recorded_message_sha256": "77192eb21ca60d01218dbbb54d2409133d323adc9cbfec61a28ebb563a37abfd",
+          "actual_input_tokens": 1433,
+          "raw_text_sha256": "cc540c65dd20c50ad2e9b94aa44792f114ed7d6c0f51e962aedf9055bf6d69d5",
+          "native_four_field_result": {
+            "clarification_question": null,
+            "destination_box_xyxy": [
+              768.0,
+              979.2,
+              1100.8,
+              1152.0
+            ],
+            "destination_point_xy": [
+              934.4,
+              1058.4
+            ],
+            "status": "proposed"
+          },
+          "error": null,
+          "score": {
+            "request_id": "passenger-b17",
+            "recording_id": "video_054907",
+            "frame_id": 103,
+            "expected_status": "proposed",
+            "status": "proposed",
+            "failure": null,
+            "status_matches": true,
+            "point_in_authored_box": false,
+            "normalized_point_error": 0.042789260435363206,
+            "box_iou": 0.0,
+            "clarification_question": null,
+            "predicted_point": [
+              934.4,
+              1058.4
+            ],
+            "predicted_box": [
+              768.0,
+              979.2,
+              1100.8,
+              1152.0
+            ]
+          }
+        },
+        {
+          "request_id": "passenger-b18",
+          "ok": true,
+          "recorded_request_sha256": "04877eed10172b313b2a84305dd54cf720361989ccb9e1505e34edf6a2a29a15",
+          "image_sha256": "0448ff2ffa6959029f2af9d6f9fefc72af976679d400fe796e4e7064ce425213",
+          "recorded_message_sha256": "d5ed596d269fd75fca0ad73d7f58d53e42407a3abb1cf8251db704e48125bd81",
+          "actual_input_tokens": 1424,
+          "raw_text_sha256": "a77ce011f64851f86d67f81aa323d85fa426684ec17874b762ae3c05d9f63296",
+          "native_four_field_result": {
+            "clarification_question": "Which sign on the right side of the road is being referred to?",
+            "destination_box_xyxy": null,
+            "destination_point_xy": null,
+            "status": "needs_clarification"
+          },
+          "error": null,
+          "score": {
+            "request_id": "passenger-b18",
+            "recording_id": "video_054907",
+            "frame_id": 103,
+            "expected_status": "needs_clarification",
+            "status": "needs_clarification",
+            "failure": null,
+            "status_matches": true,
+            "point_in_authored_box": false,
+            "normalized_point_error": null,
+            "box_iou": null,
+            "clarification_question": "Which sign on the right side of the road is being referred to?"
+          }
+        },
+        {
+          "request_id": "passenger-b19",
+          "ok": true,
+          "recorded_request_sha256": "db59bfd779adbd236b61d83f6477fa21bda47a412bf31c385169bcca443546bd",
+          "image_sha256": "0448ff2ffa6959029f2af9d6f9fefc72af976679d400fe796e4e7064ce425213",
+          "recorded_message_sha256": "8ae023b5f365d51449b54f4d374532bf8d1c8be60a1ad4498eab5c716ca0eb47",
+          "actual_input_tokens": 1429,
+          "raw_text_sha256": "cd4482b1cbc6c0805b8c6219f4ec0738e069864cdb399caf6b70231c78a10ee1",
+          "native_four_field_result": {
+            "clarification_question": null,
+            "destination_box_xyxy": [
+              1408.0,
+              1080.0,
+              1587.2,
+              1180.8
+            ],
+            "destination_point_xy": [
+              1497.6,
+              1130.4
+            ],
+            "status": "proposed"
+          },
+          "error": null,
+          "score": {
+            "request_id": "passenger-b19",
+            "recording_id": "video_054907",
+            "frame_id": 103,
+            "expected_status": "insufficient_visual_evidence",
+            "status": "proposed",
+            "failure": null,
+            "status_matches": false,
+            "point_in_authored_box": false,
+            "normalized_point_error": null,
+            "box_iou": null,
+            "clarification_question": null
+          }
+        }
+      ]
+    },
+    "pretrained": {
+      "configuration_sha256": "9ad0cb5708b9f46639c718ce041314a27d5c28c6dc92d36bde40492830eb0478",
+      "native_run_sha256": "986511f3901bb1095422db90aa6eda66b217e02397a169a84f0debf76fb6be48",
+      "native_file_hashes": {
+        "input-snapshot.jsonl": "0160bf67789bc6d7f3a362f2a6d607b1028b1b81ca0490863a5971ede224846f",
+        "resolved-requests.jsonl": "147a8c4736df5f71c06f854537365fe18a62da9af18d09559cc0aacb9961a8ae",
+        "receipts.jsonl": "aafd38f0ccb56ddd1dea3dfbb2da2e807d496ddfe94beae5f47a6659dd467d63",
+        "model-outcomes.jsonl": "8116b0784655491bc8b487faee4a1d541f0562bd4792fdb795beecd4fbb20530"
+      },
+      "actual_weight_sha256": null,
+      "operational_errors": 2,
+      "native_process": {
+        "worker_launched_utc": "2026-11-22T06:20:15.816890+00:00",
+        "native_results_sealed_utc": "2026-11-22T07:12:45.684436+00:00",
+        "dispatcher_observed_exit_utc": "2026-11-22T07:12:46.946891+00:00",
+        "exit_code": 0
+      },
+      "metrics": {
+        "kind": "offline_model_only_versus_ai_authored_rectangles",
+        "partition": "development",
+        "input_file_sha256": "0160bf67789bc6d7f3a362f2a6d607b1028b1b81ca0490863a5971ede224846f",
+        "outputs_sha256": "8116b0784655491bc8b487faee4a1d541f0562bd4792fdb795beecd4fbb20530",
+        "freeze_file_sha256": "def382f8f57a8a7e311403435435cd32ddcce6e539ed3c4310f8abb88eacc86f",
+        "requested": 19,
+        "expected_status_counts": {
+          "proposed": 11,
+          "needs_clarification": 4,
+          "insufficient_visual_evidence": 4
+        },
+        "status_matches": 11,
+        "confusion": {
+          "insufficient_visual_evidence": {
+            "insufficient_visual_evidence": 1,
+            "needs_clarification": 3
+          },
+          "needs_clarification": {
+            "proposed": 3,
+            "needs_clarification": 1
+          },
+          "proposed": {
+            "proposed": 9,
+            "failure": 2
+          }
+        },
+        "failures": {
+          "invalid_model_output": 2
+        },
+        "unexpected_output_ids": [],
+        "proposal_count": 12,
+        "proposals_on_nonproposal_cases": 3,
+        "clear_reference_count": 11,
+        "clear_reference_and_model_proposal_count": 9,
+        "point_in_authored_box_count": 0,
+        "missed_authored_rectangle_on_paired_proposals": 9,
+        "proposal_on_wrong_status_or_outside_authored_rectangle": 12,
+        "normalized_tolerance_hits_all_clear": {
+          "0.025": 0,
+          "0.05": 2
+        },
+        "mean_box_iou_all_clear_missing_as_zero": 0,
+        "median_normalized_point_error_paired_proposals_only": 0.06489012912274693,
+        "same_frame_contrasts": [
+          {
+            "requests": [
+              "passenger-b01",
+              "passenger-b02"
+            ],
+            "both_proposed": true,
+            "each_closer_to_own_provisional_point": true,
+            "both_in_authored_rectangle": false
+          },
+          {
+            "requests": [
+              "passenger-b06",
+              "passenger-b07"
+            ],
+            "both_proposed": true,
+            "each_closer_to_own_provisional_point": true,
+            "both_in_authored_rectangle": false
+          },
+          {
+            "requests": [
+              "passenger-b11",
+              "passenger-b12"
+            ],
+            "both_proposed": true,
+            "each_closer_to_own_provisional_point": true,
+            "both_in_authored_rectangle": false
+          },
+          {
+            "requests": [
+              "passenger-b16",
+              "passenger-b17"
+            ],
+            "both_proposed": false,
+            "each_closer_to_own_provisional_point": false,
+            "both_in_authored_rectangle": false
+          }
+        ],
+        "human_reference_reviews": 0,
+        "final_evaluation": false
+      },
+      "cases": [
+        {
+          "request_id": "passenger-b01",
+          "ok": true,
+          "recorded_request_sha256": "0f9d083a590747307a68dfaba7ca5e29aed36b0aee83b0eeff5acf21c306eb66",
+          "image_sha256": "033fc370408c4bc99a1ec9fbb845b6618a5f53b680a235baba336b8fe8ddba80",
+          "recorded_message_sha256": "aad54d656ae8fa2bff5085d600eb127c98c5b94ab3d3bb1eb3b5503d26bf84ca",
+          "actual_input_tokens": 2727,
+          "raw_text_sha256": "c0f17ab8c828326b4be53e096e2a3f53a134dca5835be3f07385cd7b7c104f66",
+          "native_four_field_result": {
+            "clarification_question": null,
+            "destination_box_xyxy": [
+              332.8,
+              979.2,
+              640.0,
+              1094.4
+            ],
+            "destination_point_xy": [
+              460.8,
+              1036.8
+            ],
+            "status": "proposed"
+          },
+          "error": null,
+          "score": {
+            "request_id": "passenger-b01",
+            "recording_id": "video_054907",
+            "frame_id": 1,
+            "expected_status": "proposed",
+            "status": "proposed",
+            "failure": null,
+            "status_matches": true,
+            "point_in_authored_box": false,
+            "normalized_point_error": 0.07081083092270837,
+            "box_iou": 0.0,
+            "clarification_question": null,
+            "predicted_point": [
+              460.8,
+              1036.8
+            ],
+            "predicted_box": [
+              332.8,
+              979.2,
+              640.0,
+              1094.4
+            ]
+          }
+        },
+        {
+          "request_id": "passenger-b02",
+          "ok": true,
+          "recorded_request_sha256": "633e37b5080abf41283a79ba9ad57375f3843ac667e20a9059a80e44393cede7",
+          "image_sha256": "033fc370408c4bc99a1ec9fbb845b6618a5f53b680a235baba336b8fe8ddba80",
+          "recorded_message_sha256": "90b549620d756080a91e84f6fc9673d601dcb7f282a6c40a1ab71a011699db99",
+          "actual_input_tokens": 2727,
+          "raw_text_sha256": "d294eaa395a23ae7d133498b81fe1b8207ed7f6d907a908a64a9bb8281f2ecd5",
+          "native_four_field_result": {
+            "clarification_question": null,
+            "destination_box_xyxy": [
+              1536.0,
+              1008.0,
+              2048.0,
+              1152.0
+            ],
+            "destination_point_xy": [
+              1740.8,
+              1080.0
+            ],
+            "status": "proposed"
+          },
+          "error": null,
+          "score": {
+            "request_id": "passenger-b02",
+            "recording_id": "video_054907",
+            "frame_id": 1,
+            "expected_status": "proposed",
+            "status": "proposed",
+            "failure": null,
+            "status_matches": true,
+            "point_in_authored_box": false,
+            "normalized_point_error": 0.10522427739553485,
+            "box_iou": 0.0,
+            "clarification_question": null,
+            "predicted_point": [
+              1740.8,
+              1080.0
+            ],
+            "predicted_box": [
+              1536.0,
+              1008.0,
+              2048.0,
+              1152.0
+            ]
+          }
+        },
+        {
+          "request_id": "passenger-b03",
+          "ok": true,
+          "recorded_request_sha256": "9c93b41d994b57e57b8e9fa047e48934dd97f20398b3970b8e5600ddf1859b48",
+          "image_sha256": "033fc370408c4bc99a1ec9fbb845b6618a5f53b680a235baba336b8fe8ddba80",
+          "recorded_message_sha256": "ccc946a86ee3ba3825edf24d7982f8a667b5f40198ebfd10d76d2aedcc58b67a",
+          "actual_input_tokens": 2718,
+          "raw_text_sha256": "fb7c15e7f799a9be47c1c936ced093ab84267a77b5115e874fb3b050ca6fdc3c",
+          "native_four_field_result": {
+            "clarification_question": null,
+            "destination_box_xyxy": [
+              340.90081791999995,
+              988.82482896,
+              660.7312614399999,
+              1190.0449224000001
+            ],
+            "destination_point_xy": [
+              660.7312614399999,
+              1190.0449224000001
+            ],
+            "status": "proposed"
+          },
+          "error": null,
+          "score": {
+            "request_id": "passenger-b03",
+            "recording_id": "video_054907",
+            "frame_id": 1,
+            "expected_status": "needs_clarification",
+            "status": "proposed",
+            "failure": null,
+            "status_matches": false,
+            "point_in_authored_box": false,
+            "normalized_point_error": null,
+            "box_iou": null,
+            "clarification_question": null
+          }
+        },
+        {
+          "request_id": "passenger-b04",
+          "ok": true,
+          "recorded_request_sha256": "2328bb7055da7976c8acb3152312b35c9c28c5993f3674ee0cbf00c51abeb995",
+          "image_sha256": "033fc370408c4bc99a1ec9fbb845b6618a5f53b680a235baba336b8fe8ddba80",
+          "recorded_message_sha256": "ce8b30adb2c5a0bb22a3dc096fea18ff508edbbee5f1203b639186b2d539b322",
+          "actual_input_tokens": 2764,
+          "raw_text_sha256": "b0850016798f4c37d7edff0a5e90da66e47a3fe72b7b4d609b7a10a5f892dc6a",
+          "native_four_field_result": {
+            "clarification_question": null,
+            "destination_box_xyxy": [
+              1525.76,
+              668.16,
+              2191.36,
+              1280.16
+            ],
+            "destination_point_xy": [
+              1740.8,
+              1008.0
+            ],
+            "status": "proposed"
+          },
+          "error": null,
+          "score": {
+            "request_id": "passenger-b04",
+            "recording_id": "video_054907",
+            "frame_id": 1,
+            "expected_status": "proposed",
+            "status": "proposed",
+            "failure": null,
+            "status_matches": true,
+            "point_in_authored_box": false,
+            "normalized_point_error": 0.12468136317011641,
+            "box_iou": 0.0,
+            "clarification_question": null,
+            "predicted_point": [
+              1740.8,
+              1008.0
+            ],
+            "predicted_box": [
+              1525.76,
+              668.16,
+              2191.36,
+              1280.16
+            ]
+          }
+        },
+        {
+          "request_id": "passenger-b05",
+          "ok": true,
+          "recorded_request_sha256": "3c087bfd404862cb84a0bd16d5813689be710704409613da2144be8473846fc4",
+          "image_sha256": "033fc370408c4bc99a1ec9fbb845b6618a5f53b680a235baba336b8fe8ddba80",
+          "recorded_message_sha256": "c126b9dce2e152c2a5069b3773aacfbad8b71f9ea670051e71147b61be3b3c7e",
+          "actual_input_tokens": 2722,
+          "raw_text_sha256": "67afc132be74921cd63b8ee68495db0eeffe15acd4bc90e3a79e740514e9fdfe",
+          "native_four_field_result": {
+            "clarification_question": null,
+            "destination_box_xyxy": null,
+            "destination_point_xy": null,
+            "status": "insufficient_visual_evidence"
+          },
+          "error": null,
+          "score": {
+            "request_id": "passenger-b05",
+            "recording_id": "video_054907",
+            "frame_id": 1,
+            "expected_status": "insufficient_visual_evidence",
+            "status": "insufficient_visual_evidence",
+            "failure": null,
+            "status_matches": true,
+            "point_in_authored_box": false,
+            "normalized_point_error": null,
+            "box_iou": null,
+            "clarification_question": null
+          }
+        },
+        {
+          "request_id": "passenger-b06",
+          "ok": true,
+          "recorded_request_sha256": "4e3b43be20cb97e49d54e202540b2846c324310c715e2d1b118f940a621b3caa",
+          "image_sha256": "175602c7dc418c0ababa6cea56daec7f5e2779452370a9ace398cdc3780041a6",
+          "recorded_message_sha256": "8b9ac0a6709e10c46b84b44510bb6cef5f431d63e30c1c5fe9f83bd32c2e4048",
+          "actual_input_tokens": 1348,
+          "raw_text_sha256": "10c7278db5108be802257b56e350877742e977ba4dbaf85a7d7002193cb6bce6",
+          "native_four_field_result": {
+            "clarification_question": null,
+            "destination_box_xyxy": [
+              1024.0,
+              1008.0,
+              1536.0,
+              1123.2
+            ],
+            "destination_point_xy": [
+              1228.8,
+              1065.6
+            ],
+            "status": "proposed"
+          },
+          "error": null,
+          "score": {
+            "request_id": "passenger-b06",
+            "recording_id": "video_054907",
+            "frame_id": 42,
+            "expected_status": "proposed",
+            "status": "proposed",
+            "failure": null,
+            "status_matches": true,
+            "point_in_authored_box": false,
+            "normalized_point_error": 0.04916400519209346,
+            "box_iou": 0.0,
+            "clarification_question": null,
+            "predicted_point": [
+              1228.8,
+              1065.6
+            ],
+            "predicted_box": [
+              1024.0,
+              1008.0,
+              1536.0,
+              1123.2
+            ]
+          }
+        },
+        {
+          "request_id": "passenger-b07",
+          "ok": true,
+          "recorded_request_sha256": "f115f5e810511c9fad7a7cbbb007d53537b9264204fae02a0a7be972258ec926",
+          "image_sha256": "175602c7dc418c0ababa6cea56daec7f5e2779452370a9ace398cdc3780041a6",
+          "recorded_message_sha256": "19a6c375a6e5ccfc6485a1affd4f559c6e5023048b38c339886db46afa880fbc",
+          "actual_input_tokens": 1345,
+          "raw_text_sha256": "873896fb8cc5bd377428849c55417a31dc835c4b2fbabeea6164f0ff09cae39d",
+          "native_four_field_result": {
+            "clarification_question": null,
+            "destination_box_xyxy": [
+              768.0,
+              1008.0,
+              921.6,
+              1123.2
+            ],
+            "destination_point_xy": [
+              844.8,
+              1065.6
+            ],
+            "status": "proposed"
+          },
+          "error": null,
+          "score": {
+            "request_id": "passenger-b07",
+            "recording_id": "video_054907",
+            "frame_id": 42,
+            "expected_status": "proposed",
+            "status": "proposed",
+            "failure": null,
+            "status_matches": true,
+            "point_in_authored_box": false,
+            "normalized_point_error": 0.06489012912274693,
+            "box_iou": 0.0,
+            "clarification_question": null,
+            "predicted_point": [
+              844.8,
+              1065.6
+            ],
+            "predicted_box": [
+              768.0,
+              1008.0,
+              921.6,
+              1123.2
+            ]
+          }
+        },
+        {
+          "request_id": "passenger-b08",
+          "ok": true,
+          "recorded_request_sha256": "088a9da5a78769d4b23b07da5824c075630d155160228dfba667d7624c83ac4b",
+          "image_sha256": "175602c7dc418c0ababa6cea56daec7f5e2779452370a9ace398cdc3780041a6",
+          "recorded_message_sha256": "8a3c38696d6dc8927c7fe32eb4340abbed3d48ce226a8dc79becef7759633e09",
+          "actual_input_tokens": 1336,
+          "raw_text_sha256": "5a2708ae62d061faced362561cef98125d943fab5c370352d6e11ab1480aa4f3",
+          "native_four_field_result": {
+            "clarification_question": null,
+            "destination_box_xyxy": [
+              1920.0,
+              936.0,
+              2304.0,
+              1152.0
+            ],
+            "destination_point_xy": [
+              2048.0,
+              1008.0
+            ],
+            "status": "proposed"
+          },
+          "error": null,
+          "score": {
+            "request_id": "passenger-b08",
+            "recording_id": "video_054907",
+            "frame_id": 42,
+            "expected_status": "needs_clarification",
+            "status": "proposed",
+            "failure": null,
+            "status_matches": false,
+            "point_in_authored_box": false,
+            "normalized_point_error": null,
+            "box_iou": null,
+            "clarification_question": null
+          }
+        },
+        {
+          "request_id": "passenger-b09",
+          "ok": true,
+          "recorded_request_sha256": "062436e8fd5a91f1eef9ebf6a7ea3bfb12831d79b6aa70ca2a82bcfe8ac67c90",
+          "image_sha256": "175602c7dc418c0ababa6cea56daec7f5e2779452370a9ace398cdc3780041a6",
+          "recorded_message_sha256": "80abb16989b7bb9064e159dbe6dd5c252b78819fd449df8a16c0a77be2fa827e",
+          "actual_input_tokens": 1380,
+          "raw_text_sha256": "ee23171f064ad1ad128a5b5d334909c3602862dff13bfb9044b1210332b6d27b",
+          "native_four_field_result": {
+            "clarification_question": null,
+            "destination_box_xyxy": [
+              768.0,
+              1008.0,
+              921.6,
+              1123.2
+            ],
+            "destination_point_xy": [
+              844.8,
+              1065.6
+            ],
+            "status": "proposed"
+          },
+          "error": null,
+          "score": {
+            "request_id": "passenger-b09",
+            "recording_id": "video_054907",
+            "frame_id": 42,
+            "expected_status": "proposed",
+            "status": "proposed",
+            "failure": null,
+            "status_matches": true,
+            "point_in_authored_box": false,
+            "normalized_point_error": 0.06489012912274693,
+            "box_iou": 0.0,
+            "clarification_question": null,
+            "predicted_point": [
+              844.8,
+              1065.6
+            ],
+            "predicted_box": [
+              768.0,
+              1008.0,
+              921.6,
+              1123.2
+            ]
+          }
+        },
+        {
+          "request_id": "passenger-b10",
+          "ok": true,
+          "recorded_request_sha256": "91a1c5a1d88435698597c93fd388c5ea4222cf097c6629e050963ac9c3c78a31",
+          "image_sha256": "175602c7dc418c0ababa6cea56daec7f5e2779452370a9ace398cdc3780041a6",
+          "recorded_message_sha256": "4237cce0f9bf618b1d463ed401cfc41fdc96fd00518f0764cad97ed0102ce85b",
+          "actual_input_tokens": 1341,
+          "raw_text_sha256": "80fb6202246f0cd0542e67b37629e56fc908e8b743ec8a04065f5095468b8fd1",
+          "native_four_field_result": {
+            "clarification_question": "Is the railway signal visible ahead in the scene, or is the reference to it ambiguous in the current view?",
+            "destination_box_xyxy": null,
+            "destination_point_xy": null,
+            "status": "needs_clarification"
+          },
+          "error": null,
+          "score": {
+            "request_id": "passenger-b10",
+            "recording_id": "video_054907",
+            "frame_id": 42,
+            "expected_status": "insufficient_visual_evidence",
+            "status": "needs_clarification",
+            "failure": null,
+            "status_matches": false,
+            "point_in_authored_box": false,
+            "normalized_point_error": null,
+            "box_iou": null,
+            "clarification_question": "Is the railway signal visible ahead in the scene, or is the reference to it ambiguous in the current view?"
+          }
+        },
+        {
+          "request_id": "passenger-b11",
+          "ok": true,
+          "recorded_request_sha256": "fb7b7637e1816fff2498d67be69abe52c9928af6f5f5f767a80d12e42158f1e0",
+          "image_sha256": "2a735d35145f1998ead5ddb78bf960aebbe8b5d997b278e36f888b8e742e3cfd",
+          "recorded_message_sha256": "115418fff22f9ed332412249a5f068f62a5cd55a3871b82492da485ca3803ea5",
+          "actual_input_tokens": 1306,
+          "raw_text_sha256": "0a55a72c41e7eba46448f7c3e964f6e78d721f2e050625eea420585a257baa2a",
+          "native_four_field_result": {
+            "clarification_question": null,
+            "destination_box_xyxy": [
+              1382.4,
+              1022.4,
+              1536.0,
+              1108.8
+            ],
+            "destination_point_xy": [
+              1464.32,
+              1065.6
+            ],
+            "status": "proposed"
+          },
+          "error": null,
+          "score": {
+            "request_id": "passenger-b11",
+            "recording_id": "video_054907",
+            "frame_id": 59,
+            "expected_status": "proposed",
+            "status": "proposed",
+            "failure": null,
+            "status_matches": true,
+            "point_in_authored_box": false,
+            "normalized_point_error": 0.034374953466383425,
+            "box_iou": 0.0,
+            "clarification_question": null,
+            "predicted_point": [
+              1464.32,
+              1065.6
+            ],
+            "predicted_box": [
+              1382.4,
+              1022.4,
+              1536.0,
+              1108.8
+            ]
+          }
+        },
+        {
+          "request_id": "passenger-b12",
+          "ok": true,
+          "recorded_request_sha256": "22279f7d4280379716773469ac11ac941b05d75f6e8def4018698d28b2de9cd5",
+          "image_sha256": "2a735d35145f1998ead5ddb78bf960aebbe8b5d997b278e36f888b8e742e3cfd",
+          "recorded_message_sha256": "cc1cbdbf97f24f12c3e29d6becc1a1948eec0241586ac0c0ab83ed52343fec2d",
+          "actual_input_tokens": 1305,
+          "raw_text_sha256": "bc4574fd5dfcff63ffed5409acd0b00331456e2c006164c30872a17169dcd94d",
+          "native_four_field_result": {
+            "clarification_question": null,
+            "destination_box_xyxy": [
+              691.2,
+              1008.0,
+              1024.0,
+              1152.0
+            ],
+            "destination_point_xy": [
+              844.8,
+              1080.0
+            ],
+            "status": "proposed"
+          },
+          "error": null,
+          "score": {
+            "request_id": "passenger-b12",
+            "recording_id": "video_054907",
+            "frame_id": 59,
+            "expected_status": "proposed",
+            "status": "proposed",
+            "failure": null,
+            "status_matches": true,
+            "point_in_authored_box": false,
+            "normalized_point_error": 0.06512730770728062,
+            "box_iou": 0.0,
+            "clarification_question": null,
+            "predicted_point": [
+              844.8,
+              1080.0
+            ],
+            "predicted_box": [
+              691.2,
+              1008.0,
+              1024.0,
+              1152.0
+            ]
+          }
+        },
+        {
+          "request_id": "passenger-b13",
+          "ok": false,
+          "recorded_request_sha256": "06c4ba8507fc2a99e8f95fe14675e66122847f222d7cd70564c079059a3cc61f",
+          "image_sha256": "2a735d35145f1998ead5ddb78bf960aebbe8b5d997b278e36f888b8e742e3cfd",
+          "recorded_message_sha256": "2d424c05308b5637cfd502dda0e1d0d2bda0adeb582c631f7db0d2e1d683ccd3",
+          "actual_input_tokens": 1326,
+          "raw_text_sha256": "9ba3b47451d876412800ca2f9e774dcef4cfa530b77f985ae0290c5d0ab7a303",
+          "native_four_field_result": null,
+          "error": {
+            "code": "invalid_model_output",
+            "message": "ValueError: destination point lies outside its proposed coarse region"
+          },
+          "score": {
+            "request_id": "passenger-b13",
+            "recording_id": "video_054907",
+            "frame_id": 59,
+            "expected_status": "proposed",
+            "status": null,
+            "failure": "invalid_model_output",
+            "status_matches": false,
+            "point_in_authored_box": false,
+            "normalized_point_error": null,
+            "box_iou": null,
+            "clarification_question": null
+          }
+        },
+        {
+          "request_id": "passenger-b14",
+          "ok": true,
+          "recorded_request_sha256": "d12693fcf1c685f3c90db28dc200b261a0a194e139b368790cc290cda4291d29",
+          "image_sha256": "2a735d35145f1998ead5ddb78bf960aebbe8b5d997b278e36f888b8e742e3cfd",
+          "recorded_message_sha256": "597ef7988104ca79ef77615ef34be4a134e99ca22908ff8927779f2d09964399",
+          "actual_input_tokens": 1304,
+          "raw_text_sha256": "31b1ec25d540b9c446d8243d372d5818e5f39e4f351d43bcfd062b2665641da7",
+          "native_four_field_result": {
+            "clarification_question": null,
+            "destination_box_xyxy": [
+              1280.0,
+              1008.0,
+              1433.6,
+              1123.2
+            ],
+            "destination_point_xy": [
+              1305.088,
+              1084.032
+            ],
+            "status": "proposed"
+          },
+          "error": null,
+          "score": {
+            "request_id": "passenger-b14",
+            "recording_id": "video_054907",
+            "frame_id": 59,
+            "expected_status": "needs_clarification",
+            "status": "proposed",
+            "failure": null,
+            "status_matches": false,
+            "point_in_authored_box": false,
+            "normalized_point_error": null,
+            "box_iou": null,
+            "clarification_question": null
+          }
+        },
+        {
+          "request_id": "passenger-b15",
+          "ok": true,
+          "recorded_request_sha256": "4090669805a4fb48ba0db7f034c4a7ab07a4d0ad9859cab4a230fab78bebae12",
+          "image_sha256": "2a735d35145f1998ead5ddb78bf960aebbe8b5d997b278e36f888b8e742e3cfd",
+          "recorded_message_sha256": "85d21a7b8ff63c7e588b7e706197a25c11f7c440ad509d4b9f319838712e5763",
+          "actual_input_tokens": 1304,
+          "raw_text_sha256": "3c1f83a56088cdbe663d56d9be91e2385b6185ffe4aae1be372bd5b402c76200",
+          "native_four_field_result": {
+            "clarification_question": "Is the green school bus visible under the flyover in the current scene? If not, please clarify the intended destination location visible in the image, as no green school bus is currently observed under the flyover or elsewhere in the frame.",
+            "destination_box_xyxy": null,
+            "destination_point_xy": null,
+            "status": "needs_clarification"
+          },
+          "error": null,
+          "score": {
+            "request_id": "passenger-b15",
+            "recording_id": "video_054907",
+            "frame_id": 59,
+            "expected_status": "insufficient_visual_evidence",
+            "status": "needs_clarification",
+            "failure": null,
+            "status_matches": false,
+            "point_in_authored_box": false,
+            "normalized_point_error": null,
+            "box_iou": null,
+            "clarification_question": "Is the green school bus visible under the flyover in the current scene? If not, please clarify the intended destination location visible in the image, as no green school bus is currently observed under the flyover or elsewhere in the frame."
+          }
+        },
+        {
+          "request_id": "passenger-b16",
+          "ok": true,
+          "recorded_request_sha256": "ba749e9732ce25572a69e33c2c8c8c8f673b34785791a460bf81cf7d15d7c1df",
+          "image_sha256": "0448ff2ffa6959029f2af9d6f9fefc72af976679d400fe796e4e7064ce425213",
+          "recorded_message_sha256": "32bc8e3b9fff10f22b96348d0fd32968b91343aa887988aa90bd81063d5615f4",
+          "actual_input_tokens": 1436,
+          "raw_text_sha256": "a5bae106d6448cb34a38ee34ed389e05986ffccb5c29786dc3fdd001d174ea6d",
+          "native_four_field_result": {
+            "clarification_question": null,
+            "destination_box_xyxy": [
+              1920.0,
+              1008.0,
+              2099.2,
+              1080.0
+            ],
+            "destination_point_xy": [
+              2009.6,
+              1036.8
+            ],
+            "status": "proposed"
+          },
+          "error": null,
+          "score": {
+            "request_id": "passenger-b16",
+            "recording_id": "video_054907",
+            "frame_id": 103,
+            "expected_status": "proposed",
+            "status": "proposed",
+            "failure": null,
+            "status_matches": true,
+            "point_in_authored_box": false,
+            "normalized_point_error": 0.05678385798966035,
+            "box_iou": 0.0,
+            "clarification_question": null,
+            "predicted_point": [
+              2009.6,
+              1036.8
+            ],
+            "predicted_box": [
+              1920.0,
+              1008.0,
+              2099.2,
+              1080.0
+            ]
+          }
+        },
+        {
+          "request_id": "passenger-b17",
+          "ok": false,
+          "recorded_request_sha256": "6e660d01090ced6212e7e6c4189babd7e90f14750a4f3c288f58e2c8dbd8344f",
+          "image_sha256": "0448ff2ffa6959029f2af9d6f9fefc72af976679d400fe796e4e7064ce425213",
+          "recorded_message_sha256": "77192eb21ca60d01218dbbb54d2409133d323adc9cbfec61a28ebb563a37abfd",
+          "actual_input_tokens": 1433,
+          "raw_text_sha256": "b34fce30c4bc3cbc7cce1f1b42dce2f34b956a36fbede532abda0cce7177feaf",
+          "native_four_field_result": null,
+          "error": {
+            "code": "invalid_model_output",
+            "message": "ValueError: destination point lies outside its proposed coarse region"
+          },
+          "score": {
+            "request_id": "passenger-b17",
+            "recording_id": "video_054907",
+            "frame_id": 103,
+            "expected_status": "proposed",
+            "status": null,
+            "failure": "invalid_model_output",
+            "status_matches": false,
+            "point_in_authored_box": false,
+            "normalized_point_error": null,
+            "box_iou": null,
+            "clarification_question": null
+          }
+        },
+        {
+          "request_id": "passenger-b18",
+          "ok": true,
+          "recorded_request_sha256": "04877eed10172b313b2a84305dd54cf720361989ccb9e1505e34edf6a2a29a15",
+          "image_sha256": "0448ff2ffa6959029f2af9d6f9fefc72af976679d400fe796e4e7064ce425213",
+          "recorded_message_sha256": "d5ed596d269fd75fca0ad73d7f58d53e42407a3abb1cf8251db704e48125bd81",
+          "actual_input_tokens": 1424,
+          "raw_text_sha256": "78661bd99a5011e4e2bce9ca9bd6f5a3860be51164e4429a0d52becfe1fb4b7f",
+          "native_four_field_result": {
+            "clarification_question": "Which sign on the right are you referring to, and what is the intended destination near it? There are multiple signs visible on the right side of the road.",
+            "destination_box_xyxy": null,
+            "destination_point_xy": null,
+            "status": "needs_clarification"
+          },
+          "error": null,
+          "score": {
+            "request_id": "passenger-b18",
+            "recording_id": "video_054907",
+            "frame_id": 103,
+            "expected_status": "needs_clarification",
+            "status": "needs_clarification",
+            "failure": null,
+            "status_matches": true,
+            "point_in_authored_box": false,
+            "normalized_point_error": null,
+            "box_iou": null,
+            "clarification_question": "Which sign on the right are you referring to, and what is the intended destination near it? There are multiple signs visible on the right side of the road."
+          }
+        },
+        {
+          "request_id": "passenger-b19",
+          "ok": true,
+          "recorded_request_sha256": "db59bfd779adbd236b61d83f6477fa21bda47a412bf31c385169bcca443546bd",
+          "image_sha256": "0448ff2ffa6959029f2af9d6f9fefc72af976679d400fe796e4e7064ce425213",
+          "recorded_message_sha256": "8ae023b5f365d51449b54f4d374532bf8d1c8be60a1ad4498eab5c716ca0eb47",
+          "actual_input_tokens": 1429,
+          "raw_text_sha256": "85269e64fcdc21163944602850a84172dda99bd2e9762681360aca6be3953cda",
+          "native_four_field_result": {
+            "clarification_question": "Which service station on the right side of the road do you mean, the one with the yellow sign or the one further ahead with the blue sign? Or are you referring to a different service station not visible in the current view?",
+            "destination_box_xyxy": null,
+            "destination_point_xy": null,
+            "status": "needs_clarification"
+          },
+          "error": null,
+          "score": {
+            "request_id": "passenger-b19",
+            "recording_id": "video_054907",
+            "frame_id": 103,
+            "expected_status": "insufficient_visual_evidence",
+            "status": "needs_clarification",
+            "failure": null,
+            "status_matches": false,
+            "point_in_authored_box": false,
+            "normalized_point_error": null,
+            "box_iou": null,
+            "clarification_question": "Which service station on the right side of the road do you mean, the one with the yellow sign or the one further ahead with the blue sign? Or are you referring to a different service station not visible in the current view?"
+          }
+        }
+      ]
+    }
+  },
+  "paired": {
+    "local_child_vs_public_parent": {
+      "row_values_differ": 15,
+      "status_match_paired_left_to_right": {
+        "1->1": 12,
+        "0->0": 6,
+        "0->1": 1
+      },
+      "strict_hits_on_clear_paired_left_to_right": {
+        "0->0": 11
+      }
+    },
+    "local_child_vs_pretrained": {
+      "row_values_differ": 16,
+      "status_match_paired_left_to_right": {
+        "1->1": 11,
+        "0->0": 7,
+        "1->0": 1
+      },
+      "strict_hits_on_clear_paired_left_to_right": {
+        "0->0": 11
+      }
+    },
+    "public_parent_vs_pretrained": {
+      "row_values_differ": 18,
+      "status_match_paired_left_to_right": {
+        "1->1": 11,
+        "0->0": 6,
+        "1->0": 2
+      },
+      "strict_hits_on_clear_paired_left_to_right": {
+        "0->0": 11
+      }
+    }
+  },
+  "genuine_native_attempts": 57,
+  "supplementary_model_import_hashes_observed_from_mid_first_condition": {
+    "trackrag/dropoff/formatting.py": "986d5c61d2a50b4cc2d8cd558f568a011c3aebf617af18f5f4bf120d86b5aa03",
+    "trackrag/dropoff/streamed_edges.py": "f557d1af864e3f7e74614a18a17d6f909c2b155c4f641d748ba2b9307c2d4a63",
+    "trackrag/dropoff/streamed_weights.py": "321f5ef3b9269f6a2546a102b234fa1c4b77842caaee42c3bb43d514a3a4c5cb"
+  },
+  "resource_recovery": {
+    "abandoned_resident_layers": 8,
+    "recovered_resident_layers": 2,
+    "initial_attempt": 19,
+    "successful_real_recovery_probe": true
+  }
+}

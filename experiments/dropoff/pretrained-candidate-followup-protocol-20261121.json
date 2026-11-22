@@ -1,0 +1,51 @@
+{
+  "schema_version": 1,
+  "declared_before": "Any pretrained candidate-selection output on these cases",
+  "kind": "predeclared_followup_pretrained_vs_coordinate_adapter_candidate_selection",
+  "public_case_ids": [
+    "regseg-train-1194",
+    "regseg-train-1348",
+    "regseg-train-1566",
+    "regseg-train-2394",
+    "regseg-train-2650",
+    "regseg-train-2945"
+  ],
+  "emt_case_ids": [],
+  "requests_sha256": "4ef2809827da0faa861fef6b95e21ccadadc5c44b04bea20e146f2928489056e",
+  "development_source_sha256": "533cbcf9a2059b2890a606e896d9a216d5fc663606693c7dc8121b9ddf222556",
+  "public_selection": "First six scene groups not represented in inspected previous free-generation evaluations, deterministic ID order, not selected by target geometry or outcome. Development used for teacher-forced loss earlier.",
+  "conditions": [
+    "pretrained_local_8b_candidate_selection_public6",
+    "previous_selected_local_8b_candidate_selection_same_public6"
+  ],
+  "local_input": "original unmasked images; candidates add image-only predicted-ground numbered overlay",
+  "hosted_input": "Only privacy-processed EMT frames under existing Google trial authorization; no public RegSeg images uploaded. Same masked base image in direct and candidate conditions.",
+  "time_limits": {
+    "whole_process_seconds": 600,
+    "maximum_calls": 6
+  },
+  "score_separately": [
+    "candidate representative-point mask coverage ceiling",
+    "selected point agreement all public requests with errors and unresolved in denominator",
+    "proposal coverage, status counts, semantic accuracy unavailable from public masks",
+    "EMT provisional visual review only without human ground targets",
+    "latency and operational errors",
+    "output validation errors retained"
+  ],
+  "not_matched_across_providers_due_privacy": true,
+  "no_final_recordings_used": true,
+  "no_local_adaptation_without_genuine_reviewed_full_targets": true,
+  "candidate_hyperparameters_frozen_before_mask_scoring": true,
+  "no_safety_legality_or_vehicle_control": true,
+  "reason": "Selected coordinate-adapter candidate pipeline returned clarification for all6publiccases; test whether applying this adapter hurts zero-shot selection. Cohort unchanged; no newcase selection.",
+  "candidate_manifest_sha256": "d852f8d2925775b74c8564df18f2bdf9ab6abd357c6623888fd1229538629738",
+  "no_training_or_prompt_tuning": true,
+  "matched": [
+    "Image bytes and fixedcandidategeometry/IDs",
+    "Instructions, scene and dialogue",
+    "Selection system prompt and three-field JSON request",
+    "Greedy decoding, image/token budgets, max_time120",
+    "Base model +processor revisions"
+  ],
+  "only_model_condition_difference": "Presence of existing coordinate-trained LoRA; semantic status accuracy unavailable"
+}

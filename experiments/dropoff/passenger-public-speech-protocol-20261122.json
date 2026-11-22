@@ -1,0 +1,21 @@
+{
+  "kind": "prospective_external_spoken_transport_check",
+  "version": 1,
+  "dataset": "SLURP, Bastianelli, Vanzo, Swietojanski and Rieser (EMNLP 2020)",
+  "research_paper": "https://aclanthology.org/2020.emnlp-main.588/",
+  "text_revision": "8eb16545762be97ace75334109d73824217311f1",
+  "text_source": "https://github.com/pswietojanski/slurp",
+  "audio_source": "https://zenodo.org/records/4274930",
+  "real_archive": "slurp_real.tar.gz",
+  "official_full_archive_md5": "9efc0f058ced47bf5131c7cb2cade513",
+  "input_licenses": {"text": "CC BY 4.0", "real_audio": "CC BY-NC 4.0"},
+  "sampling_order": "First eligible members of the official real archive in tar member order within its first 167772160 compressed bytes. Stop when all quotas are filled. Use all three published real text splits.",
+  "archive_prefix_bytes": 167772160,
+  "quotas": {"transport_taxi": 6, "transport_query": 6, "transport_ticket": 4},
+  "eligibility": "Published English transport utterance with a place_name entity, an eligible intent, a real FLAC member associated with a known release speaker ID and an as-yet unrepresented speaker and normalized utterance. Choose at most one microphone/sample per speaker and utterance. Ignore all released ASR WER, entity WER and status fields. No listening or inference selects examples.",
+  "selection_if_incomplete": "Retain the available cohort and report unfilled quotas unchanged. No replacements based on recognition, no fine-tuning, no trial model comparison.",
+  "reference": "Official sentence paired with the recording. The authors used prompts and automated recording-quality checks. An independent human verbatim listen-back is unavailable in this experiment.",
+  "asr": {"model_id": "vosk-model-small-en-us-0.15", "model_content_sha256": "38655871e595540ec3bd39927a7e4b9f80ab7cf53abc34b3780fb05bd4cf94b6", "vosk_version": "0.3.45", "mode": "offline CPU, unchanged passenger recognizer"},
+  "metrics": "Reuse passenger_speech_study word tokenization, aggregate edit distance/reference words and exact transcripts. Report exact place-name token spans retained in order, all places retained per clip, counts by intent and acoustic microphone type. A failed decode contributes a blank hypothesis. Source and converted audio hashes precede inference, and unfilled quotas remain in the receipt.",
+  "privacy": "Original voices stay in a private local cache. Publish sample identifiers and scores only. This external English assistant corpus supplies zero of the thirty locally consented EMT recordings."
+}

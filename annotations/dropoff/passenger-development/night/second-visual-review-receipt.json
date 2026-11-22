@@ -1,0 +1,22 @@
+{
+  "reviewer": "Independent AI visual reviewer / passenger_voice",
+  "reviewed_utc": "2026-11-21T19:36:39.076219+00:00",
+  "human_review": false,
+  "inputs": "Only the blind instructions/dialogue and six exact unmarked original images; no model outputs or reference geometry were inspected. Browser implementation and first two-recording integration/retry protocol were already frozen.",
+  "blind_packet_sha256": "588ed716449cd8e55867b5d2b277b55736d556c0cfb8e38682c01b3d8c5117de",
+  "outputs_sha256": "0cad8336df3fd70e95ee2778786bcaaad5a454be717b2985f07df57be9f0a5c9",
+  "sample_units": "20 correlated language cases, 6 frames from a single recording",
+  "status_counts": {
+    "proposed": 12,
+    "insufficient_visual_evidence": 4,
+    "needs_clarification": 4
+  },
+  "originals": {
+    "00001.jpg": "3ef282673f9e3e2615062f8b917d16d47270bb00f4eaea99d3d9b2816a3e336e",
+    "00327.jpg": "b1b7eed899e7b1714eb8ebc70a22ae3f8a5ffbc3f36076c5f9f9e82a234ea545",
+    "00533.jpg": "ae6c9d1605fcc5a9c783dd457e49eb9184097213893a63b1f3a91d50c8e152d5",
+    "00863.jpg": "01bbb571ce9f53c5446e10ce08ee07e97d97d1b257bff1b4ad76dc5c886ee03d",
+    "01169.jpg": "16ba65b0b0ad04b1e67d3e9ec50e24ef796806d6c9dab9318c7cdd7d8f02a6c4",
+    "01429.jpg": "508cd2741d59b7fe98f3d9b4f46f747823fe891677bc4711385795ea7f2eeabd"
+  }
+}

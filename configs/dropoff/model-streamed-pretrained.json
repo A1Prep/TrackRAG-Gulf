@@ -1,0 +1,18 @@
+{
+  "model_id": "unsloth/Qwen3-VL-8B-Instruct-bnb-4bit",
+  "revision": "10d842936325905934ea24e64325d774693f166e",
+  "runtime": "streamed",
+  "model_dir": "models/qwen3-vl-8b-local-nf4",
+  "cache_dir": "models/dropoff-processor-cache/hub",
+  "device": "cuda",
+  "dtype": "bfloat16",
+  "quantization": "nf4",
+  "local_files_only": true,
+  "min_pixels": 65536,
+  "max_pixels": 262144,
+  "suffix_layers": 8,
+  "inference_resident_layers": 20,
+  "max_input_tokens": 2048,
+  "max_new_tokens": 192,
+  "max_time_s": 300
+}

@@ -1,0 +1,226 @@
+{
+  "kind": "public-source fitted referring-object candidate ranker and ask-only policy",
+  "scope": "A supplemental second opinion in a passenger-facing clarification workflow. Public object metrics and EMT policy activity are separate outcomes.",
+  "canonical_candidate_subset_sha256": "0e0a00f2da41b4e9f148b084e55bb1a54d5dabfa9c3ad22d13ed666747ebeedc",
+  "fit": {
+    "conditions": {
+      "conditioned": {
+        "checkpoint_sha256": "d96a9a69e2e52ddbc21851d5ff6f79b344de6c8558600e54be5cb2712480a07d",
+        "development": {
+          "absent_correctly_selected_null": 0,
+          "false_null_on_visible_reference": 5,
+          "groups": 65,
+          "matching_detector_candidate_available": 123,
+          "mean_top1_object_iou": 0.4156809645723079,
+          "null_selected": 5,
+          "rows": 125,
+          "selection_correct_including_null": 60,
+          "top1_object_given_available": 0.4959349593495935,
+          "top1_object_hit_all": 61,
+          "top3_distinct_object_hit_all": 84,
+          "total_discarded_empty_or_invisible_proposals": 0,
+          "total_distinct_detector_candidates": 7174
+        },
+        "optimization": {
+          "gradient_max": 5.8103260597499594e-06,
+          "iterations": 61,
+          "maxiter_predeclared": 140,
+          "parameters": 5381,
+          "regularization": {
+            "align": 0.7,
+            "base": 0.7,
+            "words": 3.0
+          },
+          "regularized_ce": 2.2084003862830826,
+          "termination": "CONVERGENCE: NORM OF PROJECTED GRADIENT <= PGTOL",
+          "vocab_terms": 130
+        },
+        "prediction_sha256": "4bac323c7a6ebeb8d8b135e5ad4feb486f45b2a51771abd9a68f4fdcc22ae538"
+      },
+      "language_blind": {
+        "checkpoint_sha256": "43082b22563dbad206efc4a6f4a5adb1dc4066ef17a65bf4eb0a5ddb8fe8f51c",
+        "development": {
+          "absent_correctly_selected_null": 0,
+          "false_null_on_visible_reference": 3,
+          "groups": 65,
+          "matching_detector_candidate_available": 123,
+          "mean_top1_object_iou": 0.28099327352924436,
+          "null_selected": 3,
+          "rows": 125,
+          "selection_correct_including_null": 39,
+          "top1_object_given_available": 0.3170731707317073,
+          "top1_object_hit_all": 39,
+          "top3_distinct_object_hit_all": 65,
+          "total_discarded_empty_or_invisible_proposals": 0,
+          "total_distinct_detector_candidates": 7174
+        },
+        "optimization": {
+          "gradient_max": 6.373653744473628e-06,
+          "iterations": 51,
+          "maxiter_predeclared": 140,
+          "parameters": 51,
+          "regularization": {
+            "align": 0.7,
+            "base": 0.7,
+            "words": 3.0
+          },
+          "regularized_ce": 2.9537340916664307,
+          "termination": "CONVERGENCE: NORM OF PROJECTED GRADIENT <= PGTOL",
+          "vocab_terms": 0
+        },
+        "prediction_sha256": "6c7eeb53a3334154ef775752dc17f709dbfa77ce4a3851b1801260b20c53a62e"
+      }
+    },
+    "development_sha256": "533cbcf9a2059b2890a606e896d9a216d5fc663606693c7dc8121b9ddf222556",
+    "development_used_for_model_selection": false,
+    "limitations": [
+      "Single annotated referent cannot establish true passenger ambiguity or safe stopping.",
+      "Scores are uncalibrated. Transfer to UAE tracks and arbitrary spoken requests is unmeasured."
+    ],
+    "model": "public-predicted-referents-listwise-v1",
+    "official_final_or_blind_examined": false,
+    "paired_top1_object": {
+      "blind_only": 4,
+      "both": 35,
+      "conditioned_only": 26
+    },
+    "positive_set": "All valid visible predicted boxes with IoU >= 0.5 to the single original referent, weighted by IoU; otherwise train NULL.",
+    "public_candidates_sha256": "bc23d05a303a137ff51ed69170be44b81b781aa68d1b05dbe30f0b41637fbee0",
+    "public_metadata_sha256": "c94b741178b0cf8955014e43229fd0eb9afb384c29269b7c071e9858b402a3f8",
+    "public_metadata_url": "https://raw.githubusercontent.com/kanji1011/Talk2car-Refseg/cebce1943ce373857cc9be5def68ded4008c29e1/dataloader/talk2car_w_rpn_no_duplicates.json",
+    "reference_labels_sha256": "5a90c471284685bd8dd8bfa6e992cfefce69e58a392c934d2f9d54ea119a42d2",
+    "reference_labels_url": "https://raw.githubusercontent.com/talk2car/Talk2Car/3fde52aee3341312196ab9b2f999337eff0693a0/data/commands/train_commands.json",
+    "source_dataset": "Talk2Car-RegSeg training partition; pinned official CenterNet predictions; original Talk2Car reference boxes",
+    "train_match_available": 481,
+    "train_sha256": "79dfd904b155b1c537170aaba443254da37445c2e8a2f4380baaddd8520bc42b",
+    "training_groups": 295,
+    "training_rows": 500
+  },
+  "runtime_controls": {
+    "both_natural_referents_correct": 1,
+    "changed_top_box_given_different_natural_commands": 6,
+    "natural_same_image_different_referent_pairs": 6,
+    "normal_runtime_top1_correct": 61,
+    "rows": 125,
+    "unique_images": 118,
+    "wrong_instruction_same_pixels_top1_correct": 37
+  },
+  "all_125_object_overlaps_equal_normal_rank_call": true,
+  "top1_paired_scene_bootstrap": {
+    "clusters": 65,
+    "seed": 902,
+    "replicates": 10000,
+    "estimator": "Difference of per-case top-1 rates after paired resampling of entire scene groups",
+    "difference": 0.176,
+    "percentile_95_interval": [
+      0.08593191964285715,
+      0.26666666666666666
+    ]
+  },
+  "emt_smoke_on_familiar_unscored_inputs": {
+    "recordings": 2,
+    "count": 4,
+    "current_candidate_counts": [
+      6,
+      6,
+      12,
+      12
+    ],
+    "run_mode": "Original verified pixels and predicted tracks via rank()",
+    "example_failure": "A bare here had a high-scoring vehicle with no passenger-provided anchor. The ranker cannot decide the destination."
+  },
+  "clarification_pilot": {
+    "development_only": true,
+    "training_changed_after_first_pilot": false,
+    "same_19_inputs": "0160bf67789bc6d7f3a362f2a6d607b1028b1b81ca0490863a5971ede224846f",
+    "ground_labels_accessed": false,
+    "response_type": "ask only; all other decisions defer to primary model",
+    "first": {
+      "source": "180eaa1eb8acc8a442c974c0942452dfa6dee8cf445b31a657c664afcce134f0",
+      "counts": {
+        "ask": 1,
+        "defer": 18,
+        "reasons": {
+          "multiple_current_objects_share_measured_colour": 1
+        },
+        "rows": 19
+      },
+      "asks": [
+        "passenger-b11"
+      ],
+      "observed_failure": "The single-vehicle classifier overlooked the SUV noun and asked about the secondary yellow car.",
+      "frozen_recipe_reproduced_all_rows": true
+    },
+    "revised": {
+      "version": "visible-single-vehicle-clarification-v2",
+      "source": "4c5cd8be4f8e3b22e11deaf98bf40a38a6544745f11bb27e33a85eaeff3340d1",
+      "development_informed": true,
+      "counts": {
+        "ask": 3,
+        "defer": 16,
+        "reasons": {
+          "demonstrative_and_unlocalized_broad_setting": 1,
+          "multiple_current_objects_colour_unresolved": 1,
+          "multiple_current_objects_fit_single_reference": 1
+        },
+        "rows": 19
+      },
+      "asks": [
+        {
+          "request": "passenger-b03",
+          "question": "Which vehicle do you mean? Is it toward the left of the picture, toward the right, or somewhere else?",
+          "track_ids": [
+            1,
+            2
+          ],
+          "reason": "multiple_current_objects_colour_unresolved"
+        },
+        {
+          "request": "passenger-b08",
+          "question": "Do you mean the vehicle farther left or the one farther right?",
+          "track_ids": [
+            6,
+            2
+          ],
+          "reason": "multiple_current_objects_fit_single_reference"
+        },
+        {
+          "request": "passenger-b14",
+          "question": "Which car do you mean? Is it toward the left of the picture, near the middle, or somewhere else?",
+          "track_ids": [
+            1539,
+            7
+          ],
+          "reason": "demonstrative_and_unlocalized_broad_setting"
+        }
+      ],
+      "same_decisions_in_project_grounding_python": true,
+      "quality_scored_on_fresh_heldout": false
+    }
+  },
+  "environment": {
+    "fit": "Python 3.11.3, NumPy 2.4.6, SciPy 1.17.1, Pillow 13.0.0, CPU",
+    "actual_secondary_inference_check": "NumPy 1.26.4, Pillow 11.1.0, CPU, Torch not imported by ranker"
+  },
+  "private_files": {
+    "fit.json": "a36f46744c5fc1712338766942a0f70750b11a82906238f994723a1d4113168b",
+    "runtime-controls.json": "0764148885a0e6b4c0b037b177a682c1f43f6e8a9f68c5a63e09ac02c07772a7",
+    "conditioned-public-development.json": "4bac323c7a6ebeb8d8b135e5ad4feb486f45b2a51771abd9a68f4fdcc22ae538",
+    "language_blind-public-development.json": "6c7eeb53a3334154ef775752dc17f709dbfa77ce4a3851b1801260b20c53a62e",
+    "emt19-frozen-policy.json": "0670e47a0a30d9dbd90cb4f76b30a702620ede17dacb0de6a43d0c2b0246df27",
+    "emt19-revised-policy.json": "37e35f1f69d8e4a3c62a52e79c3374aa345b3630593960c5518ecc32cfc503e8",
+    "emt19-original-policy-replay.json": "fba3afe714c7796ec74d8c07c53b726868ababffc056b01e5447d1602c5b129e",
+    "emt19-production-python.json": "37e35f1f69d8e4a3c62a52e79c3374aa345b3630593960c5518ecc32cfc503e8"
+  },
+  "external_weights": {
+    "conditioned_release": "models/passenger-feature/referent.json",
+    "conditioned_experiment": "runs/passenger-referent-model/listwise-v1/conditioned.json",
+    "language_blind_experiment": "runs/passenger-referent-model/listwise-v1/language_blind.json"
+  },
+  "known_limits": [
+    "Public ref annotations identify one object and do not label ambiguity.",
+    "The null score missed both unavailable targets; it is not an absence detector.",
+    "No final-group, third-recording, night or held-out public comparisons used to build this model.",
+    "The revised EMT pilot was informed by the first pass and has no independent correctness grade."
+  ]
+}

@@ -1,0 +1,338 @@
+{
+  "kind": "paired visual verification development diagnostic",
+  "predeclared_visual_rule_sha256": "4eba04b55ffa54386ee3966192523e225e375936032a20d1bf9f35a8e09fa9fc",
+  "predeclared_pair_protocol_sha256": "540c775a7e02f9662f972f331912eef542d49b9cec88ac86cfb588e6b492a6b5",
+  "run_sha256": "a6fcb68648cab31bade50053100180a43710f6c8b6eff3c892b92c4c275cd72b",
+  "full_source_outcome_sha256": "2a02dc41cc5435e8b320972e0b1e8d72b3a7035ed7a1a017cc295eef2a248783",
+  "full_source_request_sha256": "53dcfb3d4af102405bda6464768cb996af8af8673c4e5278868f0acf6fdfb883",
+  "full_source_requested": 22,
+  "daytime_ids": [
+    "passenger-b01",
+    "passenger-b02",
+    "passenger-b03",
+    "passenger-b04",
+    "passenger-b05",
+    "passenger-b06",
+    "passenger-b07",
+    "passenger-b08",
+    "passenger-b09",
+    "passenger-b10",
+    "passenger-b11",
+    "passenger-b12",
+    "passenger-b13",
+    "passenger-b14",
+    "passenger-b15",
+    "passenger-b16",
+    "passenger-b17",
+    "passenger-b18",
+    "passenger-b19"
+  ],
+  "pair_ids": [
+    "pair-visible",
+    "pair-ambiguous",
+    "pair-absent"
+  ],
+  "paired_first_pass_raw_differences": [],
+  "paired_final_result_differences": [
+    "passenger-b11"
+  ],
+  "daytime": {
+    "kind": "offline_model_only_versus_ai_authored_rectangles",
+    "partition": "development",
+    "input_file_sha256": "0160bf67789bc6d7f3a362f2a6d607b1028b1b81ca0490863a5971ede224846f",
+    "outputs_sha256": "c66b09621d9d4828bc05b1603391378a7fc971eadf576ddbd3ee3400c37c2ade",
+    "freeze_file_sha256": "def382f8f57a8a7e311403435435cd32ddcce6e539ed3c4310f8abb88eacc86f",
+    "requested": 19,
+    "expected_status_counts": {
+      "proposed": 11,
+      "needs_clarification": 4,
+      "insufficient_visual_evidence": 4
+    },
+    "status_matches": 13,
+    "confusion": {
+      "insufficient_visual_evidence": {
+        "insufficient_visual_evidence": 2,
+        "needs_clarification": 2
+      },
+      "needs_clarification": {
+        "proposed": 3,
+        "needs_clarification": 1
+      },
+      "proposed": {
+        "proposed": 10,
+        "needs_clarification": 1
+      }
+    },
+    "failures": {},
+    "unexpected_output_ids": [],
+    "proposal_count": 13,
+    "proposals_on_nonproposal_cases": 3,
+    "clear_reference_count": 11,
+    "clear_reference_and_model_proposal_count": 10,
+    "point_in_authored_box_count": 3,
+    "missed_authored_rectangle_on_paired_proposals": 7,
+    "proposal_on_wrong_status_or_outside_authored_rectangle": 10,
+    "normalized_tolerance_hits_all_clear": {
+      "0.025": 4,
+      "0.05": 9
+    },
+    "mean_box_iou_all_clear_missing_as_zero": 0.0882759454639355,
+    "median_normalized_point_error_paired_proposals_only": 0.033539557533419175,
+    "same_frame_contrasts": [
+      {
+        "requests": [
+          "passenger-b01",
+          "passenger-b02"
+        ],
+        "both_proposed": true,
+        "each_closer_to_own_provisional_point": true,
+        "both_in_authored_rectangle": false
+      },
+      {
+        "requests": [
+          "passenger-b06",
+          "passenger-b07"
+        ],
+        "both_proposed": true,
+        "each_closer_to_own_provisional_point": true,
+        "both_in_authored_rectangle": false
+      },
+      {
+        "requests": [
+          "passenger-b11",
+          "passenger-b12"
+        ],
+        "both_proposed": false,
+        "each_closer_to_own_provisional_point": false,
+        "both_in_authored_rectangle": false
+      },
+      {
+        "requests": [
+          "passenger-b16",
+          "passenger-b17"
+        ],
+        "both_proposed": true,
+        "each_closer_to_own_provisional_point": true,
+        "both_in_authored_rectangle": false
+      }
+    ],
+    "human_reference_reviews": 0,
+    "final_evaluation": false
+  },
+  "daytime_independent_reference_reviewers": "Two independent AI visual readers. No humans.",
+  "pair_results": [
+    {
+      "request_id": "pair-visible",
+      "expected_status": "proposed",
+      "output_status": "needs_clarification",
+      "exact_status": false,
+      "result": {
+        "clarification_question": "I couldn't identify both landmarks. Which two objects bound the area you mean?",
+        "destination_box_xyxy": null,
+        "destination_point_xy": null,
+        "status": "needs_clarification"
+      },
+      "first_landmark_raw_response": "LANDMARK L35",
+      "second_visual_response": "MATCH",
+      "constraint": "unresolved_pair",
+      "both_intended_anchor_ids": false,
+      "point_in_coarse_open_road": false
+    },
+    {
+      "request_id": "pair-ambiguous",
+      "expected_status": "needs_clarification",
+      "output_status": "needs_clarification",
+      "exact_status": true,
+      "result": {
+        "clarification_question": "which two cars the passenger means",
+        "destination_box_xyxy": null,
+        "destination_point_xy": null,
+        "status": "needs_clarification"
+      },
+      "first_landmark_raw_response": "ASK which two cars the passenger means",
+      "second_visual_response": null,
+      "constraint": null
+    },
+    {
+      "request_id": "pair-absent",
+      "expected_status": "insufficient_visual_evidence",
+      "output_status": "needs_clarification",
+      "exact_status": false,
+      "result": {
+        "clarification_question": "which coach is purple and which tanker is green",
+        "destination_box_xyxy": null,
+        "destination_point_xy": null,
+        "status": "needs_clarification"
+      },
+      "first_landmark_raw_response": "ASK which coach is purple and which tanker is green",
+      "second_visual_response": null,
+      "constraint": null
+    }
+  ],
+  "passenger_interventions": 0,
+  "second_pass_inferences": 15,
+  "second_pass_raw_type_counts": {
+    "MATCH": 14,
+    "ASK": 1
+  },
+  "board_verification_pillow": "11.1.0",
+  "second_pass_verified_board_evidence": [
+    {
+      "request_id": "passenger-b01",
+      "landmark_raw_response": "LANDMARK L3",
+      "verification_raw_response": "MATCH",
+      "render_sha256": "29e5a96d78dff627d37b16712a2cf42bacf7fd8b3c250c8aab85005abeee44e9",
+      "original_pixels_reproduced": true,
+      "chosen_track_ids": [
+        1
+      ]
+    },
+    {
+      "request_id": "passenger-b02",
+      "landmark_raw_response": "LANDMARK L35",
+      "verification_raw_response": "MATCH",
+      "render_sha256": "371f9926fce1185736ba8e36008698e2cfa439f9215632efab38efedf7652c53",
+      "original_pixels_reproduced": true,
+      "chosen_track_ids": [
+        2
+      ]
+    },
+    {
+      "request_id": "passenger-b03",
+      "landmark_raw_response": "L35",
+      "verification_raw_response": "MATCH",
+      "render_sha256": "371f9926fce1185736ba8e36008698e2cfa439f9215632efab38efedf7652c53",
+      "original_pixels_reproduced": true,
+      "chosen_track_ids": [
+        2
+      ]
+    },
+    {
+      "request_id": "passenger-b04",
+      "landmark_raw_response": "LANDMARK L35",
+      "verification_raw_response": "MATCH",
+      "render_sha256": "371f9926fce1185736ba8e36008698e2cfa439f9215632efab38efedf7652c53",
+      "original_pixels_reproduced": true,
+      "chosen_track_ids": [
+        2
+      ]
+    },
+    {
+      "request_id": "passenger-b06",
+      "landmark_raw_response": "LANDMARK L2 L7",
+      "verification_raw_response": "MATCH",
+      "render_sha256": "55e7c35c06eab80e7427cdb588fa89ff04adf3d82bbf87ad97f4f025998cd542",
+      "original_pixels_reproduced": true,
+      "chosen_track_ids": [
+        6,
+        4
+      ]
+    },
+    {
+      "request_id": "passenger-b07",
+      "landmark_raw_response": "LANDMARK L2",
+      "verification_raw_response": "MATCH",
+      "render_sha256": "1d7999ee5b4c365c2b0167649986c19237fb6ea5d9a4dcfee54bf1ed345bdff5",
+      "original_pixels_reproduced": true,
+      "chosen_track_ids": [
+        6
+      ]
+    },
+    {
+      "request_id": "passenger-b08",
+      "landmark_raw_response": "L10",
+      "verification_raw_response": "MATCH",
+      "render_sha256": "9d9d3ecc2ada535733e4f0ecdd95c47b44fccc9a45c20a4e945a88f770ab2cb8",
+      "original_pixels_reproduced": true,
+      "chosen_track_ids": [
+        2
+      ]
+    },
+    {
+      "request_id": "passenger-b09",
+      "landmark_raw_response": "LANDMARK L2",
+      "verification_raw_response": "MATCH",
+      "render_sha256": "1d7999ee5b4c365c2b0167649986c19237fb6ea5d9a4dcfee54bf1ed345bdff5",
+      "original_pixels_reproduced": true,
+      "chosen_track_ids": [
+        6
+      ]
+    },
+    {
+      "request_id": "passenger-b11",
+      "landmark_raw_response": "LANDMARK L8",
+      "verification_raw_response": "ASK which landmark is behind the black SUV to the right of the yellow car?",
+      "render_sha256": "886e9e14b2ee372f1b5626cb6db7d2cf459017efb6f1f038fc88a8c814adef8c",
+      "original_pixels_reproduced": true,
+      "chosen_track_ids": [
+        1397
+      ]
+    },
+    {
+      "request_id": "passenger-b12",
+      "landmark_raw_response": "LANDMARK L2",
+      "verification_raw_response": "MATCH",
+      "render_sha256": "ddb4401e00092977e663c941fd9216fff4e75ca5bb0498783c84443435a747ac",
+      "original_pixels_reproduced": true,
+      "chosen_track_ids": [
+        6
+      ]
+    },
+    {
+      "request_id": "passenger-b13",
+      "landmark_raw_response": "LANDMARK L2",
+      "verification_raw_response": "MATCH",
+      "render_sha256": "ddb4401e00092977e663c941fd9216fff4e75ca5bb0498783c84443435a747ac",
+      "original_pixels_reproduced": true,
+      "chosen_track_ids": [
+        6
+      ]
+    },
+    {
+      "request_id": "passenger-b14",
+      "landmark_raw_response": "LANDMARK L3",
+      "verification_raw_response": "MATCH",
+      "render_sha256": "96c0bc9c77741793d4a8fdf91db3204fc8208989f062987e24d746aa99884127",
+      "original_pixels_reproduced": true,
+      "chosen_track_ids": [
+        1548
+      ]
+    },
+    {
+      "request_id": "passenger-b16",
+      "landmark_raw_response": "OBJECT 737 703 800 768",
+      "verification_raw_response": "MATCH",
+      "render_sha256": "45aae3ed18c6efd0870c2b7f885edbb80644909a62fc0e5a4294d9932bab50ea",
+      "original_pixels_reproduced": true,
+      "chosen_track_ids": []
+    },
+    {
+      "request_id": "passenger-b17",
+      "landmark_raw_response": "LANDMARK L3",
+      "verification_raw_response": "MATCH",
+      "render_sha256": "e1edc29ca9a55756cd9410c596ad7166062808247f295aa5d2ae36664c5f1550",
+      "original_pixels_reproduced": true,
+      "chosen_track_ids": [
+        3009
+      ]
+    },
+    {
+      "request_id": "pair-visible",
+      "landmark_raw_response": "LANDMARK L35",
+      "verification_raw_response": "MATCH",
+      "render_sha256": "371f9926fce1185736ba8e36008698e2cfa439f9215632efab38efedf7652c53",
+      "original_pixels_reproduced": true,
+      "chosen_track_ids": [
+        2
+      ]
+    }
+  ],
+  "criteria": {
+    "unresolved_proposals_fewer_than_3": false,
+    "at_least_8_clear_proposals": true,
+    "at_least_7_clear_within_5pct_diagonal": true
+  },
+  "enable_visual_verification": false,
+  "final_evaluation": false,
+  "baseline_technical_difference": "Stored one-pass model ran with twelve resident layers. The two-pass run used eight. The per-case comparison records any first-pass discrepancy."
+}

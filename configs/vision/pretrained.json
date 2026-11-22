@@ -1,0 +1,32 @@
+{
+  "name": "rfdetr-large-2026-pretrained-coco",
+  "notes": "COCO-pretrained RF-DETR Large (2026 checkpoint) mapped to EMT names with the EMT authors' rider merge. Weights folder comes from --weights-dir or TRACKRAG_VISION_WEIGHTS_DIR, not from this file.",
+  "detector": {
+    "kind": "rfdetr_large",
+    "label_space": "coco",
+    "checkpoint": "rf-detr-large-2026.pth",
+    "checkpoint_md5": "5cb72153541cbcb9aa6efa26222acc75",
+    "checkpoint_sha256": "0f4e20e19a99c0f8a62b5685f57f6c8b5c371c59081feda6752a0561a79ccf38",
+    "threshold": 0.05,
+    "resolution": 704,
+    "inference_long_side": 1280,
+    "antialias": true,
+    "nms_iou": 0.8,
+    "rider_merge_iou": 0.1,
+    "ego_bottom_fraction": 0.97,
+    "ego_min_width_fraction": 0.6
+  },
+  "tracker": {
+    "kind": "ultralytics_botsort",
+    "track_high_thresh": 0.25,
+    "track_low_thresh": 0.1,
+    "new_track_thresh": 0.25,
+    "track_buffer": 30,
+    "match_thresh": 0.8,
+    "fuse_score": false,
+    "gmc_method": "sparseOptFlow",
+    "proximity_thresh": 0.5,
+    "appearance_thresh": 0.8,
+    "with_reid": false
+  }
+}

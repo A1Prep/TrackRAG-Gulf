@@ -1,0 +1,5 @@
+# Task 1 model environment: trackrag.vision (predict/draw), tools/vision_train.py, tools/vision_tune_tracker.py.
+# Install torch and torchvision for your platform first (CUDA build on a GPU machine), then this file.
+rfdetr[train]==1.12.1
+ultralytics==8.4.215
+lap>=0.5.12

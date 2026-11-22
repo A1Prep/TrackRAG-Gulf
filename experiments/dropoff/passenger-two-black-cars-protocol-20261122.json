@@ -1,0 +1,93 @@
+{
+  "kind": "original_passenger_example_nonfinal",
+  "frozen_utc": "2026-11-22T05:43:03.140656+00:00",
+  "scope": "Three real local interface submissions, typed. Two existing development photographs. Reference author inspected original frames and saved detector boxes before any of these requests, zero human judgments, zero formal final cases.",
+  "scenes": [
+    {
+      "recording": "video_054907",
+      "frame": 781,
+      "image_sha256": "c411cf6760695905334f32e5590083cf144543df1ca98e68aae55fb345eb583e",
+      "input_source_sha256": "cc92d862a0fe739a2f4874cbcb12d7914e25e652e78069dab6db17de98010d43"
+    },
+    {
+      "recording": "video_054604",
+      "frame": 42,
+      "image_sha256": "f32976e9f019f3009c04608a4dd7b3446ffd46d7bc28a04c7d05fab5994b9e94",
+      "input_source_sha256": "3c9e102ba0bf314a0caabd8ac64c728801cd933a799a8c7383c09dd64af2f960"
+    }
+  ],
+  "scenes_snapshot_sha256": "1d78a5bcc22334cb6c7565c54530bb51806eb29709fc389af867fbfd1d95cafd",
+  "episodes": [
+    {
+      "scene_index": 0,
+      "turns": [
+        {
+          "id": "car-pair-without-pointing",
+          "text": "Drop me between these two black cars."
+        },
+        {
+          "id": "two-sedans-by-left-median",
+          "text": "I mean the patch of road just behind the gap between the black sedan next to the concrete median on our left and the black sedan immediately to its right."
+        }
+      ],
+      "second_turn": "Submit the registered more specific wording whether the first was missing, a question, a proposal or an error. Never automatically confirm a proposal."
+    },
+    {
+      "scene_index": 1,
+      "turns": [
+        {
+          "id": "same-words-no-identifiable-pair",
+          "text": "Drop me between these two black cars."
+        }
+      ]
+    }
+  ],
+  "scoring_only": {
+    "car-pair-without-pointing": "A question about which pair or a proposal grounded in the actual pair and intended region is eligible. Record which action occurred; free-form colors alone and any other proposed pair are incorrect.",
+    "two-sedans-by-left-median": "For spatial credit, require both preregistered physical sedans and a point inside the coarse road polygon. Withholding or asking earns zero spatial credit.",
+    "same-words-no-identifiable-pair": "Withhold a point on the scene where two identifiable black cars cannot be verified. Report whether it asked or returned insufficient evidence.",
+    "source_detector_track_ids": [
+      61108,
+      59268
+    ],
+    "anchor_boxes_xyxy": [
+      [
+        997,
+        1042,
+        1116,
+        1124
+      ],
+      [
+        1103,
+        1043,
+        1182,
+        1105
+      ]
+    ],
+    "minimum_box_iou_per_distinct_anchor": 0.5,
+    "original_pixel_polygon": [
+      [
+        1030,
+        1125
+      ],
+      [
+        1185,
+        1125
+      ],
+      [
+        1210,
+        1210
+      ],
+      [
+        1150,
+        1260
+      ],
+      [
+        1030,
+        1260
+      ]
+    ],
+    "keep_all_operational_errors": true
+  },
+  "operator_only": "Photo marks and reference track identities never enter the model call."
+}

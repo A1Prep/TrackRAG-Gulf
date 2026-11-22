@@ -54,11 +54,11 @@ class Question(TypedDict):
 
 
 class RankedInterval(TypedDict):
-    """Task 4 returns these in order, beginning at rank 1."""
+    """Task 4 returns these in order. A null track_id denotes scene evidence."""
 
     recording_id: str
     source: TrackSource
-    track_id: int
+    track_id: int | None
     start_frame: int
     end_frame: int
     rank: int
@@ -69,7 +69,7 @@ class EvidenceImage(TypedDict):
     """Task 5 writes the marked image and records its path relative to the run folder."""
 
     frame_id: int
-    bbox_xyxy: Box
+    bbox_xyxy: Box | None  # Scene images have no highlighted road user.
     image_path: str
 
 

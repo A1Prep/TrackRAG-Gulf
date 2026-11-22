@@ -1,0 +1,737 @@
+{
+  "registration_sha256": "440b8ac92a800b27ab94a5ed16fc3d6c9197eda9b750d39d994b201d54c407f7",
+  "source_files_sha256": {
+    "trackrag\\dropoff\\projected_pair.py": "92d468653bc49079c05dbaa359d27ac220b30e7b4281fb3c3689708b77817af8",
+    "tools\\dropoff_projected_pair.py": "4d1ba76e191ab2312a1c1a4d22d7a74b6c0c9e6f132068cd9de2d52e26725476"
+  },
+  "control_attempts": 31,
+  "controls_canonical_json_unchanged": 31,
+  "control_dispositions": {
+    "original_did_not_ask": 20,
+    "no_unambiguous_current_vehicle_pair": 9,
+    "wrong_request_image_or_geometry": 1,
+    "behind_does_not_apply_to_both": 1
+  },
+  "current_geometry_sha256": "db9575ac6b82ff9828f29440bacf2349cd2371f23c2cfb747bd7dc05ee04c7e5",
+  "cpu_geometry_counts": {
+    "overlap_is_absent_or_too_strong": 1098,
+    "object_depth_or_size_is_incompatible": 9,
+    "another_current_vehicle_is_between_them": 11,
+    "no_supported_neighborhood": 1,
+    "supported_geometric_probe": 3
+  },
+  "diagnostic_sources": 5,
+  "cached_mask_use_only": true,
+  "new_qwen_calls": 0,
+  "genuine_passenger_confirmations": 0,
+  "formal_task1_final_cases": 0,
+  "meaning": "A geometry probe enumerates actual current predicted vehicle boxes without passenger identity evidence. A road-supported numerical region neither identifies a passenger's intention nor verifies vehicle paint or a legal stop.",
+  "attempts": [
+    {
+      "input_bank": "daytime-and-pair.jsonl",
+      "request_id": "passenger-b01",
+      "request_sha256": "0f9d083a590747307a68dfaba7ca5e29aed36b0aee83b0eeff5acf21c306eb66",
+      "original_outcome_sha256": "20d0a12b96a9f31322d3f9a191f7b44ef415e0da40a53838320831427fd4f424",
+      "checked_outcome_sha256": "20d0a12b96a9f31322d3f9a191f7b44ef415e0da40a53838320831427fd4f424",
+      "original_status": "proposed",
+      "audit": {
+        "method": "explicit_behind_neighboring_vehicle_centers_v1",
+        "status": "original_retained",
+        "verification_attempted": false,
+        "reason": "original_did_not_ask"
+      }
+    },
+    {
+      "input_bank": "daytime-and-pair.jsonl",
+      "request_id": "passenger-b02",
+      "request_sha256": "633e37b5080abf41283a79ba9ad57375f3843ac667e20a9059a80e44393cede7",
+      "original_outcome_sha256": "3483a606368d42c560a162780c5007e29fd0a803289b91506c008307d4fdaf09",
+      "checked_outcome_sha256": "3483a606368d42c560a162780c5007e29fd0a803289b91506c008307d4fdaf09",
+      "original_status": "proposed",
+      "audit": {
+        "method": "explicit_behind_neighboring_vehicle_centers_v1",
+        "status": "original_retained",
+        "verification_attempted": false,
+        "reason": "original_did_not_ask"
+      }
+    },
+    {
+      "input_bank": "daytime-and-pair.jsonl",
+      "request_id": "passenger-b03",
+      "request_sha256": "9c93b41d994b57e57b8e9fa047e48934dd97f20398b3970b8e5600ddf1859b48",
+      "original_outcome_sha256": "b5e9dc21ae6a01051abcf4877f1bbd650cb4837dc64adb0d2b2f26944b1949c0",
+      "checked_outcome_sha256": "b5e9dc21ae6a01051abcf4877f1bbd650cb4837dc64adb0d2b2f26944b1949c0",
+      "original_status": "proposed",
+      "audit": {
+        "method": "explicit_behind_neighboring_vehicle_centers_v1",
+        "status": "original_retained",
+        "verification_attempted": false,
+        "reason": "original_did_not_ask"
+      }
+    },
+    {
+      "input_bank": "daytime-and-pair.jsonl",
+      "request_id": "passenger-b04",
+      "request_sha256": "2328bb7055da7976c8acb3152312b35c9c28c5993f3674ee0cbf00c51abeb995",
+      "original_outcome_sha256": "696596e84679a80570b5084a5398ac06e4ec4aae28406a64a32c169d3e03d9d2",
+      "checked_outcome_sha256": "696596e84679a80570b5084a5398ac06e4ec4aae28406a64a32c169d3e03d9d2",
+      "original_status": "proposed",
+      "audit": {
+        "method": "explicit_behind_neighboring_vehicle_centers_v1",
+        "status": "original_retained",
+        "verification_attempted": false,
+        "reason": "original_did_not_ask"
+      }
+    },
+    {
+      "input_bank": "daytime-and-pair.jsonl",
+      "request_id": "passenger-b05",
+      "request_sha256": "3c087bfd404862cb84a0bd16d5813689be710704409613da2144be8473846fc4",
+      "original_outcome_sha256": "da4bc063007320f0bfc5d21940961fa652b93739e1d582c27dda07abc14b2393",
+      "checked_outcome_sha256": "da4bc063007320f0bfc5d21940961fa652b93739e1d582c27dda07abc14b2393",
+      "original_status": "insufficient_visual_evidence",
+      "audit": {
+        "method": "explicit_behind_neighboring_vehicle_centers_v1",
+        "status": "original_retained",
+        "verification_attempted": false,
+        "reason": "original_did_not_ask"
+      }
+    },
+    {
+      "input_bank": "daytime-and-pair.jsonl",
+      "request_id": "passenger-b06",
+      "request_sha256": "4e3b43be20cb97e49d54e202540b2846c324310c715e2d1b118f940a621b3caa",
+      "original_outcome_sha256": "490334a015c767c935b351d873d547aa932bf861d586b9bf516783918f9cb1b5",
+      "checked_outcome_sha256": "490334a015c767c935b351d873d547aa932bf861d586b9bf516783918f9cb1b5",
+      "original_status": "proposed",
+      "audit": {
+        "method": "explicit_behind_neighboring_vehicle_centers_v1",
+        "status": "original_retained",
+        "verification_attempted": false,
+        "reason": "original_did_not_ask"
+      }
+    },
+    {
+      "input_bank": "daytime-and-pair.jsonl",
+      "request_id": "passenger-b07",
+      "request_sha256": "f115f5e810511c9fad7a7cbbb007d53537b9264204fae02a0a7be972258ec926",
+      "original_outcome_sha256": "01c4be5ae733976c0109e1335f6badd31d15edd74760b2bfd52c4617e2b77d13",
+      "checked_outcome_sha256": "01c4be5ae733976c0109e1335f6badd31d15edd74760b2bfd52c4617e2b77d13",
+      "original_status": "proposed",
+      "audit": {
+        "method": "explicit_behind_neighboring_vehicle_centers_v1",
+        "status": "original_retained",
+        "verification_attempted": false,
+        "reason": "original_did_not_ask"
+      }
+    },
+    {
+      "input_bank": "daytime-and-pair.jsonl",
+      "request_id": "passenger-b08",
+      "request_sha256": "088a9da5a78769d4b23b07da5824c075630d155160228dfba667d7624c83ac4b",
+      "original_outcome_sha256": "ee0fe4bb41e37b62a5b31df8fb51d14616405f245b2b4f550acd9462254ddccb",
+      "checked_outcome_sha256": "ee0fe4bb41e37b62a5b31df8fb51d14616405f245b2b4f550acd9462254ddccb",
+      "original_status": "proposed",
+      "audit": {
+        "method": "explicit_behind_neighboring_vehicle_centers_v1",
+        "status": "original_retained",
+        "verification_attempted": false,
+        "reason": "original_did_not_ask"
+      }
+    },
+    {
+      "input_bank": "daytime-and-pair.jsonl",
+      "request_id": "passenger-b09",
+      "request_sha256": "062436e8fd5a91f1eef9ebf6a7ea3bfb12831d79b6aa70ca2a82bcfe8ac67c90",
+      "original_outcome_sha256": "393c217d008f619cac56062533a131a192d14294e71509aa2e44d4b138189025",
+      "checked_outcome_sha256": "393c217d008f619cac56062533a131a192d14294e71509aa2e44d4b138189025",
+      "original_status": "proposed",
+      "audit": {
+        "method": "explicit_behind_neighboring_vehicle_centers_v1",
+        "status": "original_retained",
+        "verification_attempted": false,
+        "reason": "original_did_not_ask"
+      }
+    },
+    {
+      "input_bank": "daytime-and-pair.jsonl",
+      "request_id": "passenger-b10",
+      "request_sha256": "91a1c5a1d88435698597c93fd388c5ea4222cf097c6629e050963ac9c3c78a31",
+      "original_outcome_sha256": "31c9302e01c4da4214f953cd2bfd4c175ff54ec2ef9c51d5e809c3218ea8915c",
+      "checked_outcome_sha256": "31c9302e01c4da4214f953cd2bfd4c175ff54ec2ef9c51d5e809c3218ea8915c",
+      "original_status": "insufficient_visual_evidence",
+      "audit": {
+        "method": "explicit_behind_neighboring_vehicle_centers_v1",
+        "status": "original_retained",
+        "verification_attempted": false,
+        "reason": "original_did_not_ask"
+      }
+    },
+    {
+      "input_bank": "daytime-and-pair.jsonl",
+      "request_id": "passenger-b11",
+      "request_sha256": "fb7b7637e1816fff2498d67be69abe52c9928af6f5f5f767a80d12e42158f1e0",
+      "original_outcome_sha256": "82313d3795da5986455bf4aea1325a3427695122787e68ca9dbeb310f9904b78",
+      "checked_outcome_sha256": "82313d3795da5986455bf4aea1325a3427695122787e68ca9dbeb310f9904b78",
+      "original_status": "needs_clarification",
+      "audit": {
+        "method": "explicit_behind_neighboring_vehicle_centers_v1",
+        "status": "original_retained",
+        "verification_attempted": false,
+        "reason": "no_unambiguous_current_vehicle_pair"
+      }
+    },
+    {
+      "input_bank": "daytime-and-pair.jsonl",
+      "request_id": "passenger-b12",
+      "request_sha256": "22279f7d4280379716773469ac11ac941b05d75f6e8def4018698d28b2de9cd5",
+      "original_outcome_sha256": "86f1209616583c654a436f983e4bb08ae98411c2a2e65d7781e4f94cdbba5eb6",
+      "checked_outcome_sha256": "86f1209616583c654a436f983e4bb08ae98411c2a2e65d7781e4f94cdbba5eb6",
+      "original_status": "proposed",
+      "audit": {
+        "method": "explicit_behind_neighboring_vehicle_centers_v1",
+        "status": "original_retained",
+        "verification_attempted": false,
+        "reason": "original_did_not_ask"
+      }
+    },
+    {
+      "input_bank": "daytime-and-pair.jsonl",
+      "request_id": "passenger-b13",
+      "request_sha256": "06c4ba8507fc2a99e8f95fe14675e66122847f222d7cd70564c079059a3cc61f",
+      "original_outcome_sha256": "52974fbdd8d98afab4ac69d09d6e69d53f0a97a9f2d3e12e84e5c93ea20f7193",
+      "checked_outcome_sha256": "52974fbdd8d98afab4ac69d09d6e69d53f0a97a9f2d3e12e84e5c93ea20f7193",
+      "original_status": "proposed",
+      "audit": {
+        "method": "explicit_behind_neighboring_vehicle_centers_v1",
+        "status": "original_retained",
+        "verification_attempted": false,
+        "reason": "original_did_not_ask"
+      }
+    },
+    {
+      "input_bank": "daytime-and-pair.jsonl",
+      "request_id": "passenger-b14",
+      "request_sha256": "d12693fcf1c685f3c90db28dc200b261a0a194e139b368790cc290cda4291d29",
+      "original_outcome_sha256": "8988a4cff9a667f6ad7bb2d188298a5f2b960dd6c556c2ec6f6aff5616cfb8dd",
+      "checked_outcome_sha256": "8988a4cff9a667f6ad7bb2d188298a5f2b960dd6c556c2ec6f6aff5616cfb8dd",
+      "original_status": "proposed",
+      "audit": {
+        "method": "explicit_behind_neighboring_vehicle_centers_v1",
+        "status": "original_retained",
+        "verification_attempted": false,
+        "reason": "original_did_not_ask"
+      }
+    },
+    {
+      "input_bank": "daytime-and-pair.jsonl",
+      "request_id": "passenger-b15",
+      "request_sha256": "4090669805a4fb48ba0db7f034c4a7ab07a4d0ad9859cab4a230fab78bebae12",
+      "original_outcome_sha256": "0b01b061f50a52413346e44fa2a61d1afe345071e3766833e3963ef7e9dc812d",
+      "checked_outcome_sha256": "0b01b061f50a52413346e44fa2a61d1afe345071e3766833e3963ef7e9dc812d",
+      "original_status": "needs_clarification",
+      "audit": {
+        "method": "explicit_behind_neighboring_vehicle_centers_v1",
+        "status": "original_retained",
+        "verification_attempted": false,
+        "reason": "no_unambiguous_current_vehicle_pair"
+      }
+    },
+    {
+      "input_bank": "daytime-and-pair.jsonl",
+      "request_id": "passenger-b16",
+      "request_sha256": "ba749e9732ce25572a69e33c2c8c8c8f673b34785791a460bf81cf7d15d7c1df",
+      "original_outcome_sha256": "36d5bc3cc96a0aedc5808c2a81547dfde8631952b276b372a9679ff115208449",
+      "checked_outcome_sha256": "36d5bc3cc96a0aedc5808c2a81547dfde8631952b276b372a9679ff115208449",
+      "original_status": "proposed",
+      "audit": {
+        "method": "explicit_behind_neighboring_vehicle_centers_v1",
+        "status": "original_retained",
+        "verification_attempted": false,
+        "reason": "original_did_not_ask"
+      }
+    },
+    {
+      "input_bank": "daytime-and-pair.jsonl",
+      "request_id": "passenger-b17",
+      "request_sha256": "6e660d01090ced6212e7e6c4189babd7e90f14750a4f3c288f58e2c8dbd8344f",
+      "original_outcome_sha256": "f831a8372cc4348eb99ee479a6cb0e63bafb3a55d003e2a2f99237f64ef66f78",
+      "checked_outcome_sha256": "f831a8372cc4348eb99ee479a6cb0e63bafb3a55d003e2a2f99237f64ef66f78",
+      "original_status": "proposed",
+      "audit": {
+        "method": "explicit_behind_neighboring_vehicle_centers_v1",
+        "status": "original_retained",
+        "verification_attempted": false,
+        "reason": "original_did_not_ask"
+      }
+    },
+    {
+      "input_bank": "daytime-and-pair.jsonl",
+      "request_id": "passenger-b18",
+      "request_sha256": "04877eed10172b313b2a84305dd54cf720361989ccb9e1505e34edf6a2a29a15",
+      "original_outcome_sha256": "d131f3d71556aad3fc23349631e208f2fa31691da8eeef664373371d4b4abf53",
+      "checked_outcome_sha256": "d131f3d71556aad3fc23349631e208f2fa31691da8eeef664373371d4b4abf53",
+      "original_status": "needs_clarification",
+      "audit": {
+        "method": "explicit_behind_neighboring_vehicle_centers_v1",
+        "status": "original_retained",
+        "verification_attempted": false,
+        "reason": "no_unambiguous_current_vehicle_pair"
+      }
+    },
+    {
+      "input_bank": "daytime-and-pair.jsonl",
+      "request_id": "passenger-b19",
+      "request_sha256": "db59bfd779adbd236b61d83f6477fa21bda47a412bf31c385169bcca443546bd",
+      "original_outcome_sha256": "f80ed10a32740148cb3cc6381af019eb737256d5f027ea3967ecb3bb669d6ee7",
+      "checked_outcome_sha256": "f80ed10a32740148cb3cc6381af019eb737256d5f027ea3967ecb3bb669d6ee7",
+      "original_status": "needs_clarification",
+      "audit": {
+        "method": "explicit_behind_neighboring_vehicle_centers_v1",
+        "status": "original_retained",
+        "verification_attempted": false,
+        "reason": "no_unambiguous_current_vehicle_pair"
+      }
+    },
+    {
+      "input_bank": "daytime-and-pair.jsonl",
+      "request_id": "pair-visible",
+      "request_sha256": "45d78468f76056d349dea84dfaa08d1919fc0a50bfec52839841499c55829bc3",
+      "original_outcome_sha256": "6ab205c3fee86a06216e8a79db783205a52526d9483a425011cdf524f94d77d6",
+      "checked_outcome_sha256": "6ab205c3fee86a06216e8a79db783205a52526d9483a425011cdf524f94d77d6",
+      "original_status": "needs_clarification",
+      "audit": {
+        "method": "explicit_behind_neighboring_vehicle_centers_v1",
+        "status": "original_retained",
+        "verification_attempted": false,
+        "reason": "wrong_request_image_or_geometry"
+      }
+    },
+    {
+      "input_bank": "daytime-and-pair.jsonl",
+      "request_id": "pair-ambiguous",
+      "request_sha256": "093745f44b16b25403970bb5c8437c1510d8e3e652b435dd2b2c1bd6615276af",
+      "original_outcome_sha256": "d5d98dadc63fab6c49b2484dfc11557859a4bf9f6d63bb69d719949db019b9e0",
+      "checked_outcome_sha256": "d5d98dadc63fab6c49b2484dfc11557859a4bf9f6d63bb69d719949db019b9e0",
+      "original_status": "needs_clarification",
+      "audit": {
+        "method": "explicit_behind_neighboring_vehicle_centers_v1",
+        "status": "original_retained",
+        "verification_attempted": false,
+        "reason": "no_unambiguous_current_vehicle_pair"
+      }
+    },
+    {
+      "input_bank": "daytime-and-pair.jsonl",
+      "request_id": "pair-absent",
+      "request_sha256": "cd4e080961b3764de0adad6ba7541b5a71f5aa6f5456fa3b99683fa55fca5681",
+      "original_outcome_sha256": "64201c175671b24a16e0aa04af9573c8172c09f69d3bcdcd9e5a52ba92daa616",
+      "checked_outcome_sha256": "64201c175671b24a16e0aa04af9573c8172c09f69d3bcdcd9e5a52ba92daa616",
+      "original_status": "needs_clarification",
+      "audit": {
+        "method": "explicit_behind_neighboring_vehicle_centers_v1",
+        "status": "original_retained",
+        "verification_attempted": false,
+        "reason": "behind_does_not_apply_to_both"
+      }
+    },
+    {
+      "input_bank": "pair-empty-live-requests.jsonl",
+      "request_id": "pair-visible",
+      "request_sha256": "45d78468f76056d349dea84dfaa08d1919fc0a50bfec52839841499c55829bc3",
+      "original_outcome_sha256": "b1bb013c87d9cdded4276dc2cccd7da41c4e1a2724845e297887b8494614a968",
+      "checked_outcome_sha256": "b1bb013c87d9cdded4276dc2cccd7da41c4e1a2724845e297887b8494614a968",
+      "original_status": "proposed",
+      "audit": {
+        "method": "explicit_behind_neighboring_vehicle_centers_v1",
+        "status": "original_retained",
+        "verification_attempted": false,
+        "reason": "original_did_not_ask"
+      }
+    },
+    {
+      "input_bank": "pair-empty-live-requests.jsonl",
+      "request_id": "pair-ambiguous",
+      "request_sha256": "093745f44b16b25403970bb5c8437c1510d8e3e652b435dd2b2c1bd6615276af",
+      "original_outcome_sha256": "cee019e7d77e4126e75ae0279da92b040204e41fdb59c6058d0e862dbd62e7d0",
+      "checked_outcome_sha256": "cee019e7d77e4126e75ae0279da92b040204e41fdb59c6058d0e862dbd62e7d0",
+      "original_status": "needs_clarification",
+      "audit": {
+        "method": "explicit_behind_neighboring_vehicle_centers_v1",
+        "status": "original_retained",
+        "verification_attempted": false,
+        "reason": "no_unambiguous_current_vehicle_pair"
+      }
+    },
+    {
+      "input_bank": "pair-empty-live-requests.jsonl",
+      "request_id": "pair-absent",
+      "request_sha256": "cd4e080961b3764de0adad6ba7541b5a71f5aa6f5456fa3b99683fa55fca5681",
+      "original_outcome_sha256": "8d413d7cfb7bb43c387eeb44f755c8e27374a5cc1cc64a0f830181c482231faa",
+      "checked_outcome_sha256": "8d413d7cfb7bb43c387eeb44f755c8e27374a5cc1cc64a0f830181c482231faa",
+      "original_status": "insufficient_visual_evidence",
+      "audit": {
+        "method": "explicit_behind_neighboring_vehicle_centers_v1",
+        "status": "original_retained",
+        "verification_attempted": false,
+        "reason": "original_did_not_ask"
+      }
+    },
+    {
+      "input_bank": "pair-empty-live-requests.jsonl",
+      "request_id": "passenger-a01",
+      "request_sha256": "67ce545327834074f669c1a4ded3d1ddb902742402eb18750fb178832f075df0",
+      "original_outcome_sha256": "0227fec8dce16ae6b891009b6f990edf29929d4406c4e015ada45af79d2f7603",
+      "checked_outcome_sha256": "0227fec8dce16ae6b891009b6f990edf29929d4406c4e015ada45af79d2f7603",
+      "original_status": "needs_clarification",
+      "audit": {
+        "method": "explicit_behind_neighboring_vehicle_centers_v1",
+        "status": "original_retained",
+        "verification_attempted": false,
+        "reason": "no_unambiguous_current_vehicle_pair"
+      }
+    },
+    {
+      "input_bank": "pair-empty-live-requests.jsonl",
+      "request_id": "passenger-a03",
+      "request_sha256": "3f42f7df79a11cb15ff08ae6c0cb610239bc352f1cfccdc9c2084a3544da2916",
+      "original_outcome_sha256": "0d4a47b2ae74ec3fd784812a05fe8636119f6cb72b556c82c9de46b08759cced",
+      "checked_outcome_sha256": "0d4a47b2ae74ec3fd784812a05fe8636119f6cb72b556c82c9de46b08759cced",
+      "original_status": "needs_clarification",
+      "audit": {
+        "method": "explicit_behind_neighboring_vehicle_centers_v1",
+        "status": "original_retained",
+        "verification_attempted": false,
+        "reason": "no_unambiguous_current_vehicle_pair"
+      }
+    },
+    {
+      "input_bank": "pair-empty-live-requests.jsonl",
+      "request_id": "passenger-a05",
+      "request_sha256": "f758307adb4a20836e7e9125d4b3d8a04b3394fda9fa0ced9fc7ec2cf9da9c39",
+      "original_outcome_sha256": "8a8c865ffe8e0a2ee8eaea7469dd5ac7614a5c8c5c52d2f6a87f87fde2149c1f",
+      "checked_outcome_sha256": "8a8c865ffe8e0a2ee8eaea7469dd5ac7614a5c8c5c52d2f6a87f87fde2149c1f",
+      "original_status": "needs_clarification",
+      "audit": {
+        "method": "explicit_behind_neighboring_vehicle_centers_v1",
+        "status": "original_retained",
+        "verification_attempted": false,
+        "reason": "no_unambiguous_current_vehicle_pair"
+      }
+    },
+    {
+      "input_bank": "pair-empty-live-requests.jsonl",
+      "request_id": "passenger-a10",
+      "request_sha256": "d49e69d27f1ed320f3e805802fc713429f5f0ffe4b1da42fe61b8d06e2fb9d06",
+      "original_outcome_sha256": "8bf00fa28e986e7bc1e9f963e42a3475360035b0765441cb3143d98276cec1f7",
+      "checked_outcome_sha256": "8bf00fa28e986e7bc1e9f963e42a3475360035b0765441cb3143d98276cec1f7",
+      "original_status": "proposed",
+      "audit": {
+        "method": "explicit_behind_neighboring_vehicle_centers_v1",
+        "status": "original_retained",
+        "verification_attempted": false,
+        "reason": "original_did_not_ask"
+      }
+    },
+    {
+      "input_bank": "pair-empty-live-requests.jsonl",
+      "request_id": "passenger-b01",
+      "request_sha256": "0f9d083a590747307a68dfaba7ca5e29aed36b0aee83b0eeff5acf21c306eb66",
+      "original_outcome_sha256": "86016f4626859d66f5edbf0745420f20a172d25a4edb42c2631549981168ae26",
+      "checked_outcome_sha256": "86016f4626859d66f5edbf0745420f20a172d25a4edb42c2631549981168ae26",
+      "original_status": "proposed",
+      "audit": {
+        "method": "explicit_behind_neighboring_vehicle_centers_v1",
+        "status": "original_retained",
+        "verification_attempted": false,
+        "reason": "original_did_not_ask"
+      }
+    },
+    {
+      "input_bank": "pair-empty-live-requests.jsonl",
+      "request_id": "passenger-b03",
+      "request_sha256": "9c93b41d994b57e57b8e9fa047e48934dd97f20398b3970b8e5600ddf1859b48",
+      "original_outcome_sha256": "ad8902a8423dda8818e1497387601475d2382ff1e7fa19b854cc812f2a036054",
+      "checked_outcome_sha256": "ad8902a8423dda8818e1497387601475d2382ff1e7fa19b854cc812f2a036054",
+      "original_status": "proposed",
+      "audit": {
+        "method": "explicit_behind_neighboring_vehicle_centers_v1",
+        "status": "original_retained",
+        "verification_attempted": false,
+        "reason": "original_did_not_ask"
+      }
+    }
+  ],
+  "geometry": [
+    {
+      "recording": "video_054907",
+      "frame": 1,
+      "source_image_sha256": "033fc370408c4bc99a1ec9fbb845b6618a5f53b680a235baba336b8fe8ddba80",
+      "current_tracks_sha256": "fe4be25af28e6e554e24055ae21e92b07a126029e57170181079d7982e18b6a6",
+      "current_observations": 38,
+      "motor_pairs": 703,
+      "counts": {
+        "overlap_is_absent_or_too_strong": 689,
+        "object_depth_or_size_is_incompatible": 5,
+        "another_current_vehicle_is_between_them": 6,
+        "no_supported_neighborhood": 1,
+        "supported_geometric_probe": 2
+      },
+      "geometrically_eligible_pairs": [
+        {
+          "ids": [
+            32,
+            38
+          ],
+          "geometry": {
+            "center_corridor_xyxy": [
+              1171.6026000976562,
+              1071.509765625,
+              1191.7315673828125,
+              1104.43408203125
+            ],
+            "regression_inputs_xyxy": [
+              [
+                1153.9608764648438,
+                1041.68505859375,
+                1171.6026000976562,
+                1062.601318359375
+              ],
+              [
+                1191.7315673828125,
+                1038.58544921875,
+                1220.1512451171875,
+                1071.509765625
+              ]
+            ],
+            "original_anchor_iou": 0.04878876041766292,
+            "overlap_fraction_of_narrower_box": 0.1644812864566395
+          },
+          "status": "no_supported_neighborhood"
+        },
+        {
+          "ids": [
+            8,
+            34
+          ],
+          "geometry": {
+            "center_corridor_xyxy": [
+              1198.9002075195312,
+              1075.8299560546875,
+              1228.2824096679688,
+              1118.17333984375
+            ],
+            "regression_inputs_xyxy": [
+              [
+                1152.1227416992188,
+                1033.486572265625,
+                1198.9002075195312,
+                1075.8299560546875
+              ],
+              [
+                1228.2824096679688,
+                1045.2705078125,
+                1248.7468872070312,
+                1071.8387451171875
+              ]
+            ],
+            "original_anchor_iou": 0.046693928899653465,
+            "overlap_fraction_of_narrower_box": 0.20712815771421755
+          },
+          "status": "supported_geometric_probe",
+          "patch": {
+            "point": [
+              1212.5,
+              1087.5
+            ],
+            "box": [
+              1200.0,
+              1080.0,
+              1225.0,
+              1110.0
+            ],
+            "learned_point": [
+              1212.1874761877448,
+              1080.5469474708455
+            ],
+            "learned_region": [
+              1195.3262885702143,
+              1049.173087911361,
+              1229.0852409572556,
+              1112.5034897665712
+            ],
+            "supported_three_by_three_centers": 12,
+            "road_mask_sha256": "91ad83cc2cfa37d9c913ab069196c4636c8d21296d45e4e142df1004e0ab8e84",
+            "road_recipe_sha256": "5732b0a6858e98b44ba410ff29605b0b8305486b48a94c74c2ad60c6fd74adf3"
+          }
+        },
+        {
+          "ids": [
+            12,
+            27
+          ],
+          "geometry": {
+            "center_corridor_xyxy": [
+              1344.2245483398438,
+              1071.6558837890625,
+              1366.5488891601562,
+              1094.3734130859375
+            ],
+            "regression_inputs_xyxy": [
+              [
+                1313.8442993164062,
+                1048.9383544921875,
+                1344.2245483398438,
+                1071.6558837890625
+              ],
+              [
+                1366.5488891601562,
+                1048.1632080078125,
+                1389.3898315429688,
+                1068.01513671875
+              ]
+            ],
+            "original_anchor_iou": 0.07700641296122832,
+            "overlap_fraction_of_narrower_box": 0.18765665667270578
+          },
+          "status": "supported_geometric_probe",
+          "patch": {
+            "point": [
+              1357.5,
+              1082.5
+            ],
+            "box": [
+              1350.0,
+              1075.0,
+              1365.0,
+              1090.0
+            ],
+            "learned_point": [
+              1354.2827640664711,
+              1076.5496698043514
+            ],
+            "learned_region": [
+              1342.4037183819296,
+              1045.8109184296961,
+              1366.1745335814262,
+              1107.9091904652253
+            ],
+            "supported_three_by_three_centers": 1,
+            "road_mask_sha256": "91ad83cc2cfa37d9c913ab069196c4636c8d21296d45e4e142df1004e0ab8e84",
+            "road_recipe_sha256": "5732b0a6858e98b44ba410ff29605b0b8305486b48a94c74c2ad60c6fd74adf3"
+          }
+        }
+      ]
+    },
+    {
+      "recording": "video_054907",
+      "frame": 42,
+      "source_image_sha256": "175602c7dc418c0ababa6cea56daec7f5e2779452370a9ace398cdc3780041a6",
+      "current_tracks_sha256": "73ef7ea15bcf55291059430e3fd45e5b6484b34f6ef7d3add5e0ef5d3134ab2f",
+      "current_observations": 11,
+      "motor_pairs": 55,
+      "counts": {
+        "overlap_is_absent_or_too_strong": 52,
+        "object_depth_or_size_is_incompatible": 3
+      },
+      "geometrically_eligible_pairs": []
+    },
+    {
+      "recording": "video_054907",
+      "frame": 59,
+      "source_image_sha256": "2a735d35145f1998ead5ddb78bf960aebbe8b5d997b278e36f888b8e742e3cfd",
+      "current_tracks_sha256": "a8010befab3a9bd993de00ef8ecd379b6a818f2587cb607d5e72da50fe21e471",
+      "current_observations": 10,
+      "motor_pairs": 45,
+      "counts": {
+        "overlap_is_absent_or_too_strong": 42,
+        "object_depth_or_size_is_incompatible": 1,
+        "supported_geometric_probe": 1,
+        "another_current_vehicle_is_between_them": 1
+      },
+      "geometrically_eligible_pairs": [
+        {
+          "ids": [
+            4,
+            1397
+          ],
+          "geometry": {
+            "center_corridor_xyxy": [
+              1276.90673828125,
+              1104.3878173828125,
+              1356.9325561523438,
+              1206.9360961914062
+            ],
+            "regression_inputs_xyxy": [
+              [
+                1195.300537109375,
+                1049.1522216796875,
+                1276.90673828125,
+                1104.3878173828125
+              ],
+              [
+                1356.9325561523438,
+                981.5473022460938,
+                1460.5964965820312,
+                1084.0955810546875
+              ]
+            ],
+            "original_anchor_iou": 0.02997851148869263,
+            "overlap_fraction_of_narrower_box": 0.15451341624309292
+          },
+          "status": "supported_geometric_probe",
+          "patch": {
+            "point": [
+              1312.5,
+              1112.5
+            ],
+            "box": [
+              1285.0,
+              1105.0,
+              1345.0,
+              1135.0
+            ],
+            "learned_point": [
+              1312.892060629083,
+              1102.5230698639148
+            ],
+            "learned_region": [
+              1280.216150516276,
+              1066.7362509619143,
+              1345.4107437896948,
+              1139.3020262014677
+            ],
+            "supported_three_by_three_centers": 40,
+            "road_mask_sha256": "9cb9b1e30b8cae75d6bd804114e6d1404b1adce5638b83ba4f816fc90417cdf7",
+            "road_recipe_sha256": "5732b0a6858e98b44ba410ff29605b0b8305486b48a94c74c2ad60c6fd74adf3"
+          }
+        }
+      ]
+    },
+    {
+      "recording": "video_054907",
+      "frame": 103,
+      "source_image_sha256": "0448ff2ffa6959029f2af9d6f9fefc72af976679d400fe796e4e7064ce425213",
+      "current_tracks_sha256": "93691d85ba0c5cc40fd0efc92594d6bc5ed047c490419aef5be3a6e529513ed3",
+      "current_observations": 12,
+      "motor_pairs": 66,
+      "counts": {
+        "overlap_is_absent_or_too_strong": 66
+      },
+      "geometrically_eligible_pairs": []
+    },
+    {
+      "recording": "video_054604",
+      "frame": 1,
+      "source_image_sha256": "8554bd37dc647488f6a496b2845f22a7a6bf21b2478d732b1340d99175a7e518",
+      "current_tracks_sha256": "d60516a231fcbdf926c732121f26f5119a55d3a44242eba637eaff7ef4dba0cd",
+      "current_observations": 23,
+      "motor_pairs": 253,
+      "counts": {
+        "overlap_is_absent_or_too_strong": 249,
+        "another_current_vehicle_is_between_them": 4
+      },
+      "geometrically_eligible_pairs": []
+    }
+  ]
+}

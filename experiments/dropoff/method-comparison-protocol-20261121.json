@@ -1,0 +1,50 @@
+{
+  "schema_version": 1,
+  "declared_before": "Any new method outputs on this cohort",
+  "kind": "exploratory_development_method_comparison_not_final_EMT",
+  "public_case_ids": [
+    "regseg-train-1194",
+    "regseg-train-1348",
+    "regseg-train-1566",
+    "regseg-train-2394",
+    "regseg-train-2650",
+    "regseg-train-2945"
+  ],
+  "emt_case_ids": [
+    "local-8b-video_054604-150-1",
+    "local-8b-video_054604-150-2",
+    "local-8b-video_054907-75-3",
+    "local-8b-video_054907-75-4"
+  ],
+  "requests_sha256": "259aca81769937387cf07c531f701868c81ea687eb2380547e59979136a6a324",
+  "development_source_sha256": "533cbcf9a2059b2890a606e896d9a216d5fc663606693c7dc8121b9ddf222556",
+  "public_selection": "First six scene groups not represented in inspected previous free-generation evaluations, deterministic ID order, not selected by target geometry or outcome. Development used for teacher-forced loss earlier.",
+  "conditions": [
+    "selected_local_8b_direct_public_6",
+    "selected_local_8b_candidate_selection_all_10",
+    "gemini_3_8_flash_direct_processed_EMT_4",
+    "gemini_3_8_flash_candidate_selection_processed_EMT_4"
+  ],
+  "local_input": "original unmasked images; candidates add image-only predicted-ground numbered overlay",
+  "hosted_input": "Only privacy-processed EMT frames under existing Google trial authorization; no public RegSeg images uploaded. Same masked base image in direct and candidate conditions.",
+  "time_limits": {
+    "local_whole_process_seconds": 1800,
+    "provider_whole_process_seconds": 600,
+    "per_hosted_request_seconds": 45,
+    "hosted_attempts_per_request": 1,
+    "setup_retries": 1
+  },
+  "score_separately": [
+    "candidate representative-point mask coverage ceiling",
+    "selected point agreement all public requests with errors and unresolved in denominator",
+    "proposal coverage, status counts, semantic accuracy unavailable from public masks",
+    "EMT provisional visual review only without human ground targets",
+    "latency and operational errors",
+    "output validation errors retained"
+  ],
+  "not_matched_across_providers_due_privacy": true,
+  "no_final_recordings_used": true,
+  "no_local_adaptation_without_genuine_reviewed_full_targets": true,
+  "candidate_hyperparameters_frozen_before_mask_scoring": true,
+  "no_safety_legality_or_vehicle_control": true
+}

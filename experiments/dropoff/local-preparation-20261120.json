@@ -1,0 +1,154 @@
+{
+  "schema_version": 1,
+  "purpose": "independent_task5_preparation_and_real_local_pretrained_integration",
+  "preparation_date_dubai": "2026-11-20",
+  "planned_model": {
+    "id": "Qwen/Qwen3-VL-8B-Instruct",
+    "revision": "0c351dd01ed87e9c1b53cbc748cba10e6187ff3b",
+    "training_executed": false,
+    "optimizer_steps": 0,
+    "trained_adapter_available": false,
+    "smaller_model_substitution": false
+  },
+  "public_data": {
+    "dataset": "Talk2Car-RegSeg",
+    "source_revision": "cebce1943ce373857cc9be5def68ded4008c29e1",
+    "cases": 80,
+    "source_scenes": 74,
+    "source_cases_sha256": "3142a3cca0a44ab61deb7ec5fc5c5e0b440693d94b447eb27f57954b2afae3ed",
+    "train_cases": 60,
+    "development_cases": 20,
+    "train_source_scenes": 57,
+    "development_source_scenes": 17,
+    "whole_scene_groups_disjoint": true,
+    "previous_pilot_scenes_kept_in_training": 10,
+    "rejected_source_records": [
+      {
+        "source_index": 5361,
+        "reason": "Empty destination mask"
+      }
+    ],
+    "train_sha256": "dc205cc95f05d132885fc9bb6a9068c3212e605bb8d24e74e53b17c4d016c0ef",
+    "development_sha256": "18b5f8261e09f2a89660151eb157bbca0d06c7fd4a42cd5ace3fa04f9df7c0dd",
+    "supervision": [
+      "destination_point_xy",
+      "destination_box_xyxy"
+    ],
+    "fully_supervised_interpretation_cases": 0,
+    "human_review_added": false,
+    "final_evaluation_set": false
+  },
+  "actual_8b_input_preparation": {
+    "processor": "Qwen3VLProcessor",
+    "real_images_checked": 80,
+    "passed": 80,
+    "failed": 0,
+    "input_tokens_min": 555,
+    "input_tokens_max": 597,
+    "image_tokens_supervised": false,
+    "truncation_used": false,
+    "neural_weights_loaded": false,
+    "optimizer_steps": 0
+  },
+  "cuda_stack": {
+    "torch": "2.6.0+cu124",
+    "cuda_build": "12.4",
+    "transformers": "5.1.0",
+    "peft": "0.18.1",
+    "bitsandbytes": "0.49.1",
+    "qwen_model_and_trainer_imports_passed": true,
+    "synthetic_nf4_forward_backward_optimizer_passed": true,
+    "synthetic_optimizer_steps": 1,
+    "project_model_training_executed": false,
+    "existing_cuda_torch_reused_read_only": true
+  },
+  "separate_pretrained_local_route": {
+    "model_id": "qwen3.5:9b",
+    "model_digest": "6488c96fa5faab64bb65cbd30d4289e20e6130ef535a93ef9a49f42eda893ea7",
+    "backend": "ollama_local_pretrained",
+    "entry_point": "tools.dropoff_predict predict --backend ollama",
+    "is_trained_model": false,
+    "is_matched_8b_control": false,
+    "requested_rows": 2,
+    "semantic_results": 2,
+    "operational_errors": 0,
+    "actual_loaded_context_length": 8192,
+    "model_quality_measured": false,
+    "rows": [
+      {
+        "request_id": "video_054604-150-typed",
+        "status": "proposed",
+        "elapsed_s": 66.36,
+        "original_image_sha256": "2b9128389843a3315820747e47c64c88106580ac5572fe0c7917345d7bcf56aa",
+        "sent_image_sha256": "44a190e28bcfca4976e96e46c094d462c05eed8232830dd4418be93898b8d62e",
+        "input_tokens": 1073,
+        "loaded_vram_bytes": 2516320254
+      },
+      {
+        "request_id": "video_054907-150-typed",
+        "status": "needs_clarification",
+        "elapsed_s": 64.156,
+        "original_image_sha256": "fc2684b47bc7d3a894a4af31a0a2a1858ecce00be05ba3d5c3db4ad65e169c22",
+        "sent_image_sha256": "6c1908ea13d0d0bc681c53b632df0a5fc5e7b56dc262f66d60264e49ba14316d",
+        "input_tokens": 1452,
+        "loaded_vram_bytes": 2516320254
+      }
+    ]
+  },
+  "retained_initial_trial": {
+    "requested_rows": 2,
+    "operational_errors": 2,
+    "reason": "Experiment setup copied relative image paths into a different directory without rebasing; corrected input used a new run",
+    "inference_started": false,
+    "excluded_from_corrected_run_results": true
+  },
+  "local_8b_preflight": {
+    "ready": false,
+    "gpu": {
+      "index": 0,
+      "name": "NVIDIA GeForce RTX 3050 Laptop GPU",
+      "total_gib": 3.99951171875,
+      "free_gib": 3.2259765630587935,
+      "cuda_build": "12.4",
+      "bf16_supported": true
+    },
+    "blockers": [
+      "cache volume has 6.03 GiB free; need at least 30 GiB",
+      "output volume has 6.03 GiB free; need at least 30 GiB",
+      "GPU has 4.00 GiB; selected 8B model pilot requires at least 12 GiB as a preflight floor",
+      "Only 3.23 GiB GPU memory free"
+    ],
+    "screening_floors_are_not_a_fit_guarantee": true
+  },
+  "software_verification": {
+    "pytest_passed": 755,
+    "pytest_skipped": 12,
+    "pytest_subtests_passed": 285,
+    "independent_review_completed": true,
+    "resolved_findings": [
+      "Absolute deadline includes slow HTTP headers and success/error bodies",
+      "Verify actual loaded context capacity before accepting output"
+    ],
+    "main_entry_point_help_passed": true,
+    "root_readme_changed": false
+  },
+  "local_handoff": {
+    "filename": "TrackRAG-Gulf-8B-ready-for-GPU.zip",
+    "bytes": 14854231,
+    "sha256": "e8ee67bcf0329ab411c03f53b855df6678aa311e88e5df8fefc8db8f906ce38b",
+    "source_zip_sha256": "66d942019c331d8e7253ee6ffa9a44112bf7257519dd1aa3385659295398ddf7",
+    "source_files_verified": 35,
+    "relocated_train_cases": 60,
+    "relocated_development_cases": 20,
+    "notebook_embedded_source_matches": true,
+    "notebook_source_extractor_verified": true,
+    "notebook_executed": false,
+    "model_weights_or_credentials_included": false,
+    "large_artifact_kept_outside_git": true
+  },
+  "remaining": [
+    "Run actual 8B pilot/update/save/fresh-process reload on a larger GPU",
+    "Use reviewed local interpretation/clarification cases for the full adaptation",
+    "Supply frozen matched pretrained/trained 8B outputs for independent evaluation and application integration"
+  ]
+}

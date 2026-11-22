@@ -1,0 +1,4 @@
+{"question_id": "bus-entry", "recording_id": "video_054604", "query_frame": 150, "question": "Which bus entered the left edge of the image after the recording had already started?"}
+{"question_id": "bus-growth", "recording_id": "video_054604", "query_frame": 150, "question": "Which bus becomes larger in the image as the clip progresses?"}
+{"question_id": "driver-phone", "recording_id": "video_054604", "query_frame": 150, "question": "Is the driver of the bus on the left using a mobile phone?"}
+{"question_id": "bus-speed", "recording_id": "video_054604", "query_frame": 150, "question": "What is the speed of the bus in kilometres per hour?"}

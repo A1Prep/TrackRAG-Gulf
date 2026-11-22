@@ -1,0 +1,114 @@
+{
+  "kind": "fresh_private_clone_same_laptop_operator_rehearsal",
+  "shared_existing_base_cache_and_interpreter": true,
+  "human_user_or_independent_machine": false,
+  "release": "https://github.com/A1Prep/TrackRAG-Gulf/releases/tag/passenger-feature-20261122",
+  "release_asset_installation": {
+    "source_commit": "64bd9c9281527bdcd96144af119e7c6bc2e48f7d",
+    "downloads_checked_against_remote_asset_manifest": {
+      "passenger-feature.zip": {
+        "sha256": "48340f1c61e08c93a6fb442b2b4c9e50a25f0f813fe7ffd0bed24041c8087a70",
+        "bytes": 6422575
+      },
+      "passenger-finetuned-emt-tracks-20261122.zip": {
+        "sha256": "b841750f79889420963574806593457fe04d03bd4b84562060e0d8f8457a704c",
+        "bytes": 77746
+      }
+    },
+    "bundle_verification": {
+      "format": "passenger-app-handoff-v1",
+      "files": {
+        "adapter/adapter_config.json": "def2dc5ef0c641fe93cba691766f0cdd0cb8e212ef8308f492c3b6aa96ac5ba7",
+        "adapter/adapter_model.safetensors": "76bfb3230b17a86248b52ca6a9f8d2ffca324aa80216d6b93845ccb12ad86743",
+        "adapter/grounding_adapter_manifest.json": "92e32dc900d919b7e137c70692c51b57921edbda77ff5b772e6dfdc221a12983",
+        "geometry.json": "db9575ac6b82ff9828f29440bacf2349cd2371f23c2cfb747bd7dc05ee04c7e5",
+        "grounding.json": "bf73538110c52cbb50059964fe8a6230e0674c754592fc2e96a4529d0dc6a169",
+        "referent.json": "d96a9a69e2e52ddbc21851d5ff6f79b344de6c8558600e54be5cb2712480a07d"
+      },
+      "verify_landmarks": false,
+      "referent_policy": true,
+      "base_model": "unsloth/Qwen3-VL-8B-Instruct-bnb-4bit",
+      "revision": "10d842936325905934ea24e64325d774693f166e"
+    },
+    "release_model_and_tracking_files_extracted_into_clean_directories": true,
+    "originals_verified": 300,
+    "original_data_source": "4418cec01b03c6f797cadb06c9405843a30988e2",
+    "used_previous_independently_verified_official_image_download": true,
+    "verified_inputs_reproduced_byte_for_byte": 10,
+    "requests_sha256": "3c9e102ba0bf314a0caabd8ac64c728801cd933a799a8c7383c09dd64af2f960",
+    "preparation_errors": 0
+  },
+  "actual_8b_from_fresh_clone": {
+    "same_physical_laptop": true,
+    "source": "c2e74efd6276230a8ca9ffe66508b06dfd5cde1a",
+    "verified_bundle_sha256": "76bfb3230b17a86248b52ca6a9f8d2ffca324aa80216d6b93845ccb12ad86743",
+    "used_existing_base_model_and_interpreter": true,
+    "recording": "video_054907",
+    "frame": 1,
+    "proposal": {
+      "status": "proposed",
+      "destination_point_xy": [
+        587.5,
+        1197.5
+      ],
+      "destination_box_xyxy": [
+        284.3412299736301,
+        1109.881354162116,
+        890.2026428574616,
+        1286.6046706422635
+      ],
+      "clarification_question": null,
+      "anchor_boxes_xyxy": [
+        [
+          340.90081787109375,
+          988.8248291015625,
+          660.7312622070312,
+          1190.044921875
+        ]
+      ]
+    },
+    "selected_by": "model",
+    "confirmation_state": "confirmed",
+    "image_sha256": "033fc370408c4bc99a1ec9fbb845b6618a5f53b680a235baba336b8fe8ddba80",
+    "human_trial": false
+  },
+  "prior_cpu_fresh_clone": {
+    "fresh_original_inputs": 10,
+    "separate_pinned_support_download": true,
+    "speech_kind": "Windows TTS",
+    "recognized": "please drop me beside the yellow bus on the left",
+    "cancelled": "cancelled",
+    "search_results": [
+      {
+        "recording_id": "video_054907",
+        "source": "predicted",
+        "track_id": 5,
+        "start_frame": 150,
+        "end_frame": 150,
+        "rank": 1,
+        "score": 0.6191873414054284
+      },
+      {
+        "recording_id": "video_054907",
+        "source": "predicted",
+        "track_id": null,
+        "start_frame": 150,
+        "end_frame": 150,
+        "rank": 2,
+        "score": 1.0
+      },
+      {
+        "recording_id": "video_054907",
+        "source": "predicted",
+        "track_id": 4778,
+        "start_frame": 150,
+        "end_frame": 150,
+        "rank": 3,
+        "score": 0.5791198755502083
+      }
+    ],
+    "raw_receipt_sha256": "d3fd700ca5a6455105f253dc2280a853c9eb2e35a033f91992ec51e479c10746"
+  },
+  "native_confirmation_receipt_sha256": "a0c8dff935bd2faaddab147bd6c0f08ba5e29152941bfbe88e0cd15bdcbbc77a",
+  "scope": "Preparation was repeated on the tagged release after an earlier checkout of the same grounding model performed the actual local inference and confirmation. No human passenger participated."
+}

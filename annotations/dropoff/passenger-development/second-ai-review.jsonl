@@ -1,0 +1,36 @@
+{"request_id":"passenger-a01","status":"proposed","point_xy":[1725,1210],"comment":"The paved brick turnout between the road line and the planting/fence on the right."}
+{"request_id":"passenger-a02","status":"proposed","point_xy":[946,1270],"comment":"Asphalt immediately to the camera side of the left planted divider below the nearest median tree."}
+{"request_id":"passenger-a03","status":"needs_clarification","point_xy":null,"comment":"Several locations along the bend are possible; here has no visible pointing gesture or destination side."}
+{"request_id":"passenger-a04","status":"proposed","point_xy":[1725,1210],"comment":"The reply selects the paved fenced-side turnout on the right of the same frame."}
+{"request_id":"passenger-a05","status":"insufficient_visual_evidence","point_xy":null,"comment":"The right side shows a construction fence and crane. I cannot identify a red bus shelter on the bend."}
+{"request_id":"passenger-a06","status":"proposed","point_xy":[1005,1230],"comment":"Road surface just below the near-side median curb closest to the red/white chevron post."}
+{"request_id":"passenger-a07","status":"proposed","point_xy":[1745,1127],"comment":"Road-edge paving on the near side of the tall black lamp on the right."}
+{"request_id":"passenger-a08","status":"needs_clarification","point_xy":null,"comment":"There is one large tree to the left, more median trees ahead, and a smaller tree to the right. Ask which one."}
+{"request_id":"passenger-a09","status":"insufficient_visual_evidence","point_xy":null,"comment":"No repeated white zebra crossing stripes are visible across the road."}
+{"request_id":"passenger-a10","status":"proposed","point_xy":[1906,1208],"comment":"Gravel in front of the near base of the white metal construction panel wall."}
+{"request_id":"passenger-a11","status":"proposed","point_xy":[396,1297],"comment":"Exposed asphalt in front of the left-point-of-view roadside curb at the nearest chevron pole."}
+{"request_id":"passenger-a12","status":"needs_clarification","point_xy":null,"comment":"There are several repeated chevron signs and other signs farther down the road. Ask which and where."}
+{"request_id":"passenger-a13","status":"proposed","point_xy":[396,1297],"comment":"Follow-up identifies the nearest chevron on the left; chosen patch just inside its adjacent road edge."}
+{"request_id":"passenger-a14","status":"insufficient_visual_evidence","point_xy":null,"comment":"I see corrugated panels and a distant road sign; no identifiable blue telephone booth stands beside the panels."}
+{"request_id":"passenger-a15","status":"proposed","point_xy":[1770,1166],"comment":"Sandy shoulder immediately beside the bottom of the tall foreground lamp."}
+{"request_id":"passenger-a16","status":"proposed","point_xy":[900,1195],"comment":"The new instruction selects the roadside face of the curb at the chevron to the left of the big tree."}
+{"request_id":"passenger-a17","status":"insufficient_visual_evidence","point_xy":null,"comment":"I can identify a street lamp, utility pole and towers; no identifiable lighthouse."}
+{"request_id":"passenger-b01","status":"proposed","point_xy":[421,1231],"comment":"Exposed asphalt behind the large white SUV at the left, below its tail and left of the central pickup."}
+{"request_id":"passenger-b02","status":"proposed","point_xy":[2010,1333],"comment":"Open asphalt immediately behind the tail of the nearest high metal-sided truck on the right."}
+{"request_id":"passenger-b03","status":"needs_clarification","point_xy":null,"comment":"The white SUV, white Toyota pickup and white metal-sided large truck are all visible."}
+{"request_id":"passenger-b04","status":"proposed","point_xy":[2010,1333],"comment":"The reply selects the large metal-sided truck on the right and inherits behind from the previous request."}
+{"request_id":"passenger-b05","status":"insufficient_visual_evidence","point_xy":null,"comment":"Many road vehicles and an overpass are visible; no identifiable tram or associated platform."}
+{"request_id":"passenger-b06","status":"proposed","point_xy":[1215,1224],"comment":"Open central pavement between the Toyota pickup to the left and the black SUV to the right, closer to the camera than both."}
+{"request_id":"passenger-b07","status":"proposed","point_xy":[902,1220],"comment":"Road immediately behind the rear of the white Toyota pickup with metal cage."}
+{"request_id":"passenger-b08","status":"needs_clarification","point_xy":null,"comment":"Both the Toyota pickup ahead and the tall-sided large truck at the right fit truck."}
+{"request_id":"passenger-b09","status":"proposed","point_xy":[902,1220],"comment":"In dialogue the passenger selects the pickup ahead; behind from the original request still applies."}
+{"request_id":"passenger-b10","status":"insufficient_visual_evidence","point_xy":null,"comment":"There are road lights and an overpass but I cannot identify a railway signal on this frame."}
+{"request_id":"passenger-b11","status":"proposed","point_xy":[1480,1152],"comment":"Asphalt behind the black SUV in the lane to the right of the yellow vehicle."}
+{"request_id":"passenger-b12","status":"proposed","point_xy":[825,1260],"comment":"Road immediately behind the nearer white Toyota pickup tailgate under the overpass."}
+{"request_id":"passenger-b13","status":"proposed","point_xy":[825,1260],"comment":"The new turn rejects the black SUV and selects behind the Toyota pickup."}
+{"request_id":"passenger-b14","status":"needs_clarification","point_xy":null,"comment":"Several vehicles are under or near the bridge including the white sedan, yellow car, black SUV and pickup."}
+{"request_id":"passenger-b15","status":"insufficient_visual_evidence","point_xy":null,"comment":"No identifiable green school bus under the flyover; there is a distant blue vehicle/van."}
+{"request_id":"passenger-b16","status":"proposed","point_xy":[2050,1146],"comment":"Shoulder on the road side of the right guardrail near the yellow work boards, just nearer the camera. Nearby bright boards make the exact longitudinal spot approximate."}
+{"request_id":"passenger-b17","status":"proposed","point_xy":[968,1163],"comment":"The prominent white sedan just to the right of the pickup has exposed asphalt directly behind it."}
+{"request_id":"passenger-b18","status":"needs_clarification","point_xy":null,"comment":"There are orange and fluorescent roadside signs plus blue direction boards on the right. Ask which sign."}
+{"request_id":"passenger-b19","status":"insufficient_visual_evidence","point_xy":null,"comment":"There is a road shoulder, work signage and an overpass; no visible fuel pumps."}

@@ -1,0 +1,266 @@
+{
+  "schema_version": "trackrag.qwen-training-smoke-validation.v1",
+  "scope": "Actual pinned Qwen weights, real LoRA optimizer updates, synthetic examples only",
+  "checkpoint": "runs/task4-qwen-training-smoke-01",
+  "checkpoint_manifest_sha256": "42f73b15a1116f027adc1f25474fe85d8e25beb457f599863c3da52a3a717b28",
+  "dataset_kind": "synthetic_smoke",
+  "dataset_sha256": "cc440306f611e93325c3223ba8a5da38d2efc6a8e7f116cbe4eedc2c21dca730",
+  "base_config": {
+    "model_id": "Qwen/Qwen3-Reranker-0.6B",
+    "revision": "e61197ed45024b0ed8a2d74b80b4d909f1255473",
+    "cache_dir": "models/huggingface",
+    "device": "cpu",
+    "batch_size": 2,
+    "max_tokens": 4096,
+    "cpu_threads": 4,
+    "local_files_only": true
+  },
+  "training_config": {
+    "max_steps": 2,
+    "batch_size": 1,
+    "learning_rate": 0.0001,
+    "max_tokens": 512,
+    "lora_rank": 4,
+    "lora_alpha": 8,
+    "last_layers": 1,
+    "seed": 42,
+    "max_grad_norm": 1.0
+  },
+  "training_dtype": "float32",
+  "versions": {
+    "torch": "2.15.0",
+    "transformers": "4.57.6",
+    "peft": "0.18.1",
+    "accelerate": "1.12.0"
+  },
+  "optimizer_steps": 2,
+  "lora": {
+    "rank": 4,
+    "alpha": 8,
+    "target_modules": [
+      "q_proj",
+      "v_proj"
+    ],
+    "layers": [
+      27
+    ]
+  },
+  "trainable_parameters": 20480,
+  "base_parameters_frozen": true,
+  "adapter_before_sha256": "8bbd61313ebf3f2817cdc15ee56e32e86446b15eb4b1588bd074b306e257d9b9",
+  "adapter_after_sha256": "4610a3b91bfef62ab647eae242e8d747227c13c9bd41b9f2791a2217ae2e394e",
+  "changed_tensors": {
+    "base_model.model.model.layers.27.self_attn.q_proj.lora_A.default.weight": 7.440987974405289e-05,
+    "base_model.model.model.layers.27.self_attn.q_proj.lora_B.default.weight": 0.00020012397726532072,
+    "base_model.model.model.layers.27.self_attn.v_proj.lora_A.default.weight": 7.441313937306404e-05,
+    "base_model.model.model.layers.27.self_attn.v_proj.lora_B.default.weight": 0.00020012944878544658
+  },
+  "probe": {
+    "purpose": "Save/reload consistency only, not accuracy",
+    "sample_ids": [
+      "316b551d0d42e58b366012e8a87351eaa8df0f419e4b8e7b337d9f6e1c91ccf3",
+      "7d60276937c392963873c30263428d33d7c29f4fec771983e96c42cbefe27b0d"
+    ],
+    "before_scores": [
+      0.37074053287506104,
+      0.9210978150367737
+    ],
+    "after_scores": [
+      0.3688642680644989,
+      0.9205777049064636
+    ],
+    "reloaded_scores": [
+      0.3688642680644989,
+      0.9205777049064636
+    ],
+    "reload_max_absolute_difference": 0.0,
+    "reload_tolerance": 1e-06,
+    "fresh_base_reload_verified": true
+  },
+  "training_log": [
+    {
+      "gradient_norm_before_clipping": 0.13081185519695282,
+      "loss": 0.10886018723249435,
+      "sample_ids": [
+        "86bbf7957a66d61916e38c0476c84f127fdbfebabab567fe4ca556470f48f01f"
+      ],
+      "step": 1
+    },
+    {
+      "gradient_norm_before_clipping": 0.06891842931509018,
+      "loss": 0.04486726224422455,
+      "sample_ids": [
+        "04ae130e2f8d46ec4daa17857f47dc73c8b7782f62f9b1410273b7228bdab6a1"
+      ],
+      "step": 2
+    }
+  ],
+  "elapsed_seconds_training_and_reload": 13.842357499990612,
+  "artifact_bytes": 82472,
+  "checkpoint_files_sha256": {
+    "adapter/adapter_model.safetensors": "3e7854c7f125602e3707fc35d4a8f95e0d81c4401c2724abf5064aaebea56a66",
+    "adapter/adapter_config.json": "776a37d84bb22e1c6bfc4b7667f74511ea7da011fc9defb42f2e082835bcf4ad",
+    "dataset.json": "11e6935bada6c865b41bfde6d1d61728e04766b7becb1316ba0ab6cff5779790",
+    "training-log.jsonl": "b8519239adabbfd76154e9ad82efaabff7395e870d871531ca06cc35cf5cb077"
+  },
+  "source_files_sha256_at_training": {
+    "retrieval_qwen.py": "b6909c12a5173f98b69e6f38a4bf2386f2c0250a9a66ad158a836effaecd5c64",
+    "retrieval_training.py": "2cfaaed9d67e6581fa4604688d15d2c26764cececbae7ccae421c5b271f8e680",
+    "retrieval_training_data.py": "1eddf7369abea896dde17951f3b5e5e5710ed7018822c91f304528eaa889c269",
+    "retrieval_qwen_trained.py": "613bc4fdcde04ff9d5d807008f46e45c76320542ef57e044d3cb25144275bf0e"
+  },
+  "rank_evidence_cases": [
+    {
+      "question": {
+        "question_id": "synthetic-train",
+        "recording_id": "synthetic-train",
+        "query_frame": 1,
+        "question": "Which bus is visible?"
+      },
+      "intervals": [
+        {
+          "recording_id": "synthetic-train",
+          "source": "annotated",
+          "track_id": 7,
+          "start_frame": 1,
+          "end_frame": 1,
+          "rank": 1,
+          "score": 0.9560992121696472
+        },
+        {
+          "recording_id": "synthetic-train",
+          "source": "annotated",
+          "track_id": null,
+          "start_frame": 1,
+          "end_frame": 1,
+          "rank": 2,
+          "score": 0.14400067925453186
+        },
+        {
+          "recording_id": "synthetic-train",
+          "source": "annotated",
+          "track_id": 42,
+          "start_frame": 1,
+          "end_frame": 1,
+          "rank": 3,
+          "score": 0.1023527979850769
+        }
+      ],
+      "model_inputs_sha256": "db51f39679a9740f11a980bb07c927b5e7512442a890d03abbd1ce5987327377",
+      "scorer": {
+        "backend": "TrainedQwenTextScorer",
+        "input_modality": "text_metadata_only",
+        "training_state": "synthetic_smoke_adapter",
+        "config": {
+          "model_id": "Qwen/Qwen3-Reranker-0.6B",
+          "revision": "e61197ed45024b0ed8a2d74b80b4d909f1255473",
+          "cache_dir": "models/huggingface",
+          "device": "cpu",
+          "batch_size": 2,
+          "max_tokens": 4096,
+          "cpu_threads": 4,
+          "local_files_only": true
+        },
+        "loaded_model_revision": "e61197ed45024b0ed8a2d74b80b4d909f1255473",
+        "torch_version": "2.15.0",
+        "transformers_version": "4.57.6",
+        "token_counts": [
+          320,
+          321,
+          217
+        ],
+        "training_dtype": "float32",
+        "dataset_kind": "synthetic_smoke",
+        "dataset_sha256": "cc440306f611e93325c3223ba8a5da38d2efc6a8e7f116cbe4eedc2c21dca730",
+        "adapter_after_sha256": "4610a3b91bfef62ab647eae242e8d747227c13c9bd41b9f2791a2217ae2e394e",
+        "checkpoint_manifest_sha256": "42f73b15a1116f027adc1f25474fe85d8e25beb457f599863c3da52a3a717b28"
+      },
+      "candidate_count": 3
+    },
+    {
+      "question": {
+        "question_id": "synthetic-dev",
+        "recording_id": "synthetic-dev",
+        "query_frame": 1,
+        "question": "Which car is visible?"
+      },
+      "intervals": [
+        {
+          "recording_id": "synthetic-dev",
+          "source": "annotated",
+          "track_id": 42,
+          "start_frame": 1,
+          "end_frame": 1,
+          "rank": 1,
+          "score": 0.920576810836792
+        },
+        {
+          "recording_id": "synthetic-dev",
+          "source": "annotated",
+          "track_id": 7,
+          "start_frame": 1,
+          "end_frame": 1,
+          "rank": 2,
+          "score": 0.368866503238678
+        },
+        {
+          "recording_id": "synthetic-dev",
+          "source": "annotated",
+          "track_id": null,
+          "start_frame": 1,
+          "end_frame": 1,
+          "rank": 3,
+          "score": 0.16512376070022583
+        }
+      ],
+      "model_inputs_sha256": "8876d5a3540fa86153d865f5674cd018191c8f41293a29ed285c43545b809c99",
+      "scorer": {
+        "backend": "TrainedQwenTextScorer",
+        "input_modality": "text_metadata_only",
+        "training_state": "synthetic_smoke_adapter",
+        "config": {
+          "model_id": "Qwen/Qwen3-Reranker-0.6B",
+          "revision": "e61197ed45024b0ed8a2d74b80b4d909f1255473",
+          "cache_dir": "models/huggingface",
+          "device": "cpu",
+          "batch_size": 2,
+          "max_tokens": 4096,
+          "cpu_threads": 4,
+          "local_files_only": true
+        },
+        "loaded_model_revision": "e61197ed45024b0ed8a2d74b80b4d909f1255473",
+        "torch_version": "2.15.0",
+        "transformers_version": "4.57.6",
+        "token_counts": [
+          320,
+          321,
+          217
+        ],
+        "training_dtype": "float32",
+        "dataset_kind": "synthetic_smoke",
+        "dataset_sha256": "cc440306f611e93325c3223ba8a5da38d2efc6a8e7f116cbe4eedc2c21dca730",
+        "adapter_after_sha256": "4610a3b91bfef62ab647eae242e8d747227c13c9bd41b9f2791a2217ae2e394e",
+        "checkpoint_manifest_sha256": "42f73b15a1116f027adc1f25474fe85d8e25beb457f599863c3da52a3a717b28"
+      },
+      "candidate_count": 3
+    }
+  ],
+  "changed_future_observation_control": "exact_documents_scores_intervals_match",
+  "software_checks": {
+    "full_suite": "386 tests and 397 subtests passed",
+    "focused_training_and_data_tests": 13,
+    "test_models": "Tiny randomly initialized Qwen models, distinct from the actual downloaded-weight run",
+    "trained_adapter_signature_ready": true,
+    "training_reviewer_evaluation_help": "passed"
+  },
+  "accuracy_metrics": null,
+  "limitations": [
+    "Only two synthetic train examples and two separate synthetic dev examples; no real relevance labels.",
+    "Actual model parameters changed, but this is not a substantive real-data fine-tuning or quality result.",
+    "Save/reload probe scores and two different-example losses are not an accuracy benchmark or learning curve.",
+    "Only the final attention layer's q_proj/v_proj LoRA tensors were trained; base weights stayed frozen.",
+    "CPU float32 only was exercised; CUDA training was not tested.",
+    "No image pixels, real footage, detector predictions, human judgments or answerer were used.",
+    "Synthetic checkpoints require explicit test opt-in and must not be presented as reviewed production models."
+  ]
+}

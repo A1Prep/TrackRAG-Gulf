@@ -111,7 +111,7 @@ def test_full_software_fixture_through_actual_local_continuation_cpu_preflight(e
     # encoding, status/recording/parent separation and software-fixture counters are exercised.
     parent = {"case_artifacts": [], "train_scene_groups": [], "train_case_ids": [],
               "development_scene_groups": [], "development_case_ids": []}
-    monkeypatch.setattr(adapt, "parent_context", lambda *_: (None, parent, {"kind": "software_fixture"}))
+    monkeypatch.setattr(adapt, "parent_context", lambda *_: (adapt.GroundingConfig(), parent, {"kind": "software_fixture"}))
     result = adapt.validate(SimpleNamespace(parent_run=None, config=None, train=train, development=dev))
     assert result["valid"] and result["software_fixture_cases"] == 6 and result["development_has_all_statuses"]
     assert not result["gpu_fit_verified"] and not result["local_quality_verified"]

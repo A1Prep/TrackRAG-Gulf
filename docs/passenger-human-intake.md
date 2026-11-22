@@ -1,5 +1,22 @@
 # Passenger review and supervised-data handoff
 
+## Arjun's corrected Task 2 handoff
+
+The corrected package records two reviewer confirmations on 50 cases. Four belong to training, two to development and 44 to the reserved evaluation recordings. Another six reserved cases await reconfirmation. All six admitted training/development examples say “Stop beside the car directly ahead.” Their approved response is “Which visible car ahead should I stop beside?” The photographs span six recordings. Each signed model input contains the image and zero detector observations. Reviewers supplied no stopping point or area on these six cases. [Corrected Task 2 package](https://github.com/A1Prep/TrackRAG-Gulf/tree/2d96dcb6afdffb46c5d94d299768fe6a92acc094/Task2_56_Case_Human_Review_Corrected) · [Independent source audit](../experiments/dropoff/passenger-human-six-independent-audit-20261122.json)
+
+To reproduce the clarification experiment, first fetch the pinned commit, then extract the six signed nonfinal rows and their original photographs. These commands run from the repository root with the training environment active and a verified public parent handoff available.
+
+```powershell
+git fetch origin Task-2-arjun-part-2
+$data = "runs/passenger-task2-reviewed/data"
+$parent = "runs/dropoff-handoff-v2-local-20261121"
+python -m tools.dropoff_import_task2_review --out $data
+python -m tools.dropoff_adapt_local validate --parent-run $parent --config "$parent/inference_config.json" --train "$data/train.jsonl" --development "$data/development.jsonl" --coverage clarification-only
+python -m tools.dropoff_adapt_local train --parent-run $parent --config "$parent/inference_config.json" --train "$data/train.jsonl" --development "$data/development.jsonl" --coverage clarification-only --tiled-attention --epochs 2 --accumulation 2 --learning-rate 0.00005 --seed 42 --out runs/passenger-task2-reviewed/child
+```
+
+The separate blank forms below cover 36 additional, more varied examples. Two reviewers can use those to add language variation and local passenger-selected stopping areas.
+
 ## For the two reviewers
 
 1. Open a blank HTML for each daytime recording in your desktop browser. The training form has 17 cases from `video_054604`. The development form has 19 from `video_054907`. The working laptop has both under `runs/passenger-human-intake-20261122/blank-*.html`.

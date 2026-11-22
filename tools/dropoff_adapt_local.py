@@ -35,7 +35,7 @@ from trackrag.dropoff.streamed import STREAMED_MODEL_ID, STREAMED_REVISION, Stre
 
 ENCODING = 'reviewed_interpretation_status_first_float_v1'
 FIELD_ORDER = ('status', 'destination_point_xy', 'destination_box_xyxy', 'clarification_question')
-PROTECTED_RECORDING = 'video_122233'
+PROTECTED_RECORDINGS = {'video_122233', 'video_125233', 'video_155425', 'video_160325', 'video_204647'}
 STAGE = 'reviewed_local_interpretation_continuation'
 SOURCE_FILES = PUBLIC_SOURCE_FILES | {'tools/dropoff_adapt_local.py', 'tools/dropoff_bundle.py',
     'tools/dropoff_package_local.py', 'tools/dropoff_compare_local.py'}
@@ -145,9 +145,9 @@ def prepare(args):
                     'RegSeg belongs to the separate public stage, not this local continuation route')
             protected = (frame['recording_id'], case['scene_group'].split(':')[-1],
                          source.get('recording_id'), source.get('original_recording_id'))
-            require(PROTECTED_RECORDING not in protected
-                and PROTECTED_RECORDING not in Path(frame['image_path']).parts
-                and not Path(frame['image_path']).stem.startswith(PROTECTED_RECORDING+'_'),
+            image = Path(frame['image_path'])
+            require(PROTECTED_RECORDINGS.isdisjoint(protected) and PROTECTED_RECORDINGS.isdisjoint(image.parts)
+                and not any(image.stem.startswith(rec + '_') for rec in PROTECTED_RECORDINGS),
                 'Protected final recording must not enter continuation train/development')
             groups, images = forbidden[partition]
             require(case['scene_group'] not in groups and source['image_sha256'] not in images,
@@ -160,8 +160,17 @@ def prepare(args):
                 'original_supervision_sha256': supervision_sha256(case['target'], case['supervised_fields'], frame),
                 'input_sha256': inference_input_sha256(case['request'], source['image_sha256']),
                 'transformed_target_sha256': digest(text.encode())}
-    require(all(counts['train'].values()), 'Reviewed training labels must cover all three true statuses')
+    coverage = getattr(args, 'coverage', 'all-statuses')
+    if coverage == 'clarification-only':
+        require(all(counts[partition]['needs_clarification'] == len(cases)
+                    for partition, cases in (('train', train), ('development', dev))),
+                'The clarification-only experiment requires genuine clarification labels on both splits')
+        config = replace(config, observation_format='compact_rows_v1')
+    else:
+        require(coverage == 'all-statuses' and all(counts['train'].values()),
+                'Reviewed training labels must cover all three true statuses')
     receipt = {'schema_version': 1, 'kind': 'reviewed_interpretation_teacher_encoding', 'encoding': ENCODING,
+        'coverage': coverage, 'observation_format': config.observation_format,
         'field_order': list(FIELD_ORDER), 'case_count': len(records), 'cases': records,
         'source_bindings': {key: manifest[key] for key in ('train_sha256', 'development_sha256')},
         'mask_snapping': False, 'labels_fabricated': False, 'original_cases_modified': False}
@@ -171,14 +180,15 @@ def prepare(args):
             and supervision_sha256(case['target'], case['supervised_fields'], frame) == expected['original_supervision_sha256']
             and inference_input_sha256(case['request'], case['source']['image_sha256']) == expected['input_sha256'],
             'Reviewed case changed after continuation preflight')
-        return build_messages(case['request'], task='interpret')+[{'role': 'assistant', 'content': texts[identity]}]
+        return build_messages(case['request'], task='interpret', observation_format=config.observation_format) + [
+            {'role': 'assistant', 'content': texts[identity]}]
     return config, train, dev, manifest, binding, receipt, counts, builder
 
 
 def validate(args):
     config, train, dev, manifest, binding, receipt, counts, _ = prepare(args)
     return {'schema_version': 1, 'kind': 'local_continuation_cpu_validation', 'valid': True,
-        'train_cases': len(train), 'development_cases': len(dev), 'status_counts': counts,
+        'train_cases': len(train), 'development_cases': len(dev), 'status_counts': counts, 'coverage': receipt['coverage'],
         'development_has_all_statuses': all(counts['development'].values()),
         'parent_binding_sha256': digest(canonical(binding)), 'dataset_manifest_sha256': digest(canonical(manifest)),
         'target_encoding': ENCODING, 'target_encoding_sha256': digest(canonical(receipt)),
@@ -231,7 +241,10 @@ def train(args, *, runtime_factory=None):
         write_json(out/'parent-binding.json', parent); write_json(out/'dataset_manifest.json', dataset)
         write_json(out/'target-encoding.json', encoding)
         source_root = Path(__file__).resolve().parents[1]; sources = {}
-        for name in sorted(SOURCE_FILES):
+        tiled = getattr(args, 'tiled_attention', False)
+        sources_used = SOURCE_FILES | ({'tools/dropoff_ai_continuation.py', 'trackrag/dropoff/training_attention.py'}
+                                       if tiled else set())
+        for name in sorted(sources_used):
             _, content = _regular_bytes(source_root/name, source_root, max_bytes=8*1024**2)
             destination = out/'source'/name; destination.parent.mkdir(parents=True, exist_ok=True)
             destination.write_bytes(content); sources[name] = digest(content)
@@ -242,12 +255,14 @@ def train(args, *, runtime_factory=None):
         settings = {'schema_version': 1, 'stage': STAGE, 'model_configuration': asdict(config),
             'epochs': args.epochs, 'learning_rate': args.learning_rate, 'gradient_accumulation': args.accumulation,
             'seed': args.seed, 'lora_rank': 8, 'lora_alpha': 16, 'lora_dropout': 0.0, 'status_counts': counts,
+            'coverage': encoding['coverage'], 'checkpointed_tiled_attention': tiled,
             'optimizer_initialization': 'fresh_AdamW_continuing_parent_LoRA_weights_not_optimizer_resume',
             'target_encoding': ENCODING, 'source_sha256': sources, 'injected_runtime': injected,
             'parent_binding_sha256': sha256_file(out/'parent-binding.json'),
             'target_encoding_sha256': sha256_file(out/'target-encoding.json')}
         write_json(out/'training_settings.json', settings)
-        probe_case = next(case for case in sorted(cases, key=lambda row: row['case_id']) if case['target']['status'] == 'proposed')
+        ordered = sorted(cases, key=lambda row: row['case_id'])
+        probe_case = next((case for case in ordered if case['target']['status'] == 'proposed'), ordered[0])
         probe_dir = out/'reload-input'; probe_dir.mkdir()
         probe = prepare_reload_probe(probe_case, probe_dir)
         (probe_dir/'requests.jsonl').write_text(json.dumps(probe['request'])+'\n', encoding='utf-8')
@@ -261,6 +276,12 @@ def train(args, *, runtime_factory=None):
         write_json(out/'initialization-hashes.json', {'actual_parameter_hashes': initial,
             'matches_verified_parent': True, 'injected_runtime': injected})
         write_json(out/'runtime-provenance.json', runtime.provenance)
+        if tiled:
+            from tools.dropoff_ai_continuation import checkpoint_resident_suffix
+            from trackrag.dropoff.training_attention import install_qwen_training_attention
+            layers = runtime.model.get_base_model().model.language_model.layers
+            checkpoint_resident_suffix(layers[-config.suffix_layers:])
+            install_qwen_training_attention(layers)
         collator = GroundingCollator(runtime.processor, config.max_input_tokens, message_builder=builder)
         baseline = teacher_evaluate(runtime, collator, dev, target_encoding=ENCODING)
         write_json(out/'parent-development-nll.json', baseline)
@@ -308,7 +329,7 @@ def train(args, *, runtime_factory=None):
             **progress, 'counter_scope': 'child_continuation_only', 'training_examples_unique': len(cases),
             'parent_development_nll': baseline['token_weighted_nll'], 'selected_checkpoint': best,
             'selected_adapter_parameter_hashes': selected['adapter_parameter_hashes'], 'selected_adapter_files': selected['files'],
-            'status_counts': counts, 'target_encoding': ENCODING, 'injected_runtime': injected,
+            'status_counts': counts, 'coverage': encoding['coverage'], 'target_encoding': ENCODING, 'injected_runtime': injected,
             'elapsed_s': time.monotonic()-started, 'packages': package_versions(),
             'actual_training_completed': not injected, 'fresh_reload_verified': False,
             'local_quality_verified': False, 'publication_ready': False, 'task5_complete': False}
@@ -339,10 +360,14 @@ def main(argv=None):
         command.add_argument('--parent-run', type=Path, required=True, help='Completed verified staged public handoff')
         command.add_argument('--config', type=Path, required=True, help='Streamed config selecting that parent adapter')
         command.add_argument('--train', type=Path, required=True); command.add_argument('--development', type=Path, required=True)
+        command.add_argument('--coverage', choices=('all-statuses', 'clarification-only'), default='all-statuses',
+                             help='Scope of the reviewed supervision for this experiment')
         if name == 'train':
             command.add_argument('--out', type=Path, required=True); command.add_argument('--epochs', type=int, default=2)
             command.add_argument('--learning-rate', type=float, default=1e-4); command.add_argument('--accumulation', type=int, default=2)
             command.add_argument('--seed', type=int, default=42)
+            command.add_argument('--tiled-attention', action='store_true',
+                                 help='Checkpoint adapted layers and evaluate attention in smaller tiles on a low-memory GPU')
     args = parser.parse_args(argv)
     if args.command == 'train':
         if not 1 <= args.epochs <= 5 or not 1 <= args.accumulation <= 8 or not math.isfinite(args.learning_rate) or not 0 < args.learning_rate <= .001 or args.seed < 0:

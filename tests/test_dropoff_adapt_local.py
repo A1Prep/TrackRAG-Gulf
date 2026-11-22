@@ -180,6 +180,25 @@ def test_validate_is_cpu_only_and_reports_true_status_coverage(local_files):
     assert not args.out.exists()
 
 
+def test_specialist_scope_keeps_real_clarification_targets_and_saves_reload_probe(local_files, monkeypatch):
+    args, rows, _ = local_files
+    args.coverage = 'clarification-only'
+    with pytest.raises(ValueError, match='requires genuine clarification labels on both splits'):
+        adapt.validate(args)
+    training, development = rows[1], rows[3]
+    development['target'] = deepcopy(training['target'])
+    write_cases(args.train, [training])
+    write_cases(args.development, [review(development)])
+    result = adapt.validate(args)
+    assert result['coverage'] == 'clarification-only'
+    assert result['status_counts']['train']['proposed'] == 0
+    factory, _, _ = software_training(monkeypatch)
+    trained = adapt.train(args, runtime_factory=factory)
+    assert trained['coverage'] == 'clarification-only' and trained['examples_consumed'] == 2
+    probe = json.loads((args.out/'reload-input/reload_probe.json').read_bytes())
+    assert probe['case_id'] == training['case_id']
+
+
 def test_full_teacher_codec_is_status_first_without_changing_original_cases(local_files):
     args, _, _ = local_files
     _, train, dev, _, _, encoding, _, builder = adapt.prepare(args)
@@ -223,10 +242,11 @@ def test_rejects_partial_public_or_incomplete_status_training(local_files, bad):
 
 
 @pytest.mark.parametrize('partition', ['train', 'development'])
-def test_rejects_protected_final_recording(local_files, partition):
+@pytest.mark.parametrize('recording', sorted(adapt.PROTECTED_RECORDINGS))
+def test_rejects_protected_final_recording(local_files, partition, recording):
     args, rows, _ = local_files
     row = rows[0] if partition == 'train' else rows[3]
-    row['request']['scene']['frame']['recording_id'] = adapt.PROTECTED_RECORDING; review(row)
+    row['request']['scene']['frame']['recording_id'] = recording; review(row)
     write_cases(args.train if partition == 'train' else args.development, rows[:3] if partition == 'train' else rows[3:])
     with pytest.raises(ValueError, match='Protected final recording'): adapt.validate(args)
 

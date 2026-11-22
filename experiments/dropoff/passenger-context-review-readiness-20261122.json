@@ -1,0 +1,84 @@
+{
+  "actual_browser": {
+    "all_instruction_dialogue_and_candidate_fields_matched": true,
+    "blank_form_exported": true,
+    "desktop_and_mobile_checked": true,
+    "external_browser_requests": 0,
+    "human_decisions_made": 0,
+    "javascript_errors": 0,
+    "loaded_original_pictures": 44,
+    "overlay_toggles_checked": true,
+    "software_fixture": false,
+    "verified_rendered_current_rectangles": 494
+  },
+  "all_private_archive_members_verified": 53,
+  "browser_summary_sha256": "a241080064a503331bdafc7c6bde6b38c39efe722ffb22add202c9c99471c3d2",
+  "implementation_files_sha256_lf": {
+    "docs/passenger-context-review.md": "2d854080eaaa9cb767ed04371420f757ebdcf7aba89bf0d1fff59c26a2d44986",
+    "tests/test_passenger_context_reviews.py": "e7fdca830752cf91a6975f28624a57b600c73a4ccd8abde1bea5425a858905d1",
+    "tools/passenger_context_browser.cjs": "ccfc9a5973ead9b36a174325ad834947d31a74ae31275369e88c43a86b06cc7d",
+    "tools/passenger_context_resolve.py": "10817c26c35b8114d6142552956684f89ed8e4a45dd30c5214d025f5bfa2c0b0",
+    "tools/passenger_context_reviews.html": "a42a65a71434da80ab19572bb558b6ee40b7e005bf6202daeddff7f5bb117b8b",
+    "tools/passenger_context_reviews.py": "b25bd7df098b2c99709fe3b4d26e9be66c1afdf879cc00df899e26020abd6051"
+  },
+  "installation_check": {
+    "additional_subtests_rechecked": 7,
+    "all_original_photographs_byte_identical": 44,
+    "all_unchanged_signed_inputs_and_changed_input_bindings_match": true,
+    "dedicated_tests_rechecked": 14,
+    "prior_packet_members_changed_only": [
+      "READ-ME.txt",
+      "packet-files.json"
+    ],
+    "source": "Independently downloaded release restored to a different local directory."
+  },
+  "limits": "No new human decisions, signed detector-context rows, participant replies, intentions or pixel-level masks were collected. None of the 44 pending rows is eligible as new reference evidence.",
+  "packet": {
+    "blank_forms": 2,
+    "blank_resolver_outcome": {
+      "approvals_applied_to_portable_jsonl": true,
+      "approved_cases_written": 0,
+      "current_cases": 44,
+      "pending_cases": 44,
+      "rejected_cases": 0,
+      "reviewed_cases": 0,
+      "status": "reconfirmation_required",
+      "unavailable_cases": 0,
+      "unresolved_disagreements": 0
+    },
+    "candidate_bank_sha256": "cf834aac6bbef36df0cefa8e9db18fc827d3fc83814f6d92dee65c534bdff0e1",
+    "changed_input_file_sha256": "e6006e632dd75c7d08866f860ee6fa4c6d806f519c1569aba683cb58aa96a0ef",
+    "distinct_new_input_bindings": 44,
+    "masks_supplied": 0,
+    "new_human_approvals": 0,
+    "old_observations": 0,
+    "original_input_file_sha256": "fe8c8e310bc1c44eb8e768eb05b0f591c224c9baab85c838050d8954d777ad2c",
+    "original_photo_bytes": 48333742,
+    "original_task2_resolver_sha256": "3b903df45662d4f8442ab59396b28d0d6c6021a94442ee2db449c6128dda30cc",
+    "packet_inventory_sha256": "050f08503e51ce4864fcb2c9111985beaee80d960c7d939c02988e3fffa8aa55",
+    "previously_unresolved_original_cases_excluded": 6,
+    "private_zip_bytes": 48434552,
+    "private_zip_sha256": "4d430d69494ce48392824828a6a70f4bde70f5e1a27b69394bafbaef0b9d34e7",
+    "purpose": "Offline context re-review readiness. Zero new human decisions.",
+    "recordings": 5,
+    "release_bindings_sha256": "bf4aaf9132506e3eb1ff000e7b55db6c261be60d693b464e441a2c0387669b6b",
+    "saved_current_frame_detections": 494,
+    "schema_version": 1,
+    "signed_source_cases_sha256": "37f21c01f44f1a35fffc8092285d997713965dbad22086ac3a3de2fcb0557373",
+    "task2_revision": "2d96dcb6afdffb46c5d94d299768fe6a92acc094",
+    "verified_original_photographs": 44
+  },
+  "private_packet_identity_checks": {
+    "distinct_normalized_identities_between_returns": true,
+    "extraction_fixture": "A signed software-only return from each of two fixture identities produced one mutual accept, one mutual correction, and one disagreement through the unmodified pinned resolver after extracting an isolated ZIP.",
+    "normalization": "Unicode NFKC, whitespace collapsing and case folding for comparisons. Original signatures are retained.",
+    "one_review_identity_per_return": true
+  },
+  "real_browser_blank_csv_matches_both_templates": true,
+  "tests": {
+    "additional_subtests_passed": 7,
+    "dedicated_tests": 14,
+    "focused_pytest_passed": 35,
+    "software_fixture_browser_exercised": true
+  }
+}

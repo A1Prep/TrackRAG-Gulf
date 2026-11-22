@@ -1,0 +1,37 @@
+{
+  "adapter_manifest_sha256": "97e0ad27de46582a059775e4861f42aa0a1f803be2f640bf64b00a22f92f7b06",
+  "adapter_weights_sha256": "6c3d54a6baadf5a269f8cdb81ed565469aa0d75bc006698c8d355f79b3e774ca",
+  "config_sha256": {
+    "pretrained": "90047539bfef8e92112566a035bc214f24ce80c7038b69dd2f0b781df607acf6",
+    "trained": "3d827c42eab801557b69e41134bdab8a2da56892b9fa22b0dbe58aef2d35f022"
+  },
+  "eligibility_sha256": "b101317179063159e8c01f9fd10ba848422fe3473b7ac0c0d3d2f42357951dcd",
+  "kind": "direct_native_reviewed_gulf_execution",
+  "ordering": [
+    "pretrained",
+    "trained"
+  ],
+  "original_photo_bindings_sha256": "bf4aaf9132506e3eb1ff000e7b55db6c261be60d693b464e441a2c0387669b6b",
+  "registered_models_sha256": "a8483a2cee1d17b4b919c7c3e39f96f651dfe4f9178e524194a7518504543c67",
+  "registered_utc": "2026-11-22T08:58:33.665887+00:00",
+  "requested_each": 44,
+  "requests_sha256": "fe8c8e310bc1c44eb8e768eb05b0f591c224c9baab85c838050d8954d777ad2c",
+  "source_hash_convention": "Exact bytes of this executing checkout, including line endings.",
+  "source_sha256": {
+    "evaluation/grounding_inputs.py": "66f513bb79327de1363f22257fca15e1b07443d53ce2539f82b6385c5ae1c02c",
+    "tools/dropoff_native_episodes.py": "83b8c176d4f504f2cabae76428db7001fb286fec04e57fc6badb6026458193a8",
+    "tools/dropoff_predict.py": "834317d1f2d410e7b23b41add4a8dee0e40ed212bea51284f14786123307be09",
+    "tools/passenger_reviewed_baseline.py": "318396668ec6e47dc13721a0513a176726490b99b03ddce5ecbb011c7a4d6f5f",
+    "tools/passenger_reviewed_runs.py": "df0a686bdc12a414edacf59b3e4010609e870a9294c27e7ea1b89dd74578992e",
+    "trackrag/dropoff/contracts.py": "0522548e22ceb1ac156d71762e56eabab7f88fea72981543e4ad1fe64ed5bcef",
+    "trackrag/dropoff/data.py": "3ecc53ba51fb266a2db3d87794f53ec28359c5f450b3ccec24f971f34925cbe8",
+    "trackrag/dropoff/formatting.py": "986d5c61d2a50b4cc2d8cd558f568a011c3aebf617af18f5f4bf120d86b5aa03",
+    "trackrag/dropoff/inputs.py": "ea06959b2922150b879a9680a803c54700cfcaa88531a2f981cc73a653a02135",
+    "trackrag/dropoff/model.py": "745d98f856381dddc79ff87e959998bb1255377d450c18235fb8525212f1b4df",
+    "trackrag/dropoff/projected_pair.py": "92d468653bc49079c05dbaa359d27ac220b30e7b4281fb3c3689708b77817af8",
+    "trackrag/dropoff/streamed.py": "170084a8c0fe30e7dd77b885b432e79c18613dd95bb5f0c43214eef213c0c6be",
+    "trackrag/dropoff/streamed_edges.py": "f557d1af864e3f7e74614a18a17d6f909c2b155c4f641d748ba2b9307c2d4a63",
+    "trackrag/dropoff/streamed_weights.py": "321f5ef3b9269f6a2546a102b234fa1c4b77842caaee42c3bb43d514a3a4c5cb",
+    "trackrag/dropoff/structured.py": "d4ba7d76e7b7cdf623d6c3bf225f7e756f1c52bd757bd6aeabc436aa6d206277"
+  }
+}

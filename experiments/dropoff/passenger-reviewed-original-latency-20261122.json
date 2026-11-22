@@ -1,0 +1,31 @@
+{
+  "device": "NVIDIA GeForce RTX 3050 Laptop GPU, 4 GB",
+  "kind": "descriptive_native_8b_laptop_timings",
+  "measurement": "Median and mean over all 44 native call provenance elapsed_s values per model. The full batch wall clock includes startup, verification and disk writes. It excludes the time when the other model controlled the laptop. No visual answer was sent to a hosted API.",
+  "measurement_conditions": {
+    "method": "The two frozen conditions ran sequentially on the same Windows laptop with a 300-second generation budget. During the pretrained batch a lighter administrative watcher took over, freeing about 505 MiB of host commit. Compare observed runtime and timeouts with that timing difference in mind.",
+    "watcher_change_receipt_sha256": "4064237609ddbae11c715d0379f4fbd4a4c071eff1233ca9ff29c2a7710e1c50",
+    "watcher_change_utc": "2026-11-22T09:37:41.431413+00:00"
+  },
+  "models": {
+    "pretrained": {
+      "batch_wall_seconds": 6927.587038,
+      "calls": 44,
+      "max_native_seconds": 324.0309999999881,
+      "mean_native_seconds": 157.363272727272,
+      "median_native_seconds": 119.79700000000594,
+      "min_native_seconds": 92.96799999999348,
+      "native_run_sha256": "a1f5fb939263fb8899a0f889ed9c8e496890b0e85bafe1bf72e2ce1b3b57dd13"
+    },
+    "trained": {
+      "batch_wall_seconds": 3179.64677,
+      "calls": 44,
+      "max_native_seconds": 98.96799999999348,
+      "mean_native_seconds": 72.17868181818234,
+      "median_native_seconds": 73.35950000000594,
+      "min_native_seconds": 60.203000000008615,
+      "native_run_sha256": "e1c551a35997439b9a93da3ae4bb411404f5c8a794147b52c55a685d70c5c898"
+    }
+  },
+  "source_score_sha256": "33fdb9a1427965f8f03bf4abca3b6630a2af754893acdbb0e9813ceef1fa87c0"
+}

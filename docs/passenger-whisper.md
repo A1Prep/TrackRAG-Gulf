@@ -88,3 +88,21 @@ $bound = & $py -m tools.passenger_pursuit_speech freeze --cache "$cache" --selec
 & $py -m tools.passenger_pursuit_speech run --cache "$cache" --bound-sha $bound.clip_binding_sha256 --backend whisper --model-dir "$small"
 & $py -m tools.passenger_pursuit_speech report --cache "$cache" --bound-sha $bound.clip_binding_sha256 --out runs/replayed-pursuit-scores.json
 ```
+## Spoken instructions that describe a place
+
+Sixteen different speakers in the HCRC Map Task gave spontaneous directions to a partner. The team selected one excerpt per speaker and dialogue before running speech recognition. Eight referred to a place between landmarks. The other eight described a location another way. Scottish map directions supply human speech and named landmarks. The team’s Gulf passenger recordings use a separate collection form. [HCRC audio and transcripts](https://groups.inf.ed.ac.uk/maptask/maptasknxt.html) · [Team recording form](passenger-speech-study.md)
+
+English Whisper Small made 38 word edits in 269 reference words (14.1%). Seven of the 16 transcripts matched the normalized reference exactly. It retained 20 of 21 spatial-relation words, including all eight occurrences of “between”, and 18 of 23 named landmark mentions. All 16 transcripts were editable in the passenger application. The browser displayed the original recognition result again for one clip after its inspection connection lost the response body. Each clip had one genuine recognition result. The study ended at transcript review, before a destination was requested. [Recorded results, model revision and source details](../experiments/dropoff/passenger-external-speech-20261122.json)
+
+To repeat the study, install the Whisper runtime, the passenger release bundle and its road-model cache. Prepare the frame 781 bookmark. Use Node with Playwright and its installed Chromium browser. A custom install can use `TRACKRAG_PLAYWRIGHT` for the Playwright module path and `TRACKRAG_CHROMIUM` for the browser executable. Run from the repository root with a fresh private working directory. [Frame 781 installation](passenger-pair-bookmark.md) · [Passenger release installation](passenger-release.md)
+
+```powershell
+$py = ".venv-grounding-local/Scripts/python.exe"
+$small = Join-Path $env:LOCALAPPDATA "TrackRAG-method-cache/faster-whisper-small.en"
+$study = "runs/hcrc-speech-replication"
+$scene = "runs/passenger-pair-scene/requests.jsonl"
+$selection = & $py -m tools.passenger_external_speech_evaluation freeze --work $study | ConvertFrom-Json
+$audio = & $py -m tools.passenger_external_speech_evaluation audio --work $study --sha $selection.cohort_sha256 | ConvertFrom-Json
+& $py -m tools.passenger_external_speech_evaluation app --work $study --sha $audio.bound_sha256 --scene-bank $scene --model $small --vision-cache models/passenger-support/segformer-b0
+& $py -m tools.passenger_external_speech_evaluation score --work $study --sha $audio.bound_sha256 --scene-bank $scene --out "$study/results.json"
+```

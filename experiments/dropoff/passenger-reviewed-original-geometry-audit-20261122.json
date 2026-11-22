@@ -1,0 +1,144 @@
+{
+  "comparison_changes": false,
+  "declared_annotation_basis_counts": {
+    "image_reviewed_ground_area_not_vehicle_extent": 44
+  },
+  "earlier_local_draft_geometry_on_overlapping_frames": {
+    "also_same_instruction": 2,
+    "draft_cases": 11,
+    "same_point": 0,
+    "same_recording_and_frame": 7,
+    "same_rectangle": 0,
+    "sha256": "cec727eda0134a770fea8137ef929f177742872d728b76bcb39ab422cfa6c306"
+  },
+  "emt_test_annotation_sha256": "a5d6bb56995738acd1251ffcdfea11432a2f47d96e1da5e3c34897debde45372",
+  "individual_rows_exported": false,
+  "kind": "post_score_aggregate_geometry_and_provenance_diagnostic",
+  "model_calls": 0,
+  "native_execution_sha256": "a59e25f525dceb57e4e8ec82e62ebceb29f98ccf229aa54885ef3738d09a6a38",
+  "native_geometry": {
+    "pretrained": {
+      "hits_in_original_pixels": 0,
+      "hits_independently_in_normalized_raw_model_space": 0,
+      "largest_reconstructed_coordinate_difference_original_pixels": 0,
+      "median_absolute_horizontal_error_as_image_width_fraction_among_returned": 0.111335,
+      "median_absolute_vertical_error_as_image_height_fraction_among_returned": 0.061806,
+      "median_normalized_returned_point_x_on_eligible_proposals": 0.3365,
+      "median_normalized_returned_point_y_on_eligible_proposals": 0.7735,
+      "miss_axis_among_returned_points_on_eligible_proposals": {
+        "both": 13,
+        "horizontal_only": 4,
+        "vertical_only": 1
+      },
+      "native_proposals_all_44": 20,
+      "native_proposals_on_33_eligible": 18,
+      "returned_point_inside_own_returned_box": 20
+    },
+    "trained": {
+      "hits_in_original_pixels": 1,
+      "hits_independently_in_normalized_raw_model_space": 1,
+      "largest_reconstructed_coordinate_difference_original_pixels": 0,
+      "median_absolute_horizontal_error_as_image_width_fraction_among_returned": 0.08675,
+      "median_absolute_vertical_error_as_image_height_fraction_among_returned": 0.039583,
+      "median_normalized_returned_point_x_on_eligible_proposals": 0.355,
+      "median_normalized_returned_point_y_on_eligible_proposals": 0.835,
+      "miss_axis_among_returned_points_on_eligible_proposals": {
+        "both": 15,
+        "horizontal_only": 6,
+        "vertical_only": 1
+      },
+      "native_proposals_all_44": 26,
+      "native_proposals_on_33_eligible": 23,
+      "returned_point_inside_own_returned_box": 26
+    }
+  },
+  "notes": [
+    "Signed gold means independent acceptance of the bound coarse point/rectangle. The corrected package does not contain per-reviewer raw drawing gestures or a stopping-area polygon.",
+    "An earlier handoff describes authored circle masks. The earlier general export kept local track IDs and landmarks. A separate 11-case draft includes geometry, but the points and rectangles on its seven overlapping frames all differ from the corrected candidates. The current handoff does not establish how each rectangle was first drawn or computed.",
+    "This diagnostic checks xyxy, dimensions and the 0–1000 conversion for the actual raw proposals. A model can still misunderstand coordinates or passenger intent, and an accepted coarse rectangle is not a complete map of all plausible stopping places."
+  ],
+  "original_image_sizes_on_proposed_cases": {
+    "2560x1440": 22,
+    "3840x2160": 11
+  },
+  "primary_source_links": {
+    "ai_assisted_corrections_before_original_confirmation": "https://github.com/A1Prep/TrackRAG-Gulf/blob/2d96dcb6afdffb46c5d94d299768fe6a92acc094/Task2_56_Case_Human_Review_Corrected/manifest.json#L2",
+    "corrected_review_task_and_original_pixel_convention": "https://github.com/A1Prep/TrackRAG-Gulf/blob/2d96dcb6afdffb46c5d94d299768fe6a92acc094/Task2_56_Case_Human_Review_Corrected/REVIEW_INSTRUCTIONS.md#L16-L29",
+    "older_authored_circle_description": "https://github.com/A1Prep/TrackRAG-Gulf/blob/186a80eebf02e797ca5161ed42a77f24c6eada7d/task5%20handoffs-task2/field_provenance.md.md#L22-L30",
+    "older_local_release_target_fields": "https://github.com/A1Prep/TrackRAG-Gulf/blob/186a80eebf02e797ca5161ed42a77f24c6eada7d/trackrag/dropoff.py#L368-L378",
+    "original_emt_annotations": "https://huggingface.co/datasets/KuAvLab/EMT/blob/4418cec01b03c6f797cadb06c9405843a30988e2/test_annotation.tar.gz",
+    "original_image_pixel_hit_rule": "https://github.com/A1Prep/TrackRAG-Gulf/blob/d99f2fc35dcb61c2e30686220f4dc047a8a9f595/tools/passenger_reviewed_baseline.py#L315-L328",
+    "resolver_keeps_existing_candidate_on_two_accepts": "https://github.com/A1Prep/TrackRAG-Gulf/blob/2d96dcb6afdffb46c5d94d299768fe6a92acc094/Task2_56_Case_Human_Review_Corrected/tools/dropoff_resolve_reviews.py#L233-L251",
+    "runtime_normalized_to_original_pixel_conversion": "https://github.com/A1Prep/TrackRAG-Gulf/blob/d99f2fc35dcb61c2e30686220f4dc047a8a9f595/trackrag/dropoff/formatting.py#L128-L157",
+    "separation_of_landmarks_and_ground_geometry": "https://github.com/A1Prep/TrackRAG-Gulf/blob/2d96dcb6afdffb46c5d94d299768fe6a92acc094/Task2_56_Case_Human_Review_Corrected/REPOSITORY_ALIGNMENT.md#L5-L7",
+    "status_of_rechecked_and_changed_candidates": "https://github.com/A1Prep/TrackRAG-Gulf/blob/2d96dcb6afdffb46c5d94d299768fe6a92acc094/Task2_56_Case_Human_Review_Corrected/CORRECTION_REPORT.md#L5-L15"
+  },
+  "signed_geometry": {
+    "box_to_frame_area_fraction": {
+      "median": 0.002749,
+      "q1": 0.000819,
+      "q3": 0.007692
+    },
+    "eligible": 33,
+    "height_fraction": {
+      "median": 0.036204,
+      "q1": 0.024306,
+      "q3": 0.076389
+    },
+    "normalized_box_sizes": {
+      "cases_sharing_a_value_with_another_case": 6,
+      "most_frequent_count": 4,
+      "unique": 29
+    },
+    "normalized_complete_boxes": {
+      "cases_sharing_a_value_with_another_case": 0,
+      "most_frequent_count": 1,
+      "unique": 33
+    },
+    "normalized_points": {
+      "cases_sharing_a_value_with_another_case": 0,
+      "most_frequent_count": 1,
+      "unique": 33
+    },
+    "original_box_width_height_ratio": {
+      "median": 2.174805,
+      "q1": 1.769231,
+      "q3": 2.856823
+    },
+    "point_x_fraction": {
+      "median": 0.47707,
+      "q1": 0.371094,
+      "q3": 0.573418
+    },
+    "point_y_fraction": {
+      "median": 0.786991,
+      "q1": 0.753611,
+      "q3": 0.834606
+    },
+    "signed_point_exactly_at_box_midpoint": 13,
+    "signed_point_inside_own_box": 33,
+    "square_boxes_in_original_pixels": 0,
+    "width_fraction": {
+      "median": 0.057995,
+      "q1": 0.035677,
+      "q3": 0.09375
+    }
+  },
+  "source_case_sha256": "37f21c01f44f1a35fffc8092285d997713965dbad22086ac3a3de2fcb0557373",
+  "source_object_boxes": {
+    "comparison": "Original official scene annotations matched by recording, frame and source track ID. Object rectangles overlap in projection and do not measure road-surface pixels.",
+    "eligible_frames_with_a_listed_landmark_box_iou_at_least_half": 0,
+    "eligible_frames_with_any_positive_box_overlap_with_listed_landmark": 6,
+    "frames_with_all_listed_ids_matched": 32,
+    "frames_with_at_least_one_matching_listed_id": 32,
+    "frames_with_listed_landmarks": 32,
+    "listed_ids": 49,
+    "listed_ids_found_in_official_source": 49,
+    "median_max_iou_with_matched_listed_landmark": 0.0,
+    "signed_point_inside_a_matching_listed_landmark_rectangle": 1,
+    "signed_point_inside_any_official_road_user_bounding_rectangle": 2,
+    "signed_rectangle_exactly_equal_to_a_listed_landmark_rectangle": 0,
+    "signed_rectangle_exactly_equal_to_any_official_road_user_rectangle": 0
+  },
+  "task2_commit": "2d96dcb6afdffb46c5d94d299768fe6a92acc094"
+}

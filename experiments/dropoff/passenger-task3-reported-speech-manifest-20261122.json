@@ -1,0 +1,100 @@
+{
+  "kind": "task3_team_reported_footage_qa_speech_manifest_audit",
+  "as_of_utc": "2026-11-22T12:32:00Z",
+  "repository": "A1Prep/TrackRAG-Gulf",
+  "pr_number": 18,
+  "pr_status_at_audit": "open",
+  "revision": "05426cdfc296d8ebeff6d606438f86dd937d3b9b",
+  "manifest_path": "annotations/recording_manifest.jsonl",
+  "manifest_git_blob_sha256": "5772f82b7667851545942b5cc96eb58849c9e4d14f895a01a1a1c501002c31f2",
+  "manifest": {
+    "rows": 31,
+    "distinct_recording_ids": 31,
+    "distinct_wav_basenames": 31,
+    "distinct_collection_timestamps": 31,
+    "speaker_codes_and_rows": {
+      "SP01": 11,
+      "SP02": 10,
+      "SP03": 10
+    },
+    "distinct_footage_qa_scripts": 10,
+    "distinct_speaker_script_pairs": 30,
+    "repeat_takes_beyond_one_per_pair": 1,
+    "final_transcript_equals_script_verbatim": 31,
+    "requested_seconds_per_take": 5,
+    "measured_waveform_duration_available": false,
+    "sha256_audio_or_first_asr_or_consent_fields_present": false
+  },
+  "overlap_with_frozen_passenger_speech": {
+    "protocol_file_sha256": "9f188fb7b6cce3c9cf5a3498307eee45a18b0609dcb05fa92cab47fe3261e6ef",
+    "compared_footage_scripts": 10,
+    "compared_dropoff_scripts": 10,
+    "matching_word_sequences_case_punctuation_ignored": 0,
+    "scene_or_request_ids_present_in_team_manifest": false,
+    "verified_passenger_returns_found": 0
+  },
+  "manifest_history": {
+    "73255a1": {
+      "rows": 30,
+      "final_text_equals_prompt": 13,
+      "shared_current_recording_ids": 0
+    },
+    "5938e12": {
+      "rows": 21,
+      "final_text_equals_prompt": 21,
+      "shared_current_recording_ids": 21
+    },
+    "c68a5b3": {
+      "rows": 31,
+      "final_text_equals_prompt": 31,
+      "shared_current_recording_ids": 31
+    }
+  },
+  "availability_checked": {
+    "live_github_branches": 35,
+    "audio_files_across_live_git_trees": 0,
+    "audio_paths_in_fetched_git_object_history": 0,
+    "releases": 2,
+    "release_asset_names": 36,
+    "release_zip_directories_read": 31,
+    "release_zip_entries": 957,
+    "matching_release_wav_basenames_or_recording_ids": 0,
+    "issue_and_pr_bodies": 38,
+    "issue_comments": 4,
+    "pr_inline_comments": 0,
+    "task3_and_task4_review_bodies": 0,
+    "linked_team_audio_handoff_found": false,
+    "local_scope": "Project checkout, original user-home project clone, assessment workspace, matching project entries in Downloads. Only relevant file metadata and ZIP directories were inspected.",
+    "local_project_zip_directories_read": 172,
+    "matching_local_wav_basenames_or_recording_ids": 0,
+    "no_audio_was_played_or_sent": true
+  },
+  "capture_provenance": {
+    "requested_elicitation": "read the printed question",
+    "historical_text_column": "Final text after optional correction. On recognition exception the collector accepts a manual transcript, using the printed question when left blank. A row does not identify which path was taken.",
+    "source_recognizer_identifiable_per_row": false,
+    "first_machine_hypotheses_available": false,
+    "individual_consent_for_evaluator_access_available": false,
+    "waveform_identity_verifiable_from_manifest": false,
+    "word_error_rate": null
+  },
+  "wav_writer_regression_verified": {
+    "method": "Software silence passed through the teammate collector at the pinned revision; zero human voices processed.",
+    "fixture": "standard_library_silence_only",
+    "inner_hz": 44100,
+    "outer_declared_hz": 16000,
+    "pcm_begins_with_riff": true,
+    "payload_equals_input_wav": true,
+    "claim_scope": "Behaviour of the pinned collector. No identified team recording was available to inspect."
+  },
+  "use_now": "Report the three speaker codes, 31 reported takes, complete ten-question coverage per code and the extra repeat for the footage-QA route. Use the recording IDs to request the matching files privately.",
+  "genuine_future_scoring": "With exact WAVs, appropriate documented permission and independently checked spoken references, evaluate a new offline ASR run on the footage-QA recordings by speaker and across the cohort. Historical raw recognition and passenger drop-off scores require their own evidence.",
+  "sources": {
+    "team_manifest": "https://github.com/A1Prep/TrackRAG-Gulf/blob/05426cdfc296d8ebeff6d606438f86dd937d3b9b/annotations/recording_manifest.jsonl",
+    "collector": "https://github.com/A1Prep/TrackRAG-Gulf/blob/05426cdfc296d8ebeff6d606438f86dd937d3b9b/tools/collect_recordings.py#L43-L92",
+    "capture_and_edit": "https://github.com/A1Prep/TrackRAG-Gulf/blob/05426cdfc296d8ebeff6d606438f86dd937d3b9b/trackrag/speech.py#L116-L154",
+    "task3_continuation": "https://github.com/A1Prep/TrackRAG-Gulf/issues/3",
+    "private_audio_release_inventory": "https://github.com/A1Prep/TrackRAG-Gulf/releases",
+    "passenger_intake": "tools/passenger_speech_study.py"
+  }
+}

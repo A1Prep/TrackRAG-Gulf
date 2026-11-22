@@ -1,0 +1,170 @@
+{
+  "actual_native_direct": {
+    "active_GPU_compute_processes_after": 0,
+    "cleanup_receipt_sha256": "b69ed0bff49d89005ee807a4a59b974714f64d209f37949fd5bb0372de51cbf2",
+    "destination_accuracy_evaluated": false,
+    "exclusive_GPU_handoff_sha256": "28253683c6d15384b99bbe0024df681756383d05e1540c701e95a25ea2be872a",
+    "no_retries": true,
+    "operator_confirmations": 0,
+    "private_supervisor_sha256": "17bd0f0f2ea7dcc216b7a9e1862f53888619309fd5a26deed4ee86125a6240a1",
+    "registered_attempts": 2,
+    "remaining_test_owned_model_workers": 0,
+    "roles": [
+      {
+        "adapter_sha256": "6c3d54a6baadf5a269f8cdb81ed565469aa0d75bc006698c8d355f79b3e774ca",
+        "cuda_worker_verified": true,
+        "current_observations": 6,
+        "edited_input_received": true,
+        "elapsed_s": 107.625,
+        "error": null,
+        "mode": "voice",
+        "native_returned": true,
+        "operator_confirmed": false,
+        "ordinal": 1,
+        "raw_generation_sha256": "63606d8458f7ffbd2417b6d48a22202196b3dd8c58b3ef567af03c11efebd321",
+        "request_sha256": "81f4ecfd6e3e9d734bacd66a5da40ae0ff7ff17bfac6088a68c6b3c7d01d9b09",
+        "selected_photo_bound": true,
+        "status": "proposed",
+        "supervisor_exit": 0,
+        "uncorrected_asr_preserved": true,
+        "wall_clock_timeout": false
+      },
+      {
+        "adapter_sha256": "6c3d54a6baadf5a269f8cdb81ed565469aa0d75bc006698c8d355f79b3e774ca",
+        "cuda_worker_verified": true,
+        "current_observations": 11,
+        "edited_input_received": true,
+        "elapsed_s": 107.07800000000861,
+        "error": null,
+        "mode": "typed",
+        "native_returned": true,
+        "operator_confirmed": false,
+        "ordinal": 2,
+        "raw_generation_sha256": "d12cd9ea3b4d76786c2af8c7f6aa3beefa16d18ac21962f4959427f90576b33a",
+        "request_sha256": "bed05ce4bea5458405f07e152c4e8c9365b549893841027b491d1e5fcfa46e57",
+        "selected_photo_bound": true,
+        "status": "proposed",
+        "supervisor_exit": 0,
+        "uncorrected_asr_preserved": null,
+        "wall_clock_timeout": false
+      }
+    ],
+    "successful_native_calls": 2
+  },
+  "application_scope": {
+    "guarded_passenger": "The separate passenger release loads the landmark/geometry model, road evidence and referent/dialogue policy, and supports separate pair/drawing/confirmation actions.",
+    "scope_limit": "The two development scenes measure application wiring. Destination accuracy, passenger agreement and legal stopping suitability require separate evidence.",
+    "separate_guarded_evidence": [
+      "https://github.com/A1Prep/TrackRAG-Gulf/blob/03f3d9f0091f4688fdaade316b75564fa5400c2b/docs/passenger-speech-and-browser.md",
+      "https://github.com/A1Prep/TrackRAG-Gulf/blob/03f3d9f0091f4688fdaade316b75564fa5400c2b/experiments/dropoff/passenger-natural-application-results-20261122.json",
+      "https://github.com/A1Prep/TrackRAG-Gulf/blob/03f3d9f0091f4688fdaade316b75564fa5400c2b/experiments/dropoff/passenger-two-vehicle-fresh-live-20261122.json"
+    ],
+    "separate_merged_guarded_app_smoke": {
+      "checkout_commit": "1a06c4e906197c7cd35a318df4d574a2f53db904",
+      "evidence_previews_opened": 2,
+      "first_state": "needs_clarification",
+      "hosted_calls": 0,
+      "method": "Scripted development interaction through the regular guarded app with original photos and saved predictions.",
+      "operator_cancelled": true,
+      "participant_confirmations": 0,
+      "private_receipt_sha256": "bf9cacbef796586364ddc40abf6c64f0aefbf9cf2725a97e442b9b360b8d4855",
+      "retrieved_intervals_per_recording": [
+        3,
+        3
+      ],
+      "vehicle_outlines_on_pair_scene": 23
+    },
+    "unified_direct": "Task 4's normal /api/instruction builds Task 5 GroundingModel directly. Trained-configuration preflight and real ASR text handoff have distinct evidence."
+  },
+  "current_detections_matched_archived_track_files": [
+    6,
+    11
+  ],
+  "genuine_speech_transport": {
+    "additional_Whisper_CPU_trial": {
+      "browser_upload_and_edit_verified": true,
+      "direct_grounding_configuration": "withheld for this separate CPU browser test",
+      "edited_input_received": true,
+      "elapsed_s": 14.682277699990664,
+      "external_browser_requests": 0,
+      "human_confirmation": false,
+      "initial_ASR_started_grounding": false,
+      "original_wav_sha256": "d6ba522336bbd029d24f7d8182288fa0cd00e3483fee16de21e3d5649b37b70b",
+      "private_artifact_sha256": "564f02f6edf04be0149d4c6964b428cd5670407fbc0b4213676c4d82fc1dabad",
+      "transcript_sha256": "2072ccd5840698b5160bfba17e4be58292714238285cb4a6d19800a4a459eec8",
+      "uncorrected_asr_preserved": true
+    },
+    "backend": "Pinned Vosk on CPU through normal /api/audio",
+    "edited_text_reached_instruction_endpoint": true,
+    "footage_and_audio_transmitted_to_hosted_models": false,
+    "hosted_QA_calls": 0,
+    "human_confirmation": false,
+    "operator": "Software supplied a predefined edited test utterance.",
+    "original_recognition_preserved": true,
+    "private_artifact_sha256": "a0f17e40c12a9dd44a98fb52f2fb5e9e44a169d161492763c25b38c0b4841633",
+    "recognized_text_sha256": "b172dd09b5c9506197c6dc3b985821d32b7828a5bd4ececbb84c5eec90da963c",
+    "source": "Licensed public PURSUIT human in-car route recording, unrelated to the selected EMT photograph.",
+    "source_sha256": "d6ba522336bbd029d24f7d8182288fa0cd00e3483fee16de21e3d5649b37b70b",
+    "voice_alone_started_grounding": false
+  },
+  "kind": "unified_app_task5_development_integration",
+  "native_implementation_receipt_sha256": "725219e3b8a6ce850fda21704def1ea97f97686c695f244a255817327042ed17",
+  "photographs_linked_to_session_by_bytes": 2,
+  "preflight": {
+    "after_Vosk": {
+      "passed": 30,
+      "total": 30
+    },
+    "after_Whisper": {
+      "passed": 32,
+      "total": 32
+    },
+    "after_private_Vosk_sha256": "706117720b35f5813bdd89c8ae5e07dce3d7121abf6d728fb06da4fa3b69f122",
+    "after_private_Whisper_sha256": "367e9dc6e772a43f1c72e89705b6216463cb9b0d6f4c89ceddbb762e049def65",
+    "before_Vosk": {
+      "passed": 29,
+      "total": 30
+    },
+    "before_error": "PEP 440 public 2.6.0 pin rejected installed torch 2.6.0+cu124.",
+    "before_private_report_sha256": "0ee067609a8111aa3b95bd74f0ec92194cf98686aa6ded560e6f05282ce0e6d2",
+    "fix": "Test the actual release specifier; retain the observed local wheel build; explicitly refuse CPU-tagged PyTorch wheels for the CUDA-streamed profile. The runtime still checks CUDA and BF16 at load.",
+    "relocated_configuration_sha256": "710579dff284c9ec46764d69d6df763c7a8f895c3c6bd448cb2651428bb0ae20",
+    "same_trained_weights_sha256": "6c3d54a6baadf5a269f8cdb81ed565469aa0d75bc006698c8d355f79b3e774ca",
+    "source_model_configuration_sha256": "3d827c42eab801557b69e41134bdab8a2da56892b9fa22b0dbe58aef2d35f022"
+  },
+  "prespecified_development_inputs_sha256": "0524671a9e18522d66323e96e1ec6c46cb8a70648e09ed99e2f7b5c86e30d6eb",
+  "selected_frame_ids": [
+    150,
+    150
+  ],
+  "software_checks": {
+    "browser_audio_capture_software_passed": 9,
+    "development_adapters": null,
+    "focused_python_passed": 48,
+    "new_version_cases": 9
+  },
+  "source": {
+    "main_with_task4": "03f3d9f0091f4688fdaade316b75564fa5400c2b",
+    "matching_PR38_commit": "09e73559817f072b40ca0b500fa2c8cae04de5a1",
+    "pre_fix_team_head": "ecb3a0b985ce37a3d857f54c7be4aca04bf2f1e3",
+    "separate_optional_QA_model_branch": "05426cdfc296d8ebeff6d606438f86dd937d3b9b",
+    "team_application": "https://github.com/A1Prep/TrackRAG-Gulf/pull/38",
+    "tested_commit": "17080aca0dd94531e4c90ad7ea8f7f00f7245dbb",
+    "tested_tree": "7edb55011972d29bf103a3012a8d20011b665e70",
+    "wheel_fix": "https://github.com/A1Prep/TrackRAG-Gulf/pull/39"
+  },
+  "trained_native_model": {
+    "device": "cuda",
+    "execution": "streamed",
+    "maximum_seconds_per_request": 300,
+    "model_id": "unsloth/Qwen3-VL-8B-Instruct-bnb-4bit",
+    "observed_context_format": "compact_rows_v1",
+    "quantization": "nf4",
+    "revision": "10d842936325905934ea24e64325d774693f166e"
+  },
+  "two_development_recordings": [
+    "video_054604",
+    "video_054907"
+  ],
+  "vision_scope": "Verified archived fine-tuned Task 1 detections and provenance SHA against the reviewed manifest. Original displayed JPEG bytes were independently checked. The historical tracking artifact does not bind those JPEG bytes."
+}

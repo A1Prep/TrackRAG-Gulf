@@ -1,0 +1,35 @@
+{
+  "cases": 44,
+  "checked_utc": "2026-11-22T08:42:35.173100+00:00",
+  "frame_and_source_differences": {},
+  "human_labels_read": false,
+  "identical_original_pixels_text_dialogue_recording_frame_size": 44,
+  "input_sha256": {
+    "as_reviewed": "fe8c8e310bc1c44eb8e768eb05b0f591c224c9baab85c838050d8954d777ad2c",
+    "canonical_detector": "e6006e632dd75c7d08866f860ee6fa4c6d806f519c1569aba683cb58aa96a0ef"
+  },
+  "kind": "label_blind_gulf_input_choice",
+  "model_calls": 0,
+  "native_scene_matches": {
+    "as_reviewed": 0,
+    "canonical_detector": 44
+  },
+  "observations": {
+    "as_reviewed": 0,
+    "canonical_detector": 494
+  },
+  "recordings": 5,
+  "task1_scenes_index_sha256": "b30662b15af9fab431dd7fc0cf2820b0c8ca613024b9f166476910f96306b406",
+  "technical_selection": {
+    "formal_detector_assisted_study": "canonical_detector",
+    "original_reviewed_offline_baseline": "as_reviewed",
+    "reason": "Only the saved detector inputs match Task 1's registered scene observations. Historical human decisions apply to the original inputs. This selection chooses the software input; it records zero new human reviews of the changed inputs."
+  },
+  "unmatched_reason_counts": [
+    {
+      "cases": 44,
+      "input": "as_reviewed",
+      "reason": "predicted observations differ (another prediction run or profile)"
+    }
+  ]
+}

@@ -1,0 +1,170 @@
+{
+  "all_sums_equal_primary": true,
+  "independent_primary_sha256": "068e73ef2e1458f5caf2476c14739dad8fa7a2d8a7957baa8cc707afbdf6282c",
+  "kind": "secondary_recording_descriptive_analysis",
+  "results": {
+    "always_propose_status_and_task1_fixed_point": {
+      "point_in_box_macro": 0.0,
+      "point_macro_recordings": 5,
+      "recordings": {
+        "video_122233": {
+          "eligible_signed_proposals": 7,
+          "point_in_box_rate": 0.0,
+          "points_in_signed_box": 0,
+          "status_correct": 7,
+          "status_rate": 0.7777777777777778,
+          "total_cases": 9
+        },
+        "video_125233": {
+          "eligible_signed_proposals": 8,
+          "point_in_box_rate": 0.0,
+          "points_in_signed_box": 0,
+          "status_correct": 8,
+          "status_rate": 0.8,
+          "total_cases": 10
+        },
+        "video_155425": {
+          "eligible_signed_proposals": 5,
+          "point_in_box_rate": 0.0,
+          "points_in_signed_box": 0,
+          "status_correct": 5,
+          "status_rate": 0.625,
+          "total_cases": 8
+        },
+        "video_160325": {
+          "eligible_signed_proposals": 6,
+          "point_in_box_rate": 0.0,
+          "points_in_signed_box": 0,
+          "status_correct": 6,
+          "status_rate": 0.75,
+          "total_cases": 8
+        },
+        "video_204647": {
+          "eligible_signed_proposals": 7,
+          "point_in_box_rate": 0.0,
+          "points_in_signed_box": 0,
+          "status_correct": 7,
+          "status_rate": 0.7777777777777778,
+          "total_cases": 9
+        }
+      },
+      "status_macro": 0.7461111111111112,
+      "status_macro_recordings": 5,
+      "summed_counts": {
+        "eligible_signed_proposals": 33,
+        "points_in_signed_box": 0,
+        "status_correct": 33,
+        "total_cases": 44
+      }
+    },
+    "pretrained": {
+      "point_in_box_macro": 0.0,
+      "point_macro_recordings": 5,
+      "recordings": {
+        "video_122233": {
+          "eligible_signed_proposals": 7,
+          "point_in_box_rate": 0.0,
+          "points_in_signed_box": 0,
+          "status_correct": 6,
+          "status_rate": 0.6666666666666666,
+          "total_cases": 9
+        },
+        "video_125233": {
+          "eligible_signed_proposals": 8,
+          "point_in_box_rate": 0.0,
+          "points_in_signed_box": 0,
+          "status_correct": 5,
+          "status_rate": 0.5,
+          "total_cases": 10
+        },
+        "video_155425": {
+          "eligible_signed_proposals": 5,
+          "point_in_box_rate": 0.0,
+          "points_in_signed_box": 0,
+          "status_correct": 1,
+          "status_rate": 0.125,
+          "total_cases": 8
+        },
+        "video_160325": {
+          "eligible_signed_proposals": 6,
+          "point_in_box_rate": 0.0,
+          "points_in_signed_box": 0,
+          "status_correct": 4,
+          "status_rate": 0.5,
+          "total_cases": 8
+        },
+        "video_204647": {
+          "eligible_signed_proposals": 7,
+          "point_in_box_rate": 0.0,
+          "points_in_signed_box": 0,
+          "status_correct": 3,
+          "status_rate": 0.3333333333333333,
+          "total_cases": 9
+        }
+      },
+      "status_macro": 0.425,
+      "status_macro_recordings": 5,
+      "summed_counts": {
+        "eligible_signed_proposals": 33,
+        "points_in_signed_box": 0,
+        "status_correct": 19,
+        "total_cases": 44
+      }
+    },
+    "trained": {
+      "point_in_box_macro": 0.02857142857142857,
+      "point_macro_recordings": 5,
+      "recordings": {
+        "video_122233": {
+          "eligible_signed_proposals": 7,
+          "point_in_box_rate": 0.14285714285714285,
+          "points_in_signed_box": 1,
+          "status_correct": 7,
+          "status_rate": 0.7777777777777778,
+          "total_cases": 9
+        },
+        "video_125233": {
+          "eligible_signed_proposals": 8,
+          "point_in_box_rate": 0.0,
+          "points_in_signed_box": 0,
+          "status_correct": 6,
+          "status_rate": 0.6,
+          "total_cases": 10
+        },
+        "video_155425": {
+          "eligible_signed_proposals": 5,
+          "point_in_box_rate": 0.0,
+          "points_in_signed_box": 0,
+          "status_correct": 3,
+          "status_rate": 0.375,
+          "total_cases": 8
+        },
+        "video_160325": {
+          "eligible_signed_proposals": 6,
+          "point_in_box_rate": 0.0,
+          "points_in_signed_box": 0,
+          "status_correct": 5,
+          "status_rate": 0.625,
+          "total_cases": 8
+        },
+        "video_204647": {
+          "eligible_signed_proposals": 7,
+          "point_in_box_rate": 0.0,
+          "points_in_signed_box": 0,
+          "status_correct": 3,
+          "status_rate": 0.3333333333333333,
+          "total_cases": 9
+        }
+      },
+      "status_macro": 0.5422222222222222,
+      "status_macro_recordings": 5,
+      "summed_counts": {
+        "eligible_signed_proposals": 33,
+        "points_in_signed_box": 1,
+        "status_correct": 24,
+        "total_cases": 44
+      }
+    }
+  },
+  "secondary_protocol_sha256": "6576bbc0481c48b658e523f165265f2f608e0aab78b870cc338fe736a1c1defb"
+}

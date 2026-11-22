@@ -161,3 +161,58 @@ def test_invalid_frame_interval_is_rejected():
 
     with pytest.raises(ValueError, match="Invalid frame interval"):
         validate_evidence(make_question(), evidence)
+
+
+def test_windows_bom_and_blank_lines_load(tmp_path):
+    path = tmp_path / "questions.jsonl"
+    path.write_bytes(b"\xef\xbb\xbf\n" + json.dumps(make_question()).encode() + b"\n")
+    assert load_questions(path) == [make_question()]
+
+
+def test_validation_error_uses_physical_line_after_blanks(tmp_path):
+    path = tmp_path / "questions.jsonl"
+    question = make_question()
+    question["query_frame"] = True
+    path.write_text("\n\n" + json.dumps(question), encoding="utf-8")
+    with pytest.raises(ValueError, match="Line 3"):
+        load_questions(path)
+
+
+@pytest.mark.parametrize("field,value", [("start_frame", True), ("end_frame", float("nan")), ("end_frame", 180.5)])
+def test_noninteger_interval_cannot_bypass_cutoff(field, value):
+    evidence = make_evidence()
+    evidence[0]["interval"][field] = value
+    with pytest.raises(ValueError, match="integers"):
+        validate_evidence(make_question(), evidence)
+
+
+@pytest.mark.parametrize("value", [True, float("nan"), 150.5, -1])
+def test_noninteger_or_negative_image_frame_is_rejected(value):
+    evidence = make_evidence()
+    evidence[0]["images"][0]["frame_id"] = value
+    with pytest.raises(ValueError, match="nonnegative integer"):
+        validate_evidence(make_question(), evidence)
+
+
+def test_exact_predicted_scene_is_valid():
+    evidence = make_evidence()
+    evidence[0]["interval"].update(track_id=None, start_frame=150, end_frame=150, source="predicted")
+    evidence[0]["images"][0]["bbox_xyxy"] = None
+    validate_evidence(make_question(), evidence)
+
+
+def test_scene_cannot_span_frames_or_claim_vehicle_box():
+    evidence = make_evidence()
+    evidence[0]["interval"]["track_id"] = None
+    with pytest.raises(ValueError, match="exact frame"):
+        validate_evidence(make_question(), evidence)
+    evidence[0]["interval"].update(start_frame=150, end_frame=150)
+    with pytest.raises(ValueError, match="cannot have a vehicle box"):
+        validate_evidence(make_question(), evidence)
+
+
+def test_tracked_evidence_cannot_omit_vehicle_box():
+    evidence = make_evidence()
+    evidence[0]["images"][0]["bbox_xyxy"] = None
+    with pytest.raises(ValueError, match="requires a vehicle box"):
+        validate_evidence(make_question(), evidence)

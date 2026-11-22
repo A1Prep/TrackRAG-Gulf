@@ -67,6 +67,8 @@ The launcher selects Whisper when its runtime and local model are installed. To 
 
 The released passenger workflow uses the adapter trained on 500 public examples. The separate locally continued adapter used 17 AI-authored Gulf instructions for another two epochs. Its release asset and results support a direct-generation comparison. Each condition has its own receipts and weight hashes. [Frozen passenger comparison](../experiments/dropoff/passenger-release-protocol-20261122.json) · [Adapter training and reload](../experiments/dropoff/passenger-native-child-reload-20261121.json)
 
+In a separate study, each of three 8B variants directly generated the action and coordinates on 19 daytime requests from the same recording. The pretrained model matched the expected action on 11/19, the public-trained adapter on 13/19, and the adapter continued on 17 AI-authored examples on 12/19. None placed a point inside any of the 11 clear reference areas. When the public-trained model did propose, 16 of its 17 points landed inside a current road-user detection rectangle. The corresponding counts were 9/12 pretrained and 13/16 after the 17-example continuation. These are image-plane measurements against AI-authored references. The deployed application uses a learned estimator and road evidence to place the requested point relative to a landmark. [All 57 actual calls and matched inputs](../experiments/dropoff/passenger-native-threeway-20261122.json) · [Point-by-point comparison](../experiments/dropoff/passenger-native-location-diagnostic-20261122.json)
+
 | Independent test | Released 8B selector | Pretrained 8B selector |
 | --- | ---: | ---: |
 | Correct propose, clarify or missing decision on 20 nighttime Gulf requests | 15/20 | 15/20 |

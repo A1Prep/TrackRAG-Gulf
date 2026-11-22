@@ -51,6 +51,7 @@ experiments/dropoff/passenger-assisted-pair-controls-20261122.json text eol=lf
 experiments/dropoff/passenger-second-recording-choice-20261122.json text eol=lf
 experiments/dropoff/passenger-pair-language-scope-20261122.json text eol=lf
 experiments/dropoff/passenger-natural-application-*-20261122.json text eol=lf
+experiments/dropoff/passenger-native-location-diagnostic-20261122.json text eol=lf
 experiments/dropoff/passenger-pair-bookmark-20261122.json text eol=lf
 experiments/dropoff/passenger-pair-install-20261122.json text eol=lf
 trackrag/passenger_ui/pair-choices.js text eol=lf

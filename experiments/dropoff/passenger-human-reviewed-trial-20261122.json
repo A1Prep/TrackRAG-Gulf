@@ -1,0 +1,200 @@
+{
+  "kind": "actual_8B_human_confirmed_single_phrase_clarification_trial",
+  "source_revision": "2d96dcb6afdffb46c5d94d299768fe6a92acc094",
+  "protocol_sha256": "702c5f5575431df621b0e78847ddadb67d102e487a4be44016050773e4af8b81",
+  "training_result_sha256": "1b83cd9db8a4bd059484c3181843bb8ebd35af5368942615893602a0c0417669",
+  "training": {
+    "training_examples_unique": 4,
+    "examples_consumed": 8,
+    "optimizer_steps": 4,
+    "epochs_completed": 2,
+    "parent_development_nll": 0.7132299542427063,
+    "selected_checkpoint": {
+      "epoch": 2,
+      "token_weighted_nll": 0.5654235482215881,
+      "optimizer_steps": 4,
+      "presentations": 8
+    },
+    "status_counts": {
+      "train": {
+        "insufficient_visual_evidence": 0,
+        "needs_clarification": 4,
+        "proposed": 0
+      },
+      "development": {
+        "insufficient_visual_evidence": 0,
+        "needs_clarification": 2,
+        "proposed": 0
+      }
+    },
+    "elapsed_s": 119.76599999997416
+  },
+  "tensor_verification": {
+    "tensors": 64,
+    "tensors_changed": 64,
+    "trainable_parameters": 1703936,
+    "parent_sha256": "76bfb3230b17a86248b52ca6a9f8d2ffca324aa80216d6b93845ccb12ad86743",
+    "child_sha256": "6c3d54a6baadf5a269f8cdb81ed565469aa0d75bc006698c8d355f79b3e774ca"
+  },
+  "fresh_generation": {
+    "public_parent": {
+      "rows": [
+        {
+          "request_id": "local-dev-video_054907-00781",
+          "reference": "two_reviewer_confirmations_same_wording",
+          "ok": true,
+          "expected": "needs_clarification",
+          "actual": "proposed",
+          "question": null,
+          "correct_decision": false,
+          "exact_reviewed_question": false,
+          "error": null
+        },
+        {
+          "request_id": "local-dev-video_054907-00781-paraphrase",
+          "reference": "unreviewed_paraphrase_same_scene",
+          "ok": true,
+          "expected": "needs_clarification",
+          "actual": "proposed",
+          "question": null,
+          "correct_decision": false,
+          "exact_reviewed_question": null,
+          "error": null
+        },
+        {
+          "request_id": "local-dev-video_174340-00781",
+          "reference": "two_reviewer_confirmations_same_wording",
+          "ok": true,
+          "expected": "needs_clarification",
+          "actual": "proposed",
+          "question": null,
+          "correct_decision": false,
+          "exact_reviewed_question": false,
+          "error": null
+        },
+        {
+          "request_id": "local-dev-video_174340-00781-paraphrase",
+          "reference": "unreviewed_paraphrase_same_scene",
+          "ok": true,
+          "expected": "needs_clarification",
+          "actual": "proposed",
+          "question": null,
+          "correct_decision": false,
+          "exact_reviewed_question": null,
+          "error": null
+        },
+        {
+          "request_id": "passenger-b07",
+          "reference": "existing_ai_development_control",
+          "ok": true,
+          "expected": "proposed",
+          "actual": "proposed",
+          "question": null,
+          "correct_decision": true,
+          "exact_reviewed_question": null,
+          "error": null
+        },
+        {
+          "request_id": "passenger-b10",
+          "reference": "existing_ai_development_control",
+          "ok": true,
+          "expected": "insufficient_visual_evidence",
+          "actual": "proposed",
+          "question": null,
+          "correct_decision": false,
+          "exact_reviewed_question": null,
+          "error": null
+        }
+      ],
+      "operational_errors": 0,
+      "run_sha256": "3c2b54edc4915a98e97a9292b4abeae837b8a65e933390959df298cfad5de9a5",
+      "files": {
+        "input-snapshot.jsonl": "7d805dc9f478f894e198892c435df00db897586f40465c393b8644b64c8aadc0",
+        "resolved-requests.jsonl": "329cbdc8ca5531fc13f715562d6cbde68722cc68558a076e201a4862e0bd2d7b",
+        "receipts.jsonl": "3718dba1721cbf49aaa43f826e9e7344e3cb54fed5c1ddab02613e64c77d7755",
+        "model-outcomes.jsonl": "38f621a53fd473554a6b0b6f82922ce9e4b82d16cde8e3c5669582657a064421"
+      }
+    },
+    "human_child": {
+      "rows": [
+        {
+          "request_id": "local-dev-video_054907-00781",
+          "reference": "two_reviewer_confirmations_same_wording",
+          "ok": true,
+          "expected": "needs_clarification",
+          "actual": "proposed",
+          "question": null,
+          "correct_decision": false,
+          "exact_reviewed_question": false,
+          "error": null
+        },
+        {
+          "request_id": "local-dev-video_054907-00781-paraphrase",
+          "reference": "unreviewed_paraphrase_same_scene",
+          "ok": true,
+          "expected": "needs_clarification",
+          "actual": "proposed",
+          "question": null,
+          "correct_decision": false,
+          "exact_reviewed_question": null,
+          "error": null
+        },
+        {
+          "request_id": "local-dev-video_174340-00781",
+          "reference": "two_reviewer_confirmations_same_wording",
+          "ok": true,
+          "expected": "needs_clarification",
+          "actual": "proposed",
+          "question": null,
+          "correct_decision": false,
+          "exact_reviewed_question": false,
+          "error": null
+        },
+        {
+          "request_id": "local-dev-video_174340-00781-paraphrase",
+          "reference": "unreviewed_paraphrase_same_scene",
+          "ok": true,
+          "expected": "needs_clarification",
+          "actual": "needs_clarification",
+          "question": "Which car in front is intended for the exit?",
+          "correct_decision": true,
+          "exact_reviewed_question": null,
+          "error": null
+        },
+        {
+          "request_id": "passenger-b07",
+          "reference": "existing_ai_development_control",
+          "ok": true,
+          "expected": "proposed",
+          "actual": "proposed",
+          "question": null,
+          "correct_decision": true,
+          "exact_reviewed_question": null,
+          "error": null
+        },
+        {
+          "request_id": "passenger-b10",
+          "reference": "existing_ai_development_control",
+          "ok": true,
+          "expected": "insufficient_visual_evidence",
+          "actual": "proposed",
+          "question": null,
+          "correct_decision": false,
+          "exact_reviewed_question": null,
+          "error": null
+        }
+      ],
+      "operational_errors": 0,
+      "run_sha256": "7ad608ba3ed6e33f166fe66d81ee3a12b01dcf548e1c5c67b9c0659429a4d1b6",
+      "files": {
+        "input-snapshot.jsonl": "7d805dc9f478f894e198892c435df00db897586f40465c393b8644b64c8aadc0",
+        "resolved-requests.jsonl": "329cbdc8ca5531fc13f715562d6cbde68722cc68558a076e201a4862e0bd2d7b",
+        "receipts.jsonl": "b19a702a4a057e6dde1f470e41f8ec6121e68bd8edc2a343258ed239a18e6733",
+        "model-outcomes.jsonl": "c6c292e2346f12554b9c0c153730df26f2ce1b9f52cfbd0c2cee336fbe2b968e"
+      }
+    }
+  },
+  "independent_final_evaluation": false,
+  "used_reserved_test_rows": 0,
+  "scope": "Four training and two development photographs from six EMT recordings repeat one request and one approved question. Reviewed language was AI-assisted and received two recorded confirmations. The held-out photographs share the training wording. Neither spatial performance nor language generalization is established by these two labels."
+}

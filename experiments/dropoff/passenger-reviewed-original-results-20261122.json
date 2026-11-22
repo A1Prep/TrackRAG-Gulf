@@ -1,0 +1,201 @@
+{
+  "execution_seal_sha256": "a59e25f525dceb57e4e8ec82e62ebceb29f98ccf229aa54885ef3738d09a6a38",
+  "kind": "original_as_reviewed_gulf_direct_comparison",
+  "models": {
+    "pretrained": {
+      "cases": 44,
+      "clarification_question_literal_match_rate": 0.0,
+      "clarification_question_literal_matches": 0,
+      "end_utc": "2026-11-22T11:07:31.626372+00:00",
+      "failed_requests_by_code": {
+        "invalid_model_output": 1,
+        "timeout": 7
+      },
+      "input_sha256": "fe8c8e310bc1c44eb8e768eb05b0f591c224c9baab85c838050d8954d777ad2c",
+      "malformed_model_outputs": 1,
+      "missing_proposals_or_failures_on_reference_proposals": 15,
+      "native_failed_rows": 8,
+      "native_file_sha256": {
+        "model-outcomes.jsonl": "08909e3bc1802d2c49a1b4524f8f1a1086ee8d451c72343499857d6b23bd4e9f",
+        "receipts.jsonl": "e1e65acc3dcdb30d0654637367975b6fad3c9c82b4422ee0dc8a069cbe696705",
+        "resolved-requests.jsonl": "28c01b74d2b1e21e82bb8873cbcc5389cdf0b63c867deca6f9dc5ad132837cba"
+      },
+      "native_run_sha256": "a1f5fb939263fb8899a0f889ed9c8e496890b0e85bafe1bf72e2ce1b3b57dd13",
+      "operational_errors_excluding_malformed": 7,
+      "point_error_image_diagonals_mean_all_missing_cost_one": 0.5162675878386584,
+      "point_error_image_diagonals_mean_returned": 0.11315724437087386,
+      "point_in_signed_box_rate_all_eligible": 0.0,
+      "points_in_signed_box": 0,
+      "reference_proposals": 33,
+      "returned_proposals_on_reference_proposals": 18,
+      "reviewed_clarifications": 4,
+      "signed_box_iou_at_least_half": 0,
+      "signed_box_iou_mean_all_missing_zero": 0.00679548428803527,
+      "started_utc": "2026-11-22T09:12:04.039334+00:00",
+      "status_accuracy": 0.4318181818181818,
+      "status_confusion_expected_then_returned": {
+        "insufficient_visual_evidence": {
+          "insufficient_visual_evidence": 0,
+          "invalid_model_output": 0,
+          "needs_clarification": 3,
+          "operational_error": 4,
+          "proposed": 0
+        },
+        "needs_clarification": {
+          "insufficient_visual_evidence": 0,
+          "invalid_model_output": 0,
+          "needs_clarification": 1,
+          "operational_error": 1,
+          "proposed": 2
+        },
+        "proposed": {
+          "insufficient_visual_evidence": 0,
+          "invalid_model_output": 1,
+          "needs_clarification": 12,
+          "operational_error": 2,
+          "proposed": 18
+        }
+      },
+      "status_correct": 19,
+      "valid_semantic_outputs": 36
+    },
+    "trained": {
+      "cases": 44,
+      "clarification_question_literal_match_rate": 0.0,
+      "clarification_question_literal_matches": 0,
+      "end_utc": "2026-11-22T12:00:31.503544+00:00",
+      "failed_requests_by_code": {},
+      "input_sha256": "fe8c8e310bc1c44eb8e768eb05b0f591c224c9baab85c838050d8954d777ad2c",
+      "malformed_model_outputs": 0,
+      "missing_proposals_or_failures_on_reference_proposals": 10,
+      "native_failed_rows": 0,
+      "native_file_sha256": {
+        "model-outcomes.jsonl": "6cb1709a1f7680e65948625aab65a63a0a81058ba9416a4a1d7363ba04aed013",
+        "receipts.jsonl": "28598dfef160f45b531ca3a7397295e40ab4bc55bccd076235ecd9df8d340eca",
+        "resolved-requests.jsonl": "28c01b74d2b1e21e82bb8873cbcc5389cdf0b63c867deca6f9dc5ad132837cba"
+      },
+      "native_run_sha256": "e1c551a35997439b9a93da3ae4bb411404f5c8a794147b52c55a685d70c5c898",
+      "operational_errors_excluding_malformed": 0,
+      "point_error_image_diagonals_mean_all_missing_cost_one": 0.37428436556277445,
+      "point_error_image_diagonals_mean_returned": 0.10223408972050245,
+      "point_in_signed_box_rate_all_eligible": 0.030303030303030304,
+      "points_in_signed_box": 1,
+      "reference_proposals": 33,
+      "returned_proposals_on_reference_proposals": 23,
+      "reviewed_clarifications": 4,
+      "signed_box_iou_at_least_half": 0,
+      "signed_box_iou_mean_all_missing_zero": 0.03291535126634138,
+      "started_utc": "2026-11-22T11:07:31.856774+00:00",
+      "status_accuracy": 0.5454545454545454,
+      "status_confusion_expected_then_returned": {
+        "insufficient_visual_evidence": {
+          "insufficient_visual_evidence": 0,
+          "invalid_model_output": 0,
+          "needs_clarification": 7,
+          "operational_error": 0,
+          "proposed": 0
+        },
+        "needs_clarification": {
+          "insufficient_visual_evidence": 0,
+          "invalid_model_output": 0,
+          "needs_clarification": 1,
+          "operational_error": 0,
+          "proposed": 3
+        },
+        "proposed": {
+          "insufficient_visual_evidence": 0,
+          "invalid_model_output": 0,
+          "needs_clarification": 10,
+          "operational_error": 0,
+          "proposed": 23
+        }
+      },
+      "status_correct": 24,
+      "valid_semantic_outputs": 44
+    }
+  },
+  "official_four_condition_score": false,
+  "paired_status_agreement": {
+    "both_correct": 18,
+    "neither": 19,
+    "pretrained_only": 1,
+    "trained_only": 6
+  },
+  "preanalysis": {
+    "analysis_scope": "Review counts and available supervision were audited before preregistration. The status, box, point and question metrics are fixed before collecting any new native responses for this comparison.",
+    "config_sha256": {
+      "pretrained": "90047539bfef8e92112566a035bc214f24ce80c7038b69dd2f0b781df607acf6",
+      "trained": "3d827c42eab801557b69e41134bdab8a2da56892b9fa22b0dbe58aef2d35f022"
+    },
+    "eligibility_model_calls": 0,
+    "kind": "original_as_reviewed_gulf_direct_preanalysis",
+    "model_registry_sha256": "a8483a2cee1d17b4b919c7c3e39f96f651dfe4f9178e524194a7518504543c67",
+    "predeclared_utc": "2026-11-22T08:47:34.971487+00:00",
+    "scorer_sha256_lf": "318396668ec6e47dc13721a0513a176726490b99b03ddce5ecbb011c7a4d6f5f",
+    "scoring_rules": {
+      "box_overlap": "Original-pixel rectangle IoU averaged over every reviewed proposal. Missing proposals and failures contribute zero. Also report the number at IoU >= 0.5.",
+      "clarification": "Literal case-sensitive Unicode equality with the approved question on all clarification-labelled cases; other outputs and failures score zero. This compares wording only.",
+      "interpretation": "Signed coarse boxes and points support geometric proxies. The study does not measure pixel-mask accuracy, passenger agreement with a clarification, destination confirmation, or the formal four-condition protocol.",
+      "paired": "Counts of both correct, pretrained only, trained only and neither for matched statuses across every case.",
+      "point_distance": "Euclidean distance to the signed reference point divided by the original image diagonal. Report the mean over returned proposals and their coverage, plus an all-eligible mean charging one diagonal for each missing proposal or failure.",
+      "point_in_signed_box": "Among all reviewed proposals, inclusive left/top/right/bottom box containment. Absent points score zero.",
+      "primary_status": "Fraction matching the approved status, with every failed request counted as incorrect.",
+      "scope": "Direct typed, original image and unchanged empty observation list. Two fixed models, all 44 cases.",
+      "unit": "Each reviewed frame is one case; repeated instructions stay in their assigned recording. Metrics describe this cohort."
+    },
+    "shared_function_sha256_lf": {
+      "evaluation.grounding.box_iou": "9b5c4acde7fc056c4c972cfe0e666204ec63baf342bdb835a365736e8e80e424",
+      "tools.dropoff_native_episodes.verify_native_receipt": "2f0f57232ac0ad9d40f2442cee4cb1ac46767335ec22200e4ab9de6356019167",
+      "tools.dropoff_predict.read_requests": "9e388ace6f5e78511af6d8c3f3a0cccf437912b36cb7756dda0fce0a992f04cb",
+      "trackrag.dropoff.contracts.validate_request": "93e7dc45cebbf3e7df71dda72aa64417b5c42e983b1ef6ca2c68ce38062f2125",
+      "trackrag.dropoff.contracts.validate_target": "da539b28548a68096a3f378c6f0e2976a88e02cdcda58af02dd75def2768001a",
+      "trackrag.dropoff.data.inference_input_sha256": "ea1610d739044be3e4b7f4a929cd8cbdc224fe9cfaa56cb4e942a9c9e51a9ead",
+      "trackrag.dropoff.data.supervision_sha256": "de3c140319975d1119e7948420138ac6fecd09f3eb49c0333c159a193c70d081",
+      "trackrag.dropoff.formatting.build_messages": "290dfb4e8aee0dfbd3aa7e71949845ea29eeac8dea3d16e174d772075dda621a",
+      "trackrag.dropoff.formatting.parse_model_output": "81c15dd4e09b310a67b844f7ab541220ae9984574febf92a8c5a3d6ea072bab9",
+      "trackrag.dropoff.inputs._inspect_image": "93c27d628960cc6d7ad54a1402810ee445b3d91fb03ed7d61de3fdb3f86d1143",
+      "trackrag.dropoff.model.verify_adapter": "8cf843b3e1da44381ed558175e2481f0d2d5e121b941545f16998994433c05e2",
+      "trackrag.dropoff.projected_pair.native_record": "c416ec470fcf09c3c5e955c039bdbf5538aa9821ae14f384fdefd142ba2f7f37"
+    },
+    "source_audit": {
+      "approved_by_partition": {
+        "development": 2,
+        "test": 44,
+        "train": 4
+      },
+      "distinct_signed_clarification_wordings": 1,
+      "distinct_typed_requests": 41,
+      "recordings": 5,
+      "release_bindings_sha256": "bf4aaf9132506e3eb1ff000e7b55db6c261be60d693b464e441a2c0387669b6b",
+      "request_snapshot_sha256": "fe8c8e310bc1c44eb8e768eb05b0f591c224c9baab85c838050d8954d777ad2c",
+      "review_basis": "Two reviewers accepted AI-assisted annotations on the original photographs and empty observed context.",
+      "signed_point_and_box_pairs": 33,
+      "signed_status_counts": {
+        "insufficient_visual_evidence": 7,
+        "needs_clarification": 4,
+        "proposed": 33
+      },
+      "source_checks": {
+        "original_prior_dialogues": 0,
+        "signed_inputs_matching_saved_finetuned_detector": 0,
+        "source_records_with_destination_mask_path": 0,
+        "zero_observation_scenes_per_saved_detector": {
+          "finetuned": 0,
+          "pretrained": 0
+        }
+      },
+      "source_files_sha256": {
+        "reconfirmation_cases.jsonl": "bc28de2c8cd574b9431227e366a362217b29c574d1ebc054709108982048af23",
+        "review_cases.jsonl": "37f21c01f44f1a35fffc8092285d997713965dbad22086ac3a3de2fcb0557373",
+        "reviewer_1.csv": "0962e60dc6ca674f6caa117f2d875915707fabfc4cc0a45b6c8126c8270cdf69",
+        "reviewer_2.csv": "891f48e1d1c5e52efd87b676686c662dde7421be870b3180a5bdcb4fc790c5c8"
+      },
+      "task2_commit": "2d96dcb6afdffb46c5d94d299768fe6a92acc094",
+      "verified_test_cases": 44,
+      "withheld_pending_test_cases": 6
+    },
+    "trained_adapter_manifest_sha256": "97e0ad27de46582a059775e4861f42aa0a1f803be2f640bf64b00a22f92f7b06",
+    "trained_adapter_weights_sha256": "6c3d54a6baadf5a269f8cdb81ed565469aa0d75bc006698c8d355f79b3e774ca"
+  },
+  "preanalysis_sha256": "b101317179063159e8c01f9fd10ba848422fe3473b7ac0c0d3d2f42357951dcd"
+}

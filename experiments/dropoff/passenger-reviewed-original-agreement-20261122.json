@@ -1,0 +1,11 @@
+{
+  "all_primary_metrics_matched": true,
+  "comparison": "Exact counts and confusion cells; float agreement within 1e-12 relative tolerance",
+  "crosschecked_fields_per_role": 24,
+  "execution_sha256": "a59e25f525dceb57e4e8ec82e62ebceb29f98ccf229aa54885ef3738d09a6a38",
+  "five_recording_totals_matched_primary": true,
+  "independent_aggregate_sha256": "068e73ef2e1458f5caf2476c14739dad8fa7a2d8a7957baa8cc707afbdf6282c",
+  "independent_recordings_sha256": "f51b36c4000fb5cb796021fbe944bba86a8ae46dc6c32b8dc1428e4b5b7c4465",
+  "max_abs_floating_difference": 2.7755575615628914e-17,
+  "primary_aggregate_sha256": "33fdb9a1427965f8f03bf4abca3b6630a2af754893acdbb0e9813ceef1fa87c0"
+}

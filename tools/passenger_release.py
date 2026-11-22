@@ -221,6 +221,7 @@ def start(args):
         config.write_text(json.dumps(cfg),encoding="utf8")
         argv = ["--config",str(config),"--geometry",str(folder/"geometry.json"),"--vision-cache",str(road),
                 "--port",str(args.port),"--out",str(args.out)]
+        argv.extend(["--between-road-mode", getattr(args, "between_road_mode", "edge")])
         for bank in banks:
             argv.extend(["--requests",str(bank)])
         if manifest.get("verify_landmarks"):
@@ -263,6 +264,8 @@ def main():
             p.add_argument("--base-dir",type=Path,default=ROOT/"models/qwen3-vl-8b-local-nf4")
             p.add_argument("--processor-cache",type=Path,default=ROOT/"models/dropoff-processor-cache/hub")
             p.add_argument("--vision-cache",type=Path)
+            p.add_argument("--between-road-mode", choices=("edge", "edge-or-bay"), default="edge",
+                           help="Check the visible road edge, or also check angled and facing parking bays")
             p.add_argument("--asr-model",type=Path)
             p.add_argument("--whisper-model",type=Path,help="Use the pinned English Whisper Small model on CPU")
             p.add_argument("--text-only",action="store_true")

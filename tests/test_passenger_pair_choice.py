@@ -152,21 +152,19 @@ def test_invalid_or_stale_choices_do_not_run_geometry(setup, ids, placement):
         pc.choose(model, req, ids, placement)
 
 
-def test_real_gap_entire_proposal_remains_inside_corridor_and_outside_all_road_users(setup):
+def test_level_vehicle_contacts_withhold_between_but_preserve_explicit_behind(setup):
     req, model = setup
     req["scene"]["tracks"][0]["bbox_xyxy"] = [112, 68, 145, 100]
     req["scene"]["tracks"][1]["bbox_xyxy"] = [188, 66, 224, 100]
-    for placement in ("between", "behind"):
-        out = pc.choose(model, req, [51, 92], placement)
-        assert out["result"]["status"] == "proposed"
-        pc.validate_choice_evidence(req, out, [51, 92], placement)
-        x, y, r, b = out["result"]["destination_box_xyxy"]
-        if placement == "between":
-            assert 145 <= x < r <= 188
-        else:
-            assert y >= 100
+    between = pc.choose(model, req, [51, 92], "between")
+    assert between["result"]["status"] == "needs_clarification"
+    assert between["provenance"]["withheld_reason"] == "indistinguishable_ground_contact_depth"
+    behind = pc.choose(model, req, [51, 92], "behind")
+    assert behind["result"]["status"] == "proposed"
+    pc.validate_choice_evidence(req, behind, [51, 92], "behind")
+    assert behind["result"]["destination_box_xyxy"][1] >= 100
     model.road.mask = lambda im, sha: np.zeros(mask_shape(im.size), dtype=bool)
-    empty = pc.choose(model, req, [51, 92], "between")
+    empty = pc.choose(model, req, [51, 92], "behind")
     assert (
         empty["result"]["status"] == "needs_clarification"
         and empty["provenance"]["withheld_reason"] == "no_supported_neighborhood"

@@ -4,6 +4,8 @@ from hashlib import sha256
 import json
 import re
 
+import numpy as np
+
 from .contracts import validate_request
 from .data import inference_input_sha256
 from .landmarks import landmark_messages, parse_landmark, resolve_image
@@ -16,13 +18,13 @@ from .referent import ReferentRanker
 
 QUESTION = "Which two vehicles do you mean? Describe each one or select both on the photo."
 FEW_VEHICLES = "Which two vehicles do you mean? Could you describe another landmark or mark the road area on the photo?"
-_CLASSES = {"cars": {"Car"}, "sedans": {"Car"}, "suvs": {"Car"},
+VEHICLE_CLASSES = {"cars": {"Car"}, "sedans": {"Car"}, "suvs": {"Car"},
             "trucks": {"Large_vehicle", "Medium_vehicle"}, "buses": {"Bus"},
             "vehicles": {"Car", "Large_vehicle", "Medium_vehicle", "Bus", "Emergency_vehicle",
                          "Motorbike", "Small_motorised_vehicle"}}
 
 _NOUN_PHRASE = (r"(?:(?:these|those|the)\s+(?:two|2)|(?:that|this|the)\s+pair\s+of)\s+"
-                r"(?:(?P<colour>black|white|gr[ae]y|silver|red|blue|green|yellow)\s+)?"
+                r"(?:(?P<colour>dark|black|white|gr[ae]y|silver|red|blue|green|yellow)\s+)?"
                 r"(?P<noun>cars|sedans|suvs|vehicles|trucks|buses)")
 _TAIL = r"(?:\s+(?:up\s+ahead|over\s+there|there))?(?:[\s,]+(?:please|thanks|thank\s+you))?[\s.!?]*"
 _BETWEEN = re.compile(r"\bbetween\s+" + _NOUN_PHRASE + _TAIL + r"\Z", re.I)
@@ -61,6 +63,37 @@ def unpointed_reference(text):
     return None
 
 
+def dark_pair_evidence(image, alternatives):
+    """Evaluate apparent brightness of two areas on the body; shadows can leave a vehicle uncertain."""
+    pixels = np.asarray(image.convert("RGB"))
+    readings = []
+    for row in alternatives:
+        a,b,c,d = row["bbox_xyxy"]
+        xs = np.clip((a + np.linspace(.2,.8,9)*(c-a)).astype(int), 0, image.width-1)
+        fractions = []
+        for upper,lower in ((.25,.84),(.50,.80)):
+            ys = np.clip((b + np.linspace(upper,lower,7)*(d-b)).astype(int), 0, image.height-1)
+            samples = pixels[np.ix_(ys,xs)] / 255
+            brightness = samples @ np.array([.2126,.7152,.0722])
+            fractions.append({"dark":float(np.mean(brightness <= .38)),
+                              "light":float(np.mean(brightness >= .62))})
+        if c-a < 9 or d-b < 7:
+            appearance = "uncertain"
+        elif min(v["dark"] for v in fractions) >= .60:
+            appearance = "dark"
+        elif min(v["light"] for v in fractions) >= .60:
+            appearance = "light"
+        else:
+            appearance = "uncertain"
+        readings.append({"track_id":row["track_id"], "appearance":appearance,
+                         "broad_body":fractions[0], "lower_body":fractions[1]})
+    readings.sort(key=lambda v:v["track_id"])
+    dark = [r["track_id"] for r in readings if r["appearance"]=="dark"]
+    possible = [r["track_id"] for r in readings if r["appearance"]!="light"]
+    return {"method":"current_vehicle_body_luminance_v1", "readings":readings, "possible_tracks":possible,
+            "distinct_supported_pair":dark if len(dark)==len(possible)==2 else []}
+
+
 def unpointed_pair(model, request):
     """An initial demonstrative with no identifiable pair can be resolved by asking for pointing."""
     if not isinstance(request, dict) or not isinstance(request.get("text"), str) or request.get("dialogue"):
@@ -77,6 +110,10 @@ def unpointed_pair(model, request):
         image, binding = resolve_image(clean, model.config)
         with image:
             ranking = ranker.rank(image, clean["text"], scene["tracks"], frame=scene["frame"])
+            dark = None
+            if (match['colour'] or '').lower() == "dark":
+                dark = dark_pair_evidence(image, [t for t in scene["tracks"] if
+                    t["frame_id"] == scene["frame"]["frame_id"] and t["class_name"] in VEHICLE_CLASSES[match['noun'].lower()]])
     except (OSError, AttributeError, KeyError, TypeError, ValueError):
         # The normal model path reports invalid input and missing originals to the passenger.
         return None
@@ -86,12 +123,17 @@ def unpointed_pair(model, request):
     # Sample both the broad box and its centre. Dark windows, reflections and shade
     # make paint uncertain. These checks can ask a question; they never select a point.
     threshold = .20 if colour in {"white", "gray", "black"} else .16
-    candidates = [row for row in ranking["alternatives"] if row["class_name"] in _CLASSES[noun.lower()]]
-    plausible = [row["track_id"] for row in candidates if not colour or min(
-        row["colour_fractions"][colour], row["central_colour_fractions"][colour]) >= threshold]
-    if len(plausible) == 2:
+    candidates = [row for row in ranking["alternatives"] if row["class_name"] in VEHICLE_CLASSES[noun.lower()]]
+    if dark is not None:
+        plausible = dark["possible_tracks"]
+        uniquely_supported = bool(dark["distinct_supported_pair"])
+    else:
+        plausible = [row["track_id"] for row in candidates if not colour or min(
+            row["colour_fractions"][colour], row["central_colour_fractions"][colour]) >= threshold]
+        uniquely_supported = len(plausible) == 2
+    if uniquely_supported:
         return None
-    visible = sum(row["class_name"] in _CLASSES["vehicles"] and row["frame_id"] == scene["frame"]["frame_id"]
+    visible = sum(row["class_name"] in VEHICLE_CLASSES["vehicles"] and row["frame_id"] == scene["frame"]["frame_id"]
                   for row in scene["tracks"])
     return {"ok": True, "request_id": clean["request_id"], "result": unresolved(QUESTION if visible >= 2 else FEW_VEHICLES),
             "provenance": {"method": "deictic_pair_clarification", "request_sha256": digest(clean), "image": binding,
@@ -99,6 +141,7 @@ def unpointed_pair(model, request):
                            "reason": "passenger_referenced_an_unpointed_pair", "passenger_phrase": clean["text"].strip(),
                            "colour": colour or None, "eligible_tracks": plausible, "candidate_count": len(candidates),
                            "ranker_sha256": ranker.sha256, "ranking_sha256": digest(ranking),
+                           **({"dark_appearance":dark} if dark is not None else {}),
                            "native_model_calls": 0}}
 
 

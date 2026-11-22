@@ -22,6 +22,10 @@ ROAD_RECIPE = {
     'decision': 'softmax(logits)[0,0] >= 0.5', 'color': 'RGB', 'target_kind': 'predicted_road_support',
 }
 ROAD_RECIPE_SHA256 = sha256(json.dumps(ROAD_RECIPE, sort_keys=True, separators=(',', ':')).encode()).hexdigest()
+SIDEWALK_RECIPE = {**ROAD_RECIPE, 'decision': 'softmax(logits)[0,1] >= 0.5',
+                  'target_kind': 'predicted_sidewalk_support'}
+SIDEWALK_RECIPE_SHA256 = sha256(json.dumps(SIDEWALK_RECIPE, sort_keys=True, separators=(',', ':')).encode()).hexdigest()
+_NAMESPACES = {ROAD_RECIPE_SHA256: 'passenger-road', SIDEWALK_RECIPE_SHA256: 'passenger-sidewalk'}
 
 
 def mask_shape(size):
@@ -44,24 +48,26 @@ def mask_sha256(mask):
     return sha256(np.ascontiguousarray(arr).view(np.uint8).tobytes()).hexdigest()
 
 
-def _path(cache, image_sha, size):
+def _path(cache, image_sha, size, *, recipe=ROAD_RECIPE_SHA256):
     mask_shape(size)
     if not isinstance(image_sha, str) or re.fullmatch(r'[a-f0-9]{64}', image_sha) is None:
         raise ValueError('Expected the SHA256 of the verified original image bytes')
     # One digest binds all key fields and avoids two adjacent 64-character
     # components exceeding the standard Windows filesystem path length.
-    key = sha256(f'{ROAD_RECIPE_SHA256}:{image_sha}:{size[0]}:{size[1]}'.encode()).hexdigest()
-    return Path(cache) / 'passenger-road' / f'{key}.npz'
+    if recipe not in _NAMESPACES:
+        raise ValueError('Unregistered passenger segmentation recipe')
+    key = sha256(f'{recipe}:{image_sha}:{size[0]}:{size[1]}'.encode()).hexdigest()
+    return Path(cache) / _NAMESPACES[recipe] / f'{key}.npz'
 
 
-def _metadata(image_sha, size, mask):
-    return {'recipe_sha256': ROAD_RECIPE_SHA256, 'image_sha256': image_sha,
+def _metadata(image_sha, size, mask, recipe=ROAD_RECIPE_SHA256):
+    return {'recipe_sha256': recipe, 'image_sha256': image_sha,
             'original_size_wh': list(size), 'mask_shape_hw': list(mask.shape), 'mask_sha256': mask_sha256(mask)}
 
 
-def read_mask(cache, image_sha, size):
+def read_mask(cache, image_sha, size, *, recipe=ROAD_RECIPE_SHA256):
     """A missing entry returns None. A damaged or foreign entry raises an error."""
-    path = _path(cache, image_sha, size)
+    path = _path(cache, image_sha, size, recipe=recipe)
     try:
         stream = path.open('rb')
     except FileNotFoundError:
@@ -93,20 +99,20 @@ def read_mask(cache, image_sha, size):
                 raise ValueError('Road mask contains values other than zero and one')
             mask = stored.astype(np.bool_)
             meta = json.loads(array('metadata', np.dtype(np.uint8)).tobytes())
-            if meta != _metadata(image_sha, size, mask):
+            if meta != _metadata(image_sha, size, mask, recipe):
                 raise ValueError('Road cache image, recipe, shape or mask hash mismatch')
             return mask
     except (zipfile.BadZipFile, EOFError, KeyError, UnicodeError) as exc:
         raise ValueError('Unreadable passenger road mask cache') from exc
 
 
-def save_mask(cache, image_sha, size, mask):
+def save_mask(cache, image_sha, size, mask, *, recipe=ROAD_RECIPE_SHA256):
     """Publish once atomically. Concurrent writers must agree on every pixel."""
-    target = _path(cache, image_sha, size)
+    target = _path(cache, image_sha, size, recipe=recipe)
     mask = np.asarray(mask)
     if mask.dtype != np.bool_ or mask.shape != mask_shape(size):
         raise ValueError('Road mask dtype or dimensions differ from the frozen recipe')
-    meta = _metadata(image_sha, size, mask)
+    meta = _metadata(image_sha, size, mask, recipe)
     target.parent.mkdir(parents=True, exist_ok=True)
     temporary = None
     try:
@@ -121,7 +127,7 @@ def save_mask(cache, image_sha, size, mask):
             # replacing an existing writer's result, including on Windows NTFS.
             os.link(temporary, target)
         except FileExistsError:
-            current = read_mask(cache, image_sha, size)
+            current = read_mask(cache, image_sha, size, recipe=recipe)
             if current is None or not np.array_equal(current, mask):
                 raise ValueError('Concurrent road masks disagree for the same image and recipe')
     finally:

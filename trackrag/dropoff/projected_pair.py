@@ -145,13 +145,14 @@ def neighbor_geometry(observations, current, size):
     }
 
 
-def supported_patch(mask, size, head, geometry, tracks):
+def supported_patch(mask, size, head, geometry, tracks, *, forecast=None, eligible_cells=None):
     """Rank admissible road cells by the frozen learned pair prediction; trim the reported area to road."""
     need(
         isinstance(mask, np.ndarray) and mask.dtype == np.bool_ and mask.shape == mask_shape(size),
         "unsupported_road_mask",
     )
-    forecast = pair_geometry.predict(head, geometry["regression_inputs_xyxy"], size)
+    if forecast is None:
+        forecast = pair_geometry.predict(head, geometry["regression_inputs_xyxy"], size)
     need(forecast is not None, "no_prediction_from_trained_pair_head")
     point, learned = forecast
     fitted = validate_box(learned, *size)
@@ -168,6 +169,10 @@ def supported_patch(mask, size, head, geometry, tracks):
     valid = (
         mask & ((x >= bounds[0]) & (x + dx <= bounds[2])) & ((y >= bounds[1]) & (y + dy <= bounds[3]))[:, None]
     )
+    if eligible_cells is not None:
+        need(isinstance(eligible_cells, np.ndarray) and eligible_cells.dtype == np.bool_
+             and eligible_cells.shape == mask.shape, "unsupported_eligibility_mask")
+        valid &= eligible_cells
     for track in tracks:
         a, b, c, d = track["bbox_xyxy"]
         valid &= ~(((x < c) & (x + dx > a)) & ((y < d) & (y + dy > b))[:, None])

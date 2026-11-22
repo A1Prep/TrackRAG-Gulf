@@ -153,9 +153,11 @@ def operational_code(exc):
 
 
 class PassengerGrounder:
-    def __init__(self, config, geometry, road, *, verify_landmarks=False, referent_ranker=None):
+    def __init__(self, config, geometry, road, *, verify_landmarks=False, referent_ranker=None, between_road_mode="edge"):
+        from .between_policy import check_mode
         self.config, self.geometry, self.road = config, geometry, road
         self.referent_ranker = referent_ranker
+        self.between_road_mode = check_mode(between_road_mode)
         self.resolver = LandmarkResolver(config)
         self.verify_landmarks = verify_landmarks
         self.lock = threading.RLock()
@@ -188,6 +190,7 @@ class PassengerGrounder:
 
     def from_decision(self, request, image, binding, record):
         """Shared decision-to-proposal path. The application always calls interpret() live."""
+        from . import between_road
         from tools.dropoff_ground_candidates import MODEL_ID, MODEL_REVISION, WEIGHTS_SHA256
         messages, index = landmark_messages(request)
         records_image = record.get("image_sha256") or record.get("image",{}).get("sha256")
@@ -244,6 +247,14 @@ class PassengerGrounder:
             result = unresolved(decision["question"])
         elif decision["kind"] == "missing":
             result = unresolved()
+        elif between_road.requested(request):
+            result, check = between_road.native_result(self, request, image, binding, decision, record, index)
+            provenance["between_road"] = check
+            provenance["selected_track_ids"] = check["resolved_track_ids"]
+        elif between_road.unbound_vehicle_selection(request,decision):
+            result = unresolved(between_road.WHICH_PAIR)
+            provenance["constraint"] = "unbound_vehicle_between_reference"
+            provenance["selected_track_ids"] = decision["track_ids"]
         else:
             boxes = decision["boxes"]
             require_pair = pair_required(text)
@@ -291,12 +302,13 @@ class PassengerGrounder:
             self.resolver.close()
 
 
-def load_passenger_model(config_path, *, geometry_path, vision_cache, verify_landmarks=False,referent_path=None):
+def load_passenger_model(config_path, *, geometry_path, vision_cache, verify_landmarks=False,referent_path=None,
+                         between_road_mode="edge"):
     config = GroundingConfig.from_mapping(json.loads(Path(config_path).read_text(encoding="utf-8-sig")))
     ranker = None
     if referent_path is not None:
         from .referent import ReferentRanker
         ranker = ReferentRanker.load(referent_path)
     model = PassengerGrounder(config,AnchorGeometry.load(geometry_path),RoadEvidence(vision_cache),
-                              verify_landmarks=verify_landmarks,referent_ranker=ranker)
+                              verify_landmarks=verify_landmarks,referent_ranker=ranker,between_road_mode=between_road_mode)
     return model

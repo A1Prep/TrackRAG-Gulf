@@ -126,3 +126,7 @@ def test_standard_launch_adds_installed_still_and_honors_explicit_banks(bundle, 
     assert release.start(args) == [str(normal), str(still)]
     args.requests = [still]
     assert release.start(args) == [str(still)]
+    monkeypatch.setattr(passenger_app, "main", lambda argv: argv[argv.index("--between-road-mode") + 1])
+    assert release.start(args) == "edge"
+    args.between_road_mode = "edge-or-bay"
+    assert release.start(args) == "edge-or-bay"

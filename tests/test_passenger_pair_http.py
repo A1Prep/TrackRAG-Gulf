@@ -40,10 +40,11 @@ def http_site(tmp_path, monkeypatch):
     # This file checks the HTTP route's revision, voice and confirmation behavior.
     # The grounding tests revalidate true geometry separately. No synthetic road
     # observation in this fixture is represented as a real learned prediction.
-    def check_fixture(req, output, ids, placement):
+    def check_fixture(req, output, ids, placement, *, live=False):
         assert output["provenance"]["software_fixture"] is True
         assert output["request_id"] == req["request_id"] and len(set(ids)) == 2
         assert placement in {"between","behind"}
+        assert live is (placement == "between")
 
     monkeypatch.setattr(passenger_pair_choice, "validate_choice_evidence", check_fixture)
     photo = tmp_path / "painted.png"

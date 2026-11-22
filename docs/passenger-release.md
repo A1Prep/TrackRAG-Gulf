@@ -8,6 +8,8 @@ From the prepared laptop checkout, run the following command and open the local 
 
 [Open the local application](http://127.0.0.1:8765/)
 
+For a request between two vehicles, the app checks the current road surface, both vehicle footprints and other detected road users before offering a point. The UAE photo trial records when it asked again and where alternative methods pointed. [Road-area checks and trial results](passenger-uae-road-check.md)
+
 ## Try the passenger interaction
 
 1. Select recording **054907**, frame **1**. Choose **Record voice** and say “Drop me here.” Check the recognized words and send them. The assistant should ask for a landmark.

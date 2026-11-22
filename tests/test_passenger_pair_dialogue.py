@@ -38,6 +38,7 @@ def deictic(tmp_path):
 
 @pytest.mark.parametrize(('words','ids'), [
     ('Drop me between these two black cars.',None),
+    ('Drop me between the two dark cars.',None),
     ('Please let us out between those 2 cars.',[1,2,3]),
     ('Park between those two red cars, please.',[]),
     ('Could you drop me off between those two white cars?',[3]),
@@ -95,6 +96,21 @@ def test_fewer_than_two_visible_vehicles_offers_available_actions(deictic):
     req['scene']['tracks']=req['scene']['tracks'][:1]
     answer=pair_dialogue.unpointed_pair(model,req)['result']
     assert answer['clarification_question']==pair_dialogue.FEW_VEHICLES
+
+
+def test_verified_darkness_abstains_with_ambiguous_third_or_two_light_cars(deictic):
+    req,model=deictic
+    req["text"]="Drop me between the two dark cars."
+    path=req["scene"]["frame"]["image_path"]
+    for color, number in [("white",2),("black",3),("darkgray",3)]:
+        from pathlib import Path
+        Image.new("RGB",(100,80),color).save(path)
+        req["scene"]["provenance"]["image_sha256"]=sha256(Path(path).read_bytes()).hexdigest()
+        selected=deepcopy(req)
+        selected["scene"]["tracks"]=selected["scene"]["tracks"][:number]
+        out=pair_dialogue.unpointed_pair(model,selected)
+        assert out["result"]["status"]=="needs_clarification"
+        assert not out["provenance"]["dark_appearance"]["distinct_supported_pair"]
 
 
 @pytest.mark.parametrize('case',['conflict','agrees','different-input','changed-raw','manual','fixture','outer-fixture',

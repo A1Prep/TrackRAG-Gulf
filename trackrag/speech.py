@@ -13,11 +13,13 @@ from pathlib import Path
 
 
 def transcribe_file(audio_path: str | Path) -> str:
-    """Transcribe an audio file using Gemini's speech-to-text capability.
+    """Transcribe an audio file and return its initial machine text."""
+    transcript, _ = transcribe_file_with_backend(audio_path)
+    return transcript
 
-    Falls back to SpeechRecognition + Google Web Speech API when
-    GEMINI_API_KEY is unavailable.
-    """
+
+def transcribe_file_with_backend(audio_path: str | Path) -> tuple[str, str]:
+    """Return the unedited text and the backend that produced it."""
     audio_path = Path(audio_path)
 
     if not audio_path.is_file():
@@ -26,12 +28,13 @@ def transcribe_file(audio_path: str | Path) -> str:
     api_key = os.getenv("GEMINI_API_KEY")
 
     if api_key:
-        return _transcribe_with_gemini(audio_path, api_key)
+        transcript = _transcribe_with_gemini(audio_path, api_key)
+        return transcript, "gemini:" + os.getenv("GEMINI_MODEL", "gemini-2.0-flash")
 
     try:
-        return _transcribe_with_whisper(audio_path)
+        return _transcribe_with_whisper(audio_path), "openai-whisper:base"
     except ImportError:
-        return _transcribe_with_speech_recognition(audio_path)
+        return _transcribe_with_speech_recognition(audio_path), "google-web-speech"
 
 
 def _transcribe_with_gemini(audio_path: Path, api_key: str) -> str:

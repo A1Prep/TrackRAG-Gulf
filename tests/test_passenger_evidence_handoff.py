@@ -96,3 +96,27 @@ def test_failed_submission_survives_even_when_the_model_never_received_text(tmp_
     jsonl(file, [opened, failed, confirmed])
     with pytest.raises(ValueError, match="Confirmation"):
         session(file)
+
+
+def test_edit_history_cannot_be_removed_or_presented_as_a_followup(tmp_path, input_output):
+    request, _ = input_output
+    scene = request["scene"]
+    frame = scene["frame"]
+    idle = {"recording_id":frame["recording_id"], "frame_id":frame["frame_id"],
+            "image_sha256":scene["provenance"]["image_sha256"], "request_id":None,
+            "proposal_id":None, "selected_by":None, "result":None, "state":"idle", "turns":[]}
+    opened = {"action":"opened", "timestamp":"test", "detail":{"scene":scene}, "view":idle}
+    def failed(req):
+        turn = {"role":"user","text":req["text"],"recording_id":frame["recording_id"],"frame_id":frame["frame_id"]}
+        return {"action":"submitted","timestamp":"test","detail":{"request":req,"outcome":None,"speech":None},
+                "view":dict(idle,state="error",request_id=req["request_id"],error={"code":"invalid_request"},turns=[turn])}
+    first = failed(request)
+    edited = failed(dict(request,request_id="revised-words",text="By the entrance"))
+    edited["detail"]["replaces_request_id"] = request["request_id"]
+    file = tmp_path / "edits.jsonl"
+    jsonl(file,[opened,first,edited])
+    assert session(file)["events"][-1]["replaces_request_id"] == request["request_id"]
+    del edited["detail"]["replaces_request_id"]
+    jsonl(file,[opened,first,edited])
+    with pytest.raises(ValueError,match="history"):
+        session(file)

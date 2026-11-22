@@ -1,0 +1,1064 @@
+{
+  "scope": "Automatic, first typed turn. Regression and new-photo arms stay separate. No passenger interaction or new training changed these scores. All four new evaluation images were previously seen during source screening.",
+  "software_base": "c159c781c0fb2647f6402c96dc51c8016ba4e630",
+  "method": "Normal passenger HTTP /api/sessions and /submit on the original photo; the browser-facing HTTP source bytes were hashed before each submission. Frozen independent scoring references were kept out of model inputs. Each record retains its signed journal hash, first HTTP view hash and source identity. The model outputs, marked image hashes and final decisions were replayed locally using the released image libraries.",
+  "model_revisions": {
+    "parking": "facebook/mask2former-swin-large-mapillary-vistas-semantic@4772b6bf101d91f2534c106dc524d906aeb3c68a",
+    "vlm": "Qwen/Qwen3.5-9B@c202236235762e1c871ad0ccb60c8ee5ba337b9a",
+    "model_inputs": "Original road photographs plus actual Task 1 predictions. No reference marks supplied to any method."
+  },
+  "arms": {
+    "wording": {
+      "seal_sha256": "090e5e41ff8db476be6b35b8e7fbef909245e7467573aa6e746cdd6a5e93d448",
+      "reference_protocol": {
+        "arm": "New English wording on previously evaluated UAE KartaView photos",
+        "sealed_utc": "2026-11-22T23:06:12.745104+00:00",
+        "scoring": "First typed request in a new public-API session, untouched model output. Proposed points count only on or within a pre-existing normalized reference polygon scaled by the native image width and height. Valid clarifications count only on negatives. Operational errors score separately. Repeated utterances on the same photo are correlated. First attempt is always retained, no manual click enters primary scoring.",
+        "source_reviewer": "Prior independent AI review; no human annotation.",
+        "source_reference_sha256": {
+          "runs/uae-parking-feature/scoring-only/blind.json": "9dd948c3af659d1cf68e2d07c5a9bfa1846ae66a44051879e47855309d5ef562",
+          "runs/uae-parking-feature/replication/scoring-only/blind.json": "93ef26541fb8f21a03c7a0abb7be87f303aa280cec4db1d0a4bb456174fcd413"
+        },
+        "records": [
+          {
+            "id": "word-01",
+            "photo_case": "replication-03",
+            "photo_id": "1724389801",
+            "image_sha256": "ed69e5e794d9618bd153a0ea0266dd0a9203b1526c279ec01a0c9c64b2b0124b",
+            "recording": "kartaview_7199241",
+            "frame": 48,
+            "size": [
+              3840,
+              2160
+            ],
+            "utterance": "I would like to get out in the bays between the beige sedan and the red sedan by those restaurants.",
+            "variation": "reversed named order",
+            "expected": "propose",
+            "reference_polygon_normalized": [
+              [
+                [
+                  0.437,
+                  0.63055062
+                ],
+                [
+                  0.498,
+                  0.62877442
+                ],
+                [
+                  0.557,
+                  0.62522202
+                ],
+                [
+                  0.649,
+                  0.65186501
+                ],
+                [
+                  0.651,
+                  0.74422735
+                ],
+                [
+                  0.643,
+                  0.78152753
+                ],
+                [
+                  0.589,
+                  0.74777975
+                ],
+                [
+                  0.515,
+                  0.68916519
+                ],
+                [
+                  0.458,
+                  0.65008881
+                ]
+              ]
+            ]
+          },
+          {
+            "id": "word-02",
+            "photo_case": "replication-03",
+            "photo_id": "1724389801",
+            "image_sha256": "ed69e5e794d9618bd153a0ea0266dd0a9203b1526c279ec01a0c9c64b2b0124b",
+            "recording": "kartaview_7199241",
+            "frame": 48,
+            "size": [
+              3840,
+              2160
+            ],
+            "utterance": "See the red car and the beige car parked by the restaurants? Please let me out in the space between them.",
+            "variation": "pronoun across sentences",
+            "expected": "propose",
+            "reference_polygon_normalized": [
+              [
+                [
+                  0.437,
+                  0.63055062
+                ],
+                [
+                  0.498,
+                  0.62877442
+                ],
+                [
+                  0.557,
+                  0.62522202
+                ],
+                [
+                  0.649,
+                  0.65186501
+                ],
+                [
+                  0.651,
+                  0.74422735
+                ],
+                [
+                  0.643,
+                  0.78152753
+                ],
+                [
+                  0.589,
+                  0.74777975
+                ],
+                [
+                  0.515,
+                  0.68916519
+                ],
+                [
+                  0.458,
+                  0.65008881
+                ]
+              ]
+            ]
+          },
+          {
+            "id": "word-03",
+            "photo_case": "replication-06",
+            "photo_id": "1495690809",
+            "image_sha256": "78e265faad2f94bbfe80c56cb7f4b33723340268cfb9a4f5829145f69ee06c3a",
+            "recording": "kartaview_5231529",
+            "frame": 132,
+            "size": [
+              3840,
+              2160
+            ],
+            "utterance": "Could I get out between the white sedan on the left and the big silver Nissan SUV?",
+            "variation": "reversed named order on previous miss",
+            "expected": "propose",
+            "reference_polygon_normalized": [
+              [
+                [
+                  0.179,
+                  0.69804618
+                ],
+                [
+                  0.247,
+                  0.69094139
+                ],
+                [
+                  0.452,
+                  0.68738899
+                ],
+                [
+                  0.459,
+                  0.70337478
+                ],
+                [
+                  0.46,
+                  0.76198934
+                ],
+                [
+                  0.428,
+                  0.77797513
+                ],
+                [
+                  0.367,
+                  0.79396092
+                ],
+                [
+                  0.284,
+                  0.80461812
+                ],
+                [
+                  0.181,
+                  0.76021314
+                ],
+                [
+                  0.138,
+                  0.73357016
+                ]
+              ]
+            ]
+          },
+          {
+            "id": "word-04",
+            "photo_case": "replication-06",
+            "photo_id": "1495690809",
+            "image_sha256": "78e265faad2f94bbfe80c56cb7f4b33723340268cfb9a4f5829145f69ee06c3a",
+            "recording": "kartaview_5231529",
+            "frame": 132,
+            "size": [
+              3840,
+              2160
+            ],
+            "utterance": "That silver SUV and the white sedan to its left are the ones I mean. Can I get out in the gap between them?",
+            "variation": "pronoun across sentences on previous miss",
+            "expected": "propose",
+            "reference_polygon_normalized": [
+              [
+                [
+                  0.179,
+                  0.69804618
+                ],
+                [
+                  0.247,
+                  0.69094139
+                ],
+                [
+                  0.452,
+                  0.68738899
+                ],
+                [
+                  0.459,
+                  0.70337478
+                ],
+                [
+                  0.46,
+                  0.76198934
+                ],
+                [
+                  0.428,
+                  0.77797513
+                ],
+                [
+                  0.367,
+                  0.79396092
+                ],
+                [
+                  0.284,
+                  0.80461812
+                ],
+                [
+                  0.181,
+                  0.76021314
+                ],
+                [
+                  0.138,
+                  0.73357016
+                ]
+              ]
+            ]
+          },
+          {
+            "id": "word-05",
+            "photo_case": "replication-02",
+            "photo_id": "1448028841",
+            "image_sha256": "b656dfe867d2d0d43d0b7d109e63e62ac84a0b441c10b8b93391be2f4ddbe60e",
+            "recording": "kartaview_4728505",
+            "frame": 60,
+            "size": [
+              3840,
+              2160
+            ],
+            "utterance": "Can you let me out between that big white SUV on the right and the yellow school bus?",
+            "variation": "reversed named order across raised divider",
+            "expected": "ask",
+            "reference_polygon_normalized": []
+          },
+          {
+            "id": "word-06",
+            "photo_case": "replication-04",
+            "photo_id": "41522860",
+            "image_sha256": "51b52d8bac8ef5743305426fd4eead308446d04f79fa65ecdd63566bf32d9e5f",
+            "recording": "kartaview_444109",
+            "frame": 36,
+            "size": [
+              2688,
+              1520
+            ],
+            "utterance": "Could you pull over between the white SUV nearest us on the right edge and the black SUV next to it?",
+            "variation": "reversed order, adjacent vehicles",
+            "expected": "ask",
+            "reference_polygon_normalized": []
+          },
+          {
+            "id": "word-07",
+            "photo_case": "replication-05",
+            "photo_id": "1729342809",
+            "image_sha256": "a07e0ded72bad166579a87adea852f1a5eef11e83e43f11c914388370c5c1e9a",
+            "recording": "kartaview_7271097",
+            "frame": 62,
+            "size": [
+              3840,
+              2160
+            ],
+            "utterance": "Please leave me in the space between the white minivan and the white SUV outside the medical centre.",
+            "variation": "reversed named order, local English spelling",
+            "expected": "propose",
+            "reference_polygon_normalized": [
+              [
+                [
+                  0.623,
+                  0.61811723
+                ],
+                [
+                  0.654,
+                  0.61634103
+                ],
+                [
+                  0.702,
+                  0.62166963
+                ],
+                [
+                  0.706,
+                  0.63943162
+                ],
+                [
+                  0.704,
+                  0.65719361
+                ],
+                [
+                  0.68,
+                  0.660746
+                ],
+                [
+                  0.64,
+                  0.65008881
+                ],
+                [
+                  0.615,
+                  0.63587922
+                ]
+              ]
+            ]
+          },
+          {
+            "id": "word-08",
+            "photo_case": "blind-08",
+            "photo_id": "180338609",
+            "image_sha256": "528de6137375fa351d4d85d5f25d3eca7b0034c2542983e75c32ad6b1013d2ac",
+            "recording": "kartaview_986839",
+            "frame": 1,
+            "size": [
+              3840,
+              2160
+            ],
+            "utterance": "I want to get out between the grey SUV on the right and the blue delivery truck on the left.",
+            "variation": "reversed named order, grey variant, two occupied gate lanes",
+            "expected": "ask",
+            "reference_polygon_normalized": []
+          }
+        ]
+      },
+      "summary": {
+        "requests": 8,
+        "distinct_photographs": 6,
+        "positive_requests": 5,
+        "negative_requests": 3,
+        "in_region": 2,
+        "missed_gap": 3,
+        "correct_withhold": 3,
+        "proposed_outside_reference": 0,
+        "false_proposals_on_negatives": 0,
+        "operational_errors": 0,
+        "correct": 5
+      },
+      "first_turns": [
+        {
+          "id": "word-01",
+          "expected": "propose",
+          "state": "proposed",
+          "first_automatic_point_native_pixels": [
+            2229.3333333333335,
+            1526.0869565217392
+          ],
+          "margin_inside_reference_native_pixels": 68.21,
+          "score": "hit",
+          "clarifying_question": null,
+          "actor": "parking_model",
+          "method": "identified_vehicle_parking_v1",
+          "reason": "visible_roadside_proposal",
+          "source_scene_key": "4edc9abbff73676b9a63bc1d",
+          "signed_journal_sha256": "1564554d32409dc77fb8d0c4f66dcbbdf118dd7c307b70df5481ae56777266ef",
+          "browser_response_sha256": "877fcba19c3e83f51c78554217f33e70627e364b417487aebef8f164a6362280",
+          "source_sha256": "ed69e5e794d9618bd153a0ea0266dd0a9203b1526c279ec01a0c9c64b2b0124b",
+          "current_detector_count": 41,
+          "http_elapsed_seconds": 42.89,
+          "model_steps": [
+            {
+              "kind": "anchors",
+              "answer": "```json\n{\"vehicles\": [[409, 509, 569, 626], [657, 503, 926, 836]]}\n```"
+            },
+            {
+              "kind": "parking_components",
+              "answer": "{\"choice\": \"B\"}"
+            }
+          ],
+          "board": [
+            {
+              "label": "A",
+              "point": [
+                2784.0,
+                1722.4505928853755
+              ],
+              "inside_reference": false
+            },
+            {
+              "label": "B",
+              "point": [
+                2229.3333333333335,
+                1526.0869565217392
+              ],
+              "inside_reference": true
+            },
+            {
+              "label": "C",
+              "point": [
+                2263.4666666666667,
+                1372.411067193676
+              ],
+              "inside_reference": true
+            },
+            {
+              "label": "D",
+              "point": [
+                2515.2,
+                1692.5691699604745
+              ],
+              "inside_reference": false
+            }
+          ],
+          "prior_original_request": "Please drop me off between the red sedan and the beige sedan outside the restaurants on the right.",
+          "prior_first_turn_score": "hit",
+          "prior_first_turn_point": [
+            2259.2,
+            1526.0869565217392
+          ]
+        },
+        {
+          "id": "word-02",
+          "expected": "propose",
+          "state": "proposed",
+          "first_automatic_point_native_pixels": [
+            2229.3333333333335,
+            1526.0869565217392
+          ],
+          "margin_inside_reference_native_pixels": 68.21,
+          "score": "hit",
+          "clarifying_question": null,
+          "actor": "parking_model",
+          "method": "identified_vehicle_parking_v1",
+          "reason": "visible_roadside_proposal",
+          "source_scene_key": "4edc9abbff73676b9a63bc1d",
+          "signed_journal_sha256": "6209aec016bae7e36a896ad9081a2e82d6cd13e3b563d75a0d83bbae27634e53",
+          "browser_response_sha256": "ba720cb5e0ebd1cce765b5bbdaf5bcadae8d7c5aad9c775d67bc3992740f2e98",
+          "source_sha256": "ed69e5e794d9618bd153a0ea0266dd0a9203b1526c279ec01a0c9c64b2b0124b",
+          "current_detector_count": 41,
+          "http_elapsed_seconds": 16.58,
+          "model_steps": [
+            {
+              "kind": "anchors",
+              "answer": "```json\n{\"vehicles\": [[657, 504, 926, 835], [409, 509, 569, 626]]}\n```"
+            },
+            {
+              "kind": "parking_components",
+              "answer": "{\"choice\": \"B\"}"
+            }
+          ],
+          "board": [
+            {
+              "label": "A",
+              "point": [
+                2784.0,
+                1722.4505928853755
+              ],
+              "inside_reference": false
+            },
+            {
+              "label": "B",
+              "point": [
+                2229.3333333333335,
+                1526.0869565217392
+              ],
+              "inside_reference": true
+            },
+            {
+              "label": "C",
+              "point": [
+                2263.4666666666667,
+                1372.411067193676
+              ],
+              "inside_reference": true
+            },
+            {
+              "label": "D",
+              "point": [
+                2515.2,
+                1692.5691699604745
+              ],
+              "inside_reference": false
+            }
+          ],
+          "prior_original_request": "Please drop me off between the red sedan and the beige sedan outside the restaurants on the right.",
+          "prior_first_turn_score": "hit",
+          "prior_first_turn_point": [
+            2259.2,
+            1526.0869565217392
+          ]
+        },
+        {
+          "id": "word-03",
+          "expected": "propose",
+          "state": "needs_clarification",
+          "first_automatic_point_native_pixels": null,
+          "margin_inside_reference_native_pixels": null,
+          "score": "missed_gap",
+          "clarifying_question": "I can’t locate a clear roadside opening between those vehicles. Can you mark the intended area?",
+          "actor": "parking_model",
+          "method": "identified_vehicle_parking_v1",
+          "reason": "model_declined_offered_spots",
+          "source_scene_key": "e5bde860db079a167d5dba80",
+          "signed_journal_sha256": "04dab6c8bfa3a73819a558564612b9e0037f42536691d820a3888901e7c0f9d7",
+          "browser_response_sha256": "e0712c7c96e0fa4f333458f7e41918a0d955537646547a17ddbc2c5a8f712996",
+          "source_sha256": "78e265faad2f94bbfe80c56cb7f4b33723340268cfb9a4f5829145f69ee06c3a",
+          "current_detector_count": 11,
+          "http_elapsed_seconds": 9.25,
+          "model_steps": [
+            {
+              "kind": "anchors",
+              "answer": "```json\n{\"vehicles\": [[40, 616, 186, 722], [463, 401, 760, 772]]}\n```"
+            },
+            {
+              "kind": "tracks",
+              "answer": "```json\n{\"ids\": [2, 1]}\n```"
+            },
+            {
+              "kind": "choice",
+              "answer": "{\"choice\":null}"
+            }
+          ],
+          "board": [
+            {
+              "label": "A",
+              "point": [
+                1452.8,
+                1607.1936758893282
+              ],
+              "inside_reference": true
+            }
+          ],
+          "prior_original_request": "Drop me off between the silver SUV and the white sedan to its left.",
+          "prior_first_turn_score": "missed_gap",
+          "prior_first_turn_point": null
+        },
+        {
+          "id": "word-04",
+          "expected": "propose",
+          "state": "needs_clarification",
+          "first_automatic_point_native_pixels": null,
+          "margin_inside_reference_native_pixels": null,
+          "score": "missed_gap",
+          "clarifying_question": "I can’t locate a clear roadside opening between those vehicles. Can you mark the intended area?",
+          "actor": "parking_model",
+          "method": "identified_vehicle_parking_v1",
+          "reason": "model_declined_offered_spots",
+          "source_scene_key": "e5bde860db079a167d5dba80",
+          "signed_journal_sha256": "d39aa7ca491c3f3a111c9f574524d6da515f88fd95df6592db1ed2665b81f834",
+          "browser_response_sha256": "23f73b9da2b44c9bb2f0692b9e349ab2cc64d7752ba0bf2bbb89472429debb5d",
+          "source_sha256": "78e265faad2f94bbfe80c56cb7f4b33723340268cfb9a4f5829145f69ee06c3a",
+          "current_detector_count": 11,
+          "http_elapsed_seconds": 8.78,
+          "model_steps": [
+            {
+              "kind": "anchors",
+              "answer": "```json\n{\"vehicles\": [[463, 401, 760, 772], [41, 616, 186, 723]]}\n```"
+            },
+            {
+              "kind": "tracks",
+              "answer": "```json\n{\"ids\": [1, 2]}\n```"
+            },
+            {
+              "kind": "choice",
+              "answer": "{\"choice\":null}"
+            }
+          ],
+          "board": [
+            {
+              "label": "A",
+              "point": [
+                1452.8,
+                1607.1936758893282
+              ],
+              "inside_reference": true
+            }
+          ],
+          "prior_original_request": "Drop me off between the silver SUV and the white sedan to its left.",
+          "prior_first_turn_score": "missed_gap",
+          "prior_first_turn_point": null
+        },
+        {
+          "id": "word-05",
+          "expected": "ask",
+          "state": "needs_clarification",
+          "first_automatic_point_native_pixels": null,
+          "margin_inside_reference_native_pixels": null,
+          "score": "correct_withhold",
+          "clarifying_question": "I can’t locate a clear roadside opening between those vehicles. Can you mark the intended area?",
+          "actor": "parking_model",
+          "method": "identified_vehicle_parking_v1",
+          "reason": "no_supported_roadside_patch",
+          "source_scene_key": "f876f0cc0afa75eb59ed6439",
+          "signed_journal_sha256": "82ca56387810c94de9c898ad7cb83dd7dd0a4e91a8007956d6b86ec7c14af586",
+          "browser_response_sha256": "573c105751e8196a11d3797ce5d85a49340346d74f202c62f42a54dac8c56841",
+          "source_sha256": "b656dfe867d2d0d43d0b7d109e63e62ac84a0b441c10b8b93391be2f4ddbe60e",
+          "current_detector_count": 33,
+          "http_elapsed_seconds": 7.95,
+          "model_steps": [
+            {
+              "kind": "anchors",
+              "answer": "```json\n{\"vehicles\": [[746, 523, 947, 666], [390, 421, 475, 580]]}\n```"
+            },
+            {
+              "kind": "tracks",
+              "answer": "```json\n{\"ids\": [1, 2]}\n```"
+            }
+          ],
+          "board": [],
+          "prior_original_request": "Please drop me off between the yellow school bus and the big white SUV on the right.",
+          "prior_first_turn_score": "correct_withhold",
+          "prior_first_turn_point": null
+        },
+        {
+          "id": "word-06",
+          "expected": "ask",
+          "state": "needs_clarification",
+          "first_automatic_point_native_pixels": null,
+          "margin_inside_reference_native_pixels": null,
+          "score": "correct_withhold",
+          "clarifying_question": "I can’t locate a clear roadside opening between those vehicles. Can you mark the intended area?",
+          "actor": "parking_model",
+          "method": "identified_vehicle_parking_v1",
+          "reason": "model_declined_parking_components",
+          "source_scene_key": "7be744a9fa2e8c74db5d2b5c",
+          "signed_journal_sha256": "5fd40371a074319f5f822330b1f591343c60bfebea5797d80c6de7a8347eb7e5",
+          "browser_response_sha256": "6a23d0c0cc3229e572a0b072ff8ebfa4dfb1a6131deabb48d9b9cc4497217b0e",
+          "source_sha256": "51b52d8bac8ef5743305426fd4eead308446d04f79fa65ecdd63566bf32d9e5f",
+          "current_detector_count": 59,
+          "http_elapsed_seconds": 7.86,
+          "model_steps": [
+            {
+              "kind": "anchors",
+              "answer": "```json\n{\n    \"vehicles\": [\n        [839, 631, 1000, 890],\n        [720, 631, 888, 838]\n    ]\n}\n```"
+            },
+            {
+              "kind": "parking_components",
+              "answer": "{\"choice\":null}"
+            }
+          ],
+          "board": [
+            {
+              "label": "A",
+              "point": [
+                2277.3333333333335,
+                1327.3870333988211
+              ],
+              "inside_reference": false
+            }
+          ],
+          "prior_original_request": "Drop me off between the black SUV and the white SUV at the right edge.",
+          "prior_first_turn_score": "correct_withhold",
+          "prior_first_turn_point": null
+        },
+        {
+          "id": "word-07",
+          "expected": "propose",
+          "state": "needs_clarification",
+          "first_automatic_point_native_pixels": null,
+          "margin_inside_reference_native_pixels": null,
+          "score": "missed_gap",
+          "clarifying_question": "I can’t locate a clear roadside opening between those vehicles. Can you mark the intended area?",
+          "actor": "parking_model",
+          "method": "identified_vehicle_parking_v1",
+          "reason": "model_declined_parking_components",
+          "source_scene_key": "8d597ba5b8399c05b8afbd95",
+          "signed_journal_sha256": "9968eb216ba5f67b52aaa2eec571ce8a7e0e72141db0607d83161c5ac0ec8a53",
+          "browser_response_sha256": "7fe193627a6d6a3213700d1d9469ba0e0b0144d1d6e7da8aa26d88e6722176c7",
+          "source_sha256": "a07e0ded72bad166579a87adea852f1a5eef11e83e43f11c914388370c5c1e9a",
+          "current_detector_count": 33,
+          "http_elapsed_seconds": 7.72,
+          "model_steps": [
+            {
+              "kind": "anchors",
+              "answer": "```json\n{\"vehicles\": [[709, 521, 920, 661], [511, 536, 625, 616]]}\n```"
+            },
+            {
+              "kind": "parking_components",
+              "answer": "{\"choice\":null}"
+            }
+          ],
+          "board": [
+            {
+              "label": "A",
+              "point": [
+                2626.133333333333,
+                1385.217391304348
+              ],
+              "inside_reference": true
+            }
+          ],
+          "prior_original_request": "Drop me off between the white SUV and the white minivan parked by the medical center.",
+          "prior_first_turn_score": "hit",
+          "prior_first_turn_point": [
+            2626.133333333333,
+            1385.217391304348
+          ]
+        },
+        {
+          "id": "word-08",
+          "expected": "ask",
+          "state": "needs_clarification",
+          "first_automatic_point_native_pixels": null,
+          "margin_inside_reference_native_pixels": null,
+          "score": "correct_withhold",
+          "clarifying_question": "I can’t locate a clear roadside opening between those vehicles. Can you mark the intended area?",
+          "actor": "parking_model",
+          "method": "identified_vehicle_parking_v1",
+          "reason": "no_supported_roadside_patch",
+          "source_scene_key": "3539f06a2a098ced95f086f9",
+          "signed_journal_sha256": "307a9ec399058c654fd8558c4c33e5c6c1674bc026cb1c6554361df7a161878e",
+          "browser_response_sha256": "0dc25fa775ff70ebee86a59cfd44fd5c11b9f1862f006e8c1c0ee15b057243a8",
+          "source_sha256": "528de6137375fa351d4d85d5f25d3eca7b0034c2542983e75c32ad6b1013d2ac",
+          "current_detector_count": 6,
+          "http_elapsed_seconds": 8.33,
+          "model_steps": [
+            {
+              "kind": "anchors",
+              "answer": "```json\n{\"vehicles\": [[702, 678, 890, 901], [383, 601, 458, 789]]}\n```"
+            },
+            {
+              "kind": "tracks",
+              "answer": "```json\n{\"ids\": [1, 3]}\n```"
+            }
+          ],
+          "board": [],
+          "prior_original_request": "Drop me off between the blue delivery truck and the gray SUV.",
+          "prior_first_turn_score": "correct_withhold",
+          "prior_first_turn_point": null
+        }
+      ]
+    },
+    "new-photo": {
+      "seal_sha256": "26999ee6d48b814869e3ec0fb9c0328fa5920b5b8e156b0bab460963acba3634",
+      "reference_protocol": {
+        "arm": "Four previously unscored UAE photographs with new instructions",
+        "sealed_utc": "2026-11-22T23:08:50.756859+00:00",
+        "reviewer": "One AI visual reviewer marked the original uncropped images before detector or passenger-model inference for these photos. No human labels. All four were previously browsed in source screening.",
+        "sampling": "Purposive. Four distinct drives. One new frame from a previously evaluated Al Ain drive, three drives outside the released 27-photo bank. Duplicate byte hashes excluded against the 27 released photos, original 17-frame road-area study and airport case.",
+        "unique_earlier_hashes_checked": 45,
+        "scoring": "First model answer for a fresh session. Native-coordinate point must lie inside or on a frozen polygon; exact withholding required on negatives. Technical errors count as failures. Polygon describes visual correspondence only.",
+        "credit": "© Grab and KartaView Contributors, CC BY-SA 4.0",
+        "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "records": [
+          {
+            "id": "uae-new-01",
+            "photo_id": "1719741417",
+            "source_url": "https://kartaview.org/details/7130313/1395/",
+            "image_sha256": "3ed141c2c0b33754e2ee822ec16e1c1ed1c713dbd29b16e94acde77b950c6af8",
+            "source_processed_image_url": "https://cdn.kartaview.org/pr:sharp/aHR0cHM6Ly9zdG9yYWdlMTMub3BlbnN0cmVldGNhbS5vcmcvZmlsZXMvcGhvdG8vMjAyMy80LzIyL3Byb2MvNzEzMDMxM18wOTg1MmZkN2QzZGE1M2VkM2MzNTRmNTYyMmVkYTZhMS5qcGc",
+            "lat": 24.219812,
+            "lng": 55.760726,
+            "source_description": "Al Ain curbside bays",
+            "recording": "kartaview_7130313",
+            "frame": 1395,
+            "size": [
+              3840,
+              2160
+            ],
+            "utterance": "Please let me out between the small black SUV with the spare wheel and the white sedan farther along the same row.",
+            "expected": "propose",
+            "reference_polygon_normalized": [
+              [
+                [
+                  0.246,
+                  0.4920071048
+                ],
+                [
+                  0.342,
+                  0.486678508
+                ],
+                [
+                  0.433,
+                  0.5044404973
+                ],
+                [
+                  0.437,
+                  0.5435168739
+                ],
+                [
+                  0.332,
+                  0.5577264654
+                ],
+                [
+                  0.283,
+                  0.5257548845
+                ]
+              ]
+            ],
+            "reference_reason": "The black SUV and white sedan bracket several painted, vacant angled bays along the same curb. The polygon covers the visible continuous asphalt between their footprints and the aisle-side bay markings.",
+            "drive_in_previously_published_27": true
+          },
+          {
+            "id": "uae-new-02",
+            "photo_id": "1377981241",
+            "source_url": "https://kartaview.org/details/3849837/74/",
+            "image_sha256": "a85ff634bcd205e61948238e8201d2f78e50b2cc517a7d1d4516250072ec52e8",
+            "source_processed_image_url": "https://cdn.kartaview.org/pr:sharp/aHR0cHM6Ly9zdG9yYWdlMTMub3BlbnN0cmVldGNhbS5vcmcvZmlsZXMvcGhvdG8vMjAyMS85LzIxL3Byb2MvMzg0OTgzN19mZTUwMl82MTRhMTIyNDI5NDM0LmpwZw",
+            "lat": 25.221848,
+            "lng": 55.40487,
+            "source_description": "Dubai motorway traffic",
+            "recording": "kartaview_3849837",
+            "frame": 74,
+            "size": [
+              1920,
+              1080
+            ],
+            "utterance": "Could you drop me off between the white bus and the flatbed truck ahead of us?",
+            "expected": "ask",
+            "reference_polygon_normalized": [],
+            "reference_reason": "The bus and flatbed occupy adjacent motorway travel lanes. The road between them has dashed lane markings and no visible stopping bay.",
+            "drive_in_previously_published_27": false
+          },
+          {
+            "id": "uae-new-03",
+            "photo_id": "1495688537",
+            "source_url": "https://kartaview.org/details/5231497/102/",
+            "image_sha256": "ab05db00759062595063f27d3aff5b608c323d62872429ac596fd2fcf07ee8b3",
+            "source_processed_image_url": "https://cdn.kartaview.org/pr:sharp/aHR0cHM6Ly9zdG9yYWdlMTMub3BlbnN0cmVldGNhbS5vcmcvZmlsZXMvcGhvdG8vMjAyMi81LzIwL3Byb2MvNTIzMTQ5N18xNmJhY2FjMmZmNmZjODBjNjFiYjcwNWUzZDA2ZTAzNi5qcGc",
+            "lat": 25.13923,
+            "lng": 55.253204,
+            "source_description": "Dubai shop-front bay",
+            "recording": "kartaview_5231497",
+            "frame": 102,
+            "size": [
+              3840,
+              2160
+            ],
+            "utterance": "Please drop me off in the marked space between the dark blue sedan and the silver SUV outside the shops on the right.",
+            "expected": "propose",
+            "reference_polygon_normalized": [
+              [
+                [
+                  0.424,
+                  0.6571936057
+                ],
+                [
+                  0.584,
+                  0.6589698046
+                ],
+                [
+                  0.591,
+                  0.6660746004
+                ],
+                [
+                  0.591,
+                  0.701598579
+                ],
+                [
+                  0.505,
+                  0.703374778
+                ],
+                [
+                  0.466,
+                  0.6891651865
+                ]
+              ]
+            ],
+            "reference_reason": "The visible marked shop-front parking surface sits between the dark blue Volkswagen and silver SUV. The polygon excludes the SUV kerb, blue bodywork, foreground wheel stop and aisle.",
+            "drive_in_previously_published_27": false
+          },
+          {
+            "id": "uae-new-04",
+            "photo_id": "1493108905",
+            "source_url": "https://kartaview.org/details/5204489/936/",
+            "image_sha256": "4b839f186c8365013c4db4087373e1b3fa26dba12777e34b32e4fd34d7c87d27",
+            "source_processed_image_url": "https://cdn.kartaview.org/pr:sharp/aHR0cHM6Ly9zdG9yYWdlMTMub3BlbnN0cmVldGNhbS5vcmcvZmlsZXMvcGhvdG8vMjAyMi81LzE2L3Byb2MvNTIwNDQ4OV8wMDNlNGFkYmIwNTAyM2EwMDg3ZjFmMjY3MTIyODc3OC5qcGc",
+            "lat": 25.116496,
+            "lng": 55.201456,
+            "source_description": "Dubai garage aisle",
+            "recording": "kartaview_5204489",
+            "frame": 936,
+            "size": [
+              3840,
+              2160
+            ],
+            "utterance": "I would like to get out between the silver sedan parked on the left and the blue sedan parked on the right.",
+            "expected": "ask",
+            "reference_polygon_normalized": [],
+            "reference_reason": "The cars are in opposite rows of an indoor garage. The space between them is the central access aisle, not a visible empty between-car bay.",
+            "drive_in_previously_published_27": false
+          }
+        ]
+      },
+      "summary": {
+        "requests": 4,
+        "distinct_photographs": 4,
+        "positive_requests": 2,
+        "negative_requests": 2,
+        "in_region": 1,
+        "missed_gap": 1,
+        "correct_withhold": 2,
+        "proposed_outside_reference": 0,
+        "false_proposals_on_negatives": 0,
+        "operational_errors": 0,
+        "correct": 3
+      },
+      "first_turns": [
+        {
+          "id": "uae-new-01",
+          "expected": "propose",
+          "state": "needs_clarification",
+          "first_automatic_point_native_pixels": null,
+          "margin_inside_reference_native_pixels": null,
+          "score": "missed_gap",
+          "clarifying_question": "I can’t locate a clear roadside opening between those vehicles. Can you mark the intended area?",
+          "actor": "parking_model",
+          "method": "identified_vehicle_parking_v1",
+          "reason": "model_declined_parking_components",
+          "source_scene_key": "d76c4ca006dc9332d37ec750",
+          "signed_journal_sha256": "d345178031f3399e62b93313ed3b0cad3c351681b39961082b85ed700e4c8974",
+          "browser_response_sha256": "3474e5a55a3fd706fdc0dc6945ce4e8086fe05a5bae9f37789bd06cff5249857",
+          "source_sha256": "3ed141c2c0b33754e2ee822ec16e1c1ed1c713dbd29b16e94acde77b950c6af8",
+          "current_detector_count": 29,
+          "http_elapsed_seconds": 46.45,
+          "model_steps": [
+            {
+              "kind": "anchors",
+              "answer": "```json\n{\"vehicles\": [[438, 405, 575, 561], [244, 420, 346, 486]]}\n```"
+            },
+            {
+              "kind": "parking_components",
+              "answer": "{\"choice\":null}"
+            }
+          ],
+          "board": [
+            {
+              "label": "A",
+              "point": [
+                1482.6666666666667,
+                1129.0909090909092
+              ],
+              "inside_reference": true
+            }
+          ]
+        },
+        {
+          "id": "uae-new-02",
+          "expected": "ask",
+          "state": "needs_clarification",
+          "first_automatic_point_native_pixels": null,
+          "margin_inside_reference_native_pixels": null,
+          "score": "correct_withhold",
+          "clarifying_question": "I can’t locate a clear roadside opening between those vehicles. Can you mark the intended area?",
+          "actor": "parking_model",
+          "method": "identified_vehicle_parking_v1",
+          "reason": "no_supported_roadside_patch",
+          "source_scene_key": "b5af9cff8c857bab442ba850",
+          "signed_journal_sha256": "d6de240e5d519936f9bd82bb0d0fb5ddd9b92f329b74089d6a009d307ef9da90",
+          "browser_response_sha256": "d10d7040541f2843a98143d193716d2f2f0b3c53747a20f2774e8121e0cb926a",
+          "source_sha256": "a85ff634bcd205e61948238e8201d2f78e50b2cc517a7d1d4516250072ec52e8",
+          "current_detector_count": 66,
+          "http_elapsed_seconds": 9.19,
+          "model_steps": [
+            {
+              "kind": "anchors",
+              "answer": "```json\n{\n    \"vehicles\": [\n        [326, 374, 446, 507],\n        [459, 360, 526, 488]\n    ]\n}\n```"
+            },
+            {
+              "kind": "tracks",
+              "answer": "```json\n{\"ids\": [2, 20]}\n```"
+            }
+          ],
+          "board": []
+        },
+        {
+          "id": "uae-new-03",
+          "expected": "propose",
+          "state": "proposed",
+          "first_automatic_point_native_pixels": [
+            2246.4,
+            1462.0553359683795
+          ],
+          "margin_inside_reference_native_pixels": 23.04,
+          "score": "hit",
+          "clarifying_question": null,
+          "actor": "parking_model",
+          "method": "identified_vehicle_parking_v1",
+          "reason": "visible_roadside_proposal",
+          "source_scene_key": "f4d997a6f22c942559a798dd",
+          "signed_journal_sha256": "f820a66af25f2c7f344798f677d1ff5325440ac0115cd1e82bae595ab53001a3",
+          "browser_response_sha256": "77df6bbf0ef9335692f7b93f3c600f3a5a9705b9cad15d3fe3732af35ff63ba1",
+          "source_sha256": "ab05db00759062595063f27d3aff5b608c323d62872429ac596fd2fcf07ee8b3",
+          "current_detector_count": 34,
+          "http_elapsed_seconds": 8.53,
+          "model_steps": [
+            {
+              "kind": "anchors",
+              "answer": "```json\n{\"vehicles\": [[593, 544, 972, 766], [432, 536, 590, 647]]}\n```"
+            },
+            {
+              "kind": "parking_components",
+              "answer": "{\"choice\": \"A\"}"
+            }
+          ],
+          "board": [
+            {
+              "label": "A",
+              "point": [
+                2246.4,
+                1462.0553359683795
+              ],
+              "inside_reference": true
+            },
+            {
+              "label": "B",
+              "point": [
+                2071.4666666666667,
+                1526.0869565217392
+              ],
+              "inside_reference": false
+            }
+          ]
+        },
+        {
+          "id": "uae-new-04",
+          "expected": "ask",
+          "state": "needs_clarification",
+          "first_automatic_point_native_pixels": null,
+          "margin_inside_reference_native_pixels": null,
+          "score": "correct_withhold",
+          "clarifying_question": "I can’t locate a clear roadside opening between those vehicles. Can you mark the intended area?",
+          "actor": "parking_model",
+          "method": "identified_vehicle_parking_v1",
+          "reason": "no_supported_roadside_patch",
+          "source_scene_key": "ac705d0d2735533e70825000",
+          "signed_journal_sha256": "8c0452372d56d4f279fe5216e74d9b274127066b6d93d8fa288fcb11901bdcf5",
+          "browser_response_sha256": "4f7dd0c845551a810414ee988e20551e4b99a8162b106ba8fb145577aeb983f4",
+          "source_sha256": "4b839f186c8365013c4db4087373e1b3fa26dba12777e34b32e4fd34d7c87d27",
+          "current_detector_count": 34,
+          "http_elapsed_seconds": 9.16,
+          "model_steps": [
+            {
+              "kind": "anchors",
+              "answer": "```json\n{\"vehicles\": [[100, 465, 390, 627], [730, 492, 1000, 653]]}\n```"
+            },
+            {
+              "kind": "tracks",
+              "answer": "```json\n{\"ids\": [3, 2]}\n```"
+            }
+          ],
+          "board": []
+        }
+      ]
+    }
+  },
+  "replayed_utc": "2026-11-22T23:11:38.227669+00:00"
+}

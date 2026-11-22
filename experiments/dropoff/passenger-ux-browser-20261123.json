@@ -1,0 +1,501 @@
+{
+  "scope": "Scripted browser acceptance against ordinary passenger application and deployed model. Four real UAE photos used for these workflows, including the new shopfront already counted by the separate new-photo study. No human interaction study or independent accuracy denominator is derived from these browser journeys.",
+  "runner": "Playwright CLI controlling real headless Microsoft Edge; 390×844 mobile uses touch emulation and CDP touch events; desktop 1365×850. Manual targets were scripted against previous independent AI visual references, never supplied to automatic inference.",
+  "cases": {
+    "reviewed_spoken_instruction": {
+      "frame": {
+        "recording": "kartaview_7199241",
+        "frame": 48,
+        "source_hash": "ed69e5e794d9618bd153a0ea0266dd0a9203b1526c279ec01a0c9c64b2b0124b",
+        "state": "proposed",
+        "source": "parking_model",
+        "point": [
+          2229.3333333333335,
+          1526.0869565217392
+        ]
+      },
+      "speech_source": "New 15-word Windows synthetic utterance played through Edge's fake microphone device. Browser getUserMedia, AudioWorklet, WAV encoder and real ASR all ran.",
+      "spoken": "Please let me out between the red sedan and the beige sedan on the right.",
+      "edited": "Please let me out between the red sedan and the beige sedan outside the restaurants on the right.",
+      "matching_recognized_words": 15,
+      "spoken_words": 15,
+      "model_point_inside_previously_reviewed_polygon": true,
+      "explicit_confirmation": true,
+      "edit_hid_confirmation": true,
+      "fresh_draft_legend": "Original photo",
+      "saved": {
+        "journal_sha256": "6a97a54440a1471657da8a2ef5ff0dbc24899cb612b186517c5832e79678f810",
+        "scene_image_sha256": "ed69e5e794d9618bd153a0ea0266dd0a9203b1526c279ec01a0c9c64b2b0124b",
+        "events": [
+          {
+            "stage": "opened",
+            "state": "idle",
+            "selected_by": null,
+            "phase": "opened"
+          },
+          {
+            "stage": "submitted",
+            "state": "proposed",
+            "selected_by": "parking_model",
+            "phase": "automatic_parking_proposal",
+            "method": "identified_vehicle_parking_v1",
+            "point": [
+              2229.3333333333335,
+              1526.0869565217392
+            ],
+            "parking_verification": {
+              "decision_reproduced": true,
+              "input_verified": true,
+              "independent_model_proposal": true
+            },
+            "speech": {
+              "engine": "faster-whisper",
+              "engine_version": "1.2.1",
+              "model_id": "Systran/faster-whisper-small.en",
+              "device": "cpu",
+              "duration_s": 5.592,
+              "sample_rate_hz": 16000,
+              "channels": 1,
+              "audio_sha256": "840caa5475d1c8df918864b9a057c1c9b1351ce44a0acdf2e2fa3d7d9e090af6",
+              "transcript": "Please let me out between the red sedan and the beige sedan on the right."
+            },
+            "reviewed_submission": "Please let me out between the red sedan and the beige sedan outside the restaurants on the right."
+          },
+          {
+            "stage": "confirmed",
+            "state": "confirmed",
+            "selected_by": "parking_model",
+            "phase": "confirmed_previous_selection"
+          }
+        ]
+      }
+    },
+    "touch_recovery_of_known_miss": {
+      "frame": {
+        "recording": "kartaview_5231529",
+        "frame": 132,
+        "source_hash": "78e265faad2f94bbfe80c56cb7f4b33723340268cfb9a4f5829145f69ee06c3a",
+        "state": "needs_clarification",
+        "source": "parking_model",
+        "point": null
+      },
+      "clarifying_question": "I can’t locate a clear roadside opening between those vehicles. Can you mark the intended area?",
+      "primary_action": "Mark my spot on the photo",
+      "focus": "destination-title",
+      "sky": {
+        "selected_by": "passenger",
+        "result": "needs_clarification",
+        "point": null,
+        "confirm_visible": false
+      },
+      "valid_selection": {
+        "scale": "1.5×",
+        "real_touch_pan_before_after_scroll_pixels": [
+          [
+            91,
+            51
+          ],
+          [
+            49,
+            51
+          ]
+        ],
+        "result": {
+          "recording": "kartaview_5231529",
+          "frame": 132,
+          "source_hash": "78e265faad2f94bbfe80c56cb7f4b33723340268cfb9a4f5829145f69ee06c3a",
+          "state": "confirmed",
+          "source": "passenger",
+          "point": [
+            1226.25,
+            1601.25
+          ]
+        },
+        "point_inside_previously_reviewed_polygon": true
+      },
+      "next_photo_cleared_selection": true,
+      "saved": {
+        "journal_sha256": "1da835fc9acaf5528ea74b75c1f7efe39df1ad955c483a8259d2a2cd0bf6118b",
+        "scene_image_sha256": "78e265faad2f94bbfe80c56cb7f4b33723340268cfb9a4f5829145f69ee06c3a",
+        "events": [
+          {
+            "stage": "opened",
+            "state": "idle",
+            "selected_by": null,
+            "phase": "opened"
+          },
+          {
+            "stage": "submitted",
+            "state": "needs_clarification",
+            "selected_by": "parking_model",
+            "phase": "automatic_parking_response",
+            "method": "identified_vehicle_parking_v1",
+            "point": null,
+            "parking_verification": {
+              "decision_reproduced": true,
+              "input_verified": true,
+              "independent_model_proposal": false
+            }
+          },
+          {
+            "stage": "passenger_marked",
+            "state": "needs_clarification",
+            "selected_by": "passenger",
+            "phase": "passenger_marked",
+            "method": "explicit_passenger_region",
+            "point": null,
+            "passenger_mark_verification": {
+              "road_mask_replayed": true,
+              "decision_reproduced": true,
+              "current_image_and_tracks_checked": true,
+              "independent_model_proposal": false
+            }
+          },
+          {
+            "stage": "passenger_marked",
+            "state": "proposed",
+            "selected_by": "passenger",
+            "phase": "passenger_marked",
+            "method": "explicit_passenger_region",
+            "point": [
+              1226.25,
+              1601.25
+            ],
+            "passenger_mark_verification": {
+              "road_mask_replayed": true,
+              "decision_reproduced": true,
+              "current_image_and_tracks_checked": true,
+              "independent_model_proposal": false
+            }
+          },
+          {
+            "stage": "confirmed",
+            "state": "confirmed",
+            "selected_by": "passenger",
+            "phase": "confirmed_previous_selection"
+          }
+        ]
+      }
+    },
+    "keyboard_only_recovery": {
+      "recording": "kartaview_5231529",
+      "frame": 132,
+      "zoom": "1.5×",
+      "escape_cancelled_unsubmitted_preview": true,
+      "arrow_after_enter_invalidated_previous_preview": true,
+      "final_point": [
+        1233.75,
+        1586.25
+      ],
+      "entered_before_confirm": true,
+      "inside_previous_reference": true,
+      "saved": {
+        "journal_sha256": "638c23c249c50647e7ddb4cabe932617531af7d35ea29ab7c33c7c07cdc771c4",
+        "scene_image_sha256": "78e265faad2f94bbfe80c56cb7f4b33723340268cfb9a4f5829145f69ee06c3a",
+        "events": [
+          {
+            "stage": "opened",
+            "state": "idle",
+            "selected_by": null,
+            "phase": "opened"
+          },
+          {
+            "stage": "submitted",
+            "state": "needs_clarification",
+            "selected_by": "parking_model",
+            "phase": "automatic_parking_response",
+            "method": "identified_vehicle_parking_v1",
+            "point": null,
+            "parking_verification": {
+              "decision_reproduced": true,
+              "input_verified": true,
+              "independent_model_proposal": false
+            }
+          },
+          {
+            "stage": "passenger_marked",
+            "state": "proposed",
+            "selected_by": "passenger",
+            "phase": "passenger_marked",
+            "method": "explicit_passenger_region",
+            "point": [
+              1233.75,
+              1586.25
+            ],
+            "passenger_mark_verification": {
+              "road_mask_replayed": true,
+              "decision_reproduced": true,
+              "current_image_and_tracks_checked": true,
+              "independent_model_proposal": false
+            }
+          },
+          {
+            "stage": "confirmed",
+            "state": "confirmed",
+            "selected_by": "passenger",
+            "phase": "confirmed_previous_selection"
+          }
+        ]
+      }
+    },
+    "blocked_road_and_editing": {
+      "recording": "kartaview_7271081",
+      "frame": 72,
+      "actual_first_reply": {
+        "state": "needs_clarification",
+        "source": "parking_model",
+        "heading": "Which spot do you mean?",
+        "reason": "I can’t locate a clear roadside opening between those vehicles. Can you mark the intended area?"
+      },
+      "reply_ui": {
+        "label": "Your reply",
+        "question": "I can’t locate a clear roadside opening between those vehicles. Can you mark the intended area?",
+        "submit": "Send reply"
+      },
+      "discard_edit_preserved_original": true,
+      "user_cancelled": true,
+      "saved": {
+        "journal_sha256": "63e964c141ec4cf7a3a32376f93d671cff336c6f35494de1988fa3f3dc90176d",
+        "scene_image_sha256": "918e3e64b7e104fa7e25758e853e712d435ac234349aa802c183f7940c34ea6e",
+        "events": [
+          {
+            "stage": "opened",
+            "state": "idle",
+            "selected_by": null,
+            "phase": "opened"
+          },
+          {
+            "stage": "submitted",
+            "state": "needs_clarification",
+            "selected_by": "parking_model",
+            "phase": "automatic_parking_response",
+            "method": "identified_vehicle_parking_v1",
+            "point": null,
+            "parking_verification": {
+              "decision_reproduced": true,
+              "input_verified": true,
+              "independent_model_proposal": false
+            }
+          },
+          {
+            "stage": "cancelled",
+            "state": "cancelled",
+            "selected_by": null,
+            "phase": "cancelled"
+          }
+        ]
+      }
+    },
+    "shopfront_desktop": {
+      "recording": "kartaview_5231497",
+      "frame": 102,
+      "words": "Please drop me off in the marked space between the dark blue sedan and the silver SUV outside the shops on the right.",
+      "state": "proposed",
+      "point": [
+        2246.4,
+        1462.0553359683795
+      ],
+      "actor": "parking_model",
+      "first_point_inside_presealed_polygon": true,
+      "shown_for_explicit_review": true,
+      "saved": {
+        "journal_sha256": "e102525fbe804ee0df8e0ce0f5d7de9f3c847ed8439d119610ba60b729acbbb5",
+        "scene_image_sha256": "ab05db00759062595063f27d3aff5b608c323d62872429ac596fd2fcf07ee8b3",
+        "events": [
+          {
+            "stage": "opened",
+            "state": "idle",
+            "selected_by": null,
+            "phase": "opened"
+          },
+          {
+            "stage": "submitted",
+            "state": "proposed",
+            "selected_by": "parking_model",
+            "phase": "automatic_parking_proposal",
+            "method": "identified_vehicle_parking_v1",
+            "point": [
+              2246.4,
+              1462.0553359683795
+            ],
+            "parking_verification": {
+              "decision_reproduced": true,
+              "input_verified": true,
+              "independent_model_proposal": true
+            }
+          }
+        ]
+      }
+    },
+    "reply_replacement_and_stale_edit": {
+      "recording": "kartaview_5231529",
+      "frame": 132,
+      "initial_text": [
+        "Drop me off between the silver SUV and the white sedan to its left."
+      ],
+      "reply_retained_user_turns": [
+        "Drop me off between the silver SUV and the white sedan to its left.",
+        "The large silver Nissan SUV and the white sedan parked directly to its left."
+      ],
+      "original_prefilled_after_reply": "Drop me off between the silver SUV and the white sedan to its left.",
+      "replacement_bound_to_current_request": true,
+      "replacement_active_words": [
+        "Please let me out between the white sedan and the silver SUV by the grass."
+      ],
+      "concurrent_change": "A second simulated client cancelled while the desktop browser still had its edit open.",
+      "stale_edit": {
+        "code": 409,
+        "actual": "cancelled",
+        "formCanRepeat": false,
+        "confirm": false,
+        "message": "This action is out of date. Use the current frame and proposal."
+      },
+      "saved": {
+        "journal_sha256": "db2b1647f7852a037700029d25f27347dc1a0c52da9ab09451d0a3bfeea49606",
+        "scene_image_sha256": "78e265faad2f94bbfe80c56cb7f4b33723340268cfb9a4f5829145f69ee06c3a",
+        "events": [
+          {
+            "stage": "opened",
+            "state": "idle",
+            "selected_by": null,
+            "phase": "opened"
+          },
+          {
+            "stage": "submitted",
+            "state": "needs_clarification",
+            "selected_by": "parking_model",
+            "phase": "automatic_parking_response",
+            "method": "identified_vehicle_parking_v1",
+            "point": null,
+            "parking_verification": {
+              "decision_reproduced": true,
+              "input_verified": true,
+              "independent_model_proposal": false
+            }
+          },
+          {
+            "stage": "submitted",
+            "state": "needs_clarification",
+            "selected_by": "parking_model",
+            "phase": "automatic_parking_response",
+            "method": "identified_vehicle_parking_v1",
+            "point": null,
+            "parking_verification": {
+              "decision_reproduced": true,
+              "input_verified": true,
+              "independent_model_proposal": false
+            }
+          },
+          {
+            "stage": "submitted",
+            "state": "needs_clarification",
+            "selected_by": "parking_model",
+            "phase": "automatic_parking_response",
+            "method": "identified_vehicle_parking_v1",
+            "point": null,
+            "parking_verification": {
+              "decision_reproduced": true,
+              "input_verified": true,
+              "independent_model_proposal": false
+            }
+          },
+          {
+            "stage": "cancelled",
+            "state": "cancelled",
+            "selected_by": null,
+            "phase": "cancelled"
+          }
+        ]
+      }
+    }
+  },
+  "fault_recovery": {
+    "voice_denied": {
+      "permission": "denied",
+      "draft": "Please leave me by the restaurant entrance.",
+      "error": "Microphone access was denied. You can type or upload a WAV file.",
+      "voiceStage": null,
+      "revision": 0
+    },
+    "empty_upload": {
+      "draft": "Please leave me by the restaurant entrance.",
+      "error": "Choose a nonempty WAV up to 12 MiB.",
+      "revision": 0,
+      "voiceStage": null
+    },
+    "discard_recording": {
+      "draft": "Please leave me by the restaurant entrance.",
+      "voiceStage": null,
+      "pendingConfirm": false,
+      "state": "idle"
+    },
+    "blocked_image": {
+      "kind": "deliberate browser transport failure on one original image load",
+      "blocked": {
+        "title": "Reload the road photo",
+        "submit": true,
+        "voice": true,
+        "zoom": true,
+        "confirm": false,
+        "typed": "Drop me off near the red car."
+      },
+      "restored": {
+        "native": [
+          3840,
+          2160
+        ],
+        "submit": true,
+        "typed": "Drop me off near the red car.",
+        "title": "Where would you like to get out?",
+        "link": "http://127.0.0.1:8775/?scene=4edc9abbff73676b9a63bc1d"
+      }
+    }
+  },
+  "responsive": {
+    "tested_widths_css_pixels": [
+      320,
+      360,
+      390,
+      768,
+      1024,
+      1365
+    ],
+    "all_inputs_in_viewport": true,
+    "phone_390x844": {
+      "photo_top_before": 315,
+      "photo_top_after": 198,
+      "submit_top_before": 840,
+      "submit_top_after": 654,
+      "submit_bottom_before": 882,
+      "submit_bottom_after": 698
+    }
+  },
+  "screenshots": {
+    "credit": "© Grab and KartaView Contributors. Screenshots add app interface and overlays to original road photographs.",
+    "photo_license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
+    "desktop": {
+      "path": "docs/passenger-ux-desktop.jpg",
+      "sha256": "fb080608141e76a9d3b8911ae23b80367992e9a570ce52515a393a8df754a175",
+      "source": "https://kartaview.org/details/5231497/102/"
+    },
+    "mobile": {
+      "path": "docs/passenger-ux-mobile.jpg",
+      "sha256": "63f14f65dcf5ee2fad048adfc2a867b15d1f4411a8cb31df0bad708d3ba3a3bc",
+      "source": "https://kartaview.org/details/5231529/132/"
+    }
+  },
+  "navigation": {
+    "previousNext": true,
+    "exactPriorScene": "kartaview_5231497",
+    "sourceHash": "ab05db00759062595063f27d3aff5b608c323d62872429ac596fd2fcf07ee8b3",
+    "newSessionOnReturn": true,
+    "canonicalUnknownScene": "8a32b5b5965ebf8299cc1343",
+    "hiddenStreetFramePicker": true,
+    "emtFramePicker": true,
+    "qaPage": {
+      "path": "/footage",
+      "heading": "Search road footage"
+    }
+  }
+}

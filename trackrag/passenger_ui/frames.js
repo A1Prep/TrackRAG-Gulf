@@ -2,8 +2,9 @@ export function addFrame(select, frame) {
   if ([...select.options].some(option => option.value === frame.key)) return;
   const option = document.createElement("option");
   option.value = frame.key;
-  option.textContent = frame.recording_id.replace(/^video_/, "Recording ") + " · frame " +
-    frame.frame_id + " · " + frame.timestamp_s.toFixed(1) + " s";
+  const drive = frame.recording_id.match(/^kartaview_(\d+)$/);
+  option.textContent = drive ? "Street photo " + drive[1] + " · " + frame.frame_id :
+    frame.recording_id.replace(/^video_/, "Recording ") + " · frame " + frame.frame_id + " · " + frame.timestamp_s.toFixed(1) + " s";
   select.append(option);
 }
 

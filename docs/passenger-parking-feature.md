@@ -4,7 +4,7 @@ The passenger can describe two vehicles in English, by voice or text. The app us
 
 ## Open the prepared app
 
-From the project root on the prepared Windows laptop, use the local grounding environment. The first command downloads and verifies the original UAE photos and writes an app-ready set of 27 scenes. It resumes from verified files. The second command opens the regular passenger and footage app with the cloud parking model enabled. Open the local page once the server prints its address.
+From the project root on the prepared Windows laptop, use the local grounding environment. The first command downloads and verifies the original UAE photos and writes an app-ready set of 31 scenes. It resumes from verified files. The second command opens the regular passenger and footage app with the cloud parking model enabled. Open the local page once the server prints its address.
 
 ~~~powershell
 .\.venv-grounding-local\Scripts\python.exe -m tools.passenger_parking_photos
@@ -13,17 +13,40 @@ From the project root on the prepared Windows laptop, use the local grounding en
 
 The prepared laptop also has the original airport photograph. To open it in the same session, include `--requests runs/passenger-pair-scene/requests.jsonl` at startup. On a new machine, install the local passenger bundle, speech model and road model first. The documented standard support location works without the machine-specific `--vision-cache` option. [Passenger setup](passenger-release.md)
 
-- Open recording **7130313**, frame **1390**. Type **“Drop me off between the silver sedan and the dark Nissan on the right, please.”** The yellow dot is the proposal and the dashed rectangle shows the area to inspect. Press **Confirm** only if this is where you meant. [Open the sedan and Nissan on this laptop](http://127.0.0.1:8775/?scene=7520651abea7382db45fcc04)
-- To try voice, open the truck-and-van photo, press **Record voice** and say **“Drop me off between the white box truck and the white van, please.”** Stop, review the transcript and press **Send**. Editing the transcript changes the words the model receives. [Open the truck and van on this laptop](http://127.0.0.1:8775/?scene=0c150fa36349744dbd66653b)
+- Open the Dubai shop-front photo and type **“Please drop me off in the marked space between the dark blue sedan and the silver SUV outside the shops on the right.”** Choose **Find my spot**. On the measured run the yellow pin landed in the requested bay. Choose **Confirm this spot** if it matches your intent. [Open the shop-front photo](http://127.0.0.1:8775/?scene=f4d997a6f22c942559a798dd)
+- To try voice, open the truck-and-van photo, press **Record voice** and say **“Drop me off between the white box truck and the white van, please.”** Stop, edit any incorrectly recognized words and press **Send reviewed transcript**. [Open the truck and van](http://127.0.0.1:8775/?scene=0c150fa36349744dbd66653b)
 - Any catalogued recording and frame can be selected in the normal app. The case descriptions in the downloaded request bank prepare the photo and its predictions. They never supply an answer or override what the passenger enters.
 
-![The passenger app outlines the silver sedan and dark Nissan and displays the confirmed point between them](passenger-parking-confirmed.jpg)
+![The passenger app outlines two vehicles and asks whether the yellow pin in the Dubai shop-front bay is the requested spot](passenger-ux-desktop.jpg)
 
-The screenshot shows a real model response followed by a scripted confirmation click. The street photograph is © Grab and KartaView Contributors. The resized and annotated image is shared under CC BY-SA 4.0. [Original photograph](https://kartaview.org/details/7130313/1390/) · [License](https://creativecommons.org/licenses/by-sa/4.0/)
+The screenshot shows the first automatic proposal awaiting confirmation. The road photograph is © Grab and KartaView Contributors. This screenshot adds the interface and overlays and is shared under CC BY-SA 4.0. [Original photograph](https://kartaview.org/details/5231497/102/) · [License](https://creativecommons.org/licenses/by-sa/4.0/)
 
-## What worked on UAE driver-view photographs
+## When the app asks again
 
-The last test used six unseen drives from Dubai, Ajman and Sharjah. The passenger app found **two of three visible openings** and asked for clarification on **all three blocked scenes**. It declined one actual opening between a silver SUV and a white sedan. Five of six first responses met the pre-defined criterion. All six used real detector outputs and model calls. A separate reviewer marked the acceptable regions before inference and saw the predictions only after they were saved. [Case-level results, exact words, reference regions and model outputs](../experiments/dropoff/passenger-uae-parking-results-20261123.json)
+Choose **Mark my spot on the photo** to tap the intended location or drag around an area. Zoom up to 3× to see a small gap. A keyboard user can move the crosshair with the arrow keys, use Shift for larger steps and press Enter to place a mark. Choose **Check my spot** to check visible road support, then inspect the blue pin and confirm it separately. A mark on an unsupported surface can lead to another clarification. [Try the missed silver-SUV gap](http://127.0.0.1:8775/?scene=e5bde860db079a167d5dba80) · [See the confirmed passenger correction on a phone](passenger-ux-mobile.jpg)
+
+Choose **Answer in words** to add a detail to the existing conversation. **Edit original description** replaces the request and starts the language model with the revised words and this photo. An unconfirmed suggestion also has a direct **Edit description** button. In a live test, changing from the red and beige sedans to the white taxi and dark sedan produced a different pair and pin. The previous confirmation was rejected. A separate follow-up preserved the original words and the assistant’s question. [Verified turns, model inputs and proposal IDs](../experiments/dropoff/passenger-request-edit-20261123.json)
+
+On a 390 × 844 phone viewport, the entire **Find my spot** button was visible on entry. Its upper edge moved from 840 to 654 pixels. A desktop microphone trial used synthesized English speech through the real browser recorder and local Whisper recognizer. It transcribed all 15 words, allowed a correction and submitted the reviewed wording. We also tested a refused microphone, an empty recording and a failed photo load. The mobile screenshot adds the interface and blue passenger pin to the original road photo, © Grab and KartaView Contributors, CC BY-SA 4.0. [Browser evidence](../experiments/dropoff/passenger-ux-browser-20261123.json) · [Mobile source photo](https://kartaview.org/details/5231529/132/) · [License](https://creativecommons.org/licenses/by-sa/4.0/)
+
+## Further tests of the automatic suggestion
+
+| Trial | Visible gaps correctly marked | Blocked requests correctly withheld | Correct first replies |
+|---|---:|---:|---:|
+| Four previously unscored UAE photos | 1 of 2 | 2 of 2 | 3 of 4 |
+| Eight new descriptions on six previously scored photos | 2 of 5 | 3 of 3 | 5 of 8 |
+
+The app found the Dubai shop-front bay, missed the Al Ain bays and requested clarification on the motorway and in the garage. An AI reviewer marked the scoring regions before inference. Three of the four photos came from drives outside the earlier photo bank. The Al Ain photo was a different frame from a familiar drive. All four missed positive requests across the two trials had a candidate inside the reference region. The final selector declined it. [Predeclared cases, exact coordinates and results](../experiments/dropoff/passenger-ux-road-validation-20261123.json)
+
+![Four UAE driving photos with the exact tested outcomes, including the missed Al Ain bays and the correctly marked Dubai shop-front bay](passenger-ux-road-validation.jpg)
+
+The comparison crops and annotates road photographs by Grab and KartaView Contributors under CC BY-SA 4.0. [Al Ain bays](https://kartaview.org/details/7130313/1395/) · [Motorway](https://kartaview.org/details/3849837/74/) · [Dubai shopfront](https://kartaview.org/details/5231497/102/) · [Garage](https://kartaview.org/details/5204489/936/) · [License](https://creativecommons.org/licenses/by-sa/4.0/)
+
+We also replayed 42 scripted taps on 17 previously scored photos. The old phone-sized tap could snap from a small motorway car to road below it. The revised tap covers the same original-image area at every display size and zoom. It rejected all 34 vehicle-body taps and placed 7 of 8 gap-centre taps inside their reference regions. The remaining gap was on gravel that the road model failed to recognize. These assisted scores measure how the app handles a supplied point. [Tap coordinates, results and live confirmation checks](../experiments/dropoff/passenger-precise-tap-20261123.json)
+
+## Earlier automatic tests on UAE driver-view photographs
+
+An earlier test used six unseen drives from Dubai, Ajman and Sharjah. The passenger app found **two of three visible openings** and asked for clarification on **all three blocked scenes**. It declined one actual opening between a silver SUV and a white sedan. Five of six first responses met the pre-defined criterion. All six used real detector outputs and model calls. A separate reviewer marked the acceptable regions before inference and saw the predictions only after they were saved. [Case-level results, exact words, reference regions and model outputs](../experiments/dropoff/passenger-uae-parking-results-20261123.json)
 
 | Same six new drives | Correct location in 3 visible openings | Correctly withheld a point on 3 blocked scenes | Technical errors |
 |---|---:|---:|---:|

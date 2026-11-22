@@ -1,16 +1,25 @@
 import {addFrame, openFrame} from "./frames.js";
 import {VehiclePairPicker, drawChosenLandmarks} from "./pair-choices.js";
+import {PhotoTools, positionWords} from "./photo-tools.js";
 
 const el = id => document.getElementById(id);
 const sceneSelect = el("scene"), image = el("frame"), canvas = el("overlay"), input = el("instruction");
-let catalog, session, busy = false, capture = null, drawing = false, startPoint = null, rectangle = null;
-let notice = "", failure = "";
+let catalog, session, busy = false, capture = null, editing = false, previousDraft = null;
+let editTarget = null, retired = false;
+let photoState = "loading", retry = 0, notice = "", failure = "", historyRevision = "";
 const pairs = new VehiclePairPicker(render);
-
+const photo = new PhotoTools(canvas, el("photo-viewport"), render, () => busy || photoState !== "ready", pairs);
+const terminal = state => ["confirmed", "cancelled"].includes(state);
+const lastUser = turns => (turns || []).filter(t => t.role === "user").at(-1);
+function text(node, value = "") {
+  if (node.textContent !== value) node.textContent = value;
+}
 async function api(path, options) {
-  const res = await fetch(path, options);
-  const data = await res.json();
-  if (!res.ok) throw new Error(data.error || "The request failed.");
+  const res = await fetch(path, options), data = await res.json();
+  if (!res.ok) {
+    const error = new Error(data.error || "The request could not be completed.");
+    error.status = res.status; throw error;
+  }
   return data;
 }
 function post(path, body, extra = {}) {
@@ -22,278 +31,328 @@ function endpoint(action) {
 async function action(name, body = {}) {
   session = await post(endpoint(name), body, {"X-Session-Revision":String(session.revision)});
 }
-function activeScene() { return catalog.scenes.find(s => s.key === session?.scene); }
-function resetDraw() { drawing = false; startPoint = rectangle = null; }
-function resetSelection() { resetDraw(); pairs.reset(); }
-function text(node, content) { node.textContent = content || ""; }
-function addMessage(turn) {
-  const bubble = document.createElement("p");
-  bubble.className = "bubble " + (turn.role === "user" ? "user" : "assistant");
-  const speaker = document.createElement("b");
-  text(speaker, turn.role === "user" ? "You" : "Passenger assistant");
-  bubble.append(speaker, document.createTextNode(turn.text));
-  el("messages").appendChild(bubble);
+function activeScene() { return catalog?.scenes.find(s => s.key === session?.scene); }
+function resetSelection() { photo.reset(); pairs.reset(); }
+function staleEdit() {
+  return editing && (editTarget !== session?.view.request_id || (editing !== "new" && terminal(session?.view.state)));
 }
-function showLegend(view, area) {
-  const legend = el("legend");
-  legend.replaceChildren();
-  if (pairs.open) {
-    text(legend, "Numbered outlines show vehicles detected in this frame.");
-    return;
+function focus(id) { el(id).focus({preventScroll:true}); }
+function focusResult() {
+  const node = el("destination-title");
+  node.focus({preventScroll:true});
+  const bounds = node.getBoundingClientRect();
+  if (bounds.top < 0 || bounds.bottom > innerHeight) node.scrollIntoView({block:"nearest"});
+}
+function history(v) {
+  const revision = session?.session + ":" + session?.revision;
+  if (revision === historyRevision) return;
+  historyRevision = revision;
+  const messages = el("messages"); messages.replaceChildren();
+  for (const turn of v.turns || []) {
+    const bubble = document.createElement("p"), label = document.createElement("b");
+    bubble.className = "bubble " + (turn.role === "user" ? "user" : "assistant");
+    text(label, turn.role === "user" ? "You" : "Passenger assistant");
+    bubble.append(label, document.createTextNode(turn.text)); messages.append(bubble);
   }
-  if (drawing || !area) {
-    const landmarks = view.area_landmarks;
-    text(legend, landmarks ? (landmarks.source === "passenger_landmarks" ? "A and B mark your two chosen vehicles."
-      : "A and B mark the two vehicles matched in your instruction.") : drawing ? "Marking a passenger-selected area" : "Original frame");
-    return;
+  el("history").hidden = !v.turns?.length;
+}
+function canMark(v) {
+  return ["proposed","needs_clarification","insufficient_visual_evidence"].includes(v.state)
+    || Boolean(v.landmark_error_guidance || v.parking_recovery);
+}
+function suggestion(v) {
+  const point = v.result?.destination_point_xy;
+  if (!point) return "Check the outlined area on the photo.";
+  const where = positionWords(point, canvas.width, canvas.height);
+  if (v.selected_by === "passenger") return "The road check placed the blue pin in the " + where + " of the photo, inside your mark.";
+  if (v.selected_by === "passenger_landmarks") return "The yellow pin in the " + where + " uses the two vehicles you chose.";
+  return "Check the yellow pin in the " + where + " of the photo.";
+}
+function response(v, stage) {
+  if (photoState === "failed") return ["error", retired ? "Reopen this scene" : "Reload the road photo",
+    retired ? "This session ended. Reopen the scene to start a new request." : "Open the photo again to check a location."];
+  if (busy && notice) return ["working", notice, ""];
+  if (!session) return ["idle", "Where would you like to get out?", ""];
+  if (staleEdit()) return ["error", "This request has changed", "Your draft is below. Go back to the current request to edit it again."];
+  if (capture) return ["listening", "Listening…", "Stop recording when you have finished speaking."];
+  if (stage === "review") return ["review", "Did I hear you correctly?", "Edit any words below, then send the transcript."];
+  if (stage === "failed" || stage === "recording") return ["clarify", "Try voice again or type", "Your description can also be sent as text."];
+  if (photo.active) return ["mark", "Choose a spot on the photo", "Check your mark to see where the pin lands."];
+  if (pairs.open) return ["mark", "Which vehicles do you mean?", "Choose two vehicles and a position in the photo controls."];
+  if (editing === "reply") return ["clarify", "Tell me more", v.result?.clarification_question || v.turns?.filter(t=>t.role==="assistant").at(-1)?.text || ""];
+  if (editing) return ["idle", editing === "new" ? "Where would you like to get out?" : "Edit your description", ""];
+  if (v.state === "proposed") return ["proposed", "Is this your spot?", suggestion(v)];
+  if (v.state === "confirmed") {
+    const point = v.result?.destination_point_xy;
+    const location = point ? " in the " + positionWords(point, canvas.width, canvas.height) + " of the photo" : "";
+    return ["confirmed", "Spot confirmed", "You confirmed the " + (v.selected_by === "passenger" ? "blue" : "yellow") + " pin" + location + "."];
   }
-  const marked = view.selected_by === "passenger";
-  for (const [shape, label] of [["point", "Dot marks the proposed road location"],
-    ["region", marked ? "Outline shows your marked area" : "Outline shows the approximate area"]]) {
-    const key = document.createElement("span"), symbol = document.createElement("i");
-    key.className="legend-key"; symbol.className="key-"+shape+(marked?" passenger":"");
-    symbol.setAttribute("aria-hidden","true"); key.append(symbol,document.createTextNode(label)); legend.append(key);
-  }
-  if (view.selected_by === "passenger_landmarks" || view.selected_by === "parking_model") {
-    const anchors = document.createElement("span");
-    text(anchors,view.selected_by === "parking_model" ? "A and B show the vehicles identified by the parking model." :
-      "A and B mark your two chosen vehicles."); legend.append(anchors);
-  }
+  if (v.state === "cancelled") return ["idle", "Request cancelled", "You can start again on this photo."];
+  if (v.state === "error") return ["error", "The request couldn’t finish", v.landmark_error_guidance ||
+    (v.parking_recovery ? "You can still mark the intended spot on the photo or edit your description." : "Try the description again or choose another scene.")];
+  if (canMark(v)) return ["clarify", "Which spot do you mean?", v.result?.clarification_question ||
+    v.turns?.filter(t => t.role === "assistant").at(-1)?.text || "Mark the location on the photo or edit your description."];
+  return ["idle", "Where would you like to get out?", ""];
+}
+function legend(v) {
+  const node = el("legend");
+  const area = Boolean(v.result?.destination_box_xyxy) && photoState === "ready" && !editing && !session?.voice_stage;
+  node.dataset.kind = !photo.active && area && !pairs.open ? (v.selected_by === "passenger" ? "manual" : "auto") : "none";
+  let label = "Original photo";
+  if (photoState === "loading") label = "Opening photo…";
+  else if (photoState === "failed") label = "Photo unavailable";
+  else if (pairs.open) label = "Numbers mark selectable vehicles";
+  else if (photo.active) label = "Your mark · preview";
+  else if (area) {
+    label = v.selected_by === "passenger" ? "Your marked spot" : v.selected_by === "passenger_landmarks" ? "Spot from your vehicles" : "Suggested spot";
+    if (v.state === "confirmed") label += " · confirmed";
+    if (v.result.anchor_boxes_xyxy?.length === 2 && ["parking_model","passenger_landmarks"].includes(v.selected_by)) label += " · A and B mark the vehicles";
+  } else if (!editing && !session?.voice_stage && v.area_landmarks) label = "A and B mark the vehicles";
+  text(node, label);
 }
 function render() {
-  const v = session?.view || {}, stage = session?.voice_stage;
-  const open = Boolean(session), micOn = Boolean(capture);
-  sceneSelect.disabled = busy || micOn || !open;
-  el("open-frame").disabled = sceneSelect.disabled;
-  el("speech-controls").hidden = !catalog?.speech_available;
-  el("mic").disabled = busy || !open || drawing || pairs.open;
-  el("upload").disabled = busy || micOn || !open || drawing || pairs.open;
-  text(el("mic"), micOn ? "Stop recording" : "Record voice");
-  input.disabled = busy || micOn || !open || drawing || pairs.open;
-  el("submit").disabled = input.disabled || !input.value.trim();
-  text(el("submit"), stage === "review" ? "Send reviewed transcript" :
-    v.state === "needs_clarification" ? "Send clarification" : "Send instruction");
-  text(el("input-label"), stage === "review" ? "Review and edit the transcript" :
-    v.state === "needs_clarification" ? "Your clarification" : "Passenger instruction");
-  const statuses = {confirmed:"Destination confirmed.", cancelled:"Request cancelled.",
-    needs_clarification:"Clarification requested.", proposed:"Check the proposed road location on the image.",
-    insufficient_visual_evidence:"The requested area could not be identified.", error:"The request could not be completed."};
-  const voiceStatus = stage === "review" ? "Review the words before sending." :
-    stage === "failed" ? "Record again or type the instruction." : stage === "recording" ? "Waiting for new audio." : "";
-  const pairStatus = v.state==="proposed" && v.selected_by==="parking_model" ?
-    "The parking model identified this spot. Check the two vehicles and the highlighted point before confirming." :
-    v.state==="proposed" && v.selected_by==="passenger_landmarks" ?
-    "Check the road location calculated from the two vehicles you chose." : "";
-  const areaStatus = !drawing && !pairs.open && (v.area_landmarks ?
-    "The road location is still unclear. Mark where you want to get out beside A and B." : v.unmatched_described_pair ?
-    "You described two vehicles. Select their outlines or mark the intended road area directly." : "");
-  const parkingRecovery = v.parking_recovery ? "You can mark the intended area on this photo or describe the location again." : "";
-  text(el("status"), notice || voiceStatus || v.landmark_error_guidance || parkingRecovery || areaStatus || pairStatus || statuses[v.state]);
-  const interpretationError = v.landmark_error_guidance ? "" : v.can_request_pointing && v.error?.code==="invalid_model_output"
-    ? "I couldn’t match your words to the picture. You can describe the place again or choose two vehicles."
-    : v.error?.message;
-  const err = failure || session?.speech_error?.message || interpretationError || "";
+  const v = session?.view || {}, stage = session?.voice_stage, current = activeScene();
+  const opened = Boolean(session), ready = photoState === "ready", micOn = Boolean(capture);
+  const marking = photo.active || pairs.open, locked = busy || micOn, prior = lastUser(v.turns);
+  const formOpen = !marking && (editing || Boolean(stage) || !v.state || v.state === "idle" || (v.state === "error" && !canMark(v)));
+  const decision = opened && !formOpen && !marking && !terminal(v.state);
+  const [kind, heading, status] = response(v, stage);
+  el("destination-panel").dataset.state = kind;
+  text(el("destination-title"), heading); text(el("status"), status);
+  const err = failure || session?.speech_error?.message || "";
   text(el("error"), err); el("error").hidden = !err;
-  el("messages").replaceChildren();
-  (v.turns || []).forEach(addMessage);
-  el("messages").scrollTop = el("messages").scrollHeight;
-  const canMark = !stage && (["proposed","needs_clarification","insufficient_visual_evidence"].includes(v.state)
-    || Boolean(v.landmark_error_guidance) || v.parking_recovery);
-  const pendingWords = Boolean(input.value.trim());
-  const recoverWords = !stage && (v.pair_choices?.length||0)<2 && ["error","proposed","needs_clarification","insufficient_visual_evidence"].includes(v.state)
-    && v.turns?.some(turn=>turn.role==="user");
-  const pointButton = el("submit-pointing");
-  pointButton.hidden = !v.can_request_pointing || (!pendingWords && !recoverWords) || drawing || pairs.open;
-  pointButton.disabled = input.disabled || (Boolean(stage) && stage!=="review");
-  text(pointButton, pendingWords ? "Send and choose two vehicles" : "Review my words and choose two vehicles");
-  el("draw").hidden = !canMark || drawing || pairs.open;
-  el("draw").disabled = busy || micOn || pendingWords;
-  text(el("draw"), v.area_landmarks || v.unmatched_described_pair || v.landmark_error_guidance ? "Mark the intended road area" : "Mark an area myself");
-  el("choose-pair").hidden = Boolean(stage) || drawing || pairs.open || (v.pair_choices?.length||0)<2;
-  el("choose-pair").disabled = busy || micOn || pendingWords;
-  text(el("choose-pair"), v.area_landmarks ? "Change the two vehicles" : "Choose two vehicles");
-  el("confirm").hidden = v.state !== "proposed" || !v.proposal_id || Boolean(stage) || drawing || pairs.open;
-  el("confirm").disabled = busy || micOn || pendingWords;
-  el("cancel").hidden = !open || (!stage && ["idle","cancelled","confirmed"].includes(v.state));
-  el("cancel").disabled = busy || micOn;
-  el("draw-tools").hidden = !drawing;
-  el("use-box").disabled = busy || !rectangle || pendingWords;
-  el("discard-box").disabled = busy;
-  pairs.controls(busy || micOn || pendingWords);
-  const area = v.result?.destination_box_xyxy;
-  showLegend(v, area);
-  canvas.classList.toggle("drawing", drawing);
-  canvas.classList.toggle("choosing-pair", pairs.open);
-  paint();
+  el("last-request").hidden = !prior || formOpen;
+  if (prior) text(el("last-request").querySelector("p"), prior.text);
+  history(v);
+
+  sceneSelect.disabled = locked || !opened;
+  el("prev-scene").disabled = sceneSelect.disabled || sceneSelect.selectedIndex <= 0;
+  el("next-scene").disabled = sceneSelect.disabled || sceneSelect.selectedIndex >= sceneSelect.options.length-1;
+  el("frame-picker").hidden = !current || !catalog.footageRecordings.has(current.recording_id);
+  el("open-frame").disabled = sceneSelect.disabled;
+  el("photo-unavailable").hidden = photoState !== "failed";
+  el("retry-photo").disabled = locked;
+  text(el("retry-photo"), retired ? "Reopen scene" : "Reload photo");
+  el("form").hidden = !formOpen;
+  el("speech-controls").hidden = !catalog?.speech_available;
+  el("mic").disabled = busy || !opened || !ready || marking || (staleEdit() && !micOn);
+  el("upload").disabled = locked || !opened || !ready || marking || staleEdit();
+  text(el("mic"), micOn ? "Stop recording" : "Record voice");
+  input.disabled = locked || !opened || marking;
+  el("submit").disabled = input.disabled || !ready || !input.value.trim() || staleEdit();
+  text(el("submit"), stage === "review" ? "Send reviewed transcript" : editing === "replace" ? "Send new description" : editing === "reply" ? "Send reply" : "Find my spot");
+  text(el("input-label"), stage === "review" ? "Your transcript" : editing === "reply" ? "Your reply" : "Your description");
+  el("edit-original").hidden = editing !== "reply" || Boolean(stage) || Boolean(input.value.trim());
+  el("edit-original").disabled = locked;
+  el("submit-pointing").hidden = !formOpen || !v.can_request_pointing || !input.value.trim() || Boolean(stage && stage !== "review");
+  el("submit-pointing").disabled = input.disabled || !ready || staleEdit();
+  el("discard-edit").hidden = !formOpen || (!editing && !stage) || micOn;
+  el("discard-edit").disabled = locked;
+  text(el("discard-edit"), staleEdit() ? "Back to current request" : stage ? "Discard recording" : "Back without changing");
+
+  el("confirm").hidden = !(decision && v.state === "proposed" && v.proposal_id);
+  el("confirm").disabled = locked || !ready;
+  el("draw").hidden = !(decision && canMark(v));
+  el("draw").disabled = locked || !ready;
+  el("draw").className = v.state === "proposed" ? "subtle" : "primary";
+  text(el("draw"), v.state === "proposed" ? "Change spot on photo" : "Mark my spot on the photo");
+  el("edit-words").hidden = !decision || !prior;
+  el("edit-words").disabled = locked;
+  text(el("edit-words"), v.state === "needs_clarification" || v.state === "insufficient_visual_evidence" ? "Answer in words" : "Edit description");
+  el("choose-pair").hidden = !decision || (v.pair_choices?.length || 0) < 2;
+  el("choose-pair").disabled = locked || !ready;
+  el("new-request").hidden = !terminal(v.state) || formOpen;
+  el("new-request").disabled = locked || !ready;
+  el("cancel").hidden = !opened || (!stage && (!v.state || v.state === "idle" || terminal(v.state))) || marking;
+  el("cancel").disabled = locked;
+  pairs.controls(locked || !ready);
+  photo.controls(ready, locked);
+  legend(v); paint();
 }
-async function perform(work, message = "") {
+async function perform(work, message = "", after) {
   if (busy) return;
   busy = true; failure = ""; notice = message; render();
-  try { await work(); }
+  let success = false;
+  try { await work(); success = true; }
   catch (error) {
     failure = error.message || "The action could not be completed.";
     if (session) {
-      try {
-        session = await api(endpoint());
-        sceneSelect.value = session.scene;
-      } catch { /* A retired tab must reopen a frame. */ }
+      try { session = await api(endpoint()); sceneSelect.value = session.scene; }
+      catch (syncError) { if (syncError.status === 404) { retired=true; photoState="failed"; resetSelection(); } }
     }
-  } finally { busy = false; notice = capture ? "Recording. Stop when you have finished speaking." : ""; render(); }
+  } finally { busy = false; notice = ""; render(); }
+  if (success && after) after();
+}
+function loadPhoto() {
+  photoState = "loading"; image.src = endpoint("image") + (retry ? "?retry=" + retry : "");
 }
 async function chooseScene() {
-  const old = session?.session;
-  input.value = ""; resetSelection();
-  session = await post("/api/sessions", {scene:sceneSelect.value, previous:old});
+  const newSession = await post("/api/sessions", {scene:sceneSelect.value, previous:retired ? undefined : session?.session});
+  session = newSession; input.value = ""; editing = false; previousDraft = editTarget = null; retired = false; retry = 0;
+  resetSelection(); photo.fit(); el("frame-picker").open = el("history").open = false;
   const f = activeScene();
   canvas.width = f.width; canvas.height = f.height;
-  image.parentElement.style.aspectRatio = f.width + " / " + f.height;
-  image.src = endpoint("image");
-  image.alt = "Original image from " + sceneSelect.selectedOptions[0].textContent;
+  image.parentElement.style.aspectRatio = el("photo-viewport").style.aspectRatio = f.width + " / " + f.height;
+  image.alt = "Road scene from " + sceneSelect.selectedOptions[0].textContent;
+  const url = new URL(location.href); url.searchParams.set("scene", f.key); window.history.replaceState(null, "", url);
+  loadPhoto();
 }
+function stepScene(amount) {
+  if (sceneSelect.disabled) return;
+  sceneSelect.selectedIndex += amount; perform(chooseScene, "Opening the photo…");
+}
+el("prev-scene").onclick = () => stepScene(-1);
+el("next-scene").onclick = () => stepScene(1);
+sceneSelect.onchange = () => perform(chooseScene, "Opening the photo…");
 el("open-frame").onclick = () => perform(async () => {
   const f = await openFrame(sceneSelect,el("frame-id"));
   if (!catalog.scenes.some(s => s.key === f.key)) catalog.scenes.push(f);
   await chooseScene();
-  el("frame-picker").open = false;
-}, "Opening the original frame…");
+}, "Opening the frame…");
+function currentImage() { return session && image.currentSrc && new URL(image.currentSrc).pathname === endpoint("image"); }
+image.addEventListener("load", () => {
+  if (!currentImage()) return;
+  const f = activeScene(); photoState = image.naturalWidth === f.width && image.naturalHeight === f.height ? "ready" : "failed";
+  render();
+});
+image.addEventListener("error", () => { if (currentImage()) { photoState = "failed"; resetSelection(); render(); } });
+el("retry-photo").onclick = () => {
+  if (retired) perform(chooseScene, "Reopening the scene…");
+  else { retry++; loadPhoto(); render(); }
+};
+window.addEventListener("resize", () => paint());
+
 function paint() {
   const ctx = canvas.getContext("2d");
   ctx.clearRect(0, 0, canvas.width, canvas.height);
-  const v = session?.view;
-  const scale = canvas.width / Math.max(canvas.clientWidth, 1);
+  if (photoState !== "ready" || !canvas.clientWidth) return;
+  const v = session.view, scale = photo.frameRatio();
+  if (editing || session.voice_stage) return;
   if (pairs.open) { pairs.paint(ctx,scale); return; }
-  const box = drawing ? rectangle : v?.result?.destination_box_xyxy;
-  if (v?.area_landmarks) drawChosenLandmarks(ctx, v.area_landmarks.boxes_xyxy, scale);
-  if (!box) return;
-  if (!drawing && (v.selected_by === "passenger_landmarks" || v.selected_by === "parking_model"))
-    drawChosenLandmarks(ctx,v.result.anchor_boxes_xyxy,scale);
-  const [x1,y1,x2,y2] = box;
-  const passenger = drawing || v.selected_by === "passenger";
+  if (v.area_landmarks) drawChosenLandmarks(ctx, v.area_landmarks.boxes_xyxy, scale);
+  const box = photo.active ? photo.box : v.result?.destination_box_xyxy;
+  if (!box) { photo.drawCursor(ctx,scale); return; }
+  if (!photo.active && ["passenger_landmarks","parking_model"].includes(v.selected_by))
+    drawChosenLandmarks(ctx, v.result.anchor_boxes_xyxy, scale);
+  const [x1,y1,x2,y2] = box, passenger = photo.active || v.selected_by === "passenger";
+  const color = passenger ? "#66eff1" : "#ffd34f";
   ctx.save();
-  if (passenger) {
-    ctx.fillStyle = "rgba(66,232,248,.12)";
-    ctx.fillRect(x1, y1, x2-x1, y2-y1);
+  ctx.fillStyle = passenger ? "rgba(61,220,226,.15)" : "rgba(255,211,79,.10)";
+  ctx.fillRect(x1,y1,x2-x1,y2-y1);
+  if (!passenger || photo.active) ctx.setLineDash([7*scale,4*scale]);
+  for (const [stroke,width] of [["#142a25",4.5],[color,2.5]]) {
+    ctx.lineWidth=width*scale; ctx.strokeStyle=stroke; ctx.strokeRect(x1,y1,x2-x1,y2-y1);
   }
-  if (!passenger || drawing) ctx.setLineDash([8*scale,5*scale]);
-  ctx.lineWidth = 5 * scale; ctx.strokeStyle = "#14241e"; ctx.strokeRect(x1,y1,x2-x1,y2-y1);
-  ctx.lineWidth = 2.6 * scale; ctx.strokeStyle = passenger ? "#52effa" : "#ffd22d";
-  ctx.strokeRect(x1,y1,x2-x1,y2-y1);
-  const point = drawing ? null : v.result.destination_point_xy;
+  const point = photo.active ? [(x1+x2)/2,(y1+y2)/2] : v.result.destination_point_xy;
   if (point) {
-    ctx.setLineDash([]); ctx.beginPath(); ctx.arc(point[0],point[1],6*scale,0,2*Math.PI);
-    ctx.fillStyle = ctx.strokeStyle; ctx.fill(); ctx.lineWidth = 2*scale; ctx.strokeStyle="#12241a"; ctx.stroke();
+    ctx.setLineDash([]); ctx.translate(point[0],point[1]); ctx.scale(scale,scale);
+    // The centre stays on the exact model or passenger point at every zoom.
+    ctx.beginPath(); ctx.arc(0,0,10.5,0,2*Math.PI);
+    ctx.lineWidth=3.6; ctx.strokeStyle="#16352d"; ctx.stroke();
+    ctx.lineWidth=1.8; ctx.strokeStyle="#ffffff"; ctx.stroke();
+    ctx.beginPath(); ctx.arc(0,0,6,0,2*Math.PI);
+    ctx.fillStyle=color; ctx.fill(); ctx.lineWidth=1.8; ctx.strokeStyle="#16352d"; ctx.stroke();
   }
   ctx.restore();
 }
-function imagePoint(event) {
-  const rect = canvas.getBoundingClientRect();
-  return [Math.max(0,Math.min(canvas.width, (event.clientX-rect.left)*canvas.width/rect.width)),
-    Math.max(0,Math.min(canvas.height, (event.clientY-rect.top)*canvas.height/rect.height))];
-}
-function updateBox(event, final = false) {
-  const [x,y] = imagePoint(event), [a,b] = startPoint;
-  const bounds = canvas.getBoundingClientRect();
-  const sx = canvas.width / bounds.width, sy = canvas.height / bounds.height;
-  if (final && Math.hypot((x-a)/sx, (y-b)/sy) <= 3) {
-    // A tap previews a small visible region. The server still checks road support inside the requested mark.
-    rectangle = [Math.max(0,Math.floor(x-6*sx)), Math.max(0,Math.floor(y-6*sy)),
-      Math.min(canvas.width,Math.ceil(x+6*sx)), Math.min(canvas.height,Math.ceil(y+6*sy))];
-  } else {
-    rectangle = [Math.floor(Math.min(x,a)), Math.floor(Math.min(y,b)), Math.ceil(Math.max(x,a)), Math.ceil(Math.max(y,b))];
-  }
-  if (rectangle[2] <= rectangle[0] || rectangle[3] <= rectangle[1]) rectangle = null;
-  paint(); el("use-box").disabled = !rectangle;
-}
-canvas.addEventListener("pointerdown", e => {
-  if (pairs.open && !busy && e.isPrimary) { e.preventDefault(); pairs.pickAt(imagePoint(e)); return; }
-  if (!drawing || busy || !e.isPrimary) return;
-  e.preventDefault(); canvas.setPointerCapture(e.pointerId); startPoint=imagePoint(e); rectangle=null; paint();
-});
-canvas.addEventListener("pointermove", e => { if (drawing && startPoint && e.isPrimary) updateBox(e); });
-canvas.addEventListener("pointerup", e => {
-  if (!drawing || !startPoint || !e.isPrimary) return;
-  updateBox(e,true); startPoint=null;
-});
-canvas.addEventListener("pointercancel", () => { startPoint=rectangle=null; render(); });
-el("draw").onclick = () => { if (!input.value.trim()) { drawing=true; rectangle=null; render(); } };
-el("discard-box").onclick = () => { resetDraw(); render(); };
+el("zoom-in").onclick = () => photo.setZoom(1, photo.active ? photo.cursor : session?.view.result?.destination_point_xy);
+el("zoom-out").onclick = () => photo.setZoom(-1, photo.active ? photo.cursor : session?.view.result?.destination_point_xy);
+el("pan").onclick = () => {
+  photo.panning = !photo.panning; render();
+  if (!photo.panning) photo.focusPhoto();
+};
+el("draw").onclick = () => photo.begin(session?.view.result?.destination_point_xy);
+el("discard-box").onclick = () => { photo.reset(); render(); focus("draw"); };
 el("use-box").onclick = () => {
-  if (!input.value.trim()) perform(async () => { await action("area", {box:rectangle}); resetDraw(); });
+  if (photo.box && photoState === "ready") perform(async () => {
+    await action("area", {box:photo.box}); photo.reset();
+  }, "Checking your marked spot…", focusResult);
 };
-el("choose-pair").onclick = () => { if (!input.value.trim()) pairs.begin(session.view.pair_choices); };
+el("choose-pair").onclick = () => { pairs.begin(session.view.pair_choices); el("pair-first").focus(); };
+el("discard-pair").onclick = () => { pairs.reset(); render(); focus("choose-pair"); };
 el("use-pair").onclick = () => {
-  if (!pairs.hasPair() || input.value.trim()) return;
+  if (!pairs.hasPair() || photoState !== "ready") return;
   const request = {track_ids:pairs.values(), placement:pairs.position.value};
-  perform(async () => { await action("select-pair",request); pairs.reset(); },
-    "Checking the road beside your two vehicles…");
+  perform(async () => { await action("select-pair",request); pairs.reset(); }, "Checking the road beside those vehicles…", focusResult);
 };
-el("confirm").onclick = () => { const proposal = session.view.proposal_id;
-  perform(async () => { await action("confirm", {proposal_id:proposal}); }); };
+el("confirm").onclick = () => {
+  if (photoState !== "ready" || editing || session.voice_stage || !session.view.proposal_id) return;
+  const id = session.view.proposal_id;
+  perform(() => action("confirm",{proposal_id:id}), "Saving your choice…", focusResult);
+};
 el("cancel").onclick = () => perform(async () => {
-  const retiringAudio = Boolean(session.voice_stage);
-  await action("cancel"); if (retiringAudio) input.value=""; resetSelection();
-});
+  await action("cancel"); input.value=""; resetSelection(); previousDraft=null; editing=false;
+}, "Cancelling the request…", focusResult);
+function startEditing(mode, words) {
+  editing=mode; editTarget=session.view.request_id; input.value=words; failure=""; render(); input.focus();
+}
+function editOriginal() { startEditing("replace", session.view.turns.find(turn=>turn.role==="user")?.text || ""); }
+el("edit-words").onclick = () => ["needs_clarification","insufficient_visual_evidence"].includes(session.view.state)
+  ? startEditing("reply","") : editOriginal();
+el("edit-original").onclick = editOriginal;
+el("new-request").onclick = () => startEditing("new","");
+el("discard-edit").onclick = () => {
+  if (session.voice_stage && !staleEdit()) {
+    perform(async () => {
+      await action("discard-audio"); input.value = previousDraft?.text || "";
+      editing = previousDraft?.editing || false; editTarget = previousDraft?.target ?? null; previousDraft = null;
+    }, "Discarding the recording…", () => el("form").hidden ? focusResult() : input.focus());
+  } else { input.value=""; editing=false; previousDraft=editTarget=null; render(); focusResult(); }
+};
 function sendInstruction(pointing) {
-  if (!input.value.trim()) return;
-  const words = input.value.trim(), mode = session.voice_stage === "review" ? "voice" : "typed";
-  const payload = {text:words, mode};
+  if (!input.value.trim() || photoState !== "ready" || staleEdit()) return;
+  const payload = {text:input.value.trim(), mode:session.voice_stage === "review" ? "voice" : "typed"};
+  if (editing === "replace") payload.replaces_request_id = editTarget;
   if (pointing) payload.point_to_vehicles = true;
   perform(async () => {
-    await action("submit", payload); input.value=""; resetSelection();
-    if (pointing && session.view.pair_choices?.length>=2) pairs.begin(session.view.pair_choices);
-  }, pointing ? "Opening the vehicle choices…" : "Checking the instruction against this frame…");
+    await action("submit",payload); input.value=""; editing=false; previousDraft=null; resetSelection();
+    if (pointing && session.view.pair_choices?.length >= 2) pairs.begin(session.view.pair_choices);
+  }, pointing ? "Opening the vehicle choices…" : "Finding your spot…", () => pairs.open ? el("pair-first").focus() : focusResult());
 }
 el("form").onsubmit = e => { e.preventDefault(); sendInstruction(false); };
-el("submit-pointing").onclick = () => {
-  if (!input.value.trim()) {
-    const prior = session.view.turns.filter(turn=>turn.role==="user").at(-1);
-    if (prior) { input.value=prior.text; input.focus(); render(); }
-    return;
-  }
-  sendInstruction(true);
-};
+el("submit-pointing").onclick = () => sendInstruction(true);
 input.addEventListener("input", render);
-sceneSelect.onchange = () => perform(chooseScene);
-image.addEventListener("error", () => { failure="Could not open the bound original frame."; render(); });
-window.addEventListener("resize", paint);
 
 function encodeWav(chunks, rate) {
   const n = chunks.reduce((v,a) => v + a.length, 0), buffer = new ArrayBuffer(44 + 2*n), d = new DataView(buffer);
   function ascii(offset, word) { for (let i=0;i<word.length;i++) d.setUint8(offset+i, word.charCodeAt(i)); }
   ascii(0,"RIFF"); d.setUint32(4,36+2*n,true); ascii(8,"WAVE"); ascii(12,"fmt ");
-  d.setUint32(16,16,true); d.setUint16(20,1,true); d.setUint16(22,1,true);
-  d.setUint32(24,rate,true); d.setUint32(28,2*rate,true); d.setUint16(32,2,true); d.setUint16(34,16,true);
-  ascii(36,"data"); d.setUint32(40,2*n,true);
+  d.setUint32(16,16,true); d.setUint16(20,1,true); d.setUint16(22,1,true); d.setUint32(24,rate,true);
+  d.setUint32(28,2*rate,true); d.setUint16(32,2,true); d.setUint16(34,16,true); ascii(36,"data"); d.setUint32(40,2*n,true);
   let offset=44;
   for (const chunk of chunks) for (const sample of chunk) {
     const v=Math.max(-1,Math.min(1,sample)); d.setInt16(offset,Math.round(v*(v<0 ? 32768 : 32767)),true); offset+=2;
   }
   return new Blob([buffer], {type:"audio/wav"});
 }
-async function sendAudio(blob) {
+function checkAudio(blob) {
   if (!blob.size || blob.size > 12*1024*1024) throw new Error("Choose a nonempty WAV up to 12 MiB.");
-  session = await api(endpoint("audio"), {method:"POST", headers:{"Content-Type":"audio/wav",
-    "X-Session-Revision":String(session.revision)}, body:blob});
-  input.value = session.transcript || "";
 }
 async function beginAudio() {
-  input.value=""; resetSelection();
+  const draft = previousDraft || {text:input.value, editing, target:editTarget};
   await action("begin-audio");
+  previousDraft = draft; resetSelection();
+}
+async function sendAudio(blob) {
+  checkAudio(blob);
+  session = await api(endpoint("audio"), {method:"POST", headers:{"Content-Type":"audio/wav",
+    "X-Session-Revision":String(session.revision)}, body:blob});
+  input.value = session.voice_stage === "review" ? session.transcript : (previousDraft?.text || "");
 }
 el("upload").onclick = () => el("file").click();
 el("file").onchange = () => {
   const file = el("file").files[0]; el("file").value="";
-  if (file) perform(async () => { await beginAudio(); await sendAudio(file); }, "Transcribing the recording…");
+  if (file) perform(async () => { checkAudio(file); await beginAudio(); await sendAudio(file); }, "Transcribing the audio…", () => input.focus());
 };
 async function startMic() {
-  await beginAudio();
-  if (!navigator.mediaDevices?.getUserMedia || !window.AudioWorkletNode) throw new Error("Microphone unavailable. Upload a WAV or type instead.");
+  if (!navigator.mediaDevices?.getUserMedia || !window.AudioWorkletNode)
+    throw new Error("The microphone is unavailable. You can type or upload a WAV file.");
   let stream, context, expired=false, timer;
   try {
     const permission = navigator.mediaDevices.getUserMedia({audio:{channelCount:1, echoCancellation:true}});
     permission.then(s => { if (expired) s.getTracks().forEach(t => t.stop()); }, () => {});
     stream = await Promise.race([permission,new Promise((_,reject) => {
-      timer=setTimeout(() => { expired=true; reject(new Error("Microphone permission timed out. Upload a WAV or type instead.")); }, 20000);
+      timer=setTimeout(() => { expired=true; reject(new Error("Microphone permission timed out. You can type or upload a WAV file.")); }, 20000);
     })]);
     clearTimeout(timer);
     context = new AudioContext({sampleRate:16000}); await context.audioWorklet.addModule("/capture.js");
@@ -301,29 +360,33 @@ async function startMic() {
     const gain = context.createGain(); gain.gain.value=0;
     const blocks=[]; node.port.onmessage = e => { blocks.push(e.data); };
     source.connect(node); node.connect(gain); gain.connect(context.destination); await context.resume();
+    // Keep the draft and the active proposal until microphone setup has actually succeeded.
+    await beginAudio();
     capture={stream,context,source,node,blocks,rate:context.sampleRate,timer:setTimeout(stopMic,55000)};
   } catch(error) {
     if (stream) stream.getTracks().forEach(t => t.stop());
     if (context) await context.close();
+    if (error.name === "NotAllowedError") throw new Error("Microphone access was denied. You can type or upload a WAV file.");
     throw error;
   } finally { clearTimeout(timer); }
 }
 async function stopMic() {
   if (!capture || busy) return;
-  const c = capture; capture=null;
+  const c=capture; capture=null;
   await perform(async () => {
     clearTimeout(c.timer); c.stream.getTracks().forEach(t => t.stop()); c.source.disconnect(); c.node.disconnect();
     await c.context.close(); await sendAudio(encodeWav(c.blocks,c.rate));
-  }, "Transcribing your recording…");
+  }, "Transcribing your voice…", () => input.focus());
 }
 el("mic").onclick = () => { if (capture) stopMic(); else perform(startMic,"Opening the microphone…"); };
 window.addEventListener("pagehide", () => { if (capture) capture.stream.getTracks().forEach(t => t.stop()); });
 perform(async () => {
   catalog=await api("/api/scenes");
+  const covered = new Set(catalog.footage_scenes);
+  catalog.footageRecordings = new Set(catalog.scenes.filter(f => covered.has(f.key)).map(f => f.recording_id));
   el("footage-link").hidden=!catalog.footage_available;
-  el("frame-picker").hidden=!catalog.footage_available;
   for (const f of catalog.scenes) addFrame(sceneSelect,f);
-  const requestedScene = new URLSearchParams(window.location.search).get("scene");
-  if (catalog.scenes.some(f => f.key === requestedScene)) sceneSelect.value = requestedScene;
+  const requested = new URLSearchParams(window.location.search).get("scene");
+  if (catalog.scenes.some(f => f.key === requested)) sceneSelect.value = requested;
   await chooseScene();
-});
+}, "Opening the photo…");

@@ -2,6 +2,8 @@
 
 import hashlib
 import json
+import shutil
+import subprocess
 import threading
 from dataclasses import dataclass
 from pathlib import Path
@@ -32,6 +34,11 @@ class StubGrounder:
 
     def passenger_area(self, req, box):
         return self.result(req, proposed([(box[0]+box[2])/2, (box[1]+box[3])/2], box))
+
+
+@pytest.mark.skipif(not shutil.which("node"), reason="Browser control regression requires Node.js")
+def test_passenger_photo_taps_at_different_screen_sizes_and_zooms():
+    subprocess.run(["node", str(Path(__file__).with_name("passenger_photo_controls.mjs"))], check=True)
 
 
 @dataclass
@@ -119,6 +126,46 @@ def test_new_failed_audio_invalidates_confirmation_and_previous_transcript(site)
     assert site.change(sid,5,"cancel",{})["view"]["state"] == "cancelled"
 
 
+def test_explicit_spoken_replacement_clears_old_context_preserves_receipt_and_retires_id(site):
+    sid = site.open(next(iter(site.scenes)))["session"]
+    first = site.change(sid, 0, "submit", {"mode":"typed", "text":"between the two cars"})["view"]
+    site.change(sid, 1, "begin-audio", {})
+    spoken = site.change(sid, 2, "audio", b"passenger recording")
+    payload = {"mode":"voice", "text":"by the shop entrance", "replaces_request_id":"obsolete"}
+    with pytest.raises(PassengerRequestError) as exc:
+        site.change(sid, 3, "submit", payload)
+    assert exc.value.status == 409 and len(site.model.calls) == 1
+    payload["replaces_request_id"] = first["request_id"]
+    updated = site.change(sid, 3, "submit", payload)["view"]
+    request = site.model.calls[-1]
+    assert request["dialogue"] == [] and request["original_transcript"] == spoken["transcript"]
+    assert request["input_mode"] == "voice" and request["text"] == "by the shop entrance"
+    journal = next(site.lookup(sid).directory.glob("*.jsonl"))
+    detail = json.loads(journal.read_text().splitlines()[-1])["detail"]
+    assert detail["replaces_request_id"] == first["request_id"]
+    assert detail["speech"]["audio_sha256"] == spoken["audio_sha256"]
+    with pytest.raises(PassengerRequestError):
+        site.change(sid, 4, "confirm", {"proposal_id":first["proposal_id"]})
+    assert site.change(sid, 4, "confirm", {"proposal_id":updated["proposal_id"]})["view"]["state"] == "confirmed"
+
+
+def test_discarding_voice_preserves_pending_request_and_retires_audio(site):
+    sid = site.open(next(iter(site.scenes)))["session"]
+    proposal = site.change(sid, 0, "submit", {"text":"near the bus", "mode":"typed"})["view"]
+    site.change(sid, 1, "begin-audio", {})
+    reviewed = site.change(sid, 2, "audio", b"new recording")
+    assert reviewed["voice_stage"] == "review" and reviewed["view"]["proposal_id"] is None
+    restored = site.change(sid, 3, "discard-audio", {})
+    assert restored["view"] == proposal and restored["audio_sha256"] is None and restored["transcript"] is None
+    for revision, action, payload in ((1, "confirm", {"proposal_id":proposal["proposal_id"]}),
+                                      (4, "discard-audio", {}), (4, "submit", {"mode":"voice","text":"old audio"})):
+        with pytest.raises(PassengerRequestError) as exc:
+            site.change(sid, revision, action, payload)
+        assert exc.value.status == 409
+    assert site.change(sid, 4, "confirm", {"proposal_id":proposal["proposal_id"]})["view"]["state"] == "confirmed"
+    assert len(site.model.calls) == 1
+
+
 def test_rejects_file_replacement_and_mismatched_hash(site, tmp_path):
     scene = next(iter(site.scenes.values()))
     first = site.open(next(iter(site.scenes)))
@@ -169,7 +216,7 @@ def test_http_allows_only_local_origin_and_known_scene_assets(site):
         try:
             with urlopen(origin+"/", timeout=5) as res:
                 assert b"Passenger drop-off" in res.read()
-            for path in ["/app.js", "/capture.js", "/app.css", "/api/scenes"]:
+            for path in ["/app.js", "/capture.js", "/photo-tools.js", "/app.css", "/api/scenes"]:
                 with urlopen(origin+path,timeout=5) as res: assert res.status == 200
             with pytest.raises(HTTPError) as exc:
                 urlopen(Request(origin+"/api/scenes", headers={"Origin":"https://external.invalid"}),timeout=5)

@@ -86,7 +86,7 @@
           ],
           "sha256": "291c45642e149c91ce0b9f419f56c9f078b60479062295d1120e5c91637c52e8",
           "request": "Drop me off between the two dark cars.",
-          "source_url": null,
+          "source_url": "https://huggingface.co/datasets/KuAvLab/EMT/tree/4418cec01b03c6f797cadb06c9405843a30988e2",
           "reference_polygons_xy": [],
           "reference_note": "Rain, glare and multiple vehicles spread over the moving traffic lanes; no distinguishable roadside pair with a visible gap.",
           "fraction_of_reference_with_parking_label": null,
@@ -124,7 +124,8 @@
               "point": null,
               "detail": "no candidate"
             }
-          }
+          },
+          "source_sequence": "video_142911"
         },
         {
           "id": "uae-drive-003",
@@ -136,7 +137,7 @@
           ],
           "sha256": "147d7271233466f65e97b34d4441fa425fbe3140c8c74f88c4b811b41a80118f",
           "request": "Drop me off between the two dark cars.",
-          "source_url": null,
+          "source_url": "https://huggingface.co/datasets/KuAvLab/EMT/tree/4418cec01b03c6f797cadb06c9405843a30988e2",
           "reference_polygons_xy": [],
           "reference_note": "Several small vehicles occupy different traffic lanes. No identifiable pair flanks a visible roadside receiving area.",
           "fraction_of_reference_with_parking_label": null,
@@ -177,7 +178,8 @@
               "point": null,
               "detail": "no candidate"
             }
-          }
+          },
+          "source_sequence": "video_115833"
         },
         {
           "id": "uae-drive-005",
@@ -189,7 +191,7 @@
           ],
           "sha256": "cbbafac72d36620a8200924fffa8a9c0ac86376c845e4d6c4e51561d13329d4f",
           "request": "Can you show me the curb gap between those two black cars?",
-          "source_url": null,
+          "source_url": "https://huggingface.co/datasets/KuAvLab/EMT/tree/4418cec01b03c6f797cadb06c9405843a30988e2",
           "reference_polygons_xy": [],
           "reference_note": "The packed queue shows numerous dark vehicles spread across lanes, with their positions blocking the curb. No unique dark curb pair or visible open section between it.",
           "fraction_of_reference_with_parking_label": null,
@@ -224,7 +226,8 @@
               "point": null,
               "detail": "no candidate"
             }
-          }
+          },
+          "source_sequence": "video_143739"
         },
         {
           "id": "kv-1644950905",
@@ -236,7 +239,7 @@
           ],
           "sha256": "f56573acd7f6ffe0b141b23d394c1c519db4a71752fe486807e6f41290101882",
           "request": "Drop me off between the two dark cars.",
-          "source_url": null,
+          "source_url": "https://kartaview.org/details/6315193/227/",
           "reference_polygons_xy": [],
           "reference_note": "A narrow street, pedestrians on both sides and a clearly visible bonnet. Neither foreground curb has two dark cars bounding a pavement gap.",
           "fraction_of_reference_with_parking_label": null,
@@ -271,7 +274,8 @@
               "point": null,
               "detail": "unparseable upstream anchor reply"
             }
-          }
+          },
+          "source_sequence": "6315193"
         },
         {
           "id": "kv-1480813097",
@@ -283,7 +287,7 @@
           ],
           "sha256": "fcfeadb33521e8b7b9a4fc15b2a4f252e8b545dd43a51772cefcee13187cbf7d",
           "request": "Drop me off between the two dark cars.",
-          "source_url": null,
+          "source_url": "https://kartaview.org/details/5139497/182/",
           "reference_polygons_xy": [
             [
               [
@@ -363,7 +367,8 @@
             ],
             "outcome": "wrong_on_positive",
             "number_of_options": 2
-          }
+          },
+          "source_sequence": "5139497"
         },
         {
           "id": "kv-1447047097",
@@ -375,7 +380,7 @@
           ],
           "sha256": "e3c8e743498547562a7ed994f4a2cd8ef9af77b3a9268e27666b874096194f9b",
           "request": "Drop me off between the two dark cars.",
-          "source_url": null,
+          "source_url": "https://kartaview.org/details/4720873/228/",
           "reference_polygons_xy": [],
           "reference_note": "A broad unoccupied section of an Abu Dhabi arterial and a curb island on the right. No pair of dark curb vehicles bounds a visible roadside gap.",
           "fraction_of_reference_with_parking_label": null,
@@ -410,7 +415,8 @@
               "point": null,
               "detail": "no candidate"
             }
-          }
+          },
+          "source_sequence": "4720873"
         },
         {
           "id": "kv-1744059497",
@@ -422,7 +428,7 @@
           ],
           "sha256": "144fe679f8334c1c4856a1aa1c43d31f73502c9697cce2ce01b4c356abdbcde7",
           "request": "Drop me off between the two dark cars.",
-          "source_url": null,
+          "source_url": "https://kartaview.org/details/7434857/28/",
           "reference_polygons_xy": [],
           "reference_note": "Two dark vehicles can be identified along the right-hand row, but their silhouettes and ground contacts nearly meet. The open part of the image is the adjacent through lane. No visible drop-off-sized intervehicle bay can be established.",
           "fraction_of_reference_with_parking_label": null,
@@ -472,7 +478,8 @@
             "point": null,
             "outcome": "correct_ask",
             "number_of_options": 1
-          }
+          },
+          "source_sequence": "7434857"
         },
         {
           "id": "kv-1644952489",
@@ -484,7 +491,7 @@
           ],
           "sha256": "22c92e0d5f3199c415d0ea1ab5f7eb7002c6346849d396b48c50c3ba8965831b",
           "request": "Across the junction, there's a dark sedan facing us and a tall white van farther right. Can you show me the empty marked space immediately to the sedan's right, between those two?",
-          "source_url": null,
+          "source_url": "https://kartaview.org/details/6315209/29/",
           "reference_polygons_xy": [
             [
               [
@@ -559,7 +566,8 @@
             ],
             "outcome": "hit",
             "number_of_options": 3
-          }
+          },
+          "source_sequence": "6315209"
         },
         {
           "id": "kv-1476078601",
@@ -571,7 +579,7 @@
           ],
           "sha256": "2ea77946173b105649eca013e2f5b7c5d6200b39acefd87cec4cfca8e508703c",
           "request": "On the left, mark the open bit between the nearest white SUV, the one cut off by the picture, and the white crossover with writing on the side a little farther up.",
-          "source_url": null,
+          "source_url": "https://kartaview.org/details/5083481/62/",
           "reference_polygons_xy": [
             [
               [
@@ -648,7 +656,8 @@
             "point": null,
             "outcome": "missed_positive",
             "number_of_options": 0
-          }
+          },
+          "source_sequence": "5083481"
         },
         {
           "id": "kv-1644952617",
@@ -660,7 +669,7 @@
           ],
           "sha256": "80396121e7f1a251f928ad971600e11814ae5da8d47ce94ee912a3b108377b5b",
           "request": "Drop me off between the two dark cars.",
-          "source_url": null,
+          "source_url": "https://kartaview.org/details/6315209/37/",
           "reference_polygons_xy": [
             [
               [
@@ -747,7 +756,8 @@
             ],
             "outcome": "hit",
             "number_of_options": 2
-          }
+          },
+          "source_sequence": "6315209"
         },
         {
           "id": "kv-1476078825",
@@ -759,7 +769,7 @@
           ],
           "sha256": "2f42cb77a8b0442362951c4b872dd67fa29e3fdebcf8a902d3d8ba942065cc6d",
           "request": "Over on the left, show me the open strip of road between the big white SUV right here and the dark sedan parked side-on by the crossing farther ahead.",
-          "source_url": null,
+          "source_url": "https://kartaview.org/details/5083497/1/",
           "reference_polygons_xy": [
             [
               [
@@ -837,7 +847,8 @@
             "point": null,
             "outcome": "missed_positive",
             "number_of_options": 0
-          }
+          },
+          "source_sequence": "5083497"
         },
         {
           "id": "kv-1476074857",
@@ -849,7 +860,7 @@
           ],
           "sha256": "8c1bbddb0f8260f0b201dfc76757b302373324ef297baeeda3e1606a06da5b26",
           "request": "Drop me off between the two dark cars.",
-          "source_url": null,
+          "source_url": "https://kartaview.org/details/5083289/32/",
           "reference_polygons_xy": [
             [
               [
@@ -926,7 +937,8 @@
             "point": null,
             "outcome": "missed_positive",
             "number_of_options": 1
-          }
+          },
+          "source_sequence": "5083289"
         },
         {
           "id": "kv-1648471945",
@@ -938,7 +950,7 @@
           ],
           "sha256": "4f189d2765f3f47c67bf04e2d1485f75ff8b215b898e36c6f8ab9f0f36d3ef73",
           "request": "Drop me in the gap between the white SUV and the white convertible on the right.",
-          "source_url": null,
+          "source_url": "https://kartaview.org/details/6327433/413/",
           "reference_polygons_xy": [
             [
               [
@@ -1023,7 +1035,8 @@
             "point": null,
             "outcome": "missed_positive",
             "number_of_options": 1
-          }
+          },
+          "source_sequence": "6327433"
         },
         {
           "id": "kv-1208259705",
@@ -1035,7 +1048,7 @@
           ],
           "sha256": "8f508b10329d27e71b8210d86388df724e3702b08956d290ab2466a6d22179d5",
           "request": "Drop me off between the two dark cars.",
-          "source_url": null,
+          "source_url": "https://kartaview.org/details/3330553/0/",
           "reference_polygons_xy": [],
           "reference_note": "The two dark vehicles are real and identifiable, but a raised brick island with a painted curb occupies the apparent gap. The genuinely empty marked parking bay is on the other side of the near sedan. A point inside that empty bay would be outside the named pair.",
           "fraction_of_reference_with_parking_label": null,
@@ -1079,7 +1092,8 @@
             "point": null,
             "outcome": "correct_ask",
             "number_of_options": 1
-          }
+          },
+          "source_sequence": "3330553"
         },
         {
           "id": "kv-1507952777",
@@ -1091,7 +1105,7 @@
           ],
           "sha256": "e818a455fd375d1dc4d0e6444ebcd7777ffdbada2bf41d00725f6ded033be4ca",
           "request": "Between the two dark cars parked along the right-hand curb, please.",
-          "source_url": null,
+          "source_url": "https://kartaview.org/details/5299833/431/",
           "reference_polygons_xy": [
             [
               [
@@ -1182,7 +1196,8 @@
             ],
             "outcome": "hit",
             "number_of_options": 2
-          }
+          },
+          "source_sequence": "5299833"
         }
       ]
     },

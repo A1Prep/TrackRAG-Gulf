@@ -57,6 +57,8 @@ Other execution options:
 | --grounding-config | The explicit pretrained or trained inference configuration. adapter_dir selects the trained artifact; unavailable artifacts remain operational errors. |
 | --grounding-backend ollama | Uses the separately documented [local pretrained comparison](dropoff-local-pretrained.md), with its explicit configuration. It is not the trained Task 5 condition. |
 | --speech-adapter | Task 3's module exporting transcribe_audio(path), as described below. |
+| --asr-model | Select the existing verified local Vosk recognizer using its model folder. Accepts 16-bit PCM WAV. |
+| --whisper-model | Select the existing pinned CPU Whisper Small English recognizer using its model folder. Accepts 16-bit PCM WAV. |
 | --frame-rate / --split | Explicit EMT reader overrides. Frame IDs always remain original IDs. |
 
 Without a grounding configuration the QA application can still run; a grounding
@@ -117,10 +119,28 @@ pointing context in this interface and cannot produce an accepted proposal.
 
 ## Audio and transcript handoff
 
+Select exactly one of --speech-adapter, --asr-model and --whisper-model. The native
+options reuse the existing recognizers and preserve their audio hash, original
+transcript, model identity and timing receipt through the application's normal
+audio interface. An explicitly named module must provide a callable
+transcribe_audio; an incompatible module fails at startup. In particular, the
+older trackrag.speech.transcribe_file returns only text and is not that interface.
+
+Install [Vosk dependencies](../requirements-speech.txt) or the separately pinned
+[Whisper dependencies](../requirements-speech-whisper.txt) in the actual application
+environment. Model locations remain explicit arguments. Missing or mismatched
+models do not switch to a hosted recognizer. Native speech errors keep their
+original codes, and a supplied receipt's audio hash must match the saved bytes.
+
 Upload an audio file, or click Record voice and explicitly permit the browser's
 microphone request. Stop the recording when finished; a recording is capped at
 60 seconds. Microphone permission/device failures are shown explicitly. Changing
 the scene while recording prevents that audio from being assigned to a new scene.
+The browser now captures mono 16-bit PCM WAV at its actual supported sample rate
+(16-48 kHz), using the existing passenger application's AudioWorklet approach.
+Scene/input changes discard in-flight capture and late permission grants. Native
+recognizers require this PCM format; a WebM/MP4 upload is not converted or renamed
+to appear compatible. Their existing limits are 60 seconds and 12 MiB.
 
 Accepted files are bounded to 16 MiB and saved before transcription. The adapter
 decides which audio containers/codecs it actually supports. Task 3 supplies this
@@ -209,3 +229,74 @@ Before declaring all Task 4 work complete, obtain and test:
   run through this application; a development or pretrained-only run is different.
 - The frozen regression cohort, complete receipts and a fresh-start rehearsal by
   another teammate, followed by the final release/report updates.
+
+## Check real module handoffs before a live trial
+
+The [read-only integration preflight](../tools/task4_check_integration.py) checks
+the normal saved-prediction path, exact images on two recordings, trained adapter
+manifest, base/processor accessibility, dependency metadata and the selected
+native speech model. It reports every requested check, including independent
+failures; it does not load weights, recognize speech, download files or score
+grounding quality. Supply the reviewed Task 1 prediction manifest when checking
+the shared bundle, so its complete prediction/provenance hashes are compared too.
+
+For example, after placing the actual artifacts at their documented locations:
+
+```powershell
+& '.venv-grounding/Scripts/python.exe' -m tools.task4_check_integration --data-root data/emt-task4-baseline --vision-config configs/vision/finetuned.json --predictions data/task1-shared-20261119/predictions-finetuned --grounding-config models/passenger-reviewed-clarification/inference_config.json --scene video_054604:150 --scene video_054907:150 --prediction-manifest experiments/vision/shared_prediction_runs.json --asr-model models/passenger-support/vosk-model-small-en-us-0.15
+```
+
+These paths are examples of the documented handoff layout, not artifacts included
+in this checkout. Replace them with the actual shared locations. An exit code of
+zero means the checked files and dependency metadata permit a runtime attempt;
+actual GPU/ABI compatibility, model load, latency and quality remain live checks.
+
+The [current native model handoff](passenger-evaluator-handoff.md) documents the
+trained four-field adapter installed under models/passenger-reviewed-clarification.
+The composite passenger application uses additional landmark/region/road modules
+and is a different condition. Do not use its adapter package or historical
+application results as proof of native Task 4 inference. The earlier public-only
+V2 adapter is also a separately labelled training stage.
+
+Follow the [separate Python 3.11 GPU environment recipe](dropoff-local-training.md)
+for the pinned streamed inference stack. The Python 3.14 reviewer environment
+does not establish compatibility with that stack. Keep the reviewer environment
+intact and run the application from the configured inference environment. The
+pinned quantized base alone requires approximately 7.24 GB of weight downloads;
+the small trained adapter does not replace those base and processor files.
+
+Once preflight permits an attempt, use the same paths in the normal application:
+
+```powershell
+& '.venv-grounding/Scripts/python.exe' -m trackrag.dropoff.app --data-root data/emt-task4-baseline --vision-config configs/vision/finetuned.json --predictions data/task1-shared-20261119/predictions-finetuned --grounding-config models/passenger-reviewed-clarification/inference_config.json --asr-model models/passenger-support/vosk-model-small-en-us-0.15
+```
+
+Retain the two-recording typed and actual speech trials, transcript corrections,
+clarifications, confirmations, errors and complete QA cohort. The application
+drains pending jobs and closes its owned grounding worker during shutdown,
+including a server bind/start failure. This is a resource-lifecycle guarantee,
+not evidence that real inference has been performed on this machine.
+
+Additional compatibility checks use controlled recognizers and generated saved
+artifacts rather than real ASR/grounding quality:
+
+```powershell
+& '.venv/Scripts/python.exe' -m pytest tests/test_dropoff_speech.py tests/test_dropoff_app_lifecycle.py tests/test_task4_check_integration.py tests/test_dropoff_app.py -q
+node --test tests/test_dropoff_web_audio.cjs
+```
+
+Compatibility verification on 22 November 2026 passed 62 focused Python tests,
+2,135 full-suite tests and 401 subtests, with 41 tests skipped. All nine
+Node audio tests, JavaScript syntax checks, CLI help checks and editor diagnostics
+passed. Independent code review found no blocking issue in the PCM capture,
+speech bridge or artifact preflight. These use generated scenes, controlled
+recognizers and supplied-artifact fixtures. No genuine speech recognition or
+trained-checkpoint inference was performed in this verification phase; those
+trials still require confirmed artifact locations and the inference environment.
+
+The handoff machine's Windows hardware inventory reported Intel Iris Xe graphics
+and installed Python 3.12/3.14 interpreters. It did not provide the NVIDIA
+CUDA/BF16 hardware required by the documented streamed runtime. The receiving
+teammate should use the prepared Task 5 GPU machine, run the preflight with the
+actual artifact paths, then perform the two-recording application trial above.
+Keep that live acceptance evidence separate from the software test results.

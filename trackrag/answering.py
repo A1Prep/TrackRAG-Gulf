@@ -73,12 +73,16 @@ def answer_question(
     question: Question,
     evidence: list[Evidence],
     run_dir: str | Path,
-    model: AnswerModel,
+    model: AnswerModel | None = None,
 ) -> Answer:
     """Generate an answer and validate its evidence citations."""
 
     if not evidence:
         return make_answer("insufficient_evidence")
+
+    if model is None:
+        from trackrag.model_client import GeminiAnswerModel
+        model = GeminiAnswerModel()
 
     try:
         prepared_evidence = prepare_evidence(

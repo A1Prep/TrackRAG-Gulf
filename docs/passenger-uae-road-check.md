@@ -2,6 +2,8 @@
 
 The default passenger app asked for clarification on all 15 requests about a gap between vehicles. Seven scenes warranted that response. Eight had identifiable pavement. A separate Qwen visual selector identified three of those eight gaps and also proposed points on two of the seven negative scenes. The airport photograph was excluded.
 
+A follow-up traced both the vehicle-identification and road-surface failures, tested parking recognition on ten previously unseen UAE drives and added a passenger correction to the browser. [Follow-up diagnosis, results and photos](passenger-gap-diagnosis.md)
+
 ## What the app checks
 
 The app takes the original frame, the current RF-DETR/BoT-SORT observations and the passenger's words. It checks that the two referenced vehicles are distinguishable. A potentially admissible region needs a patch of predicted road between the two vehicle ground contacts, a visible road-edge cue and no overlapping current road-user detection. The result is a proposed 2-D location and a request for confirmation. Ambiguous vehicle identities or insufficient evidence lead to clarification. Selecting the two outlined vehicles is a separate passenger action.

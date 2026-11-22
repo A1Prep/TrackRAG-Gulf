@@ -248,7 +248,14 @@ class PassengerGrounder:
         elif decision["kind"] == "missing":
             result = unresolved()
         elif between_road.requested(request):
-            result, check = between_road.native_result(self, request, image, binding, decision, record, index)
+            from .landmarks import InvalidLandmarkIDs
+            try:
+                result, check = between_road.native_result(self, request, image, binding, decision, record, index)
+            except InvalidLandmarkIDs as exc:
+                # A valid subquery pair cannot rescue a malformed whole-sentence reading.
+                # Preserve the same error and all three real replies for inspection.
+                provenance["rejected_landmark_stage"] = "whole_instruction_pair_consistency"
+                return error_outcome(operational_code(exc), str(exc), request["request_id"], provenance)
             provenance["between_road"] = check
             provenance["selected_track_ids"] = check["resolved_track_ids"]
         elif between_road.unbound_vehicle_selection(request,decision):

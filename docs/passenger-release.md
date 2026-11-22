@@ -10,6 +10,8 @@ From the prepared laptop checkout, run the following command and open the local 
 
 For a request between two vehicles, the app checks the current road surface, both vehicle footprints and other detected road users before offering a point. The UAE photo trial records when it asked again and where alternative methods pointed. [Road-area checks and trial results](passenger-uae-road-check.md)
 
+When you can see the intended patch, you can tap it or drag over it. The app checks the marked area against the road and detected objects, then lets you inspect and confirm its proposal. It can also retain the two vehicle outlines while asking for the area. A separate GPU study identifies the two named vehicles and tests candidate spots on a parking-specific map. [Why requests failed, example photos and results on ten new UAE drives](passenger-gap-diagnosis.md)
+
 ## Try the passenger interaction
 
 1. Select recording **054907**, frame **1**. Choose **Record voice** and say “Drop me here.” Check the recognized words and send them. The assistant should ask for a landmark.

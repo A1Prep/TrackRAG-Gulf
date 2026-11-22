@@ -42,7 +42,9 @@ function showLegend(view, area) {
     return;
   }
   if (drawing || !area) {
-    text(legend, drawing ? "Marking a passenger-selected area" : "Original frame");
+    const landmarks = view.area_landmarks;
+    text(legend, landmarks ? (landmarks.source === "passenger_landmarks" ? "A and B mark your two chosen vehicles."
+      : "A and B mark the two vehicles matched in your instruction.") : drawing ? "Marking a passenger-selected area" : "Original frame");
     return;
   }
   const marked = view.selected_by === "passenger";
@@ -79,8 +81,11 @@ function render() {
     stage === "failed" ? "Record again or type the instruction." : stage === "recording" ? "Waiting for new audio." : "";
   const pairStatus = v.state==="proposed" && v.selected_by==="passenger_landmarks" ?
     "Check the road location calculated from the two vehicles you chose." : "";
-  text(el("status"), notice || voiceStatus || pairStatus || statuses[v.state]);
-  const interpretationError = v.can_request_pointing && v.error?.code==="invalid_model_output"
+  const areaStatus = !drawing && !pairs.open && (v.area_landmarks ?
+    "The road location is still unclear. Mark where you want to get out beside A and B." : v.unmatched_described_pair ?
+    "You described two vehicles. Select their outlines or mark the intended road area directly." : "");
+  text(el("status"), notice || voiceStatus || v.landmark_error_guidance || areaStatus || pairStatus || statuses[v.state]);
+  const interpretationError = v.landmark_error_guidance ? "" : v.can_request_pointing && v.error?.code==="invalid_model_output"
     ? "I couldn’t match your words to the picture. You can describe the place again or choose two vehicles."
     : v.error?.message;
   const err = failure || session?.speech_error?.message || interpretationError || "";
@@ -88,7 +93,8 @@ function render() {
   el("messages").replaceChildren();
   (v.turns || []).forEach(addMessage);
   el("messages").scrollTop = el("messages").scrollHeight;
-  const canMark = !stage && ["proposed","needs_clarification","insufficient_visual_evidence"].includes(v.state);
+  const canMark = !stage && (["proposed","needs_clarification","insufficient_visual_evidence"].includes(v.state)
+    || Boolean(v.landmark_error_guidance));
   const pendingWords = Boolean(input.value.trim());
   const recoverWords = !stage && (v.pair_choices?.length||0)<2 && ["error","proposed","needs_clarification","insufficient_visual_evidence"].includes(v.state)
     && v.turns?.some(turn=>turn.role==="user");
@@ -98,8 +104,10 @@ function render() {
   text(pointButton, pendingWords ? "Send and choose two vehicles" : "Review my words and choose two vehicles");
   el("draw").hidden = !canMark || drawing || pairs.open;
   el("draw").disabled = busy || micOn || pendingWords;
+  text(el("draw"), v.area_landmarks || v.unmatched_described_pair || v.landmark_error_guidance ? "Mark the intended road area" : "Mark an area myself");
   el("choose-pair").hidden = Boolean(stage) || drawing || pairs.open || (v.pair_choices?.length||0)<2;
   el("choose-pair").disabled = busy || micOn || pendingWords;
+  text(el("choose-pair"), v.area_landmarks ? "Change the two vehicles" : "Choose two vehicles");
   el("confirm").hidden = v.state !== "proposed" || !v.proposal_id || Boolean(stage) || drawing || pairs.open;
   el("confirm").disabled = busy || micOn || pendingWords;
   el("cancel").hidden = !open || (!stage && ["idle","cancelled","confirmed"].includes(v.state));
@@ -151,6 +159,7 @@ function paint() {
   const scale = canvas.width / Math.max(canvas.clientWidth, 1);
   if (pairs.open) { pairs.paint(ctx,scale); return; }
   const box = drawing ? rectangle : v?.result?.destination_box_xyxy;
+  if (v?.area_landmarks) drawChosenLandmarks(ctx, v.area_landmarks.boxes_xyxy, scale);
   if (!box) return;
   if (!drawing && v.selected_by === "passenger_landmarks") drawChosenLandmarks(ctx,v.result.anchor_boxes_xyxy,scale);
   const [x1,y1,x2,y2] = box;
@@ -176,9 +185,17 @@ function imagePoint(event) {
   return [Math.max(0,Math.min(canvas.width, (event.clientX-rect.left)*canvas.width/rect.width)),
     Math.max(0,Math.min(canvas.height, (event.clientY-rect.top)*canvas.height/rect.height))];
 }
-function updateBox(event) {
+function updateBox(event, final = false) {
   const [x,y] = imagePoint(event), [a,b] = startPoint;
-  rectangle = [Math.floor(Math.min(x,a)), Math.floor(Math.min(y,b)), Math.ceil(Math.max(x,a)), Math.ceil(Math.max(y,b))];
+  const bounds = canvas.getBoundingClientRect();
+  const sx = canvas.width / bounds.width, sy = canvas.height / bounds.height;
+  if (final && Math.hypot((x-a)/sx, (y-b)/sy) <= 3) {
+    // A tap previews a small visible region. The server still checks road support inside the requested mark.
+    rectangle = [Math.max(0,Math.floor(x-6*sx)), Math.max(0,Math.floor(y-6*sy)),
+      Math.min(canvas.width,Math.ceil(x+6*sx)), Math.min(canvas.height,Math.ceil(y+6*sy))];
+  } else {
+    rectangle = [Math.floor(Math.min(x,a)), Math.floor(Math.min(y,b)), Math.ceil(Math.max(x,a)), Math.ceil(Math.max(y,b))];
+  }
   if (rectangle[2] <= rectangle[0] || rectangle[3] <= rectangle[1]) rectangle = null;
   paint(); el("use-box").disabled = !rectangle;
 }
@@ -190,7 +207,7 @@ canvas.addEventListener("pointerdown", e => {
 canvas.addEventListener("pointermove", e => { if (drawing && startPoint && e.isPrimary) updateBox(e); });
 canvas.addEventListener("pointerup", e => {
   if (!drawing || !startPoint || !e.isPrimary) return;
-  updateBox(e); startPoint=null;
+  updateBox(e,true); startPoint=null;
 });
 canvas.addEventListener("pointercancel", () => { startPoint=rectangle=null; render(); });
 el("draw").onclick = () => { if (!input.value.trim()) { drawing=true; rectangle=null; render(); } };

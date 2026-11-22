@@ -1,0 +1,31 @@
+{
+  "fixed": {
+    "always_propose_false_proposals": 11,
+    "always_propose_status_correct": 33,
+    "always_propose_status_rate": 0.75,
+    "baseline_source_line_verified": 54,
+    "cases": 44,
+    "eligible_signed_rectangles": 33,
+    "false_proposal_eligible": 11,
+    "fixed_point_box_iou": null,
+    "fixed_point_error_diagonals": 0.11823804907927614,
+    "fixed_point_fraction": [
+      0.5,
+      0.8
+    ],
+    "fixed_point_hit_rate": 0.0,
+    "fixed_point_hits": 0
+  },
+  "protocol_sha256": "84b15c10197bb60de31ab05da8e83a9f617a9afe07935a371baf46fc588e5ff5",
+  "source_sha256": {
+    "reconfirmation_cases.jsonl": "bc28de2c8cd574b9431227e366a362217b29c574d1ebc054709108982048af23",
+    "review_cases.jsonl": "37f21c01f44f1a35fffc8092285d997713965dbad22086ac3a3de2fcb0557373",
+    "reviewer_1.csv": "0962e60dc6ca674f6caa117f2d875915707fabfc4cc0a45b6c8126c8270cdf69",
+    "reviewer_2.csv": "891f48e1d1c5e52efd87b676686c662dde7421be870b3180a5bdcb4fc790c5c8"
+  },
+  "status_counts": {
+    "insufficient_visual_evidence": 7,
+    "needs_clarification": 4,
+    "proposed": 33
+  }
+}

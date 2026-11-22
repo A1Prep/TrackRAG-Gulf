@@ -1,0 +1,31 @@
+{
+  "data_access": "Both reviewers and aggregate label counts were audited before this secondary recipe. Neither current model results nor intermediate outputs were inspected. Analyze only after both model processes finish and exact execution seals verify.",
+  "fixed_utc": "2026-11-22T09:04:59.679667+00:00",
+  "geometry_constant": "One fixed point [0.5*original width,0.8*original height] from Task 1 default protocol. Test inclusive containment in the original signed rectangle and diagonal-normalized distance to the signed point on all 33 reviewed proposals. Do not generate a box or infer an IoU for this point-only comparator.",
+  "kind": "independent_replication_original_reviewed_image_only_gulf",
+  "paired": "Report both correct, pretrained only, trained only, neither, plus gained/lost strict reference box point hits across matched case IDs.",
+  "primary_preanalysis_sha256": "b101317179063159e8c01f9fd10ba848422fe3473b7ac0c0d3d2f42357951dcd",
+  "primary_replication": "Independent strict raw model JSON to pixel mapping. Preserve invalid and operational cases in all denominators. Full per-status confusion, false proposals on non-proposal references, primary-status agreement, signed box containment inclusive, Euclidean reference-point error divided by the image diagonal (conditional plus all-eligible with missing=1), original rectangle IoU (missing=0) and literal question wording.",
+  "release": "Only aggregates, input/receipt source digests and no identities or case-level targets. No scoring from partial runs.",
+  "roles": [
+    "pretrained",
+    "trained"
+  ],
+  "status_constant": "Always output proposed across 44, regardless of text or image. Report status fraction and false proposals. This is an arithmetic class-frequency comparator with no trained parameters.",
+  "task1_baseline_source": {
+    "fraction": [
+      0.5,
+      0.8
+    ],
+    "git_commit": "709e969260866a5476d8c199609c59de580589f7",
+    "original_protocol_lines": [
+      53,
+      1163,
+      1164
+    ],
+    "path": "evaluation/grounding.py",
+    "raw_git_sha256": "8a17d279d7792b71ceb9cdb2d246338c08724349cd53834e29a2241b573f2698"
+  },
+  "task2_source_commit": "2d96dcb6afdffb46c5d94d299768fe6a92acc094",
+  "unit": "44 test originals with two accepted reviews and matching image/input/supervision hashes. 6 updated pending candidates excluded. Original zero track observation context is preserved."
+}

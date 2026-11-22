@@ -11,6 +11,8 @@ from __future__ import annotations
 import os
 from pathlib import Path
 
+from trackrag.local_speech import LocalSpeechRecognizer, SpeechInputError, SpeechTranscript
+
 
 def transcribe_file(audio_path: str | Path) -> str:
     """Transcribe an audio file using Gemini's speech-to-text capability.

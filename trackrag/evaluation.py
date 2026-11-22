@@ -1,23 +1,18 @@
 
-"""Compare generated answers to the reference answer key.
+"""Compare answer status and reference wording for the starter QA exercise.
 
-Outcomes are kept distinct:
-  - answered_correct   : model answered, answer aligns with reference
-  - answered_incorrect : model answered, answer contradicts reference
-  - insufficient_evidence : model said evidence was insufficient
-  - error              : provider failure or citation mismatch
-  - not_requested      : answering was never attempted
-
-Unanswerable questions (answerable=false in the key) that the model
-returns as insufficient_evidence are correct; ones it claims to answer
-are incorrect.
+Exact wording, optionally with a trailing “is/are visible”, can establish text
+agreement. Additional accepted wordings may be supplied in acceptable_answers.
+Other free text requires human review. Grounding and retrieval are evaluated by
+the separate evaluator using the saved evidence.
 """
 
 from __future__ import annotations
 
 import json
 from pathlib import Path
-from typing import TypedDict
+import re
+from typing import NotRequired, TypedDict
 
 
 class AnswerKeyEntry(TypedDict):
@@ -26,6 +21,7 @@ class AnswerKeyEntry(TypedDict):
     answerable: bool
     acceptable_track_ids: list[int]
     acceptable_intervals: list[dict]
+    acceptable_answers: NotRequired[list[str]]
 
 
 class EvalRecord(TypedDict):
@@ -41,37 +37,51 @@ class EvalRecord(TypedDict):
 
 def load_answer_key(path: str | Path) -> dict[str, AnswerKeyEntry]:
     result: dict[str, AnswerKeyEntry] = {}
-    with Path(path).open("r", encoding="utf-8") as fh:
+    with Path(path).open("r", encoding="utf-8-sig") as fh:
         for line in fh:
             line = line.strip()
             if not line:
                 continue
             entry = json.loads(line)
-            result[entry["question_id"]] = entry
+            identity = entry["question_id"]
+            if identity in result:
+                raise ValueError(f"Duplicate reference question ID: {identity}")
+            alternatives = entry.get("acceptable_answers", [])
+            if not isinstance(alternatives, list) or not all(isinstance(item, str) and item.strip() for item in alternatives):
+                raise ValueError(f"Invalid acceptable_answers for {identity}")
+            result[identity] = entry
     return result
 
 
 def load_generated_answers(path: str | Path) -> dict[str, dict]:
     result: dict[str, dict] = {}
-    with Path(path).open("r", encoding="utf-8") as fh:
+    with Path(path).open("r", encoding="utf-8-sig") as fh:
         for line in fh:
             line = line.strip()
             if not line:
                 continue
             record = json.loads(line)
-            result[record["question_id"]] = record
+            if isinstance(record.get("question"), dict):
+                identity = record["question"]["question_id"]
+                if record.get("question_id", identity) != identity:
+                    raise ValueError("The nested and flat question IDs disagree")
+                answer = record["answer"]
+                record = {"question_id": identity, "answer_status": answer["answer_status"],
+                          "answer": answer["answer"], "cited_evidence_ids": answer["cited_evidence_ids"]}
+            identity = record["question_id"]
+            if identity in result:
+                raise ValueError(f"Duplicate generated question ID: {identity}")
+            result[identity] = record
     return result
 
 
-_INCORRECT_SIGNALS = (
-    "no pedestrian",
-    "no small",
-    "not visible",
-    "not annotated",
-    "does not appear",
-    "not present",
-    "not establish",
-)
+def _reference_words(text: str) -> list[str]:
+    # Ignore sentence punctuation and one purely descriptive closing phrase.
+    # Keep all nouns, counts, polarity, places, dates and relations.
+    words = re.findall(r"\d+(?:[.,]\d+)*|\w+(?:['’]\w+)*|[^\w\s.,!?]", text.casefold())
+    if len(words) > 2 and words[-2:] in (["is", "visible"], ["are", "visible"]):
+        return words[:-2]
+    return words
 
 
 def _classify_outcome(
@@ -80,7 +90,7 @@ def _classify_outcome(
 ) -> tuple[str, str]:
     """Return (outcome_label, notes)."""
 
-    status = generated.get("answer_status", "not_requested")
+    status = generated.get("answer_status")
 
     if status == "not_requested":
         return "not_requested", "answering was never attempted"
@@ -89,25 +99,29 @@ def _classify_outcome(
         return "error", "provider failure or citation mismatch"
 
     if status == "insufficient_evidence":
+        if generated.get("cited_evidence_ids"):
+            return "error", "abstention claims supporting citations"
         if not key["answerable"]:
             return "answered_correct", "model correctly identified unanswerable question"
         return "answered_incorrect", "model said insufficient evidence but question is answerable"
 
-    # status == "answered"
-    answer_text = (generated.get("answer") or "").lower()
+    if status != "answered":
+        return "error", "unsupported answer status"
+    text = generated.get("answer")
+    citations = generated.get("cited_evidence_ids")
+    if (not isinstance(text, str) or not text.strip() or not isinstance(citations, list) or not citations
+            or not all(isinstance(item, str) and item.strip() for item in citations)
+            or len(set(citations)) != len(citations)):
+        return "error", "answered record has no usable text or evidence citations"
 
     if not key["answerable"]:
         return "answered_incorrect", "model answered a question declared unanswerable"
 
-    expected_lower = key["expected_answer"].lower()
-
-    # Check for gross contradiction: expected affirmative but model negated.
-    if any(s in answer_text for s in _INCORRECT_SIGNALS):
-        # If the expected answer is also negative this is fine.
-        if not any(s in expected_lower for s in _INCORRECT_SIGNALS):
-            return "answered_incorrect", "model contradicts reference answer"
-
-    return "answered_correct", "answer aligns with reference"
+    actual = _reference_words(text)
+    references = [key["expected_answer"], *key.get("acceptable_answers", [])]
+    if actual and any(actual == _reference_words(reference) for reference in references):
+        return "answered_correct", "wording matches an accepted reference"
+    return "needs_review", "compare this free-text answer with the reference and cited evidence"
 
 
 def evaluate(
@@ -135,7 +149,7 @@ def evaluate(
         records.append(
             EvalRecord(
                 question_id=question_id,
-                answer_status=gen.get("answer_status", "not_requested"),
+                answer_status=gen.get("answer_status", "error"),
                 answer=gen.get("answer"),
                 cited_evidence_ids=gen.get("cited_evidence_ids", []),
                 expected_answer=key_entry["expected_answer"],
@@ -164,9 +178,8 @@ def print_summary(records: list[EvalRecord]) -> None:
     print()
 
     for record in records:
-        mark = "✓" if record["outcome"] == "answered_correct" else "✗"
         status = record["answer_status"]
-        print(f"  {mark} {record['question_id']} [{status}] — {record['notes']}")
+        print(f"  {record['question_id']} [{status}, {record['outcome']}] {record['notes']}")
         if record["answer"]:
             print(f"      model: {record['answer'][:120]}")
         print(f"      ref  : {record['expected_answer'][:120]}")

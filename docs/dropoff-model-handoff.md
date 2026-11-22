@@ -15,6 +15,10 @@ The existing QA implementation, its retriever and its configured hosted answerer
 
 ## Task 4: application interface
 
+The [Task 4 shared-record walkthrough](task4-shared-contracts.md) documents the
+compatible session extension, app-owned proposal/confirmation records and boundary
+validators. Existing batch requests and model response fields remain valid.
+
 Import GroundingConfig and GroundingModel from trackrag.dropoff.model. Constructing a model object does not download weights or start a GPU backend. The first interpret call does.
 
 The request format is defined in trackrag/dropoff/contracts.py:
@@ -22,6 +26,7 @@ The request format is defined in trackrag/dropoff/contracts.py:
 | Field | Meaning |
 | --- | --- |
 | request_id | Unique identifier for this request |
+| session_id | Optional app session identity; preserved in receipts and excluded from the model prompt |
 | scene.frame | Existing Frame record: recording_id, original frame_id, timestamp_s, width, height and image_path |
 | scene.source | predicted for the final route; annotated needs an explicit development override |
 | scene.tracks | Existing TrackObservation records, all from the same recording/source and no later than the frame |

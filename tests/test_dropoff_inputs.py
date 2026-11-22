@@ -69,6 +69,12 @@ def test_empty_predicted_detections_remain_empty(scene):
     assert "result" not in request
 
 
+def test_app_session_is_preserved_by_the_existing_scene_builder(scene):
+    assert build(scene, session_id="passenger-session-1")["session_id"] == "passenger-session-1"
+    with pytest.raises(ValueError, match="session_id"):
+        build(scene, session_id="")
+
+
 def test_voice_transcript_and_dialogue_are_preserved_without_mutation(scene):
     dialogue = [{"role": "assistant", "text": "Which car?", "recording_id": "scene-a", "frame_id": 10}]
     provenance = {"model": {"condition": "saved_finetuned_predictions"}}

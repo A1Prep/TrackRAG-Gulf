@@ -14,6 +14,8 @@ The native route runs the full image, predicted observations and passenger dialo
 
 The original native compatibility run contained four EMT instructions and one public RegSeg control. Task 1’s unmodified field converter consumed all five native envelopes. Its scene checker matched all four EMT inputs against their actual source. The public control had no EMT scene. No final reference file or assessment score was produced during this exercise. The upstream software suite also passed 80 evaluator and converter tests. [Recorded handoff](../experiments/dropoff/passenger-task1-evaluator-handoff-20261121.json)
 
+The registered pretrained and locally fine-tuned 8B models also processed the same two development requests on different EMT recordings. Both runs produced two proposed areas, and Task 1’s conversion functions read all four native responses. On the request for the road just behind the white SUV on the left, the pretrained model proposed pixel `(460.8, 1008)` and the trained model proposed `(460.8, 1080)` in the 2560 × 1440 frame. There is no passenger-marked target for this comparison. For this recording the team could independently verify the saved tracks and their provenance. The original detections file named by that provenance was unavailable for rechecking. [Measured runs and source details](../experiments/dropoff/passenger-evaluator-paired-delivery-20261122.json) · [Download the original development responses and verifier](https://github.com/A1Prep/TrackRAG-Gulf/releases/download/passenger-feature-20261122/passenger-evaluator-paired-delivery-20261122.zip)
+
 The experimental native child adapter is separately packaged. Extract `native-direct-8b-v3-verified.zip` into `models/passenger-ai-direct/` under the project. Its `inference_config.json` specifies two resident decoder layers for the 4 GB laptop. The package includes the checksum of each member and evidence from a fresh GPU inference. The pinned 8B base and processor cache use the project’s existing local model setup. [Verified adapter and reload](../experiments/dropoff/passenger-native-child-reload-20261121.json)
 
 ```sh
@@ -55,6 +57,26 @@ Omit `--replay` for a live batch. For a saved-landmark batch, supply the origina
 
 ## Preparing the 44 corrected final inputs
 
+### Restore the published inputs on another checkout
+
+From the repository root, use a Python environment with the project’s integration and grounding-format dependencies. The three ZIPs total about 6.2 MiB. Task 2’s Git branch supplies the 44 original photographs. The restore command reads only the named JPEGs from that revision and needs no GPU. [GitHub release](https://github.com/A1Prep/TrackRAG-Gulf/releases/tag/passenger-feature-20261122)
+
+```powershell
+git fetch origin Task-2-arjun-part-2
+gh release download passenger-feature-20261122 --repo A1Prep/TrackRAG-Gulf --pattern passenger-44-inputs-only-20261122.zip --pattern passenger-44-canonical-scenes-20261122.zip --pattern passenger-human-native-clarification.zip --dir runs/evaluator-downloads --skip-existing
+python -m tools.dropoff_restore_evaluator --archives runs/evaluator-downloads --out runs/evaluator-inputs
+```
+
+This installs the registered trained adapter under `models/passenger-reviewed-clarification` and verifies its configuration against `configs/dropoff/passenger-final-pretrained.json`. It restores the images and checks all 44 cases, five recordings and 494 detector observations through the Task 1 scene reader. Run the command again to verify an existing installation. Keep the generated images under the private output directory.
+
+The output `inputs/requests-as-human-reviewed.jsonl` has the original empty observation lists. The alternative `inputs/requests-with-saved-tracks.jsonl` matches `canonical/scenes`. Task 2 and Task 1 must settle which input condition is approved before final inference. Keep reference files, replies and model outputs in separate directories. The restore checks the complete input tree on every run.
+
+On the GPU machine, run `python -m tools.dropoff_prepare_streamed_model` from the repository root to install the pinned base model and processor. Use `python -m tools.dropoff_prepare_streamed_model --offline` to verify an existing installation. The input restore reports the absolute paths to both model configurations and to the scene directory that the evaluator reads. [GPU environment and base installation](dropoff-local-training.md)
+
+A clean Windows checkout restored all 44 original photographs from Task 2 and loaded all 44 scenes with Task 1’s reader. Rechecking preserved all 106 installed files. A changed photograph or an extra reference file made the verification fail, and it succeeded again after the test changes were removed. This cold installation used the same laptop and downloaded the three archives afresh. [Measured restore and retry results](../experiments/dropoff/passenger-evaluator-restore-20261122.json)
+
+### Rebuild the scene evidence from source
+
 Task 2’s corrected package contains 44 confirmed final requests across five recordings and six other final cases awaiting confirmation. All 44 confirmed requests were reviewed with an empty track list. Task 1’s saved fine-tuned detector supplies 494 observations across the same 44 frames. Keep the original reviewed request file and the new detector-bound request file as separate conditions. A participant can record an intended area from the original image and words. Approval of a changed detector context is a separate Task 2 decision.
 
 The input-only workflow reads original images and saved detector outputs. The native Task 1 exporter checks the full run prefix through the selected frame, even when scene history in the model input is empty. The following commands use fresh output locations and the extracted Task 1 prediction folders. The source worker streams the official compressed archive and keeps one genuine recording prefix on disk at a time. The evaluator receives one canonical JSON file per frame. Keep the original images in the private source location.
@@ -78,8 +100,8 @@ Before any final model output, finish each passenger’s independent intention a
 
 ```sh
 python -m tools.dropoff_native_episodes freeze --references refs/references.jsonl --replies replies.jsonl --participants participants.json --responder-rules responder-rules.txt --turn-budget <agreed-budget> --evaluator-commit <full-git-commit> --model-conditions experiments/dropoff/passenger-final-model-conditions-20261122.json --out protocol.json
-python -m tools.dropoff_native_episodes prepare --protocol protocol.json --references refs/references.jsonl --replies replies.jsonl --participants participants.json --scenes canonical-scenes --requests requests-with-saved-tracks.jsonl --config configs/dropoff/passenger-final-pretrained.json --out native-pretrained-clarify
-python -m tools.dropoff_native_episodes prepare --protocol protocol.json --references refs/references.jsonl --replies replies.jsonl --participants participants.json --scenes canonical-scenes --requests requests-with-saved-tracks.jsonl --config models/passenger-reviewed-clarification/inference_config.json --out native-trained-clarify
+python -m tools.dropoff_native_episodes prepare --protocol protocol.json --references refs/references.jsonl --replies replies.jsonl --participants participants.json --scenes runs/evaluator-inputs/canonical/scenes --requests runs/evaluator-inputs/inputs/requests-with-saved-tracks.jsonl --config configs/dropoff/passenger-final-pretrained.json --out native-pretrained-clarify
+python -m tools.dropoff_native_episodes prepare --protocol protocol.json --references refs/references.jsonl --replies replies.jsonl --participants participants.json --scenes runs/evaluator-inputs/canonical/scenes --requests runs/evaluator-inputs/inputs/requests-with-saved-tracks.jsonl --config models/passenger-reviewed-clarification/inference_config.json --out native-trained-clarify
 ```
 
 `prepare` performs no inference. It verifies the original image, predicted observations, frame, initial typed instruction and same-frame dialogue. The freeze command defaults to the linked Task 5 model pair. Production preparation checks each exact registered configuration and the trained adapter manifest before collection. The runner reads the permitted identifiers and wording from the frozen references.

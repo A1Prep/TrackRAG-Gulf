@@ -5,9 +5,11 @@ import re
 from trackrag.vision.classes import EMT_CLASSES
 
 from .contracts import validate_request
-from .landmarks import landmark_messages, parse_landmark
-from .passenger import digest, unresolved
+from .data import inference_input_sha256
+from .landmarks import landmark_messages, parse_landmark, resolve_image
+from .passenger import digest, instruction_context, unresolved
 from .perspective import PassengerViewpoint
+from .referent import ReferentRanker
 
 
 VERSION = "infrastructure-road-user-clarification-v1"
@@ -162,5 +164,65 @@ def review(request, outcome):
 
 
 class PassengerDialogueGrounder(PassengerViewpoint):
+    def _checked_viewpoint(self, request, outcome):
+        """Reopen the bound original and reproduce the ranking before offering a new choice."""
+        if (not isinstance(outcome, dict) or outcome.get("ok") is not True
+                or outcome.get("request_id") != request.get("request_id")
+                or outcome.get("result", {}).get("status") != "proposed"):
+            return outcome
+        provenance = outcome.get("provenance", {})
+        ranker = getattr(self.model, "referent_ranker", None)
+        ranking = provenance.get("referent_ranking")
+        if (provenance.get("method") != "qwen_landmark_region" or not isinstance(ranking, dict)
+                or not isinstance(ranker, ReferentRanker) or not isinstance(ranker.sha256, str)
+                or not re.fullmatch("[0-9a-f]{64}", ranker.sha256) or ranking.get("checkpoint_sha256") != ranker.sha256):
+            return outcome
+        try:
+            clean = validate_request(request)
+            scene = clean["scene"]
+            photo = scene.get("provenance", {}).get("image_sha256")
+            request_hash = digest(clean)
+            resolver = provenance["resolver"]
+            if (not isinstance(photo, str) or not re.fullmatch("[0-9a-f]{64}", photo)
+                    or provenance["image"]["sha256"] != photo or resolver.get("image_sha256") != photo
+                    or provenance.get("request_sha256") != request_hash or resolver.get("request_sha256") != request_hash
+                    or provenance.get("inference_input_sha256") != inference_input_sha256(clean, photo)):
+                return outcome
+            candidate = PassengerViewpoint.review(clean, outcome)
+            if candidate is outcome:
+                return outcome
+            # The initially proposed point can legitimately have an untracked OBJECT
+            # anchor. In either case its recorded boxes and IDs must match the raw Qwen
+            # decision we will keep in the audit. A later, different visual choice has
+            # separate provenance; do not relabel it as this single-source decision.
+            if ("pair_resolution" in resolver or "pair_decision" in provenance or
+                    provenance.get("visual_verification", {}).get("raw_text", "MATCH").strip() != "MATCH"):
+                return outcome
+            _, index = landmark_messages(clean)
+            initial = parse_landmark(resolver.get("raw_text"), index, scene["frame"])
+            if (initial.get("kind") not in {"object", "landmark"} or len(initial["boxes"]) != 1
+                    or initial != resolver.get("decision") or initial["boxes"] != outcome["result"].get("anchor_boxes_xyxy")
+                    or initial["track_ids"] != provenance.get("selected_track_ids")):
+                return outcome
+            image, _ = resolve_image(clean, self.model.config)
+            with image:
+                actual = ranker.rank(image, instruction_context(clean), scene["tracks"], frame=scene["frame"])
+            # rank() reads every alternative's current ID, class, box and colours from
+            # this exact frame. Also reject reordered, removed or differently scored alternatives.
+            if actual != ranking:
+                return outcome
+            rationale = candidate["provenance"]["viewpoint_clarification"]
+            observed = {t["track_id"]:t for t in scene["tracks"] if t["frame_id"] == scene["frame"]["frame_id"]}
+            selected = [deepcopy(observed[key]) for key in rationale["decision"]["track_ids"]]
+            rationale["source_binding"] = {
+                "request_sha256": request_hash, "inference_input_sha256": provenance["inference_input_sha256"],
+                "image_sha256": photo, "checkpoint_sha256": ranker.sha256, "ranked_evidence_sha256": digest(actual),
+                "current_observations": selected, "verification": "ranking_recomputed_from_current_original_pixels",
+            }
+            return candidate
+        except (OSError, ValueError, TypeError, KeyError, AttributeError, IndexError, OverflowError):
+            return outcome
+
     def interpret(self, request):
-        return review(request, super().interpret(request))
+        native = self.model.interpret(request)
+        return review(request, self._checked_viewpoint(request, native))

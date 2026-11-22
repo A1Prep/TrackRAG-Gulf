@@ -12,6 +12,39 @@ from trackrag.dropoff.model import ADAPTER_MANIFEST, BASE_MODEL_ID, BASE_REVISIO
 from trackrag.vision.config import config_from_dict
 
 
+@pytest.mark.parametrize("distribution,installed,expected", (
+    ("torch", "2.6.0+cu124", "2.6.0"),
+    ("torchvision", "0.21.0+cu124", "0.21.0"),
+    ("torch", "2.6.0", "2.6.0"),
+))
+def test_public_release_pin_accepts_cuda_wheel_and_retains_build_identity(monkeypatch, distribution, installed, expected):
+    monkeypatch.setattr(preflight.metadata, "version", lambda _: installed)
+    monkeypatch.setattr(preflight.util, "find_spec", lambda _: object())
+    result = preflight._dependency(distribution, distribution, expected)
+    assert result["version"] == installed
+    assert result["expected_version"] == expected
+    assert result["module_imported"] is False
+
+
+@pytest.mark.parametrize("installed,expected", (
+    ("2.6.1+cu124", "2.6.0"), ("2.6.0rc1+cu124", "2.6.0"),
+    ("2.6.0.post1", "2.6.0"), ("2.6.0+cu126", "2.6.0+cu124"),
+))
+def test_cuda_suffix_cannot_hide_a_different_required_version(monkeypatch, installed, expected):
+    monkeypatch.setattr(preflight.metadata, "version", lambda _: installed)
+    monkeypatch.setattr(preflight.util, "find_spec", lambda _: object())
+    with pytest.raises(ValueError, match="must be"):
+        preflight._dependency("torch", "torch", expected)
+
+
+@pytest.mark.parametrize("distribution,release", (("torch", "2.6.0"), ("torchvision", "0.21.0")))
+def test_explicit_cpu_wheel_is_refused_for_streamed_pins(monkeypatch, distribution, release):
+    monkeypatch.setattr(preflight.metadata, "version", lambda _: release + "+cpu")
+    monkeypatch.setattr(preflight.util, "find_spec", lambda _: object())
+    with pytest.raises(ValueError, match="CPU-only"):
+        preflight._dependency(distribution, distribution, release)
+
+
 def write_json(path, value):
     path.write_text(json.dumps(value), encoding="utf-8")
 

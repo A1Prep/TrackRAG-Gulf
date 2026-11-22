@@ -1,0 +1,13 @@
+{
+  "access": "No interim Gulf model responses have been opened in preparing this additional recipe. Compute only after both native conditions and the independent primary results have been sealed.",
+  "aggregation": "Give numerator and denominator for every recording. Compute unweighted mean of recording-specific fractions for status across recordings with >=1 total and for geometry across recordings with >=1 signed proposal. For zero-eligible groups report null for that rate and retain its row. Do not weight the recording macro average by case counts. Also sum all recording numerators/denominators and verify exact agreement with the full-cohort result for each model and fixed baseline.",
+  "geometry_endpoint": "For each recording and each of the pretrained, trained and Task 1 historical fixed (.5*width,.8*height) point baseline, count proposed points inside inclusive signed boxes divided by all signed proposal references in that recording, treating missing/failed requests as zero. No score for box IoU of a point-only baseline.",
+  "groups": "Use all five distinct original public recording_id fields from the frozen signed inputs, sorted by recording ID. Every saved case appears in exactly one group. Include every recording, report no best group, and do not select an alternative operating setting.",
+  "independent_protocol_sha256": "84b15c10197bb60de31ab05da8e83a9f617a9afe07935a371baf46fc588e5ff5",
+  "kind": "secondary_descriptive_recording_macro",
+  "output": "Only public source recording IDs, aggregate counts and means; no case IDs, text, images, model responses, identities, or individual references. Descriptive secondary analysis, five source recordings were not independent 44-unit replicates.",
+  "primary_preanalysis_sha256": "b101317179063159e8c01f9fd10ba848422fe3473b7ac0c0d3d2f42357951dcd",
+  "primary_replication_script_sha256": "a3f36911e647516589b1db63f02d91df801de8f22814b002b962f53ae496571a",
+  "registered_utc": "2026-11-22T09:12:38.683713+00:00",
+  "status_endpoint": "For each recording and each of the pretrained, trained and always-propose status baseline, count exact status agreements divided by all originally reviewed cases in that recording (errors/malformed outputs are incorrect)."
+}

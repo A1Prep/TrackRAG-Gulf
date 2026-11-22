@@ -16,24 +16,56 @@ from .referent import ReferentRanker
 
 QUESTION = "Which two vehicles do you mean? Describe each one or select both on the photo."
 FEW_VEHICLES = "Which two vehicles do you mean? Could you describe another landmark or mark the road area on the photo?"
-_DEICTIC_PAIR = re.compile(
-    r"(?:please\s+)?(?:(?:can|could|would)\s+you\s+)?(?:please\s+)?"
-    r"(?:(?:drop\s+(?:me|us)(?:\s+off)?|let\s+(?:me|us)\s+out|stop|pull\s+over|park|"
-    r"i(?:\s+want|\s+would\s+like|['’]d\s+like)\s+to\s+get\s+out)\s+)?"
-    r"(?:right\s+)?(?:in\s+(?:the\s+(?:gap|space)\s+)?)?between\s+(?:these|those|the)\s+(?:two|2)\s+"
-    r"(?:(black|white|gr[ae]y|silver|red|blue|green|yellow)\s+)?"
-    r"(cars|sedans|suvs|vehicles|trucks|buses)(?:[\s,]+please)?[\s.!?]*", re.I)
 _CLASSES = {"cars": {"Car"}, "sedans": {"Car"}, "suvs": {"Car"},
             "trucks": {"Large_vehicle", "Medium_vehicle"}, "buses": {"Bus"},
             "vehicles": {"Car", "Large_vehicle", "Medium_vehicle", "Bus", "Emergency_vehicle",
                          "Motorbike", "Small_motorised_vehicle"}}
+
+_NOUN_PHRASE = (r"(?:(?:these|those|the)\s+(?:two|2)|(?:that|this|the)\s+pair\s+of)\s+"
+                r"(?:(?P<colour>black|white|gr[ae]y|silver|red|blue|green|yellow)\s+)?"
+                r"(?P<noun>cars|sedans|suvs|vehicles|trucks|buses)")
+_TAIL = r"(?:\s+(?:up\s+ahead|over\s+there|there))?(?:[\s,]+(?:please|thanks|thank\s+you))?[\s.!?]*"
+_BETWEEN = re.compile(r"\bbetween\s+" + _NOUN_PHRASE + _TAIL + r"\Z", re.I)
+_FRONTED = re.compile(r"(?:(?:see|you\s+see)\s+)?" + _NOUN_PHRASE + r"(?:\s+(?:up\s+ahead|over\s+there|there))?"
+                      r"\s*[,?!.:–—]+\s*(?P<prefix>.+?)\bbetween\s+(?:them(?:\s+both)?|the\s+two)" + _TAIL, re.I)
+# Only ordinary stop requests and bare location fragments establish this intent. A street
+# name, vehicle-specific modifier, competing destination or negation belongs with the VLM.
+_LOCATION_WORDS = frozenset('a the in at to right just directly of spot patch space gap middle area place road here there please'.split())
+_REQUEST_WORDS = _LOCATION_WORDS | frozenset("can could would will may you we i i'd we'd like want my us me off out "
+        "drop let get leave take stop pull park up over be able mind stopping pulling getting dropping letting thank thanks".split())
+_STOP_REQUEST = re.compile(r"\b(?:stop(?:ping)?|park|drop(?:ping)?|(?:let(?:ting)?|get(?:ting)?)\b.{0,18}\bout|"
+                           r"get\s+off|leave\s+(?:me|us)|pull(?:ing)?\s+(?:up|over|in))\b", re.I)
+
+
+def _location_request(prefix):
+    if any(letter.isalpha() and not letter.isascii() for letter in prefix):
+        return False
+    words = re.findall(r"[a-z]+(?:'[a-z]+)?|\d+", prefix.lower().replace('’', "'"))
+    if set(words) <= _LOCATION_WORDS:
+        return True
+    if not set(words) <= _REQUEST_WORDS:
+        return False
+    return bool(_STOP_REQUEST.search(prefix) or (set(words) & {'like','want'} and
+                set(words) & {'spot','patch','space','gap','middle','area','place'}))
+
+
+def unpointed_reference(text):
+    """Identify a two-vehicle noun phrase without qualifiers that would identify the individual cars."""
+    text = text.strip()
+    match = _BETWEEN.search(text)
+    if match and _location_request(text[:match.start()]):
+        return match
+    fronted = _FRONTED.fullmatch(text)
+    if fronted and _location_request(fronted['prefix']) and _STOP_REQUEST.search(fronted['prefix']):
+        return fronted
+    return None
 
 
 def unpointed_pair(model, request):
     """An initial demonstrative with no identifiable pair can be resolved by asking for pointing."""
     if not isinstance(request, dict) or not isinstance(request.get("text"), str) or request.get("dialogue"):
         return None
-    match = _DEICTIC_PAIR.fullmatch(request["text"].strip())
+    match = unpointed_reference(request["text"])
     ranker = getattr(model, "referent_ranker", None)
     if not match or not isinstance(ranker, ReferentRanker) or not re.fullmatch(r"[0-9a-f]{64}", ranker.sha256 or ""):
         return None
@@ -48,7 +80,7 @@ def unpointed_pair(model, request):
     except (OSError, AttributeError, KeyError, TypeError, ValueError):
         # The normal model path reports invalid input and missing originals to the passenger.
         return None
-    colour, noun = match.groups()
+    colour, noun = match['colour'], match['noun']
     colour = (colour or "").lower()
     colour = "gray" if colour in {"grey", "silver"} else colour
     # Sample both the broad box and its centre. Dark windows, reflections and shade
@@ -64,7 +96,7 @@ def unpointed_pair(model, request):
     return {"ok": True, "request_id": clean["request_id"], "result": unresolved(QUESTION if visible >= 2 else FEW_VEHICLES),
             "provenance": {"method": "deictic_pair_clarification", "request_sha256": digest(clean), "image": binding,
                            "inference_input_sha256": inference_input_sha256(clean, binding["sha256"]),
-                           "reason": "passenger_referenced_an_unpointed_pair", "passenger_phrase": match.group(),
+                           "reason": "passenger_referenced_an_unpointed_pair", "passenger_phrase": clean["text"].strip(),
                            "colour": colour or None, "eligible_tracks": plausible, "candidate_count": len(candidates),
                            "ranker_sha256": ranker.sha256, "ranking_sha256": digest(ranking),
                            "native_model_calls": 0}}

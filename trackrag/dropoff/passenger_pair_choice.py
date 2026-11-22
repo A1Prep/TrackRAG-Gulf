@@ -65,8 +65,12 @@ class InvalidSelection(ValueError):
 
 def pair_intent(request):
     """Inspect passenger words only. A replacement or a negated pair must retire its choices."""
+    from .pair_dialogue import unpointed_reference
     active = False
     for turn in [v["text"] for v in request["dialogue"] if v["role"] == "user"] + [request["text"]]:
+        if unpointed_reference(turn):
+            active = True
+            continue
         matches = list(re.finditer(r"\bbetween\b", turn, re.I))
         if matches:
             use = matches[-1]

@@ -1,3 +1,4 @@
 -r requirements-review.txt
+cryptography>=42,<51
 opencv-python-headless>=4.10
 pytest>=8

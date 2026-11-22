@@ -54,9 +54,10 @@ function showLegend(view, area) {
     key.className="legend-key"; symbol.className="key-"+shape+(marked?" passenger":"");
     symbol.setAttribute("aria-hidden","true"); key.append(symbol,document.createTextNode(label)); legend.append(key);
   }
-  if (view.selected_by === "passenger_landmarks") {
+  if (view.selected_by === "passenger_landmarks" || view.selected_by === "parking_model") {
     const anchors = document.createElement("span");
-    text(anchors,"A and B mark your two chosen vehicles."); legend.append(anchors);
+    text(anchors,view.selected_by === "parking_model" ? "A and B show the vehicles identified by the parking model." :
+      "A and B mark your two chosen vehicles."); legend.append(anchors);
   }
 }
 function render() {
@@ -79,12 +80,15 @@ function render() {
     insufficient_visual_evidence:"The requested area could not be identified.", error:"The request could not be completed."};
   const voiceStatus = stage === "review" ? "Review the words before sending." :
     stage === "failed" ? "Record again or type the instruction." : stage === "recording" ? "Waiting for new audio." : "";
-  const pairStatus = v.state==="proposed" && v.selected_by==="passenger_landmarks" ?
+  const pairStatus = v.state==="proposed" && v.selected_by==="parking_model" ?
+    "The parking model identified this spot. Check the two vehicles and the highlighted point before confirming." :
+    v.state==="proposed" && v.selected_by==="passenger_landmarks" ?
     "Check the road location calculated from the two vehicles you chose." : "";
   const areaStatus = !drawing && !pairs.open && (v.area_landmarks ?
     "The road location is still unclear. Mark where you want to get out beside A and B." : v.unmatched_described_pair ?
     "You described two vehicles. Select their outlines or mark the intended road area directly." : "");
-  text(el("status"), notice || voiceStatus || v.landmark_error_guidance || areaStatus || pairStatus || statuses[v.state]);
+  const parkingRecovery = v.parking_recovery ? "You can mark the intended area on this photo or describe the location again." : "";
+  text(el("status"), notice || voiceStatus || v.landmark_error_guidance || parkingRecovery || areaStatus || pairStatus || statuses[v.state]);
   const interpretationError = v.landmark_error_guidance ? "" : v.can_request_pointing && v.error?.code==="invalid_model_output"
     ? "I couldn’t match your words to the picture. You can describe the place again or choose two vehicles."
     : v.error?.message;
@@ -94,7 +98,7 @@ function render() {
   (v.turns || []).forEach(addMessage);
   el("messages").scrollTop = el("messages").scrollHeight;
   const canMark = !stage && (["proposed","needs_clarification","insufficient_visual_evidence"].includes(v.state)
-    || Boolean(v.landmark_error_guidance));
+    || Boolean(v.landmark_error_guidance) || v.parking_recovery);
   const pendingWords = Boolean(input.value.trim());
   const recoverWords = !stage && (v.pair_choices?.length||0)<2 && ["error","proposed","needs_clarification","insufficient_visual_evidence"].includes(v.state)
     && v.turns?.some(turn=>turn.role==="user");
@@ -161,7 +165,8 @@ function paint() {
   const box = drawing ? rectangle : v?.result?.destination_box_xyxy;
   if (v?.area_landmarks) drawChosenLandmarks(ctx, v.area_landmarks.boxes_xyxy, scale);
   if (!box) return;
-  if (!drawing && v.selected_by === "passenger_landmarks") drawChosenLandmarks(ctx,v.result.anchor_boxes_xyxy,scale);
+  if (!drawing && (v.selected_by === "passenger_landmarks" || v.selected_by === "parking_model"))
+    drawChosenLandmarks(ctx,v.result.anchor_boxes_xyxy,scale);
   const [x1,y1,x2,y2] = box;
   const passenger = drawing || v.selected_by === "passenger";
   ctx.save();
@@ -318,5 +323,7 @@ perform(async () => {
   el("footage-link").hidden=!catalog.footage_available;
   el("frame-picker").hidden=!catalog.footage_available;
   for (const f of catalog.scenes) addFrame(sceneSelect,f);
+  const requestedScene = new URLSearchParams(window.location.search).get("scene");
+  if (catalog.scenes.some(f => f.key === requestedScene)) sceneSelect.value = requestedScene;
   await chooseScene();
 });

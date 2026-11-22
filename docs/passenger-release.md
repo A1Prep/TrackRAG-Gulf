@@ -10,7 +10,7 @@ From the prepared laptop checkout, run the following command and open the local 
 
 For a request between two vehicles, the app checks the current road surface, both vehicle footprints and other detected road users before offering a point. The UAE photo trial records when it asked again and where alternative methods pointed. [Road-area checks and trial results](passenger-uae-road-check.md)
 
-When you can see the intended patch, you can tap it or drag over it. The app checks the marked area against the road and detected objects, then lets you inspect and confirm its proposal. It can also retain the two vehicle outlines while asking for the area. A separate GPU study identifies the two named vehicles and tests candidate spots on a parking-specific map. [Why requests failed, example photos and results on ten new UAE drives](passenger-gap-diagnosis.md)
+For automatic two-vehicle drop-off proposals, start with `--parking-backend modal`. The regular form accepts typed instructions and reviewed voice transcripts. It can identify both vehicles, mark a patch for confirmation or ask the passenger to clarify. You can also tap or drag over the intended patch. The app checks the marked area against the road and detected objects before offering it for confirmation. [Run the parking feature and see the UAE results](passenger-parking-feature.md) · [Earlier comparison on ten UAE drives](passenger-gap-diagnosis.md)
 
 ## Try the passenger interaction
 

@@ -1,0 +1,52 @@
+{
+  "interpretation": "Signed rectangles are the original two-reviewer coarse targets. Axis counts describe only cases with returned points. Both axes use inclusive boundaries. Signed residuals subtract the reviewed point from the predicted point. Positive values mean farther right or lower in the image.",
+  "kind": "posthoc_geometry_description_original_gulf_inputs",
+  "models": {
+    "pretrained": {
+      "distinct_returned_normalized_points_six_decimals": 18,
+      "median_predicted_box_fraction_of_frame_on_returned_points": 0.015899999999999997,
+      "median_signed_box_fraction_of_frame_all_reviewed": 0.002749382716049386,
+      "median_signed_box_fraction_of_frame_on_returned_points": 0.005560980902777778,
+      "median_signed_horizontal_error_in_frame_widths_on_returned_points": -0.06755859374999999,
+      "median_signed_vertical_error_in_frame_heights_on_returned_points": -0.054699074074074115,
+      "missing_points": 15,
+      "model_returned_points": 18,
+      "returned_points_horizontal": {
+        "left": 11,
+        "right": 6,
+        "within": 1
+      },
+      "returned_points_vertical": {
+        "above": 13,
+        "below": 1,
+        "within": 4
+      },
+      "returned_points_within_both_axes": 0,
+      "reviewed_location_cases": 33
+    },
+    "trained": {
+      "distinct_returned_normalized_points_six_decimals": 23,
+      "median_predicted_box_fraction_of_frame_on_returned_points": 0.01641600000000001,
+      "median_signed_box_fraction_of_frame_all_reviewed": 0.002749382716049386,
+      "median_signed_box_fraction_of_frame_on_returned_points": 0.005154079861111111,
+      "median_signed_horizontal_error_in_frame_widths_on_returned_points": -0.07393749999999999,
+      "median_signed_vertical_error_in_frame_heights_on_returned_points": 0.019583333333333314,
+      "missing_points": 10,
+      "model_returned_points": 23,
+      "returned_points_horizontal": {
+        "left": 14,
+        "right": 7,
+        "within": 2
+      },
+      "returned_points_vertical": {
+        "above": 6,
+        "below": 10,
+        "within": 7
+      },
+      "returned_points_within_both_axes": 1,
+      "reviewed_location_cases": 33
+    }
+  },
+  "primary_sha256": "33fdb9a1427965f8f03bf4abca3b6630a2af754893acdbb0e9813ceef1fa87c0",
+  "scope": "Exploratory description after the primary results were known. No parameter fitting or new acceptance threshold."
+}

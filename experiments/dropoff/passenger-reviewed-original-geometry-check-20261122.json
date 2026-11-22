@@ -1,0 +1,52 @@
+{
+  "all_metrics_verified": true,
+  "gulf_execution_sha256": "a59e25f525dceb57e4e8ec82e62ebceb29f98ccf229aa54885ef3738d09a6a38",
+  "models": {
+    "pretrained": {
+      "distinct_returned_normalized_points_six_decimals": 18,
+      "median_predicted_box_fraction_of_frame_on_returned_points": 0.0159,
+      "median_signed_box_fraction_of_frame_all_reviewed": 0.002749382716049386,
+      "median_signed_box_fraction_of_frame_on_returned_points": 0.005560980902777778,
+      "median_signed_horizontal_error_in_frame_widths_on_returned_points": -0.06755859374999999,
+      "median_signed_vertical_error_in_frame_heights_on_returned_points": -0.054699074074074115,
+      "missing_points": 15,
+      "model_returned_points": 18,
+      "returned_points_horizontal": {
+        "left": 11,
+        "right": 6,
+        "within": 1
+      },
+      "returned_points_vertical": {
+        "above": 13,
+        "below": 1,
+        "within": 4
+      },
+      "returned_points_within_both_axes": 0,
+      "reviewed_location_cases": 33
+    },
+    "trained": {
+      "distinct_returned_normalized_points_six_decimals": 23,
+      "median_predicted_box_fraction_of_frame_on_returned_points": 0.01641600000000001,
+      "median_signed_box_fraction_of_frame_all_reviewed": 0.002749382716049386,
+      "median_signed_box_fraction_of_frame_on_returned_points": 0.005154079861111111,
+      "median_signed_horizontal_error_in_frame_widths_on_returned_points": -0.07393749999999999,
+      "median_signed_vertical_error_in_frame_heights_on_returned_points": 0.019583333333333314,
+      "missing_points": 10,
+      "model_returned_points": 23,
+      "returned_points_horizontal": {
+        "left": 14,
+        "right": 7,
+        "within": 2
+      },
+      "returned_points_vertical": {
+        "above": 6,
+        "below": 10,
+        "within": 7
+      },
+      "returned_points_within_both_axes": 1,
+      "reviewed_location_cases": 33
+    }
+  },
+  "published_geometry_sha256": "e5a2ebcf24fd07461a10bbc8628e565463569c2e2d4c1fa6c4192be7871d9c81",
+  "scope": "post_hoc_independent_axis_and_area_check"
+}

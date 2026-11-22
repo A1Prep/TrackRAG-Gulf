@@ -59,8 +59,21 @@ def _dependency(distribution, module, expected=None):
     installed = metadata.version(distribution)
     if util.find_spec(module) is None:
         raise ImportError(f"Installed distribution has no importable {module} module")
-    if expected is not None and installed != expected:
-        raise ValueError(f"{distribution} must be {expected}; installed {installed}")
+    if expected is not None:
+        from packaging.specifiers import InvalidSpecifier, SpecifierSet
+        from packaging.version import InvalidVersion, Version
+
+        try:
+            version = Version(installed)
+            pin = SpecifierSet(f"=={expected}")
+        except (InvalidVersion, InvalidSpecifier) as error:
+            raise ValueError(f"{distribution} must be {expected}; installed {installed}") from error
+        if not pin.contains(version, prereleases=True):
+            raise ValueError(f"{distribution} must be {expected}; installed {installed}")
+        # The streamed profile needs CUDA. A public-version pin accepts local wheel
+        # tags, but an explicitly CPU-only torch build cannot run this profile.
+        if distribution in {"torch", "torchvision"} and "cpu" in (version.local or "").split("."):
+            raise ValueError(f"{distribution} is a CPU-only build; the streamed runtime requires CUDA")
     return {"distribution": distribution, "version": installed, "module": module,
             "expected_version": expected, "module_imported": False}
 

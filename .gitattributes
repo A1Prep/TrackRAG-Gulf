@@ -93,3 +93,7 @@ trackrag/dropoff/parking_*.py text eol=lf
 trackrag/dropoff/passenger_parking.py text eol=lf
 experiments/dropoff/passenger-uae-parking-*.json text eol=lf
 experiments/dropoff/passenger-uae-parking-*.jsonl text eol=lf
+experiments/dropoff/passenger-ux-*-20261123.json text eol=lf
+experiments/dropoff/passenger-precise-tap-20261123.json text eol=lf
+experiments/dropoff/passenger-request-edit-20261123.json text eol=lf
+trackrag/passenger_ui/photo-tools.js text eol=lf

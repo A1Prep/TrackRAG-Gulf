@@ -578,15 +578,13 @@ class PassengerSession(OriginalPassengerSession):
             self._turns[-1]["text"]="I found one visible road gap that fits. Is the highlighted area where you want to get out?"
         return state
 
-    def submit(self, text, *, original_transcript=None, speech=None, point_to_vehicles=False):
+    def _prepare_vehicle_choice(self, point_to_vehicles):
         if type(point_to_vehicles) is not bool:
             raise ValueError("The request to point to vehicles must be an explicit choice.")
-        with self._lock:
-            if point_to_vehicles and not self._supports_pointing():
-                raise ValueError("Vehicle selection is unavailable for this scene.")
-            self._passenger_requested = point_to_vehicles
-            self._area_landmarks = None
-            return super().submit(text, original_transcript=original_transcript, speech=speech)
+        if point_to_vehicles and not self._supports_pointing():
+            raise ValueError("Vehicle selection is unavailable for this scene.")
+        self._passenger_requested = point_to_vehicles
+        self._area_landmarks = None
 
     def _interpret_submission(self, request):
         if self._passenger_requested:

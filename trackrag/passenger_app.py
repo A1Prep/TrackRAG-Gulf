@@ -27,10 +27,12 @@ from trackrag.local_speech import MAX_WAV_BYTES
 
 ASSETS = Path(__file__).with_name("passenger_ui")
 STATIC = {"/": ("index.html", "text/html; charset=utf-8"),
+          "/favicon.ico": ("favicon.ico", "image/x-icon"),
           "/footage": ("footage.html", "text/html; charset=utf-8"),
           "/footage.js": ("footage.js", "text/javascript"),
           "/frames.js": ("frames.js", "text/javascript"),
           "/pair-choices.js": ("pair-choices.js", "text/javascript"),
+          "/photo-tools.js": ("photo-tools.js", "text/javascript"),
           "/app.css": ("app.css", "text/css"), "/app.js": ("app.js", "text/javascript"),
           "/capture.js": ("capture.js", "text/javascript")}
 
@@ -235,6 +237,10 @@ class PassengerSite:
             if action == "begin-audio":
                 s.clear_audio()
                 s.voice_stage = "recording"
+            elif action == "discard-audio":
+                if not s.voice_stage:
+                    raise PassengerRequestError(409, "There is no recording to discard.")
+                s.clear_audio()
             elif action == "audio":
                 if s.voice_stage != "recording":
                     raise PassengerRequestError(409, "Start a new audio input first.")
@@ -275,9 +281,16 @@ class PassengerSite:
                     raise PassengerRequestError(400, "Invalid vehicle selection mode.")
                 if pointing and not s.dialogue.view().get("can_request_pointing"):
                     raise PassengerRequestError(409, "Vehicle selection is unavailable for this scene.")
+                kwargs = {"point_to_vehicles":True} if pointing else {}
+                if "replaces_request_id" in payload:
+                    previous_id = payload["replaces_request_id"]
+                    current = s.dialogue.view()
+                    if (not isinstance(previous_id, str) or not previous_id or previous_id != current["request_id"]
+                            or current["state"] in {"cancelled", "confirmed"}):
+                        raise PassengerRequestError(409, "Only the current, unfinished description can be replaced.")
+                    kwargs["replaces_request_id"] = previous_id
                 receipt = s.receipt if mode == "voice" else None
                 with self.model_lock:
-                    kwargs = {"point_to_vehicles":True} if pointing else {}
                     s.dialogue.submit(text, original_transcript=receipt["transcript"] if receipt else None, speech=receipt, **kwargs)
                 s.clear_audio()
             elif action == "area":

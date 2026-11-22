@@ -226,6 +226,15 @@ def session(journal_path, *, referent_path=None, pair_geometry=None, road_cache=
                 request = detail["request"] if detail["outcome"] is None else validate_request(detail["request"])
                 need(isinstance(request, dict), "Submitted request is missing")
                 need(request["scene"] == scene, "Submitted request belongs to another scene")
+                if "replaces_request_id" in detail:
+                    replaced = detail["replaces_request_id"]
+                    need(isinstance(replaced,str) and replaced and previous.get("request_id") == replaced
+                         and previous.get("state") not in {"confirmed","cancelled"} and replaced != request["request_id"]
+                         and not request["dialogue"], "Replacement retained prior words or targeted a different request")
+                    item["replaces_request_id"] = replaced
+                else:
+                    expected_dialogue = [] if previous.get("state") in {"confirmed","cancelled"} else previous.get("turns", [])
+                    need(request["dialogue"] == expected_dialogue, "Submitted history differs from the active passenger conversation")
                 passenger_requested_pointing = detail.get("passenger_requested_pointing", False)
                 need(type(passenger_requested_pointing) is bool, "Invalid passenger pointing action")
                 native = detail["outcome"]

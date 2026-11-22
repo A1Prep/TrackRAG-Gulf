@@ -3,32 +3,43 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#162721">
+  <meta name="theme-color" content="#103d35">
   <title>Passenger drop-off · TrackRAG-Gulf</title>
   <link rel="stylesheet" href="/app.css">
   <script type="module" src="/app.js"></script>
 </head>
-<body>
-  <header class="top"><span class="brand">TrackRAG<span>Gulf</span></span><span class="top-label">Passenger drop-off</span><a id="footage-link" href="/footage" hidden>Search footage</a></header>
+<body class="passenger">
+  <header class="top"><div class="nav-inner">
+    <span class="brand"><i aria-hidden="true" class="brand-road"></i>TrackRAG<span>Gulf</span></span>
+    <nav aria-label="Project tools"><span aria-current="page">Passenger drop-off</span><a id="footage-link" href="/footage" hidden>Search footage</a></nav>
+  </div></header>
   <main>
-    <div class="intro"><h1>Passenger drop-off</h1><p>Point out where you would like to get out in a recorded road scene.</p></div>
+    <div class="intro"><h1>Passenger drop-off</h1><p>Describe where to get out, then check the spot on the photo.</p></div>
     <div class="layout">
       <section class="card scene-card" aria-labelledby="scene-label">
-        <div class="scene-controls"><label id="scene-label" for="scene">Road scene</label><select id="scene" disabled aria-label="Road scene"></select></div>
-        <details id="frame-picker" class="frame-picker" hidden><summary>Open another frame in this recording</summary>
-          <div><label for="frame-id">Frame number</label><input id="frame-id" type="number" min="0" step="1">
-          <button type="button" id="open-frame" class="subtle">Open frame</button></div>
-        </details>
-        <div class="frame"><img id="frame" alt="Selected original road scene" draggable="false"><canvas id="overlay" aria-label="Destination overlay"></canvas></div>
-        <div class="scene-foot"><span id="legend">Original frame</span><div class="scene-actions">
-          <button type="button" id="choose-pair" class="text-btn" hidden>Choose two vehicles</button>
-          <button type="button" id="draw" class="text-btn" hidden>Mark an area myself</button></div></div>
+        <div class="scene-controls">
+          <label id="scene-label" for="scene">Road scene</label>
+          <div class="scene-nav">
+            <button type="button" id="prev-scene" class="icon-button" aria-label="Previous road scene" disabled>‹</button>
+            <select id="scene" disabled aria-label="Road scene"></select>
+            <button type="button" id="next-scene" class="icon-button" aria-label="Next road scene" disabled>›</button>
+          </div>
+        </div>
+        <div id="photo-viewport" class="photo-viewport" aria-label="Road photo">
+          <div class="frame"><img id="frame" alt="Selected road scene" draggable="false"><canvas id="overlay" tabindex="-1" aria-label="Destination overlay" aria-describedby="mark-help"></canvas></div>
+          <div id="photo-unavailable" class="photo-unavailable" hidden><strong>Photo unavailable</strong><button type="button" id="retry-photo">Reload photo</button></div>
+        </div>
+        <div class="scene-foot">
+          <span id="legend">Original photo</span>
+          <div class="zoom-tools" aria-label="Photo zoom"><button type="button" id="zoom-out" class="icon-button" aria-label="Zoom out" disabled>−</button><output id="zoom-level" aria-label="Zoom level">1×</output><button type="button" id="zoom-in" class="icon-button" aria-label="Zoom in" disabled>+</button></div>
+        </div>
         <div id="draw-tools" class="draw-tools" hidden>
-          <span>Tap a spot for a small mark, or drag to outline an area. Check your mark before sending it.</span>
-          <button id="use-box" disabled>Use my marked area</button><button id="discard-box" class="subtle">Discard mark</button>
+          <h3>Mark your spot</h3><p id="mark-help">Tap the photo or drag an outline. With a keyboard, move with the arrow keys and press Enter to place the mark. Hold Shift for larger steps.</p>
+          <p id="mark-position" class="mark-position" aria-live="polite"></p>
+          <div class="button-row"><button type="button" id="use-box" class="primary" disabled>Check my spot</button><button type="button" id="pan" class="subtle" aria-pressed="false" hidden>Move zoomed photo</button><button type="button" id="discard-box" class="text-btn">Back</button></div>
         </div>
         <section id="pair-tools" aria-label="Choose the two vehicles" hidden>
-          <p>Tap two numbered outlines on the photo or choose their numbers below.</p>
+          <h3>Choose the vehicles</h3><p>Tap two numbered vehicles on the photo or select their numbers below.</p>
           <div class="pair-fields">
             <label for="pair-first">First vehicle<select id="pair-first"></select></label>
             <label for="pair-second">Second vehicle<select id="pair-second"></select></label>
@@ -36,29 +47,40 @@
               <option value="">Choose a position</option><option value="between">Between the vehicles</option>
               <option value="behind">Just behind the vehicles</option></select></label>
           </div>
-          <div class="scene-actions"><button type="button" id="use-pair" disabled>Show a road location</button>
+          <div class="button-row"><button type="button" id="use-pair" disabled>Show a road location</button>
             <button type="button" id="discard-pair" class="subtle">Back</button></div>
         </section>
+        <details id="frame-picker" class="frame-picker" hidden><summary>Open another frame from this drive</summary>
+          <div><label for="frame-id">Frame number</label><input id="frame-id" type="number" min="0" step="1">
+          <button type="button" id="open-frame" class="subtle">Open frame</button></div>
+        </details>
       </section>
-      <section class="card dialogue" aria-labelledby="destination-title">
-        <h2 id="destination-title">Your destination</h2>
-        <div id="messages" class="messages" aria-label="Conversation"></div>
+      <section id="destination-panel" class="card dialogue" aria-labelledby="destination-title">
+        <div class="response-heading" aria-live="polite" aria-atomic="true"><span id="state-icon" aria-hidden="true"></span><h2 id="destination-title" tabindex="-1">Where would you like to get out?</h2></div>
         <div id="status" role="status" aria-live="polite"></div>
         <p id="error" role="alert" hidden></p>
+        <div id="last-request" class="last-request" hidden><span>Your words</span><p></p></div>
+        <div class="decision-actions">
+          <button type="button" id="confirm" class="primary" hidden>Confirm this spot</button>
+          <button type="button" id="draw" class="subtle" hidden>Mark my spot on the photo</button>
+          <button type="button" id="edit-words" class="subtle" hidden>Edit description</button>
+          <button type="button" id="choose-pair" class="subtle" hidden>Choose two vehicles</button>
+        </div>
         <form id="form">
-          <label for="instruction" id="input-label">Passenger instruction</label>
-          <textarea rows="3" id="instruction" maxlength="4096" placeholder="Describe a landmark and where you mean." required></textarea>
-          <div id="speech-controls" class="speech-controls">
-            <button id="mic" type="button" class="subtle">Record voice</button>
-            <button id="upload" type="button" class="subtle">Upload WAV</button><input id="file" type="file" accept=".wav,audio/wav,audio/x-wav" hidden>
-          </div>
-          <button id="submit" class="primary" type="submit">Send instruction</button>
-          <button id="submit-pointing" class="subtle" type="button" hidden>Send and choose two vehicles</button>
+          <label for="instruction" id="input-label">Your description</label>
+          <textarea rows="2" id="instruction" maxlength="4096" placeholder="Between the two parked cars on the right…" required></textarea>
+          <div class="compose-actions"><button id="submit" class="primary" type="submit">Find my spot</button>
+            <div id="speech-controls" class="speech-controls"><button id="mic" type="button" class="subtle">Record voice</button>
+              <button id="upload" type="button" class="text-btn">Upload WAV</button><input id="file" type="file" accept=".wav,audio/wav,audio/x-wav" hidden></div></div>
+          <button id="submit-pointing" class="text-btn" type="button" hidden>Choose the two vehicles myself</button>
+          <button id="edit-original" type="button" class="text-btn" hidden>Edit original description</button>
+          <button id="discard-edit" type="button" class="text-btn" hidden>Back without changing</button>
         </form>
-        <div class="actions"><button id="confirm" class="primary" hidden>Confirm this area</button><button id="cancel" class="subtle" hidden>Cancel request</button></div>
+        <div class="bottom-actions"><button type="button" id="new-request" class="primary" hidden>Make another request</button><button type="button" id="cancel" class="text-btn" hidden>Cancel request</button></div>
+        <details id="history" class="history" hidden><summary>Conversation</summary><div id="messages" class="messages" aria-label="Conversation"></div></details>
       </section>
     </div>
-    <p class="footnote">The highlighted area represents a passenger’s requested destination in this frame. The passenger confirms the selection.</p>
+    <p class="footnote">Confirm the pin if it matches where you want to get out. The driver decides where it is safe and permitted to stop.</p>
   </main>
 </body>
 </html>

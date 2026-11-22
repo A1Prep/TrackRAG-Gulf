@@ -1,0 +1,185 @@
+{
+  "scope": "Scripted typed interaction on real UAE street imagery through the normal passenger HTTP form API and production parking model. Assesses dialogue and confirmation behavior; it supplies no new ground truth for the changed pair.",
+  "sealed_plan_sha256": "e3fcc6e72cedc68db69bb6a458b743bf1802f44891ef92741973d478e0756c90",
+  "run_utc": "2026-11-22T23:20:56.424856+00:00",
+  "operations": [
+    {
+      "kind": "initial",
+      "words": "Please drop me off between the red sedan and the beige sedan outside the restaurants on the right.",
+      "status": 200,
+      "view": "proposed",
+      "revision": 1
+    },
+    {
+      "kind": "replacement",
+      "words": "Let me out between the white taxi ahead of us and the dark sedan beside the beige car.",
+      "status": 200,
+      "view": "proposed",
+      "revision": 2
+    },
+    {
+      "kind": "attempt_old_confirmation_using_current_revision",
+      "status": 409,
+      "revision_used": 2,
+      "state_after": "proposed"
+    },
+    {
+      "kind": "initial_for_ordinary_follow_up",
+      "words": "Drop me off between the silver SUV and the white sedan to its left.",
+      "status": 200,
+      "view": "needs_clarification",
+      "revision": 1
+    },
+    {
+      "kind": "ordinary_follow_up",
+      "words": "The large silver Nissan SUV and the white sedan parked directly to its left.",
+      "status": 200,
+      "view": "needs_clarification",
+      "revision": 2
+    },
+    {
+      "kind": "attempt_old_confirmation_using_current_revision",
+      "status": 409,
+      "revision_used": 2,
+      "state_after": "proposed"
+    },
+    {
+      "kind": "confirm_current",
+      "status": 200,
+      "revision_used": 2,
+      "state_after": "confirmed"
+    }
+  ],
+  "sessions": [
+    {
+      "scene_key": "4edc9abbff73676b9a63bc1d",
+      "journal_sha256": "306cf994f115a8188f6c6eec34be266022a8bf3e4bb8772647e52a3d5aaf5694",
+      "turns": [
+        {
+          "kind": "initial",
+          "request_id_sha256": "8e57ebe84eb9a9eadae0a506aa93fbbce1b7047031d60f71993766038bc36f3d",
+          "submitted_text": "Please drop me off between the red sedan and the beige sedan outside the restaurants on the right.",
+          "model_dialogue": [],
+          "active_literal_model_words": "Please drop me off between the red sedan and the beige sedan outside the restaurants on the right.",
+          "result": "proposed",
+          "native_point": [
+            2259.2,
+            1526.0869565217392
+          ],
+          "request_superseded_sha256": null,
+          "source_sha256": "ed69e5e794d9618bd153a0ea0266dd0a9203b1526c279ec01a0c9c64b2b0124b",
+          "signed_model_input_sha256": "6ab0d4de9289ac717fa7f3346338d7fbba89a2d319736aedc5bffc404bdbeee4",
+          "signed_receipt_verified": true,
+          "model_visible_images_reproduced": true,
+          "selected_current_vehicle_ids": [
+            1,
+            2
+          ],
+          "visible_clarification_question": null
+        },
+        {
+          "kind": "replacement",
+          "request_id_sha256": "6520b547a024613a0079dc1123979771821c29e73ec19f73ca7b4dcf5e8ef720",
+          "submitted_text": "Let me out between the white taxi ahead of us and the dark sedan beside the beige car.",
+          "model_dialogue": [],
+          "active_literal_model_words": "Let me out between the white taxi ahead of us and the dark sedan beside the beige car.",
+          "result": "proposed",
+          "native_point": [
+            1376.0,
+            1291.304347826087
+          ],
+          "request_superseded_sha256": "8e57ebe84eb9a9eadae0a506aa93fbbce1b7047031d60f71993766038bc36f3d",
+          "source_sha256": "ed69e5e794d9618bd153a0ea0266dd0a9203b1526c279ec01a0c9c64b2b0124b",
+          "signed_model_input_sha256": "f02cc0960c0667a4827ca4a937e90d15899c307d3b32961112c59e1d60b057f9",
+          "signed_receipt_verified": true,
+          "model_visible_images_reproduced": true,
+          "selected_current_vehicle_ids": [
+            3,
+            5
+          ],
+          "visible_clarification_question": null
+        },
+        {
+          "kind": "current_proposal_confirmed",
+          "state": "confirmed",
+          "request_id_sha256": "6520b547a024613a0079dc1123979771821c29e73ec19f73ca7b4dcf5e8ef720",
+          "point_native": [
+            1376.0,
+            1291.304347826087
+          ]
+        }
+      ],
+      "cold_handoff_verified": true
+    },
+    {
+      "scene_key": "e5bde860db079a167d5dba80",
+      "journal_sha256": "e4079ef74af70c9211ee64c7666c38fc4871094b158dad45da5f054520f93010",
+      "turns": [
+        {
+          "kind": "initial",
+          "request_id_sha256": "28ea6638cab384047a5ac4011a1852ed21ad50a38f3c0a8c98856eb9de4d0e8d",
+          "submitted_text": "Drop me off between the silver SUV and the white sedan to its left.",
+          "model_dialogue": [],
+          "active_literal_model_words": "Drop me off between the silver SUV and the white sedan to its left.",
+          "result": "needs_clarification",
+          "native_point": null,
+          "request_superseded_sha256": null,
+          "source_sha256": "78e265faad2f94bbfe80c56cb7f4b33723340268cfb9a4f5829145f69ee06c3a",
+          "signed_model_input_sha256": "b7a7734526060aaf48a2101154a810a0e460ac4e0a5dd8591671d8db33dac704",
+          "signed_receipt_verified": true,
+          "model_visible_images_reproduced": true,
+          "selected_current_vehicle_ids": [
+            1,
+            2
+          ],
+          "visible_clarification_question": "I can’t locate a clear roadside opening between those vehicles. Can you mark the intended area?"
+        },
+        {
+          "kind": "ordinary_follow_up",
+          "request_id_sha256": "7a73f56903b78bc52771826cba6114ec691b4eb073f4bcb5e9704eb6fbcd89d5",
+          "submitted_text": "The large silver Nissan SUV and the white sedan parked directly to its left.",
+          "model_dialogue": [
+            {
+              "role": "user",
+              "text": "Drop me off between the silver SUV and the white sedan to its left.",
+              "recording_id": "kartaview_5231529",
+              "frame_id": 132
+            },
+            {
+              "role": "assistant",
+              "text": "I can’t locate a clear roadside opening between those vehicles. Can you mark the intended area?",
+              "recording_id": "kartaview_5231529",
+              "frame_id": 132
+            }
+          ],
+          "active_literal_model_words": "Drop me off between the silver SUV and the white sedan to its left.\nThe large silver Nissan SUV and the white sedan parked directly to its left.",
+          "result": "needs_clarification",
+          "native_point": null,
+          "request_superseded_sha256": null,
+          "source_sha256": "78e265faad2f94bbfe80c56cb7f4b33723340268cfb9a4f5829145f69ee06c3a",
+          "signed_model_input_sha256": "b8b5608499e129b33442e36a706f7529ac635f990120d16d92ba59616726b018",
+          "signed_receipt_verified": true,
+          "model_visible_images_reproduced": true,
+          "selected_current_vehicle_ids": [
+            1,
+            2
+          ],
+          "visible_clarification_question": "I can’t locate a clear roadside opening between those vehicles. Can you mark the intended area?"
+        }
+      ],
+      "cold_handoff_verified": true
+    }
+  ],
+  "negative_receipt_checks": [
+    {
+      "copy_change": "Removed the link to the previous request while keeping both real model responses.",
+      "offline_verifier": "rejected",
+      "message": "Submitted history differs from the active passenger conversation"
+    },
+    {
+      "copy_change": "Replaced the previous request identifier with a different identifier.",
+      "offline_verifier": "rejected",
+      "message": "Replacement retained prior words or targeted a different request"
+    }
+  ]
+}

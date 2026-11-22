@@ -455,13 +455,21 @@ class PassengerSession:
     def _interpret_submission(self, request):
         return self.model.interpret(request), "model"
 
-    def submit(self, text, *, original_transcript=None, speech=None):
+    def _prepare_vehicle_choice(self, point_to_vehicles):
+        if point_to_vehicles is not False:
+            raise ValueError("Vehicle selection is unavailable for this scene.")
+
+    def submit(self, text, *, original_transcript=None, speech=None, point_to_vehicles=False, replaces_request_id=None):
         from .passenger import operational_code
 
         with self._lock:
             prior = self._state
+            if replaces_request_id is not None and (not self._request or prior in {"confirmed", "cancelled"}
+                    or self._request["request_id"] != replaces_request_id):
+                raise ValueError("Only the current, unfinished description can be replaced.")
+            self._prepare_vehicle_choice(point_to_vehicles)
             self._clear()
-            if prior in ("cancelled","confirmed"):
+            if replaces_request_id is not None or prior in ("cancelled","confirmed"):
                 self._turns = []
             self._state = "idle"
             request_id = uuid4().hex
@@ -495,7 +503,10 @@ class PassengerSession:
                 self._clear()
                 self._state = "error"
                 self._error = error_outcome(operational_code(exc),str(exc)[:4000] or type(exc).__name__,request_id)["error"]
-            self._save_turn("submitted",{"request":self._request,"outcome":outcome,"speech":speech})
+            detail = {"request":self._request,"outcome":outcome,"speech":speech}
+            if replaces_request_id is not None:
+                detail["replaces_request_id"] = replaces_request_id
+            self._save_turn("submitted", detail)
             return self.view()
 
     def _can_mark_area(self):

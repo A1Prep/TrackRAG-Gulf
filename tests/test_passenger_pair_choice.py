@@ -67,6 +67,16 @@ def setup(tmp_path, monkeypatch):
     return req, raw
 
 
+def test_stale_edit_preserves_explicit_vehicle_selection(setup, tmp_path):
+    request, grounder = setup
+    passenger = pc.PassengerSession(request["scene"], grounder, audit_dir=tmp_path)
+    active = passenger.submit("I can point to the place.", point_to_vehicles=True)
+    assert active["pair_choices"]
+    with pytest.raises(ValueError, match="current"):
+        passenger.submit("By the shop", replaces_request_id="an older request")
+    assert passenger.view() == active
+
+
 @pytest.mark.parametrize(
     "words,required",
     [

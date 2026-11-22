@@ -34,6 +34,7 @@ select { max-width:72%; color:inherit; border:1px solid #b3beb0; border-radius:7
 .frame img { display:block; width:100%; height:auto; }
 canvas { position:absolute; inset:0; width:100%; height:100%; pointer-events:none; }
 canvas.drawing { pointer-events:auto; touch-action:none; cursor:crosshair; }
+canvas.choosing-pair { pointer-events:auto; touch-action:manipulation; cursor:pointer; }
 .scene-foot { font-size:.9rem; color:#4b5d52; min-height:49px; }
 #legend { display:flex; flex-wrap:wrap; gap:4px 14px; }
 .legend-key { display:inline-flex; align-items:center; gap:6px; }
@@ -43,6 +44,12 @@ canvas.drawing { pointer-events:auto; touch-action:none; cursor:crosshair; }
 .key-point.passenger { background:#52effa; }
 .key-region.passenger { border-style:solid; border-color:#007b87; }
 .scene-foot .text-btn { flex-shrink:0; }
+.scene-actions { display:flex; gap:8px 16px; align-items:center; flex-wrap:wrap; }
+#pair-tools { background:#eef3e9; border-top:1px solid #d3ddce; padding:14px 18px; }
+#pair-tools p { color:#354a3c; font-size:.92rem; }
+.pair-fields { display:grid; grid-template-columns:repeat(auto-fit,minmax(min(155px,100%),1fr)); gap:10px; margin:10px 0 14px; }
+.pair-fields label { font-size:.85rem; }
+.pair-fields select { display:block; width:100%; max-width:100%; margin-top:3px; }
 .text-btn { border:0; color:#204e3c; font-weight:650; background:transparent; text-decoration:underline; text-underline-offset:.2rem; padding:4px 0; }
 button { cursor:pointer; border-radius:7px; border:1px solid #2c493a; background:#284b3a; color:white; padding:9px 13px; font-weight:600; font-size:.93rem; }
 button:hover:enabled { filter:brightness(1.11); }

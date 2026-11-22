@@ -31,3 +31,17 @@ For inference use `SpatialGrounder(checkpoint_directory, vision_cache=..., expec
 ```text
 python -m tools.dropoff_spatial_probe --requests <hash-bound-predicted-requests.jsonl> --checkpoint <run>/instruction_conditioned --vision-cache <segformer-cache> --expected-manifest-sha256 3f186895b9c80208a00d9332053846fc396c1986cc26af2d9f6e8d31a36e09be --output <new-probe-run>
 ```
+
+## Selecting between learned destination points
+
+The two frozen spatial models sometimes put their points in different parts of the road. A separate logistic classifier learned to choose between those two points from their proposed locations, extent, agreement and visual support. Its training target was whether each point landed inside the participant's original mask. Every development prediction used a classifier fitted without any examples from that prediction's source scene. The final classifier then used the full 125-case development partition for calibration. [Frozen study protocol](../experiments/dropoff/passenger-spatial-confidence-protocol-20261122.json)
+
+On the 125 development cases, the classifier chose the instruction-conditioned model 85 times and the image-only model 40 times. Switching gained two correct regions and lost seven. The classifier placed 23 points inside a participant region, compared with 28 for always using the instruction-conditioned model. Requiring a predicted success probability of at least 0.30 accepted 41 points, of which seven landed inside the region. These development results support retaining the deployed configuration.
+
+The separate twelve-scene study uses newly selected original public images, instructions and participant masks. Each condition receives the same current image, original command and empty detector inventory. The dense methods provide geometry. The normal deployed Qwen route can also request clarification. Score each available destination against its original mask and count abstentions and errors across the full study denominator. Speakers, confirmation and safe stopping require separate evidence.
+
+```text
+python -m tools.dropoff_spatial_confidence fit --cases data/dropoff-public-expanded-20261121/splits/development.jsonl --heads <two-trained-heads> --out <new-calibration>
+python -m tools.dropoff_spatial_confidence predict --requests <fresh-bank>/inputs/requests.jsonl --heads <two-trained-heads> --vision-cache <segformer-cache> --model <new-calibration>/calibrator.json --out <new-cpu-predictions.json>
+python -m tools.dropoff_spatial_confidence score --predictions <new-cpu-predictions.json> --references <fresh-bank>/corpus/references.jsonl --bank <fresh-bank>/manifest.json --deployed-run <sealed-release-run> --vision-cache <segformer-cache> --out <new-scores.json>
+```

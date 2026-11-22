@@ -1,0 +1,331 @@
+{
+  "design": "Replay of original saved native semantic results through the actual packaged dialogue wrapper and ranker. No new Qwen generation. All 6 original and all 4 operational requests for both previously run adapters. No transferred operational targets.",
+  "policy_sha256": "87170788bdbc6285ad39649acc8aea7bd74ea347569ff2ee64e775354f54aa6b",
+  "ranker_sha256": "d96a9a69e2e52ddbc21851d5ff6f79b344de6c8558600e54be5cb2712480a07d",
+  "conditions": {
+    "trial/public_parent": {
+      "requests_sha256": "7d805dc9f478f894e198892c435df00db897586f40465c393b8644b64c8aadc0",
+      "raw_outcomes_sha256": "b8f7ccc3b9a0d37ca17b3347a25843d45d3a74184ce139f3554cbffc1057dcf6",
+      "cases": [
+        {
+          "id": "local-dev-video_054907-00781",
+          "before": "insufficient_visual_evidence",
+          "after": "insufficient_visual_evidence",
+          "raw_qwen": "MISSING",
+          "bound_rerank": null,
+          "original_result_sha256": "c654ffc5cbe00ac3777a3d438c318cbb1e9047e99d58e000486263c803e8698a"
+        },
+        {
+          "id": "local-dev-video_054907-00781-paraphrase",
+          "before": "needs_clarification",
+          "after": "needs_clarification",
+          "raw_qwen": "ASK which vehicle is straight ahead?",
+          "bound_rerank": null,
+          "original_result_sha256": "54282c2dde047b28f77a8898fdb3c455b184dae0d9c7923a4655af7c2ba00463"
+        },
+        {
+          "id": "local-dev-video_174340-00781",
+          "before": "insufficient_visual_evidence",
+          "after": "insufficient_visual_evidence",
+          "raw_qwen": "MISSING",
+          "bound_rerank": null,
+          "original_result_sha256": "c654ffc5cbe00ac3777a3d438c318cbb1e9047e99d58e000486263c803e8698a"
+        },
+        {
+          "id": "local-dev-video_174340-00781-paraphrase",
+          "before": "needs_clarification",
+          "after": "needs_clarification",
+          "raw_qwen": "ASK which car in front would you like to get out next to?",
+          "bound_rerank": null,
+          "original_result_sha256": "a980bded9e54c333993d81317cfb4750357d634b82a9c4efccc9a95bd0c79fad"
+        },
+        {
+          "id": "passenger-b07",
+          "before": "proposed",
+          "after": "proposed",
+          "raw_qwen": "LANDMARK L2",
+          "bound_rerank": null,
+          "original_result_sha256": "27f7412d0bd1bfa5c087cf1c35e46a9691c9ed5afe4663ad21288afdab50f959"
+        },
+        {
+          "id": "passenger-b10",
+          "before": "insufficient_visual_evidence",
+          "after": "insufficient_visual_evidence",
+          "raw_qwen": "MISSING",
+          "bound_rerank": null,
+          "original_result_sha256": "c654ffc5cbe00ac3777a3d438c318cbb1e9047e99d58e000486263c803e8698a"
+        }
+      ]
+    },
+    "trial/human_child": {
+      "requests_sha256": "7d805dc9f478f894e198892c435df00db897586f40465c393b8644b64c8aadc0",
+      "raw_outcomes_sha256": "274307c7347897a640e6d2f46e3224b72afddf59cfa50c83f76a43d8309e38f9",
+      "cases": [
+        {
+          "id": "local-dev-video_054907-00781",
+          "before": "insufficient_visual_evidence",
+          "after": "insufficient_visual_evidence",
+          "raw_qwen": "MISSING",
+          "bound_rerank": null,
+          "original_result_sha256": "c654ffc5cbe00ac3777a3d438c318cbb1e9047e99d58e000486263c803e8698a"
+        },
+        {
+          "id": "local-dev-video_054907-00781-paraphrase",
+          "before": "needs_clarification",
+          "after": "needs_clarification",
+          "raw_qwen": "ASK which vehicle is straight ahead?",
+          "bound_rerank": null,
+          "original_result_sha256": "54282c2dde047b28f77a8898fdb3c455b184dae0d9c7923a4655af7c2ba00463"
+        },
+        {
+          "id": "local-dev-video_174340-00781",
+          "before": "insufficient_visual_evidence",
+          "after": "insufficient_visual_evidence",
+          "raw_qwen": "MISSING",
+          "bound_rerank": null,
+          "original_result_sha256": "c654ffc5cbe00ac3777a3d438c318cbb1e9047e99d58e000486263c803e8698a"
+        },
+        {
+          "id": "local-dev-video_174340-00781-paraphrase",
+          "before": "needs_clarification",
+          "after": "needs_clarification",
+          "raw_qwen": "ASK which car in front would you like to get out next to?",
+          "bound_rerank": null,
+          "original_result_sha256": "a980bded9e54c333993d81317cfb4750357d634b82a9c4efccc9a95bd0c79fad"
+        },
+        {
+          "id": "passenger-b07",
+          "before": "proposed",
+          "after": "proposed",
+          "raw_qwen": "LANDMARK L2",
+          "bound_rerank": null,
+          "original_result_sha256": "27f7412d0bd1bfa5c087cf1c35e46a9691c9ed5afe4663ad21288afdab50f959"
+        },
+        {
+          "id": "passenger-b10",
+          "before": "insufficient_visual_evidence",
+          "after": "insufficient_visual_evidence",
+          "raw_qwen": "MISSING",
+          "bound_rerank": null,
+          "original_result_sha256": "c654ffc5cbe00ac3777a3d438c318cbb1e9047e99d58e000486263c803e8698a"
+        }
+      ]
+    },
+    "operational-context/public_parent": {
+      "requests_sha256": "cc92d862a0fe739a2f4874cbcb12d7914e25e652e78069dab6db17de98010d43",
+      "raw_outcomes_sha256": "5fdbf2f0e9c18097195a18bfedf161f88cc65f969ecdae5c4b60a9f805ff93ce",
+      "cases": [
+        {
+          "id": "local-dev-video_054907-00781",
+          "before": "needs_clarification",
+          "after": "needs_clarification",
+          "raw_qwen": "LANDMARK L18",
+          "bound_rerank": null,
+          "original_result_sha256": "5ae10c0cdea3e573a13e34907b4164e175bb7d04e16eb74c3a3b7a905dfb0e45"
+        },
+        {
+          "id": "local-dev-video_054907-00781-paraphrase",
+          "before": "proposed",
+          "after": "needs_clarification",
+          "raw_qwen": "LANDMARK L23",
+          "bound_rerank": {
+            "request_sha256": "fa50dc982ca6990d6997ffd66f3a7b298013bf2f318f05f863beb99dfc410be1",
+            "inference_input_sha256": "7ba7d9e2723c200d54e8e89594be2895854ca3eef962e5f7a96bdfafbf970637",
+            "image_sha256": "c411cf6760695905334f32e5590083cf144543df1ca98e68aae55fb345eb583e",
+            "checkpoint_sha256": "d96a9a69e2e52ddbc21851d5ff6f79b344de6c8558600e54be5cb2712480a07d",
+            "ranked_evidence_sha256": "e82bb20ab5d17db52b79348e6324f692c7641a3d77623b9e4b9744ac566bbf08",
+            "current_observations": [
+              {
+                "bbox_xyxy": [
+                  212.9324951171875,
+                  1002.0974731445312,
+                  850.429931640625,
+                  1339.536865234375
+                ],
+                "class_name": "Car",
+                "frame_id": 781,
+                "recording_id": "video_054907",
+                "source": "predicted",
+                "track_id": 65692
+              },
+              {
+                "bbox_xyxy": [
+                  1970.071533203125,
+                  1027.3779296875,
+                  2559.38330078125,
+                  1369.305419921875
+                ],
+                "class_name": "Car",
+                "frame_id": 781,
+                "recording_id": "video_054907",
+                "source": "predicted",
+                "track_id": 56320
+              }
+            ],
+            "verification": "ranking_recomputed_from_current_original_pixels"
+          },
+          "original_result_sha256": "5eda898a1d34c4f4b78c55a17c55aa741f66fbc2b0fc79e2557d8771df59f4ff"
+        },
+        {
+          "id": "local-dev-video_174340-00781",
+          "before": "needs_clarification",
+          "after": "needs_clarification",
+          "raw_qwen": "LANDMARK L3",
+          "bound_rerank": null,
+          "original_result_sha256": "5ae10c0cdea3e573a13e34907b4164e175bb7d04e16eb74c3a3b7a905dfb0e45"
+        },
+        {
+          "id": "local-dev-video_174340-00781-paraphrase",
+          "before": "proposed",
+          "after": "needs_clarification",
+          "raw_qwen": "LANDMARK L3",
+          "bound_rerank": {
+            "request_sha256": "2ee73ff3a79a4d43d90bc3bc9e2bcc7329ef1a0263996520d30554fdff9ae7d3",
+            "inference_input_sha256": "8bc95b1e9c7c1c5091aa1395efa2c9722f29790758c28d5dc139d8be9bbe93b3",
+            "image_sha256": "693e7f2769f9336d15d3ef3fef37594cfab297c819626d913f734077dfa7bd4a",
+            "checkpoint_sha256": "d96a9a69e2e52ddbc21851d5ff6f79b344de6c8558600e54be5cb2712480a07d",
+            "ranked_evidence_sha256": "cce30bdceaa0c5a4df72307ef6a038ca260280352ec0100182e276139716cc54",
+            "current_observations": [
+              {
+                "bbox_xyxy": [
+                  754.7656860351562,
+                  748.3074951171875,
+                  848.518310546875,
+                  805.9335327148438
+                ],
+                "class_name": "Car",
+                "frame_id": 781,
+                "recording_id": "video_174340",
+                "source": "predicted",
+                "track_id": 13042
+              },
+              {
+                "bbox_xyxy": [
+                  1108.3558349609375,
+                  742.2108154296875,
+                  1212.782958984375,
+                  825.4854736328125
+                ],
+                "class_name": "Car",
+                "frame_id": 781,
+                "recording_id": "video_174340",
+                "source": "predicted",
+                "track_id": 2013
+              }
+            ],
+            "verification": "ranking_recomputed_from_current_original_pixels"
+          },
+          "original_result_sha256": "3a90f659af9344b95fa81e12c518e32c4671a9cece815d38bee0b02dd933eec4"
+        }
+      ]
+    },
+    "operational-context/human_child": {
+      "requests_sha256": "cc92d862a0fe739a2f4874cbcb12d7914e25e652e78069dab6db17de98010d43",
+      "raw_outcomes_sha256": "68da97bba71339b39a44957da5ab95fd251f4337e88238174b39aa27af54a1ca",
+      "cases": [
+        {
+          "id": "local-dev-video_054907-00781",
+          "before": "needs_clarification",
+          "after": "needs_clarification",
+          "raw_qwen": "LANDMARK L18",
+          "bound_rerank": null,
+          "original_result_sha256": "5ae10c0cdea3e573a13e34907b4164e175bb7d04e16eb74c3a3b7a905dfb0e45"
+        },
+        {
+          "id": "local-dev-video_054907-00781-paraphrase",
+          "before": "proposed",
+          "after": "needs_clarification",
+          "raw_qwen": "LANDMARK L23",
+          "bound_rerank": {
+            "request_sha256": "fa50dc982ca6990d6997ffd66f3a7b298013bf2f318f05f863beb99dfc410be1",
+            "inference_input_sha256": "7ba7d9e2723c200d54e8e89594be2895854ca3eef962e5f7a96bdfafbf970637",
+            "image_sha256": "c411cf6760695905334f32e5590083cf144543df1ca98e68aae55fb345eb583e",
+            "checkpoint_sha256": "d96a9a69e2e52ddbc21851d5ff6f79b344de6c8558600e54be5cb2712480a07d",
+            "ranked_evidence_sha256": "e82bb20ab5d17db52b79348e6324f692c7641a3d77623b9e4b9744ac566bbf08",
+            "current_observations": [
+              {
+                "bbox_xyxy": [
+                  212.9324951171875,
+                  1002.0974731445312,
+                  850.429931640625,
+                  1339.536865234375
+                ],
+                "class_name": "Car",
+                "frame_id": 781,
+                "recording_id": "video_054907",
+                "source": "predicted",
+                "track_id": 65692
+              },
+              {
+                "bbox_xyxy": [
+                  1970.071533203125,
+                  1027.3779296875,
+                  2559.38330078125,
+                  1369.305419921875
+                ],
+                "class_name": "Car",
+                "frame_id": 781,
+                "recording_id": "video_054907",
+                "source": "predicted",
+                "track_id": 56320
+              }
+            ],
+            "verification": "ranking_recomputed_from_current_original_pixels"
+          },
+          "original_result_sha256": "5eda898a1d34c4f4b78c55a17c55aa741f66fbc2b0fc79e2557d8771df59f4ff"
+        },
+        {
+          "id": "local-dev-video_174340-00781",
+          "before": "needs_clarification",
+          "after": "needs_clarification",
+          "raw_qwen": "LANDMARK L3",
+          "bound_rerank": null,
+          "original_result_sha256": "5ae10c0cdea3e573a13e34907b4164e175bb7d04e16eb74c3a3b7a905dfb0e45"
+        },
+        {
+          "id": "local-dev-video_174340-00781-paraphrase",
+          "before": "proposed",
+          "after": "needs_clarification",
+          "raw_qwen": "LANDMARK L3",
+          "bound_rerank": {
+            "request_sha256": "2ee73ff3a79a4d43d90bc3bc9e2bcc7329ef1a0263996520d30554fdff9ae7d3",
+            "inference_input_sha256": "8bc95b1e9c7c1c5091aa1395efa2c9722f29790758c28d5dc139d8be9bbe93b3",
+            "image_sha256": "693e7f2769f9336d15d3ef3fef37594cfab297c819626d913f734077dfa7bd4a",
+            "checkpoint_sha256": "d96a9a69e2e52ddbc21851d5ff6f79b344de6c8558600e54be5cb2712480a07d",
+            "ranked_evidence_sha256": "cce30bdceaa0c5a4df72307ef6a038ca260280352ec0100182e276139716cc54",
+            "current_observations": [
+              {
+                "bbox_xyxy": [
+                  754.7656860351562,
+                  748.3074951171875,
+                  848.518310546875,
+                  805.9335327148438
+                ],
+                "class_name": "Car",
+                "frame_id": 781,
+                "recording_id": "video_174340",
+                "source": "predicted",
+                "track_id": 13042
+              },
+              {
+                "bbox_xyxy": [
+                  1108.3558349609375,
+                  742.2108154296875,
+                  1212.782958984375,
+                  825.4854736328125
+                ],
+                "class_name": "Car",
+                "frame_id": 781,
+                "recording_id": "video_174340",
+                "source": "predicted",
+                "track_id": 2013
+              }
+            ],
+            "verification": "ranking_recomputed_from_current_original_pixels"
+          },
+          "original_result_sha256": "3a90f659af9344b95fa81e12c518e32c4671a9cece815d38bee0b02dd933eec4"
+        }
+      ]
+    }
+  }
+}

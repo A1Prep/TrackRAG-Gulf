@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'; script-src 'unsafe-inline' blob:; worker-src blob:; media-src blob:; connect-src 'none'; form-action 'none'; base-uri 'none'">
+<title>Passenger voice study</title>
+<style>
+:root{font:16px/1.5 system-ui,sans-serif;color:#17332b;background:#edf2ed}*{box-sizing:border-box}
+main{max-width:730px;margin:2rem auto;padding:0 1rem}section{background:#fff;border:1px solid #cad7cb;border-radius:12px;padding:1.35rem;margin:.8rem 0}
+h1,h2,p{margin:.2rem 0 .65rem}h1{font-size:1.7rem}h2{font-size:1.15rem}label{display:block;margin:.55rem 0}
+input,select,textarea,button{font:inherit}select,textarea,input[type=text]{width:100%;padding:.45rem;border:1px solid #92a59d;border-radius:.3rem}textarea{min-height:4rem}
+button{padding:.55rem .85rem;border:1px solid #226149;border-radius:.4rem;background:#226149;color:white;cursor:pointer;margin:.25rem .35rem .25rem 0}
+button.secondary{background:white;color:#23513e}button:disabled{opacity:.48;cursor:default}input[type=checkbox]{accent-color:#226149}
+blockquote{margin:.7rem 0;padding:1rem;background:#f0f6ef;font-size:1.24rem;border-left:4px solid #407a5e}audio{width:100%}
+small,.hint{color:#43584e}.alert{color:#922e22;font-weight:600}[hidden]{display:none!important}.status{min-height:1.4rem}
+</style></head><body><main>
+<h1>Passenger voice study</h1>
+<p>Record ten short English instructions in your own voice. You can save a partial return and continue later.</p>
+<p id="fixture" hidden class="alert">Software test form. This file cannot contribute human recordings.</p>
+<section id="setup"><h2>Your recording session</h2>
+<label>Your assigned code <select id="speaker"><option value="">Choose your code</option></select></label>
+<label><input type="checkbox" id="consent"> <span id="consentText"></span></label>
+<p class="hint">Keep names and identifying details out of the recording. Your voice stays in this browser until you download a private return and share it with your coordinator.</p>
+<button id="begin">Begin</button></section>
+<section id="workspace" hidden><h2 id="sessionLabel"></h2>
+<label>Instruction <select id="prompts"></select></label>
+<blockquote id="script"></blockquote>
+<label>Recording environment <select id="noise"><option value="quiet">Quiet</option><option value="real_background">Real background noise</option><option value="added_noise">Added noise</option></select></label>
+<label>Brief background description <input id="noiseNote" type="text" maxlength="300" placeholder="Optional for quiet recordings"></label>
+<button id="record">Start microphone</button><button id="stop" disabled>Stop recording</button>
+<button id="pick" class="secondary">Use my original WAV</button><input id="audioFile" type="file" accept=".wav,audio/wav,audio/x-wav" hidden>
+<p class="hint" id="captureHint">Speak the displayed words after the microphone starts. Maximum 30 seconds. An original WAV can be mono or stereo, 16-bit PCM, 16–48 kHz.</p>
+<div id="review" hidden><h2>Listen and verify</h2>
+<p>Press play and listen through to the end. Then confirm what you actually said.</p>
+<audio id="player" controls preload="auto"></audio>
+<label><input type="checkbox" id="same" disabled> I said exactly the displayed instruction.</label>
+<label>Actual spoken words <textarea id="reference" maxlength="2000" disabled></textarea></label>
+<label><input type="checkbox" id="attest" disabled> <span id="attestText"></span></label>
+<button id="keep" disabled>Save verified take</button></div></section>
+<section id="returns" hidden><h2>Private return</h2><p id="count"></p><p class="hint">Download your return before closing this page. To continue later, reopen this form, choose the same code, and load your previous return. Send the coordinator your chosen take for each instruction.</p>
+<button id="export" disabled>Download my return</button><button id="resume" class="secondary">Load my earlier return</button>
+<input id="returnFile" type="file" accept=".json,application/json" hidden></section>
+<p id="status" class="status" role="status" aria-live="polite"></p>
+<script type="application/json" id="formData">{{FORM_DATA}}</script>
+<script>
+'use strict';
+const meta=JSON.parse(document.querySelector('#formData').textContent), $=id=>document.getElementById(id);
+const prompts=new Map(meta.prompts.map(p=>[p.id,p])), saved=new Map();
+let speaker='',consented='',selected=null,take=null,listened='',url=null,capture=null,pending=false,epoch=0,unsaved=false;
+const now=()=>new Date().toISOString(), hex=buf=>Array.from(new Uint8Array(buf),v=>v.toString(16).padStart(2,'0')).join('');
+const hash=async data=>hex(await crypto.subtle.digest('SHA-256',data));
+const report=(text,bad=false)=>{$('status').textContent=text;$('status').classList.toggle('alert',bad);};
+const need=(check,msg)=>{if(!check)throw new Error(msg);};
+const choose=(s,v,t)=>{const o=document.createElement('option');o.value=v;o.textContent=t;s.append(o);};
+const date=x=>typeof x==='string'&&Number.isFinite(Date.parse(x));
+const blob64=blob=>new Promise((resolve,reject)=>{const r=new FileReader();r.onerror=()=>reject(new Error('Could not read audio.'));r.onload=()=>resolve(r.result.split(',')[1]);r.readAsDataURL(blob);});
+const bytes64=s=>Uint8Array.from(atob(s),x=>x.charCodeAt(0));
+function decode(bytes){
+  need(bytes.byteLength>=44&&bytes.byteLength<=meta.max_clip_bytes,'Choose a WAV no larger than 6 MiB.');
+  const d=new DataView(bytes.buffer,bytes.byteOffset,bytes.byteLength);
+  const id=i=>String.fromCharCode(...bytes.slice(i,i+4));let format=null,n=null;
+  need(id(0)==='RIFF'&&id(8)==='WAVE','Choose an original PCM WAV file.');
+  for(let i=12;i+8<=bytes.length;){const k=id(i),size=d.getUint32(i+4,true),j=i+8;
+    need(j+size<=bytes.length,'The WAV file is incomplete.');
+    if(k==='fmt '&&!format){need(size>=16,'Invalid WAV format.');format=[d.getUint16(j,true),d.getUint16(j+2,true),d.getUint32(j+4,true),d.getUint16(j+14,true)];}
+    if(k==='data'&&n===null)n=size;i=j+size+(size%2);}
+  need(format&&format[0]===1&&[1,2].includes(format[1])&&format[2]>=16000&&format[2]<=48000&&format[3]===16&&n!==null,
+       'Use mono or stereo 16-bit PCM WAV at 16–48 kHz.');
+  const seconds=n/(format[1]*2*format[2]);need(seconds>=.25&&seconds<=30,'Choose a take from 0.25 to 30 seconds.');return seconds;
+}
+function wav(chunks,rate){
+  const len=chunks.reduce((n,b)=>n+b.length,0),raw=new ArrayBuffer(44+2*len),d=new DataView(raw);
+  const word=(i,s)=>{for(const c of s)d.setUint8(i++,c.charCodeAt(0));};
+  word(0,'RIFF');d.setUint32(4,36+2*len,true);word(8,'WAVE');word(12,'fmt ');d.setUint32(16,16,true);
+  d.setUint16(20,1,true);d.setUint16(22,1,true);d.setUint32(24,rate,true);d.setUint32(28,rate*2,true);
+  d.setUint16(32,2,true);d.setUint16(34,16,true);word(36,'data');d.setUint32(40,len*2,true);
+  let i=44;for(const block of chunks)for(const sample of block){const v=Math.max(-1,Math.min(1,sample));d.setInt16(i,Math.round(v*(v<0?32768:32767)),true);i+=2;}
+  return new Uint8Array(raw);
+}
+function state(){
+  const busy=Boolean(capture||pending), quiet=$('noise').value==='quiet'||$('noiseNote').value.trim();
+  $('record').disabled=busy;$('stop').disabled=!capture;$('pick').disabled=busy;$('prompts').disabled=busy;
+  $('noise').disabled=busy;$('noiseNote').disabled=busy;$('resume').disabled=busy;
+  $('keep').disabled=busy||!take||!listened||!$('attest').checked||!/[a-z0-9]/i.test($('reference').value)||!quiet;
+  $('export').disabled=busy||!saved.size||unsaved;
+  $('count').textContent=saved.size+' of '+prompts.size+' instructions saved for '+speaker+'.';
+}
+function clearTake(){
+  ++epoch;take=null;listened='';if(url)URL.revokeObjectURL(url);url=null;
+  $('player').pause();$('player').removeAttribute('src');$('player').load();
+  $('review').hidden=true;$('reference').value='';$('reference').disabled=true;
+  for(const key of ['same','attest']){$(key).checked=false;$(key).disabled=true;}unsaved=false;
+}
+function select(id){
+  clearTake();selected=prompts.get(id);$('prompts').value=id;$('script').textContent=selected.script;
+  report(saved.has(id)?'This instruction already has a saved take. You can record a replacement before downloading.':'');state();
+}
+function menu(){
+  $('prompts').replaceChildren();for(const [id] of prompts){choose($('prompts'),id,id+(saved.has(id)?' · saved':''));}
+  if(selected)$('prompts').value=selected.id;
+}
+async function readyAudio(bytes,method,started){
+  const duration=decode(bytes);clearTake();const token=epoch,blob=new Blob([bytes],{type:'audio/wav'});
+  const audioSha=await hash(bytes);if(token!==epoch)return;
+  take={blob,method,started,sha:audioSha,duration};url=URL.createObjectURL(blob);$('player').src=url;
+  $('review').hidden=false;unsaved=true;report('Audio ready. Play the whole take, then verify the actual words.');state();
+}
+function controlsAfterPlayback(){
+  if(!take)return;const audio=$('player');let seconds=0;
+  for(let i=0;i<audio.played.length;i++)seconds+=audio.played.end(i)-audio.played.start(i);
+  if(seconds+.025<take.duration*.97){report('Please listen from the beginning through the end.',true);return;}
+  listened=now();$('same').disabled=false;$('attest').disabled=false;$('reference').disabled=$('same').checked;state();
+}
+async function start(){
+  need(navigator.mediaDevices?.getUserMedia&&window.AudioContext,'This browser cannot open a microphone here. You can load your own WAV.');
+  clearTake();pending=true;state();let stream=null,context=null,worklet=null,expired=false,timer;
+  try{
+    const waiting=navigator.mediaDevices.getUserMedia({audio:{channelCount:1},video:false});
+    waiting.then(s=>{if(expired)s.getTracks().forEach(t=>t.stop());},()=>{});
+    stream=await Promise.race([waiting,new Promise((_,reject)=>{timer=setTimeout(()=>{expired=true;reject(new Error('Microphone permission timed out. Try again or use your original WAV.'));},15000);})]);
+    clearTimeout(timer);context=new AudioContext({sampleRate:16000});await context.resume();
+    need(context.sampleRate>=16000&&context.sampleRate<=48000,'Microphone capture is unavailable. Use your original WAV.');
+    let node=null;
+    if(context.audioWorklet){try{
+      worklet=URL.createObjectURL(new Blob([meta.microphone_worklet],{type:'text/javascript'}));
+      await context.audioWorklet.addModule(worklet);node=new AudioWorkletNode(context,'passenger-capture');
+    }catch(e){if(!context.createScriptProcessor)throw e;}}
+    // Some browsers disallow worklet module imports from a downloaded file. Keep capture in the same local page.
+    if(!node){need(context.createScriptProcessor,'This browser cannot record here. Use your original WAV.');node=context.createScriptProcessor(2048,1,1);}
+    const source=context.createMediaStreamSource(stream),mute=context.createGain();
+    mute.gain.value=0;const c={stream,context,source,node,mute,blocks:[],count:0,started:now()};capture=c;
+    const saveSamples=samples=>{if(capture!==c)return;const remain=30*context.sampleRate-c.count;
+      if(remain>0){const block=samples.slice(0,remain);c.blocks.push(block);c.count+=block.length;}
+      if(c.count>=30*context.sampleRate)stop().catch(showError);};
+    if(node.port)node.port.onmessage=e=>saveSamples(new Float32Array(e.data));
+    else node.onaudioprocess=e=>saveSamples(e.inputBuffer.getChannelData(0));
+    source.connect(node);node.connect(mute);mute.connect(context.destination);
+    c.timer=setTimeout(()=>stop().catch(showError),30000);report('Microphone recording. Speak now, then press Stop.');
+  }catch(e){stream?.getTracks().forEach(t=>t.stop());if(context&&context.state!=='closed')await context.close();throw e;}
+  finally{if(timer)clearTimeout(timer);if(worklet)URL.revokeObjectURL(worklet);pending=false;state();}
+}
+async function stop(){
+  if(!capture)return;const c=capture;capture=null;pending=true;state();clearTimeout(c.timer);
+  try{c.stream.getTracks().forEach(t=>t.stop());c.source.disconnect();c.node.disconnect();c.mute.disconnect();
+    await c.context.close();await readyAudio(wav(c.blocks,c.context.sampleRate),'browser_microphone',c.started);}
+  finally{pending=false;state();}
+}
+function showError(error){report(error.message||String(error),true);state();}
+const guarded=fn=>async()=>{try{await fn();}catch(e){showError(e);}};
+for(const id of meta.speakers)choose($('speaker'),id,id);
+$('fixture').hidden=!meta.software_fixture;$('consentText').textContent=meta.consent;$('attestText').textContent=meta.attestation;
+$('begin').onclick=guarded(()=>{need(meta.speakers.includes($('speaker').value)&&$('consent').checked,'Choose your assigned code and give consent to begin.');
+  speaker=$('speaker').value;consented=now();$('setup').hidden=true;$('workspace').hidden=false;$('returns').hidden=false;
+  $('sessionLabel').textContent='Recordings for '+speaker;menu();select(meta.prompts[0].id);});
+$('prompts').onchange=()=>{const id=$('prompts').value;if(unsaved&&!confirm('Discard this unsaved take?')){$('prompts').value=selected.id;return;}select(id);};
+$('record').onclick=guarded(async()=>{if(unsaved&&!confirm('Replace this unsaved recording?'))return;await start();});
+$('stop').onclick=guarded(stop);$('pick').onclick=()=>{if(!unsaved||confirm('Replace this unsaved recording?'))$('audioFile').click();};
+$('audioFile').onchange=guarded(async()=>{const f=$('audioFile').files[0];if(!f)return;const chosen=now();$('audioFile').value='';
+  need(f.size<=meta.max_clip_bytes,'Choose a WAV no larger than 6 MiB.');pending=true;state();
+  try{await readyAudio(new Uint8Array(await f.arrayBuffer()),'participant_selected_original_wav',chosen);}finally{pending=false;state();}});
+$('player').onended=controlsAfterPlayback;
+$('same').onchange=()=>{$('reference').disabled=$('same').checked;$('reference').value=$('same').checked?selected.script:'';
+  $('attest').checked=false;state();};$('attest').onchange=state;
+$('reference').oninput=()=>{$('attest').checked=false;state();};$('noise').onchange=state;$('noiseNote').oninput=state;
+$('keep').onclick=guarded(async()=>{need(!$('keep').disabled,'Finish the listen-back and verify your words.');
+  const p=selected, audio=take, reference=$('reference').value.trim(),verified=now();pending=true;state();
+  try{const row={prompt_id:p.id,prompt_sha256:p.sha256,take_id:crypto.randomUUID(),audio_sha256:audio.sha,audio_bytes:audio.blob.size,
+      audio_base64:await blob64(audio.blob),original_acquisition:audio.method,consented_utc:consented,selected_utc:audio.started,
+      listened_utc:listened,verified_utc:verified,listenback_attestation:meta.attestation,human_reference:reference,
+      reference_sha256:await hash(new TextEncoder().encode(reference)),noise:$('noise').value,noise_note:$('noiseNote').value.trim()};
+    for(const [id,v] of saved)need(id===p.id||v.audio_sha256!==audio.sha,'This identical WAV already belongs to another instruction.');
+    saved.set(p.id,row);menu();const next=meta.prompts.find(v=>!saved.has(v.id));select(next?next.id:p.id);
+    report('Verified take saved. '+(next?'The next unfinished instruction is ready.':'Download your completed private return.'));}
+  finally{pending=false;state();}});
+$('export').onclick=guarded(()=>{need(!$('export').disabled,'Save or discard the active take first.');
+  const result={version:1,kind:'offline_passenger_voice_return',form_id:meta.form_id,protocol_sha256:meta.protocol_sha256,
+    software_fixture:meta.software_fixture,speaker_id:speaker,consent:true,consent_statement:meta.consent,consented_utc:consented,
+    exported_utc:now(),entries:meta.prompts.filter(v=>saved.has(v.id)).map(v=>saved.get(v.id))};
+  const b=new Blob([JSON.stringify(result)],{type:'application/json'}),link=document.createElement('a'),u=URL.createObjectURL(b);
+  link.href=u;link.download=(meta.software_fixture?'software-fixture-':'')+'passenger-voice-'+speaker+'-'+saved.size+'-'+Date.now()+'.json';
+  link.click();setTimeout(()=>URL.revokeObjectURL(u),2000);report('Downloaded your private return. Keep it to resume or share privately with the coordinator.');});
+$('resume').onclick=()=>$('returnFile').click();$('returnFile').onchange=guarded(async()=>{
+  const f=$('returnFile').files[0];if(!f)return;$('returnFile').value='';need(f.size<=meta.max_return_bytes&&!unsaved,'Finish your active take or choose a smaller file.');
+  pending=true;state();try{const r=JSON.parse(await f.text());
+    need(r.kind==='offline_passenger_voice_return'&&r.version===1&&r.form_id===meta.form_id&&r.software_fixture===meta.software_fixture
+      &&r.protocol_sha256===meta.protocol_sha256&&r.speaker_id===speaker&&r.consent===true&&r.consent_statement===meta.consent
+      &&Array.isArray(r.entries)&&r.entries.length>=1&&r.entries.length<=prompts.size,'This return belongs to another form or speaker.');
+    const merged=new Map(saved),seen=new Set();
+    for(const row of r.entries){const p=prompts.get(row.prompt_id);
+      need(p&&p.sha256===row.prompt_sha256&&!seen.has(p.id)&&row.listenback_attestation===meta.attestation&&row.audio_bytes<=meta.max_clip_bytes
+        &&row.audio_base64.length===4*Math.ceil(row.audio_bytes/3)&&date(row.verified_utc),'Invalid saved recording.');
+      const bytes=bytes64(row.audio_base64);decode(bytes);need(bytes.length===row.audio_bytes&&(await hash(bytes))===row.audio_sha256
+        &&(await hash(new TextEncoder().encode(row.human_reference)))===row.reference_sha256,'Saved recording or words changed.');
+      need(!merged.has(p.id)||JSON.stringify(merged.get(p.id))===JSON.stringify(row),'Conflicting saved takes. Choose one original return in a fresh form.');
+      for(const [id,prior] of merged)need(id===p.id||prior.audio_sha256!==row.audio_sha256,'One WAV occurs in two scripts.');
+      seen.add(p.id);merged.set(p.id,row);}
+    saved.clear();for(const [id,row] of merged)saved.set(id,row);menu();select((meta.prompts.find(p=>!saved.has(p.id))||meta.prompts[0]).id);
+    report('Restored your verified takes. You can continue or download them.');}
+  finally{pending=false;state();}});
+window.addEventListener('pagehide',()=>{if(capture)capture.stream.getTracks().forEach(t=>t.stop());if(url)URL.revokeObjectURL(url);});
+</script></main></body></html>

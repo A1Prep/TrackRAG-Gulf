@@ -151,12 +151,13 @@ def compare_scorers(label, metrics, audit_rows, primary):
     return {"all_per_case_geometry_and_predeclared_totals_agree":True, "case_count":len(audit_rows)}
 
 
-def audit_batch(label, external, requests_path, frozen, protocol, vision_cache):
+def audit_batch(label, external, requests_path, frozen, protocol, vision_cache, *, batch_dir=None):
     condition,cohort=label.split("-")
     bank=frozen["input_banks"][cohort]
-    settings=json_file(external/label/"settings.json")
-    manifest=json_file(external/label/"run.json")
-    raw_path=external/label/"outcomes.jsonl"
+    batch_dir=external/label if batch_dir is None else Path(batch_dir)
+    settings=json_file(batch_dir/"settings.json")
+    manifest=json_file(batch_dir/"run.json")
+    raw_path=batch_dir/"outcomes.jsonl"
     must(settings=={k:v for k,v in manifest.items() if k not in ("errors","outcomes_sha256")},"Live settings changed")
     must(file_sha256(raw_path)==manifest["outcomes_sha256"] and file_sha256(requests_path)==bank["file_sha256"]==manifest["requests_sha256"],
          "Request or prediction digest changed")

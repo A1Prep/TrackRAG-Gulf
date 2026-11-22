@@ -7,11 +7,11 @@ export function addFrame(select, frame) {
   select.append(option);
 }
 
-export async function openFrame(select, input) {
+export async function openFrame(select, input, forFootage = false) {
   const frameId = input.valueAsNumber;
   if (!Number.isSafeInteger(frameId) || frameId < 0) throw new Error("Enter a whole frame number.");
   const response = await fetch("/api/frames", {method:"POST",headers:{"Content-Type":"application/json"},
-    body:JSON.stringify({scene:select.value,frame_id:frameId})});
+    body:JSON.stringify({scene:select.value,frame_id:frameId,for_footage:forFootage})});
   const frame = await response.json();
   if (!response.ok) throw new Error(frame.error || "This frame is unavailable.");
   addFrame(select, frame);

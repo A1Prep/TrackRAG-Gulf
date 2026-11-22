@@ -3,6 +3,7 @@ import argparse
 from hashlib import sha256
 import json
 from pathlib import Path
+import re
 
 from tools.dropoff_predict import read_requests
 from trackrag.dropoff.contracts import FULL_FIELDS, validate_request, validate_target
@@ -20,10 +21,16 @@ def records(path):
     return [(sha256(line).hexdigest(), json.loads(line)) for line in path.read_bytes().splitlines() if line.strip()]
 
 
-def bound_outcome(outcome, request, *, passenger_selected=False):
+def bound_outcome(outcome, request, *, passenger_selected=False, passenger_landmarks=False, dialogue_policy=False,
+                  referent_path=None, pair_geometry=None, road_cache=None):
     need(isinstance(outcome, dict) and outcome.get("request_id") == request["request_id"], "Mismatched outcome ID")
     source = outcome.get("provenance", {})
+    need(isinstance(source, dict), "Missing outcome provenance")
     if outcome.get("ok") is False:
+        if source.get("method") in {"explicit_passenger_landmark_pair", "explicit_passenger_region"}:
+            need((source["method"] == "explicit_passenger_landmark_pair" and passenger_landmarks) or
+                 (source["method"] == "explicit_passenger_region" and passenger_selected),
+                 "An assisted failure was supplied as a different interaction role")
         return {"ok": False, "error": outcome.get("error"), "method": source.get("method"),
                 "saved_provenance": source}
     need(outcome.get("ok") is True, "Unrecognized outcome type")
@@ -41,9 +48,29 @@ def bound_outcome(outcome, request, *, passenger_selected=False):
     method = source.get("method")
     record = {"ok": True, "method": method, "result": target, "request_id": request["request_id"],
               "inference_input_sha256": portable, "image_sha256": image_sha, "source_scene": request["scene"]["provenance"]}
-    if passenger_selected:
+    if passenger_landmarks:
+        from trackrag.dropoff.passenger_pair_choice import replay_choice_evidence, validate_choice_evidence
+        selection = source.get("passenger_selection") or {}
+        validate_choice_evidence(request, outcome, selection.get("track_ids"), selection.get("placement"))
+        need((pair_geometry is None) == (road_cache is None), "Supply both the fitted pair geometry and current road-mask cache for full replay")
+        record["passenger_geometry_verification"] = (replay_choice_evidence(request, outcome, pair_geometry, road_cache)
+                if pair_geometry is not None else {"current_image_and_tracks_checked":True,
+                    "learned_geometry_and_mask_replayed":False,"scope":"Journal evidence only; road-mask bytes and fitted patch were not independently replayed."})
+    elif passenger_selected:
         need(method == "explicit_passenger_region" and source.get("independent_model_proposal") is False,
              "Passenger marking lacks its manual-intervention declaration")
+    elif method == "deictic_pair_clarification" and dialogue_policy:
+        from types import SimpleNamespace
+        from trackrag.dropoff.model import GroundingConfig
+        from trackrag.dropoff.pair_dialogue import unpointed_pair
+        from trackrag.dropoff.referent import ReferentRanker
+        weights = Path(referent_path) if referent_path is not None else Path(__file__).resolve().parents[1] / "models" / "passenger-feature" / "referent.json"
+        ranker = ReferentRanker.load(weights, expected_sha256=source.get("ranker_sha256"))
+        reproduced = unpointed_pair(SimpleNamespace(config=GroundingConfig(), referent_ranker=ranker), request)
+        need(reproduced == outcome and target["status"] == "needs_clarification" and source.get("native_model_calls") == 0,
+             "Automatic pair-identification question differs from the exact original image, passenger words, ranks or current tracks")
+        record["native_model_calls"] = 0
+        record["policy_recomputed_from_original"] = True
     else:
         need(method == "qwen_landmark_region" and source.get("independent_model_proposal") is not False
              and source.get("injected") is not True,
@@ -125,11 +152,12 @@ def batch(run_dir, requests_path, replay_path=None):
                 events=events)
 
 
-def session(journal_path):
+def session(journal_path, *, referent_path=None, pair_geometry=None, road_cache=None):
     raw = records(journal_path)
     need(raw and raw[0][1]["action"] == "opened", "Session lacks its opening record")
     scene = raw[0][1]["detail"]["scene"]
-    request, previous = None, {}
+    request, previous, original_submission = None, {}, None
+    offered_tokens = set()
     events = []
     for line_sha, event in raw:
         action, detail, view = event["action"], event["detail"], event["view"]
@@ -139,22 +167,43 @@ def session(journal_path):
         item = {"action": action, "timestamp": event["timestamp"], "request_id": view["request_id"],
                 "proposal_id": view["proposal_id"], "selected_by": view["selected_by"],
                 "state": view["state"], "raw_event_line_sha256": line_sha}
-        if action in ("submitted", "passenger_marked"):
+        token = view["proposal_id"]
+        if view["state"] in {"proposed", "confirmed"}:
+            need(isinstance(token, str) and re.fullmatch(r"[0-9a-f]{32}", token), "Confirmation requires a real proposal token")
+            if view["state"] == "proposed":
+                need(action in {"submitted", "passenger_marked", "passenger_selected_pair"} and token not in offered_tokens,
+                     "An offered passenger proposal token was reused")
+                offered_tokens.add(token)
+        else:
+            need(token is None, "An inactive passenger interaction exposed a proposal token")
+        if action in ("submitted", "passenger_marked", "passenger_selected_pair"):
             manual = action == "passenger_marked"
-            if not manual:
+            pair = action == "passenger_selected_pair"
+            if not manual and not pair:
                 # The application can journal a rejected submission before it reaches the model.
                 # Keep that error in the export even if the submitted text failed validation.
                 request = detail["request"] if detail["outcome"] is None else validate_request(detail["request"])
                 need(isinstance(request, dict), "Submitted request is missing")
                 need(request["scene"] == scene, "Submitted request belongs to another scene")
+                native = detail["outcome"]
+                original_submission = {"request_id":request["request_id"],"request_sha256":digest(request),
+                    "original_outcome_sha256":digest(native) if native else None, "original_automatic_state":view["state"]}
             need(request is not None and request["request_id"] == view["request_id"], "Mismatched interaction request")
-            item["phase"] = ("passenger_marked" if manual else
+            if pair:
+                from trackrag.dropoff.passenger_pair_choice import RECOVERABLE
+                active = previous.get("state") in {"proposed", "needs_clarification", "insufficient_visual_evidence"} or (
+                    previous.get("state") == "error" and (previous.get("error") or {}).get("code") in RECOVERABLE)
+                need(active and previous.get("request_id") == request["request_id"] and original_submission,
+                     "Assisted selection followed an inactive or different passenger request")
+            item["phase"] = ("passenger_selected_landmarks" if pair else "passenger_marked" if manual else
                              "model_after_prior_dialogue" if request["dialogue"] else "initial_model")
             item["submitted_text"] = request["text"]
             item["input_mode"] = request["input_mode"]
             item["original_transcript"] = request.get("original_transcript")
             if manual:
                 item["requested_box"] = detail["requested_box"]
+            elif pair:
+                item["track_ids"],item["placement"] = detail["track_ids"],detail["placement"]
             else:
                 item["speech"] = detail.get("speech")
                 if item["speech"] and detail["outcome"] is not None:
@@ -170,13 +219,23 @@ def session(journal_path):
                 need(view["state"] == "error", "Missing outcome for a successful passenger turn")
                 item["outcome"] = {"ok": False, "error": view["error"], "adapter_outcome_missing": True}
             else:
-                item["outcome"] = bound_outcome(detail["outcome"], request, passenger_selected=manual)
+                item["outcome"] = bound_outcome(detail["outcome"], request, passenger_selected=manual, passenger_landmarks=pair,
+                                                dialogue_policy=not manual and not pair, referent_path=referent_path,
+                                                pair_geometry=pair_geometry,road_cache=road_cache)
+                if item["outcome"].get("method") == "deictic_pair_clarification" and item["outcome"]["ok"]:
+                    item["phase"] = "automatic_pair_identification_question"
             if item["outcome"]["ok"]:
-                need(view["selected_by"] == ("passenger" if manual else "model") and
+                if pair:
+                    receipt = detail["outcome"]["provenance"]
+                    need(receipt.get("automatic_submission")==original_submission and
+                         (receipt["passenger_selection"]["track_ids"],receipt["passenger_selection"]["placement"])==
+                         (item["track_ids"],item["placement"]), "Assisted choice differs from the original automatic turn or passenger action")
+                need(view["selected_by"] == ("passenger_landmarks" if pair else "passenger" if manual else "model") and
                      view["result"] == item["outcome"]["result"] and view["state"] == view["result"]["status"],
                      "Saved view changed the grounding result or who selected it")
             else:
-                need(view["state"] == "error", "Failed model call appears as successful interaction")
+                need(view["state"] == "error" and view.get("error") == item["outcome"].get("error"),
+                     "Failed interaction differs from the error presented to the passenger")
         elif action == "confirmed":
             need(previous.get("state") == "proposed" and view["state"] == "confirmed" and
                  (previous["request_id"], previous["proposal_id"], previous["selected_by"], previous["result"]) ==
@@ -190,7 +249,8 @@ def session(journal_path):
         events.append(item)
         previous = view
     return dict(evidence_head(), origin="passenger_interaction_journal", journal_sha256=file_sha256(journal_path),
-                application_source_commit_recorded_by_journal=False,
+                application_source_commit_recorded_by_journal=False, actor_identity_verified=False,
+                confirmation_scope="A client explicitly accepted the current proposal. Human identity and consent require separate evidence.",
                 source_scene=scene["provenance"], events=events)
 
 
@@ -203,10 +263,14 @@ def main():
     b.add_argument("--replay", type=Path)
     j = modes.add_parser("session", help="Export submitted, manually marked, and confirmed turns separately")
     j.add_argument("--journal", required=True, type=Path)
+    j.add_argument("--referent", type=Path, help="Exact fitted ranker for replaying any zero-Qwen pair clarification")
+    j.add_argument("--geometry", type=Path, help="Released learned geometry for independent replay of passenger-selected pairs")
+    j.add_argument("--road-cache", type=Path, help="Verified original-image road masks for independent replay; use with --geometry")
     for sub in (b, j):
         sub.add_argument("--out", required=True, type=Path)
     args = parser.parse_args()
-    data = batch(args.run, args.requests, args.replay) if args.mode == "batch" else session(args.journal)
+    data = (batch(args.run, args.requests, args.replay) if args.mode == "batch" else
+            session(args.journal, referent_path=args.referent,pair_geometry=args.geometry,road_cache=args.road_cache))
     with args.out.open("x", encoding="utf8", newline="\n") as target:
         json.dump(data, target, allow_nan=False)
         target.write("\n")

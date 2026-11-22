@@ -1,0 +1,526 @@
+{
+  "kind": "normal_application_on_reviewed_clarification_and_registered_controls",
+  "protocol_sha256": "702c5f5575431df621b0e78847ddadb67d102e487a4be44016050773e4af8b81",
+  "requests_sha256": "7d805dc9f478f894e198892c435df00db897586f40465c393b8644b64c8aadc0",
+  "actual_full_application_attempts": 12,
+  "native_direct_companion_sha256": "517f8ec026f7d9e8582a2f3afec86d9e56c4fc0cfafb9cc4f3111d46d66e112f",
+  "status_meanings": {
+    "proposed": "The application offers a location for the passenger to confirm.",
+    "needs_clarification": "The application asks a question to resolve the reference.",
+    "insufficient_visual_evidence": "The application withholds a location without asking a distinguishing question.",
+    "operational_error": "The application did not return a valid interpretation. The attempt remains in its denominator."
+  },
+  "conditions": {
+    "public_parent": {
+      "weights_sha256": "76bfb3230b17a86248b52ca6a9f8d2ffca324aa80216d6b93845ccb12ad86743",
+      "full_application_run_sha256": "3d04807ff7861ff9e83aa8d9e42aecb2b7ee24f8acbae032f1e9a930a09280a8",
+      "raw_outcomes_sha256": "b8f7ccc3b9a0d37ca17b3347a25843d45d3a74184ce139f3554cbffc1057dcf6",
+      "native_direct_run_sha256": "3c2b54edc4915a98e97a9292b4abeae837b8a65e933390959df298cfad5de9a5",
+      "reference_groups": {
+        "two_reviewer_confirmations_same_wording": {
+          "attempts": 2,
+          "matches_registered_status": 0,
+          "proposals_when_registered_status_unresolved": 0,
+          "operational_errors": 0
+        },
+        "unreviewed_paraphrase_same_scene": {
+          "attempts": 2,
+          "matches_registered_status": 2,
+          "proposals_when_registered_status_unresolved": 0,
+          "operational_errors": 0
+        },
+        "existing_ai_development_control": {
+          "attempts": 2,
+          "matches_registered_status": 2,
+          "proposals_when_registered_status_unresolved": 0,
+          "operational_errors": 0
+        }
+      },
+      "requests": [
+        {
+          "request_id": "local-dev-video_054907-00781",
+          "reference_type": "two_reviewer_confirmations_same_wording",
+          "original_text": "Stop beside the car directly ahead.",
+          "recording_id": "video_054907",
+          "frame_id": 781,
+          "image_sha256": "c411cf6760695905334f32e5590083cf144543df1ca98e68aae55fb345eb583e",
+          "portable_input_sha256": "2a5787a590b8f5eac66402b21dfd68a3b225cbab7eaf4ab4205325b83244c60e",
+          "registered_status": "needs_clarification",
+          "registered_human_question": "Which visible car ahead should I stop beside?",
+          "matches_human_question": false,
+          "native_direct_status_on_identical_input": "proposed",
+          "full_application": {
+            "operational_ok": true,
+            "raw_outcome_line_sha256": "2ba72fefad42cd44efbf274eb101f33e77a074da17752acb5b7749d35eeb6477",
+            "status": "insufficient_visual_evidence",
+            "four_field_result": {
+              "clarification_question": null,
+              "destination_box_xyxy": null,
+              "destination_point_xy": null,
+              "status": "insufficient_visual_evidence"
+            },
+            "resolver_decision": {
+              "kind": "missing"
+            },
+            "resolver_raw_text": "MISSING",
+            "resolver_raw_text_sha256": "8af1d328d75e91cf5fff2deab39607be475491d16c45e89a2721eb14bb9a701e",
+            "resolver_messages_sha256": "113137dbb11c1c078d32bd4b802893c21d6f42f0052d59e95ed23e5a1bf44832",
+            "resolver_generation_contract": "landmark_without_candidates_v1",
+            "referent_clarification": null,
+            "constraint": null
+          }
+        },
+        {
+          "request_id": "local-dev-video_054907-00781-paraphrase",
+          "reference_type": "unreviewed_paraphrase_same_scene",
+          "original_text": "Could you let me out alongside the vehicle straight ahead?",
+          "recording_id": "video_054907",
+          "frame_id": 781,
+          "image_sha256": "c411cf6760695905334f32e5590083cf144543df1ca98e68aae55fb345eb583e",
+          "portable_input_sha256": "96c1f052fd1ce81bf23191e1ef0ce15a0e624e1e11da20ad6d59d9b7131cfbe5",
+          "registered_status": "needs_clarification",
+          "registered_human_question": null,
+          "matches_human_question": null,
+          "native_direct_status_on_identical_input": "proposed",
+          "full_application": {
+            "operational_ok": true,
+            "raw_outcome_line_sha256": "4a39c588c939ef2e7ed28b8128b31dc54e9b9a96c3a409aff2a8511ae2a3994d",
+            "status": "needs_clarification",
+            "four_field_result": {
+              "clarification_question": "which vehicle is straight ahead?",
+              "destination_box_xyxy": null,
+              "destination_point_xy": null,
+              "status": "needs_clarification"
+            },
+            "resolver_decision": {
+              "kind": "ask",
+              "question": "which vehicle is straight ahead?"
+            },
+            "resolver_raw_text": "ASK which vehicle is straight ahead?",
+            "resolver_raw_text_sha256": "03dcc021c6ceb6cc3c6af0aef9d60ce95079f329196e71b88ea5f9dfe2068a77",
+            "resolver_messages_sha256": "f5c842c15ef6a453fc12075526b88c93b4414d02be3cc27e7ac0c81ab45ad52d",
+            "resolver_generation_contract": "landmark_without_candidates_v1",
+            "referent_clarification": null,
+            "constraint": null
+          }
+        },
+        {
+          "request_id": "local-dev-video_174340-00781",
+          "reference_type": "two_reviewer_confirmations_same_wording",
+          "original_text": "Stop beside the car directly ahead.",
+          "recording_id": "video_174340",
+          "frame_id": 781,
+          "image_sha256": "693e7f2769f9336d15d3ef3fef37594cfab297c819626d913f734077dfa7bd4a",
+          "portable_input_sha256": "7fe3e20daf22e95175a6ad20cb8dbd14cfc1e52dbd36ece09820c98545742075",
+          "registered_status": "needs_clarification",
+          "registered_human_question": "Which visible car ahead should I stop beside?",
+          "matches_human_question": false,
+          "native_direct_status_on_identical_input": "proposed",
+          "full_application": {
+            "operational_ok": true,
+            "raw_outcome_line_sha256": "036658eaa344554709d18c2fc8bb5ebe0012f95d5e300cb53405e463b908aada",
+            "status": "insufficient_visual_evidence",
+            "four_field_result": {
+              "clarification_question": null,
+              "destination_box_xyxy": null,
+              "destination_point_xy": null,
+              "status": "insufficient_visual_evidence"
+            },
+            "resolver_decision": {
+              "kind": "missing"
+            },
+            "resolver_raw_text": "MISSING",
+            "resolver_raw_text_sha256": "8af1d328d75e91cf5fff2deab39607be475491d16c45e89a2721eb14bb9a701e",
+            "resolver_messages_sha256": "d62de85ad074d91f965376b983b8b8aa0922b9ce7bd97235646bc51b16189b7e",
+            "resolver_generation_contract": "landmark_without_candidates_v1",
+            "referent_clarification": null,
+            "constraint": null
+          }
+        },
+        {
+          "request_id": "local-dev-video_174340-00781-paraphrase",
+          "reference_type": "unreviewed_paraphrase_same_scene",
+          "original_text": "I'd like to get out next to the car in front of us, please.",
+          "recording_id": "video_174340",
+          "frame_id": 781,
+          "image_sha256": "693e7f2769f9336d15d3ef3fef37594cfab297c819626d913f734077dfa7bd4a",
+          "portable_input_sha256": "87a4c28d27f26c8a162c7f1690d825420a09998e26ce19a8400d7b5e4d611553",
+          "registered_status": "needs_clarification",
+          "registered_human_question": null,
+          "matches_human_question": null,
+          "native_direct_status_on_identical_input": "proposed",
+          "full_application": {
+            "operational_ok": true,
+            "raw_outcome_line_sha256": "eefba4b0a87491a66a4694ac60ac57afece0834170ee00120da63280d2997460",
+            "status": "needs_clarification",
+            "four_field_result": {
+              "clarification_question": "which car in front would you like to get out next to?",
+              "destination_box_xyxy": null,
+              "destination_point_xy": null,
+              "status": "needs_clarification"
+            },
+            "resolver_decision": {
+              "kind": "ask",
+              "question": "which car in front would you like to get out next to?"
+            },
+            "resolver_raw_text": "ASK which car in front would you like to get out next to?",
+            "resolver_raw_text_sha256": "42d207391d04a7dc6f43197876b39f8e27bbf26bb7b60346cfe46aec5786c24e",
+            "resolver_messages_sha256": "146a124a5f69b47c2025b79c4edf4e9f7951ed0d3e1d849ccdab802ca98b1e28",
+            "resolver_generation_contract": "landmark_without_candidates_v1",
+            "referent_clarification": null,
+            "constraint": null
+          }
+        },
+        {
+          "request_id": "passenger-b07",
+          "reference_type": "existing_ai_development_control",
+          "original_text": "I'd like the road immediately behind the white Toyota pickup with the rack.",
+          "recording_id": "video_054907",
+          "frame_id": 42,
+          "image_sha256": "175602c7dc418c0ababa6cea56daec7f5e2779452370a9ace398cdc3780041a6",
+          "portable_input_sha256": "df6e5d7e8ca31b7a73b6dc00b64534f92843433100edcbd8b90d6157a66d266f",
+          "registered_status": "proposed",
+          "registered_human_question": null,
+          "matches_human_question": null,
+          "native_direct_status_on_identical_input": "proposed",
+          "full_application": {
+            "operational_ok": true,
+            "raw_outcome_line_sha256": "23e08c766dbd9f8c7cb68ee99f9ea1bfc5c0b7be8d68e8b8a79eee06b8eda66a",
+            "status": "proposed",
+            "four_field_result": {
+              "anchor_boxes_xyxy": [
+                [
+                  830.5853881835938,
+                  990.142578125,
+                  1085.6541748046875,
+                  1199.4822998046875
+                ]
+              ],
+              "clarification_question": null,
+              "destination_box_xyxy": [
+                745.4089290210457,
+                1113.7736469258336,
+                1282.209355376538,
+                1300.36986772377
+              ],
+              "destination_point_xy": [
+                1017.5,
+                1207.5
+              ],
+              "status": "proposed"
+            },
+            "resolver_decision": {
+              "boxes": [
+                [
+                  830.5853881835938,
+                  990.142578125,
+                  1085.6541748046875,
+                  1199.4822998046875
+                ]
+              ],
+              "kind": "landmark",
+              "track_ids": [
+                6
+              ]
+            },
+            "resolver_raw_text": "LANDMARK L2",
+            "resolver_raw_text_sha256": "c4214d3291952710651452683a624b8af74d5fe80b35fe5ec7c75317a14d6df6",
+            "resolver_messages_sha256": "e4423fcd60ddea87091a8b90ca0ab408298924d8e15c4a5f1583a30451b19cd1",
+            "resolver_generation_contract": "landmark_v1",
+            "referent_clarification": null,
+            "constraint": null
+          }
+        },
+        {
+          "request_id": "passenger-b10",
+          "reference_type": "existing_ai_development_control",
+          "original_text": "Leave me by the railway signal just ahead of us.",
+          "recording_id": "video_054907",
+          "frame_id": 42,
+          "image_sha256": "175602c7dc418c0ababa6cea56daec7f5e2779452370a9ace398cdc3780041a6",
+          "portable_input_sha256": "7712d9ab961e151d49c1e2db7bed37a7861348aadb61f791155eeec05cd194d1",
+          "registered_status": "insufficient_visual_evidence",
+          "registered_human_question": null,
+          "matches_human_question": null,
+          "native_direct_status_on_identical_input": "proposed",
+          "full_application": {
+            "operational_ok": true,
+            "raw_outcome_line_sha256": "fddecbf3e0c71f2493deb6c73aba3464951060b68061414cadf7be981a3303cd",
+            "status": "insufficient_visual_evidence",
+            "four_field_result": {
+              "clarification_question": null,
+              "destination_box_xyxy": null,
+              "destination_point_xy": null,
+              "status": "insufficient_visual_evidence"
+            },
+            "resolver_decision": {
+              "kind": "missing"
+            },
+            "resolver_raw_text": "MISSING",
+            "resolver_raw_text_sha256": "8af1d328d75e91cf5fff2deab39607be475491d16c45e89a2721eb14bb9a701e",
+            "resolver_messages_sha256": "947dd09a0c7b03d5e4b7ec38cc936c88fec25f81368361470fd44730a4807bf6",
+            "resolver_generation_contract": "landmark_v1",
+            "referent_clarification": null,
+            "constraint": null
+          }
+        }
+      ]
+    },
+    "human_child": {
+      "weights_sha256": "6c3d54a6baadf5a269f8cdb81ed565469aa0d75bc006698c8d355f79b3e774ca",
+      "full_application_run_sha256": "41caad4caca0944b50ddf0d78108f549d12e47c5416deb4b927f4c961ca6c33a",
+      "raw_outcomes_sha256": "274307c7347897a640e6d2f46e3224b72afddf59cfa50c83f76a43d8309e38f9",
+      "native_direct_run_sha256": "7ad608ba3ed6e33f166fe66d81ee3a12b01dcf548e1c5c67b9c0659429a4d1b6",
+      "reference_groups": {
+        "two_reviewer_confirmations_same_wording": {
+          "attempts": 2,
+          "matches_registered_status": 0,
+          "proposals_when_registered_status_unresolved": 0,
+          "operational_errors": 0
+        },
+        "unreviewed_paraphrase_same_scene": {
+          "attempts": 2,
+          "matches_registered_status": 2,
+          "proposals_when_registered_status_unresolved": 0,
+          "operational_errors": 0
+        },
+        "existing_ai_development_control": {
+          "attempts": 2,
+          "matches_registered_status": 2,
+          "proposals_when_registered_status_unresolved": 0,
+          "operational_errors": 0
+        }
+      },
+      "requests": [
+        {
+          "request_id": "local-dev-video_054907-00781",
+          "reference_type": "two_reviewer_confirmations_same_wording",
+          "original_text": "Stop beside the car directly ahead.",
+          "recording_id": "video_054907",
+          "frame_id": 781,
+          "image_sha256": "c411cf6760695905334f32e5590083cf144543df1ca98e68aae55fb345eb583e",
+          "portable_input_sha256": "2a5787a590b8f5eac66402b21dfd68a3b225cbab7eaf4ab4205325b83244c60e",
+          "registered_status": "needs_clarification",
+          "registered_human_question": "Which visible car ahead should I stop beside?",
+          "matches_human_question": false,
+          "native_direct_status_on_identical_input": "proposed",
+          "full_application": {
+            "operational_ok": true,
+            "raw_outcome_line_sha256": "4f6562f942a057a056cde619c2572751891193f2400a899d99d839c034f84c82",
+            "status": "insufficient_visual_evidence",
+            "four_field_result": {
+              "clarification_question": null,
+              "destination_box_xyxy": null,
+              "destination_point_xy": null,
+              "status": "insufficient_visual_evidence"
+            },
+            "resolver_decision": {
+              "kind": "missing"
+            },
+            "resolver_raw_text": "MISSING",
+            "resolver_raw_text_sha256": "8af1d328d75e91cf5fff2deab39607be475491d16c45e89a2721eb14bb9a701e",
+            "resolver_messages_sha256": "113137dbb11c1c078d32bd4b802893c21d6f42f0052d59e95ed23e5a1bf44832",
+            "resolver_generation_contract": "landmark_without_candidates_v1",
+            "referent_clarification": null,
+            "constraint": null
+          }
+        },
+        {
+          "request_id": "local-dev-video_054907-00781-paraphrase",
+          "reference_type": "unreviewed_paraphrase_same_scene",
+          "original_text": "Could you let me out alongside the vehicle straight ahead?",
+          "recording_id": "video_054907",
+          "frame_id": 781,
+          "image_sha256": "c411cf6760695905334f32e5590083cf144543df1ca98e68aae55fb345eb583e",
+          "portable_input_sha256": "96c1f052fd1ce81bf23191e1ef0ce15a0e624e1e11da20ad6d59d9b7131cfbe5",
+          "registered_status": "needs_clarification",
+          "registered_human_question": null,
+          "matches_human_question": null,
+          "native_direct_status_on_identical_input": "proposed",
+          "full_application": {
+            "operational_ok": true,
+            "raw_outcome_line_sha256": "7846ee350953d0a0d14f03d67894a9281d2d1e497dc70cec29b8d809262711f3",
+            "status": "needs_clarification",
+            "four_field_result": {
+              "clarification_question": "which vehicle is straight ahead?",
+              "destination_box_xyxy": null,
+              "destination_point_xy": null,
+              "status": "needs_clarification"
+            },
+            "resolver_decision": {
+              "kind": "ask",
+              "question": "which vehicle is straight ahead?"
+            },
+            "resolver_raw_text": "ASK which vehicle is straight ahead?",
+            "resolver_raw_text_sha256": "03dcc021c6ceb6cc3c6af0aef9d60ce95079f329196e71b88ea5f9dfe2068a77",
+            "resolver_messages_sha256": "f5c842c15ef6a453fc12075526b88c93b4414d02be3cc27e7ac0c81ab45ad52d",
+            "resolver_generation_contract": "landmark_without_candidates_v1",
+            "referent_clarification": null,
+            "constraint": null
+          }
+        },
+        {
+          "request_id": "local-dev-video_174340-00781",
+          "reference_type": "two_reviewer_confirmations_same_wording",
+          "original_text": "Stop beside the car directly ahead.",
+          "recording_id": "video_174340",
+          "frame_id": 781,
+          "image_sha256": "693e7f2769f9336d15d3ef3fef37594cfab297c819626d913f734077dfa7bd4a",
+          "portable_input_sha256": "7fe3e20daf22e95175a6ad20cb8dbd14cfc1e52dbd36ece09820c98545742075",
+          "registered_status": "needs_clarification",
+          "registered_human_question": "Which visible car ahead should I stop beside?",
+          "matches_human_question": false,
+          "native_direct_status_on_identical_input": "proposed",
+          "full_application": {
+            "operational_ok": true,
+            "raw_outcome_line_sha256": "cc76cc8516b9e47681201e2cc53cd90e6b95105922ef63f1df8302b1091c86f1",
+            "status": "insufficient_visual_evidence",
+            "four_field_result": {
+              "clarification_question": null,
+              "destination_box_xyxy": null,
+              "destination_point_xy": null,
+              "status": "insufficient_visual_evidence"
+            },
+            "resolver_decision": {
+              "kind": "missing"
+            },
+            "resolver_raw_text": "MISSING",
+            "resolver_raw_text_sha256": "8af1d328d75e91cf5fff2deab39607be475491d16c45e89a2721eb14bb9a701e",
+            "resolver_messages_sha256": "d62de85ad074d91f965376b983b8b8aa0922b9ce7bd97235646bc51b16189b7e",
+            "resolver_generation_contract": "landmark_without_candidates_v1",
+            "referent_clarification": null,
+            "constraint": null
+          }
+        },
+        {
+          "request_id": "local-dev-video_174340-00781-paraphrase",
+          "reference_type": "unreviewed_paraphrase_same_scene",
+          "original_text": "I'd like to get out next to the car in front of us, please.",
+          "recording_id": "video_174340",
+          "frame_id": 781,
+          "image_sha256": "693e7f2769f9336d15d3ef3fef37594cfab297c819626d913f734077dfa7bd4a",
+          "portable_input_sha256": "87a4c28d27f26c8a162c7f1690d825420a09998e26ce19a8400d7b5e4d611553",
+          "registered_status": "needs_clarification",
+          "registered_human_question": null,
+          "matches_human_question": null,
+          "native_direct_status_on_identical_input": "needs_clarification",
+          "full_application": {
+            "operational_ok": true,
+            "raw_outcome_line_sha256": "f569c925a3f504847d715db42b51f7836ea05feee9c26b1f0d874958f976bfee",
+            "status": "needs_clarification",
+            "four_field_result": {
+              "clarification_question": "which car in front would you like to get out next to?",
+              "destination_box_xyxy": null,
+              "destination_point_xy": null,
+              "status": "needs_clarification"
+            },
+            "resolver_decision": {
+              "kind": "ask",
+              "question": "which car in front would you like to get out next to?"
+            },
+            "resolver_raw_text": "ASK which car in front would you like to get out next to?",
+            "resolver_raw_text_sha256": "42d207391d04a7dc6f43197876b39f8e27bbf26bb7b60346cfe46aec5786c24e",
+            "resolver_messages_sha256": "146a124a5f69b47c2025b79c4edf4e9f7951ed0d3e1d849ccdab802ca98b1e28",
+            "resolver_generation_contract": "landmark_without_candidates_v1",
+            "referent_clarification": null,
+            "constraint": null
+          }
+        },
+        {
+          "request_id": "passenger-b07",
+          "reference_type": "existing_ai_development_control",
+          "original_text": "I'd like the road immediately behind the white Toyota pickup with the rack.",
+          "recording_id": "video_054907",
+          "frame_id": 42,
+          "image_sha256": "175602c7dc418c0ababa6cea56daec7f5e2779452370a9ace398cdc3780041a6",
+          "portable_input_sha256": "df6e5d7e8ca31b7a73b6dc00b64534f92843433100edcbd8b90d6157a66d266f",
+          "registered_status": "proposed",
+          "registered_human_question": null,
+          "matches_human_question": null,
+          "native_direct_status_on_identical_input": "proposed",
+          "full_application": {
+            "operational_ok": true,
+            "raw_outcome_line_sha256": "1ac3673b778992956206fb6e408f1fe6e6310dd2a8b77c5a7326cca118f3d14d",
+            "status": "proposed",
+            "four_field_result": {
+              "anchor_boxes_xyxy": [
+                [
+                  830.5853881835938,
+                  990.142578125,
+                  1085.6541748046875,
+                  1199.4822998046875
+                ]
+              ],
+              "clarification_question": null,
+              "destination_box_xyxy": [
+                745.4089290210457,
+                1113.7736469258336,
+                1282.209355376538,
+                1300.36986772377
+              ],
+              "destination_point_xy": [
+                1017.5,
+                1207.5
+              ],
+              "status": "proposed"
+            },
+            "resolver_decision": {
+              "boxes": [
+                [
+                  830.5853881835938,
+                  990.142578125,
+                  1085.6541748046875,
+                  1199.4822998046875
+                ]
+              ],
+              "kind": "landmark",
+              "track_ids": [
+                6
+              ]
+            },
+            "resolver_raw_text": "LANDMARK L2",
+            "resolver_raw_text_sha256": "c4214d3291952710651452683a624b8af74d5fe80b35fe5ec7c75317a14d6df6",
+            "resolver_messages_sha256": "e4423fcd60ddea87091a8b90ca0ab408298924d8e15c4a5f1583a30451b19cd1",
+            "resolver_generation_contract": "landmark_v1",
+            "referent_clarification": null,
+            "constraint": null
+          }
+        },
+        {
+          "request_id": "passenger-b10",
+          "reference_type": "existing_ai_development_control",
+          "original_text": "Leave me by the railway signal just ahead of us.",
+          "recording_id": "video_054907",
+          "frame_id": 42,
+          "image_sha256": "175602c7dc418c0ababa6cea56daec7f5e2779452370a9ace398cdc3780041a6",
+          "portable_input_sha256": "7712d9ab961e151d49c1e2db7bed37a7861348aadb61f791155eeec05cd194d1",
+          "registered_status": "insufficient_visual_evidence",
+          "registered_human_question": null,
+          "matches_human_question": null,
+          "native_direct_status_on_identical_input": "proposed",
+          "full_application": {
+            "operational_ok": true,
+            "raw_outcome_line_sha256": "488ffeb163dedc7a7e539faf74c08da935df77c93587a681cdee540dad2e14b5",
+            "status": "insufficient_visual_evidence",
+            "four_field_result": {
+              "clarification_question": null,
+              "destination_box_xyxy": null,
+              "destination_point_xy": null,
+              "status": "insufficient_visual_evidence"
+            },
+            "resolver_decision": {
+              "kind": "missing"
+            },
+            "resolver_raw_text": "MISSING",
+            "resolver_raw_text_sha256": "8af1d328d75e91cf5fff2deab39607be475491d16c45e89a2721eb14bb9a701e",
+            "resolver_messages_sha256": "947dd09a0c7b03d5e4b7ec38cc936c88fec25f81368361470fd44730a4807bf6",
+            "resolver_generation_contract": "landmark_v1",
+            "referent_clarification": null,
+            "constraint": null
+          }
+        }
+      ]
+    }
+  },
+  "reference_scope": "Two exact image-only inputs have two recorded confirmations of AI-assisted labels. The two paraphrases are unreviewed tests of the registered expectation. Two other controls use provisional AI-authored references. The original two human cases share training wording and were also used in selecting an epoch. No final test accuracy."
+}

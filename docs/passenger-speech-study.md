@@ -2,6 +2,21 @@
 
 Task 3 asks for about 30 consented recordings from at least three people. Assign the anonymous codes **S01, S02 and S03** to three different volunteers. Each person reads the same ten English instructions. Nine are exact daytime scene instructions. The tenth rephrases the pickup/SUV case to include the spoken count “two”. This is a read-speech study. It measures the recognizer’s hearing of an instruction independently of the model’s choice of a road location. [Team task](https://github.com/A1Prep/TrackRAG-Gulf/issues/3)
 
+## Record on your own laptop
+
+1. Download the blank **TrackRAG-passenger-voice-study.html** from the private project release and double-click it in Chrome or Edge. Choose the code given to you (S01, S02 or S03). If you agree to participate, give consent and record each of the ten instructions, or choose an original WAV of your own voice. Play each take through to the end. Confirm the displayed words or type exactly what you said, then save the take. [Download the blank voice form](https://github.com/A1Prep/TrackRAG-Gulf/releases/download/passenger-feature-20261122/TrackRAG-passenger-voice-study.html)
+2. Download your **private return** and give the JSON file privately to the study coordinator. You can stop before ten, keep the partial return, and load it in the same blank form under the same code to continue. If you rerecord a take, send the return containing the one you chose. Only the blank form belongs on GitHub.
+
+The coordinator can rebuild the blank and import one or more private returns. Prepare a new study once, or point the import at the existing prepared directory. Identical takes in overlapping returns count once. A conflict leaves the existing take intact. If a volunteer replaces an earlier take already imported, retain their choice and rebuild the study in a fresh directory from the selected returns. The browser records microphone or original-file provenance and shows no recognition output. Score both models later against the words the speaker verified. [Offline-form checks](../experiments/dropoff/passenger-portable-speech-handoff-20261122.json) · [Whisper replay](passenger-whisper.md)
+
+```powershell
+python -m tools.passenger_voice_form build --out TrackRAG-passenger-voice-study.html
+python -m tools.passenger_speech_study prepare --out runs/passenger-team-voice
+python -m tools.passenger_voice_form import --study runs/passenger-team-voice --return "D:\private\speaker-one.json"
+```
+
+For a withdrawal, remove the volunteer’s folders under `recordings/<code>` and `private-portable-returns/<code>`, any received copies and backups holding their voice, and regenerate the scores. The original WAV and privately retained return contain the participant’s voice.
+
 ## On the project laptop
 
 The blank study lives in `runs/passenger-human-speech-20261122`. A volunteer enters consent before each collection session and starts each microphone take explicitly. The person listens to the original take and confirms or supplies the *actually spoken* wording before seeing the recognizer. Then they can accept or edit the recognized text. No account, GPU or hosted speech service is involved.

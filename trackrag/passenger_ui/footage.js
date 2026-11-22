@@ -15,7 +15,8 @@ async function fetchJson(url, opts) {
 try {
   const catalog = await fetchJson("/api/scenes");
   if (!catalog.footage_available) throw new Error("Footage search needs the original recordings and saved predictions.");
-  for (const f of catalog.scenes) addFrame(get("scene"),f);
+  const covered = new Set(catalog.footage_scenes);
+  for (const f of catalog.scenes) if (covered.has(f.key)) addFrame(get("scene"), f);
   get("frame-picker").hidden=false;
 } catch (error) {
   get("progress").textContent = error.message;
@@ -25,7 +26,7 @@ get("open-frame").onclick=async () => {
   get("open-frame").disabled=get("go").disabled=true;
   get("progress").textContent="Opening the original frame…";
   try {
-    await openFrame(get("scene"),get("frame-id"));
+    await openFrame(get("scene"),get("frame-id"),true);
     get("results").replaceChildren();
     get("progress").textContent="";
     get("frame-picker").open=false;

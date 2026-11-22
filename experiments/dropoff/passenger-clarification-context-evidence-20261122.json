@@ -1,0 +1,19 @@
+{
+  "asset": "passenger-language-context-evidence.zip",
+  "sha256": "1a8ad7b56e15277375cbdc1673853bfce2a5fe2dfcfec73016966c736d25e7c1",
+  "bytes": 124412,
+  "entries_reread": 34,
+  "initial_gpu_calls": 12,
+  "changed_input_gpu_calls": 8,
+  "new_cpu_language_cases": 24,
+  "existing_app_outcomes_replayed_on_CPU": 20,
+  "no_original_images": true,
+  "study_sha256": {
+    "passenger-human-application6-20261122.json": "420157958aa42e6da3799a83b39a6b2fe2ffc28cec6e397f7415dfc211e7eedb",
+    "passenger-operational-context-20261122.json": "1264f74ca36feb029691fabeef4f6a86851178b978c3b2b75d2a76d59d754c66",
+    "passenger-operational-context-protocol-20261122.json": "9017add2c987628541d3fb11f63e8994928bece931f9a37c3279d97c1dcdc503",
+    "passenger-egocentric-language-protocol-20261122.json": "e49f92ae599b65955aac17dbb6586485bf5ca74a63c2178bc80667ee641a27b0",
+    "passenger-egocentric-language-results-20261122.json": "d24371ac3e152f345014e93dc60f8573807f6cf01e4d56d20bf0e19fffc6b611",
+    "passenger-egocentric-application-replay-20261122.json": "ecb74572341541bc6fb20147534532a293717849a0b47ae2570e955e7a541457"
+  }
+}

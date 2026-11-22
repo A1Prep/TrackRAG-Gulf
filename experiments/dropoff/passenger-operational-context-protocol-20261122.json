@@ -1,0 +1,104 @@
+{
+  "kind": "matched_operational_context_sensitivity_nonfinal",
+  "frozen_utc": "2026-11-22T05:15:18.939045+00:00",
+  "reference_policy": "Changed input, NOT a re-review. The two original review decisions apply only to their image-only inputs. The two paraphrases are unreviewed in both settings.",
+  "predeclared_handling": "Count status changes and no-changes per adapter and signed-wording/paraphrase stratum relative to its own original full application result. Report whether the changed request clarified, proposed, withheld or failed. The original clarification preference is a diagnostic directional expectation only. Its status can genuinely change when tracked alternatives become available. No transferred gold, no accuracy rate or spatial credit for these four changed requests.",
+  "conditions": {
+    "public_parent": {
+      "configuration_sha256": "719b059281be2d0bd16f35364487150ef02a5fc920517e01c21548cf299f2622",
+      "local_weights_sha256": "76bfb3230b17a86248b52ca6a9f8d2ffca324aa80216d6b93845ccb12ad86743"
+    },
+    "human_child": {
+      "configuration_sha256": "feda6432d2b2dc456c28d8b1d070d97fb84fb694ac70c10564cc9d8039f1c685",
+      "local_weights_sha256": "6c3d54a6baadf5a269f8cdb81ed565469aa0d75bc006698c8d355f79b3e774ca"
+    }
+  },
+  "normal_application": "tools.dropoff_passenger_batch; fresh Qwen selector and shared production geometry/referent with exact-image cached road support. No replay or verifier.",
+  "input_count": 4,
+  "only_model_visible_change": "Replace empty observations with the complete Task 1 fine-tuned current-frame tracks. Recording, frame, original JPEG, instruction, prior turns, mode and ID are identical. Source metadata is corrected to identify the saved Task 1 artifact.",
+  "original_trial_requests_sha256": "7d805dc9f478f894e198892c435df00db897586f40465c393b8644b64c8aadc0",
+  "changed_requests_sha256": "cc92d862a0fe739a2f4874cbcb12d7914e25e652e78069dab6db17de98010d43",
+  "geometry_sha256": "db9575ac6b82ff9828f29440bacf2349cd2371f23c2cfb747bd7dc05ee04c7e5",
+  "referent_sha256": "d96a9a69e2e52ddbc21851d5ff6f79b344de6c8558600e54be5cb2712480a07d",
+  "source_paths": {
+    "original_inputs": "runs/passenger-task2-reviewed-20261122/trial/requests.jsonl",
+    "saved_task1": "data/task1-shared-20261119/predictions-finetuned"
+  },
+  "final_rows": 0,
+  "bindings": [
+    {
+      "request_id": "local-dev-video_054907-00781",
+      "recording_id": "video_054907",
+      "frame_id": 781,
+      "text": "Stop beside the car directly ahead.",
+      "original_input_kind": "two_recorded_confirmations_on_image_only_input",
+      "image_sha256": "c411cf6760695905334f32e5590083cf144543df1ca98e68aae55fb345eb583e",
+      "image_only_inference_input_sha256": "2a5787a590b8f5eac66402b21dfd68a3b225cbab7eaf4ab4205325b83244c60e",
+      "changed_trackful_inference_input_sha256": "b5e8d1d0575081e9cc9c16e2024859d00ae9707ddfe41c19fe11e4bdef411b24",
+      "changed_input_has_human_review": false,
+      "saved_track_count": 23,
+      "track_class_counts": {
+        "Car": 21,
+        "Large_vehicle": 2
+      },
+      "vision_identity_sha256": "acf21b53525d5729541aaedbf961a9c634399fa881fc7976909d48575c5e870d",
+      "saved_tracks_sha256": "7d3e650b6a8e5f4ca1d5e1197e9efaaa724e9ffb3d2d649d7266659774f239f8",
+      "saved_provenance_sha256": "9b7e9264ea021fd8cfa070d7479b43c82faa51257819c036ab5498a98373dbde"
+    },
+    {
+      "request_id": "local-dev-video_054907-00781-paraphrase",
+      "recording_id": "video_054907",
+      "frame_id": 781,
+      "text": "Could you let me out alongside the vehicle straight ahead?",
+      "original_input_kind": "predeclared_unreviewed_paraphrase",
+      "image_sha256": "c411cf6760695905334f32e5590083cf144543df1ca98e68aae55fb345eb583e",
+      "image_only_inference_input_sha256": "96c1f052fd1ce81bf23191e1ef0ce15a0e624e1e11da20ad6d59d9b7131cfbe5",
+      "changed_trackful_inference_input_sha256": "7ba7d9e2723c200d54e8e89594be2895854ca3eef962e5f7a96bdfafbf970637",
+      "changed_input_has_human_review": false,
+      "saved_track_count": 23,
+      "track_class_counts": {
+        "Car": 21,
+        "Large_vehicle": 2
+      },
+      "vision_identity_sha256": "acf21b53525d5729541aaedbf961a9c634399fa881fc7976909d48575c5e870d",
+      "saved_tracks_sha256": "7d3e650b6a8e5f4ca1d5e1197e9efaaa724e9ffb3d2d649d7266659774f239f8",
+      "saved_provenance_sha256": "9b7e9264ea021fd8cfa070d7479b43c82faa51257819c036ab5498a98373dbde"
+    },
+    {
+      "request_id": "local-dev-video_174340-00781",
+      "recording_id": "video_174340",
+      "frame_id": 781,
+      "text": "Stop beside the car directly ahead.",
+      "original_input_kind": "two_recorded_confirmations_on_image_only_input",
+      "image_sha256": "693e7f2769f9336d15d3ef3fef37594cfab297c819626d913f734077dfa7bd4a",
+      "image_only_inference_input_sha256": "7fe3e20daf22e95175a6ad20cb8dbd14cfc1e52dbd36ece09820c98545742075",
+      "changed_trackful_inference_input_sha256": "5f52b75316fb3d9653a575dcbf86bfaa9b71f8a57cb03e1c9bb81d6a256a4132",
+      "changed_input_has_human_review": false,
+      "saved_track_count": 5,
+      "track_class_counts": {
+        "Car": 5
+      },
+      "vision_identity_sha256": "acf21b53525d5729541aaedbf961a9c634399fa881fc7976909d48575c5e870d",
+      "saved_tracks_sha256": "16fc153eb316532aedc116db284fadef750349758241fad4324bf20b7811ea03",
+      "saved_provenance_sha256": "62a7bd613ed3290c710f4892743db9011da0fb7a17ee85d5cc55f127014ffd98"
+    },
+    {
+      "request_id": "local-dev-video_174340-00781-paraphrase",
+      "recording_id": "video_174340",
+      "frame_id": 781,
+      "text": "I'd like to get out next to the car in front of us, please.",
+      "original_input_kind": "predeclared_unreviewed_paraphrase",
+      "image_sha256": "693e7f2769f9336d15d3ef3fef37594cfab297c819626d913f734077dfa7bd4a",
+      "image_only_inference_input_sha256": "87a4c28d27f26c8a162c7f1690d825420a09998e26ce19a8400d7b5e4d611553",
+      "changed_trackful_inference_input_sha256": "8bc95b1e9c7c1c5091aa1395efa2c9722f29790758c28d5dc139d8be9bbe93b3",
+      "changed_input_has_human_review": false,
+      "saved_track_count": 5,
+      "track_class_counts": {
+        "Car": 5
+      },
+      "vision_identity_sha256": "acf21b53525d5729541aaedbf961a9c634399fa881fc7976909d48575c5e870d",
+      "saved_tracks_sha256": "16fc153eb316532aedc116db284fadef750349758241fad4324bf20b7811ea03",
+      "saved_provenance_sha256": "62a7bd613ed3290c710f4892743db9011da0fb7a17ee85d5cc55f127014ffd98"
+    }
+  ]
+}

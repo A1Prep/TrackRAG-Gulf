@@ -1,0 +1,678 @@
+{
+  "kind": "observed_operational_track_context_sensitivity",
+  "protocol_sha256": "9017add2c987628541d3fb11f63e8994928bece931f9a37c3279d97c1dcdc503",
+  "requests_per_adapter": 4,
+  "fresh_changed_context_model_attempts": 8,
+  "geometry_sha256": "db9575ac6b82ff9828f29440bacf2349cd2371f23c2cfb747bd7dc05ee04c7e5",
+  "referent_sha256": "d96a9a69e2e52ddbc21851d5ff6f79b344de6c8558600e54be5cb2712480a07d",
+  "changed_requests_sha256": "cc92d862a0fe739a2f4874cbcb12d7914e25e652e78069dab6db17de98010d43",
+  "status_meanings": {
+    "proposed": "The application offers a location for the passenger to confirm.",
+    "needs_clarification": "The application asks a question to resolve the reference.",
+    "insufficient_visual_evidence": "The application withholds a location without asking a distinguishing question.",
+    "operational_error": "The application did not return a valid interpretation. The attempt remains in its denominator."
+  },
+  "interpretation": "Original human confirmations apply only to the two image-only requests. The four track-bearing requests have no new human reference. The production landmark guide and allowed generation forms switch automatically when tracks are available. These pairs measure the operational effect of detector context.",
+  "human_reviews_of_changed_inputs": 0,
+  "accuracy_estimate": null,
+  "conditions": {
+    "public_parent": {
+      "weights_sha256": "76bfb3230b17a86248b52ca6a9f8d2ffca324aa80216d6b93845ccb12ad86743",
+      "previous_production_run_sha256": "3d04807ff7861ff9e83aa8d9e42aecb2b7ee24f8acbae032f1e9a930a09280a8",
+      "tracked_production_run_sha256": "d8ae140ad9cd3e5910758c333d65800caea65b888fd9bedef4af6b5f1e18ea61",
+      "previous_raw_outcomes_sha256": "b8f7ccc3b9a0d37ca17b3347a25843d45d3a74184ce139f3554cbffc1057dcf6",
+      "tracked_raw_outcomes_sha256": "5fdbf2f0e9c18097195a18bfedf161f88cc65f969ecdae5c4b60a9f805ff93ce",
+      "paired_cases": [
+        {
+          "request_id": "local-dev-video_054907-00781",
+          "prior_input_group": "two_recorded_confirmations_on_image_only_input",
+          "image_sha256": "c411cf6760695905334f32e5590083cf144543df1ca98e68aae55fb345eb583e",
+          "current_frame_track_count": 23,
+          "text": "Stop beside the car directly ahead.",
+          "before": {
+            "operational_ok": true,
+            "raw_outcome_line_sha256": "2ba72fefad42cd44efbf274eb101f33e77a074da17752acb5b7749d35eeb6477",
+            "status": "insufficient_visual_evidence",
+            "four_field_result": {
+              "clarification_question": null,
+              "destination_box_xyxy": null,
+              "destination_point_xy": null,
+              "status": "insufficient_visual_evidence"
+            },
+            "resolver_decision": {
+              "kind": "missing"
+            },
+            "resolver_raw_text": "MISSING",
+            "resolver_raw_text_sha256": "8af1d328d75e91cf5fff2deab39607be475491d16c45e89a2721eb14bb9a701e",
+            "resolver_messages_sha256": "113137dbb11c1c078d32bd4b802893c21d6f42f0052d59e95ed23e5a1bf44832",
+            "resolver_generation_contract": "landmark_without_candidates_v1",
+            "referent_clarification": null,
+            "constraint": null
+          },
+          "after": {
+            "operational_ok": true,
+            "raw_outcome_line_sha256": "49397cb0e3d0a8802b1eefe16011b4209c77529faa1d9696d4cb6f896afd64cf",
+            "status": "needs_clarification",
+            "four_field_result": {
+              "clarification_question": "Which car do you mean? Is it toward the left of the picture, near the middle, or somewhere else?",
+              "destination_box_xyxy": null,
+              "destination_point_xy": null,
+              "status": "needs_clarification"
+            },
+            "resolver_decision": {
+              "boxes": [
+                [
+                  1451.215087890625,
+                  1044.64453125,
+                  1627.0533447265625,
+                  1174.2886962890625
+                ]
+              ],
+              "kind": "landmark",
+              "track_ids": [
+                59438
+              ]
+            },
+            "resolver_raw_text": "LANDMARK L18",
+            "resolver_raw_text_sha256": "cf2f7828f0131967bdc389feebdf28ed4e3092b06d9b2049af6b26fa785b973c",
+            "resolver_messages_sha256": "5300cae413f275a223b7e7c1da1e652ded54b9dfa56c2f08d4f7079138d22774",
+            "resolver_generation_contract": "landmark_v1",
+            "referent_clarification": {
+              "candidate_count": 12,
+              "category": "car",
+              "descriptions": [],
+              "policy": "visible-single-vehicle-clarification-v2",
+              "question": "Which car do you mean? Is it toward the left of the picture, near the middle, or somewhere else?",
+              "ranked_plausible_track_ids": [
+                65692,
+                59438,
+                56320,
+                63740,
+                61108,
+                59268,
+                38877,
+                65608,
+                61279,
+                64840,
+                63269,
+                66865
+              ],
+              "reason": "multiple_current_objects_fit_single_reference",
+              "requested_category": "car",
+              "track_ids": [
+                65692,
+                59438
+              ]
+            },
+            "constraint": null
+          }
+        },
+        {
+          "request_id": "local-dev-video_054907-00781-paraphrase",
+          "prior_input_group": "predeclared_unreviewed_paraphrase",
+          "image_sha256": "c411cf6760695905334f32e5590083cf144543df1ca98e68aae55fb345eb583e",
+          "current_frame_track_count": 23,
+          "text": "Could you let me out alongside the vehicle straight ahead?",
+          "before": {
+            "operational_ok": true,
+            "raw_outcome_line_sha256": "4a39c588c939ef2e7ed28b8128b31dc54e9b9a96c3a409aff2a8511ae2a3994d",
+            "status": "needs_clarification",
+            "four_field_result": {
+              "clarification_question": "which vehicle is straight ahead?",
+              "destination_box_xyxy": null,
+              "destination_point_xy": null,
+              "status": "needs_clarification"
+            },
+            "resolver_decision": {
+              "kind": "ask",
+              "question": "which vehicle is straight ahead?"
+            },
+            "resolver_raw_text": "ASK which vehicle is straight ahead?",
+            "resolver_raw_text_sha256": "03dcc021c6ceb6cc3c6af0aef9d60ce95079f329196e71b88ea5f9dfe2068a77",
+            "resolver_messages_sha256": "f5c842c15ef6a453fc12075526b88c93b4414d02be3cc27e7ac0c81ab45ad52d",
+            "resolver_generation_contract": "landmark_without_candidates_v1",
+            "referent_clarification": null,
+            "constraint": null
+          },
+          "after": {
+            "operational_ok": true,
+            "raw_outcome_line_sha256": "db8565f8ccbe8055a280383004e10414c750ba042044a6a9f753cb5c004b3aec",
+            "status": "proposed",
+            "four_field_result": {
+              "anchor_boxes_xyxy": [
+                [
+                  2059.6513671875,
+                  810.5264892578125,
+                  2560.0,
+                  1113.3870849609375
+                ]
+              ],
+              "clarification_question": null,
+              "destination_box_xyxy": [
+                1786.837469997946,
+                959.0339466546902,
+                2535.2737759100055,
+                1177.2382553944954
+              ],
+              "destination_point_xy": [
+                1832.5,
+                1127.5
+              ],
+              "status": "proposed"
+            },
+            "resolver_decision": {
+              "boxes": [
+                [
+                  2059.6513671875,
+                  810.5264892578125,
+                  2560.0,
+                  1113.3870849609375
+                ]
+              ],
+              "kind": "landmark",
+              "track_ids": [
+                66286
+              ]
+            },
+            "resolver_raw_text": "LANDMARK L23",
+            "resolver_raw_text_sha256": "b06c53965ad5b20bb266fb6bcc97b1dadea9b90802c1fdf277f4a12d4b657176",
+            "resolver_messages_sha256": "61d05db9097747489d292d320de3d998afb9c5d95fe99605993c7759fbb7205c",
+            "resolver_generation_contract": "landmark_v1",
+            "referent_clarification": null,
+            "constraint": null
+          }
+        },
+        {
+          "request_id": "local-dev-video_174340-00781",
+          "prior_input_group": "two_recorded_confirmations_on_image_only_input",
+          "image_sha256": "693e7f2769f9336d15d3ef3fef37594cfab297c819626d913f734077dfa7bd4a",
+          "current_frame_track_count": 5,
+          "text": "Stop beside the car directly ahead.",
+          "before": {
+            "operational_ok": true,
+            "raw_outcome_line_sha256": "036658eaa344554709d18c2fc8bb5ebe0012f95d5e300cb53405e463b908aada",
+            "status": "insufficient_visual_evidence",
+            "four_field_result": {
+              "clarification_question": null,
+              "destination_box_xyxy": null,
+              "destination_point_xy": null,
+              "status": "insufficient_visual_evidence"
+            },
+            "resolver_decision": {
+              "kind": "missing"
+            },
+            "resolver_raw_text": "MISSING",
+            "resolver_raw_text_sha256": "8af1d328d75e91cf5fff2deab39607be475491d16c45e89a2721eb14bb9a701e",
+            "resolver_messages_sha256": "d62de85ad074d91f965376b983b8b8aa0922b9ce7bd97235646bc51b16189b7e",
+            "resolver_generation_contract": "landmark_without_candidates_v1",
+            "referent_clarification": null,
+            "constraint": null
+          },
+          "after": {
+            "operational_ok": true,
+            "raw_outcome_line_sha256": "d16076df64fc4e9fa149cf41c0d5f272499b1db15e44a92818bf0fea42f5e1f7",
+            "status": "needs_clarification",
+            "four_field_result": {
+              "clarification_question": "Which car do you mean? Is it toward the left of the picture, near the middle, or somewhere else?",
+              "destination_box_xyxy": null,
+              "destination_point_xy": null,
+              "status": "needs_clarification"
+            },
+            "resolver_decision": {
+              "boxes": [
+                [
+                  1108.3558349609375,
+                  742.2108154296875,
+                  1212.782958984375,
+                  825.4854736328125
+                ]
+              ],
+              "kind": "landmark",
+              "track_ids": [
+                2013
+              ]
+            },
+            "resolver_raw_text": "LANDMARK L3",
+            "resolver_raw_text_sha256": "6ca7c86d9bc0bae80b13bfbbfbe1b9be28a8ef39a74069d317f3a0f04a31a533",
+            "resolver_messages_sha256": "a544a2e95e983c7064535aa7a6011f4ee8bfd27a4d6dfc3f69494c12d0eae077",
+            "resolver_generation_contract": "landmark_v1",
+            "referent_clarification": {
+              "candidate_count": 5,
+              "category": "car",
+              "descriptions": [],
+              "policy": "visible-single-vehicle-clarification-v2",
+              "question": "Which car do you mean? Is it toward the left of the picture, near the middle, or somewhere else?",
+              "ranked_plausible_track_ids": [
+                2013,
+                13042,
+                11015,
+                18072,
+                17467
+              ],
+              "reason": "multiple_current_objects_fit_single_reference",
+              "requested_category": "car",
+              "track_ids": [
+                13042,
+                2013
+              ]
+            },
+            "constraint": null
+          }
+        },
+        {
+          "request_id": "local-dev-video_174340-00781-paraphrase",
+          "prior_input_group": "predeclared_unreviewed_paraphrase",
+          "image_sha256": "693e7f2769f9336d15d3ef3fef37594cfab297c819626d913f734077dfa7bd4a",
+          "current_frame_track_count": 5,
+          "text": "I'd like to get out next to the car in front of us, please.",
+          "before": {
+            "operational_ok": true,
+            "raw_outcome_line_sha256": "eefba4b0a87491a66a4694ac60ac57afece0834170ee00120da63280d2997460",
+            "status": "needs_clarification",
+            "four_field_result": {
+              "clarification_question": "which car in front would you like to get out next to?",
+              "destination_box_xyxy": null,
+              "destination_point_xy": null,
+              "status": "needs_clarification"
+            },
+            "resolver_decision": {
+              "kind": "ask",
+              "question": "which car in front would you like to get out next to?"
+            },
+            "resolver_raw_text": "ASK which car in front would you like to get out next to?",
+            "resolver_raw_text_sha256": "42d207391d04a7dc6f43197876b39f8e27bbf26bb7b60346cfe46aec5786c24e",
+            "resolver_messages_sha256": "146a124a5f69b47c2025b79c4edf4e9f7951ed0d3e1d849ccdab802ca98b1e28",
+            "resolver_generation_contract": "landmark_without_candidates_v1",
+            "referent_clarification": null,
+            "constraint": null
+          },
+          "after": {
+            "operational_ok": true,
+            "raw_outcome_line_sha256": "99737aa6035b311fabf907b4c9688817549e963b2d04cbd3332801f63b112570",
+            "status": "proposed",
+            "four_field_result": {
+              "anchor_boxes_xyxy": [
+                [
+                  1108.3558349609375,
+                  742.2108154296875,
+                  1212.782958984375,
+                  825.4854736328125
+                ]
+              ],
+              "clarification_question": null,
+              "destination_box_xyxy": [
+                1046.0544850227238,
+                774.4194820019111,
+                1305.7088237745875,
+                917.7818412365436
+              ],
+              "destination_point_xy": [
+                1177.5,
+                847.5
+              ],
+              "status": "proposed"
+            },
+            "resolver_decision": {
+              "boxes": [
+                [
+                  1108.3558349609375,
+                  742.2108154296875,
+                  1212.782958984375,
+                  825.4854736328125
+                ]
+              ],
+              "kind": "landmark",
+              "track_ids": [
+                2013
+              ]
+            },
+            "resolver_raw_text": "LANDMARK L3",
+            "resolver_raw_text_sha256": "6ca7c86d9bc0bae80b13bfbbfbe1b9be28a8ef39a74069d317f3a0f04a31a533",
+            "resolver_messages_sha256": "28c67aba5ae32e95a9c031961e3ca681ceea5819c5ec41da9417733c4ca8725b",
+            "resolver_generation_contract": "landmark_v1",
+            "referent_clarification": null,
+            "constraint": null
+          }
+        }
+      ],
+      "transitions_by_original_input_group": {
+        "two_recorded_confirmations_on_image_only_input": {
+          "insufficient_visual_evidence -> needs_clarification": 2
+        },
+        "predeclared_unreviewed_paraphrase": {
+          "needs_clarification -> proposed": 2
+        }
+      },
+      "changed_status_count": 4
+    },
+    "human_child": {
+      "weights_sha256": "6c3d54a6baadf5a269f8cdb81ed565469aa0d75bc006698c8d355f79b3e774ca",
+      "previous_production_run_sha256": "41caad4caca0944b50ddf0d78108f549d12e47c5416deb4b927f4c961ca6c33a",
+      "tracked_production_run_sha256": "a831f3e13e25377616c803019bac0f32b59603d40d4643c6d160bea5dbc7feca",
+      "previous_raw_outcomes_sha256": "274307c7347897a640e6d2f46e3224b72afddf59cfa50c83f76a43d8309e38f9",
+      "tracked_raw_outcomes_sha256": "68da97bba71339b39a44957da5ab95fd251f4337e88238174b39aa27af54a1ca",
+      "paired_cases": [
+        {
+          "request_id": "local-dev-video_054907-00781",
+          "prior_input_group": "two_recorded_confirmations_on_image_only_input",
+          "image_sha256": "c411cf6760695905334f32e5590083cf144543df1ca98e68aae55fb345eb583e",
+          "current_frame_track_count": 23,
+          "text": "Stop beside the car directly ahead.",
+          "before": {
+            "operational_ok": true,
+            "raw_outcome_line_sha256": "4f6562f942a057a056cde619c2572751891193f2400a899d99d839c034f84c82",
+            "status": "insufficient_visual_evidence",
+            "four_field_result": {
+              "clarification_question": null,
+              "destination_box_xyxy": null,
+              "destination_point_xy": null,
+              "status": "insufficient_visual_evidence"
+            },
+            "resolver_decision": {
+              "kind": "missing"
+            },
+            "resolver_raw_text": "MISSING",
+            "resolver_raw_text_sha256": "8af1d328d75e91cf5fff2deab39607be475491d16c45e89a2721eb14bb9a701e",
+            "resolver_messages_sha256": "113137dbb11c1c078d32bd4b802893c21d6f42f0052d59e95ed23e5a1bf44832",
+            "resolver_generation_contract": "landmark_without_candidates_v1",
+            "referent_clarification": null,
+            "constraint": null
+          },
+          "after": {
+            "operational_ok": true,
+            "raw_outcome_line_sha256": "f56955739570de408f094d4496c400138458c17b217d1684b465438d39d25988",
+            "status": "needs_clarification",
+            "four_field_result": {
+              "clarification_question": "Which car do you mean? Is it toward the left of the picture, near the middle, or somewhere else?",
+              "destination_box_xyxy": null,
+              "destination_point_xy": null,
+              "status": "needs_clarification"
+            },
+            "resolver_decision": {
+              "boxes": [
+                [
+                  1451.215087890625,
+                  1044.64453125,
+                  1627.0533447265625,
+                  1174.2886962890625
+                ]
+              ],
+              "kind": "landmark",
+              "track_ids": [
+                59438
+              ]
+            },
+            "resolver_raw_text": "LANDMARK L18",
+            "resolver_raw_text_sha256": "cf2f7828f0131967bdc389feebdf28ed4e3092b06d9b2049af6b26fa785b973c",
+            "resolver_messages_sha256": "5300cae413f275a223b7e7c1da1e652ded54b9dfa56c2f08d4f7079138d22774",
+            "resolver_generation_contract": "landmark_v1",
+            "referent_clarification": {
+              "candidate_count": 12,
+              "category": "car",
+              "descriptions": [],
+              "policy": "visible-single-vehicle-clarification-v2",
+              "question": "Which car do you mean? Is it toward the left of the picture, near the middle, or somewhere else?",
+              "ranked_plausible_track_ids": [
+                65692,
+                59438,
+                56320,
+                63740,
+                61108,
+                59268,
+                38877,
+                65608,
+                61279,
+                64840,
+                63269,
+                66865
+              ],
+              "reason": "multiple_current_objects_fit_single_reference",
+              "requested_category": "car",
+              "track_ids": [
+                65692,
+                59438
+              ]
+            },
+            "constraint": null
+          }
+        },
+        {
+          "request_id": "local-dev-video_054907-00781-paraphrase",
+          "prior_input_group": "predeclared_unreviewed_paraphrase",
+          "image_sha256": "c411cf6760695905334f32e5590083cf144543df1ca98e68aae55fb345eb583e",
+          "current_frame_track_count": 23,
+          "text": "Could you let me out alongside the vehicle straight ahead?",
+          "before": {
+            "operational_ok": true,
+            "raw_outcome_line_sha256": "7846ee350953d0a0d14f03d67894a9281d2d1e497dc70cec29b8d809262711f3",
+            "status": "needs_clarification",
+            "four_field_result": {
+              "clarification_question": "which vehicle is straight ahead?",
+              "destination_box_xyxy": null,
+              "destination_point_xy": null,
+              "status": "needs_clarification"
+            },
+            "resolver_decision": {
+              "kind": "ask",
+              "question": "which vehicle is straight ahead?"
+            },
+            "resolver_raw_text": "ASK which vehicle is straight ahead?",
+            "resolver_raw_text_sha256": "03dcc021c6ceb6cc3c6af0aef9d60ce95079f329196e71b88ea5f9dfe2068a77",
+            "resolver_messages_sha256": "f5c842c15ef6a453fc12075526b88c93b4414d02be3cc27e7ac0c81ab45ad52d",
+            "resolver_generation_contract": "landmark_without_candidates_v1",
+            "referent_clarification": null,
+            "constraint": null
+          },
+          "after": {
+            "operational_ok": true,
+            "raw_outcome_line_sha256": "056e69088d34089b1fe182fe7ebbab7343cb4a331448395059f2543ca838e54f",
+            "status": "proposed",
+            "four_field_result": {
+              "anchor_boxes_xyxy": [
+                [
+                  2059.6513671875,
+                  810.5264892578125,
+                  2560.0,
+                  1113.3870849609375
+                ]
+              ],
+              "clarification_question": null,
+              "destination_box_xyxy": [
+                1786.837469997946,
+                959.0339466546902,
+                2535.2737759100055,
+                1177.2382553944954
+              ],
+              "destination_point_xy": [
+                1832.5,
+                1127.5
+              ],
+              "status": "proposed"
+            },
+            "resolver_decision": {
+              "boxes": [
+                [
+                  2059.6513671875,
+                  810.5264892578125,
+                  2560.0,
+                  1113.3870849609375
+                ]
+              ],
+              "kind": "landmark",
+              "track_ids": [
+                66286
+              ]
+            },
+            "resolver_raw_text": "LANDMARK L23",
+            "resolver_raw_text_sha256": "b06c53965ad5b20bb266fb6bcc97b1dadea9b90802c1fdf277f4a12d4b657176",
+            "resolver_messages_sha256": "61d05db9097747489d292d320de3d998afb9c5d95fe99605993c7759fbb7205c",
+            "resolver_generation_contract": "landmark_v1",
+            "referent_clarification": null,
+            "constraint": null
+          }
+        },
+        {
+          "request_id": "local-dev-video_174340-00781",
+          "prior_input_group": "two_recorded_confirmations_on_image_only_input",
+          "image_sha256": "693e7f2769f9336d15d3ef3fef37594cfab297c819626d913f734077dfa7bd4a",
+          "current_frame_track_count": 5,
+          "text": "Stop beside the car directly ahead.",
+          "before": {
+            "operational_ok": true,
+            "raw_outcome_line_sha256": "cc76cc8516b9e47681201e2cc53cd90e6b95105922ef63f1df8302b1091c86f1",
+            "status": "insufficient_visual_evidence",
+            "four_field_result": {
+              "clarification_question": null,
+              "destination_box_xyxy": null,
+              "destination_point_xy": null,
+              "status": "insufficient_visual_evidence"
+            },
+            "resolver_decision": {
+              "kind": "missing"
+            },
+            "resolver_raw_text": "MISSING",
+            "resolver_raw_text_sha256": "8af1d328d75e91cf5fff2deab39607be475491d16c45e89a2721eb14bb9a701e",
+            "resolver_messages_sha256": "d62de85ad074d91f965376b983b8b8aa0922b9ce7bd97235646bc51b16189b7e",
+            "resolver_generation_contract": "landmark_without_candidates_v1",
+            "referent_clarification": null,
+            "constraint": null
+          },
+          "after": {
+            "operational_ok": true,
+            "raw_outcome_line_sha256": "31e7aca9ae2dba14d3d3899dd0622435b7bc63d30d904ac94039596b7f6b0f66",
+            "status": "needs_clarification",
+            "four_field_result": {
+              "clarification_question": "Which car do you mean? Is it toward the left of the picture, near the middle, or somewhere else?",
+              "destination_box_xyxy": null,
+              "destination_point_xy": null,
+              "status": "needs_clarification"
+            },
+            "resolver_decision": {
+              "boxes": [
+                [
+                  1108.3558349609375,
+                  742.2108154296875,
+                  1212.782958984375,
+                  825.4854736328125
+                ]
+              ],
+              "kind": "landmark",
+              "track_ids": [
+                2013
+              ]
+            },
+            "resolver_raw_text": "LANDMARK L3",
+            "resolver_raw_text_sha256": "6ca7c86d9bc0bae80b13bfbbfbe1b9be28a8ef39a74069d317f3a0f04a31a533",
+            "resolver_messages_sha256": "a544a2e95e983c7064535aa7a6011f4ee8bfd27a4d6dfc3f69494c12d0eae077",
+            "resolver_generation_contract": "landmark_v1",
+            "referent_clarification": {
+              "candidate_count": 5,
+              "category": "car",
+              "descriptions": [],
+              "policy": "visible-single-vehicle-clarification-v2",
+              "question": "Which car do you mean? Is it toward the left of the picture, near the middle, or somewhere else?",
+              "ranked_plausible_track_ids": [
+                2013,
+                13042,
+                11015,
+                18072,
+                17467
+              ],
+              "reason": "multiple_current_objects_fit_single_reference",
+              "requested_category": "car",
+              "track_ids": [
+                13042,
+                2013
+              ]
+            },
+            "constraint": null
+          }
+        },
+        {
+          "request_id": "local-dev-video_174340-00781-paraphrase",
+          "prior_input_group": "predeclared_unreviewed_paraphrase",
+          "image_sha256": "693e7f2769f9336d15d3ef3fef37594cfab297c819626d913f734077dfa7bd4a",
+          "current_frame_track_count": 5,
+          "text": "I'd like to get out next to the car in front of us, please.",
+          "before": {
+            "operational_ok": true,
+            "raw_outcome_line_sha256": "f569c925a3f504847d715db42b51f7836ea05feee9c26b1f0d874958f976bfee",
+            "status": "needs_clarification",
+            "four_field_result": {
+              "clarification_question": "which car in front would you like to get out next to?",
+              "destination_box_xyxy": null,
+              "destination_point_xy": null,
+              "status": "needs_clarification"
+            },
+            "resolver_decision": {
+              "kind": "ask",
+              "question": "which car in front would you like to get out next to?"
+            },
+            "resolver_raw_text": "ASK which car in front would you like to get out next to?",
+            "resolver_raw_text_sha256": "42d207391d04a7dc6f43197876b39f8e27bbf26bb7b60346cfe46aec5786c24e",
+            "resolver_messages_sha256": "146a124a5f69b47c2025b79c4edf4e9f7951ed0d3e1d849ccdab802ca98b1e28",
+            "resolver_generation_contract": "landmark_without_candidates_v1",
+            "referent_clarification": null,
+            "constraint": null
+          },
+          "after": {
+            "operational_ok": true,
+            "raw_outcome_line_sha256": "ce94e93a43e3d0ed7d9266c2d854860b4b6f9bbaba0f6a1f5665e1bdf6a97143",
+            "status": "proposed",
+            "four_field_result": {
+              "anchor_boxes_xyxy": [
+                [
+                  1108.3558349609375,
+                  742.2108154296875,
+                  1212.782958984375,
+                  825.4854736328125
+                ]
+              ],
+              "clarification_question": null,
+              "destination_box_xyxy": [
+                1046.0544850227238,
+                774.4194820019111,
+                1305.7088237745875,
+                917.7818412365436
+              ],
+              "destination_point_xy": [
+                1177.5,
+                847.5
+              ],
+              "status": "proposed"
+            },
+            "resolver_decision": {
+              "boxes": [
+                [
+                  1108.3558349609375,
+                  742.2108154296875,
+                  1212.782958984375,
+                  825.4854736328125
+                ]
+              ],
+              "kind": "landmark",
+              "track_ids": [
+                2013
+              ]
+            },
+            "resolver_raw_text": "LANDMARK L3",
+            "resolver_raw_text_sha256": "6ca7c86d9bc0bae80b13bfbbfbe1b9be28a8ef39a74069d317f3a0f04a31a533",
+            "resolver_messages_sha256": "28c67aba5ae32e95a9c031961e3ca681ceea5819c5ec41da9417733c4ca8725b",
+            "resolver_generation_contract": "landmark_v1",
+            "referent_clarification": null,
+            "constraint": null
+          }
+        }
+      ],
+      "transitions_by_original_input_group": {
+        "two_recorded_confirmations_on_image_only_input": {
+          "insufficient_visual_evidence -> needs_clarification": 2
+        },
+        "predeclared_unreviewed_paraphrase": {
+          "needs_clarification -> proposed": 2
+        }
+      },
+      "changed_status_count": 4
+    }
+  }
+}

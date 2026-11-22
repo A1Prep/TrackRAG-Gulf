@@ -1,0 +1,182 @@
+{
+  "kind": "original_passenger_example_real_local_Qwen",
+  "protocol_sha256": "bbdd0b98496ef72062a286ecc100ef3ffc7eb06c1ab595ead840b4a766b7aa0c",
+  "released_adapter_sha256": "76bfb3230b17a86248b52ca6a9f8d2ffca324aa80216d6b93845ccb12ad86743",
+  "human_reference_authors": 0,
+  "formal_final_cases": 0,
+  "passenger_submissions": 3,
+  "completed_8B_calls_with_raw_receipts": 5,
+  "failed_pair_subqueries_with_receipts": 0,
+  "scoring_scope": "Two nonfinal photos with an AI-authored intent. A passenger never confirmed any point in this diagnostic.",
+  "records": [
+    {
+      "case_id": "car-pair-without-pointing",
+      "scene_index": 0,
+      "recorded_action": "submitted",
+      "source_image_sha256": "c411cf6760695905334f32e5590083cf144543df1ca98e68aae55fb345eb583e",
+      "original_full_journal_event_sha256": "ffb45389310261c355081e5177014798f8f90d2f7f533d0c71066e22c46f3c33",
+      "request_sha256": "62d7177a40c8a077ce73f4fec86891d05d3937f08b7ded64201fbd96a039f38d",
+      "active_previous_turns": 0,
+      "elapsed_s": 35.328000000008615,
+      "ok": true,
+      "displayed_state": "needs_clarification",
+      "completed_8B_receipts": 1,
+      "failed_pair_subqueries_recorded": 0,
+      "literal_pair_subqueries": [],
+      "error": null,
+      "result": {
+        "status": "needs_clarification",
+        "destination_point_xy": null,
+        "destination_box_xyxy": null,
+        "clarification_question": "I can identify the landmark, but I can't place a road area beside it. Can you mark the intended patch?"
+      },
+      "raw_first_decision": "L1 L2",
+      "constraint": null,
+      "selected_track_ids": [
+        66865,
+        65692
+      ],
+      "pair_resolution": null,
+      "selection_source": "model",
+      "proposal_sent_for_confirmation": false,
+      "confirmed": false,
+      "scoring": {
+        "both_boxes_minimum_iou": 0.0,
+        "point_in_registered_region": false,
+        "pair_specific_question_text_present": false,
+        "spatial_credit": false,
+        "expected_behavior": false
+      }
+    },
+    {
+      "case_id": "two-sedans-by-left-median",
+      "scene_index": 0,
+      "recorded_action": "submitted",
+      "source_image_sha256": "c411cf6760695905334f32e5590083cf144543df1ca98e68aae55fb345eb583e",
+      "original_full_journal_event_sha256": "f1344ac5d93ae6d359faa48bf4eb2671f930b49f5fdb211f405314cc3d77f9bb",
+      "request_sha256": "2b6ff4a942df322661e837e5c104753f15bfa59d5a114394b58218d14ae130ed",
+      "active_previous_turns": 2,
+      "elapsed_s": 39.98399999999674,
+      "ok": true,
+      "displayed_state": "proposed",
+      "completed_8B_receipts": 3,
+      "failed_pair_subqueries_recorded": 0,
+      "literal_pair_subqueries": [
+        {
+          "quote": "the black sedan next to the concrete median on our left",
+          "raw": "LANDMARK L1",
+          "error": null
+        },
+        {
+          "quote": "the black sedan immediately to its right",
+          "raw": "LANDMARK L18",
+          "error": null
+        }
+      ],
+      "error": null,
+      "result": {
+        "status": "proposed",
+        "destination_point_xy": [
+          927.5,
+          1112.5
+        ],
+        "destination_box_xyxy": [
+          338.9819540793638,
+          1044.169515066354,
+          1076.5261314070074,
+          1141.0979714851742
+        ],
+        "clarification_question": null,
+        "anchor_boxes_xyxy": [
+          [
+            202.859375,
+            953.1180419921875,
+            281.6097717285156,
+            978.5709838867188
+          ],
+          [
+            1451.215087890625,
+            1044.64453125,
+            1627.0533447265625,
+            1174.2886962890625
+          ]
+        ]
+      },
+      "raw_first_decision": "LANDMARK L1 L2",
+      "constraint": null,
+      "selected_track_ids": [
+        66865,
+        59438
+      ],
+      "pair_resolution": {
+        "kind": "landmark",
+        "boxes": [
+          [
+            202.859375,
+            953.1180419921875,
+            281.6097717285156,
+            978.5709838867188
+          ],
+          [
+            1451.215087890625,
+            1044.64453125,
+            1627.0533447265625,
+            1174.2886962890625
+          ]
+        ],
+        "track_ids": [
+          66865,
+          59438
+        ],
+        "anchor_track_ids": [
+          66865,
+          59438
+        ]
+      },
+      "selection_source": "model",
+      "proposal_sent_for_confirmation": true,
+      "confirmed": false,
+      "scoring": {
+        "both_boxes_minimum_iou": 0.0,
+        "point_in_registered_region": false,
+        "pair_specific_question_text_present": false,
+        "spatial_credit": false,
+        "expected_behavior": false
+      }
+    },
+    {
+      "case_id": "same-words-no-identifiable-pair",
+      "scene_index": 1,
+      "recorded_action": "submitted",
+      "source_image_sha256": "f32976e9f019f3009c04608a4dd7b3446ffd46d7bc28a04c7d05fab5994b9e94",
+      "original_full_journal_event_sha256": "c9053965a2868e66df4704161926c56689af13b175ae1573b3be9e73eb19d1a2",
+      "request_sha256": "20419d5d753c0e840208762835598502f1a25c78275a7d90f96b1e78ce50ecd0",
+      "active_previous_turns": 0,
+      "elapsed_s": 17.187999999994645,
+      "ok": false,
+      "displayed_state": "error",
+      "completed_8B_receipts": 1,
+      "failed_pair_subqueries_recorded": 0,
+      "literal_pair_subqueries": [],
+      "error": {
+        "code": "invalid_model_output",
+        "message": "Landmarks must refer to one or two distinct current detector IDs"
+      },
+      "result": {},
+      "raw_first_decision": "LANDMARK L1 LANDMARK L2",
+      "constraint": null,
+      "selected_track_ids": null,
+      "pair_resolution": null,
+      "selection_source": null,
+      "proposal_sent_for_confirmation": false,
+      "confirmed": false,
+      "scoring": {
+        "both_boxes_minimum_iou": null,
+        "point_in_registered_region": null,
+        "pair_specific_question_text_present": false,
+        "spatial_credit": false,
+        "expected_behavior": false
+      }
+    }
+  ]
+}

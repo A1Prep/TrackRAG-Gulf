@@ -1,0 +1,264 @@
+{
+  "kind": "preimplementation_independent_cpu_language_contrast",
+  "frozen_utc": "2026-11-22T05:24:10.620498+00:00",
+  "authorship": "AI-authored provisional language-policy expectations. No human ratings, participant intentions, or final records. The author inspected actual detection cardinalities only before freezing and had not inspected the proposed implementation.",
+  "test_scope": "The tested unit is the production referent ranker plus its ask-only clarification guard. Ask means the guard supplies a real distinguishing question referring to at least two existing detector IDs. Defer means the visual grounding model remains responsible; it does not assert an actual destination or endorsed proposal.",
+  "procedure": "For every row rank the pinned original Task 1 detections against the original photograph and utterance through the deployed learned CPU ReferentRanker. Reuse that identical ranking with archived original guard and frozen changed guard. Retain all errors. Compare macro counts by group, whole-bank questions, and original-geometry cardinality control independently.",
+  "question_checks": "Every ASK must contain a question mark and cite at least two different real current track IDs. For the two-bus vs one-bus control verify both IDs vs no clarifying question. Defer on an external object, visual attribute or ordinal prevents this guard from overwriting the visual model.",
+  "selection": "Merit a separate integration trial if new generic ego-language matches improve over original, with zero new false questions across explicit landmark/ordinal controls and correct differentiation on the same wording with one vs two real buses. Never report these AI expectations as human labels.",
+  "old_policy_sha256": "4c5cd8be4f8e3b22e11deaf98bf40a38a6544745f11bb27e33a85eaeff3340d1",
+  "old_policy_reachable_git_ref": "e232df7:trackrag/dropoff/referent_policy.py",
+  "ranker_artifact_sha256": "d96a9a69e2e52ddbc21851d5ff6f79b344de6c8558600e54be5cb2712480a07d",
+  "source_ranker_module_sha256": "589f3aa02bafb13a6a73a89a55a5c174c04176bb1114c046147d09bd236b2d75",
+  "real_nonfinal_scenes": {
+    "day": {
+      "recording_id": "video_054907",
+      "frame_id": 781,
+      "image_sha256": "c411cf6760695905334f32e5590083cf144543df1ca98e68aae55fb345eb583e",
+      "relative_image_path": "runs/passenger-task2-reviewed-20261122/data/images/development/video_054907/00781.jpg",
+      "size": [
+        2560,
+        1440
+      ],
+      "original_current_observations": 23,
+      "source_trackfile_sha256": "7d3e650b6a8e5f4ca1d5e1197e9efaaa724e9ffb3d2d649d7266659774f239f8",
+      "source_provenance_sha256": "9b7e9264ea021fd8cfa070d7479b43c82faa51257819c036ab5498a98373dbde",
+      "tracks_sha256": "5b9fdbc0b92c56e9fe6519ad88c15ad312151cc6a8af3eb3cf538479291a17db",
+      "current_class_counts": {
+        "Car": 21,
+        "Large_vehicle": 2
+      }
+    },
+    "night": {
+      "recording_id": "video_174340",
+      "frame_id": 781,
+      "image_sha256": "693e7f2769f9336d15d3ef3fef37594cfab297c819626d913f734077dfa7bd4a",
+      "relative_image_path": "runs/passenger-task2-reviewed-20261122/data/images/development/video_174340/00781.jpg",
+      "size": [
+        2560,
+        1440
+      ],
+      "original_current_observations": 5,
+      "source_trackfile_sha256": "16fc153eb316532aedc116db284fadef750349758241fad4324bf20b7811ea03",
+      "source_provenance_sha256": "62a7bd613ed3290c710f4892743db9011da0fb7a17ee85d5cc55f127014ffd98",
+      "tracks_sha256": "2d4575251ae19920e4ae98b0ab1d5688934a0a0a3a2a00bfb013a565ff5e3b05",
+      "current_class_counts": {
+        "Car": 5
+      }
+    },
+    "single_bus": {
+      "recording_id": "video_054604",
+      "frame_id": 1,
+      "image_sha256": "8554bd37dc647488f6a496b2845f22a7a6bf21b2478d732b1340d99175a7e518",
+      "relative_image_path": "data/emt-official/images/train/images/video_054604/00001.jpg",
+      "size": [
+        2560,
+        1440
+      ],
+      "original_current_observations": 23,
+      "source_trackfile_sha256": "ba02a60e44314a6f3e3ecf59db7aed4750eb4c040e23ceea3bfafc4b3e9db139",
+      "source_provenance_sha256": "c0f4dc049029f94e54f99f714b903701cb87fe87f203bde03618e1f26fffa796",
+      "tracks_sha256": "b5e2b74ac3a27c64a1e53efafe6661c581a5813034021a23b757e40b7cf35820",
+      "current_class_counts": {
+        "Car": 22,
+        "Bus": 1
+      },
+      "observed_bus_ids": [
+        6
+      ]
+    },
+    "two_buses": {
+      "recording_id": "video_054604",
+      "frame_id": 115,
+      "image_sha256": "89b132a4659cc1efa913e5d36d733aec05a0cbcbb67d8c7a49f0225df2db27e8",
+      "relative_image_path": "data/emt-official/images/train/images/video_054604/00115.jpg",
+      "size": [
+        2560,
+        1440
+      ],
+      "original_current_observations": 7,
+      "source_trackfile_sha256": "ba02a60e44314a6f3e3ecf59db7aed4750eb4c040e23ceea3bfafc4b3e9db139",
+      "source_provenance_sha256": "c0f4dc049029f94e54f99f714b903701cb87fe87f203bde03618e1f26fffa796",
+      "tracks_sha256": "44864c7e1aac8e7e911d0d1b1132113285ba19a97fe8c9d7225f8ce3000eb06d",
+      "current_class_counts": {
+        "Car": 4,
+        "Large_vehicle": 1,
+        "Bus": 2
+      },
+      "observed_bus_ids": [
+        2323,
+        2418
+      ]
+    }
+  },
+  "cases": [
+    {
+      "id": "ego-01",
+      "scene": "day",
+      "utterance": "Could you leave me alongside the car straight in front of us?",
+      "expected_guard_action": "ask",
+      "group": "ego_uncertainty"
+    },
+    {
+      "id": "ego-02",
+      "scene": "night",
+      "utterance": "Let me out next to the vehicle just up ahead of us.",
+      "expected_guard_action": "ask",
+      "group": "ego_uncertainty"
+    },
+    {
+      "id": "ego-03",
+      "scene": "day",
+      "utterance": "I want to get out by that car up ahead, please.",
+      "expected_guard_action": "ask",
+      "group": "ego_uncertainty"
+    },
+    {
+      "id": "ego-04",
+      "scene": "night",
+      "utterance": "Can you stop next to the car directly in front of me?",
+      "expected_guard_action": "ask",
+      "group": "ego_uncertainty"
+    },
+    {
+      "id": "ego-05",
+      "scene": "day",
+      "utterance": "Could we pull up next to the vehicle straight ahead of our taxi?",
+      "expected_guard_action": "ask",
+      "group": "ego_uncertainty"
+    },
+    {
+      "id": "ego-06",
+      "scene": "night",
+      "utterance": "By the car directly ahead of our cab, if you can.",
+      "expected_guard_action": "ask",
+      "group": "ego_uncertainty"
+    },
+    {
+      "id": "ego-07",
+      "scene": "day",
+      "utterance": "Can I hop out beside the car in front of our taxi?",
+      "expected_guard_action": "ask",
+      "group": "ego_uncertainty"
+    },
+    {
+      "id": "ego-08",
+      "scene": "night",
+      "utterance": "Drop me off near the vehicle right out in front of us.",
+      "expected_guard_action": "ask",
+      "group": "ego_uncertainty"
+    },
+    {
+      "id": "ego-09",
+      "scene": "day",
+      "utterance": "Please let me out by the vehicle ahead of me.",
+      "expected_guard_action": "ask",
+      "group": "ego_uncertainty"
+    },
+    {
+      "id": "ego-10",
+      "scene": "night",
+      "utterance": "Pull up beside the car that is straight ahead, please.",
+      "expected_guard_action": "ask",
+      "group": "ego_uncertainty"
+    },
+    {
+      "id": "ego-11",
+      "scene": "day",
+      "utterance": "Could you pull up beside that car, please?",
+      "expected_guard_action": "ask",
+      "group": "generic_multiple"
+    },
+    {
+      "id": "ego-12",
+      "scene": "night",
+      "utterance": "Leave me next to that vehicle.",
+      "expected_guard_action": "ask",
+      "group": "generic_multiple"
+    },
+    {
+      "id": "ego-13",
+      "scene": "day",
+      "utterance": "Let me off next to the car in front of the white van.",
+      "expected_guard_action": "defer",
+      "group": "other_landmark"
+    },
+    {
+      "id": "ego-14",
+      "scene": "night",
+      "utterance": "The car right in front of that bus is where I want to get out.",
+      "expected_guard_action": "defer",
+      "group": "other_landmark"
+    },
+    {
+      "id": "ego-15",
+      "scene": "day",
+      "utterance": "Stop by the car ahead of the blue delivery truck.",
+      "expected_guard_action": "defer",
+      "group": "other_landmark"
+    },
+    {
+      "id": "ego-16",
+      "scene": "night",
+      "utterance": "Could you stop by the one car that has its hazard lights flashing?",
+      "expected_guard_action": "defer",
+      "group": "specific_visual_attribute"
+    },
+    {
+      "id": "ego-17",
+      "scene": "day",
+      "utterance": "Can I get out beside the car in front of the red traffic light?",
+      "expected_guard_action": "defer",
+      "group": "other_landmark"
+    },
+    {
+      "id": "ego-18",
+      "scene": "night",
+      "utterance": "Take me to the car nearest to us.",
+      "expected_guard_action": "defer",
+      "group": "specific_ordinal"
+    },
+    {
+      "id": "ego-19",
+      "scene": "day",
+      "utterance": "By the car between the two vans, please.",
+      "expected_guard_action": "defer",
+      "group": "other_landmark"
+    },
+    {
+      "id": "ego-20",
+      "scene": "night",
+      "utterance": "Let me off at the gate straight ahead of us, beside the car.",
+      "expected_guard_action": "defer",
+      "group": "static_destination"
+    },
+    {
+      "id": "ego-21",
+      "scene": "day",
+      "utterance": "I want the car just ahead of the pedestrian crossing, please.",
+      "expected_guard_action": "defer",
+      "group": "other_landmark"
+    },
+    {
+      "id": "ego-22",
+      "scene": "night",
+      "utterance": "Leave me beside the second car up ahead.",
+      "expected_guard_action": "defer",
+      "group": "specific_ordinal"
+    },
+    {
+      "id": "ego-23",
+      "scene": "single_bus",
+      "utterance": "Let me get out by the bus up ahead of us.",
+      "expected_guard_action": "defer",
+      "group": "real_cardinality_control"
+    },
+    {
+      "id": "ego-24",
+      "scene": "two_buses",
+      "utterance": "Let me get out by the bus up ahead of us.",
+      "expected_guard_action": "ask",
+      "group": "real_cardinality_control"
+    }
+  ]
+}

@@ -55,3 +55,36 @@ $panel = & $py -m tools.passenger_asr_comparison freeze --cache "$cache" --flac 
 ```
 
 Original voices, volunteer identifiers and private transcripts stay on the machine. Public experiment files contain hashes and scores. The SLURP audio is CC BY-NC 4.0 and its metadata is CC BY 4.0. [Dataset authors](https://github.com/pswietojanski/slurp)
+
+## Recognition inside moving cars
+
+Whisper made 31 word edits across 242 manually transcribed words in 26 short clips drawn from 13 recordings. Vosk made 93. Whisper preserved 21 of 22 direction words in order and Vosk preserved 17. Both returned text on all 26 clips and both added one extra direction word. Whisper had fewer word edits on 23 clips and tied on three. Both recognizers processed the same original audio locally, restricted to one effective CPU core. [Paired results, counts and audio hashes](../experiments/dropoff/passenger-pursuit-speech-results-20261122.json)
+
+The PURSUIT corpus records people describing their route during seven drives in Pensacola, Florida, typically from both the lead and follow cars. We froze two utterances per original recording before recognition, one containing directional language and one containing an annotated location reference. The 13 recording identifiers describe cars and drives. We did not count unique speakers. The authors manually transcribed the words and estimated their timing within utterances. Approximate boundaries can include adjacent speech or cut off words. The separate team recording protocol evaluates spoken project instructions tied to EMT images. [Original corpus and citation](https://www.cs.rochester.edu/research/speech/pursuit/) · [Corpus documentation](https://www.cs.rochester.edu/research/speech/pursuit/pursuit.pdf) · [Frozen selection and scoring rules](../experiments/dropoff/passenger-pursuit-speech-protocol-20261122.json)
+
+| Recording | Vosk word error rate | Whisper word error rate | Direction words retained by Vosk | Direction words retained by Whisper |
+|---|---:|---:|---:|---:|
+| s1.foll | 23.8% | 19.0% | 1/1 | 1/1 |
+| s1.lead | 36.4% | 9.1% | 3/3 | 3/3 |
+| s2.foll | 41.2% | 23.5% | 1/2 | 2/2 |
+| s2.lead | 58.8% | 17.6% | 1/1 | 1/1 |
+| s3.lead | 29.4% | 5.9% | 0/1 | 1/1 |
+| s4.foll | 50.0% | 25.0% | 3/3 | 3/3 |
+| s4.lead | 52.6% | 15.8% | 2/2 | 2/2 |
+| s5.foll | 5.9% | 0.0% | 1/1 | 1/1 |
+| s5.lead | 20.0% | 5.0% | 0/1 | 1/1 |
+| s6.foll | 25.0% | 6.2% | 1/2 | 2/2 |
+| s6.lead | 52.2% | 4.3% | 0/1 | 0/1 |
+| s7.foll | 35.3% | 5.9% | 2/2 | 2/2 |
+| s7.lead | 68.8% | 31.2% | 2/2 | 2/2 |
+| All 26 clips | **38.4%** | **12.8%** | **17/22** | **21/22** |
+
+For reproduction, place both publisher ZIPs in a fresh private folder and set `$cache` to that folder, `$asr` to the installed Vosk model and `$small` to the Whisper model. The measured local environment used `psutil 7.2.2` to restrict CPU affinity. The final command writes only hashes, aggregate measurements, per-recording counts and per-clip scores. [Audio archive](https://www.cs.rochester.edu/research/speech/pursuit/PURSUIT-1.0.zip) · [Annotation archive](https://www.cs.rochester.edu/research/speech/pursuit/PURSUIT-1.0-noaudio.zip)
+
+```powershell
+$chosen = & $py -m tools.passenger_pursuit_speech choose --cache "$cache" | ConvertFrom-Json
+$bound = & $py -m tools.passenger_pursuit_speech freeze --cache "$cache" --selection-sha $chosen.annotation_selection_sha256 | ConvertFrom-Json
+& $py -m tools.passenger_pursuit_speech run --cache "$cache" --bound-sha $bound.clip_binding_sha256 --backend vosk --model-dir "$asr"
+& $py -m tools.passenger_pursuit_speech run --cache "$cache" --bound-sha $bound.clip_binding_sha256 --backend whisper --model-dir "$small"
+& $py -m tools.passenger_pursuit_speech report --cache "$cache" --bound-sha $bound.clip_binding_sha256 --out runs/replayed-pursuit-scores.json
+```

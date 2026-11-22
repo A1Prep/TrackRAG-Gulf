@@ -1,0 +1,29 @@
+{
+  "kind": "native_direct_8b_human_confirmed_clarification_experiment",
+  "asset": "passenger-human-native-clarification.zip",
+  "sha256": "68fbd8cf3c151ef066227d11146bb2ec7350d23536fc80f0fd1c825b2e9fbd4d",
+  "bytes": 6371327,
+  "entries_reread_from_archive": 31,
+  "install_under_repository_root": "models/passenger-reviewed-clarification",
+  "native_score_sha256": "517f8ec026f7d9e8582a2f3afec86d9e56c4fc0cfafb9cc4f3111d46d66e112f",
+  "protocol_sha256": "702c5f5575431df621b0e78847ddadb67d102e487a4be44016050773e4af8b81",
+  "tensors": {
+    "tensors": 64,
+    "tensors_changed": 64,
+    "trainable_parameters": 1703936,
+    "parent_sha256": "76bfb3230b17a86248b52ca6a9f8d2ffca324aa80216d6b93845ccb12ad86743",
+    "child_sha256": "6c3d54a6baadf5a269f8cdb81ed565469aa0d75bc006698c8d355f79b3e774ca"
+  },
+  "human_training_presentations": 8,
+  "optimizer_steps": 4,
+  "selected_checkpoint": {
+    "epoch": 2,
+    "token_weighted_nll": 0.5654235482215881,
+    "optimizer_steps": 4,
+    "presentations": 8
+  },
+  "native_condition_run_sha256": {
+    "public_parent": "3c2b54edc4915a98e97a9292b4abeae837b8a65e933390959df298cfad5de9a5",
+    "human_child": "7ad608ba3ed6e33f166fe66d81ee3a12b01dcf548e1c5c67b9c0659429a4d1b6"
+  }
+}

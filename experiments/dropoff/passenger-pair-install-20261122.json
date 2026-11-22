@@ -1,0 +1,53 @@
+{
+  "fresh_install": {
+    "kind": "fresh_private_clone_two_vehicle_installation",
+    "operator": "scripted, same laptop, shared Python and installed base/Whisper/SegFormer",
+    "source_commit": "418ebf01841f652693a9ddd7008be0424999d5fe",
+    "model_bundle_from_private_release_sha256": "48340f1c61e08c93a6fb442b2b4c9e50a25f0f813fe7ffd0bed24041c8087a70",
+    "detector_archive_from_private_release_sha256": "b1bfecf9a627725a6df47345ff380d9eef38c8e5e2323eb1e042d30f12ce7f1e",
+    "source_jpeg_from_private_task2_git_commit": "2d96dcb6afdffb46c5d94d299768fe6a92acc094",
+    "original_jpeg_sha256": "c411cf6760695905334f32e5590083cf144543df1ca98e68aae55fb345eb583e",
+    "identical_derived_scene_bank": "902b1e32c462782a686287d8a7e7c0abace3a3720410a545268ab9d032156a99",
+    "current_tracks": 23,
+    "typed_automatic_question": "Which two vehicles do you mean? Describe each one or select both on the photo.",
+    "automatic_8b_calls": 0,
+    "between": "needs_clarification",
+    "behind_point": [
+      1097.5,
+      1132.5
+    ],
+    "explicit_simulated_confirmation": true,
+    "human_participants": 0,
+    "journal_sha256": "0943971d4ab32863a67d665e25924f89df550a60278a94206609424cb6434ad5"
+  },
+  "student_facing_install": {
+    "passenger_bookmarks": 11,
+    "footage_bookmarks": 10,
+    "speech_enabled": true,
+    "original_jpeg_sha256": "c411cf6760695905334f32e5590083cf144543df1ca98e68aae55fb345eb583e",
+    "source_sha256": {
+      "trackrag/dropoff/pair_dialogue.py": "76b1f5d9b90cfb32e6fe204e68bcfa8b4951fa43e578e4c9bc72761072e8241e",
+      "trackrag/dropoff/passenger_pair_choice.py": "c84a9aa22c0f40c71bce42063dd14198e4eab9c728586798b2d9d1c4014df83f",
+      "trackrag/passenger_app.py": "479079171323d0c1b8038d32f66f374bafacb64c44f9a2ee3e3e42688e6dbdb6",
+      "trackrag/passenger_ui/pair-choices.js": "b65904acf93d7c9357a7c26148652afcb68858f50764184098f9aae1359ed63f"
+    },
+    "confirmed_same_proposal": true,
+    "startup_command": "python -m tools.passenger_release start"
+  },
+  "narrow_browser": {
+    "viewport": [
+      390,
+      844
+    ],
+    "widths_before_during_after": [
+      390,
+      390,
+      390
+    ],
+    "observed_original_frame": 781,
+    "journal_sha256": "3c1d9c9b682a3bed40fada2afa24b57ce6dc668f3fe6c40b500a5dfe590b579e",
+    "operator_result": "Selected two vehicles, reviewed the learned point and cancelled. Scripted touch browser on same laptop.",
+    "browser_record_sha256": "1fd8edc69f9c79c9826f302a2786d409813c947959cac13da22823bed870a2a6"
+  },
+  "fresh_check_script_sha256": "4e33a0ba3719686d46b9849868806c37c97808bacbc1c72d9c2d8780f807803b"
+}

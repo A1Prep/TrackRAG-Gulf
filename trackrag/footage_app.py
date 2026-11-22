@@ -45,6 +45,24 @@ class FootageReview:
                 "tracks_sha256":receipt["tracks_sha256"], "prediction_provenance_sha256":receipt["provenance_sha256"],
                 "prediction_image_hash_binding":"not_verified_in_historical_artifact"})["scene"]
 
+    def _bound_source(self, scene):
+        original = scene["frame"]
+        prefix, tracks, receipt = self._source(scene, original["frame_id"])
+        current = prefix.get_frame(original["frame_id"])
+        _, image_hash = _inspect_image(current)
+        if (image_hash != scene["provenance"].get("image_sha256")
+                or not math.isclose(current["timestamp_s"], original["timestamp_s"], abs_tol=1e-6)):
+            raise ValueError("The selected photo differs from the review recording.")
+        return prefix, tracks, receipt
+
+    def covers(self, scene):
+        """A passenger still can belong to a different run or fall outside the available footage."""
+        try:
+            self._bound_source(scene)
+        except (OSError, KeyError, ValueError):
+            return False
+        return True
+
     def ask(self, scene, text, *, hosted=False):
         from trackrag.answering import answer_question
         from trackrag.retrieval_temporal import build_index, rank_evidence
@@ -53,12 +71,7 @@ class FootageReview:
         if not isinstance(text,str) or not 1 <= len(text.strip()) <= 4096 or type(hosted) is not bool:
             raise ValueError("Enter a recording question and select an available answer mode.")
         original = scene["frame"]
-        prefix, tracks, receipt = self._source(scene, original["frame_id"])
-        current = prefix.get_frame(original["frame_id"])
-        _, image_hash = _inspect_image(current)
-        if (image_hash != scene["provenance"].get("image_sha256")
-                or not math.isclose(current["timestamp_s"],original["timestamp_s"],abs_tol=1e-6)):
-            raise ValueError("The selected photo differs from the review recording.")
+        prefix, tracks, receipt = self._bound_source(scene)
         key = secrets.token_hex(16)
         folder = self.out/key
         question = {"question_id":key,"recording_id":prefix.recording_id,

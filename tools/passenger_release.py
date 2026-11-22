@@ -229,12 +229,16 @@ def start(args):
             raise ValueError("Supply both original recordings and their saved predictions for footage search")
         if args.qa_frame_rate:
             argv.extend(["--qa-frame-rate",str(args.qa_frame_rate)])
-        if args.qa_data_root:
-            argv.extend(["--qa-data-root",str(args.qa_data_root),"--qa-predictions",str(args.qa_predictions),
-                         "--qa-vision-config",str(args.qa_vision_config)])
-        elif all((ROOT/p).is_dir() for p in ("data/task1-image-only-20261119","runs/task1-artifact-verification-20261119/finetuned-live-01")):
-            argv.extend(["--qa-data-root",str(ROOT/"data/task1-image-only-20261119"),"--qa-predictions",
-                         str(ROOT/"runs/task1-artifact-verification-20261119/finetuned-live-01"),
+        qa_data, qa_predictions = args.qa_data_root, args.qa_predictions
+        if qa_data is None:
+            for image_dir, track_dir in (
+                    ("data/passenger-demo-images", "models/passenger-demo-predictions"),
+                    ("data/task1-image-only-20261119", "runs/task1-artifact-verification-20261119/finetuned-live-01")):
+                if (ROOT/image_dir).is_dir() and (ROOT/track_dir).is_dir():
+                    qa_data, qa_predictions = ROOT/image_dir, ROOT/track_dir
+                    break
+        if qa_data is not None:
+            argv.extend(["--qa-data-root",str(qa_data),"--qa-predictions",str(qa_predictions),
                          "--qa-vision-config",str(args.qa_vision_config)])
         return serve(argv)
 

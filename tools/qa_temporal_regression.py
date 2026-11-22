@@ -72,9 +72,15 @@ def duplicate_file(source, target):
 def previous(fingerprints, runs):
     if zipfile.is_zipfile(fingerprints):
         with zipfile.ZipFile(fingerprints) as bundle:
-            stored = json.loads(bundle.read("input-fingerprints.json"))
+            if "input-fingerprints.json" in bundle.namelist():
+                stored = json.loads(bundle.read("input-fingerprints.json"))
+            else:
+                manifest = json.loads(bundle.read("input-manifest.json"))
+                stored = {qid: entry["input"] for qid, entry in manifest["rows"].items()}
     else:
         stored = read(fingerprints)
+        if "rows" in stored and isinstance(stored["rows"], dict):
+            stored = {qid: entry["input"] for qid, entry in stored["rows"].items()}
     index = {}
     for folder in runs:
         for row in read_jsonl(folder / "results.jsonl"):
@@ -98,25 +104,46 @@ def prepare(args):
     source_snapshot = model_source()
     lookup = import_module(PROFILE)
     rows, sources, previews = {}, {}, {}
+    earlier = read(args.saved_boundary_evidence / "selection.json") if args.saved_boundary_evidence else None
     prior_images = {i["sha256"] for value in stored.values() for i in value["images"]}
     for recording, manifest in RECORDINGS.items():
         out = args.out / recording
-        rec = open_recording(args.data_root, recording)
         questions = read_jsonl(manifest)
-        tracks, source = predict_tracks_with_receipt(rec, directory=args.predicted,
-                                                    config=load_config(args.vision_config))
-        review_recording(rec, questions, source="predicted", load_tracks=lambda _: tracks,
-                         build_index=lookup.build_index, rank_evidence=lookup.rank_evidence,
-                         output_dir=out, run_metadata={"answerer": "none", "retrieval": PROFILE,
-                         "retrieval_adapter": PROFILE, "adapter_module": "tools.vision_saved_adapters"})
+        if earlier is not None:
+            earlier_run = args.saved_boundary_evidence / recording
+            frozen_group = earlier["groups"][recording]
+            require(earlier["profile"] == PROFILE and file_sha(manifest) == frozen_group["public_questions_sha256"]
+                    and all(file_sha(earlier_run / n) == frozen_group[k] for n,k in (
+                        ("run.json","run_sha256"),("results.jsonl","results_sha256"),("tracks.jsonl","tracks_sha256"))),
+                    "The original ranked evidence or public questions changed")
+            out.mkdir()
+            for name in ("results.jsonl","tracks.jsonl"):
+                duplicate_file(earlier_run / name, out / name)
+            shutil.copytree(earlier_run / "evidence", out / "evidence", copy_function=duplicate_file)
+            metadata = read(earlier_run / "run.json")
+            metadata["configuration"]["boundary_answer"] = "visual-candidate-v1"
+            write(out / "run.json", metadata)
+            sources[recording] = {**frozen_group, "previous_run_sha256": frozen_group["run_sha256"],
+                                  "run_sha256":file_sha(out / "run.json")}
+        else:
+            rec = open_recording(args.data_root, recording)
+            tracks, source = predict_tracks_with_receipt(rec, directory=args.predicted,
+                                                        config=load_config(args.vision_config))
+            metadata = {"answerer": "none", "retrieval": PROFILE, "retrieval_adapter": PROFILE,
+                        "adapter_module": "tools.vision_saved_adapters"}
+            if args.boundary_candidates:
+                metadata["boundary_answer"] = "visual-candidate-v1"
+            review_recording(rec, questions, source="predicted", load_tracks=lambda _: tracks,
+                             build_index=lookup.build_index, rank_evidence=lookup.rank_evidence,
+                             output_dir=out, run_metadata=metadata)
+            sources[recording] = {"tracks_sha256": file_sha(out / "tracks.jsonl"),
+                                  "public_questions_sha256": file_sha(manifest),
+                                  "run_sha256": file_sha(out / "run.json"), "results_sha256": file_sha(out / "results.jsonl"),
+                                  "original_config_identity": source["vision_identity_hash"],
+                                  "original_provenance_sha256": source["provenance_sha256"],
+                                  "complete_saved_track_file_sha256": source["tracks_sha256"]}
         refs = {q["question_id"]:q for q in questions}
         audited = audit_run(out, refs)
-        sources[recording] = {"tracks_sha256": file_sha(out / "tracks.jsonl"),
-                              "public_questions_sha256": file_sha(manifest),
-                              "run_sha256": file_sha(out / "run.json"), "results_sha256": file_sha(out / "results.jsonl"),
-                              "original_config_identity": source["vision_identity_hash"],
-                              "original_provenance_sha256": source["provenance_sha256"],
-                              "complete_saved_track_file_sha256": source["tracks_sha256"]}
         for qid,row in audited["results"].items():
             old, old_dir = original[qid]
             require(row["question"] == old["question"] and
@@ -125,7 +152,10 @@ def prepare(args):
             frozen = preflight(row, out, refs[qid], MODEL)
             before, after = stored[qid]["request_arguments_sha256"], frozen["request_arguments_sha256"]
             same = before == after
-            if same:
+            if (earlier is not None or args.boundary_changes_only) and not same:
+                require((lookup.question_scope(row["question"]["question"]) or {}).get("boundary"),
+                        "An input outside the predeclared boundary class would need another provider call")
+            if same or earlier is not None:
                 require(frozen["evidence_intervals_sha256"] == stored[qid]["evidence_intervals_sha256"]
                         and [(i["evidence_id"],i["frame_id"],i["sha256"]) for i in frozen["images"]]
                             == [(i["evidence_id"],i["frame_id"],i["sha256"]) for i in stored[qid]["images"]],
@@ -142,6 +172,7 @@ def prepare(args):
     require(model_source() == source_snapshot, "Input preparation overlapped a source-code change; preserve and rerun")
     write(args.out/"selection.json",{"prepared_utc":stamp(),"source_sha256":source_snapshot,"model":MODEL,
           "profile":PROFILE,"fingerprints_source_sha256":file_sha(args.fingerprints),"groups":sources,"rows":rows,
+          "replayed_prior_selection_sha256":file_sha(args.saved_boundary_evidence / "selection.json") if earlier else None,
           "new_images_sha256":file_sha(args.out/"new-images.json"),"distinct_new_images":len(previews),
           "dispatch_counts":dict(Counter(r["dispatch"] for r in rows.values())),"provider_calls_in_preparation":0})
     print(json.dumps({"selection_sha256":file_sha(args.out/"selection.json"),"new_images":len(previews),
@@ -306,6 +337,12 @@ def main():
     p.add_argument("--data-root",type=Path,required=True)
     p.add_argument("--predicted",type=Path,required=True)
     p.add_argument("--vision-config",type=Path,required=True)
+    p.add_argument("--saved-boundary-evidence",type=Path,
+                   help="Reuse the sealed temporal evidence for a later boundary-only prompt. Every image and interval must match.")
+    p.add_argument("--boundary-candidates", action="store_true",
+                   help="Enable the visually identified candidate response path on freshly retrieved boundary questions.")
+    p.add_argument("--boundary-changes-only", action="store_true",
+                   help="Reject a new provider payload outside the predeclared boundary question class.")
     r.add_argument("--prepared",type=Path,required=True)
     r.add_argument("--selection-sha256",required=True)
     r.add_argument("--spacing",type=float,default=18,help="Minimum seconds between fresh provider requests")

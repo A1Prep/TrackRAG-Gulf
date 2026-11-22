@@ -114,6 +114,17 @@ def test_bridge_landmark_does_not_erase_track_for_boundary_question():
     assert rank_evidence(q,build_index(Frames(),rows))[0]["track_id"] == 11
 
 
+def test_boundary_can_inspect_a_repeated_minority_class_without_relabelling_history():
+    rows=[track(f,11,"Motorbike" if f in {5,7} else "Car",x)
+          for f,x in [(5,30),(7,26),(12,20),(22,10),(29,0)]]
+    q=query("Which motorbike exited the left edge?")
+    idx=build_index(Frames(),rows)
+    assert intervals(rank_evidence(q,idx))[:2] == [(11,5,29),(None,38,38)]
+    assert [r["class_name"] for r in idx.histories[("street","predicted",11)]] == [r["class_name"] for r in rows]
+    false_positive=[dict(row, class_name="Car") if row["frame_id"]==7 else row for row in rows]
+    assert all(r["track_id"] is None for r in rank_evidence(q,build_index(Frames(),false_positive)))
+
+
 @pytest.mark.parametrize("text, source, expected", [
     ("Which type is annotated as track 19?", "predicted", "insufficient_evidence"),
     ("Which ground-truth ID belongs to this van?", "predicted", "insufficient_evidence"),
@@ -129,3 +140,22 @@ def test_source_specific_question_cannot_borrow_an_independently_assigned_id(tex
     answer=validate_answer(raw,evidence,query(text))
     assert answer["answer_status"]==expected
     assert bool(answer["cited_evidence_ids"]) == (expected=="answered")
+
+
+@pytest.mark.parametrize("verb,span,scene_frame", [("enter",[12,38],7),("exit",[7,22],38)])
+def test_visible_boundary_identification_requires_distinct_past_or_later_pixel_evidence(verb,span,scene_frame):
+    q=query("Which vehicle moved out through the right side?")
+    context={"required_cited_frames":[],"boundary":verb,"identification_only":True,"tracked_extents":{"4":span}}
+    evidence=[{"evidence_id":"E1","interval":{"track_id":4},"temporal_scope":context,
+               "images":[{"frame_id":f,"bbox_xyxy":[15,12,35,32],"observations":[{"track_id":4}]} for f in span]},
+              {"evidence_id":"E2","interval":{"track_id":None},"images":[{"frame_id":scene_frame}]}]
+    def answer(text, ids=("E1","E2")):
+        raw={"answer_status":"answered","answer":text,"cited_evidence_ids":list(ids)}
+        return validate_answer(raw,evidence,q)["answer_status"]
+    qualifier=" The footage does not establish a boundary crossing."
+    assert answer("The visible candidate is a red delivery van on the right."+qualifier) == "answered"
+    assert answer("The visible candidate is a red delivery van on the right."+qualifier,["E1"]) == "insufficient_evidence"
+    assert answer("The visible candidate is a red van that entered at frame 12."+qualifier) == "insufficient_evidence"
+    assert answer("It definitely crossed.") == "insufficient_evidence"
+    evidence[1]["images"][0]["frame_id"] = span[0]
+    assert answer("The visible candidate is a red van."+qualifier) == "insufficient_evidence"

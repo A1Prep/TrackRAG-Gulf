@@ -70,12 +70,23 @@ _CLASSES = {
 
 def _object_score(rows, text, dimensions, frame, direction):
     words = set(_tokens(text))
-    label = Counter(row["class_name"].casefold() for row in rows).most_common(1)[0][0]
+    labels = Counter(row["class_name"].casefold() for row in rows)
+    label = labels.most_common(1)[0][0]
     named = set(referenced_track_ids(text))
     if named and rows[0]["track_id"] not in named:
         return 0.0
     wanted = set().union(*(_CLASSES.get(word, {word}) for word in words))
-    matched = label in wanted or ("vehicle" in words and label not in {"person", "pedestrian", "cyclist"})
+    def class_matches(value):
+        return value in wanted or ("vehicle" in words and value not in {"person", "pedestrian", "cyclist"})
+    matched = class_matches(label)
+    support = 1.0
+    if direction and not matched:
+        # A persistent track can change its per-frame class. Two corroborating
+        # detections warrant showing its pixels as an alternative. Preserve every
+        # original class and the whole observed history for the visual answerer.
+        count = sum(n for value,n in labels.items() if class_matches(value))
+        matched = count >= 2
+        support = count / len(rows)
     if not (matched or named):
         return 0.0
     nearest = min(rows, key=lambda row: abs(row["frame_id"] - frame))
@@ -99,7 +110,7 @@ def _object_score(rows, text, dimensions, frame, direction):
         sides = (words & border.keys()) or border.keys()
         if any(border[s] <= 0.05 and interior[s] > border[s] + 0.02 for s in sides):
             score += 0.28
-    return min(score, 1.0)
+    return min(score, 1.0) * (support if not named else 1.0)
 
 
 def rank_evidence(question, index, k=3):

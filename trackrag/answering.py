@@ -119,9 +119,13 @@ def _temporal_context(run_path, question):
         required.add(first)
     if (scope['latest'] or (scope['scene'] and not scope['opening'])) and not scope['exact'] and not scope['boundary']:
         required.add(question['query_frame'])
-    return {'recording_opening_frame': first, 'latest_allowed_frame': question['query_frame'],
+    context = {'recording_opening_frame': first, 'latest_allowed_frame': question['query_frame'],
             'required_cited_frames': sorted(required), 'boundary': scope['boundary'], 'tracked_extents': {},
             'edge_directions': sorted(set(re.findall(r'\b(?:left|right|top|bottom)\b', question['question'].casefold())))}
+    if (scope['boundary'] and configuration.get('boundary_answer') == 'visual-candidate-v1'
+            and re.search(r'\b(?:which|what (?:object|vehicle|car|person|type)|who)\b', question['question'], re.I)):
+        context['identification_only'] = True
+    return context
 
 
 def _bracketed_track(item, span, context, scene_frames):
@@ -150,6 +154,29 @@ def _temporal_support(text, citations, evidence, context):
     if context['boundary'] is None:
         return None
     scene_frames = {i['frame_id'] for e in cited if e['interval']['track_id'] is None for i in e['images']}
+    if context.get('identification_only'):
+        # A visible candidate can be identified even if it was already present
+        # in an earlier frame. Its attributes must come from the vision model.
+        qualified = re.fullmatch(r'The visible candidate is ([^.!?\n]{3,260})\.\s*'
+                                 r'The footage does not establish a boundary crossing\.', text.strip(), flags=re.I)
+        if qualified is None or len(qualified[1].split()) < 3 or re.search(
+                r'\b(?:enter(?:ed|s|ing)?|exit(?:ed|s|ing)?|cross(?:es|ed|ing)?|came|left the|depart(?:ed|s)?|'
+                r'arriv(?:es|ed)|first appeared|last seen)\b', qualified[1], re.I):
+            return 'The evidence does not establish the claimed crossing or a separately identified visible candidate.'
+        qualifying = set()
+        for item in cited:
+            track = item['interval']['track_id']
+            span = context['tracked_extents'].get(str(track))
+            if span is None:
+                continue
+            views = {im['frame_id'] for im in item['images'] if im['bbox_xyxy'] is not None}
+            entering = context['boundary'] == 'enter'
+            endpoint = span[0] if entering else span[1]
+            if len(views) >= 2 and endpoint in views and any(f < endpoint if entering else f > endpoint for f in scene_frames):
+                qualifying.add(track)
+        if len(qualifying) != 1 or set(referenced_track_ids(qualified[1])) - qualifying:
+            return 'A visible candidate needs its own cited track images and a cited comparison scene.'
+        return None
     supported = {}
     for item in cited:
         track = item['interval']['track_id']

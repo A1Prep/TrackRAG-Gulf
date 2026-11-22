@@ -73,6 +73,15 @@ class GeminiAnswerModel:
                          'visually distinguishable object, and cite both the tracked view and the '
                          'surrounding scene. Do not assign an exact crossing frame. If a masked object '
                          'or a gap prevents identification, return insufficient_evidence.')
+            if context.get('identification_only'):
+                prompt += ('\nAnswer the visually identifiable part of the question. Use the tracked pixels to '
+                           'identify one candidate by visible type, colour and location. Compare it with a '
+                           'scene before its first or after its last observed track frame. Seeing it in an '
+                           'earlier image is consistent with identifying the same visible candidate. Use '
+                           'this exact two-sentence format: "The visible candidate is <your visual description>. '
+                           'The footage does not establish a boundary crossing." Cite both the tracked '
+                           'evidence ID and its comparison scene ID. No movement claim goes in the description. '
+                           'If a distinctive candidate or the comparison evidence is unavailable, abstain.')
         inputs = [{'type': 'text', 'text': prompt}]
         for item in evidence:
             for image in item['images']:

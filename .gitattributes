@@ -11,3 +11,7 @@ experiments/dropoff/passenger-release-protocol-20261122.json text eol=lf
 experiments/dropoff/passenger-runtime-freeze-20261122.json text eol=lf
 experiments/dropoff/passenger-referent-results-20261122.json text eol=lf
 experiments/dropoff/passenger-external-independent-audit-20261122.json text eol=lf
+experiments/dropoff/passenger-spatial-confidence-protocol-20261122.json text eol=lf
+experiments/dropoff/passenger-spatial-confidence-results-20261122.json text eol=lf
+experiments/dropoff/passenger-qa-*36-20261122.json text eol=lf
+experiments/dropoff/passenger-qa-normal-two-recordings-20261121.json -text whitespace=cr-at-eol

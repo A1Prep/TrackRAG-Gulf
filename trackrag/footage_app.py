@@ -67,7 +67,8 @@ class FootageReview:
                                   build_index=build_index,rank_evidence=rank_evidence,
                                   answer_question=answer_question if hosted else None,output_dir=folder,
                                   run_metadata={"vision":"validated_saved_predictions","prediction_receipt":receipt,
-                                                "retrieval":"trackrag.retrieval_temporal","answerer":"gemini" if hosted else "none"})
+                                                "retrieval":"trackrag.retrieval_temporal","boundary_answer":"visual-candidate-v1",
+                                                "answerer":"gemini" if hosted else "none"})
         row = json.loads(result.read_bytes())
         evidence = []
         for number, item in enumerate(row["evidence"]):

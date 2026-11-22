@@ -1,0 +1,414 @@
+{
+  "publication_commit": "89d3728",
+  "protocol_sha256": "03daba970ec53198e293f3b5965a5c60a1d756916a057db0f771d6f67e236a08",
+  "source_model": "cross-encoder/nli-deberta-v3-small",
+  "revision": "fa2804872c3b4bd748f38c0185cc85775361e735",
+  "artifacts": {
+    "config.json": "885d0dceae8fa5c136da9209121ec9eb11160488e840de3bc1f29353674e5712",
+    "model_qint8_avx512_vnni.onnx": "a1da6815c8da542d16381c7d84892d409b4b6604d655bb3054ecb15dd8714e6e",
+    "tokenizer.json": "5124ef2ead1a10a717703bc436de7f353da76d6340e4587719b42b1693707964"
+  },
+  "execution_provider": [
+    "CPUExecutionProvider"
+  ],
+  "entailment_class": 1,
+  "onnxruntime": "1.20.1",
+  "text_gate_passed": false,
+  "counts_routed": {
+    "new_positive": 0,
+    "new_delegate": 0,
+    "previous_delegate": 0
+  },
+  "cohort_sizes": {
+    "new_positive": 8,
+    "new_delegate": 12,
+    "previous_delegate": 12
+  },
+  "limits": "Text-only counterproposal. No new image, field speaker or official final passenger case. Only a passing text route would proceed to visual evidence and frozen control checks. Original 12 positive browser phrasings excluded.",
+  "results": [
+    {
+      "cohort": "new_positive",
+      "text": "I can walk from the opening between those two cars.",
+      "bare_two_vehicle_noun": true,
+      "entailment": [
+        0.04749879610121318,
+        0.04852164395702595,
+        0.04818550487932151,
+        0.04580251360767619
+      ],
+      "text_route_to_visual_check": false
+    },
+    {
+      "cohort": "new_positive",
+      "text": "My destination is halfway between those two silver SUVs.",
+      "bare_two_vehicle_noun": true,
+      "entailment": [
+        0.050004882093787506,
+        0.04989229021634229,
+        0.04974208022724784,
+        0.048100360899814815
+      ],
+      "text_route_to_visual_check": false
+    },
+    {
+      "cohort": "new_positive",
+      "text": "That space separating the two buses is my stop.",
+      "bare_two_vehicle_noun": true,
+      "entailment": [
+        0.04796357275274248,
+        0.04616367592660404,
+        0.045611282295537806,
+        0.046608862243034024
+      ],
+      "text_route_to_visual_check": false
+    },
+    {
+      "cohort": "new_positive",
+      "text": "I'd prefer to alight in the space between those two sedans.",
+      "bare_two_vehicle_noun": true,
+      "entailment": [
+        0.04951281128972697,
+        0.050310418669399344,
+        0.05037582882483375,
+        0.04813495531827798
+      ],
+      "text_route_to_visual_check": false
+    },
+    {
+      "cohort": "new_positive",
+      "text": "The stretch between that pair of trucks works for me.",
+      "bare_two_vehicle_noun": true,
+      "entailment": [
+        0.05144132591150264,
+        0.052195921246556504,
+        0.0501618862632054,
+        0.049767253005644406
+      ],
+      "text_route_to_visual_check": false
+    },
+    {
+      "cohort": "new_positive",
+      "text": "Could this ride end in the space separating these two cars?",
+      "bare_two_vehicle_noun": true,
+      "entailment": [
+        0.04845610517246202,
+        0.046963855308322866,
+        0.04883474219841001,
+        0.04685024950130575
+      ],
+      "text_route_to_visual_check": false
+    },
+    {
+      "cohort": "new_positive",
+      "text": "I'll jump out right in the gap between the two vehicles.",
+      "bare_two_vehicle_noun": true,
+      "entailment": [
+        0.051467826823547884,
+        0.047959407708644354,
+        0.048532249675534066,
+        0.04853159964567591
+      ],
+      "text_route_to_visual_check": false
+    },
+    {
+      "cohort": "new_positive",
+      "text": "That's where I want to leave the cab, halfway between those two cars.",
+      "bare_two_vehicle_noun": true,
+      "entailment": [
+        0.05018324602798729,
+        0.04840250461060067,
+        0.046367386156296715,
+        0.04625483255856211
+      ],
+      "text_route_to_visual_check": false
+    },
+    {
+      "cohort": "new_delegate",
+      "text": "I'd like to alight before those two sedans.",
+      "bare_two_vehicle_noun": true,
+      "entailment": [
+        0.04810277336838171,
+        0.04822409366590636,
+        0.051216518343101564,
+        0.047451242695955714
+      ],
+      "text_route_to_visual_check": false
+    },
+    {
+      "cohort": "new_delegate",
+      "text": "Please pass between those two cars and let me out at the next corner.",
+      "bare_two_vehicle_noun": true,
+      "entailment": [
+        0.04984067902292165,
+        0.04725268826610954,
+        0.049308505807769194,
+        0.047749323073857236
+      ],
+      "text_route_to_visual_check": false
+    },
+    {
+      "cohort": "new_delegate",
+      "text": "My sister is walking between these two cars. Keep driving.",
+      "bare_two_vehicle_noun": true,
+      "entailment": [
+        0.04939843017813274,
+        0.0507293742114913,
+        0.0491545834793274,
+        0.04896290329182085
+      ],
+      "text_route_to_visual_check": false
+    },
+    {
+      "cohort": "new_delegate",
+      "text": "The gap between the two buses would be a terrible place to get out.",
+      "bare_two_vehicle_noun": true,
+      "entailment": [
+        0.05308023778225571,
+        0.05202949020237793,
+        0.052747541764295205,
+        0.05376587374373708
+      ],
+      "text_route_to_visual_check": false
+    },
+    {
+      "cohort": "new_delegate",
+      "text": "Is there enough room between those two cars for a bicycle?",
+      "bare_two_vehicle_noun": true,
+      "entailment": [
+        0.0508932392051613,
+        0.05055220828150352,
+        0.05278101723076058,
+        0.05102889284661555
+      ],
+      "text_route_to_visual_check": false
+    },
+    {
+      "cohort": "new_delegate",
+      "text": "I used to work between those two trucks. Today I am going to the station.",
+      "bare_two_vehicle_noun": true,
+      "entailment": [
+        0.04652129129694366,
+        0.044758239081814845,
+        0.045447473798591806,
+        0.047350118093474836
+      ],
+      "text_route_to_visual_check": false
+    },
+    {
+      "cohort": "new_delegate",
+      "text": "The space next to the bollard beyond those two cars is my stop.",
+      "bare_two_vehicle_noun": true,
+      "entailment": [
+        0.052995112996744684,
+        0.05227739753809744,
+        0.052069544880659804,
+        0.05012313476631818
+      ],
+      "text_route_to_visual_check": false
+    },
+    {
+      "cohort": "new_delegate",
+      "text": "I'll leave the cab just after the two vehicles.",
+      "bare_two_vehicle_noun": true,
+      "entailment": [
+        0.050381726623062395,
+        0.047779342234683074,
+        0.049792402785392265,
+        0.04963923996780125
+      ],
+      "text_route_to_visual_check": false
+    },
+    {
+      "cohort": "new_delegate",
+      "text": "Only if the gate is locked, perhaps between those two sedans. We haven't reached the gate yet.",
+      "bare_two_vehicle_noun": true,
+      "entailment": [
+        0.04762054685088167,
+        0.046386443301056096,
+        0.04647102611236957,
+        0.04405255123708453
+      ],
+      "text_route_to_visual_check": false
+    },
+    {
+      "cohort": "new_delegate",
+      "text": "Take me between the pale van at the fence and the hatchback below the sign.",
+      "bare_two_vehicle_noun": false,
+      "entailment": [
+        0.05104813825289503,
+        0.05169355877533811,
+        0.05014118752067929,
+        0.05036858659691774
+      ],
+      "text_route_to_visual_check": false
+    },
+    {
+      "cohort": "new_delegate",
+      "text": "I changed my mind about stopping between those two cars. The curb outside the hotel, please.",
+      "bare_two_vehicle_noun": true,
+      "entailment": [
+        0.048150088593211064,
+        0.04635772950968868,
+        0.04863004572229655,
+        0.04774169336507384
+      ],
+      "text_route_to_visual_check": false
+    },
+    {
+      "cohort": "new_delegate",
+      "text": "The stop is between the two bus shelters, not the buses.",
+      "bare_two_vehicle_noun": false,
+      "entailment": [
+        0.04989791660056254,
+        0.049788043258869506,
+        0.051199481950952884,
+        0.05119668032365462
+      ],
+      "text_route_to_visual_check": false
+    },
+    {
+      "cohort": "previous_delegate",
+      "text": "Please drop me beside those two black cars.",
+      "bare_two_vehicle_noun": true,
+      "entailment": [
+        0.051347526775481135,
+        0.04970263469629573,
+        0.05024934679023666,
+        0.048779681855256614
+      ],
+      "text_route_to_visual_check": false
+    },
+    {
+      "cohort": "previous_delegate",
+      "text": "Anywhere except between those two black cars, please.",
+      "bare_two_vehicle_noun": true,
+      "entailment": [
+        0.04953667578367908,
+        0.05159185679437103,
+        0.04793518481282799,
+        0.051719814829068504
+      ],
+      "text_route_to_visual_check": false
+    },
+    {
+      "cohort": "previous_delegate",
+      "text": "I was going to say between these two black cars, but the bus stop will do.",
+      "bare_two_vehicle_noun": true,
+      "entailment": [
+        0.049814598956414935,
+        0.0469067810136159,
+        0.0455170154898688,
+        0.04657985349630049
+      ],
+      "text_route_to_visual_check": false
+    },
+    {
+      "cohort": "previous_delegate",
+      "text": "Please set me down between the hatchback on the left and the van on the right.",
+      "bare_two_vehicle_noun": false,
+      "entailment": [
+        0.04888959205935745,
+        0.04959249383279395,
+        0.050254047785358656,
+        0.048416360028228744
+      ],
+      "text_route_to_visual_check": false
+    },
+    {
+      "cohort": "previous_delegate",
+      "text": "Between these two black cars or by the corner shop; I'm still deciding.",
+      "bare_two_vehicle_noun": true,
+      "entailment": [
+        0.04661852558468584,
+        0.047418612962807784,
+        0.04850221364353311,
+        0.047177041773964035
+      ],
+      "text_route_to_visual_check": false
+    },
+    {
+      "cohort": "previous_delegate",
+      "text": "Those two black cars are blocking the gate. Stop at the gate.",
+      "bare_two_vehicle_noun": true,
+      "entailment": [
+        0.052297362356950976,
+        0.052754214101128495,
+        0.0521398353401514,
+        0.04893355296792885
+      ],
+      "text_route_to_visual_check": false
+    },
+    {
+      "cohort": "previous_delegate",
+      "text": "The turn between those two black cars surprised me. Take me home.",
+      "bare_two_vehicle_noun": true,
+      "entailment": [
+        0.052141964455590634,
+        0.05236983547112223,
+        0.052541373621154096,
+        0.04979670381706693
+      ],
+      "text_route_to_visual_check": false
+    },
+    {
+      "cohort": "previous_delegate",
+      "text": "Don't stop between those two black cars unless I ask. For now, keep going.",
+      "bare_two_vehicle_noun": true,
+      "entailment": [
+        0.048919354374391,
+        0.05007074292239612,
+        0.05075538172447754,
+        0.0500437909372443
+      ],
+      "text_route_to_visual_check": false
+    },
+    {
+      "cohort": "previous_delegate",
+      "text": "Could you count those two black cars?",
+      "bare_two_vehicle_noun": true,
+      "entailment": [
+        0.04575952719791377,
+        0.047259985102435106,
+        0.047515632292504204,
+        0.04730431443297099
+      ],
+      "text_route_to_visual_check": false
+    },
+    {
+      "cohort": "previous_delegate",
+      "text": "That dark median between the cars is what I mean; stop just beyond the median.",
+      "bare_two_vehicle_noun": false,
+      "entailment": [
+        0.04829813592729299,
+        0.050930742819698345,
+        0.05126330853235247,
+        0.04930434274034965
+      ],
+      "text_route_to_visual_check": false
+    },
+    {
+      "cohort": "previous_delegate",
+      "text": "Between these two black cars? No thanks, a bit farther on at the bakery.",
+      "bare_two_vehicle_noun": true,
+      "entailment": [
+        0.053140604348662177,
+        0.052197270875869096,
+        0.05281285178415175,
+        0.0535729936306548
+      ],
+      "text_route_to_visual_check": false
+    },
+    {
+      "cohort": "previous_delegate",
+      "text": "How wide is that gap between those two black cars?",
+      "bare_two_vehicle_noun": true,
+      "entailment": [
+        0.0513364248731034,
+        0.05050186523180887,
+        0.050672547713708944,
+        0.050851484166789016
+      ],
+      "text_route_to_visual_check": false
+    }
+  ]
+}

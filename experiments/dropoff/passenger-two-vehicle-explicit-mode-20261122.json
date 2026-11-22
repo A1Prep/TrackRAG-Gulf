@@ -1,0 +1,543 @@
+{
+  "scope": "18 scripted browser sessions on 4 original EMT photos in two recordings. The 12 wording rechecks all use the same photo and passenger-supplied landmark identities. One file-fed microphone used synthetic speech and actual local Whisper. Zero human study participants.",
+  "ordinary_baseline_sha256": "2a81fb618fd76f98ba286e4bcc82d221b5c25d15153d86da3319267c4c45cbc9",
+  "trained_pair_geometry_sha256": "db9575ac6b82ff9828f29440bacf2349cd2371f23c2cfb747bd7dc05ee04c7e5",
+  "experiment": "Explicit passenger intent, existing detector observations, learned region and road, separate confirmation.",
+  "release_archive": {
+    "name": "passenger-explicit-pointing-evidence.zip",
+    "bytes": 155320,
+    "sha256": "3e105842a059f81f07b282090705224d750e1b3a62edcaa66d679b746d1ecdde"
+  },
+  "records": [
+    {
+      "case": "unpointed_pair-01",
+      "photo_sha256": "c411cf6760695905334f32e5590083cf144543df1ca98e68aae55fb345eb583e",
+      "state": "confirmed",
+      "point": [
+        1097.5,
+        1132.5
+      ],
+      "inside_preexisting_reference": true,
+      "passenger_requested_pointing": true,
+      "original_unassisted_model": [],
+      "audio_transcript": null,
+      "browser_steps": [
+        {
+          "action": "requested_pointing",
+          "state": "needs_clarification"
+        },
+        {
+          "action": "selected",
+          "state": "proposed",
+          "point": [
+            1097.5,
+            1132.5
+          ],
+          "token": "f779fac290254022a2a3e85aa1f8a9b7"
+        }
+      ],
+      "journal_sha256": "3641000e2ec792480c0dff503e566d3e6b22793e29441c8204f5ffd2cf6e22ce"
+    },
+    {
+      "case": "unpointed_pair-02",
+      "photo_sha256": "c411cf6760695905334f32e5590083cf144543df1ca98e68aae55fb345eb583e",
+      "state": "confirmed",
+      "point": [
+        1097.5,
+        1132.5
+      ],
+      "inside_preexisting_reference": true,
+      "passenger_requested_pointing": true,
+      "original_unassisted_model": [],
+      "audio_transcript": null,
+      "browser_steps": [
+        {
+          "action": "requested_pointing",
+          "state": "needs_clarification"
+        },
+        {
+          "action": "selected",
+          "state": "proposed",
+          "point": [
+            1097.5,
+            1132.5
+          ],
+          "token": "5ecdee2571b24482a452c768a076579b"
+        }
+      ],
+      "journal_sha256": "3ff31514e809f0dc17501c6da0dab259e58c2ed045b86b6db212b5c5e1df5b67"
+    },
+    {
+      "case": "unpointed_pair-03",
+      "photo_sha256": "c411cf6760695905334f32e5590083cf144543df1ca98e68aae55fb345eb583e",
+      "state": "confirmed",
+      "point": [
+        1097.5,
+        1132.5
+      ],
+      "inside_preexisting_reference": true,
+      "passenger_requested_pointing": true,
+      "original_unassisted_model": [],
+      "audio_transcript": null,
+      "browser_steps": [
+        {
+          "action": "requested_pointing",
+          "state": "needs_clarification"
+        },
+        {
+          "action": "selected",
+          "state": "proposed",
+          "point": [
+            1097.5,
+            1132.5
+          ],
+          "token": "fa7be0c78015473e829d0b993319624e"
+        }
+      ],
+      "journal_sha256": "e661e1dab2a9db3262223c4d2bae7932efa13b88389e96dfc5d07f862719a44c"
+    },
+    {
+      "case": "unpointed_pair-04",
+      "photo_sha256": "c411cf6760695905334f32e5590083cf144543df1ca98e68aae55fb345eb583e",
+      "state": "confirmed",
+      "point": [
+        1097.5,
+        1132.5
+      ],
+      "inside_preexisting_reference": true,
+      "passenger_requested_pointing": true,
+      "original_unassisted_model": [],
+      "audio_transcript": null,
+      "browser_steps": [
+        {
+          "action": "requested_pointing",
+          "state": "needs_clarification"
+        },
+        {
+          "action": "selected",
+          "state": "proposed",
+          "point": [
+            1097.5,
+            1132.5
+          ],
+          "token": "66fa57c1df734dd6a93a9c3669586775"
+        }
+      ],
+      "journal_sha256": "961d12b71b7dbec7165cea78da359a6dce3444ec6c6ad4b4f355739ed54883ec"
+    },
+    {
+      "case": "unpointed_pair-05",
+      "photo_sha256": "c411cf6760695905334f32e5590083cf144543df1ca98e68aae55fb345eb583e",
+      "state": "confirmed",
+      "point": [
+        1097.5,
+        1132.5
+      ],
+      "inside_preexisting_reference": true,
+      "passenger_requested_pointing": true,
+      "original_unassisted_model": [],
+      "audio_transcript": null,
+      "browser_steps": [
+        {
+          "action": "requested_pointing",
+          "state": "needs_clarification"
+        },
+        {
+          "action": "selected",
+          "state": "proposed",
+          "point": [
+            1097.5,
+            1132.5
+          ],
+          "token": "ccb7f684657b456d97c94792fcc7cbc2"
+        }
+      ],
+      "journal_sha256": "ae5e2159569f972f0bbf985e3655796beac90ab63f821dc5bc2dfb49e70eca7b"
+    },
+    {
+      "case": "unpointed_pair-06",
+      "photo_sha256": "c411cf6760695905334f32e5590083cf144543df1ca98e68aae55fb345eb583e",
+      "state": "confirmed",
+      "point": [
+        1097.5,
+        1132.5
+      ],
+      "inside_preexisting_reference": true,
+      "passenger_requested_pointing": true,
+      "original_unassisted_model": [],
+      "audio_transcript": null,
+      "browser_steps": [
+        {
+          "action": "requested_pointing",
+          "state": "needs_clarification"
+        },
+        {
+          "action": "selected",
+          "state": "proposed",
+          "point": [
+            1097.5,
+            1132.5
+          ],
+          "token": "8fa98de8071344c59920a6ea02ae6a9d"
+        }
+      ],
+      "journal_sha256": "8e5568c0efe397a65187c14875772f675f795979d5b7a27bdf3d6f0622b3d6df"
+    },
+    {
+      "case": "unpointed_pair-07",
+      "photo_sha256": "c411cf6760695905334f32e5590083cf144543df1ca98e68aae55fb345eb583e",
+      "state": "confirmed",
+      "point": [
+        1097.5,
+        1132.5
+      ],
+      "inside_preexisting_reference": true,
+      "passenger_requested_pointing": true,
+      "original_unassisted_model": [],
+      "audio_transcript": null,
+      "browser_steps": [
+        {
+          "action": "requested_pointing",
+          "state": "needs_clarification"
+        },
+        {
+          "action": "selected",
+          "state": "proposed",
+          "point": [
+            1097.5,
+            1132.5
+          ],
+          "token": "9a574691aed343d086ec128b07bedacc"
+        }
+      ],
+      "journal_sha256": "4d4cf17976a0b74fedc1d8a9e46a3ed99b5ea8cb587ee5c10b8817bca862eeef"
+    },
+    {
+      "case": "unpointed_pair-08",
+      "photo_sha256": "c411cf6760695905334f32e5590083cf144543df1ca98e68aae55fb345eb583e",
+      "state": "confirmed",
+      "point": [
+        1097.5,
+        1132.5
+      ],
+      "inside_preexisting_reference": true,
+      "passenger_requested_pointing": true,
+      "original_unassisted_model": [],
+      "audio_transcript": null,
+      "browser_steps": [
+        {
+          "action": "requested_pointing",
+          "state": "needs_clarification"
+        },
+        {
+          "action": "selected",
+          "state": "proposed",
+          "point": [
+            1097.5,
+            1132.5
+          ],
+          "token": "43ab72eedd4d436d9e407afa25e1a1b7"
+        }
+      ],
+      "journal_sha256": "8e109ff035629ab05ef38da6c3ddb5c3c81389c462b74628212699d9103e0bf6"
+    },
+    {
+      "case": "unpointed_pair-09",
+      "photo_sha256": "c411cf6760695905334f32e5590083cf144543df1ca98e68aae55fb345eb583e",
+      "state": "confirmed",
+      "point": [
+        1097.5,
+        1132.5
+      ],
+      "inside_preexisting_reference": true,
+      "passenger_requested_pointing": true,
+      "original_unassisted_model": [],
+      "audio_transcript": null,
+      "browser_steps": [
+        {
+          "action": "requested_pointing",
+          "state": "needs_clarification"
+        },
+        {
+          "action": "selected",
+          "state": "proposed",
+          "point": [
+            1097.5,
+            1132.5
+          ],
+          "token": "be470e7e0e234d8ca38eb54f8693652c"
+        }
+      ],
+      "journal_sha256": "06d9a1f4954850c212959c79d07137f8e12774557240b531c2c1c124e00204f5"
+    },
+    {
+      "case": "unpointed_pair-10",
+      "photo_sha256": "c411cf6760695905334f32e5590083cf144543df1ca98e68aae55fb345eb583e",
+      "state": "confirmed",
+      "point": [
+        1097.5,
+        1132.5
+      ],
+      "inside_preexisting_reference": true,
+      "passenger_requested_pointing": true,
+      "original_unassisted_model": [],
+      "audio_transcript": null,
+      "browser_steps": [
+        {
+          "action": "requested_pointing",
+          "state": "needs_clarification"
+        },
+        {
+          "action": "selected",
+          "state": "proposed",
+          "point": [
+            1097.5,
+            1132.5
+          ],
+          "token": "775bb3402915414dbbb25205dfac9a04"
+        }
+      ],
+      "journal_sha256": "85d4094ad7de3dbc3feeb44862f5509e45598f6f5e89daabc5f0e448c3cd5c34"
+    },
+    {
+      "case": "unpointed_pair-11",
+      "photo_sha256": "c411cf6760695905334f32e5590083cf144543df1ca98e68aae55fb345eb583e",
+      "state": "confirmed",
+      "point": [
+        1097.5,
+        1132.5
+      ],
+      "inside_preexisting_reference": true,
+      "passenger_requested_pointing": true,
+      "original_unassisted_model": [],
+      "audio_transcript": null,
+      "browser_steps": [
+        {
+          "action": "requested_pointing",
+          "state": "needs_clarification"
+        },
+        {
+          "action": "selected",
+          "state": "proposed",
+          "point": [
+            1097.5,
+            1132.5
+          ],
+          "token": "569684567581451dbe88c1556b3bb4a2"
+        }
+      ],
+      "journal_sha256": "d5c308306a0c846eb03703c3504671d9f14a7328100a009f11a79d0a4c4a90c3"
+    },
+    {
+      "case": "unpointed_pair-12",
+      "photo_sha256": "c411cf6760695905334f32e5590083cf144543df1ca98e68aae55fb345eb583e",
+      "state": "confirmed",
+      "point": [
+        1097.5,
+        1132.5
+      ],
+      "inside_preexisting_reference": true,
+      "passenger_requested_pointing": true,
+      "original_unassisted_model": [],
+      "audio_transcript": null,
+      "browser_steps": [
+        {
+          "action": "requested_pointing",
+          "state": "needs_clarification"
+        },
+        {
+          "action": "selected",
+          "state": "proposed",
+          "point": [
+            1097.5,
+            1132.5
+          ],
+          "token": "d447b310d0c84cb5b1f35fa08c927e53"
+        }
+      ],
+      "journal_sha256": "79efd6624e5792c1fa44b5dacaf4e91b5c00339777f97fbea0e3e8e0217c924e"
+    },
+    {
+      "case": "repair-incorrect_spatial",
+      "photo_sha256": "c411cf6760695905334f32e5590083cf144543df1ca98e68aae55fb345eb583e",
+      "state": "confirmed",
+      "point": [
+        1097.5,
+        1132.5
+      ],
+      "inside_preexisting_reference": true,
+      "passenger_requested_pointing": true,
+      "original_unassisted_model": [
+        {
+          "text": "LANDMARK L18",
+          "status": "proposed",
+          "error": null
+        }
+      ],
+      "audio_transcript": null,
+      "browser_steps": [
+        {
+          "action": "ordinary_submission",
+          "state": "proposed",
+          "point": [
+            1562.5,
+            1217.5
+          ],
+          "token": "341afc493733476eab79fe21cf1222b5"
+        },
+        {
+          "action": "reviewed_previous_text_and_requested_pointing",
+          "state": "needs_clarification"
+        },
+        {
+          "action": "selected",
+          "state": "proposed",
+          "point": [
+            1097.5,
+            1132.5
+          ],
+          "token": "c7a8cd307ec3418fb341bca027bb9018"
+        }
+      ],
+      "journal_sha256": "9f486ecd0f74721c70da8750c01ca512f0b573310d4a7ee6087e9903d3a17e78"
+    },
+    {
+      "case": "repair-operational_error",
+      "photo_sha256": "c411cf6760695905334f32e5590083cf144543df1ca98e68aae55fb345eb583e",
+      "state": "confirmed",
+      "point": [
+        1097.5,
+        1132.5
+      ],
+      "inside_preexisting_reference": true,
+      "passenger_requested_pointing": false,
+      "original_unassisted_model": [
+        {
+          "text": "LANDMARK L18 LANDMARK L22",
+          "status": "error",
+          "error": "invalid_model_output"
+        }
+      ],
+      "audio_transcript": null,
+      "browser_steps": [
+        {
+          "action": "ordinary_submission",
+          "state": "error",
+          "token": null,
+          "err": "invalid_model_output"
+        },
+        {
+          "action": "picked_after_ordinary_result"
+        },
+        {
+          "action": "selected",
+          "state": "proposed",
+          "point": [
+            1097.5,
+            1132.5
+          ],
+          "token": "75da0fd3357f4175862012c2637615e1"
+        }
+      ],
+      "journal_sha256": "98bada930e36dfd46dea2515ec4dfcbc17a8245baaaa4e4d7d400436a27a8966"
+    },
+    {
+      "case": "microphone",
+      "photo_sha256": "c411cf6760695905334f32e5590083cf144543df1ca98e68aae55fb345eb583e",
+      "state": "confirmed",
+      "point": [
+        1097.5,
+        1132.5
+      ],
+      "inside_preexisting_reference": true,
+      "passenger_requested_pointing": true,
+      "original_unassisted_model": [],
+      "audio_transcript": "Drop me between these two black cars.",
+      "browser_steps": [
+        {
+          "action": "requested_pointing",
+          "state": "needs_clarification"
+        },
+        {
+          "action": "selected",
+          "state": "proposed",
+          "point": [
+            1097.5,
+            1132.5
+          ],
+          "token": "fcfed1d02f7049e795b79c28b5b7fc2e"
+        }
+      ],
+      "journal_sha256": "2d5ef6246afc9c610a302fa5f078b4d8fb6716198d5cc429a870ac97cab81ebc"
+    },
+    {
+      "case": "suv-truck",
+      "photo_sha256": "033fc370408c4bc99a1ec9fbb845b6618a5f53b680a235baba336b8fe8ddba80",
+      "state": "confirmed",
+      "point": [
+        1037.5,
+        1292.5
+      ],
+      "inside_preexisting_reference": true,
+      "passenger_requested_pointing": true,
+      "original_unassisted_model": [],
+      "audio_transcript": null,
+      "browser_steps": [
+        {
+          "action": "requested_pointing",
+          "state": "needs_clarification"
+        },
+        {
+          "action": "selected",
+          "state": "proposed",
+          "point": [
+            1037.5,
+            1292.5
+          ],
+          "token": "e497db1ff4f74d459a5fe61261730925"
+        }
+      ],
+      "journal_sha256": "3e91199278e2482e00432e0118a47e4bd6a3792095d14d98cc6837b38c7a2f87"
+    },
+    {
+      "case": "one-visible",
+      "photo_sha256": "9254f1e8fff93da34e300369df088c554486726f29432e6101682cc103185e86",
+      "state": "needs_clarification",
+      "point": null,
+      "inside_preexisting_reference": null,
+      "passenger_requested_pointing": true,
+      "original_unassisted_model": [],
+      "audio_transcript": null,
+      "browser_steps": [
+        {
+          "action": "requested_pointing",
+          "state": "needs_clarification"
+        }
+      ],
+      "journal_sha256": "db719f5a745521e2fc16c4b25047614deaa4ed3a38737c69fa4e8d1acff11b96"
+    },
+    {
+      "case": "distant-patch",
+      "photo_sha256": "90624d5701f677e9ea3d975c397216669ccad2f5f8c474a777f06ac1742b0eaf",
+      "state": "needs_clarification",
+      "point": null,
+      "inside_preexisting_reference": null,
+      "passenger_requested_pointing": true,
+      "original_unassisted_model": [],
+      "audio_transcript": null,
+      "browser_steps": [
+        {
+          "action": "requested_pointing",
+          "state": "needs_clarification"
+        },
+        {
+          "action": "selected",
+          "state": "needs_clarification",
+          "point": null,
+          "token": null
+        }
+      ],
+      "journal_sha256": "ea28d768a64f5a4490e0379a52da8d6e393ececb2291afa4a3533ff93b74549a"
+    }
+  ]
+}

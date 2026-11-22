@@ -102,6 +102,9 @@ class PassengerSession:
             self._error = {"code":"audit_unavailable","message":"This turn could not be saved."}
             raise
 
+    def _interpret_submission(self, request):
+        return self.model.interpret(request), "model"
+
     def submit(self, text, *, original_transcript=None, speech=None):
         with self._lock:
             prior = self._state
@@ -134,8 +137,8 @@ class PassengerSession:
                 elif speech is not None:
                     raise ValueError("Speech receipt requires a voice transcript")
                 self._turns.append(self._turn("user",text))
-                outcome = self.model.interpret(deepcopy(self._request))
-                self._accept(outcome, "model")
+                outcome, selected_by = self._interpret_submission(deepcopy(self._request))
+                self._accept(outcome, selected_by)
             except Exception as exc:
                 self._clear()
                 self._state = "error"

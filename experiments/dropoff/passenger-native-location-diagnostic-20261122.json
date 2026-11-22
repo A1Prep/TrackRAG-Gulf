@@ -1,0 +1,533 @@
+{
+  "native_summary_sha256": "4bd42ed4005932c149063672016cda6c55d537e8ffe5d45d0df48808a2779fec",
+  "frozen_development_reference_sha256": "ab01878a0ed1b73fdbb931c73bb167624aa115c9af5c21e4f41b4388e567cd8c",
+  "design": "Post-hoc error description, 19 development inputs from one recording. Half-open original-pixel detector rectangles. A point coinciding with a rectangle is a 2D observation. Targets used for scoring only. Each of 11 reference proposals is AI-authored.",
+  "conditions": {
+    "local_child": {
+      "all_proposals": 16,
+      "proposals_inside_current_detector_rectangle": 13,
+      "clear_cases_proposed": 10,
+      "median_fraction_of_frame_above_clear_target": 0.12675000000000006,
+      "reference_region_hits": 0,
+      "input_sha256": "0160bf67789bc6d7f3a362f2a6d607b1028b1b81ca0490863a5971ede224846f",
+      "raw_outcomes_sha256": "891a22ba5f6a1d7ccbd1d74685187a0a9637632551026d0a2ad437d1c3281da6",
+      "measurements": [
+        {
+          "id": "passenger-b01",
+          "point": [
+            512.0,
+            1051.2
+          ],
+          "overlapping_current_track_ids": [
+            1
+          ],
+          "fraction_of_frame_above_reference": 0.13319444444444442
+        },
+        {
+          "id": "passenger-b02",
+          "point": [
+            1740.8,
+            1195.2
+          ],
+          "overlapping_current_track_ids": [
+            2
+          ],
+          "fraction_of_frame_above_reference": 0.08111111111111108
+        },
+        {
+          "id": "passenger-b03",
+          "point": [
+            660.7312614399999,
+            1190.0449224000001
+          ],
+          "overlapping_current_track_ids": [],
+          "fraction_of_frame_above_reference": null
+        },
+        {
+          "id": "passenger-b04",
+          "point": [
+            1740.8,
+            1123.2
+          ],
+          "overlapping_current_track_ids": [
+            2
+          ],
+          "fraction_of_frame_above_reference": 0.13111111111111107
+        },
+        {
+          "id": "passenger-b06",
+          "point": [
+            1228.8,
+            1065.6
+          ],
+          "overlapping_current_track_ids": [],
+          "fraction_of_frame_above_reference": 0.10027777777777784
+        },
+        {
+          "id": "passenger-b07",
+          "point": [
+            844.8,
+            1065.6
+          ],
+          "overlapping_current_track_ids": [
+            1,
+            6
+          ],
+          "fraction_of_frame_above_reference": 0.12875000000000006
+        },
+        {
+          "id": "passenger-b08",
+          "point": [
+            2150.4,
+            1224.0
+          ],
+          "overlapping_current_track_ids": [
+            2,
+            1154
+          ],
+          "fraction_of_frame_above_reference": null
+        },
+        {
+          "id": "passenger-b09",
+          "point": [
+            838.656,
+            1071.36
+          ],
+          "overlapping_current_track_ids": [
+            1,
+            6
+          ],
+          "fraction_of_frame_above_reference": 0.12475000000000007
+        },
+        {
+          "id": "passenger-b10",
+          "point": [
+            1504.256,
+            1062.72
+          ],
+          "overlapping_current_track_ids": [
+            5
+          ],
+          "fraction_of_frame_above_reference": null
+        },
+        {
+          "id": "passenger-b11",
+          "point": [
+            1442.56,
+            1072.8
+          ],
+          "overlapping_current_track_ids": [
+            5
+          ],
+          "fraction_of_frame_above_reference": 0.06472222222222225
+        },
+        {
+          "id": "passenger-b12",
+          "point": [
+            908.8,
+            1080.0
+          ],
+          "overlapping_current_track_ids": [
+            6
+          ],
+          "fraction_of_frame_above_reference": 0.13194444444444445
+        },
+        {
+          "id": "passenger-b13",
+          "point": [
+            1250.56,
+            1072.8
+          ],
+          "overlapping_current_track_ids": [
+            4
+          ],
+          "fraction_of_frame_above_reference": 0.13694444444444448
+        },
+        {
+          "id": "passenger-b14",
+          "point": [
+            1236.10368,
+            1049.1523200000001
+          ],
+          "overlapping_current_track_ids": [
+            4,
+            1522
+          ],
+          "fraction_of_frame_above_reference": null
+        },
+        {
+          "id": "passenger-b15",
+          "point": [
+            1385.3459481599998,
+            1010.97198432
+          ],
+          "overlapping_current_track_ids": [
+            1397
+          ],
+          "fraction_of_frame_above_reference": null
+        },
+        {
+          "id": "passenger-b16",
+          "point": [
+            2009.6,
+            1166.4
+          ],
+          "overlapping_current_track_ids": [],
+          "fraction_of_frame_above_reference": 0.014999999999999937
+        },
+        {
+          "id": "passenger-b19",
+          "point": [
+            1495.04,
+            1130.4
+          ],
+          "overlapping_current_track_ids": [
+            5
+          ],
+          "fraction_of_frame_above_reference": null
+        }
+      ]
+    },
+    "public_parent": {
+      "all_proposals": 17,
+      "proposals_inside_current_detector_rectangle": 16,
+      "clear_cases_proposed": 11,
+      "median_fraction_of_frame_above_clear_target": 0.11319444444444444,
+      "reference_region_hits": 0,
+      "input_sha256": "0160bf67789bc6d7f3a362f2a6d607b1028b1b81ca0490863a5971ede224846f",
+      "raw_outcomes_sha256": "b6d94435138df686815ce270f3fb1150f40d49a8a1570770b4c2840e4026033c",
+      "measurements": [
+        {
+          "id": "passenger-b01",
+          "point": [
+            460.8,
+            1080.0
+          ],
+          "overlapping_current_track_ids": [
+            1
+          ],
+          "fraction_of_frame_above_reference": 0.11319444444444444
+        },
+        {
+          "id": "passenger-b02",
+          "point": [
+            1753.6,
+            1152.0
+          ],
+          "overlapping_current_track_ids": [
+            2
+          ],
+          "fraction_of_frame_above_reference": 0.1111111111111111
+        },
+        {
+          "id": "passenger-b03",
+          "point": [
+            581.12,
+            1033.92
+          ],
+          "overlapping_current_track_ids": [
+            1
+          ],
+          "fraction_of_frame_above_reference": null
+        },
+        {
+          "id": "passenger-b04",
+          "point": [
+            1656.32,
+            1087.2
+          ],
+          "overlapping_current_track_ids": [
+            2
+          ],
+          "fraction_of_frame_above_reference": 0.1561111111111111
+        },
+        {
+          "id": "passenger-b06",
+          "point": [
+            1203.2,
+            1065.6
+          ],
+          "overlapping_current_track_ids": [
+            38
+          ],
+          "fraction_of_frame_above_reference": 0.10027777777777784
+        },
+        {
+          "id": "passenger-b07",
+          "point": [
+            857.6,
+            1072.8
+          ],
+          "overlapping_current_track_ids": [
+            1,
+            6
+          ],
+          "fraction_of_frame_above_reference": 0.12375000000000003
+        },
+        {
+          "id": "passenger-b08",
+          "point": [
+            2060.8,
+            1198.08
+          ],
+          "overlapping_current_track_ids": [
+            2,
+            1154
+          ],
+          "fraction_of_frame_above_reference": null
+        },
+        {
+          "id": "passenger-b09",
+          "point": [
+            857.6,
+            1087.2
+          ],
+          "overlapping_current_track_ids": [
+            1,
+            6
+          ],
+          "fraction_of_frame_above_reference": 0.11374999999999996
+        },
+        {
+          "id": "passenger-b10",
+          "point": [
+            1502.72,
+            1061.28
+          ],
+          "overlapping_current_track_ids": [
+            5
+          ],
+          "fraction_of_frame_above_reference": null
+        },
+        {
+          "id": "passenger-b11",
+          "point": [
+            1492.48,
+            1072.8
+          ],
+          "overlapping_current_track_ids": [
+            5
+          ],
+          "fraction_of_frame_above_reference": 0.06472222222222225
+        },
+        {
+          "id": "passenger-b12",
+          "point": [
+            883.2,
+            1087.2
+          ],
+          "overlapping_current_track_ids": [
+            6
+          ],
+          "fraction_of_frame_above_reference": 0.12694444444444442
+        },
+        {
+          "id": "passenger-b13",
+          "point": [
+            1249.28,
+            1077.12
+          ],
+          "overlapping_current_track_ids": [
+            4
+          ],
+          "fraction_of_frame_above_reference": 0.13394444444444453
+        },
+        {
+          "id": "passenger-b14",
+          "point": [
+            1236.10368,
+            1049.1523200000001
+          ],
+          "overlapping_current_track_ids": [
+            4,
+            1522
+          ],
+          "fraction_of_frame_above_reference": null
+        },
+        {
+          "id": "passenger-b15",
+          "point": [
+            1385.3459481599998,
+            1010.97198432
+          ],
+          "overlapping_current_track_ids": [
+            1397
+          ],
+          "fraction_of_frame_above_reference": null
+        },
+        {
+          "id": "passenger-b16",
+          "point": [
+            1932.8,
+            1188.0
+          ],
+          "overlapping_current_track_ids": [],
+          "fraction_of_frame_above_reference": 0.0
+        },
+        {
+          "id": "passenger-b17",
+          "point": [
+            934.4,
+            1058.4
+          ],
+          "overlapping_current_track_ids": [
+            7,
+            2032
+          ],
+          "fraction_of_frame_above_reference": 0.07958333333333327
+        },
+        {
+          "id": "passenger-b19",
+          "point": [
+            1497.6,
+            1130.4
+          ],
+          "overlapping_current_track_ids": [
+            5
+          ],
+          "fraction_of_frame_above_reference": null
+        }
+      ]
+    },
+    "pretrained": {
+      "all_proposals": 12,
+      "proposals_inside_current_detector_rectangle": 9,
+      "clear_cases_proposed": 9,
+      "median_fraction_of_frame_above_clear_target": 0.12875000000000006,
+      "reference_region_hits": 0,
+      "input_sha256": "0160bf67789bc6d7f3a362f2a6d607b1028b1b81ca0490863a5971ede224846f",
+      "raw_outcomes_sha256": "8116b0784655491bc8b487faee4a1d541f0562bd4792fdb795beecd4fbb20530",
+      "measurements": [
+        {
+          "id": "passenger-b01",
+          "point": [
+            460.8,
+            1036.8
+          ],
+          "overlapping_current_track_ids": [
+            1
+          ],
+          "fraction_of_frame_above_reference": 0.14319444444444449
+        },
+        {
+          "id": "passenger-b02",
+          "point": [
+            1740.8,
+            1080.0
+          ],
+          "overlapping_current_track_ids": [
+            2
+          ],
+          "fraction_of_frame_above_reference": 0.16111111111111112
+        },
+        {
+          "id": "passenger-b03",
+          "point": [
+            660.7312614399999,
+            1190.0449224000001
+          ],
+          "overlapping_current_track_ids": [],
+          "fraction_of_frame_above_reference": null
+        },
+        {
+          "id": "passenger-b04",
+          "point": [
+            1740.8,
+            1008.0
+          ],
+          "overlapping_current_track_ids": [
+            2
+          ],
+          "fraction_of_frame_above_reference": 0.2111111111111111
+        },
+        {
+          "id": "passenger-b06",
+          "point": [
+            1228.8,
+            1065.6
+          ],
+          "overlapping_current_track_ids": [],
+          "fraction_of_frame_above_reference": 0.10027777777777784
+        },
+        {
+          "id": "passenger-b07",
+          "point": [
+            844.8,
+            1065.6
+          ],
+          "overlapping_current_track_ids": [
+            1,
+            6
+          ],
+          "fraction_of_frame_above_reference": 0.12875000000000006
+        },
+        {
+          "id": "passenger-b08",
+          "point": [
+            2048.0,
+            1008.0
+          ],
+          "overlapping_current_track_ids": [
+            2,
+            1154
+          ],
+          "fraction_of_frame_above_reference": null
+        },
+        {
+          "id": "passenger-b09",
+          "point": [
+            844.8,
+            1065.6
+          ],
+          "overlapping_current_track_ids": [
+            1,
+            6
+          ],
+          "fraction_of_frame_above_reference": 0.12875000000000006
+        },
+        {
+          "id": "passenger-b11",
+          "point": [
+            1464.32,
+            1065.6
+          ],
+          "overlapping_current_track_ids": [
+            5
+          ],
+          "fraction_of_frame_above_reference": 0.06972222222222228
+        },
+        {
+          "id": "passenger-b12",
+          "point": [
+            844.8,
+            1080.0
+          ],
+          "overlapping_current_track_ids": [
+            6
+          ],
+          "fraction_of_frame_above_reference": 0.13194444444444445
+        },
+        {
+          "id": "passenger-b14",
+          "point": [
+            1305.088,
+            1084.032
+          ],
+          "overlapping_current_track_ids": [
+            4
+          ],
+          "fraction_of_frame_above_reference": null
+        },
+        {
+          "id": "passenger-b16",
+          "point": [
+            2009.6,
+            1036.8
+          ],
+          "overlapping_current_track_ids": [],
+          "fraction_of_frame_above_reference": 0.10500000000000004
+        }
+      ]
+    }
+  }
+}

@@ -270,9 +270,15 @@ class PassengerSite:
                     raise PassengerRequestError(409, "Record or upload audio and review its transcript first.")
                 if mode not in ("typed", "voice"):
                     raise PassengerRequestError(400, "Unknown input mode.")
+                pointing = payload.get("point_to_vehicles", False)
+                if type(pointing) is not bool:
+                    raise PassengerRequestError(400, "Invalid vehicle selection mode.")
+                if pointing and not s.dialogue.view().get("can_request_pointing"):
+                    raise PassengerRequestError(409, "Vehicle selection is unavailable for this scene.")
                 receipt = s.receipt if mode == "voice" else None
                 with self.model_lock:
-                    s.dialogue.submit(text, original_transcript=receipt["transcript"] if receipt else None, speech=receipt)
+                    kwargs = {"point_to_vehicles":True} if pointing else {}
+                    s.dialogue.submit(text, original_transcript=receipt["transcript"] if receipt else None, speech=receipt, **kwargs)
                 s.clear_audio()
             elif action == "area":
                 if s.voice_stage:

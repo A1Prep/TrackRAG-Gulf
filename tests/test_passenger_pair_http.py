@@ -119,3 +119,17 @@ def test_replacing_audio_hides_and_blocks_previous_pair(http_site):
     assert status == 409 and not grounder.pair_calls
     _, cancelled = post(base, url + "/cancel", {}, 2)
     assert cancelled["view"]["state"] == "cancelled" and cancelled["view"]["pair_choices"] == []
+
+
+def test_pointing_requires_explicit_valid_input_and_current_revision(http_site):
+    base, key, _ = http_site
+    _, start = post(base, "/api/sessions", {"scene":key})
+    url = "/api/sessions/"+start["session"]+"/submit"
+    words = "I can point to the place."
+    payload = {"mode":"typed", "text":words, "point_to_vehicles":True}
+    assert post(base,url,{**payload, "point_to_vehicles":"yes"},0)[0] == 400
+    status,result = post(base,url,payload,0)
+    assert status == 200 and result["view"]["state"] == "needs_clarification"
+    assert result["view"]["selected_by"] == "passenger" and result["view"]["proposal_id"] is None
+    assert len(result["view"]["pair_choices"]) == 2 and result["view"]["turns"][0]["text"] == words
+    assert post(base, url,payload,0)[0] == 409

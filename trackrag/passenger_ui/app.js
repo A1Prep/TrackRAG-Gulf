@@ -80,13 +80,22 @@ function render() {
   const pairStatus = v.state==="proposed" && v.selected_by==="passenger_landmarks" ?
     "Check the road location calculated from the two vehicles you chose." : "";
   text(el("status"), notice || voiceStatus || pairStatus || statuses[v.state]);
-  const err = failure || session?.speech_error?.message || v.error?.message || "";
+  const interpretationError = v.can_request_pointing && v.error?.code==="invalid_model_output"
+    ? "I couldn’t match your words to the picture. You can describe the place again or choose two vehicles."
+    : v.error?.message;
+  const err = failure || session?.speech_error?.message || interpretationError || "";
   text(el("error"), err); el("error").hidden = !err;
   el("messages").replaceChildren();
   (v.turns || []).forEach(addMessage);
   el("messages").scrollTop = el("messages").scrollHeight;
   const canMark = !stage && ["proposed","needs_clarification","insufficient_visual_evidence"].includes(v.state);
   const pendingWords = Boolean(input.value.trim());
+  const recoverWords = !stage && (v.pair_choices?.length||0)<2 && ["error","proposed","needs_clarification","insufficient_visual_evidence"].includes(v.state)
+    && v.turns?.some(turn=>turn.role==="user");
+  const pointButton = el("submit-pointing");
+  pointButton.hidden = !v.can_request_pointing || (!pendingWords && !recoverWords) || drawing || pairs.open;
+  pointButton.disabled = input.disabled || (Boolean(stage) && stage!=="review");
+  text(pointButton, pendingWords ? "Send and choose two vehicles" : "Review my words and choose two vehicles");
   el("draw").hidden = !canMark || drawing || pairs.open;
   el("draw").disabled = busy || micOn || pendingWords;
   el("choose-pair").hidden = Boolean(stage) || drawing || pairs.open || (v.pair_choices?.length||0)<2;
@@ -202,11 +211,24 @@ el("cancel").onclick = () => perform(async () => {
   const retiringAudio = Boolean(session.voice_stage);
   await action("cancel"); if (retiringAudio) input.value=""; resetSelection();
 });
-el("form").onsubmit = e => {
-  e.preventDefault(); if (!input.value.trim()) return;
+function sendInstruction(pointing) {
+  if (!input.value.trim()) return;
   const words = input.value.trim(), mode = session.voice_stage === "review" ? "voice" : "typed";
-  perform(async () => { await action("submit", {text:words, mode}); input.value=""; resetSelection(); },
-    "Checking the instruction against this frame…");
+  const payload = {text:words, mode};
+  if (pointing) payload.point_to_vehicles = true;
+  perform(async () => {
+    await action("submit", payload); input.value=""; resetSelection();
+    if (pointing && session.view.pair_choices?.length>=2) pairs.begin(session.view.pair_choices);
+  }, pointing ? "Opening the vehicle choices…" : "Checking the instruction against this frame…");
+}
+el("form").onsubmit = e => { e.preventDefault(); sendInstruction(false); };
+el("submit-pointing").onclick = () => {
+  if (!input.value.trim()) {
+    const prior = session.view.turns.filter(turn=>turn.role==="user").at(-1);
+    if (prior) { input.value=prior.text; input.focus(); render(); }
+    return;
+  }
+  sendInstruction(true);
 };
 input.addEventListener("input", render);
 sceneSelect.onchange = () => perform(chooseScene);

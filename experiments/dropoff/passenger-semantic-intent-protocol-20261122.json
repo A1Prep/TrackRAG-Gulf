@@ -1,0 +1,40 @@
+{
+  "purpose": "Prospective English intent check for an optional zero-shot clarification stage. A positive verdict may ask which vehicles the passenger means. It cannot propose a point.",
+  "context": "Registered after the original 12-phrase browser study. Its predictions, prompts, thresholds, model and original sample stay frozen. Do not use those 12 instructions to train this classifier or adjust it after scoring. The new examples below are author-written development cases, not human field observations.",
+  "model": "cross-encoder/nli-deberta-v3-small",
+  "revision": "fa2804872c3b4bd748f38c0185cc85775361e735",
+  "quantized_onnx_sha256": "a1da6815c8da542d16381c7d84892d409b4b6604d655bb3054ecb15dd8714e6e",
+  "premise": "A passenger says to their driver: {text}",
+  "hypotheses": [
+    "The passenger wants to get out in the space between two vehicles.",
+    "The passenger wants the driver to stop in a different place.",
+    "The passenger is discussing the vehicles without requesting a stop between them.",
+    "The passenger wants the driver to keep going."
+  ],
+  "decision": "Use the fixed model's entailment probability for each hypothesis. Ask only when the first hypothesis has at least 0.80 probability and exceeds every other hypothesis. Requires exactly one existing unqualified two-vehicle noun phrase and the trained visual ranker's ambiguous current candidates. Keep the existing direct and conflicting-pair decisions.",
+  "deployment_gate": "For the new cases, require at least 6 of 8 positive routes and zero of 12 counterexamples intercepted. Also check all 12 old counterexamples and the established 100 control outcomes. Do not adjust prompts or the cutoff to achieve the gate. If the gate fails, preserve ordinary interpretation and use explicit passenger selection for repair.",
+  "positive": [
+    "I can walk from the opening between those two cars.",
+    "My destination is halfway between those two silver SUVs.",
+    "That space separating the two buses is my stop.",
+    "I'd prefer to alight in the space between those two sedans.",
+    "The stretch between that pair of trucks works for me.",
+    "Could this ride end in the space separating these two cars?",
+    "I'll jump out right in the gap between the two vehicles.",
+    "That's where I want to leave the cab, halfway between those two cars."
+  ],
+  "delegate": [
+    "I'd like to alight before those two sedans.",
+    "Please pass between those two cars and let me out at the next corner.",
+    "My sister is walking between these two cars. Keep driving.",
+    "The gap between the two buses would be a terrible place to get out.",
+    "Is there enough room between those two cars for a bicycle?",
+    "I used to work between those two trucks. Today I am going to the station.",
+    "The space next to the bollard beyond those two cars is my stop.",
+    "I'll leave the cab just after the two vehicles.",
+    "Only if the gate is locked, perhaps between those two sedans. We haven't reached the gate yet.",
+    "Take me between the pale van at the fence and the hatchback below the sign.",
+    "I changed my mind about stopping between those two cars. The curb outside the hotel, please.",
+    "The stop is between the two bus shelters, not the buses."
+  ]
+}

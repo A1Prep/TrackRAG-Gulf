@@ -1,0 +1,292 @@
+{
+  "version": 1,
+  "kind": "withheld_language_scope_of_zero_generative_call_pair_clarification",
+  "registered_utc": "2026-11-22T06:51:38.669295+00:00",
+  "protocol_sha256": "f09d846f44cbcb6ff2226c452d4f6ea00feb86035ef6cc0c7f6e7ba81c96ce64",
+  "original_source_photo": {
+    "source_event_sha256": "ffb45389310261c355081e5177014798f8f90d2f7f533d0c71066e22c46f3c33",
+    "original_source_request_id": "25045675e9754f019b84a0487a145af6",
+    "image_sha256": "c411cf6760695905334f32e5590083cf144543df1ca98e68aae55fb345eb583e",
+    "recording_id": "video_054907",
+    "frame_id": 781
+  },
+  "previous_module_sha256": "76b1f5d9b90cfb32e6fe204e68bcfa8b4951fa43e578e4c9bc72761072e8241e",
+  "candidate_module_sha256": "f0f0135d0fad75cd015c7827b4a684c434a26757a6e58418f13669bf033a3eef",
+  "candidate_pair_choice_module_sha256": "ff29b425ee01d029bb62a2890efa51723c15e2049afacd537515b47a68ad16dc",
+  "weights_sha256": "d96a9a69e2e52ddbc21851d5ff6f79b344de6c8558600e54be5cb2712480a07d",
+  "published_evidence": {
+    "filename": "passenger-pair-language-scope-evidence.zip",
+    "bytes": 72548,
+    "sha256": "ae0d1c978a73eaf06e5b98c0484bfbdad9e6f4f6afb806787193c3710574f1dd",
+    "image_or_audio_files": 0
+  },
+  "one_nonfinal_recording": true,
+  "genuine_source_images": 1,
+  "actual_people_speaking": 0,
+  "full_application_calls": 0,
+  "qwen_calls": 0,
+  "cpu_policy_calls": 48,
+  "scoring": "A positive is covered if the grounded automatic policy asks which two vehicles the passenger means. Delegation is recorded separately, without claiming a final app error. A negative should delegate. Each hypothetical passenger sentence was authored independently of the policy developer; the 24 exact texts and intended classes were frozen before the language change. All cases share the same actual F781 photo and predicted observations.",
+  "earlier_development_probe": {
+    "protocol_sha256": "9a475c52b55aa570cdd1fa2a557c67d2694f10f6f9d3afcbffca11fcff0814b8",
+    "before_change_positives_intercepted": [
+      6,
+      12
+    ],
+    "before_change_negatives_intercepted": [
+      0,
+      4
+    ],
+    "role": "Known 16-item development probe, not part of the later 24."
+  },
+  "totals": {
+    "old": {
+      "unpointed_pair": {
+        "requested": 12,
+        "asked": 0,
+        "delegated": 12
+      },
+      "delegate_controls": {
+        "requested": 12,
+        "asked": 0,
+        "delegated": 12
+      }
+    },
+    "new": {
+      "unpointed_pair": {
+        "requested": 12,
+        "asked": 4,
+        "delegated": 8
+      },
+      "delegate_controls": {
+        "requested": 12,
+        "asked": 0,
+        "delegated": 12
+      }
+    }
+  },
+  "matched_current_only_positive_ids": [
+    "unpointed_pair-01",
+    "unpointed_pair-05",
+    "unpointed_pair-08",
+    "unpointed_pair-09"
+  ],
+  "per_utterance": [
+    {
+      "id": "unpointed_pair-01",
+      "wording": "Would you mind dropping us off in the gap between those two black sedans?",
+      "expected": "ask",
+      "previous": "delegate",
+      "current": "ask",
+      "portable_input_sha256": "836ec4d09e63ded815c008a12c3a92b23aa25b4b1e82c1b7fd81f3785992b37f",
+      "original_observation_ranker_response_sha256": "a0ec8b197e85b189dc10e609a4e92dcfc3b0940779c28c081965f9af13346d45"
+    },
+    {
+      "id": "unpointed_pair-02",
+      "wording": "Somewhere between these two black cars would be good.",
+      "expected": "ask",
+      "previous": "delegate",
+      "current": "delegate",
+      "portable_input_sha256": "7818389f20188b4ec6e54cbcfc9d4b5bcf9709eda057e32c4b892d77942ca3f0",
+      "original_observation_ranker_response_sha256": null
+    },
+    {
+      "id": "unpointed_pair-03",
+      "wording": "Between those two black cars, if you can.",
+      "expected": "ask",
+      "previous": "delegate",
+      "current": "delegate",
+      "portable_input_sha256": "1f1d8eb26d3e0764a881ad44ebbf6e2c01edf394c81046f506061e48044c4d51",
+      "original_observation_ranker_response_sha256": null
+    },
+    {
+      "id": "unpointed_pair-04",
+      "wording": "Put me down in the middle of those two black cars.",
+      "expected": "ask",
+      "previous": "delegate",
+      "current": "delegate",
+      "portable_input_sha256": "e4eb912cfd745ae46a9daa5192bc5eaa24751945387e56e532d5ecef0aceb588",
+      "original_observation_ranker_response_sha256": null
+    },
+    {
+      "id": "unpointed_pair-05",
+      "wording": "See those two black cars there? I want to get out between them.",
+      "expected": "ask",
+      "previous": "delegate",
+      "current": "ask",
+      "portable_input_sha256": "ca3c7cd02652bf00480a6031226b7f0ece3cc811a4142b24189d7554d1b39541",
+      "original_observation_ranker_response_sha256": "98abae0ef640de279157bd6e5897b0318f9c5dce0fd53cdadba2d75a757d0df2"
+    },
+    {
+      "id": "unpointed_pair-06",
+      "wording": "Here's my stop, just between those two black cars.",
+      "expected": "ask",
+      "previous": "delegate",
+      "current": "delegate",
+      "portable_input_sha256": "72cf90b6a3bb8cf768697e9a770209b7cf767b621b5709aef044a1fae53d219c",
+      "original_observation_ranker_response_sha256": null
+    },
+    {
+      "id": "unpointed_pair-07",
+      "wording": "The gap between these two black cars is where I need to get out.",
+      "expected": "ask",
+      "previous": "delegate",
+      "current": "delegate",
+      "portable_input_sha256": "e2e9e5463d85a5e3602023eed4fca693aaa32ced027f1f7ef04fac373cf71f85",
+      "original_observation_ranker_response_sha256": null
+    },
+    {
+      "id": "unpointed_pair-08",
+      "wording": "Please leave me right in between those two black cars.",
+      "expected": "ask",
+      "previous": "delegate",
+      "current": "ask",
+      "portable_input_sha256": "bc7f97213113d0151c3a087afa7a12be486a86a09b9d54f16f2193fe0a36b739",
+      "original_observation_ranker_response_sha256": "e76c832eae1a0c3bba0ee792faca8b0c4ae973477e7f42e2be5e4eb76d54be21"
+    },
+    {
+      "id": "unpointed_pair-09",
+      "wording": "Could we pull over between these two black cars, please?",
+      "expected": "ask",
+      "previous": "delegate",
+      "current": "ask",
+      "portable_input_sha256": "6c467f528f45d85d536e5d541f5c7f0e656e59ab75f9901033a92e3c81ea62ce",
+      "original_observation_ranker_response_sha256": "f4d7d2c02be8a20ff287439a7cb52e1c849781fd085282ac4b3157aaa6dd2a1c"
+    },
+    {
+      "id": "unpointed_pair-10",
+      "wording": "Let me off between these two black cars.",
+      "expected": "ask",
+      "previous": "delegate",
+      "current": "delegate",
+      "portable_input_sha256": "9fcaa36c862913d58c6d0e43b89aed3dc1873574d427d22ca0398bc30639b22c",
+      "original_observation_ranker_response_sha256": null
+    },
+    {
+      "id": "unpointed_pair-11",
+      "wording": "Take me to the space between those two black cars over there, thanks.",
+      "expected": "ask",
+      "previous": "delegate",
+      "current": "delegate",
+      "portable_input_sha256": "74d99c47cd9d104a1b4136b38acc0b33e0f08c7622ee632e8f5aa5379eddcae3",
+      "original_observation_ranker_response_sha256": null
+    },
+    {
+      "id": "unpointed_pair-12",
+      "wording": "Can I hop out between those two black cars?",
+      "expected": "ask",
+      "previous": "delegate",
+      "current": "delegate",
+      "portable_input_sha256": "c6d94e446ae9b51a262b539170a8317778b52b86a403b807a8f5349d23ea1531",
+      "original_observation_ranker_response_sha256": null
+    },
+    {
+      "id": "delegate_controls-01",
+      "wording": "Please drop me beside those two black cars.",
+      "expected": "delegate",
+      "previous": "delegate",
+      "current": "delegate",
+      "portable_input_sha256": "574789e2b5f263b3b5c314565a165c03a09805dd4b359d932d0f6ebae083eda7",
+      "original_observation_ranker_response_sha256": null
+    },
+    {
+      "id": "delegate_controls-02",
+      "wording": "Anywhere except between those two black cars, please.",
+      "expected": "delegate",
+      "previous": "delegate",
+      "current": "delegate",
+      "portable_input_sha256": "e46eca68b183cf16a3c73ad38caaff87b865f80de16dcf29703b4635b33c0726",
+      "original_observation_ranker_response_sha256": null
+    },
+    {
+      "id": "delegate_controls-03",
+      "wording": "I was going to say between these two black cars, but the bus stop will do.",
+      "expected": "delegate",
+      "previous": "delegate",
+      "current": "delegate",
+      "portable_input_sha256": "cdeda931c698fc55055c71f7dcd4e1fc8009eb7d1d3f141ff8a08222e3aac6b5",
+      "original_observation_ranker_response_sha256": null
+    },
+    {
+      "id": "delegate_controls-04",
+      "wording": "Please set me down between the hatchback on the left and the van on the right.",
+      "expected": "delegate",
+      "previous": "delegate",
+      "current": "delegate",
+      "portable_input_sha256": "38ce7f554e49ef5c5b3748a1e841f47b7807e53f452eae302385b306bc972e55",
+      "original_observation_ranker_response_sha256": null
+    },
+    {
+      "id": "delegate_controls-05",
+      "wording": "Between these two black cars or by the corner shop; I'm still deciding.",
+      "expected": "delegate",
+      "previous": "delegate",
+      "current": "delegate",
+      "portable_input_sha256": "723bdf48a6db00cd85443713055ff6a7fc0f388904cd6402299d9093d0d807da",
+      "original_observation_ranker_response_sha256": null
+    },
+    {
+      "id": "delegate_controls-06",
+      "wording": "Those two black cars are blocking the gate. Stop at the gate.",
+      "expected": "delegate",
+      "previous": "delegate",
+      "current": "delegate",
+      "portable_input_sha256": "f786efeac779c544baffb3df48d3d54f050f8d7d359fabd176ecd7c124a22497",
+      "original_observation_ranker_response_sha256": null
+    },
+    {
+      "id": "delegate_controls-07",
+      "wording": "The turn between those two black cars surprised me. Take me home.",
+      "expected": "delegate",
+      "previous": "delegate",
+      "current": "delegate",
+      "portable_input_sha256": "62f782f8d6c3a4b346d4135059f3e7295fe09c16a88a255154af55e39bcecd27",
+      "original_observation_ranker_response_sha256": null
+    },
+    {
+      "id": "delegate_controls-08",
+      "wording": "Don't stop between those two black cars unless I ask. For now, keep going.",
+      "expected": "delegate",
+      "previous": "delegate",
+      "current": "delegate",
+      "portable_input_sha256": "9235649f665f1e269e3ba6f3a83a2116b10bbc6946f28e96cfda3e8db8e223a6",
+      "original_observation_ranker_response_sha256": null
+    },
+    {
+      "id": "delegate_controls-09",
+      "wording": "Could you count those two black cars?",
+      "expected": "delegate",
+      "previous": "delegate",
+      "current": "delegate",
+      "portable_input_sha256": "65dbe05874138500377c376783883d5b84dc2de4c9f303cd606b49caad1c73d0",
+      "original_observation_ranker_response_sha256": null
+    },
+    {
+      "id": "delegate_controls-10",
+      "wording": "That dark median between the cars is what I mean; stop just beyond the median.",
+      "expected": "delegate",
+      "previous": "delegate",
+      "current": "delegate",
+      "portable_input_sha256": "4cf12a99059c7900fa5940f942fd8996cbb01f353894e54bfb4b5a33001a02b0",
+      "original_observation_ranker_response_sha256": null
+    },
+    {
+      "id": "delegate_controls-11",
+      "wording": "Between these two black cars? No thanks, a bit farther on at the bakery.",
+      "expected": "delegate",
+      "previous": "delegate",
+      "current": "delegate",
+      "portable_input_sha256": "154e6b1ea5b289446984eaaca043a45326173ce629314e9c1d743e3e2f409551",
+      "original_observation_ranker_response_sha256": null
+    },
+    {
+      "id": "delegate_controls-12",
+      "wording": "How wide is that gap between those two black cars?",
+      "expected": "delegate",
+      "previous": "delegate",
+      "current": "delegate",
+      "portable_input_sha256": "df872cc4e5d46df1f0b7b84e05ee907b22b525196488797df8e1878d8fb4d822",
+      "original_observation_ranker_response_sha256": null
+    }
+  ]
+}

@@ -32,7 +32,7 @@ The revised policy asked on three of those 19 instructions and deferred the othe
 
 ## Runtime and reproduction
 
-Load the checked-in coefficients and call the ranker with the original image already verified by the passenger application. Internally it enforces the predicted-track schema, current recording and frame dimensions, rejects future observations and ignores earlier frames. A response from the policy is an optional clarification. It supplies no destination coordinates.
+Load the coefficients from the installed passenger release and call the ranker with the original image already verified by the passenger application. Internally it enforces the predicted-track schema, current recording and frame dimensions, rejects future observations and ignores earlier frames. A response from the policy is an optional clarification. It supplies no destination coordinates. The package manifest binds the released weights to their SHA256 digest. Both original fitted heads are included in the separate experiment archive.
 
 ~~~python
 from trackrag.dropoff.passenger import instruction_context
@@ -40,7 +40,7 @@ from trackrag.dropoff.referent import ReferentRanker
 from trackrag.dropoff.referent_policy import clarify_reference
 
 model = ReferentRanker.load(
-    "configs/dropoff/referent/conditioned.json",
+    "models/passenger-feature/referent.json",
     expected_sha256="d96a9a69e2e52ddbc21851d5ff6f79b344de6c8558600e54be5cb2712480a07d",
 )
 text = instruction_context(request)

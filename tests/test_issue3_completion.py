@@ -31,7 +31,7 @@ def test_model_timeout_returns_error(monkeypatch, tmp_path):
     # Avoid filesystem/image processing in this unit test.
     monkeypatch.setattr(
         "trackrag.answering.prepare_evidence",
-        lambda evidence, run_dir: evidence,
+        lambda evidence, run_dir, question=None: evidence,
     )
 
     class TimeoutModel:

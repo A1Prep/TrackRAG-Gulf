@@ -4,6 +4,7 @@ from dataclasses import asdict, replace
 import json
 import os
 from pathlib import Path
+import re
 import shutil
 import tempfile
 import urllib.request
@@ -29,21 +30,43 @@ def file_hash(path):
 
 
 def verify_bundle(folder):
+    from trackrag.dropoff.anchor_geometry import AnchorGeometry
+    from trackrag.dropoff.model import GroundingConfig, _load_json, verify_adapter
+    from trackrag.dropoff.referent import ReferentRanker
+
     root = Path(folder).resolve()
-    manifest = json.loads((root/"manifest.json").read_text(encoding="utf8"))
+    manifest = _load_json(root/"manifest.json")
     if manifest.get("format") != "passenger-app-handoff-v1":
         raise ValueError("Unknown passenger bundle")
-    files = manifest["files"]
+    for flag in ("referent_policy", "verify_landmarks"):
+        if type(manifest.get(flag, False)) is not bool:
+            raise ValueError(f"{flag} must be a JSON boolean")
+    files = manifest.get("files")
+    if not isinstance(files, dict):
+        raise ValueError("Passenger bundle requires a file-to-SHA256 manifest")
     required = {"geometry.json","grounding.json","adapter/adapter_model.safetensors",
                 "adapter/adapter_config.json","adapter/grounding_adapter_manifest.json"}
     if manifest.get("referent_policy"):
         required.add("referent.json")
-    if not required <= set(files):
-        raise ValueError("Passenger bundle lacks a required model artifact")
+    if set(files) != required or (root/"referent.json").exists() != ("referent.json" in required):
+        raise ValueError("Passenger bundle files differ from its declared model components")
     for name,expected in files.items():
         path = (root/name).resolve()
-        if not path.is_relative_to(root) or not path.is_file() or file_hash(path) != expected:
+        if (not isinstance(expected, str) or not re.fullmatch(r"[0-9a-f]{64}", expected)
+                or not path.is_relative_to(root) or not path.is_file() or file_hash(path) != expected):
             raise ValueError(f"Passenger artifact unavailable or changed: {name}")
+    cfg = GroundingConfig.from_mapping(_load_json(root/"grounding.json"))
+    if ((cfg.model_id, cfg.revision) != (manifest.get("base_model"), manifest.get("revision"))
+            or cfg.adapter_dir != "adapter" or cfg.runtime != "streamed" or cfg.allow_annotated):
+        raise ValueError("Packaged runtime or base identity differs from the passenger model")
+    verify_adapter(replace(cfg, adapter_dir=str(root/"adapter")))
+    AnchorGeometry.load(root/"geometry.json", expected_sha=files["geometry.json"])
+    if manifest.get("referent_policy"):
+        ReferentRanker.load(root/"referent.json", expected_sha256=files["referent.json"])
+    if root == (ROOT/"models/passenger-feature").resolve():
+        protocol = ROOT/"experiments/dropoff/passenger-release-protocol-20261122.json"
+        if manifest != _load_json(protocol).get("components"):
+            raise ValueError("Installed passenger model differs from the frozen release protocol")
     return manifest
 
 

@@ -11,6 +11,10 @@
     <div class="intro"><h1>Search road footage</h1><p>Search the predicted tracks and original frames up to the selected moment.</p></div>
     <form class="card review-form" id="search">
       <label for="scene">Recording and latest frame</label><select id="scene" required></select>
+      <details id="frame-picker" class="frame-picker" hidden><summary>Open another frame in this recording</summary>
+        <div><label for="frame-id">Frame number</label><input id="frame-id" type="number" min="0" step="1">
+        <button type="button" id="open-frame" class="subtle">Open frame</button></div>
+      </details>
       <label for="question">Footage question</label><textarea id="question" rows="2" maxlength="4096" required></textarea>
       <label for="answer-mode">Answer mode</label><select id="answer-mode">
         <option value="local">Find evidence locally</option><option value="gemini">Ask Gemini using privacy-processed evidence</option>

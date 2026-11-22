@@ -69,6 +69,10 @@ def test_manual_or_changed_source_cannot_be_a_model_attempt(input_output):
     altered["provenance"]["resolver"]["messages"][0]["content"] = "Changed"
     with pytest.raises(ValueError, match="prompt"):
         bound_outcome(altered, request)
+    diagnostic=deepcopy(outcome)
+    diagnostic["provenance"]["injected"]=True
+    with pytest.raises(ValueError,match="injected"):
+        bound_outcome(diagnostic,request)
 
 
 def test_failed_submission_survives_even_when_the_model_never_received_text(tmp_path, input_output):

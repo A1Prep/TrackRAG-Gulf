@@ -148,6 +148,8 @@ def _row(ref, request, outputs):
         if outcome.get("ok") is not True:
             raise ValueError("unrecognized outcome type")
         provenance = outcome["provenance"]
+        if provenance.get("injected") is True:
+            raise ValueError("Injected software-check output cannot score as an independent model")
         if provenance.get("independent_model_proposal") is False or provenance.get("method") == "explicit_passenger_region":
             raise ValueError("passenger marked or intervention-assisted output cannot score as model-only")
         digest = ref["image_sha256"]

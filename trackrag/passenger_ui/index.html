@@ -15,6 +15,10 @@
     <div class="layout">
       <section class="card scene-card" aria-labelledby="scene-label">
         <div class="scene-controls"><label id="scene-label" for="scene">Road scene</label><select id="scene" disabled aria-label="Road scene"></select></div>
+        <details id="frame-picker" class="frame-picker" hidden><summary>Open another frame in this recording</summary>
+          <div><label for="frame-id">Frame number</label><input id="frame-id" type="number" min="0" step="1">
+          <button type="button" id="open-frame" class="subtle">Open frame</button></div>
+        </details>
         <div class="frame"><img id="frame" alt="Selected original road scene" draggable="false"><canvas id="overlay" aria-label="Destination overlay"></canvas></div>
         <div class="scene-foot"><span id="legend">Original frame</span><button type="button" id="draw" class="text-btn" hidden>Mark an area myself</button></div>
         <div id="draw-tools" class="draw-tools" hidden>

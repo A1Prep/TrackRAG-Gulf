@@ -29,8 +29,18 @@ ASSETS = Path(__file__).with_name("passenger_ui")
 STATIC = {"/": ("index.html", "text/html; charset=utf-8"),
           "/footage": ("footage.html", "text/html; charset=utf-8"),
           "/footage.js": ("footage.js", "text/javascript"),
+          "/frames.js": ("frames.js", "text/javascript"),
           "/app.css": ("app.css", "text/css"), "/app.js": ("app.js", "text/javascript"),
           "/capture.js": ("capture.js", "text/javascript")}
+
+
+def scene_key(recording_id, frame_id):
+    return hashlib.sha256(json.dumps((recording_id, frame_id)).encode()).hexdigest()[:24]
+
+
+def public_frame(key, scene):
+    frame = scene["frame"]
+    return {"key":key, **{field:frame[field] for field in ("recording_id","frame_id","timestamp_s","width","height")}}
 
 
 def load_scenes(banks):
@@ -60,8 +70,7 @@ def load_scenes(banks):
                     raise ValueError(f"Prepared image hash is missing or does not match {key}.")
                 # Keep a stable, resolved path for the model and later image requests.
                 frame["image_path"] = str(path)
-                scene_key = hashlib.sha256(json.dumps(key).encode()).hexdigest()[:24]
-                catalog[scene_key] = scene
+                catalog[scene_key(*key)] = scene
                 seen[key] = scene
     if not catalog:
         raise ValueError("Supply a prepared request bank with at least one recorded scene.")
@@ -135,14 +144,30 @@ class PassengerSite:
         self.sessions = {}
         self.session_lock = threading.Lock()
         self.model_lock = threading.Lock()
+        self.scene_lock = threading.Lock()
 
     def catalog(self):
-        frames = []
-        for key, s in self.scenes.items():
-            f = s["frame"]
-            frames.append({"key": key, **{n: f[n] for n in ("recording_id", "frame_id", "timestamp_s", "width", "height")}})
+        with self.scene_lock:
+            frames = [public_frame(key, s) for key, s in self.scenes.items()]
         return {"scenes": sorted(frames, key=lambda f: (f["recording_id"], f["frame_id"])),
                 "speech_available": self.recognizer is not None,"footage_available":self.footage is not None}
+
+    def open_recording_frame(self, origin, frame_id):
+        if self.footage is None:
+            raise PassengerRequestError(503,"Attach the original recording and saved predictions to open other frames.")
+        if not isinstance(origin,str) or origin not in self.scenes or type(frame_id) is not int or frame_id < 0:
+            raise PassengerRequestError(400,"Choose a loaded recording and a nonnegative whole frame number.")
+        template = self.scenes[origin]
+        key = scene_key(template["frame"]["recording_id"], frame_id)
+        with self.scene_lock:
+            scene = self.scenes.get(key)
+        if scene is None:
+            scene = self.footage.frame_scene(template, frame_id)
+            with self.scene_lock:
+                existing = self.scenes.setdefault(key, scene)
+                if existing != scene:
+                    raise PassengerRequestError(409,"The recording changed while this frame was opening.")
+        return public_frame(key, scene)
 
     def open(self, scene_key, previous=None):
         if not isinstance(scene_key, str) or scene_key not in self.scenes:
@@ -324,6 +349,8 @@ def handler(site):
                         raise PassengerRequestError(400, "A JSON object is required.")
                 if path == "/api/sessions":
                     return self.respond(site.open(payload.get("scene"), payload.get("previous")))
+                if path == "/api/frames":
+                    return self.respond(site.open_recording_frame(payload.get("scene"),payload.get("frame_id")))
                 if path == "/api/footage":
                     if not site.footage:
                         raise PassengerRequestError(503,"Start the app with recording and prediction folders to enable footage search.")

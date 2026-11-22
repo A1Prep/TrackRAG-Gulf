@@ -13,15 +13,15 @@ These recordings are three seconds apart. They have distinct original frames and
 
 ## Complete an independent human review
 
-Open the self-contained training review HTML in a desktop browser. A reviewer can enter a name or team ID, read the dialogue and choose a response for each frame. For a proposal, drag a box on a plausible ground patch and click its intended point. For ambiguity, write the question you would ask. Use **Save this review** for each case, then **Download reviewed cases** before closing the page. Each reviewer should start with the blank HTML and return their individual JSON. The exported file captures their original-frame geometry, case and image bindings, timestamps and notes. It can be handed to the data owner for independent comparison and resolution of disagreements. A saved answer documents the named reviewer's judgment.
+Open the blank review HTML in a desktop browser. Enter your name or team ID, read the dialogue and choose a response for each frame. For a proposal, drag a box on a plausible ground patch and click its intended point. For ambiguity, write the question you would ask. Choose **Save this review** for each case. Check the personal-review declaration and use **Download reviewed cases** before closing the page. Each reviewer starts with a blank copy and returns their own JSON. The export captures their original-frame geometry, inputs, timestamps and notes.
 
-To build the blank form from a local copy of the EMT images, run this command from the repository root. The folder passed to `--image-root` contains `images/train/` with `video_054604`. On the working laptop the prepared HTML is `runs/passenger-references/train-human-review.html`.
+To build the training form from a local copy of the EMT images, run this command from the repository root. The folder passed to `--image-root` contains `images/train/` with `video_054604`. The optional `--partition development` selects the 19 cases from `video_054907`.
 
 ```sh
 python -m tools.dropoff_passenger_references_pack --image-root data/task1-image-only-20261119 --out train-human-review.html
 ```
 
-The builder needs only the four verified training images and the frozen instruction bindings. It embeds those originals for offline use. The pack excludes the development recordings, reference labels and model outputs. The browser smoke test used a clearly identified software-fixture identity. Zero human reviews were created during that test.
+Each offline form embeds four verified originals and its own frozen instructions. On the project laptop both forms are available in `runs/passenger-human-intake-20261122`. The intake archives each return and records exactly which answers a named person selected when reviewers disagree. [Teammate instructions and supervised-data handoff](../../../docs/passenger-human-intake.md)
 
 ## Reproduce scoring
 

@@ -1,0 +1,311 @@
+{
+  "description": "Visual replay only, without inference. Chromium rendered the newly labeled dot and approximate outline from exact saved prior UI states and original photograph bytes. Historical first responses and confirmations remain unmodified.",
+  "sources": {
+    "app.js": "9530cd5bf7f766d1b74f23db3edfc63b6bddeed49046dc9f839eeace6cb4e1d6",
+    "app.css": "07f6785660a744c97fcf1c203e6ad71f613028e7a01be800669a648b140c4442",
+    "index.html": "53f2537ce476e87fb43fe896da899e55de3c209406dad54115b70900acb20f3a"
+  },
+  "cases": [
+    {
+      "case": "model-proposed",
+      "old_ui_state": "proposed",
+      "old_source": "model",
+      "recording": "video_054907",
+      "frame": 1,
+      "image_sha256": "033fc370408c4bc99a1ec9fbb845b6618a5f53b680a235baba336b8fe8ddba80",
+      "grounded_result_sha256": "4388bd9241c398a934a67523419bc724079643d4f288277512bcc5e9cdce6d6e",
+      "session_journal_sha256": "bd575d7c82ad2b4406a81072b7253451fbd1de6ce19184ff98b49402264da513",
+      "point": [
+        1037.5,
+        1282.5
+      ],
+      "box": [
+        774.1282784201643,
+        1141.1372080272404,
+        1304.2392363226838,
+        1429.8790701585933
+      ],
+      "measurements": [
+        {
+          "width": 1280,
+          "content_width": 1280,
+          "natural": [
+            2560,
+            1440
+          ],
+          "legend": "Dot marks the proposed road location\nOutline shows the approximate area",
+          "status": "Check the proposed road location on the image.",
+          "point_rgba": [
+            255,
+            210,
+            45,
+            255
+          ],
+          "interior_samples": 16,
+          "transparent_interior_samples": 16,
+          "painted_pixels": 20630,
+          "screenshot_sha256": "8d6489d8fae694d2e3c38bc0e67edc141a8957d36672500948211d9ebf09d353"
+        },
+        {
+          "width": 390,
+          "content_width": 390,
+          "natural": [
+            2560,
+            1440
+          ],
+          "legend": "Dot marks the proposed road location\nOutline shows the approximate area",
+          "status": "Check the proposed road location on the image.",
+          "point_rgba": [
+            255,
+            210,
+            45,
+            255
+          ],
+          "interior_samples": 16,
+          "transparent_interior_samples": 16,
+          "painted_pixels": 44356,
+          "screenshot_sha256": "7ab1ae93d4823f76ed33ba287719883ca2c4286ed5422cf3df3bf4b45eca82e5"
+        },
+        {
+          "width": 320,
+          "content_width": 320,
+          "natural": [
+            2560,
+            1440
+          ],
+          "legend": "Dot marks the proposed road location\nOutline shows the approximate area",
+          "status": "Check the proposed road location on the image.",
+          "point_rgba": [
+            255,
+            210,
+            45,
+            255
+          ],
+          "interior_samples": 16,
+          "transparent_interior_samples": 15,
+          "painted_pixels": 55385
+        }
+      ]
+    },
+    {
+      "case": "model-confirmed",
+      "old_ui_state": "confirmed",
+      "old_source": "model",
+      "recording": "video_054907",
+      "frame": 1,
+      "image_sha256": "033fc370408c4bc99a1ec9fbb845b6618a5f53b680a235baba336b8fe8ddba80",
+      "grounded_result_sha256": "4388bd9241c398a934a67523419bc724079643d4f288277512bcc5e9cdce6d6e",
+      "session_journal_sha256": "bd575d7c82ad2b4406a81072b7253451fbd1de6ce19184ff98b49402264da513",
+      "point": [
+        1037.5,
+        1282.5
+      ],
+      "box": [
+        774.1282784201643,
+        1141.1372080272404,
+        1304.2392363226838,
+        1429.8790701585933
+      ],
+      "measurements": [
+        {
+          "width": 1280,
+          "content_width": 1280,
+          "natural": [
+            2560,
+            1440
+          ],
+          "legend": "Dot marks the proposed road location\nOutline shows the approximate area",
+          "status": "Destination confirmed.",
+          "point_rgba": [
+            255,
+            210,
+            45,
+            255
+          ],
+          "interior_samples": 16,
+          "transparent_interior_samples": 16,
+          "painted_pixels": 20630,
+          "screenshot_sha256": "a39e58403bbe1085a66fda1ca24ca21f908691e8d9c121c8f093a0e6acdb4eda"
+        },
+        {
+          "width": 390,
+          "content_width": 390,
+          "natural": [
+            2560,
+            1440
+          ],
+          "legend": "Dot marks the proposed road location\nOutline shows the approximate area",
+          "status": "Destination confirmed.",
+          "point_rgba": [
+            255,
+            210,
+            45,
+            255
+          ],
+          "interior_samples": 16,
+          "transparent_interior_samples": 16,
+          "painted_pixels": 44356,
+          "screenshot_sha256": "667a5733e016486ee017a37e36c6e03c422895ea6c93d93ed33fc86cf444360e"
+        },
+        {
+          "width": 320,
+          "content_width": 320,
+          "natural": [
+            2560,
+            1440
+          ],
+          "legend": "Dot marks the proposed road location\nOutline shows the approximate area",
+          "status": "Destination confirmed.",
+          "point_rgba": [
+            255,
+            210,
+            45,
+            255
+          ],
+          "interior_samples": 16,
+          "transparent_interior_samples": 15,
+          "painted_pixels": 55385
+        }
+      ]
+    },
+    {
+      "case": "passenger-marked",
+      "old_ui_state": "proposed",
+      "old_source": "passenger",
+      "recording": "video_054907",
+      "frame": 1,
+      "image_sha256": "033fc370408c4bc99a1ec9fbb845b6618a5f53b680a235baba336b8fe8ddba80",
+      "grounded_result_sha256": "89a38f7af58dbefe2b7eba5ec44525385a72ff71ffab2c8bf397b9e90b03996d",
+      "session_journal_sha256": "0083d346518363b1ecadc13546f317f14018e4b277777664596b8ef488f971f4",
+      "point": [
+        1997.5,
+        1322.5
+      ],
+      "box": [
+        1880,
+        1308,
+        2120,
+        1342
+      ],
+      "measurements": [
+        {
+          "width": 1280,
+          "content_width": 1280,
+          "natural": [
+            2560,
+            1440
+          ],
+          "legend": "Dot marks the proposed road location\nOutline shows your marked area",
+          "status": "Check the proposed road location on the image.",
+          "point_rgba": [
+            82,
+            239,
+            250,
+            255
+          ],
+          "interior_samples": 16,
+          "transparent_interior_samples": 0,
+          "painted_pixels": 13421,
+          "screenshot_sha256": "6cc748d985237b96badbb1b785036415e6cdacea0e56f598d7526a6a33a1d88d"
+        },
+        {
+          "width": 390,
+          "content_width": 390,
+          "natural": [
+            2560,
+            1440
+          ],
+          "legend": "Dot marks the proposed road location\nOutline shows your marked area",
+          "status": "Check the proposed road location on the image.",
+          "point_rgba": [
+            82,
+            239,
+            250,
+            255
+          ],
+          "interior_samples": 16,
+          "transparent_interior_samples": 0,
+          "painted_pixels": 21613,
+          "screenshot_sha256": "3152e0e75c47586ff5da22a287f3529caba0c857ce2b81b3af360cf2fe87fe40"
+        },
+        {
+          "width": 320,
+          "content_width": 320,
+          "natural": [
+            2560,
+            1440
+          ],
+          "legend": "Dot marks the proposed road location\nOutline shows your marked area",
+          "status": "Check the proposed road location on the image.",
+          "point_rgba": [
+            82,
+            239,
+            250,
+            255
+          ],
+          "interior_samples": 16,
+          "transparent_interior_samples": 0,
+          "painted_pixels": 26258
+        }
+      ]
+    },
+    {
+      "case": "clarification",
+      "old_ui_state": "needs_clarification",
+      "old_source": "model",
+      "recording": "video_054907",
+      "frame": 1,
+      "image_sha256": "033fc370408c4bc99a1ec9fbb845b6618a5f53b680a235baba336b8fe8ddba80",
+      "grounded_result_sha256": "4388bd9241c398a934a67523419bc724079643d4f288277512bcc5e9cdce6d6e",
+      "session_journal_sha256": "a38b654790df72b415fc82d953fd73e33094aa89373068e9866ffeae1999c3ed",
+      "point": null,
+      "box": null,
+      "measurements": [
+        {
+          "width": 1280,
+          "content_width": 1280,
+          "natural": [
+            2560,
+            1440
+          ],
+          "legend": "Original frame",
+          "status": "Clarification requested.",
+          "point_rgba": null,
+          "interior_samples": 0,
+          "transparent_interior_samples": 0,
+          "painted_pixels": 0,
+          "screenshot_sha256": "a1f1d09ed04be9ae62e3cd925fade06d77d6887b33905ead06e50095f3bd1447"
+        },
+        {
+          "width": 390,
+          "content_width": 390,
+          "natural": [
+            2560,
+            1440
+          ],
+          "legend": "Original frame",
+          "status": "Clarification requested.",
+          "point_rgba": null,
+          "interior_samples": 0,
+          "transparent_interior_samples": 0,
+          "painted_pixels": 0,
+          "screenshot_sha256": "4cd021019fcfbc972d084061cd0e025db1e1e1a477c65aa507699d082ca46af5"
+        },
+        {
+          "width": 320,
+          "content_width": 320,
+          "natural": [
+            2560,
+            1440
+          ],
+          "legend": "Original frame",
+          "status": "Clarification requested.",
+          "point_rgba": null,
+          "interior_samples": 0,
+          "transparent_interior_samples": 0,
+          "painted_pixels": 0
+        }
+      ]
+    }
+  ]
+}

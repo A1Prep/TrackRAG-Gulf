@@ -1,6 +1,7 @@
 """Answer reviewer questions from bounded, privacy-processed evidence."""
 
 import json
+import re
 from hashlib import sha256
 from pathlib import Path
 from typing import Protocol
@@ -35,6 +36,18 @@ def make_answer(status, answer=None, cited_evidence_ids=None) -> Answer:
             'cited_evidence_ids': [] if cited_evidence_ids is None else cited_evidence_ids}
 
 
+def unavailable_observation_source(question_text, evidence):
+    """Independent annotation and detector IDs cannot substitute for each other."""
+    available = {item['interval'].get('source') for item in evidence}
+    labels = re.search(r'\b(?:annotated|annotations?|ground[ -]truth|manually (?:labelled|labeled)|human (?:labels?|track IDs?))\b', question_text, re.I)
+    predicted = re.search(r'\b(?:predicted tracks?|detector(?:[’\']s)? (?:tracks?|IDs?|predictions?)|tracker(?:[’\']s)? IDs?)\b', question_text, re.I)
+    if labels and available == {'predicted'}:
+        return 'These records contain detector predictions. The human annotation and its separately assigned track IDs are unavailable.'
+    if predicted and available == {'annotated'}:
+        return 'These records contain human annotations. The detector predictions and their separately assigned track IDs are unavailable.'
+    return None
+
+
 def validate_answer(result, evidence, question=None) -> Answer:
     """Keep a supported abstention distinct from provider/validation failure."""
     if not isinstance(result, dict) or set(result) != set(ANSWER_SCHEMA['required']):
@@ -56,6 +69,14 @@ def validate_answer(result, evidence, question=None) -> Answer:
     if status == 'insufficient_evidence' and citations:
         raise ValueError('Abstentions cannot claim supporting citations')
     if status == 'answered' and question is not None:
+        unsupported_source = unavailable_observation_source(question['question'], evidence)
+        if unsupported_source:
+            return make_answer('insufficient_evidence', unsupported_source)
+        context = next((item['temporal_scope'] for item in evidence if 'temporal_scope' in item), None)
+        if context is not None:
+            unsupported = _temporal_support(text, citations, evidence, context)
+            if unsupported:
+                return make_answer('insufficient_evidence', unsupported)
         available={image['frame_id'] for item in evidence if item['evidence_id'] in citations for image in item['images']}
         required=set(requested_frame_ids(question['question']))|set(requested_frame_ids(text))
         if not required.issubset(available):
@@ -81,7 +102,83 @@ def validate_answer(result, evidence, question=None) -> Answer:
     return make_answer(status, text, list(citations))
 
 
-def prepare_evidence(evidence: list[Evidence], run_dir: str | Path) -> list[dict]:
+def _temporal_context(run_path, question):
+    if question is None or not (run_path / 'run.json').is_file():
+        return None
+    metadata = json.loads((run_path / 'run.json').read_bytes())
+    configuration = metadata.get('configuration', {})
+    if 'trackrag.retrieval_temporal' not in (configuration.get('retrieval'), configuration.get('retrieval_adapter')):
+        return None
+    from .retrieval_temporal import question_scope
+    scope = question_scope(question['question'])
+    if scope is None:
+        return None
+    first = metadata['first_frame_id']
+    required = set(scope['exact'])
+    if scope['opening'] and not scope['boundary']:
+        required.add(first)
+    if (scope['latest'] or (scope['scene'] and not scope['opening'])) and not scope['exact'] and not scope['boundary']:
+        required.add(question['query_frame'])
+    return {'recording_opening_frame': first, 'latest_allowed_frame': question['query_frame'],
+            'required_cited_frames': sorted(required), 'boundary': scope['boundary'], 'tracked_extents': {},
+            'edge_directions': sorted(set(re.findall(r'\b(?:left|right|top|bottom)\b', question['question'].casefold())))}
+
+
+def _bracketed_track(item, span, context, scene_frames):
+    entering = context['boundary'] == 'enter'
+    outer_frame = span[0] if entering else span[1]
+    if not any(f < outer_frame if entering else f > outer_frame for f in scene_frames):
+        return False
+    images = sorted(item['images'], key=lambda im: im['frame_id'], reverse=not entering)
+    if len(images) < 2 or images[0]['frame_id'] != outer_frame:
+        return False
+    def margins(im):
+        w,h = im['privacy']['original_size_wh']
+        l,t,r,b = im['bbox_xyxy']
+        return {'left':l/w, 'right':1-r/w, 'top':t/h, 'bottom':1-b/h}
+    outside = margins(images[0])
+    directions = context.get('edge_directions') or list(outside)
+    return any(outside[d] <= 0.05 and margins(im)[d] > outside[d] + 0.02
+               for d in directions for im in images[1:])
+
+
+def _temporal_support(text, citations, evidence, context):
+    cited = [e for e in evidence if e['evidence_id'] in citations]
+    frames = {im['frame_id'] for e in cited for im in e['images']}
+    if not set(context['required_cited_frames']) <= frames:
+        return 'The citations do not show the requested part of the recording.'
+    if context['boundary'] is None:
+        return None
+    scene_frames = {i['frame_id'] for e in cited if e['interval']['track_id'] is None for i in e['images']}
+    supported = {}
+    for item in cited:
+        track = item['interval']['track_id']
+        span = context['tracked_extents'].get(str(track))
+        if span and _bracketed_track(item, span, context, scene_frames):
+            supported[track] = span
+    stated = set(referenced_track_ids(text))
+    if not supported or stated - supported.keys():
+        return 'The citations do not bracket this tracked object moving inward or outward at the requested image edge.'
+    # Identifying an object is possible even when physical onset is unobserved.
+    # An exact crossing time cannot be established from sampled boxes alone.
+    for clause in re.split(r'[.;,]|\b(?:because|since|as it)\b', text, flags=re.I):
+        if re.search(r'\b(?:cannot|could not|unclear|uncertain|unknown|not (?:shown|established|visible)|may have)\b', clause, re.I):
+            continue
+        numbers = requested_frame_ids(clause)
+        has_time = bool(numbers) or re.search(r'\b(?:second[s]?|minute[s]?|timestamp|exactly when)\b|\d+:\d{2}', clause, re.I)
+        crossing = re.search(r'\b(?:enter(?:ed|s|ing)?|exit(?:ed|s|ing)?|first (?:appears?|appeared|visible)|cross(?:ed|es)?|came into view)\b', clause, re.I)
+        if has_time and crossing:
+            return 'The views support observed positions. They do not establish the exact crossing frame.'
+        observed = re.search(r'\b(first|last) (?:observed|detected|recorded|tracked|detection|observation)\b', clause, re.I)
+        if observed and numbers:
+            relevant = set(referenced_track_ids(clause)) or stated or set(supported)
+            endpoint = 0 if observed.group(1).casefold() == 'first' else 1
+            if len(relevant) != 1 or set(numbers) != {supported[next(iter(relevant))][endpoint]}:
+                return 'The claimed detection time differs from the identified track history.'
+    return None
+
+
+def prepare_evidence(evidence: list[Evidence], run_dir: str | Path, question: Question | None = None) -> list[dict]:
     """Use the actual exported observations; never look up hidden gold labels."""
     run_path = Path(run_dir).resolve()
     recordings = {item['interval']['recording_id'] for item in evidence}
@@ -95,11 +192,19 @@ def prepare_evidence(evidence: list[Evidence], run_dir: str | Path) -> list[dict
     if not tracks_path.is_file():
         raise FileNotFoundError('Privacy processing requires exported tracks.jsonl')
     by_frame = {frame: [] for frame in wanted}
+    context = _temporal_context(run_path, question)
+    selected_tracks = {item['interval']['track_id'] for item in evidence}
     with tracks_path.open(encoding='utf-8-sig') as stream:
         for line in stream:
             if not line.strip():
                 continue
             row = json.loads(line)
+            if (context and context['boundary'] and row['track_id'] in selected_tracks
+                    and row['recording_id'] in recordings and row['source'] in sources
+                    and row['frame_id'] <= question['query_frame']):
+                frame_id = row['frame_id']
+                span = context['tracked_extents'].setdefault(str(row['track_id']), [frame_id, frame_id])
+                span[0], span[1] = min(span[0], frame_id), max(span[1], frame_id)
             if row['frame_id'] not in wanted:
                 continue
             if row['recording_id'] not in recordings or row['source'] not in sources:
@@ -137,6 +242,8 @@ def prepare_evidence(evidence: list[Evidence], run_dir: str | Path) -> list[dict
             images.append({**image, 'image_path': str(processed.pop('output_path')),
                            'observations': observations, 'privacy': processed})
         prepared.append({'evidence_id': item['evidence_id'], 'interval': dict(item['interval']), 'images': images})
+    if context:
+        prepared[0]['temporal_scope'] = context
     return prepared
 
 
@@ -156,7 +263,7 @@ def answer_question(question: Question, evidence: list[Evidence], run_dir: str |
         receipt = {'question_id': question['question_id'], 'recording_id': question['recording_id'],
                    'query_frame': question['query_frame'], 'role': 'task3 grounded answer',
                    'request_status': 'not_requested', 'cached': False, 'sent': []}
-        prepared = prepare_evidence(evidence, run_path)
+        prepared = prepare_evidence(evidence, run_path, question)
         # Copy the exact bytes that will be sent into the auditor's hosted namespace.
         # The model receives those same files; neither the audit nor the upload
         # depends on absolute paths surviving Task 5's final directory rename.

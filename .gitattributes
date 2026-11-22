@@ -8,3 +8,6 @@ experiments/dropoff/public-local-candidate-selection-protocol-20261121.json text
 experiments/dropoff/public-full-interface-protocol-20261121.json text eol=lf
 experiments/dropoff/local-ground-landmark-prompt-20261121.json text eol=lf
 experiments/dropoff/passenger-release-protocol-20261122.json text eol=lf
+experiments/dropoff/passenger-runtime-freeze-20261122.json text eol=lf
+experiments/dropoff/passenger-referent-results-20261122.json text eol=lf
+experiments/dropoff/passenger-external-independent-audit-20261122.json text eol=lf

@@ -1,0 +1,116 @@
+{
+  "reference_sha256": "3b3fed7379f8f3b7cf3b712fed0270f213300443a553d96dd863d64d57cb3072",
+  "independent_ai_sha256": "0cad8336df3fd70e95ee2778786bcaaad5a454be717b2985f07df57be9f0a5c9",
+  "requests": 20,
+  "statuses_agree": 20,
+  "both_proposed": 12,
+  "second_point_in_first_rectangle": 11,
+  "median_disagreement_px": 32.079985521616614,
+  "human_reviewers": 0,
+  "rows": [
+    {
+      "request_id": "passenger-c01",
+      "status_agrees": true,
+      "second_point_in_first_rectangle": true,
+      "point_disagreement_pixels": 27.784887978899608
+    },
+    {
+      "request_id": "passenger-c02",
+      "status_agrees": true,
+      "second_point_in_first_rectangle": false,
+      "point_disagreement_pixels": 222.20036003571192
+    },
+    {
+      "request_id": "passenger-c03",
+      "status_agrees": true
+    },
+    {
+      "request_id": "passenger-c04",
+      "status_agrees": true,
+      "second_point_in_first_rectangle": true,
+      "point_disagreement_pixels": 64.19501538281614
+    },
+    {
+      "request_id": "passenger-c05",
+      "status_agrees": true,
+      "second_point_in_first_rectangle": true,
+      "point_disagreement_pixels": 31.144823004794873
+    },
+    {
+      "request_id": "passenger-c06",
+      "status_agrees": true
+    },
+    {
+      "request_id": "passenger-c07",
+      "status_agrees": true,
+      "second_point_in_first_rectangle": true,
+      "point_disagreement_pixels": 64.19501538281614
+    },
+    {
+      "request_id": "passenger-c08",
+      "status_agrees": true
+    },
+    {
+      "request_id": "passenger-c09",
+      "status_agrees": true,
+      "second_point_in_first_rectangle": true,
+      "point_disagreement_pixels": 25.059928172283335
+    },
+    {
+      "request_id": "passenger-c10",
+      "status_agrees": true,
+      "second_point_in_first_rectangle": true,
+      "point_disagreement_pixels": 14.560219778561036
+    },
+    {
+      "request_id": "passenger-c11",
+      "status_agrees": true
+    },
+    {
+      "request_id": "passenger-c12",
+      "status_agrees": true
+    },
+    {
+      "request_id": "passenger-c13",
+      "status_agrees": true,
+      "second_point_in_first_rectangle": true,
+      "point_disagreement_pixels": 38.2099463490856
+    },
+    {
+      "request_id": "passenger-c14",
+      "status_agrees": true,
+      "second_point_in_first_rectangle": true,
+      "point_disagreement_pixels": 15.652475842498529
+    },
+    {
+      "request_id": "passenger-c15",
+      "status_agrees": true,
+      "second_point_in_first_rectangle": true,
+      "point_disagreement_pixels": 33.015148038438355
+    },
+    {
+      "request_id": "passenger-c16",
+      "status_agrees": true
+    },
+    {
+      "request_id": "passenger-c17",
+      "status_agrees": true,
+      "second_point_in_first_rectangle": true,
+      "point_disagreement_pixels": 44.10215414239989
+    },
+    {
+      "request_id": "passenger-c18",
+      "status_agrees": true
+    },
+    {
+      "request_id": "passenger-c19",
+      "status_agrees": true,
+      "second_point_in_first_rectangle": true,
+      "point_disagreement_pixels": 18.35755975068582
+    },
+    {
+      "request_id": "passenger-c20",
+      "status_agrees": true
+    }
+  ]
+}

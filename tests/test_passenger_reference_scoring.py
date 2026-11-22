@@ -64,6 +64,13 @@ class PassengerReferenceScoringTests(TestCase):
         self.output["result"].pop("status")
         self.assertEqual(self.score([self.output])["failure"], "invalid_or_mismatched_output")
 
+    def test_injected_model_output_cannot_score_as_an_independent_passenger_answer(self):
+        self.output["provenance"]["injected"] = True
+        row = self.score([self.output])
+        self.assertEqual(row["failure"], "invalid_or_mismatched_output")
+        self.assertFalse(row["point_in_authored_box"])
+        self.assertFalse(row["status_matches"])
+
     def test_pack_cannot_build_without_checked_blind_source(self):
         with TemporaryDirectory() as temp:
             directory = Path(temp)

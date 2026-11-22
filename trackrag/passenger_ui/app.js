@@ -1,3 +1,5 @@
+import {addFrame, openFrame} from "./frames.js";
+
 const el = id => document.getElementById(id);
 const sceneSelect = el("scene"), image = el("frame"), canvas = el("overlay"), input = el("instruction");
 let catalog, session, busy = false, capture = null, drawing = false, startPoint = null, rectangle = null;
@@ -29,10 +31,26 @@ function addMessage(turn) {
   bubble.append(speaker, document.createTextNode(turn.text));
   el("messages").appendChild(bubble);
 }
+function showLegend(view, area) {
+  const legend = el("legend");
+  legend.replaceChildren();
+  if (drawing || !area) {
+    text(legend, drawing ? "Marking a passenger-selected area" : "Original frame");
+    return;
+  }
+  const marked = view.selected_by === "passenger";
+  for (const [shape, label] of [["point", "Dot marks the proposed road location"],
+    ["region", marked ? "Outline shows your marked area" : "Outline shows the approximate area"]]) {
+    const key = document.createElement("span"), symbol = document.createElement("i");
+    key.className="legend-key"; symbol.className="key-"+shape+(marked?" passenger":"");
+    symbol.setAttribute("aria-hidden","true"); key.append(symbol,document.createTextNode(label)); legend.append(key);
+  }
+}
 function render() {
   const v = session?.view || {}, stage = session?.voice_stage;
   const open = Boolean(session), micOn = Boolean(capture);
   sceneSelect.disabled = busy || micOn || !open;
+  el("open-frame").disabled = sceneSelect.disabled;
   el("speech-controls").hidden = !catalog?.speech_available;
   el("mic").disabled = busy || !open || drawing;
   el("upload").disabled = busy || micOn || !open || drawing;
@@ -44,7 +62,7 @@ function render() {
   text(el("input-label"), stage === "review" ? "Review and edit the transcript" :
     v.state === "needs_clarification" ? "Your clarification" : "Passenger instruction");
   const statuses = {confirmed:"Destination confirmed.", cancelled:"Request cancelled.",
-    needs_clarification:"Clarification requested.", proposed:"Review the area on the image.",
+    needs_clarification:"Clarification requested.", proposed:"Check the proposed road location on the image.",
     insufficient_visual_evidence:"The requested area could not be identified.", error:"The request could not be completed."};
   const voiceStatus = stage === "review" ? "Review the words before sending." :
     stage === "failed" ? "Record again or type the instruction." : stage === "recording" ? "Waiting for new audio." : "";
@@ -65,9 +83,7 @@ function render() {
   el("use-box").disabled = busy || !rectangle;
   el("discard-box").disabled = busy;
   const area = v.result?.destination_box_xyxy;
-  text(el("legend"), drawing ? "Marking a passenger-selected area" : !area ? "Original frame" :
-    (v.selected_by === "passenger" ? "Passenger-marked area" : "Model-proposed area") +
-    (v.state === "confirmed" ? " · confirmed" : ""));
+  showLegend(v, area);
   canvas.classList.toggle("drawing", drawing);
   paint();
 }
@@ -95,6 +111,12 @@ async function chooseScene() {
   image.src = endpoint("image");
   image.alt = "Original image from " + sceneSelect.selectedOptions[0].textContent;
 }
+el("open-frame").onclick = () => perform(async () => {
+  const f = await openFrame(sceneSelect,el("frame-id"));
+  if (!catalog.scenes.some(s => s.key === f.key)) catalog.scenes.push(f);
+  await chooseScene();
+  el("frame-picker").open = false;
+}, "Opening the original frame…");
 function paint() {
   const ctx = canvas.getContext("2d");
   ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -105,15 +127,17 @@ function paint() {
   const [x1,y1,x2,y2] = box;
   const passenger = drawing || v.selected_by === "passenger";
   ctx.save();
-  ctx.fillStyle = passenger ? "rgba(66,232,248,.22)" : "rgba(255,208,35,.22)";
-  ctx.fillRect(x1, y1, x2-x1, y2-y1);
+  if (passenger) {
+    ctx.fillStyle = "rgba(66,232,248,.12)";
+    ctx.fillRect(x1, y1, x2-x1, y2-y1);
+  }
+  if (!passenger || drawing) ctx.setLineDash([8*scale,5*scale]);
   ctx.lineWidth = 5 * scale; ctx.strokeStyle = "#14241e"; ctx.strokeRect(x1,y1,x2-x1,y2-y1);
   ctx.lineWidth = 2.6 * scale; ctx.strokeStyle = passenger ? "#52effa" : "#ffd22d";
-  if (drawing) ctx.setLineDash([7*scale,4*scale]);
   ctx.strokeRect(x1,y1,x2-x1,y2-y1);
   const point = drawing ? null : v.result.destination_point_xy;
   if (point) {
-    ctx.setLineDash([]); ctx.beginPath(); ctx.arc(point[0],point[1],5*scale,0,2*Math.PI);
+    ctx.setLineDash([]); ctx.beginPath(); ctx.arc(point[0],point[1],6*scale,0,2*Math.PI);
     ctx.fillStyle = ctx.strokeStyle; ctx.fill(); ctx.lineWidth = 2*scale; ctx.strokeStyle="#12241a"; ctx.stroke();
   }
   ctx.restore();
@@ -220,10 +244,7 @@ window.addEventListener("pagehide", () => { if (capture) capture.stream.getTrack
 perform(async () => {
   catalog=await api("/api/scenes");
   el("footage-link").hidden=!catalog.footage_available;
-  for (const f of catalog.scenes) {
-    const opt=document.createElement("option"); opt.value=f.key;
-    opt.textContent=f.recording_id.replace(/^video_/, "Recording ")+" · frame "+f.frame_id+" · "+f.timestamp_s.toFixed(1)+" s";
-    sceneSelect.appendChild(opt);
-  }
+  el("frame-picker").hidden=!catalog.footage_available;
+  for (const f of catalog.scenes) addFrame(sceneSelect,f);
   await chooseScene();
 });

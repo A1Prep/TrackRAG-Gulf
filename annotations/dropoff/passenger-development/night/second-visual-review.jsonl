@@ -1,0 +1,20 @@
+{"request_id":"passenger-c01","status":"proposed","point_xy":[1394,878],"comment":"Road immediately behind the nearest dark car ahead, below its rear tires."}
+{"request_id":"passenger-c02","status":"proposed","point_xy":[1000,848],"comment":"Roadway immediately alongside the left divider near the gantry holding the large blue sign."}
+{"request_id":"passenger-c03","status":"insufficient_visual_evidence","point_xy":null,"comment":"No identifiable crossing guard with a red flag is visible on this divided urban road."}
+{"request_id":"passenger-c04","status":"proposed","point_xy":[1843,1006],"comment":"Pavement just behind the rear face of the close white Toyota minibus in the right lane."}
+{"request_id":"passenger-c05","status":"proposed","point_xy":[1272,820],"comment":"Exposed lane surface just behind the small car ahead, which is to the left of the minibus."}
+{"request_id":"passenger-c06","status":"needs_clarification","point_xy":null,"comment":"The minibus and the smaller car ahead are both plausible; the passenger has not selected one."}
+{"request_id":"passenger-c07","status":"proposed","point_xy":[1843,1006],"comment":"The follow-up identifies the right-hand Toyota minibus and the rear-side relation."}
+{"request_id":"passenger-c08","status":"insufficient_visual_evidence","point_xy":null,"comment":"The large white Toyota passenger van is visible; I see no identifiable parked yellow school bus by the bridge."}
+{"request_id":"passenger-c09","status":"proposed","point_xy":[1106,863],"comment":"The nearest vehicle directly beside the left road divider has a clear patch of road immediately to its rear."}
+{"request_id":"passenger-c10","status":"proposed","point_xy":[1580,860],"comment":"Paved lane immediately behind the light SUV in the right lane alongside the wall."}
+{"request_id":"passenger-c11","status":"needs_clarification","point_xy":null,"comment":"Two plausible vehicles have different lanes and the passenger leaves the choice unresolved."}
+{"request_id":"passenger-c12","status":"insufficient_visual_evidence","point_xy":null,"comment":"The photograph does not locate a station entrance with a distinctive red postbox."}
+{"request_id":"passenger-c13","status":"proposed","point_xy":[849,852],"comment":"Left-hand asphalt below the rear of the prominent nearest black car."}
+{"request_id":"passenger-c14","status":"proposed","point_xy":[1350,837],"comment":"The correction now identifies the grey vehicle on the right; point is the nearer road immediately behind it."}
+{"request_id":"passenger-c15","status":"proposed","point_xy":[1115,866],"comment":"A clear asphalt patch between the left black car and right grey vehicle, nearer to this camera than both."}
+{"request_id":"passenger-c16","status":"needs_clarification","point_xy":null,"comment":"No visible pointing cue or specified side/landmark tells me which place the rider means by here."}
+{"request_id":"passenger-c17","status":"proposed","point_xy":[1054,821],"comment":"The prominent dark car to the left of camera center has a clear road patch behind it, before the lit overhead crossing."}
+{"request_id":"passenger-c18","status":"insufficient_visual_evidence","point_xy":null,"comment":"I cannot identify an ice-cream truck or striped awning anywhere on this view."}
+{"request_id":"passenger-c19","status":"proposed","point_xy":[1165,842],"comment":"Open tarmac below the rear of the closest dark sedan in front of the camera."}
+{"request_id":"passenger-c20","status":"needs_clarification","point_xy":null,"comment":"There are several large buildings including multiple lit towers and the bright gold facade on the right; ask which building and side."}

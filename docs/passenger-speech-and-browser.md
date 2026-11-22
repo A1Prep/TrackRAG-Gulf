@@ -29,7 +29,7 @@ For voice, download the English small-model archive and unpack it outside Git. T
 1. Select the recording and original frame from **Road scene**.
 2. Type the instruction, choose **Record voice**, or upload a 16-bit PCM WAV. The microphone records one turn locally. The upload supports mono or stereo, 16–48 kHz and up to 60 seconds.
 3. Read the transcript and edit any misunderstood words before sending. Colour, side, count, object names and negation can change the intended location.
-4. If the assistant asks a question, send the clarification on the same frame. A yellow outline and dot show the model proposal in original-image coordinates.
+4. If the assistant asks a question, send the clarification on the same frame. A yellow dot marks the proposed road location. A dashed outline shows its approximate extent, and the original pixels remain visible inside the outline.
 5. Choose **Confirm this area** or **Cancel request**. To correct the location, choose **Mark an area myself**, drag across the image and choose **Use my marked area**. The page identifies the passenger-marked area in cyan. Confirmation applies only to the currently displayed proposal.
 
 Each session has its own directory below `--out`. Its JSONL journal records the original frame hash, input, turn history, semantic or operational outcome, source of each proposal and explicit confirmation/cancellation. The audio directory stores original WAV bytes by SHA-256 plus transcription-attempt receipts. A failed or replaced recording blocks confirmation of an older proposal. Short generic prompts such as “here” can legitimately need clarification. A model error is visible separately from an unresolved destination.
@@ -57,7 +57,24 @@ node tools/dropoff_browser_trial.cjs path/to/protocol.json runs/browser-replay
 
 The driver saves the original plan, each initial outcome, overlay dimensions and painted-pixel count, the passenger-marked result and any stale-token check, scripted confirmation or cancellation. Its screenshots contain scene pixels and stay in the local run directory. Measure initial grounding against separate references before counting any passenger assistance.
 
-## Recorded browser results
+## Packaged release trial on 22 November
+
+The packaged application completed the four actions declared before the run. Chromium opened two real EMT recordings, the local Vosk recognizer processed every turn, and the local fine-tuned Qwen3-VL-8B and learned spatial model produced the proposals. Two Windows voices supplied the speech and the test script performed the editing, confirmation and cancellation. [Release trial, model digests, speech receipts and per-turn results](../experiments/dropoff/passenger-release-browser-results-20261122.json)
+
+| What the passenger did | What appeared in the actual browser |
+| --- | --- |
+| Said “Drop me here” through Chromium’s file-fed microphone. | The browser captured 4.304 seconds of WAV. Vosk recognized the words and the system asked for a visible landmark. |
+| On the same frame, asked for the road just behind the white SUV on the left. | After editing “white as you v” in the transcript, the model marked `(577.5, 1202.5)`. An explicit click confirmed that model proposal. |
+| Asked for the space between the white SUV on the left and the large open-sided truck on the right, just behind them. | The reviewed transcript identified both vehicles. The initial model response named the truck. Two additional image queries independently located the SUV and the truck. The learned spatial model marked `(1037.5, 1282.5)` on the visible pavement between them. The script confirmed it without drawing. |
+| On another recording, asked for the yellow bus and then cancelled. | A proposal appeared at `(627.5, 1117.5)`. Cancelling cleared its highlight, and trying the old confirmation token returned HTTP 409. |
+
+Time from starting each turn to the first response was 50.5 seconds for the cold microphone turn, 31.3 for the follow-up, 33.4 for the two-landmark request and 10.4 for the bus. The center point for the two-landmark request was on road pixels. Part of its coarse rectangle reached the dashcam hood. Human acceptance, cabin noise and the appropriateness of a real-world stop require separate evaluation.
+
+The updated display identifies the proposed road location with a solid dot and the approximate area with an unfilled dashed outline. Chromium replayed four exact saved states at three screen widths. The original image hash, coordinates, previous model outputs and confirmation history were preserved. The measured center pixel was yellow for model proposals, cyan for a passenger-marked area, and the clarification displayed the original photograph alone. [Visual replay measurements and screenshot hashes](../experiments/dropoff/passenger-visual-replay-results-20261122.json)
+
+The same packaged entry point also opened the original footage-review page. Two real local searches returned three intervals and nine evidence thumbnails each. All 18 thumbnail responses matched their saved hashes and came from frames at or before the selected moment. Both pages rendered at 320, 390, 768 and 1280 pixels without horizontal overflow. The private image-free evidence ZIP is `runs/passenger-release-browser-evidence-20261122.zip`, SHA-256 `b024af41bfa31f2f2a32edc08b64bae0c4c146c48239aa65f2c3ae8ff2e15af3`.
+
+## Earlier browser results on 21 November
 
 These observations used Chromium, offline Vosk and the fine-tuned Qwen3-VL-8B model on the laptop. The confirmed locations below came from two different original recordings, both 2560 × 1440. A script operated the passenger buttons. [Per-turn outcomes, input hashes and raw receipt hashes](../experiments/dropoff/passenger-browser-results-20261121.json)
 

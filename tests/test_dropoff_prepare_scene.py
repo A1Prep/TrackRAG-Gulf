@@ -111,6 +111,32 @@ def test_browser_footage_search_opens_only_the_saved_prefix_and_selected_sources
         review.ask(wrong,"Which car is visible?")
 
 
+def test_open_unbookmarked_frame_uses_the_same_provenance_and_current_predictions(scene_fixture):
+    from trackrag.footage_app import FootageReview
+    from trackrag.passenger_app import PassengerSite, load_scenes
+    f = scene_fixture
+    artifact = f.artifacts()
+    f.run([instruction()])
+    scenes = load_scenes([f.root/"prepared"/"requests.jsonl"])
+    site = PassengerSite(scenes,None,None,f.root/"app",None,
+                         FootageReview(f.data,f.predictions,f.config_path,f.root/"footage",frame_rate=20.))
+    origin = next(iter(scenes))
+    opened = site.open_recording_frame(origin,3)
+    assert opened["frame_id"] == 3 and opened["timestamp_s"] == 0.1
+    assert site.open_recording_frame(origin,3) == opened
+    actual = site.scenes[opened["key"]]
+    assert {row["frame_id"] for row in actual["tracks"]} == {3}
+    assert actual["provenance"]["image_sha256"] != site.scenes[origin]["provenance"]["image_sha256"]
+    assert actual["provenance"]["tracks_sha256"] == site.scenes[origin]["provenance"]["tracks_sha256"]
+    with pytest.raises((KeyError,ValueError)):
+        site.open_recording_frame(origin,4)
+    artifact.rows[0]["bbox_xyxy"]=[1,3,20,22]
+    artifact.write()
+    with pytest.raises(ValueError,match="different saved predictions"):
+        site.open_recording_frame(origin,1)
+    assert len(site.catalog()["scenes"])==2
+
+
 def test_two_recordings_export_portable_annotation_free_inputs(scene_fixture):
     f = scene_fixture
     first, second = f.artifacts(), f.artifacts("rec_b")

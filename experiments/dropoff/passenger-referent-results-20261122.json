@@ -212,9 +212,10 @@
     "emt19-original-policy-replay.json": "fba3afe714c7796ec74d8c07c53b726868ababffc056b01e5447d1602c5b129e",
     "emt19-production-python.json": "37e35f1f69d8e4a3c62a52e79c3374aa345b3630593960c5518ecc32cfc503e8"
   },
-  "tracked_weights": {
-    "conditioned": "configs/dropoff/referent/conditioned.json",
-    "language_blind": "configs/dropoff/referent/language_blind.json"
+  "external_weights": {
+    "conditioned_release": "models/passenger-feature/referent.json",
+    "conditioned_experiment": "runs/passenger-referent-model/listwise-v1/conditioned.json",
+    "language_blind_experiment": "runs/passenger-referent-model/listwise-v1/language_blind.json"
   },
   "known_limits": [
     "Public ref annotations identify one object and do not label ambiguity.",

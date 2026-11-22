@@ -45,8 +45,9 @@ def bound_outcome(outcome, request, *, passenger_selected=False):
         need(method == "explicit_passenger_region" and source.get("independent_model_proposal") is False,
              "Passenger marking lacks its manual-intervention declaration")
     else:
-        need(method == "qwen_landmark_region" and source.get("independent_model_proposal") is not False,
-             "An assisted or unknown method was supplied as a model attempt")
+        need(method == "qwen_landmark_region" and source.get("independent_model_proposal") is not False
+             and source.get("injected") is not True,
+             "An assisted, injected or unknown method was supplied as a model attempt")
         resolver = source.get("resolver", {})
         raw = resolver.get("raw_text")
         need(isinstance(raw, str) and resolver.get("request_sha256") == source["request_sha256"],

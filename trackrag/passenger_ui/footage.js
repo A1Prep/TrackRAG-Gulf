@@ -1,3 +1,5 @@
+import {addFrame, openFrame} from "./frames.js";
+
 const get = id => document.getElementById(id);
 function node(tag, text) {
   const item = document.createElement(tag);
@@ -13,20 +15,29 @@ async function fetchJson(url, opts) {
 try {
   const catalog = await fetchJson("/api/scenes");
   if (!catalog.footage_available) throw new Error("Footage search needs the original recordings and saved predictions.");
-  for (const f of catalog.scenes) {
-    const option = node("option",f.recording_id + " · frame " + f.frame_id + " · " + f.timestamp_s.toFixed(1) + " s");
-    option.value = f.key;
-    get("scene").append(option);
-  }
+  for (const f of catalog.scenes) addFrame(get("scene"),f);
+  get("frame-picker").hidden=false;
 } catch (error) {
   get("progress").textContent = error.message;
   get("go").disabled = true;
 }
+get("open-frame").onclick=async () => {
+  get("open-frame").disabled=get("go").disabled=true;
+  get("progress").textContent="Opening the original frame…";
+  try {
+    await openFrame(get("scene"),get("frame-id"));
+    get("results").replaceChildren();
+    get("progress").textContent="";
+    get("frame-picker").open=false;
+  } catch(error) {
+    get("progress").textContent=error.message;
+  } finally { get("open-frame").disabled=get("go").disabled=false; }
+};
 get("search").addEventListener("submit",async event => {
   event.preventDefault();
   const results = get("results");
   results.replaceChildren();
-  get("go").disabled = true;
+  get("open-frame").disabled=get("scene").disabled=get("go").disabled=true;
   get("progress").textContent = "Searching the selected recording…";
   try {
     const body = await fetchJson("/api/footage",{method:"POST",headers:{"Content-Type":"application/json"},
@@ -58,6 +69,6 @@ get("search").addEventListener("submit",async event => {
   } catch (error) {
     get("progress").textContent = error.message;
   } finally {
-    get("go").disabled=false;
+    get("open-frame").disabled=get("scene").disabled=get("go").disabled=false;
   }
 });

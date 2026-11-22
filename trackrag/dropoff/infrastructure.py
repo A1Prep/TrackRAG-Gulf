@@ -230,9 +230,10 @@ class PassengerDialogueGrounder(PassengerViewpoint):
 
     def interpret(self, request):
         from .pair_dialogue import review_pair_disagreement, unpointed_pair
+        from .qualified_pair import review as review_qualified_pair
         question = unpointed_pair(self.model, request)
         if question is not None:
-            return question
+            return review_qualified_pair(self.model,request,question)
         native = self.model.interpret(request)
         native = review_pair_disagreement(self.model, request, native)
-        return review(request, self._checked_viewpoint(request, native))
+        return review_qualified_pair(self.model,request,review(request, self._checked_viewpoint(request, native)))

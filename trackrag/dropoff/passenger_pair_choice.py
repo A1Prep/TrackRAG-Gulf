@@ -1,8 +1,10 @@
 """Passenger-selected vehicles with a learned road-area proposal on the original image."""
 
 from copy import deepcopy
+from contextlib import nullcontext
 import re
 
+from . import between_policy, between_road
 from .contracts import error_outcome, validate_request, validate_target
 from .data import inference_input_sha256
 from .interaction import PassengerSession as OriginalPassengerSession
@@ -47,6 +49,8 @@ ELLIPTICAL_LOCATION = re.compile(
     re.I,
 )
 REPLACED_NOUN = re.compile(r"^\s*(?:(?:no|nah|actually|rather)[,\s]+)+(?:that|this|the)\s+", re.I)
+PAIR_PRONOUN = re.compile(r"^\s*(?:(?:those|these|the)\s+(?:two|2)|them(?:\s+both)?|both\s+of\s+them)\b", re.I)
+LOCATOR = re.compile(r"\b(?:beside|near|behind|by|next to|in front of|across from)\b", re.I)
 RECOVERABLE = {
     "invalid_model_output",
     "invalid_verification_output",
@@ -61,6 +65,37 @@ RECOVERABLE = {
 
 class InvalidSelection(ValueError):
     """The passenger can retry a different current choice."""
+
+
+def vehicle_head(text):
+    """Detect what was named, ignoring objects mentioned only in a trailing locator or appositive."""
+    vehicle = VEHICLE.search(text)
+    if not vehicle:
+        return False
+    before = text[:vehicle.start()]
+    structure = STRUCTURE.search(text)
+    return (not OTHER_LOCATION.search(before) and not LOCATOR.search(before)
+            and not (structure and structure.start() <= vehicle.start()))
+
+
+def named_vehicle_pair(text, *, prefatory=False):
+    """Recognize two coordinated vehicle noun phrases without interpreting a caption or inventing IDs."""
+    for joining in re.finditer(r"\s+and\s+", text, re.I):
+        first, second = text[:joining.start()], text[joining.end():]
+        if prefatory:
+            # A scene preface can introduce the pair before a separate 'between those two' request.
+            first = re.split(r"[.!?;:\n]", first)[-1]
+            first = re.split(r"\b(?:I see|we see|there (?:is|are)|there['’]s|you see)\s+", first, flags=re.I)[-1]
+            second = re.split(r"[.!?;:\n]", second, maxsplit=1)[0]
+        if re.search(r"\b(?:or|except)\b", first+" "+second, re.I):
+            continue
+        # A third named alternative/landmark cannot establish which pair is intended.
+        if any(re.search(r"\band\s+(?:the|that|this|a|an|another)\b", part, re.I)
+               for part in (first, second)):
+            continue
+        if vehicle_head(first) and vehicle_head(second):
+            return True
+    return False
 
 
 def pair_intent(request):
@@ -83,17 +118,7 @@ def pair_intent(request):
             if quotes:
                 # "the gate by the car" still names the gate. An object accompanying
                 # a vehicle head noun, such as "the sedan by the median", is valid.
-                active = True
-                for quote in quotes:
-                    vehicle = VEHICLE.search(quote["text"])
-                    structure = STRUCTURE.search(quote["text"])
-                    if (
-                        vehicle is None
-                        or OTHER_LOCATION.search(quote["text"][: vehicle.start()])
-                        or (structure and structure.start() <= vehicle.start())
-                    ):
-                        active = False
-                        break
+                active = all(vehicle_head(quote["text"]) for quote in quotes)
             else:
                 plural = VEHICLE_PLURAL.search(tail)
                 other = OTHER_LOCATION.search(tail)
@@ -106,6 +131,8 @@ def pair_intent(request):
                     or (
                         active and re.fullmatch(r"(?:them|(?:those|these|the) two)(?:,?\s+please)?", tail, re.I)
                     )
+                    or named_vehicle_pair(tail)
+                    or (PAIR_PRONOUN.match(tail) and named_vehicle_pair(turn[:use.start()], prefatory=True))
                 )
                 if re.search(r"\b(?:or|except|not)\b", tail, re.I):
                     active = False
@@ -191,7 +218,7 @@ def geometry_for(observations, tracks, size, placement):
     }, f"{placement}_separated_vehicles"
 
 
-def choose(model, request, track_ids, placement, *, passenger_requested=False):
+def choose(model, request, track_ids, placement, *, passenger_requested=False, _legacy_between=False):
     """The passenger supplies only two current identities and a relation; the region is estimated."""
     request = validate_request(request)
     if (
@@ -240,21 +267,37 @@ def choose(model, request, track_ids, placement, *, passenger_requested=False):
             "geometry_sha256": model.geometry.sha256,
             "current_observations_sha256": digest(tracks),
         }
+        current_between = placement == "between" and not _legacy_between
+        if current_between:
+            evidence["between_road_version"] = between_road.VERSION
+            evidence["region_estimation"] = "learned_region_with_visible_road_edge_and_ground_contacts"
+            evidence.update(between_policy.evidence(model))
         try:
-            geometry, mode = geometry_for(selected, tracks, image.size, placement)
+            if current_between:
+                geometry = between_policy.preflight(model, selected, image.size)
+                mode = between_road.VERSION
+            else:
+                geometry, mode = geometry_for(selected, tracks, image.size, placement)
             evidence["geometry_mode"] = mode
             try:
                 mask = model.road.mask(image, binding["sha256"])
             except Ineligible as error:
                 raise RuntimeError("The current original's registered road mask could not be loaded") from error
-            patch = supported_patch(mask, image.size, model.geometry.pair_regression, geometry, tracks)
+            if current_between:
+                patch = between_policy.estimate(model, mask, image, selected, tracks, request["text"],image_sha=binding["sha256"])
+                if patch["guard"] == between_policy.BAY_GUARD:
+                    geometry = {}
+                    evidence["geometry_mode"] = patch["guard"]
+                    evidence["region_estimation"] = "learned_region_with_visible_bay_edge_and_ground_contacts"
+            else:
+                patch = supported_patch(mask, image.size, model.geometry.pair_regression, geometry, tracks)
         except Ineligible as error:
             reason = str(error)
             if reason in {"unsupported_road_mask", "no_prediction_from_trained_pair_head"}:
                 raise RuntimeError(
                     "The current road model or fitted geometry returned an invalid result: " + reason
                 ) from error
-            evidence["withheld_reason"] = reason
+            evidence.update(between_policy.refusal(error))
             if reason == "no_visible_between_gap":
                 question = "Their boxes overlap in this view. Do you mean the road just behind both vehicles, or another area?"
             else:
@@ -267,7 +310,7 @@ def choose(model, request, track_ids, placement, *, passenger_requested=False):
     return {"ok": True, "request_id": request["request_id"], "result": result, "provenance": evidence}
 
 
-def validate_choice_evidence(request, outcome, track_ids, placement, *, passenger_requested=False):
+def validate_choice_evidence(request, outcome, track_ids, placement, *, passenger_requested=False, live=False):
     """Check the exact passenger action and original source before exposing a selectable proposal."""
     source, frame = outcome["provenance"], request["scene"]["frame"]
     photo = request["scene"]["provenance"]["image_sha256"]
@@ -315,10 +358,23 @@ def validate_choice_evidence(request, outcome, track_ids, placement, *, passenge
             "Passenger landmark choice differs from its request, current observations, original image or learned model"
         )
     target = validate_target(outcome["result"], list(outcome["result"]), frame)
+    current_between = placement == "between" and (
+        live or source.get("between_road_version") is not None
+    )
+    if current_between and source.get("between_road_version") != between_road.VERSION:
+        raise ValueError("The passenger-selected between proposal lacks its current road guard")
+    enabled = between_policy.check_mode(source.get("between_road_mode",between_policy.EDGE))
     if target["status"] == "proposed":
         geometry = source.get("road_geometry") or {}
         size = (frame["width"], frame["height"])
-        expected_geometry, mode = geometry_for(expected["selected_observations"], tracks, size, placement)
+        if current_between:
+            between_policy.validate_patch(geometry, expected["selected_observations"], tracks, size,
+                                          target["destination_point_xy"], target["destination_box_xyxy"],enabled)
+            mode = geometry["guard"]
+            expected_geometry = (between_road.contact_geometry(expected["selected_observations"], size)
+                                 if mode == between_road.VERSION else geometry)
+        else:
+            expected_geometry, mode = geometry_for(expected["selected_observations"], tracks, size, placement)
         x, y, c, d = target["destination_box_xyxy"]
         px, py = target["destination_point_xy"]
         a, b, right, bottom = expected_geometry["center_corridor_xyxy"]
@@ -377,10 +433,13 @@ def replay_choice_evidence(request, outcome, geometry_path, cache, *, passenger_
     model = SimpleNamespace(
         config=GroundingConfig(),
         geometry=AnchorGeometry.load(geometry_path, expected_sha=GEOMETRY),
-        road=SimpleNamespace(mask=verified_mask),
+        road=SimpleNamespace(mask=verified_mask,cache=cache,image_hash=request["scene"]["provenance"]["image_sha256"]),
+        between_road_mode=between_policy.check_mode(outcome["provenance"].get("between_road_mode",between_policy.EDGE)),
     )
     action = outcome["provenance"]["passenger_selection"]
-    computed = choose(model, request, action["track_ids"], action["placement"], passenger_requested=passenger_requested)
+    legacy = action["placement"] == "between" and "between_road_version" not in outcome["provenance"]
+    computed = choose(model, request, action["track_ids"], action["placement"], passenger_requested=passenger_requested,
+                      _legacy_between=legacy)
     submission_key = "pointing_submission" if passenger_requested else "automatic_submission"
     expected = {key: val for key, val in outcome["provenance"].items() if key != submission_key}
     if computed["provenance"] != expected or computed["result"] != outcome["result"]:
@@ -402,6 +461,28 @@ class PassengerSession(OriginalPassengerSession):
         self._passenger_requested = False
         super().__init__(scene, model, audit_dir=audit_dir)
 
+    def _accept(self, outcome, selected_by):
+        from . import qualified_pair
+        base = getattr(self.model, "model", self.model)
+        if isinstance(outcome, dict) and outcome.get("ok") is True:
+            method=outcome.get("provenance",{}).get("method")
+            source_actors={METHOD:"passenger_landmarks", "explicit_passenger_region":"passenger",
+                           "passenger_requested_pointing":"passenger", qualified_pair.METHOD:qualified_pair.ACTOR}
+            if ((method in source_actors and source_actors[method] != selected_by)
+                    or (selected_by in {"passenger_landmarks", qualified_pair.ACTOR} and method not in source_actors)
+                    or (selected_by == "passenger" and method in {"qwen_landmark_region","deictic_pair_clarification"})):
+                raise ValueError("Passenger selection source and actual decision method disagree")
+            if selected_by == qualified_pair.ACTOR:
+                qualified_pair.validate(base,self._request,outcome)
+            else:
+                # Two browser sessions can share the segmentation model and its selected original.
+                with getattr(base,"lock",None) or nullcontext():
+                    between_road.validate_offer(base, self._request, outcome, selected_by)
+        state=super()._accept(outcome, selected_by)
+        if selected_by == qualified_pair.ACTOR and self._state == "proposed":
+            self._turns[-1]["text"]="I found one visible road gap that fits. Is the highlighted area where you want to get out?"
+        return state
+
     def submit(self, text, *, original_transcript=None, speech=None, point_to_vehicles=False):
         if type(point_to_vehicles) is not bool:
             raise ValueError("The request to point to vehicles must be an explicit choice.")
@@ -414,7 +495,11 @@ class PassengerSession(OriginalPassengerSession):
     def _interpret_submission(self, request):
         if self._passenger_requested:
             return pointing_question(request), "passenger"
-        return super()._interpret_submission(request)
+        outcome, actor = super()._interpret_submission(request)
+        from . import qualified_pair
+        if isinstance(outcome,dict) and outcome.get("provenance",{}).get("method") == qualified_pair.METHOD:
+            actor = qualified_pair.ACTOR
+        return outcome, actor
 
     def _save(self, action, detail):
         if action == "submitted" and self._passenger_requested:
@@ -467,6 +552,8 @@ class PassengerSession(OriginalPassengerSession):
                 if not isinstance(outcome, dict) or outcome.get("provenance", {}).get("method") != METHOD:
                     raise ValueError("This choice did not return a passenger-selected landmark result.")
                 if outcome.get("ok") is True:
+                    if placement == "between":
+                        extra["live"] = True
                     validate_choice_evidence(self._request, outcome, track_ids, placement, **extra)
                 if not self._original_submission or self._original_submission["request_sha256"] != digest(
                     self._request

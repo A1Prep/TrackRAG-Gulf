@@ -430,6 +430,8 @@ def main(argv=None):
     parser.add_argument("--qa-frame-rate",type=float,help="Used if the prepared EMT frames used an explicit rate")
     parser.add_argument("--qa-vision-config",type=Path,default=Path("configs/vision/finetuned.json"))
     parser.add_argument("--vision-cache", type=Path, required=True)
+    parser.add_argument("--between-road-mode", choices=("edge", "edge-or-bay"), default="edge",
+                        help="Check the visible road edge, or also check angled and facing parking bays")
     parser.add_argument("--verify-landmarks", action="store_true", help="Enable the model's additional landmark check")
     parser.add_argument("--asr-model", type=Path, help="Unpacked local Vosk English model")
     parser.add_argument("--whisper-model", type=Path, help="Use this verified local English Whisper Small model on CPU")
@@ -442,7 +444,8 @@ def main(argv=None):
     scenes = load_scenes(args.requests)
     asr = load_speech_recognizer(args.asr_model, args.whisper_model)
     model = load_passenger_model(args.config, geometry_path=args.geometry, vision_cache=args.vision_cache,
-                                 verify_landmarks=args.verify_landmarks,referent_path=args.referent)
+                                 verify_landmarks=args.verify_landmarks, referent_path=args.referent,
+                                 between_road_mode=args.between_road_mode)
     dialogue_model = model
     if args.referent:
         from trackrag.dropoff.infrastructure import PassengerDialogueGrounder

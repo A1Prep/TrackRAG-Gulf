@@ -65,15 +65,23 @@ def bound_outcome(outcome, request, *, passenger_selected=False, passenger_landm
         from trackrag.dropoff.passenger_pair_choice import pointing_question
         need(outcome == pointing_question(request), "Pointing prompt differs from the passenger action or original frame")
         record["native_model_calls"] = 0
+    elif method == "unique_road_qualified_vehicle_pair" and dialogue_policy:
+        from trackrag.dropoff.qualified_pair import replay_files
+        need(pair_geometry is not None and road_cache is not None,
+             "Supply the fitted geometry and current segmentation cache to reproduce the unique vehicle-pair proposal")
+        weights = referent_path if referent_path is not None else Path(pair_geometry).with_name("referent.json")
+        record["pair_policy_verification"] = replay_files(request, outcome, pair_geometry, road_cache, weights)
+        record["independent_native_proposal"] = False
     elif method == "deictic_pair_clarification" and dialogue_policy:
         from types import SimpleNamespace
         from trackrag.dropoff.model import GroundingConfig
         from trackrag.dropoff.pair_dialogue import unpointed_pair
+        from trackrag.dropoff.qualified_pair import original_after_failure
         from trackrag.dropoff.referent import ReferentRanker
         weights = Path(referent_path) if referent_path is not None else Path(__file__).resolve().parents[1] / "models" / "passenger-feature" / "referent.json"
         ranker = ReferentRanker.load(weights, expected_sha256=source.get("ranker_sha256"))
         reproduced = unpointed_pair(SimpleNamespace(config=GroundingConfig(), referent_ranker=ranker), request)
-        need(reproduced == outcome and target["status"] == "needs_clarification" and source.get("native_model_calls") == 0,
+        need(reproduced == original_after_failure(outcome) and target["status"] == "needs_clarification" and source.get("native_model_calls") == 0,
              "Automatic pair-identification question differs from the exact original image, passenger words, ranks or current tracks")
         record["native_model_calls"] = 0
         record["policy_recomputed_from_original"] = True
@@ -235,6 +243,8 @@ def session(journal_path, *, referent_path=None, pair_geometry=None, road_cache=
                                                 passenger_requested_pointing=passenger_requested_pointing)
                 if item["outcome"].get("method") == "deictic_pair_clarification" and item["outcome"]["ok"]:
                     item["phase"] = "automatic_pair_identification_question"
+                if item["outcome"].get("method") == "unique_road_qualified_vehicle_pair" and item["outcome"]["ok"]:
+                    item["phase"] = "automatic_road_qualified_pair"
                 if not manual and not pair and passenger_requested_pointing:
                     item["phase"] = "explicit_passenger_pointing_request"
             if item["outcome"]["ok"]:
@@ -246,6 +256,8 @@ def session(journal_path, *, referent_path=None, pair_geometry=None, road_cache=
                          (receipt["passenger_selection"]["track_ids"],receipt["passenger_selection"]["placement"])==
                          (item["track_ids"],item["placement"]), "Assisted choice differs from the original automatic turn or passenger action")
                 selected_by = "passenger_landmarks" if pair else "passenger" if manual or passenger_requested_pointing else "model"
+                if item["phase"] == "automatic_road_qualified_pair":
+                    selected_by = "road_qualified_pair"
                 need(view["selected_by"] == selected_by and
                      view["result"] == item["outcome"]["result"] and view["state"] == view["result"]["status"],
                      "Saved view changed the grounding result or who selected it")

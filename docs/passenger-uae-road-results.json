@@ -1,0 +1,1875 @@
+{
+  "protocol": "Independent AI visual references frozen per cohort, all scores in source pixels, earlier airport excluded. Explicitly assisted interactions use only two independently marked vehicle boxes, uniquely matched by IoU >= 0.50, and never supply a destination.",
+  "scores": "A proposed point must fall in its pre-drawn polygon, including its border. For a no-target request a valid request for clarification/insufficient visual evidence is correct. Missing finals, incorrect points and errors count separately.",
+  "units": "One still per request, original frame/sequence preserved. A KartaView still has local input time zero. The EMT rows come from the dataset training partition and may have been seen by the Task 1 detector.",
+  "previous_app": "ba37b5a54924d8d85d8884ca1477560b12805db0",
+  "release_snapshot": "cf60ceb5fddd5cb2087ebcd54133d728ab50b64031c88abb8bd749b495d75860",
+  "native_model": "unsloth/Qwen3-VL-8B-Instruct-bnb-4bit @ 10d842936325905934ea24e64325d774693f166e",
+  "native_adapter": "76bfb3230b17a86248b52ca6a9f8d2ffca324aa80216d6b93845ccb12ad86743",
+  "alternative_model": "Qwen/Qwen3.5-9B @ c202236235762e1c871ad0ccb60c8ee5ba337b9a",
+  "key": {
+    "edge": "Updated default passenger app, unassisted",
+    "final": "Optional edge-or-bay passenger app, unassisted",
+    "baseline": "Earlier passenger app, unassisted",
+    "direct8": "Released fine-tuned 8B predicts its own destination, 192 output/8192 input tokens; 24 resident layers",
+    "direct9": "Unassisted 9B directly predicts a point or asks, thinking off",
+    "think9": "Same 9B direct route with thinking enabled, 1800 generated token cap on a subset",
+    "marked9": "9B chooses a letter from strictly guarded road options, or abstains",
+    "roadvote": "9B chooses a letter from free-road centres or abstains, no paint evidence required",
+    "anchor9": "9B selects labelled detected vehicles and a point, projected to unobstructed road",
+    "center9": "Unobstructed road centre computed for the pair chosen by 9B",
+    "assisted": "Optional app applied after the independent AI reader's two simulated vehicle selections",
+    "center_assisted": "Road-only centre after the two simulated vehicle selections"
+  },
+  "dependency": "The fitted edge/bay path and alternative visual selectors produced no vehicle control. Geometric coverage is an oracle upper bound computed after inference; it gives no input to an answering model.",
+  "scenes": [
+    {
+      "id": "uae-drive-001",
+      "source": "https://huggingface.co/datasets/KuAvLab/EMT/tree/4418cec01b03c6f797cadb06c9405843a30988e2",
+      "credit": "Abdel Madjid et al. · Khalifa University / EMT",
+      "photo_license": "CC BY-NC-SA 4.0",
+      "source_sequence": "video_142911",
+      "frame": 833,
+      "sha256": "291c45642e149c91ce0b9f419f56c9f078b60479062295d1120e5c91637c52e8",
+      "size": [
+        3840,
+        2160
+      ],
+      "cohort": "development",
+      "request": "Drop me off between the two dark cars.",
+      "task": "vehicle_gap",
+      "reference": "ask",
+      "reference_polygon_xy": null,
+      "reference_note": "Rain, glare and multiple vehicles spread over the moving traffic lanes; no distinguishable roadside pair with a visible gap.",
+      "case_limit": "",
+      "offered_road_point_letters_inside_reference": [],
+      "offered_road_point_count": 1,
+      "outcomes": {
+        "final": {
+          "state": "needs_clarification",
+          "score": "correct ask",
+          "point": null
+        },
+        "baseline": {
+          "state": "error",
+          "score": "error",
+          "point": null,
+          "error": {
+            "code": "invalid_model_output",
+            "message": "Landmarks must refer to one or two distinct current detector IDs"
+          }
+        },
+        "edge": {
+          "state": "needs_clarification",
+          "score": "correct ask",
+          "point": null
+        },
+        "direct8": {
+          "state": "proposed",
+          "score": "false proposal",
+          "point": [
+            1566.72,
+            1468.8
+          ]
+        },
+        "anchor9": {
+          "state": "ask",
+          "score": "correct ask",
+          "point": null
+        },
+        "center9": {
+          "state": "ask",
+          "score": "correct ask",
+          "point": null
+        },
+        "direct9": {
+          "state": "proposed",
+          "score": "false proposal",
+          "point": [
+            1735.68,
+            1570.32
+          ]
+        },
+        "think9": {
+          "state": "error",
+          "score": "error",
+          "point": null,
+          "error": "no usable final answer"
+        },
+        "marked9": {
+          "state": "ask",
+          "score": "correct ask",
+          "point": null
+        },
+        "roadvote": {
+          "state": "ask",
+          "score": "correct ask",
+          "point": null
+        }
+      }
+    },
+    {
+      "id": "uae-drive-002",
+      "source": "https://huggingface.co/datasets/KuAvLab/EMT/tree/4418cec01b03c6f797cadb06c9405843a30988e2",
+      "credit": "Abdel Madjid et al. · Khalifa University / EMT",
+      "photo_license": "CC BY-NC-SA 4.0",
+      "source_sequence": "video_131333",
+      "frame": 1423,
+      "sha256": "6b3419bdbe66158adb48f2f769029d50ccc08e52dfbd4ba54c841ac6f6bb35c9",
+      "size": [
+        2560,
+        1440
+      ],
+      "cohort": "development",
+      "request": "The big metal bin on the right, just before the striped crossing. Could you show me the bit of road directly alongside that bin?",
+      "task": "other_roadside_landmark",
+      "reference": "visible_area",
+      "reference_polygon_xy": [
+        [
+          1188,
+          1142
+        ],
+        [
+          1265,
+          1142
+        ],
+        [
+          1315,
+          1192
+        ],
+        [
+          1408,
+          1272
+        ],
+        [
+          1328,
+          1285
+        ],
+        [
+          1218,
+          1240
+        ]
+      ],
+      "reference_note": "The roadside bin and the nearer side of the striped crossing unambiguously locate adjacent right-edge asphalt. The target ends at the pavement edge before the sand.",
+      "case_limit": "",
+      "offered_road_point_letters_inside_reference": [],
+      "offered_road_point_count": 0,
+      "outcomes": {
+        "final": {
+          "state": "proposed",
+          "score": "wrong point",
+          "point": [
+            1357.5,
+            1187.5
+          ],
+          "outside_reference_by_px": 31.1
+        },
+        "baseline": {
+          "state": "proposed",
+          "score": "wrong point",
+          "point": [
+            1357.5,
+            1187.5
+          ],
+          "outside_reference_by_px": 31.1
+        },
+        "edge": {
+          "state": "proposed",
+          "score": "wrong point",
+          "point": [
+            1357.5,
+            1187.5
+          ],
+          "outside_reference_by_px": 31.1
+        },
+        "direct8": {
+          "state": "proposed",
+          "score": "wrong point",
+          "point": [
+            1425.92,
+            1188.0
+          ],
+          "outside_reference_by_px": 75.4
+        },
+        "direct9": {
+          "state": "proposed",
+          "score": "wrong point",
+          "point": [
+            1372.16,
+            1117.44
+          ],
+          "outside_reference_by_px": 93.1
+        },
+        "think9": {
+          "state": "proposed",
+          "score": "wrong point",
+          "point": [
+            1331.2,
+            1094.4
+          ],
+          "outside_reference_by_px": 80.5
+        }
+      }
+    },
+    {
+      "id": "uae-drive-003",
+      "source": "https://huggingface.co/datasets/KuAvLab/EMT/tree/4418cec01b03c6f797cadb06c9405843a30988e2",
+      "credit": "Abdel Madjid et al. · Khalifa University / EMT",
+      "photo_license": "CC BY-NC-SA 4.0",
+      "source_sequence": "video_115833",
+      "frame": 633,
+      "sha256": "147d7271233466f65e97b34d4441fa425fbe3140c8c74f88c4b811b41a80118f",
+      "size": [
+        2560,
+        1440
+      ],
+      "cohort": "development",
+      "request": "Drop me off between the two dark cars.",
+      "task": "vehicle_gap",
+      "reference": "ask",
+      "reference_polygon_xy": null,
+      "reference_note": "Several small vehicles occupy different traffic lanes. No identifiable pair flanks a visible roadside receiving area.",
+      "case_limit": "",
+      "offered_road_point_letters_inside_reference": [],
+      "offered_road_point_count": 4,
+      "outcomes": {
+        "final": {
+          "state": "needs_clarification",
+          "score": "correct ask",
+          "point": null
+        },
+        "baseline": {
+          "state": "needs_clarification",
+          "score": "correct ask",
+          "point": null
+        },
+        "edge": {
+          "state": "needs_clarification",
+          "score": "correct ask",
+          "point": null
+        },
+        "direct8": {
+          "state": "needs_clarification",
+          "score": "correct ask",
+          "point": null
+        },
+        "anchor9": {
+          "state": "error",
+          "score": "error",
+          "point": null,
+          "error": "invalid final response"
+        },
+        "center9": {
+          "state": "error",
+          "score": "error",
+          "point": null
+        },
+        "direct9": {
+          "state": "proposed",
+          "score": "false proposal",
+          "point": [
+            768.0,
+            1069.92
+          ]
+        },
+        "think9": {
+          "state": "error",
+          "score": "error",
+          "point": null,
+          "error": "no usable final answer"
+        },
+        "marked9": {
+          "state": "ask",
+          "score": "correct ask",
+          "point": null
+        },
+        "roadvote": {
+          "state": "proposed",
+          "score": "false proposal",
+          "point": [
+            1132.5,
+            1112.5
+          ]
+        }
+      }
+    },
+    {
+      "id": "uae-drive-004",
+      "source": "https://huggingface.co/datasets/KuAvLab/EMT/tree/4418cec01b03c6f797cadb06c9405843a30988e2",
+      "credit": "Abdel Madjid et al. · Khalifa University / EMT",
+      "photo_license": "CC BY-NC-SA 4.0",
+      "source_sequence": "video_141432-141733",
+      "frame": 365,
+      "sha256": "3d9f615c44ede25acf7a49338359e9b849860593258770b1558f1bfe250e21e6",
+      "size": [
+        896,
+        672
+      ],
+      "cohort": "development",
+      "request": "Please mark the stretch of brick roadway immediately to the left of the little blue round sign on the traffic island ahead.",
+      "task": "other_roadside_landmark",
+      "reference": "visible_area",
+      "reference_polygon_xy": [
+        [
+          501,
+          475
+        ],
+        [
+          544,
+          479
+        ],
+        [
+          578,
+          493
+        ],
+        [
+          586,
+          506
+        ],
+        [
+          547,
+          522
+        ],
+        [
+          489,
+          501
+        ]
+      ],
+      "reference_note": "The blue circular sign stands on one small island on the approach to the covered building. The requested road surface is directly to its left at the same depth; exclude the raised island and its curb.",
+      "case_limit": "",
+      "offered_road_point_letters_inside_reference": [],
+      "offered_road_point_count": 0,
+      "outcomes": {
+        "final": {
+          "state": "proposed",
+          "score": "wrong point",
+          "point": [
+            590.62,
+            483.88
+          ],
+          "outside_reference_by_px": 15.6
+        },
+        "baseline": {
+          "state": "proposed",
+          "score": "wrong point",
+          "point": [
+            590.62,
+            483.88
+          ],
+          "outside_reference_by_px": 15.6
+        },
+        "edge": {
+          "state": "proposed",
+          "score": "wrong point",
+          "point": [
+            590.62,
+            483.88
+          ],
+          "outside_reference_by_px": 15.6
+        },
+        "direct8": {
+          "state": "proposed",
+          "score": "wrong point",
+          "point": [
+            515.2,
+            440.16
+          ],
+          "outside_reference_by_px": 36.0
+        },
+        "direct9": {
+          "state": "proposed",
+          "score": "wrong point",
+          "point": [
+            485.63,
+            470.4
+          ],
+          "outside_reference_by_px": 15.9
+        },
+        "think9": {
+          "state": "proposed",
+          "score": "wrong point",
+          "point": [
+            448.0,
+            537.6
+          ],
+          "outside_reference_by_px": 55.0
+        }
+      }
+    },
+    {
+      "id": "uae-drive-005",
+      "source": "https://huggingface.co/datasets/KuAvLab/EMT/tree/4418cec01b03c6f797cadb06c9405843a30988e2",
+      "credit": "Abdel Madjid et al. · Khalifa University / EMT",
+      "photo_license": "CC BY-NC-SA 4.0",
+      "source_sequence": "video_143739",
+      "frame": 188,
+      "sha256": "cbbafac72d36620a8200924fffa8a9c0ac86376c845e4d6c4e51561d13329d4f",
+      "size": [
+        3840,
+        2160
+      ],
+      "cohort": "development",
+      "request": "Can you show me the curb gap between those two black cars?",
+      "task": "vehicle_gap",
+      "reference": "ask",
+      "reference_polygon_xy": null,
+      "reference_note": "The packed queue shows numerous dark vehicles spread across lanes, with their positions blocking the curb. No unique dark curb pair or visible open section between it.",
+      "case_limit": "",
+      "offered_road_point_letters_inside_reference": [],
+      "offered_road_point_count": 1,
+      "outcomes": {
+        "final": {
+          "state": "needs_clarification",
+          "score": "correct ask",
+          "point": null
+        },
+        "baseline": {
+          "state": "needs_clarification",
+          "score": "correct ask",
+          "point": null
+        },
+        "edge": {
+          "state": "needs_clarification",
+          "score": "correct ask",
+          "point": null
+        },
+        "direct8": {
+          "state": "needs_clarification",
+          "score": "correct ask",
+          "point": null
+        },
+        "anchor9": {
+          "state": "error",
+          "score": "error",
+          "point": null,
+          "error": "invalid final response"
+        },
+        "center9": {
+          "state": "error",
+          "score": "error",
+          "point": null
+        },
+        "direct9": {
+          "state": "ask",
+          "score": "correct ask",
+          "point": null
+        },
+        "think9": {
+          "state": "error",
+          "score": "error",
+          "point": null,
+          "error": "no usable final answer"
+        },
+        "marked9": {
+          "state": "ask",
+          "score": "correct ask",
+          "point": null
+        },
+        "roadvote": {
+          "state": "ask",
+          "score": "correct ask",
+          "point": null
+        }
+      }
+    },
+    {
+      "id": "kv-1644950905",
+      "source": "https://kartaview.org/details/6315193/227/",
+      "credit": "© Grab and KartaView Contributors",
+      "photo_license": "CC BY-SA 4.0",
+      "source_sequence": "6315193",
+      "frame": 227,
+      "sha256": "f56573acd7f6ffe0b141b23d394c1c519db4a71752fe486807e6f41290101882",
+      "size": [
+        3264,
+        1836
+      ],
+      "cohort": "development",
+      "request": "Drop me off between the two dark cars.",
+      "task": "vehicle_gap",
+      "reference": "ask",
+      "reference_polygon_xy": null,
+      "reference_note": "A narrow street, pedestrians on both sides and a clearly visible bonnet. Neither foreground curb has two dark cars bounding a pavement gap.",
+      "case_limit": "Small distant objects do not establish a pair. The people and edge of the bonnet are not candidate vehicles or target surfaces.",
+      "offered_road_point_letters_inside_reference": [],
+      "offered_road_point_count": 0,
+      "outcomes": {
+        "final": {
+          "state": "needs_clarification",
+          "score": "correct ask",
+          "point": null
+        },
+        "baseline": {
+          "state": "needs_clarification",
+          "score": "correct ask",
+          "point": null
+        },
+        "edge": {
+          "state": "needs_clarification",
+          "score": "correct ask",
+          "point": null
+        },
+        "direct8": {
+          "state": "proposed",
+          "score": "false proposal",
+          "point": [
+            1370.88,
+            1138.32
+          ]
+        },
+        "anchor9": {
+          "state": "ask",
+          "score": "correct ask",
+          "point": null
+        },
+        "center9": {
+          "state": "ask",
+          "score": "correct ask",
+          "point": null
+        },
+        "direct9": {
+          "state": "ask",
+          "score": "correct ask",
+          "point": null
+        },
+        "marked9": {
+          "state": "ask",
+          "score": "correct ask",
+          "point": null
+        },
+        "roadvote": {
+          "state": "ask",
+          "score": "correct ask",
+          "point": null
+        }
+      }
+    },
+    {
+      "id": "kv-1480813097",
+      "source": "https://kartaview.org/details/5139497/182/",
+      "credit": "© Grab and KartaView Contributors",
+      "photo_license": "CC BY-SA 4.0",
+      "source_sequence": "5139497",
+      "frame": 182,
+      "sha256": "fcfeadb33521e8b7b9a4fc15b2a4f252e8b545dd43a51772cefcee13187cbf7d",
+      "size": [
+        3264,
+        1836
+      ],
+      "cohort": "development",
+      "request": "Drop me off between the two dark cars.",
+      "task": "vehicle_gap",
+      "reference": "visible_area",
+      "reference_polygon_xy": [
+        [
+          1093.44,
+          1583.039592
+        ],
+        [
+          1289.28,
+          1544.959116
+        ],
+        [
+          1506.881088,
+          1506.880476
+        ],
+        [
+          1515.041088,
+          1583.039592
+        ],
+        [
+          1267.518912,
+          1640.159388
+        ],
+        [
+          1147.8410880000001,
+          1651.039524
+        ]
+      ],
+      "reference_note": "The two prominent dark SUVs bound a visibly vacant, white-lined parking bay on the same side. The projected inner pavement core lies between their wheels and within the colored boundary of the parking row. The near silver sedan does not occupy the bay.",
+      "case_limit": "Other dark vehicles are farther along the row, but the open marked neighboring space distinguishes this pair. Part of the nearest SUV is occluded and its full extent is approximate. This is a visual location proposal for confirmation.",
+      "offered_road_point_letters_inside_reference": [
+        "B"
+      ],
+      "offered_road_point_count": 3,
+      "outcomes": {
+        "final": {
+          "state": "needs_clarification",
+          "score": "missed clear target",
+          "point": null
+        },
+        "baseline": {
+          "state": "error",
+          "score": "error",
+          "point": null,
+          "error": {
+            "code": "invalid_model_output",
+            "message": "Landmarks must refer to one or two distinct current detector IDs"
+          }
+        },
+        "edge": {
+          "state": "needs_clarification",
+          "score": "missed clear target",
+          "point": null
+        },
+        "direct8": {
+          "state": "proposed",
+          "score": "wrong point",
+          "point": [
+            1632.0,
+            1377.0
+          ],
+          "outside_reference_by_px": 180.3
+        },
+        "anchor9": {
+          "state": "ask",
+          "score": "missed clear target",
+          "point": null
+        },
+        "center9": {
+          "state": "proposed",
+          "score": "wrong point",
+          "point": [
+            2030.44,
+            1807.31
+          ],
+          "outside_reference_by_px": 562.1
+        },
+        "center_assisted": {
+          "state": "proposed",
+          "score": "inside target",
+          "point": [
+            1310.06,
+            1590.56
+          ]
+        },
+        "direct9": {
+          "state": "proposed",
+          "score": "wrong point",
+          "point": [
+            1707.07,
+            1531.22
+          ],
+          "outside_reference_by_px": 196.5
+        },
+        "marked9": {
+          "state": "ask",
+          "score": "missed clear target",
+          "point": null
+        },
+        "roadvote": {
+          "state": "proposed",
+          "score": "inside target",
+          "point": [
+            1310.06,
+            1590.56
+          ]
+        },
+        "assisted": {
+          "state": "needs_clarification",
+          "score": "missed clear target",
+          "point": null
+        }
+      }
+    },
+    {
+      "id": "kv-1447047097",
+      "source": "https://kartaview.org/details/4720873/228/",
+      "credit": "© Grab and KartaView Contributors",
+      "photo_license": "CC BY-SA 4.0",
+      "source_sequence": "4720873",
+      "frame": 228,
+      "sha256": "e3c8e743498547562a7ed994f4a2cd8ef9af77b3a9268e27666b874096194f9b",
+      "size": [
+        3264,
+        1836
+      ],
+      "cohort": "development",
+      "request": "Drop me off between the two dark cars.",
+      "task": "vehicle_gap",
+      "reference": "ask",
+      "reference_polygon_xy": null,
+      "reference_note": "A broad unoccupied section of an Abu Dhabi arterial and a curb island on the right. No pair of dark curb vehicles bounds a visible roadside gap.",
+      "case_limit": "A distant traffic vehicle is visible; the empty central driving lanes do not satisfy the instruction.",
+      "offered_road_point_letters_inside_reference": [],
+      "offered_road_point_count": 0,
+      "outcomes": {
+        "final": {
+          "state": "needs_clarification",
+          "score": "correct ask",
+          "point": null
+        },
+        "baseline": {
+          "state": "needs_clarification",
+          "score": "correct ask",
+          "point": null
+        },
+        "edge": {
+          "state": "needs_clarification",
+          "score": "correct ask",
+          "point": null
+        },
+        "direct8": {
+          "state": "proposed",
+          "score": "false proposal",
+          "point": [
+            1595.12,
+            887.34
+          ]
+        },
+        "anchor9": {
+          "state": "error",
+          "score": "error",
+          "point": null,
+          "error": "invalid final response"
+        },
+        "center9": {
+          "state": "error",
+          "score": "error",
+          "point": null
+        },
+        "direct9": {
+          "state": "ask",
+          "score": "correct ask",
+          "point": null
+        },
+        "marked9": {
+          "state": "ask",
+          "score": "correct ask",
+          "point": null
+        },
+        "roadvote": {
+          "state": "ask",
+          "score": "correct ask",
+          "point": null
+        }
+      }
+    },
+    {
+      "id": "kv-1744059497",
+      "source": "https://kartaview.org/details/7434857/28/",
+      "credit": "© Grab and KartaView Contributors",
+      "photo_license": "CC BY-SA 4.0",
+      "source_sequence": "7434857",
+      "frame": 28,
+      "sha256": "144fe679f8334c1c4856a1aa1c43d31f73502c9697cce2ce01b4c356abdbcde7",
+      "size": [
+        3840,
+        2160
+      ],
+      "cohort": "development",
+      "request": "Drop me off between the two dark cars.",
+      "task": "vehicle_gap",
+      "reference": "ask",
+      "reference_polygon_xy": null,
+      "reference_note": "Two dark vehicles can be identified along the right-hand row, but their silhouettes and ground contacts nearly meet. The open part of the image is the adjacent through lane. No visible drop-off-sized intervehicle bay can be established.",
+      "case_limit": "This frame tests gap visibility even when the named objects are present. A sliver of asphalt by the tyres does not establish a distinct gap.",
+      "offered_road_point_letters_inside_reference": [],
+      "offered_road_point_count": 4,
+      "outcomes": {
+        "final": {
+          "state": "needs_clarification",
+          "score": "correct ask",
+          "point": null
+        },
+        "baseline": {
+          "state": "needs_clarification",
+          "score": "correct ask",
+          "point": null
+        },
+        "edge": {
+          "state": "needs_clarification",
+          "score": "correct ask",
+          "point": null
+        },
+        "direct8": {
+          "state": "proposed",
+          "score": "false proposal",
+          "point": [
+            1939.2,
+            907.2
+          ]
+        },
+        "anchor9": {
+          "state": "proposed",
+          "score": "false proposal",
+          "point": [
+            1773.75,
+            1053.75
+          ]
+        },
+        "center9": {
+          "state": "proposed",
+          "score": "false proposal",
+          "point": [
+            1826.25,
+            1068.75
+          ]
+        },
+        "center_assisted": {
+          "state": "proposed",
+          "score": "false proposal",
+          "point": [
+            1826.25,
+            1068.75
+          ]
+        },
+        "direct9": {
+          "state": "proposed",
+          "score": "false proposal",
+          "point": [
+            2231.04,
+            1000.08
+          ]
+        },
+        "marked9": {
+          "state": "proposed",
+          "score": "false proposal",
+          "point": [
+            1308.75,
+            1046.25
+          ]
+        },
+        "roadvote": {
+          "state": "proposed",
+          "score": "false proposal",
+          "point": [
+            1826.25,
+            1068.75
+          ]
+        },
+        "assisted": {
+          "state": "needs_clarification",
+          "score": "correct ask",
+          "point": null
+        }
+      }
+    },
+    {
+      "id": "kv-1644952489",
+      "source": "https://kartaview.org/details/6315209/29/",
+      "credit": "© Grab and KartaView Contributors · dennis-g-d",
+      "photo_license": "CC BY-SA 4.0",
+      "source_sequence": "6315209",
+      "frame": 29,
+      "sha256": "22c92e0d5f3199c415d0ea1ab5f7eb7002c6346849d396b48c50c3ba8965831b",
+      "size": [
+        3264,
+        1836
+      ],
+      "cohort": "development",
+      "request": "Across the junction, there's a dark sedan facing us and a tall white van farther right. Can you show me the empty marked space immediately to the sedan's right, between those two?",
+      "task": "vehicle_gap",
+      "reference": "visible_area",
+      "reference_polygon_xy": [
+        [
+          1882,
+          1231
+        ],
+        [
+          2138,
+          1226
+        ],
+        [
+          2167,
+          1262
+        ],
+        [
+          1860,
+          1276
+        ]
+      ],
+      "reference_note": "The marked car-parking spaces stop at the far curb. Select the first empty slot beside the dark sedan; exclude the second empty space, person's legs and street in the foreground.",
+      "case_limit": "clearly visible marked parking bay",
+      "offered_road_point_letters_inside_reference": [
+        "B"
+      ],
+      "offered_road_point_count": 3,
+      "outcomes": {
+        "final": {
+          "state": "needs_clarification",
+          "score": "missed clear target",
+          "point": null
+        },
+        "baseline": {
+          "state": "needs_clarification",
+          "score": "missed clear target",
+          "point": null
+        },
+        "edge": {
+          "state": "needs_clarification",
+          "score": "missed clear target",
+          "point": null
+        },
+        "direct8": {
+          "state": "proposed",
+          "score": "wrong point",
+          "point": [
+            1720.13,
+            1208.09
+          ],
+          "outside_reference_by_px": 155.5
+        },
+        "anchor9": {
+          "state": "proposed",
+          "score": "wrong point",
+          "point": [
+            2183.44,
+            1252.69
+          ],
+          "outside_reference_by_px": 18.9
+        },
+        "center9": {
+          "state": "proposed",
+          "score": "inside target",
+          "point": [
+            2075.06,
+            1259.06
+          ]
+        },
+        "center_assisted": {
+          "state": "proposed",
+          "score": "inside target",
+          "point": [
+            2075.06,
+            1259.06
+          ]
+        },
+        "direct9": {
+          "state": "proposed",
+          "score": "inside target",
+          "point": [
+            1889.86,
+            1255.82
+          ]
+        },
+        "marked9": {
+          "state": "ask",
+          "score": "missed clear target",
+          "point": null
+        },
+        "roadvote": {
+          "state": "proposed",
+          "score": "wrong point",
+          "point": [
+            1915.69,
+            1227.19
+          ],
+          "outside_reference_by_px": 3.2
+        },
+        "assisted": {
+          "state": "needs_clarification",
+          "score": "missed clear target",
+          "point": null
+        }
+      }
+    },
+    {
+      "id": "kv-1476078601",
+      "source": "https://kartaview.org/details/5083481/62/",
+      "credit": "© Grab and KartaView Contributors · seven",
+      "photo_license": "CC BY-SA 4.0",
+      "source_sequence": "5083481",
+      "frame": 62,
+      "sha256": "2ea77946173b105649eca013e2f5b7c5d6200b39acefd87cec4cfca8e508703c",
+      "size": [
+        3264,
+        1836
+      ],
+      "cohort": "development",
+      "request": "On the left, mark the open bit between the nearest white SUV, the one cut off by the picture, and the white crossover with writing on the side a little farther up.",
+      "task": "vehicle_gap",
+      "reference": "visible_area",
+      "reference_polygon_xy": [
+        [
+          459,
+          1240
+        ],
+        [
+          616,
+          1226
+        ],
+        [
+          661,
+          1248
+        ],
+        [
+          678,
+          1271
+        ],
+        [
+          495,
+          1316
+        ],
+        [
+          425,
+          1319
+        ]
+      ],
+      "reference_note": "Two separated vehicles face across the street from the left-hand parking row. The visible asphalt between their exposed noses is bounded behind by the parking-row curb, and opens at the street side.",
+      "case_limit": "visible roadside gap; no claim about a full car fitting",
+      "offered_road_point_letters_inside_reference": [
+        "C"
+      ],
+      "offered_road_point_count": 3,
+      "outcomes": {
+        "final": {
+          "state": "needs_clarification",
+          "score": "missed clear target",
+          "point": null
+        },
+        "baseline": {
+          "state": "needs_clarification",
+          "score": "missed clear target",
+          "point": null
+        },
+        "edge": {
+          "state": "needs_clarification",
+          "score": "missed clear target",
+          "point": null
+        },
+        "direct8": {
+          "state": "proposed",
+          "score": "wrong point",
+          "point": [
+            669.12,
+            1147.5
+          ],
+          "outside_reference_by_px": 93.9
+        },
+        "anchor9": {
+          "state": "proposed",
+          "score": "wrong point",
+          "point": [
+            825.56,
+            1252.69
+          ],
+          "outside_reference_by_px": 148.7
+        },
+        "center9": {
+          "state": "proposed",
+          "score": "inside target",
+          "point": [
+            494.06,
+            1310.06
+          ]
+        },
+        "center_assisted": {
+          "state": "proposed",
+          "score": "wrong point",
+          "point": [
+            551.44,
+            1310.06
+          ],
+          "outside_reference_by_px": 7.7
+        },
+        "direct9": {
+          "state": "proposed",
+          "score": "wrong point",
+          "point": [
+            427.58,
+            1208.09
+          ],
+          "outside_reference_by_px": 44.8
+        },
+        "marked9": {
+          "state": "ask",
+          "score": "missed clear target",
+          "point": null
+        },
+        "roadvote": {
+          "state": "proposed",
+          "score": "inside target",
+          "point": [
+            494.06,
+            1310.06
+          ]
+        },
+        "assisted": {
+          "state": "needs_clarification",
+          "score": "missed clear target",
+          "point": null
+        }
+      }
+    },
+    {
+      "id": "kv-1644952617",
+      "source": "https://kartaview.org/details/6315209/37/",
+      "credit": "© Grab and KartaView Contributors · dennis-g-d",
+      "photo_license": "CC BY-SA 4.0",
+      "source_sequence": "6315209",
+      "frame": 37,
+      "sha256": "80396121e7f1a251f928ad971600e11814ae5da8d47ce94ee912a3b108377b5b",
+      "size": [
+        3264,
+        1836
+      ],
+      "cohort": "development",
+      "request": "Drop me off between the two dark cars.",
+      "task": "vehicle_gap",
+      "reference": "visible_area",
+      "reference_polygon_xy": [
+        [
+          2037,
+          1395
+        ],
+        [
+          2214,
+          1361
+        ],
+        [
+          2268,
+          1341
+        ],
+        [
+          2290,
+          1381
+        ],
+        [
+          2310,
+          1411
+        ],
+        [
+          2200,
+          1420
+        ],
+        [
+          2065,
+          1423
+        ]
+      ],
+      "reference_note": "Two conspicuous dark vehicles in the right-side marked row face opposite ways. A narrow triangle of the marked dark asphalt is visible behind the farther SUV and beside the rear of the near minivan. Full bay and metric clearance cannot be inferred.",
+      "case_limit": "narrow appearance-only gap; report separately from clearly vacant marked bays",
+      "offered_road_point_letters_inside_reference": [],
+      "offered_road_point_count": 6,
+      "outcomes": {
+        "final": {
+          "state": "needs_clarification",
+          "score": "missed clear target",
+          "point": null
+        },
+        "baseline": {
+          "state": "error",
+          "score": "error",
+          "point": null,
+          "error": {
+            "code": "invalid_model_output",
+            "message": "Landmarks must refer to one or two distinct current detector IDs"
+          }
+        },
+        "edge": {
+          "state": "needs_clarification",
+          "score": "missed clear target",
+          "point": null
+        },
+        "direct8": {
+          "state": "proposed",
+          "score": "wrong point",
+          "point": [
+            2040.0,
+            1331.1
+          ],
+          "outside_reference_by_px": 62.2
+        },
+        "anchor9": {
+          "state": "ask",
+          "score": "missed clear target",
+          "point": null
+        },
+        "center9": {
+          "state": "proposed",
+          "score": "wrong point",
+          "point": [
+            2113.31,
+            1507.69
+          ],
+          "outside_reference_by_px": 85.7
+        },
+        "center_assisted": {
+          "state": "proposed",
+          "score": "wrong point",
+          "point": [
+            2113.31,
+            1507.69
+          ],
+          "outside_reference_by_px": 85.7
+        },
+        "direct9": {
+          "state": "proposed",
+          "score": "wrong point",
+          "point": [
+            2483.9,
+            1347.62
+          ],
+          "outside_reference_by_px": 185.1
+        },
+        "marked9": {
+          "state": "ask",
+          "score": "missed clear target",
+          "point": null
+        },
+        "roadvote": {
+          "state": "proposed",
+          "score": "wrong point",
+          "point": [
+            2113.31,
+            1507.69
+          ],
+          "outside_reference_by_px": 85.7
+        },
+        "assisted": {
+          "state": "needs_clarification",
+          "score": "missed clear target",
+          "point": null
+        }
+      }
+    },
+    {
+      "id": "kv-1476078825",
+      "source": "https://kartaview.org/details/5083497/1/",
+      "credit": "© Grab and KartaView Contributors · seven",
+      "photo_license": "CC BY-SA 4.0",
+      "source_sequence": "5083497",
+      "frame": 1,
+      "sha256": "2f42cb77a8b0442362951c4b872dd67fa29e3fdebcf8a902d3d8ba942065cc6d",
+      "size": [
+        3264,
+        1836
+      ],
+      "cohort": "development",
+      "request": "Over on the left, show me the open strip of road between the big white SUV right here and the dark sedan parked side-on by the crossing farther ahead.",
+      "task": "vehicle_gap",
+      "reference": "visible_area",
+      "reference_polygon_xy": [
+        [
+          819,
+          1189
+        ],
+        [
+          920,
+          1178
+        ],
+        [
+          1024,
+          1170
+        ],
+        [
+          1061,
+          1189
+        ],
+        [
+          974,
+          1223
+        ],
+        [
+          839,
+          1254
+        ],
+        [
+          782,
+          1251
+        ]
+      ],
+      "reference_note": "An opening in the left roadside separates the big near white SUV cluster from the side-on dark sedan farther up. The target is the visible paved mouth, excluding the vehicles and the raised island behind the gap.",
+      "case_limit": "visible opening at street edge; no assurance of access or stopping",
+      "offered_road_point_letters_inside_reference": [],
+      "offered_road_point_count": 6,
+      "outcomes": {
+        "final": {
+          "state": "needs_clarification",
+          "score": "missed clear target",
+          "point": null
+        },
+        "baseline": {
+          "state": "needs_clarification",
+          "score": "missed clear target",
+          "point": null
+        },
+        "edge": {
+          "state": "needs_clarification",
+          "score": "missed clear target",
+          "point": null
+        },
+        "direct8": {
+          "state": "proposed",
+          "score": "wrong point",
+          "point": [
+            424.32,
+            1202.58
+          ],
+          "outside_reference_by_px": 360.9
+        },
+        "anchor9": {
+          "state": "proposed",
+          "score": "wrong point",
+          "point": [
+            1023.19,
+            1150.69
+          ],
+          "outside_reference_by_px": 19.3
+        },
+        "center9": {
+          "state": "proposed",
+          "score": "wrong point",
+          "point": [
+            710.81,
+            1329.19
+          ],
+          "outside_reference_by_px": 105.7
+        },
+        "center_assisted": {
+          "state": "proposed",
+          "score": "wrong point",
+          "point": [
+            921.19,
+            1239.94
+          ],
+          "outside_reference_by_px": 4.7
+        },
+        "direct9": {
+          "state": "proposed",
+          "score": "wrong point",
+          "point": [
+            848.64,
+            1167.7
+          ],
+          "outside_reference_by_px": 18.0
+        },
+        "marked9": {
+          "state": "ask",
+          "score": "missed clear target",
+          "point": null
+        },
+        "roadvote": {
+          "state": "proposed",
+          "score": "wrong point",
+          "point": [
+            366.56,
+            1341.94
+          ],
+          "outside_reference_by_px": 425.3
+        },
+        "assisted": {
+          "state": "needs_clarification",
+          "score": "missed clear target",
+          "point": null
+        }
+      }
+    },
+    {
+      "id": "kv-1476074857",
+      "source": "https://kartaview.org/details/5083289/32/",
+      "credit": "© Grab and KartaView Contributors",
+      "photo_license": "CC BY-SA 4.0",
+      "source_sequence": "5083289",
+      "frame": 32,
+      "sha256": "8c1bbddb0f8260f0b201dfc76757b302373324ef297baeeda3e1606a06da5b26",
+      "size": [
+        3264,
+        1836
+      ],
+      "cohort": "confirmation",
+      "request": "Drop me off between the two dark cars.",
+      "task": "vehicle_gap",
+      "reference": "visible_area",
+      "reference_polygon_xy": [
+        [
+          616.09632,
+          1342.865088
+        ],
+        [
+          790.1328000000001,
+          1319.364288
+        ],
+        [
+          983.50848,
+          1293.100308
+        ],
+        [
+          987.65376,
+          1337.336892
+        ],
+        [
+          834.3338879999999,
+          1360.835856
+        ],
+        [
+          708.640512,
+          1374.660936
+        ]
+      ],
+      "reference_note": "The two prominent black cars are separated by a third, empty marked parking bay. Both painted edges of that vacant bay are visible on asphalt. The foreground raised reddish paving and nearer black/yellow curb are outside the target.",
+      "case_limit": "The near car occludes the back of the empty bay, so the polygon includes a conservative visible section at the entrance. More distant vehicles are present; these two black cars are the salient near pair flanking the only empty bay beside them. No assertion of vehicle motion or permission to stop.",
+      "offered_road_point_letters_inside_reference": [
+        "A"
+      ],
+      "offered_road_point_count": 4,
+      "outcomes": {
+        "final": {
+          "state": "needs_clarification",
+          "score": "missed clear target",
+          "point": null
+        },
+        "baseline": {
+          "state": "needs_clarification",
+          "score": "missed clear target",
+          "point": null
+        },
+        "edge": {
+          "state": "needs_clarification",
+          "score": "missed clear target",
+          "point": null
+        },
+        "direct8": {
+          "state": "proposed",
+          "score": "wrong point",
+          "point": [
+            1002.05,
+            1165.86
+          ],
+          "outside_reference_by_px": 128.6
+        },
+        "anchor9": {
+          "state": "ask",
+          "score": "missed clear target",
+          "point": null
+        },
+        "center9": {
+          "state": "proposed",
+          "score": "wrong point",
+          "point": [
+            1858.31,
+            1246.31
+          ],
+          "outside_reference_by_px": 875.4
+        },
+        "center_assisted": {
+          "state": "proposed",
+          "score": "inside target",
+          "point": [
+            889.31,
+            1335.56
+          ]
+        },
+        "think9": {
+          "state": "error",
+          "score": "error",
+          "point": null,
+          "error": "no usable final answer"
+        },
+        "marked9": {
+          "state": "ask",
+          "score": "missed clear target",
+          "point": null
+        },
+        "direct9": {
+          "state": "proposed",
+          "score": "wrong point",
+          "point": [
+            1370.88,
+            1213.6
+          ],
+          "outside_reference_by_px": 395.4
+        },
+        "roadvote": {
+          "state": "proposed",
+          "score": "inside target",
+          "point": [
+            889.31,
+            1335.56
+          ]
+        },
+        "assisted": {
+          "state": "needs_clarification",
+          "score": "missed clear target",
+          "point": null
+        }
+      }
+    },
+    {
+      "id": "kv-1648471945",
+      "source": "https://kartaview.org/details/6327433/413/",
+      "credit": "© Grab and KartaView Contributors · dennis-g-d",
+      "photo_license": "CC BY-SA 4.0",
+      "source_sequence": "6327433",
+      "frame": 413,
+      "sha256": "4f189d2765f3f47c67bf04e2d1485f75ff8b215b898e36c6f8ab9f0f36d3ef73",
+      "size": [
+        3840,
+        2160
+      ],
+      "cohort": "confirmation",
+      "request": "Drop me in the gap between the white SUV and the white convertible on the right.",
+      "task": "vehicle_gap",
+      "reference": "visible_area",
+      "reference_polygon_xy": [
+        [
+          1702,
+          1459
+        ],
+        [
+          1917,
+          1449
+        ],
+        [
+          2076,
+          1439
+        ],
+        [
+          2099,
+          1462
+        ],
+        [
+          2095,
+          1489
+        ],
+        [
+          2006,
+          1505
+        ],
+        [
+          1821,
+          1515
+        ],
+        [
+          1718,
+          1495
+        ]
+      ],
+      "reference_note": "Open marked road paving visibly extends across the unoccupied stalls between the white convertible and the white SUV. The large empty space on the near side of the SUV is outside the requested pair.",
+      "case_limit": "clearly visible marked roadside parking gap",
+      "offered_road_point_letters_inside_reference": [],
+      "offered_road_point_count": 4,
+      "outcomes": {
+        "final": {
+          "state": "needs_clarification",
+          "score": "missed clear target",
+          "point": null
+        },
+        "baseline": {
+          "state": "needs_clarification",
+          "score": "missed clear target",
+          "point": null
+        },
+        "edge": {
+          "state": "needs_clarification",
+          "score": "missed clear target",
+          "point": null
+        },
+        "direct8": {
+          "state": "proposed",
+          "score": "wrong point",
+          "point": [
+            2257.92,
+            1393.2
+          ],
+          "outside_reference_by_px": 173.2
+        },
+        "anchor9": {
+          "state": "ask",
+          "score": "missed clear target",
+          "point": null
+        },
+        "center9": {
+          "state": "ask",
+          "score": "missed clear target",
+          "point": null
+        },
+        "center_assisted": {
+          "state": "ask",
+          "score": "missed clear target",
+          "point": null
+        },
+        "think9": {
+          "state": "proposed",
+          "score": "wrong point",
+          "point": [
+            2150.4,
+            1468.8
+          ],
+          "outside_reference_by_px": 51.8
+        },
+        "marked9": {
+          "state": "proposed",
+          "score": "inside target",
+          "point": [
+            1878.75,
+            1466.25
+          ]
+        },
+        "direct9": {
+          "state": "proposed",
+          "score": "wrong point",
+          "point": [
+            2449.92,
+            1438.56
+          ],
+          "outside_reference_by_px": 351.7
+        },
+        "roadvote": {
+          "state": "proposed",
+          "score": "wrong point",
+          "point": [
+            2958.75,
+            1541.25
+          ],
+          "outside_reference_by_px": 863.4
+        },
+        "assisted": {
+          "state": "needs_clarification",
+          "score": "missed clear target",
+          "point": null
+        }
+      }
+    },
+    {
+      "id": "kv-1208259705",
+      "source": "https://kartaview.org/details/3330553/0/",
+      "credit": "© Grab and KartaView Contributors · ali-ismail",
+      "photo_license": "CC BY-SA 4.0",
+      "source_sequence": "3330553",
+      "frame": 0,
+      "sha256": "8f508b10329d27e71b8210d86388df724e3702b08956d290ab2466a6d22179d5",
+      "size": [
+        3264,
+        1836
+      ],
+      "cohort": "confirmation",
+      "request": "Drop me off between the two dark cars.",
+      "task": "vehicle_gap",
+      "reference": "ask",
+      "reference_polygon_xy": null,
+      "reference_note": "The two dark vehicles are real and identifiable, but a raised brick island with a painted curb occupies the apparent gap. The genuinely empty marked parking bay is on the other side of the near sedan. A point inside that empty bay would be outside the named pair.",
+      "case_limit": "strong negative with a raised separator and an attractive but incorrect empty bay",
+      "offered_road_point_letters_inside_reference": [],
+      "offered_road_point_count": 2,
+      "outcomes": {
+        "final": {
+          "state": "needs_clarification",
+          "score": "correct ask",
+          "point": null
+        },
+        "baseline": {
+          "state": "error",
+          "score": "error",
+          "point": null,
+          "error": {
+            "code": "invalid_model_output",
+            "message": "Landmarks must refer to one or two distinct current detector IDs"
+          }
+        },
+        "edge": {
+          "state": "needs_clarification",
+          "score": "correct ask",
+          "point": null
+        },
+        "direct8": {
+          "state": "proposed",
+          "score": "false proposal",
+          "point": [
+            1126.08,
+            741.74
+          ]
+        },
+        "anchor9": {
+          "state": "ask",
+          "score": "correct ask",
+          "point": null
+        },
+        "center9": {
+          "state": "proposed",
+          "score": "false proposal",
+          "point": [
+            793.69,
+            851.06
+          ]
+        },
+        "center_assisted": {
+          "state": "proposed",
+          "score": "false proposal",
+          "point": [
+            793.69,
+            851.06
+          ]
+        },
+        "think9": {
+          "state": "error",
+          "score": "error",
+          "point": null,
+          "error": "no usable final answer"
+        },
+        "marked9": {
+          "state": "proposed",
+          "score": "false proposal",
+          "point": [
+            1029.56,
+            1029.56
+          ]
+        },
+        "direct9": {
+          "state": "proposed",
+          "score": "false proposal",
+          "point": [
+            1015.1,
+            794.99
+          ]
+        },
+        "roadvote": {
+          "state": "ask",
+          "score": "correct ask",
+          "point": null
+        },
+        "assisted": {
+          "state": "proposed",
+          "score": "false proposal",
+          "point": [
+            1029.56,
+            1029.56
+          ]
+        }
+      }
+    },
+    {
+      "id": "kv-1507952777",
+      "source": "https://kartaview.org/details/5299833/431/",
+      "credit": "© Grab and KartaView Contributors · dennis-g-d",
+      "photo_license": "CC BY-SA 4.0",
+      "source_sequence": "5299833",
+      "frame": 431,
+      "sha256": "e818a455fd375d1dc4d0e6444ebcd7777ffdbada2bf41d00725f6ded033be4ca",
+      "size": [
+        3264,
+        1836
+      ],
+      "cohort": "confirmation",
+      "request": "Between the two dark cars parked along the right-hand curb, please.",
+      "task": "vehicle_gap",
+      "reference": "visible_area",
+      "reference_polygon_xy": [
+        [
+          1593,
+          1184
+        ],
+        [
+          1716,
+          1175
+        ],
+        [
+          1860,
+          1201
+        ],
+        [
+          1964,
+          1226
+        ],
+        [
+          1967,
+          1293
+        ],
+        [
+          1953,
+          1316
+        ],
+        [
+          1846,
+          1282
+        ],
+        [
+          1728,
+          1234
+        ]
+      ],
+      "reference_note": "At least one empty marked parallel space separates the two parked sedans. The arrow-lane and dark car driving to the left are outside the target. Use only the lighter parking strip between the pair.",
+      "case_limit": "clearly visible marked parallel parking gap",
+      "offered_road_point_letters_inside_reference": [],
+      "offered_road_point_count": 6,
+      "outcomes": {
+        "final": {
+          "state": "needs_clarification",
+          "score": "missed clear target",
+          "point": null
+        },
+        "baseline": {
+          "state": "needs_clarification",
+          "score": "missed clear target",
+          "point": null
+        },
+        "edge": {
+          "state": "needs_clarification",
+          "score": "missed clear target",
+          "point": null
+        },
+        "direct8": {
+          "state": "proposed",
+          "score": "wrong point",
+          "point": [
+            2235.84,
+            1257.66
+          ],
+          "outside_reference_by_px": 270.2
+        },
+        "anchor9": {
+          "state": "ask",
+          "score": "missed clear target",
+          "point": null
+        },
+        "center9": {
+          "state": "proposed",
+          "score": "wrong point",
+          "point": [
+            1424.81,
+            1163.44
+          ],
+          "outside_reference_by_px": 169.4
+        },
+        "center_assisted": {
+          "state": "proposed",
+          "score": "wrong point",
+          "point": [
+            1845.56,
+            1341.94
+          ],
+          "outside_reference_by_px": 57.3
+        },
+        "think9": {
+          "state": "error",
+          "score": "error",
+          "point": null,
+          "error": "no usable final answer"
+        },
+        "marked9": {
+          "state": "proposed",
+          "score": "wrong point",
+          "point": [
+            1399.31,
+            1163.44
+          ],
+          "outside_reference_by_px": 194.8
+        },
+        "direct9": {
+          "state": "proposed",
+          "score": "wrong point",
+          "point": [
+            2317.44,
+            1202.58
+          ],
+          "outside_reference_by_px": 354.2
+        },
+        "roadvote": {
+          "state": "proposed",
+          "score": "wrong point",
+          "point": [
+            1418.44,
+            1137.94
+          ],
+          "outside_reference_by_px": 180.5
+        },
+        "assisted": {
+          "state": "needs_clarification",
+          "score": "missed clear target",
+          "point": null
+        }
+      }
+    }
+  ]
+}

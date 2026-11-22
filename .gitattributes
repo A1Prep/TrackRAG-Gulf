@@ -78,6 +78,7 @@ experiments/dropoff/passenger-public-dialogue-*-20261122.json text eol=lf
 experiments/dropoff/passenger-gulf-input-choice-20261122.json text eol=lf
 experiments/dropoff/passenger-external-speech-20261122.json text eol=lf
 experiments/dropoff/passenger-context-review-readiness-20261122.json text eol=lf
+experiments/dropoff/passenger-independent-reproduction-20261122.json text eol=lf
 tools/passenger_reviewed_baseline.py text eol=lf
 tools/passenger_public_dialogue_score.py text eol=lf
 tools/passenger_reviewed_runs.py text eol=lf

@@ -1,0 +1,36 @@
+{
+  "detector_context_review_packet": {
+    "byte_identical_private_zip_sha256": "4d430d69494ce48392824828a6a70f4bde70f5e1a27b69394bafbaef0b9d34e7",
+    "new_human_context_approvals": 0,
+    "original_photographs": 44,
+    "saved_road_user_observations": 494
+  },
+  "gulf": {
+    "byte_identical_aggregate_sha256": "33fdb9a1427965f8f03bf4abca3b6630a2af754893acdbb0e9813ceef1fa87c0",
+    "independent_computation": "A separate implementation checked the raw coordinate conversion, confusion tables and paired scores.",
+    "local_only_raw_evidence_zip_sha256": "c2b49f9c1880cdfb1ccb79404a23b35a9d6915ad977774aff632a3f62647a507",
+    "model_attempts": 88,
+    "original_source_photographs_restored_from_task2": 44
+  },
+  "public": {
+    "all_photograph_reads_prohibited_during_cold_scoring": true,
+    "byte_identical_aggregate_sha256": "af7bdc36bd6d8e05b7c4c25fb643400788b2db65c1a9501035bb04314c425fdf",
+    "distinct_source_scenes": 12,
+    "downloaded_release_asset": "passenger-public-dialogue-evidence-20261122.zip",
+    "downloaded_release_bytes": 284951,
+    "downloaded_release_sha256": "2f5659ad5208cbe72a8033ec96bb5b751cb6e4ef37e8dd6b8848184de1f992ff",
+    "final_stage_original_rows_preserved": 9,
+    "final_stage_outstanding_rows_completed": 3,
+    "independent_per_scene_per_condition_checks": 48,
+    "interrupted_public_source_case": "public-concise-884",
+    "interruption_as_zero_matches_primary_hits_and_mean_overlap": true,
+    "interruption_sensitivity_report_sha256_in_download": "c98acf527238628b61c7551c7d037abe1e7e8b12c1c83d3d96dd915d73ae6137",
+    "original_annotation_archive_retrieved_after_all_model_runs": true,
+    "possible_additional_incomplete_native_computations": 1,
+    "publisher_masks_matched_byte_for_byte_across_two_distributions": 12,
+    "unique_native_calls": 48,
+    "verified_archive_members": 99
+  },
+  "verification": "The original saved model outputs were re-scored in a separate checkout downloaded from the private GitHub repository. The same Windows laptop and Python environment were used.",
+  "verified_checkout_commit": "ae68cf7d3eeb19e7fc5528c49729f393b32957fc"
+}

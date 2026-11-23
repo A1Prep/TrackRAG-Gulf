@@ -41,6 +41,11 @@ def test_passenger_photo_taps_at_different_screen_sizes_and_zooms():
     subprocess.run(["node", str(Path(__file__).with_name("passenger_photo_controls.mjs"))], check=True)
 
 
+@pytest.mark.skipif(not shutil.which("node"), reason="Microphone regression requires Node.js")
+def test_passenger_microphone_capture_and_fallback():
+    subprocess.run(["node", str(Path(__file__).with_name("passenger_microphone.mjs"))], check=True)
+
+
 @dataclass
 class StubTranscript:
     transcript: str

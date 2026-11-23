@@ -11,6 +11,8 @@ from functools import lru_cache
 import re
 
 from .evidence_time import referenced_track_ids, requested_frame_ids
+from .footage_facts import supports_track_question
+from .playback_time import available_frame_ids, playback_scope, requested_playback_times
 from .retrieval import _tokens, _validate_question, build_index, rank_evidence as rank_windows
 
 
@@ -29,7 +31,8 @@ def question_scope(text, *, current_if_untimed=False):
     exiting = _matches(r"\b(?:exit(?:s|ed|ing)?(?!\s+(?:sign|ramp|lane|road))|(?:mov(?:e[ds]?|ing)|went|goes?) out|leaves? the (?:frame|scene))\b", words)
     opening = _matches(r"\b(?:opening|initial(?:ly)?|beginning|at the start|first (?:image|frame|second)|early)\b", words)
     latest = _matches(r"\b(?:current(?:ly)?|now|latest|recent(?:ly)?|last (?:frame|image)|"
-                      r"(?:this|the (?:selected|displayed|paused)) (?:frame|image)|(?:towards?|near|by|at) the end)\b", words)
+                      r"(?:this|the (?:selected|displayed|paused)) (?:frame|image)|(?:towards?|near|by|at) the end)\b",
+                      re.sub(r"\bbefore (?:now|this frame|the pause)\b", "earlier", words))
     history = _matches(r"\b(?:earlier observations?|recent observations?|as (?:the )?(?:clip|recording|video) progresses|over time|"
                        r"(?:larger|smaller|bigger|closer|further) (?:than|as|over)|emerges?|still visible|during|across the image)\b", words)
     if opening and _matches(r"\b(?:mov(?:e[ds]?|ing)|motion|movement|shift(?:s|ed|ing)?|direction)\b", words):
@@ -43,26 +46,12 @@ def question_scope(text, *, current_if_untimed=False):
         seconds = int(value) if value.isdigit() else _SMALL_NUMBERS[value]
         opening = history = True
     if not (entering or exiting or opening or latest or history or scene or exact):
-        if not current_if_untimed:
+        if not current_if_untimed and (not supports_track_question(text) or requested_playback_times(text)):
             return None
         latest = True
     return {"opening": opening, "latest": latest, "history": history, "opening_seconds": seconds,
             "boundary": "enter" if entering else "exit" if exiting else None,
             "scene": scene, "exact": exact}
-
-
-def _available(recording, cutoff):
-    known = getattr(recording, "frame_ids", None)
-    if known is not None:
-        return known[:bisect_right(known, cutoff)]
-    ids = []
-    for frame in recording.iter_frames():
-        if frame["frame_id"] > cutoff:
-            break
-        ids.append(frame["frame_id"])
-        if frame["frame_id"] == cutoff:
-            break
-    return ids
 
 
 _CLASSES = {
@@ -153,8 +142,18 @@ def rank_evidence(question, index, k=3):
     if type(k) is not int or not 0 <= k <= 3:
         raise ValueError("k must be an integer from 0 through 3")
     cutoff = _validate_question(question, index)
+    if k == 0:
+        return []
     text = question["question"]
     scope = question_scope(text)
+    clock = playback_scope(text, index.recording, cutoff)
+    if clock:
+        if clock["status"] != "available":
+            return []
+        if scope is None:
+            scope = question_scope(text, current_if_untimed=True)
+            scope["latest"] = False
+        scope["exact"] = sorted(set(scope["exact"]) | {m["frame_id"] for m in clock["moments"]})
     cargo = _untimed_visible_object(text) and _matches(r"\b(?:carrying|hauling|cargo|load on)\b", text)
     if scope is None and (current_spatial_relation(text) or cargo):
         # A load or an untracked landmark needs the visible scene at the paused frame.
@@ -166,14 +165,16 @@ def rank_evidence(question, index, k=3):
         scope = question_scope(text, current_if_untimed=True)
     # The observation source must be established by this cutoff. A detector
     # result that first appears later cannot make an earlier scene retrievable.
-    if not k or index.source is None or not any(rows[0]["frame_id"] <= cutoff for rows in index.histories.values()):
+    if index.source is None or not any(rows[0]["frame_id"] <= cutoff for rows in index.histories.values()):
         return []
-    allowed = _available(index.recording, cutoff)
+    allowed = available_frame_ids(index.recording, cutoff)
     if (not allowed or cutoff not in allowed or scope["opening_seconds"] == 0
             or any(f not in allowed for f in scope["exact"])):
         return []
     first = allowed[0]
     horizon = cutoff
+    if clock and not scope["latest"]:
+        horizon = max(scope["exact"])
     opening_middle = None
     if scope["opening_seconds"] is not None:
         start_time = index.recording.get_frame(first)["timestamp_s"]

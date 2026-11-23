@@ -39,12 +39,17 @@ def _interaction_service_unavailable(error):
 def evidence_inventory(question, evidence):
     """Describe only the processed images and source observations supplied to this call."""
     inventory = []
+    scope = next((item['temporal_scope'] for item in evidence if 'temporal_scope' in item), {})
+    moments = scope.get('playback_scope', {}).get('moments', [])
+    recording_times = {m['frame_id']: m['frame_seconds'] for m in moments}
     compare_positions = asks_horizontal_motion(question['question'])
     for item in evidence:
         track = item['interval'].get('track_id')
         images = []
         for image in item['images']:
             view = {key: image[key] for key in ('frame_id', 'bbox_xyxy', 'observations', 'privacy')}
+            if image['frame_id'] in recording_times:
+                view['playback_seconds'] = recording_times[image['frame_id']]
             size = image['privacy'].get('original_size_wh')
             if track is not None and image['bbox_xyxy'] is not None and size:
                 width, height = size
@@ -143,6 +148,15 @@ class GeminiAnswerModel:
             f'Question: {json.dumps(question)}\nEvidence inventory: {json.dumps(inventory)}'
         )
         context = next((item['temporal_scope'] for item in evidence if 'temporal_scope' in item), None)
+        if context and context.get('playback_scope'):
+            playback = context['playback_scope']
+            moments = ', '.join(f"{m['requested_seconds']:g}s = supplied frame {m['frame_id']}"
+                                for m in playback.get('moments', []))
+            prompt += (f"\nPlayback was paused at {playback.get('paused_seconds')} seconds. "
+                       f"The original question asks about these already-resolved instants: {moments}. "
+                       "An expression like 'two seconds ago' has already been subtracted from the pause. "
+                       "Use the listed frame to describe what was visible then, even if that is the only image provided. "
+                       "For a comparison, check and cite the listed images for all compared instants.")
         if compare_positions:
             prompt += ('\nIdentify the requested object visually. For its direction across the image, compare its '
                        'own original-image box centres in frame order. Increasing x means right, decreasing x means '

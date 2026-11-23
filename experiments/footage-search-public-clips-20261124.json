@@ -1,0 +1,1168 @@
+{
+  "scope": "Thirteen newly written questions on two public EMT recordings, ten frames per second, with the 150th displayed original at 14.9 seconds. Visual references were set from the original photographs before running the service. Seven questions had both an old and revised hosted run. Six more were tested with the revised hosted system only. Four specific prompts plus two guard cases were repeated on the combined candidate. Every returned citation was opened and bound to its saved original or highlighted image. Hosted receipts were checked against the privacy-processed payloads. Track facts were separately checked against saved predicted observations, which may differ from the actual traffic.",
+  "original_source": "Public EMT video_054604 and video_054907; unchanged saved Task 1 predictions",
+  "clock_evidence_before": {
+    "n": 9,
+    "all_requested_frames_present": 3,
+    "all_requested_frames_present_and_none_past_last_requested_moment": 2
+  },
+  "clock_evidence_after": {
+    "n": 9,
+    "all_requested_frames_present": 9,
+    "all_requested_frames_present_and_none_past_last_requested_moment": 9
+  },
+  "initial_revision_hosted_statuses": {
+    "answered": 6,
+    "insufficient_evidence": 6,
+    "error": 1
+  },
+  "canonical_hosted_statuses": {
+    "answered": 8,
+    "insufficient_evidence": 4,
+    "error": 1
+  },
+  "local_track_hints": [
+    {
+      "question": "Which side of the frame is track 2418 on?",
+      "recording_id": "video_054604",
+      "paused_frame": 126,
+      "source_expectation": "left",
+      "answer": {
+        "answer_status": "answered",
+        "answer": "In frame 126, the centre of track 2418's box is on the left side of the image.",
+        "cited_evidence_ids": [
+          "E2"
+        ]
+      },
+      "cited_frames": [
+        126
+      ],
+      "matches_saved_observations": true
+    },
+    {
+      "question": "Which side of the frame is track 6 on?",
+      "recording_id": "video_054907",
+      "paused_frame": 71,
+      "source_expectation": "left",
+      "answer": {
+        "answer_status": "answered",
+        "answer": "In frame 71, the centre of track 6's box is on the left side of the image.",
+        "cited_evidence_ids": [
+          "E2"
+        ]
+      },
+      "cited_frames": [
+        71
+      ],
+      "matches_saved_observations": true
+    },
+    {
+      "question": "How many buses are detected?",
+      "recording_id": "video_054604",
+      "paused_frame": 126,
+      "source_expectation": "1",
+      "answer": {
+        "answer_status": "answered",
+        "answer": "The tracker detected 1 bus in frame 126.",
+        "cited_evidence_ids": [
+          "E2"
+        ]
+      },
+      "cited_frames": [
+        126
+      ],
+      "matches_saved_observations": true
+    },
+    {
+      "question": "How many cars are detected?",
+      "recording_id": "video_054907",
+      "paused_frame": 71,
+      "source_expectation": "9",
+      "answer": {
+        "answer_status": "answered",
+        "answer": "The tracker detected 9 cars in frame 71.",
+        "cited_evidence_ids": [
+          "E2"
+        ]
+      },
+      "cited_frames": [
+        71
+      ],
+      "matches_saved_observations": true
+    }
+  ],
+  "additional_future_and_contradictory_controls": [
+    {
+      "status": "insufficient_evidence",
+      "answer": "The stated frame and time refer to different moments. Which one should I check?",
+      "citations": [],
+      "cited_frames": [],
+      "retrieved_frames": [],
+      "receipt": {
+        "model_called": false,
+        "privacy_processed_images": 0
+      },
+      "question": "At 0:07 (frame 81), is a bridge overhead?"
+    },
+    {
+      "status": "insufficient_evidence",
+      "answer": "That time is outside the footage available from the start through the paused frame.",
+      "citations": [],
+      "cited_frames": [],
+      "retrieved_frames": [],
+      "receipt": {
+        "model_called": false,
+        "privacy_processed_images": 0
+      },
+      "question": "Is the bus visible at 7 and 14 seconds?"
+    }
+  ],
+  "questions": [
+    {
+      "question_id": "construction-at-clock",
+      "recording_id": "video_054604",
+      "paused_frame": 150,
+      "question": "At 0:03, which side of the image shows the building under construction?",
+      "visually_checked_reference": "Building work on the right.",
+      "requested_original_frames": [
+        31
+      ],
+      "local_source_frames_before": [],
+      "local_source_frames_after": [
+        31
+      ],
+      "local_search_mode_after": "not_requested",
+      "revised_hosted": {
+        "status": "answered",
+        "answer": "At 0:03 (frame 31), the building under construction and its associated crane are visible on the right side of the image.",
+        "citations": [
+          "E1"
+        ],
+        "cited_frames": [
+          31
+        ],
+        "retrieved_frames": [
+          31
+        ],
+        "receipt": {
+          "model_called": true,
+          "privacy_processed_images": 1,
+          "model": "gemini-3.5-flash-lite",
+          "provider_reported_model": "gemini-3.5-flash-lite",
+          "cached": false,
+          "provider_attempts": [
+            {
+              "attempt": 1,
+              "request_status": "completed"
+            }
+          ],
+          "receipt_sha256": "bf073c8b589f17361f4a8a773e5d752d3df97998cef64c4adef6926309618365"
+        }
+      }
+    },
+    {
+      "question_id": "bus-at-clock",
+      "recording_id": "video_054604",
+      "paused_frame": 150,
+      "question": "At 00:12.5, what colour is the bus toward the left edge?",
+      "visually_checked_reference": "Yellow bus on the left on the adjacent road.",
+      "requested_original_frames": [
+        126
+      ],
+      "local_source_frames_before": [
+        111,
+        121,
+        126,
+        131,
+        135,
+        140,
+        150
+      ],
+      "local_source_frames_after": [
+        126
+      ],
+      "local_search_mode_after": "not_requested",
+      "revised_hosted": {
+        "status": "answered",
+        "answer": "At 00:12.5 (frame 126), the bus toward the left edge is yellow.",
+        "citations": [
+          "E1",
+          "E2"
+        ],
+        "cited_frames": [
+          126
+        ],
+        "retrieved_frames": [
+          126
+        ],
+        "receipt": {
+          "model_called": true,
+          "privacy_processed_images": 2,
+          "model": "gemini-3.5-flash-lite",
+          "provider_reported_model": "gemini-3.5-flash-lite",
+          "cached": false,
+          "provider_attempts": [
+            {
+              "attempt": 1,
+              "request_status": "completed"
+            }
+          ],
+          "receipt_sha256": "8b9d461a3c8a4c239477f69411b3077d2a20523bf677e3a88f07cac1b1f45a34"
+        }
+      },
+      "previous_hosted": {
+        "status": "answered",
+        "answer": "At 00:12.5 (frame 150), the bus toward the left edge is yellow.",
+        "citations": [
+          "E1",
+          "E2",
+          "E3"
+        ],
+        "cited_frames": [
+          111,
+          121,
+          126,
+          131,
+          135,
+          140,
+          150
+        ],
+        "retrieved_frames": [
+          111,
+          121,
+          126,
+          131,
+          135,
+          140,
+          150
+        ],
+        "receipt": {
+          "model_called": true,
+          "privacy_processed_images": 9,
+          "model": "gemini-3.5-flash-lite",
+          "provider_reported_model": "gemini-3.5-flash-lite",
+          "cached": false,
+          "provider_attempts": [
+            {
+              "attempt": 1,
+              "request_status": "completed"
+            }
+          ],
+          "receipt_sha256": "3c59beb1d575313659703264209828839e2a9601a2ca9045927a4c3bf5c8ff20"
+        }
+      }
+    },
+    {
+      "question_id": "read-sign",
+      "recording_id": "video_054604",
+      "paused_frame": 150,
+      "question": "What street name can you read on the overhead sign at 0:14.9?",
+      "visually_checked_reference": "Hessa St.",
+      "requested_original_frames": [
+        150
+      ],
+      "local_source_frames_before": [
+        150
+      ],
+      "local_source_frames_after": [
+        150
+      ],
+      "local_search_mode_after": "not_requested",
+      "revised_hosted": {
+        "status": "answered",
+        "answer": "The overhead sign at 0:14.9 reads \"Hessa St\" along with the Arabic text \"\u0634\u0627\u0631\u0639 \u062d\u0635\u0629\".",
+        "citations": [
+          "E1"
+        ],
+        "cited_frames": [
+          150
+        ],
+        "retrieved_frames": [
+          150
+        ],
+        "receipt": {
+          "model_called": true,
+          "privacy_processed_images": 1,
+          "model": "gemini-3.5-flash-lite",
+          "provider_reported_model": "gemini-3.5-flash-lite",
+          "cached": false,
+          "provider_attempts": [
+            {
+              "attempt": 1,
+              "request_status": "error",
+              "http_status": 503
+            },
+            {
+              "attempt": 2,
+              "request_status": "completed"
+            }
+          ],
+          "receipt_sha256": "13323e0c54623eab932713e64205cf6857afee29d47ad692b366025d45366561"
+        }
+      }
+    },
+    {
+      "question_id": "early-question",
+      "recording_id": "video_054604",
+      "paused_frame": 71,
+      "question": "What will I see three seconds from now on the left side of the road?",
+      "visually_checked_reference": "Beyond playback cutoff; no visual evidence.",
+      "requested_original_frames": [],
+      "local_source_frames_before": [
+        71
+      ],
+      "local_source_frames_after": [],
+      "local_search_mode_after": "not_requested",
+      "revised_hosted": {
+        "status": "insufficient_evidence",
+        "answer": "That time is outside the footage available from the start through the paused frame.",
+        "citations": [],
+        "cited_frames": [],
+        "retrieved_frames": [],
+        "receipt": {
+          "model_called": false,
+          "privacy_processed_images": 0
+        }
+      },
+      "previous_hosted": {
+        "status": "insufficient_evidence",
+        "answer": "It is not possible to determine what will be seen three seconds in the future from a single image frame.",
+        "citations": [],
+        "cited_frames": [],
+        "retrieved_frames": [
+          71
+        ],
+        "receipt": {
+          "model_called": true,
+          "privacy_processed_images": 1,
+          "model": "gemini-3.5-flash-lite",
+          "provider_reported_model": "gemini-3.5-flash-lite",
+          "cached": false,
+          "provider_attempts": [
+            {
+              "attempt": 1,
+              "request_status": "completed"
+            }
+          ],
+          "receipt_sha256": "911b4e28442870e53f56ffe11a0866573f5190395b97ff9a6307cf139464b597"
+        }
+      }
+    },
+    {
+      "question_id": "unknown-driver",
+      "recording_id": "video_054604",
+      "paused_frame": 150,
+      "question": "Can you identify the person driving the yellow bus?",
+      "visually_checked_reference": "Identity not evidenced.",
+      "requested_original_frames": [],
+      "local_source_frames_before": [
+        111,
+        121,
+        126,
+        131,
+        135,
+        140,
+        150
+      ],
+      "local_source_frames_after": [
+        111,
+        121,
+        126,
+        131,
+        135,
+        140,
+        150
+      ],
+      "local_search_mode_after": "not_requested",
+      "revised_hosted": {
+        "status": "insufficient_evidence",
+        "answer": "The person driving the yellow bus cannot be identified because the lower portion of the bus including the driver's cabin is privacy-masked and the driver is not visible.",
+        "citations": [],
+        "cited_frames": [],
+        "retrieved_frames": [
+          111,
+          121,
+          126,
+          131,
+          135,
+          140,
+          150
+        ],
+        "receipt": {
+          "model_called": true,
+          "privacy_processed_images": 9,
+          "model": "gemini-3.5-flash-lite",
+          "provider_reported_model": "gemini-3.5-flash-lite",
+          "cached": false,
+          "provider_attempts": [
+            {
+              "attempt": 1,
+              "request_status": "completed"
+            }
+          ],
+          "receipt_sha256": "6aa8ba27189bafddff12f6bc1b0c60d6f9f6041a0c61bab77aec06e97aa6c6b9"
+        }
+      }
+    },
+    {
+      "question_id": "two-bus-times",
+      "recording_id": "video_054604",
+      "paused_frame": 150,
+      "question": "Is the yellow bus visible on the left at both 0:03 and 0:12.5?",
+      "visually_checked_reference": "Visible at 12.5, not visible on the left at 3.",
+      "requested_original_frames": [
+        31,
+        126
+      ],
+      "local_source_frames_before": [
+        111,
+        121,
+        126,
+        131,
+        135,
+        140,
+        150
+      ],
+      "local_source_frames_after": [
+        31,
+        111,
+        117,
+        126
+      ],
+      "local_search_mode_after": "not_requested",
+      "revised_hosted": {
+        "status": "answered",
+        "answer": "The yellow bus on the left is not visible at 0:03 (frame 31), but it is visible at 0:12.5 (frame 126).",
+        "citations": [
+          "E2",
+          "E3"
+        ],
+        "cited_frames": [
+          31,
+          126
+        ],
+        "retrieved_frames": [
+          31,
+          111,
+          117,
+          126
+        ],
+        "receipt": {
+          "model_called": true,
+          "privacy_processed_images": 5,
+          "model": "gemini-3.5-flash-lite",
+          "provider_reported_model": "gemini-3.5-flash-lite",
+          "cached": false,
+          "provider_attempts": [
+            {
+              "attempt": 1,
+              "request_status": "completed"
+            }
+          ],
+          "receipt_sha256": "044e99a5f938af5bf6e4e18de4e9717b8073a90d8d874d885bc739ee0af05161"
+        }
+      },
+      "previous_hosted": {
+        "status": "answered",
+        "answer": "Yes, the yellow bus (track ID 2418) is visible on the left side of the frame at both timestamps 0:03 (frame 111) and 0:12.5 (frame 150).",
+        "citations": [
+          "E1",
+          "E2",
+          "E3"
+        ],
+        "cited_frames": [
+          111,
+          121,
+          126,
+          131,
+          135,
+          140,
+          150
+        ],
+        "retrieved_frames": [
+          111,
+          121,
+          126,
+          131,
+          135,
+          140,
+          150
+        ],
+        "receipt": {
+          "model_called": true,
+          "privacy_processed_images": 9,
+          "model": "gemini-3.5-flash-lite",
+          "provider_reported_model": "gemini-3.5-flash-lite",
+          "cached": false,
+          "provider_attempts": [
+            {
+              "attempt": 1,
+              "request_status": "completed"
+            }
+          ],
+          "receipt_sha256": "702ce9c02f9637e4dde60b0b8c74549091a86ad12afda5564b160b8f305c2111"
+        }
+      },
+      "first_staging_hosted": {
+        "status": "answered",
+        "answer": "No, the yellow bus visible on the left at 0:12.5 (frame 126, cited in E1 and E3) is not visible at 0:03 (frame 31, cited in E2).",
+        "citations": [
+          "E1",
+          "E2",
+          "E3"
+        ],
+        "cited_frames": [
+          31,
+          111,
+          117,
+          126
+        ],
+        "retrieved_frames": [
+          31,
+          111,
+          117,
+          126
+        ],
+        "receipt": {
+          "model_called": true,
+          "privacy_processed_images": 5,
+          "model": "gemini-3.5-flash-lite",
+          "provider_reported_model": "gemini-3.5-flash-lite",
+          "cached": false,
+          "provider_attempts": [
+            {
+              "attempt": 1,
+              "request_status": "completed"
+            }
+          ],
+          "receipt_sha256": "15c591591d285c6a2b4c0845e772d887c2f59ff5da987b95176d4747864648b6"
+        }
+      },
+      "independent_later_request": {
+        "status": "answered",
+        "answer": "No, the yellow bus on the left is visible at 0:12.5 (frame 126) but is not visible at 0:03 (frame 31).",
+        "citations": [
+          "E1",
+          "E2",
+          "E3"
+        ],
+        "cited_frames": [
+          31,
+          111,
+          117,
+          126
+        ],
+        "retrieved_frames": [
+          31,
+          111,
+          117,
+          126
+        ],
+        "receipt": {
+          "model_called": true,
+          "privacy_processed_images": 5,
+          "model": "gemini-3.5-flash-lite",
+          "provider_reported_model": "gemini-3.5-flash-lite",
+          "cached": false,
+          "provider_attempts": [
+            {
+              "attempt": 1,
+              "request_status": "error",
+              "http_status": 503
+            },
+            {
+              "attempt": 2,
+              "request_status": "completed"
+            }
+          ],
+          "receipt_sha256": "8b3cb2b5927b4807cf6b5baa80b313b3f29a8ded0f1d76648561a74209ccb3fd"
+        }
+      }
+    },
+    {
+      "question_id": "bridge-at-clock",
+      "recording_id": "video_054907",
+      "paused_frame": 150,
+      "question": "At 0:07, what structure stretches across the road above the traffic?",
+      "visually_checked_reference": "Overpass across the lanes.",
+      "requested_original_frames": [
+        71
+      ],
+      "local_source_frames_before": [],
+      "local_source_frames_after": [
+        71
+      ],
+      "local_search_mode_after": "not_requested",
+      "revised_hosted": {
+        "status": "answered",
+        "answer": "At 0:07 (frame 71), an overpass bridge structure with concrete pillars stretches across the road above the traffic.",
+        "citations": [
+          "E1"
+        ],
+        "cited_frames": [
+          71
+        ],
+        "retrieved_frames": [
+          71
+        ],
+        "receipt": {
+          "model_called": true,
+          "privacy_processed_images": 1,
+          "model": "gemini-3.5-flash-lite",
+          "provider_reported_model": "gemini-3.5-flash-lite",
+          "cached": false,
+          "provider_attempts": [
+            {
+              "attempt": 1,
+              "request_status": "completed"
+            }
+          ],
+          "receipt_sha256": "0118d330dea7197c97f8639650942f3611ffb01998d9aad09649f119f6fa5bbc"
+        }
+      },
+      "previous_hosted": {
+        "status": "insufficient_evidence",
+        "answer": null,
+        "citations": [],
+        "cited_frames": [],
+        "retrieved_frames": [],
+        "receipt": {
+          "model_called": false,
+          "privacy_processed_images": 0
+        }
+      },
+      "first_staging_hosted": {
+        "status": "answered",
+        "answer": "At 0:07 (frame 71), an overpass bridge structure with concrete pillars stretches across the road above the traffic.",
+        "citations": [
+          "E1"
+        ],
+        "cited_frames": [
+          71
+        ],
+        "retrieved_frames": [
+          71
+        ],
+        "receipt": {
+          "model_called": true,
+          "privacy_processed_images": 1,
+          "model": "gemini-3.5-flash-lite",
+          "provider_reported_model": "gemini-3.5-flash-lite",
+          "cached": false,
+          "provider_attempts": [
+            {
+              "attempt": 1,
+              "request_status": "error",
+              "http_status": 503
+            },
+            {
+              "attempt": 2,
+              "request_status": "completed"
+            }
+          ],
+          "receipt_sha256": "17abe594b2ed1fa2080a09de562f2e748c2d79a19bfc6660903bb4b4ecbb880e"
+        }
+      },
+      "independent_later_request": {
+        "status": "answered",
+        "answer": "At 0:07 (frame 71), an overpass bridge stretches across the road above the traffic.",
+        "citations": [
+          "E1"
+        ],
+        "cited_frames": [
+          71
+        ],
+        "retrieved_frames": [
+          71
+        ],
+        "receipt": {
+          "model_called": true,
+          "privacy_processed_images": 1,
+          "model": "gemini-3.5-flash-lite",
+          "provider_reported_model": "gemini-3.5-flash-lite",
+          "cached": false,
+          "provider_attempts": [
+            {
+              "attempt": 1,
+              "request_status": "completed"
+            }
+          ],
+          "receipt_sha256": "5754a2b51aad88566cb5e330414836eb4b2a9c136cd36fd1ff6e4745154ac281"
+        }
+      }
+    },
+    {
+      "question_id": "open-sided-lorry",
+      "recording_id": "video_054907",
+      "paused_frame": 103,
+      "question": "At 0:00, was the white truck with the tall open metal sides on the left or the right?",
+      "visually_checked_reference": "Large truck on the right, separate from smaller central pickup.",
+      "requested_original_frames": [
+        1
+      ],
+      "local_source_frames_before": [
+        1
+      ],
+      "local_source_frames_after": [
+        1
+      ],
+      "local_search_mode_after": "not_requested",
+      "revised_hosted": {
+        "status": "answered",
+        "answer": "At 0:00 (frame 1), the white truck with the tall open metal sides is located on the right side of the view.",
+        "citations": [
+          "E1",
+          "E2",
+          "E3"
+        ],
+        "cited_frames": [
+          1
+        ],
+        "retrieved_frames": [
+          1
+        ],
+        "receipt": {
+          "model_called": true,
+          "privacy_processed_images": 3,
+          "model": "gemini-3.5-flash-lite",
+          "provider_reported_model": "gemini-3.5-flash-lite",
+          "cached": false,
+          "provider_attempts": [
+            {
+              "attempt": 1,
+              "request_status": "error",
+              "http_status": 503
+            },
+            {
+              "attempt": 2,
+              "request_status": "completed"
+            }
+          ],
+          "receipt_sha256": "66e59a981874cd345085b120e3e4b008fc4e0b56c57f0c3e6e9ade734c7df14d"
+        }
+      }
+    },
+    {
+      "question_id": "pickup-comparison",
+      "recording_id": "video_054907",
+      "paused_frame": 125,
+      "question": "Compare the white pickup at 0:05 and 0:11. Did it shift toward the left edge of the picture?",
+      "visually_checked_reference": "White pickup moved left across image, on both reference frames.",
+      "requested_original_frames": [
+        51,
+        111
+      ],
+      "local_source_frames_before": [
+        1
+      ],
+      "local_source_frames_after": [
+        51,
+        81,
+        111
+      ],
+      "local_search_mode_after": "not_requested",
+      "revised_hosted": {
+        "status": "answered",
+        "answer": "Yes, the white pickup truck (track 6) shifted toward the left edge of the picture between 0:05 (frame 51) and 0:11 (frame 111), moving from a more central lane position towards the left side of the frame.",
+        "citations": [
+          "E1",
+          "E2",
+          "E3"
+        ],
+        "cited_frames": [
+          51,
+          81,
+          111
+        ],
+        "retrieved_frames": [
+          51,
+          81,
+          111
+        ],
+        "receipt": {
+          "model_called": true,
+          "privacy_processed_images": 5,
+          "model": "gemini-3.5-flash-lite",
+          "provider_reported_model": "gemini-3.5-flash-lite",
+          "cached": false,
+          "provider_attempts": [
+            {
+              "attempt": 1,
+              "request_status": "error",
+              "http_status": 503
+            },
+            {
+              "attempt": 2,
+              "request_status": "completed"
+            }
+          ],
+          "receipt_sha256": "262b6e8935d3eaeb8ba2b6761e9232761ba82abc49c3264dd5ca5c914821ce7f"
+        }
+      },
+      "first_staging_hosted": {
+        "status": "error",
+        "answer": "Hosted provider error",
+        "citations": [],
+        "cited_frames": [],
+        "retrieved_frames": [
+          51,
+          81,
+          111
+        ],
+        "receipt": {
+          "model_called": true,
+          "privacy_processed_images": 5,
+          "model": "gemini-3.5-flash-lite",
+          "provider_reported_model": null,
+          "cached": false,
+          "provider_attempts": [
+            {
+              "attempt": 1,
+              "request_status": "error",
+              "http_status": 503
+            },
+            {
+              "attempt": 2,
+              "request_status": "error",
+              "http_status": 503
+            }
+          ],
+          "receipt_sha256": "fe96292bd97d2d25c04e32ae41e0ff9c1a17baa05483dc62253a048a50ae1175"
+        }
+      },
+      "independent_later_request": {
+        "status": "answered",
+        "answer": "Yes, comparing the white pickup (track 6) at 0:05 (frame 51) and 0:11 (frame 111), its center x-coordinate shifted from 0.35769 to 0.13655, indicating that it shifted toward the left edge of the picture.",
+        "citations": [
+          "E1"
+        ],
+        "cited_frames": [
+          51,
+          81,
+          111
+        ],
+        "retrieved_frames": [
+          51,
+          81,
+          111
+        ],
+        "receipt": {
+          "model_called": true,
+          "privacy_processed_images": 5,
+          "model": "gemini-3.5-flash-lite",
+          "provider_reported_model": "gemini-3.5-flash-lite",
+          "cached": false,
+          "provider_attempts": [
+            {
+              "attempt": 1,
+              "request_status": "error",
+              "http_status": 503
+            },
+            {
+              "attempt": 2,
+              "request_status": "completed"
+            }
+          ],
+          "receipt_sha256": "68e3f38a91a7365e89e3217543c95493cb4ca92e5a9401a165eba80ee7a4a2ea"
+        }
+      }
+    },
+    {
+      "question_id": "relative-bridge",
+      "recording_id": "video_054907",
+      "paused_frame": 91,
+      "question": "Two seconds ago, was the overpass overhead or had we already passed it?",
+      "visually_checked_reference": "Large overpass directly overhead at 7.0s.",
+      "requested_original_frames": [
+        71
+      ],
+      "local_source_frames_before": [
+        91
+      ],
+      "local_source_frames_after": [
+        71
+      ],
+      "local_search_mode_after": "not_requested",
+      "revised_hosted": {
+        "status": "answered",
+        "answer": "Two seconds ago (frame 71), the overpass was overhead.",
+        "citations": [
+          "E1"
+        ],
+        "cited_frames": [
+          71
+        ],
+        "retrieved_frames": [
+          71
+        ],
+        "receipt": {
+          "model_called": true,
+          "privacy_processed_images": 1,
+          "model": "gemini-3.5-flash-lite",
+          "provider_reported_model": "gemini-3.5-flash-lite",
+          "cached": false,
+          "provider_attempts": [
+            {
+              "attempt": 1,
+              "request_status": "completed"
+            }
+          ],
+          "receipt_sha256": "4cf4c4906ce81ea82ce7c688f1e819e2c581aaaa54087eb0f433396cc93a5ab2"
+        }
+      },
+      "previous_hosted": {
+        "status": "insufficient_evidence",
+        "answer": "The provided evidence only includes frame 91, so there is no visual data from two seconds prior (around frame 31) to determine the position of the overpass relative to that time.",
+        "citations": [],
+        "cited_frames": [],
+        "retrieved_frames": [
+          91
+        ],
+        "receipt": {
+          "model_called": true,
+          "privacy_processed_images": 1,
+          "model": "gemini-3.5-flash-lite",
+          "provider_reported_model": "gemini-3.5-flash-lite",
+          "cached": false,
+          "provider_attempts": [
+            {
+              "attempt": 1,
+              "request_status": "error",
+              "http_status": 503
+            },
+            {
+              "attempt": 2,
+              "request_status": "completed"
+            }
+          ],
+          "receipt_sha256": "1e5a97df4dedc9477f7f737d64d1f0fc0f490fada2b997aa1c9d9c2507ff1667"
+        }
+      },
+      "first_staging_hosted": {
+        "status": "insufficient_evidence",
+        "answer": "Insufficient evidence is available to determine the position of the overpass two seconds ago, as only frame 71 is provided in the inventory and the playback scope lacks observations for the earlier timestamp.",
+        "citations": [],
+        "cited_frames": [],
+        "retrieved_frames": [
+          71
+        ],
+        "receipt": {
+          "model_called": true,
+          "privacy_processed_images": 1,
+          "model": "gemini-3.5-flash-lite",
+          "provider_reported_model": "gemini-3.5-flash-lite",
+          "cached": false,
+          "provider_attempts": [
+            {
+              "attempt": 1,
+              "request_status": "error",
+              "http_status": 503
+            },
+            {
+              "attempt": 2,
+              "request_status": "completed"
+            }
+          ],
+          "receipt_sha256": "7cec7aca9bcd9611278e2e8bc4a54b567b55b78a8d428c6aaf355f8c0a659b94"
+        }
+      },
+      "independent_later_request": {
+        "status": "answered",
+        "answer": "Two seconds ago (frame 71, corresponding to 7 seconds), we were directly underneath the overpass, as shown in evidence E1.",
+        "citations": [
+          "E1"
+        ],
+        "cited_frames": [
+          71
+        ],
+        "retrieved_frames": [
+          71
+        ],
+        "receipt": {
+          "model_called": true,
+          "privacy_processed_images": 1,
+          "model": "gemini-3.5-flash-lite",
+          "provider_reported_model": "gemini-3.5-flash-lite",
+          "cached": false,
+          "provider_attempts": [
+            {
+              "attempt": 1,
+              "request_status": "completed"
+            }
+          ],
+          "receipt_sha256": "dc574a94434d8f3f63351d2a71355894dd625927e9704ce806946ca9ae218bb4"
+        }
+      }
+    },
+    {
+      "question_id": "beyond-cutoff",
+      "recording_id": "video_054907",
+      "paused_frame": 51,
+      "question": "At 0:12, what is in front of our car?",
+      "visually_checked_reference": "Time 12 is beyond cutoff 5.0s; no frame.",
+      "requested_original_frames": [],
+      "local_source_frames_before": [
+        1
+      ],
+      "local_source_frames_after": [],
+      "local_search_mode_after": "not_requested",
+      "revised_hosted": {
+        "status": "insufficient_evidence",
+        "answer": "That time is outside the footage available from the start through the paused frame.",
+        "citations": [],
+        "cited_frames": [],
+        "retrieved_frames": [],
+        "receipt": {
+          "model_called": false,
+          "privacy_processed_images": 0
+        }
+      },
+      "previous_hosted": {
+        "status": "insufficient_evidence",
+        "answer": "The provided image inventory does not contain frame 51 at timestamp 0:12 to determine what is in front of our car.",
+        "citations": [],
+        "cited_frames": [],
+        "retrieved_frames": [
+          1
+        ],
+        "receipt": {
+          "model_called": true,
+          "privacy_processed_images": 3,
+          "model": "gemini-3.5-flash-lite",
+          "provider_reported_model": "gemini-3.5-flash-lite",
+          "cached": false,
+          "provider_attempts": [
+            {
+              "attempt": 1,
+              "request_status": "error",
+              "http_status": 503
+            },
+            {
+              "attempt": 2,
+              "request_status": "completed"
+            }
+          ],
+          "receipt_sha256": "c8077964e156542831a2a53d6f2555c648771f789a04492baeb9d84d1fa0432d"
+        }
+      }
+    },
+    {
+      "question_id": "unknown-speed",
+      "recording_id": "video_054907",
+      "paused_frame": 103,
+      "question": "Can you tell me the exact speed of the white pickup at 0:05?",
+      "visually_checked_reference": "Pickup's physical speed unmeasured; dashcam readout is not its speed.",
+      "requested_original_frames": [
+        51
+      ],
+      "local_source_frames_before": [],
+      "local_source_frames_after": [
+        51
+      ],
+      "local_search_mode_after": "not_requested",
+      "revised_hosted": {
+        "status": "error",
+        "answer": "Hosted provider error",
+        "citations": [],
+        "cited_frames": [],
+        "retrieved_frames": [
+          51
+        ],
+        "receipt": {
+          "model_called": true,
+          "privacy_processed_images": 3,
+          "model": "gemini-3.5-flash-lite",
+          "provider_reported_model": null,
+          "cached": false,
+          "provider_attempts": [
+            {
+              "attempt": 1,
+              "request_status": "error",
+              "http_status": 503
+            },
+            {
+              "attempt": 2,
+              "request_status": "error",
+              "http_status": 503
+            }
+          ],
+          "receipt_sha256": "1e655f1c8c5241411ce9aa035c08781dfabb663a7d829415a9cf7f661f0c8cce"
+        }
+      }
+    },
+    {
+      "question_id": "bad-identity",
+      "recording_id": "video_054907",
+      "paused_frame": 103,
+      "question": "At frame 103, is tracker ID 9999 the white pickup?",
+      "visually_checked_reference": "No predicted ID 9999 at that frame, do not assert a visual identity.",
+      "requested_original_frames": [],
+      "local_source_frames_before": [
+        103
+      ],
+      "local_source_frames_after": [
+        103
+      ],
+      "local_search_mode_after": "not_requested",
+      "revised_hosted": {
+        "status": "insufficient_evidence",
+        "answer": "The retrieved observations contain no matching track ID for 9999.",
+        "citations": [],
+        "cited_frames": [],
+        "retrieved_frames": [
+          103
+        ],
+        "receipt": {
+          "model_called": false,
+          "privacy_processed_images": 0,
+          "model": null,
+          "provider_reported_model": null,
+          "cached": false,
+          "provider_attempts": [],
+          "receipt_sha256": "e5bb090ccd81851115a80a8be63e3f6364fd0fa996a007dfbdc38541eee19a7c"
+        }
+      },
+      "previous_hosted": {
+        "status": "insufficient_evidence",
+        "answer": "Tracker ID 9999 is not present in the provided observations or metadata for frame 103, so it cannot be verified whether it corresponds to the white pickup.",
+        "citations": [],
+        "cited_frames": [],
+        "retrieved_frames": [
+          103
+        ],
+        "receipt": {
+          "model_called": true,
+          "privacy_processed_images": 3,
+          "model": "gemini-3.5-flash-lite",
+          "provider_reported_model": "gemini-3.5-flash-lite",
+          "cached": false,
+          "provider_attempts": [
+            {
+              "attempt": 1,
+              "request_status": "completed"
+            }
+          ],
+          "receipt_sha256": "d8d2a9ca458e06d8678e8723c293524ec943337335ced8a2793203deac9d2900"
+        }
+      }
+    }
+  ],
+  "later_unmeasured_target_speed_fix": {
+    "status": "insufficient_evidence",
+    "answer": "The footage and tracker give image positions. They do not measure that road user\u2019s exact physical speed.",
+    "citations": [],
+    "cited_frames": [],
+    "retrieved_frames": [
+      51
+    ],
+    "receipt": {
+      "model_called": false,
+      "privacy_processed_images": 0,
+      "model": null,
+      "provider_reported_model": null,
+      "cached": false,
+      "provider_attempts": [],
+      "receipt_sha256": "8c601a7a9230c7c734297ca2a80d652223e3ca6af2c414c40ad56bb95d52d3c5"
+    }
+  }
+}

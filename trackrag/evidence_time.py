@@ -7,7 +7,7 @@ def _references(text,kind):
     qualifier = r'(?:ids?|numbers?|nos?\.?)'
     label = rf'{kind}s?(?:[\s_-]*{qualifier})?'
     if kind == 'track':
-        label = rf'(?:{label}|tracked\s+(?:as|under|with)\s+(?:(?:track\s+)?ids?|(?=#)))'
+        label = rf"(?:{label}|tracker(?:['’]s)?[\s_-]+{qualifier}|tracked\s+(?:as|under|with)\s+(?:(?:track\s+)?ids?|(?=#)))"
     marker = r'\s*[:=]?\s*#?\s*'
     separator = r'(?:,\s*(?:(?:and|or)\s+)?|\b(?:and|or|to|through)\b|[-–/;])'
     integer = r'\d+(?!\d|\.\d)'

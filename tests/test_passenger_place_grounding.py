@@ -76,6 +76,27 @@ def test_visual_referent_routing(words,history,active):
         assert result==words
 
 
+@pytest.mark.parametrize(("responses","status"), [
+    (("815,440","EMPTY","INSIDE"), "proposed"),
+    (("815,440","OCCUPIED"), "needs_clarification"),
+    (("815,440","EMPTY","DIVIDED"), "needs_clarification"),
+    (("NONE",), "needs_clarification"),
+])
+def test_landmark_and_ground_are_verified_separately(tmp_path, monkeypatch, responses, status):
+    req, photo, classes, key = case(tmp_path, monkeypatch)
+    signed = packet(req, photo, classes, key, responses, place.LANDMARK_METHOD)
+    outcome = place_evidence.build_outcome(req, photo, signed)
+    assert outcome["result"]["status"] == status
+    assert place_evidence.verify(req, outcome)["language_calls"] == len(responses)
+
+
+@pytest.mark.parametrize("responses", [("2000,100",), ("815,440","BAY"), ("815,440","EMPTY","YES")])
+def test_invalid_landmark_outputs_are_errors(tmp_path, monkeypatch, responses):
+    req, photo, classes, key = case(tmp_path, monkeypatch)
+    with pytest.raises(ValueError):
+        packet(req, photo, classes, key, responses, place.LANDMARK_METHOD)
+
+
 def test_visible_parking_and_bumper_strip_are_required():
     classes=np.full((72,100),13,dtype=np.uint8)
     assert place.surface_options(classes,[100,72],[])==[]

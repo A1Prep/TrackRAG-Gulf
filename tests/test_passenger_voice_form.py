@@ -64,6 +64,38 @@ def test_blank_is_reproducible_and_uses_the_original_three_by_ten(tmp_path):
         form.build(blank)
 
 
+def test_rendering_change_preserves_contract_and_published_returns(tmp_path, monkeypatch):
+    original = form.form_spec(True)
+    microphone = tmp_path / "capture.js"
+    microphone.write_text("// fixture-only rendering change", encoding="utf8")
+    monkeypatch.setattr(form, "WORKLET", microphone)
+    changed = form.form_spec(True)
+    assert changed["form_id"] != original["form_id"]
+    assert changed["contract_sha256"] == original["contract_sha256"]
+    historical = "47fcba32f5fa4d4f3ce7deeb72a18c8e376a25a1bc67b6296a359067bf1a0cba"
+    published = "b71c3b39b3a3485ae126622529d45719c60409b4d6f7f60a52df353622ea41f5"
+    assert published in form.VERIFIED_FORM_IDS[form.form_spec(False)["contract_sha256"]]
+    path = fixture_return(tmp_path / "export.json", [fixture_take()])
+    result = json.loads(path.read_bytes())
+    for wrong in ("0" * 64, published):
+        path.write_text(json.dumps({**result, "form_id": wrong}), encoding="utf8")
+        with pytest.raises(ValueError, match="Wrong protocol"):
+            form.intake(tmp_path / "fixture-study", [path], fixture=True)
+    path.write_text(json.dumps({**result, "form_id": historical}), encoding="utf8")
+    assert form.intake(tmp_path / "fixture-study", [path], fixture=True)["new_takes"] == 1
+    recorded = next((tmp_path / "fixture-study/software-fixture-recordings").rglob("entry.json"))
+    assert json.loads(recorded.read_bytes())["portable_form_id"] == historical
+    monkeypatch.setattr(form, "ATTEST", "Changed consented listen-back procedure")
+    with pytest.raises(ValueError, match="Wrong protocol"):
+        form.intake(tmp_path / "other-study", [path], fixture=True)
+
+
+def test_digital_silence_cannot_fill_a_speaker_slot(tmp_path):
+    path = fixture_return(tmp_path / "silent.json", [fixture_take(raw=fixture_audio(0))])
+    with pytest.raises(ValueError, match="silence"):
+        form.intake(tmp_path / "fixture-study", [path], fixture=True)
+
+
 def test_partials_merge_and_repeated_return_is_idempotent(tmp_path):
     root = tmp_path / "software-fixture"
     a, b = fixture_take(0), fixture_take(1)

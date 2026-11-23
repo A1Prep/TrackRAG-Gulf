@@ -19,7 +19,8 @@ from dataclasses import asdict
 from trackrag.contracts import TrackObservation
 
 from .classes import RunningClassVote
-from .config import VisionConfig
+from .config import CONTINUITY_KIND, VisionConfig
+from .continuity import TrackContinuity
 from .detections import Detection, coco_to_emt, drop_ego_vehicle, keep_emt, nms
 from .geometry import ResizeTransform, clip_box, resize_image
 
@@ -112,6 +113,7 @@ def run_recording(recording, config: VisionConfig, detector, tracker_factory, *,
     settings = config.detector
     tracker = tracker_factory(config.tracker)
     vote = RunningClassVote()
+    continuity = TrackContinuity.frozen_profile() if config.tracker.kind == CONTINUITY_KIND else None
     empty: list[Detection] = []
     observations: list[TrackObservation] = []
     dropped: Counter = Counter()
@@ -153,13 +155,16 @@ def run_recording(recording, config: VisionConfig, detector, tracker_factory, *,
                                        settings.ego_min_width_fraction)
         if ego:
             dropped["ego vehicle (camera car bonnet)"] += ego
+        frame_rows = []
         for track_id, index in tracker.update(mapped, bgr):
             detection = mapped[index]
-            observations.append(TrackObservation(
+            frame_rows.append(TrackObservation(
                 recording_id=recording.recording_id, frame_id=frame_id, track_id=int(track_id),
                 class_name=str(vote.update(int(track_id), detection.name)),
                 bbox_xyxy=tuple(float(value) for value in detection.box), source="predicted",
             ))
+        # Keep class votes tied to the original backend ID, exactly as in published tracks.
+        observations.extend(continuity.relabel_observations(frame_id, frame_rows) if continuity else frame_rows)
         if sink is not None:
             sink.frame({
                 "recording_id": recording.recording_id, "frame_id": frame_id, "width": width, "height": height,
@@ -188,6 +193,8 @@ def run_recording(recording, config: VisionConfig, detector, tracker_factory, *,
         "seconds_per_frame": round(seconds / max(1, len(frame_ids)), 4), "annotation_access": ANNOTATION_ACCESS,
         "python": platform.python_version(), "created_utc": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
     }
+    if continuity is not None:
+        provenance["track_handoffs"] = continuity.handoffs
     if sink is not None:
         sink.finish(provenance, observations)
     log(f"[vision] {recording.recording_id}: config={config.name} identity={provenance['identity_hash'][:12]} "

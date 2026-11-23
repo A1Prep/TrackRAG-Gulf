@@ -19,6 +19,7 @@ from dataclasses import asdict, dataclass, field, fields, replace
 from pathlib import Path
 
 PIPELINE_VERSION = 2  # 2: camera-car (ego) filter
+CONTINUITY_KIND = "ultralytics_botsort_continuity_v1"
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
 DEFAULT_CONFIG = PROJECT_ROOT / "configs" / "vision" / "pretrained.json"
 CONFIG_ENV = "TRACKRAG_VISION_CONFIG"
@@ -91,7 +92,7 @@ class TrackerSettings:
     with_reid: bool = False
 
     def validate(self) -> None:
-        if self.kind != "ultralytics_botsort":
+        if self.kind not in ("ultralytics_botsort", CONTINUITY_KIND):
             raise ValueError(f"Unsupported tracker kind {self.kind!r}")
         if self.with_reid:
             raise ValueError("ReID is not used in Task 1")

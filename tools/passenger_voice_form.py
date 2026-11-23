@@ -4,12 +4,14 @@ import base64
 from binascii import Error as Base64Error
 from contextlib import contextmanager
 from datetime import datetime, timedelta, timezone
+import io
 import json
 import os
 from pathlib import Path
 from tempfile import TemporaryDirectory
 from uuid import UUID
 import shutil
+import wave
 
 from tools import passenger_speech_study as study
 from trackrag.local_speech import _decode_wav
@@ -28,6 +30,21 @@ TAKE_FIELDS = {"prompt_id", "prompt_sha256", "take_id", "audio_sha256", "audio_b
                "original_acquisition", "consented_utc", "selected_utc", "listened_utc", "verified_utc",
                "listenback_attestation", "human_reference", "reference_sha256", "noise", "noise_note"}
 
+# Previously verified build IDs are usable only with the exact same study
+# contract and audience. The current build still identifies its page and code.
+VERIFIED_FORM_IDS = {
+    "62b227f872f5cd7508809adcbe4c864fcfc6a0ba43e2d63a3b9170e9420effbc": (
+        "b71c3b39b3a3485ae126622529d45719c60409b4d6f7f60a52df353622ea41f5",
+        "d5613508d816638977d3493167cecf408ac5c9b42bd2f4eb61c85a7039e07884",
+        "e85fd8e50aaab80c9f677354b16d75a866f731728a151e88f89a1cbbc928216a",
+    ),
+    "be50d97da5f30c13e9c11e911169f2e5623292faf940d307d2d4688cdf3cddf8": (
+        "47fcba32f5fa4d4f3ce7deeb72a18c8e376a25a1bc67b6296a359067bf1a0cba",
+        "0beb54f0ae73429f53da30277711b81ff0d43787011ce2a6c04d49cedecfd295",
+        "c8487aa13f7338fa681e87c7b4a15fd43e107ade0d164e681d63d023a9314743",
+    ),
+}
+
 
 def source_text(path):
     return path.read_bytes().replace(b"\r\n", b"\n").decode("utf8")
@@ -40,8 +57,10 @@ def form_spec(fixture=False):
              "attestation": ATTEST, "software_fixture": fixture,
              "prompts": [{"id": row["prompt_id"], "script": row["script"], "sha256": study.sha(study.encoded(row))}
                          for row in spec["prompts"]],
-             "max_clip_bytes": MAX_CLIP, "max_return_bytes": MAX_RETURN,
-             "microphone_worklet": source_text(WORKLET), "template_sha256": study.sha(source_text(TEMPLATE).encode())}
+             "max_clip_bytes": MAX_CLIP, "max_return_bytes": MAX_RETURN}
+    value["contract_sha256"] = study.sha(study.encoded(value))
+    value["microphone_worklet"] = source_text(WORKLET)
+    value["template_sha256"] = study.sha(source_text(TEMPLATE).encode())
     value["form_id"] = study.sha(study.encoded(value))
     return value
 
@@ -93,6 +112,9 @@ def checked_take(take, speaker, exported, plan, prompts):
     study.require(len(raw) == nbytes and study.sha(raw) == take["audio_sha256"], "Original WAV hash differs")
     _, _, _, seconds = _decode_wav(raw)
     study.require(.25 <= seconds <= 30, "A portable take must be between 0.25 and 30 seconds")
+    # Opposite stereo channels can cancel during the recognizer's mono mix.
+    with wave.open(io.BytesIO(raw)) as wav:
+        study.require(any(wav.readframes(wav.getnframes())), "The WAV contains only digital silence")
     metadata = {k: v for k, v in take.items() if k != "audio_base64"}
     fixture = plan["software_fixture"]
     entry = {"version": 1, "source": "software_fixture" if fixture else "human", "software_fixture": fixture,
@@ -142,6 +164,7 @@ def intake(root, paths, *, fixture=False):
         study.require(not (root / "SOFTWARE-FIXTURES-ONLY").exists(), "Fixture directory cannot accept human study data")
         spec, store = study.check_protocol(root), root / "recordings"
     form = form_spec(fixture)
+    accepted_ids = (form["form_id"], *VERIFIED_FORM_IDS.get(form["contract_sha256"], ()))
     prompts = {p["prompt_id"]: p for p in spec["prompts"]}
     now = datetime.now(timezone.utc)
     with lock(root), TemporaryDirectory(prefix=".voice-import-", dir=root) as temporary:
@@ -184,7 +207,7 @@ def intake(root, paths, *, fixture=False):
             del payload
             study.require(isinstance(result, dict) and set(result) == RETURN_FIELDS and type(result["version"]) is int
                           and result["version"] == 1 and result["kind"] == "offline_passenger_voice_return"
-                          and result["software_fixture"] is fixture and result["form_id"] == form["form_id"]
+                          and result["software_fixture"] is fixture and result["form_id"] in accepted_ids
                           and result["protocol_sha256"] == form["protocol_sha256"] and result["consent"] is True
                           and result["consent_statement"] == form["consent"], "Wrong protocol, form, fixture marker or consent")
             speaker = result["speaker_id"]
@@ -193,8 +216,9 @@ def intake(root, paths, *, fixture=False):
                           and isinstance(result["entries"], list) and 1 <= len(result["entries"]) <= len(prompts),
                           "Invalid speaker, export chronology or number of takes")
             identities = set()
+            original_form = {**form, "form_id": result["form_id"]}
             for take in result["entries"]:
-                entry, raw = checked_take(take, speaker, exported, form, prompts)
+                entry, raw = checked_take(take, speaker, exported, original_form, prompts)
                 slot = speaker, entry["prompt_id"]
                 study.require(slot not in identities, "A single return repeats a script")
                 identities.add(slot)

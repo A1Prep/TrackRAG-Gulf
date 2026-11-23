@@ -329,3 +329,28 @@ A car ahead of the camera car keeps the fine-tuned model's ID 6035 from frame 44
 From frame 1584 the same car is only about 15–16 px tall in the 1440-px frame (about 8 px at 1280-px scale), next to another distant car. Two tracks alternate between the two boxes, and the car's identity splits into short IDs: the fine-tuned model still finds the car in 150 of the remaining 217 frames, under 14 different IDs. The pretrained model does not split it but mostly stops finding it, matching the car in only 5 of those 217 frames.
 
 Car 85, behind the barrier on the right, is hidden by a nearer car for 8 frames (1620–1627) and reappears about 57 px further left. It no longer overlaps the box the tracker predicted, so a new ID starts (22451 instead of 20559). ReID is off in Task 1, so appearance cannot link the new track to the old one, and the 30-frame buffer only helps while the position still matches. The pretrained model switches at the same place (ID 713 to 742) and loses the car for longer, from frame 1612 to 1629.
+
+## Reducing identity switches on new recordings
+
+The fine-tuned detector can continue finding a car while BoT-SORT assigns its reappearance a new ID. The continuity profile compares each new ID with recently missing tracks in the same road-user group. It uses overlap with the last measured box and a short motion forecast. Each track must be the other's best match with a margin of 0.08 over other eligible matches. Visible IDs keep their assignments. Every observed box and class passes through. The method reads only current and past frames. [Machine-readable results](../experiments/vision/continuity_v1_20261123.json)
+
+The team selected the maximum gap and minimum overlap using only `video_054907` and `video_174340`. Five settings were compared with the original BoT-SORT outputs. Eligible settings had to reduce switches, preserve all observations and maintain or improve pooled IDF1. The highest IDF1 selected a 25-frame gap and minimum overlap of 0.15. The same frozen setting then ran on the five official test recordings.
+
+| Held-out road-user metric, 8,530 frames | Fine-tuned BoT-SORT | Fine-tuned BoT-SORT with continuity |
+| --- | ---: | ---: |
+| Exported boxes | 75,533 | 75,533 |
+| ID switches | 1,861 | 1,559 |
+| IDF1 | 0.4427 | 0.4779 |
+| Tracking precision / recall | 0.7557 / 0.5290 | 0.7557 / 0.5290 |
+| MOTA | 0.3407 | 0.3435 |
+| Fragmentations | 2,830 | 2,830 |
+
+All five test recordings gained IDF1 and had fewer switches. On `video_122233`, five boxes on each side of the handoff match the same annotated car, object 31, at IoU ≥ 0.78. Original IDs 31500 and 34018 at frames 734 and 736 become ID 181 on both sides. There are still 1,559 identity switches, and short-gap reassociation cannot recover missed detections. The test set contains zero cyclist annotations. The archived detection AP comes from the original detector run. The released ZIPs contain tracks and provenance, so the independent comparison scores tracking.
+
+For new raw-image inference, pass `--config configs/vision/finetuned-continuity.json` to `python -m trackrag.vision predict`. To reuse the fine-tuned archives, run the commands below with the indicated folders and the IDs of the five test drives. The saved replay checks the source hashes and writes a separate prediction folder. Use that folder with the same continuity config when building a new evidence index. Existing questions and citations that name a track ID continue to use their original index and profile. A fresh 36-frame image-only run and a replay of its baseline predictions produced identical output tracks, including both observed handoffs.
+
+```text
+python -m tools.vision_select_continuity --pred-dir <FINE_TUNED_TRACKS> --labels-root <EMT_LABELS> --out <NEW_DEV_RESULT.json>
+python -m tools.vision_relink_tracks --pred-dir <FINE_TUNED_TRACKS> --out <NEW_TRACKS> --recordings video_122233 video_125233 video_155425 video_160325 video_204647
+python -m tools.vision_evaluate --pred-dir <NEW_TRACKS> --labels-root <EMT_LABELS> --split test --recordings video_122233 video_125233 video_155425 video_160325 video_204647 --tracking-only --out <NEW_TEST_RESULT.json>
+```

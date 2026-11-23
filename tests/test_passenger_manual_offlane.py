@@ -89,6 +89,23 @@ def test_refuses_lane_obstructions_boundaries_and_imprecise_areas(marked_scene, 
     assert not checks["independent_model_proposal"]
 
 
+@pytest.mark.parametrize("crossing_class", [8, 23])
+def test_crossing_tap_explains_the_surface_and_replays_older_refusals(marked_scene, monkeypatch, crossing_class):
+    request, _ = marked_scene
+    classes = np.full((180,320), 13, dtype=np.uint8)
+    classes[110:130,80:110] = crossing_class
+    packet = provide_map(monkeypatch, request["scene"], classes)
+    box = [88,113,96,120]
+    response = manual_offlane.select(request, box)
+    assert response["result"]["destination_point_xy"] is None
+    assert "crossing" in response["result"]["clarification_question"]
+    assert manual_offlane.verify(request,response)["decision_reproduced"]
+    clean, original, mark, centre = manual_offlane.mark_input(request, box)
+    old = manual_offlane._outcome(clean, original, mark, centre, packet, explain_crossing=False)
+    assert old["provenance"]["reason"] == "unverified_surface"
+    assert manual_offlane.verify(request,old)["decision_reproduced"]
+
+
 def test_exact_original_point_survives_fractional_coordinates_and_historical_tracks(marked_scene, monkeypatch):
     req,packet = marked_scene
     box=[182.25,119.25,187.75,123.75]

@@ -50,6 +50,9 @@ def unavailable_observation_source(question_text, evidence):
     return None
 
 
+UNMEASURED_SPEED = 'The footage and tracker give image positions. Measuring this road user’s physical speed requires calibrated distance over time.'
+
+
 def asks_for_unmeasured_speed(text):
     """The evidence contains image positions, without calibrated target-vehicle speeds."""
     if re.search(r'\b(?:pixels?|image[ -]plane|screen|speedometer|dashboard|overlay|telemetry|radar|'
@@ -411,7 +414,7 @@ def answer_question(question: Question, evidence: list[Evidence], run_dir: str |
         if not unavailable and asks_for_unmeasured_speed(question['question']):
             receipt['reason'] = 'external_speed_not_measured'
             receipt['public_question'] = dict(question)
-            return make_answer('insufficient_evidence', 'The footage and tracker give image positions. They do not measure that road user’s exact physical speed.')
+            return make_answer('insufficient_evidence', UNMEASURED_SPEED)
         if unavailable:
             receipt['reason'] = 'requested_observation_source_unavailable'
             receipt['public_question'] = dict(question)

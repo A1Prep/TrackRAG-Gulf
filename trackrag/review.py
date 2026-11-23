@@ -157,6 +157,8 @@ def _answer(
     if answer_question is None:
         return {"answer_status": "not_requested", "answer": None, "cited_evidence_ids": []}
     if not evidence:
+        from .answering import UNMEASURED_SPEED, asks_for_unmeasured_speed
+
         explanation = None
         record = run_dir / "run.json"
         if record.is_file():
@@ -167,6 +169,8 @@ def _answer(
                 explanation = "There is no original frame at that exact time in the available recording."
             elif clock and clock["status"] == "conflicting_frame_and_time":
                 explanation = "The stated frame and time refer to different moments. Which one should I check?"
+        if explanation is None and asks_for_unmeasured_speed(question["question"]):
+            explanation = UNMEASURED_SPEED
         return {"answer_status": "insufficient_evidence", "answer": explanation, "cited_evidence_ids": []}
     valid_ids = {item["evidence_id"] for item in evidence}
     try:

@@ -2,8 +2,6 @@
 from copy import deepcopy
 from functools import partial
 import json
-import sys
-from types import SimpleNamespace
 
 import pytest
 
@@ -145,7 +143,7 @@ def configured(roadside, tmp_path, monkeypatch):
             affirmative = outcome["ok"] and outcome["result"]["status"] == "proposed"
             return {"input_verified":True, "decision_reproduced":outcome["ok"], "independent_model_proposal":affirmative}
     cloud = SoftwareTransport()
-    monkeypatch.setitem(sys.modules, "trackrag.dropoff.parking_evidence", SimpleNamespace(verify=cloud.verify))
+    monkeypatch.setattr("trackrag.dropoff.parking_evidence.verify", cloud.verify)
     model = PassengerDialogueGrounder(base)
     app = ParkingPassengerSession(req["scene"],model,audit_dir=tmp_path/"app",parking_backend=cloud)
     return req, model, app, cloud

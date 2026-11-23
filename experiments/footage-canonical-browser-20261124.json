@@ -1,0 +1,415 @@
+{
+  "scope": "Final Windows Edge release replay on the two original public EMT clips at 1310 px and a 390 px mobile viewport. One browser engine, saved predictions and short recordings.",
+  "source": "Original source at its recorded time; hosted requests use privacy-processed images only.",
+  "desktop_and_mobile_local": {
+    "passed": 8,
+    "page_errors": [],
+    "median_seconds": 0.797,
+    "range_seconds": [
+      0.556,
+      1.094
+    ],
+    "interaction": "For each recording and viewport the reviewer played, paused and scrubbed the actual player, tapped each generated question, followed a cited original and decoded its evidence affordance.",
+    "cases": [
+      {
+        "width": 1310,
+        "recording": "video_054604",
+        "frame": 126,
+        "question": "Which types of road users are detected in this frame?",
+        "answer": "In frame 126, the tracker reported bus (1), car (7), large vehicle (3).",
+        "cited": [
+          "E1"
+        ],
+        "replayFrame": 126,
+        "seconds": 0.658,
+        "matches_saved_task1_observations": true,
+        "receipt": {
+          "result_file_sha256": "1d5d8057b9bb9c1b9fffc73210187c494c5fc9f2f6df424a18a9ed692ef01a07",
+          "saved_tracks_sha256": "5d99bb0d6ca678e376b6c933e8410b99770d190405650c64c1717d455313ca8a",
+          "sent_privacy_processed_frames": []
+        }
+      },
+      {
+        "width": 1310,
+        "recording": "video_054604",
+        "frame": 126,
+        "question": "Which side of the frame is track 2418 on?",
+        "answer": "In frame 126, the centre of track 2418's box is on the left side of the image.",
+        "cited": [
+          "E2"
+        ],
+        "replayFrame": 126,
+        "seconds": 0.962,
+        "matches_saved_task1_observations": true,
+        "receipt": {
+          "result_file_sha256": "313180ecc43339b41c31ec4cbfc392e5c9544096ea48371b5b444eee8bf578e3",
+          "saved_tracks_sha256": "5d99bb0d6ca678e376b6c933e8410b99770d190405650c64c1717d455313ca8a",
+          "sent_privacy_processed_frames": []
+        }
+      },
+      {
+        "width": 1310,
+        "recording": "video_054907",
+        "frame": 71,
+        "question": "Which types of road users are detected in this frame?",
+        "answer": "In frame 71, the tracker reported car (9), large vehicle (1), medium vehicle (1).",
+        "cited": [
+          "E1"
+        ],
+        "replayFrame": 71,
+        "seconds": 0.679,
+        "matches_saved_task1_observations": true,
+        "receipt": {
+          "result_file_sha256": "cf95df72338adcccfad622edbb9a312d86b0ef4afa4b1688d24d43e1f15efc53",
+          "saved_tracks_sha256": "95df6a0030009d4340869aa92b8bce6f8265116a9bf446274dc732966d127f3c",
+          "sent_privacy_processed_frames": []
+        }
+      },
+      {
+        "width": 1310,
+        "recording": "video_054907",
+        "frame": 71,
+        "question": "Which side of the frame is track 6 on?",
+        "answer": "In frame 71, the centre of track 6's box is on the left side of the image.",
+        "cited": [
+          "E2"
+        ],
+        "replayFrame": 71,
+        "seconds": 1.094,
+        "matches_saved_task1_observations": true,
+        "receipt": {
+          "result_file_sha256": "b68eb3ae16523f974edb87ee0f7f3d33e8f4c4c26862546facb1f74473da7bf6",
+          "saved_tracks_sha256": "95df6a0030009d4340869aa92b8bce6f8265116a9bf446274dc732966d127f3c",
+          "sent_privacy_processed_frames": []
+        }
+      },
+      {
+        "width": 390,
+        "recording": "video_054604",
+        "frame": 126,
+        "question": "Which types of road users are detected in this frame?",
+        "answer": "In frame 126, the tracker reported bus (1), car (7), large vehicle (3).",
+        "cited": [
+          "E1"
+        ],
+        "replayFrame": 126,
+        "seconds": 0.646,
+        "matches_saved_task1_observations": true,
+        "receipt": {
+          "result_file_sha256": "154dd9f38b837be3eb60c8ae49827908bff0596087d9f5b174a0261d42d86f0d",
+          "saved_tracks_sha256": "5d99bb0d6ca678e376b6c933e8410b99770d190405650c64c1717d455313ca8a",
+          "sent_privacy_processed_frames": []
+        }
+      },
+      {
+        "width": 390,
+        "recording": "video_054604",
+        "frame": 126,
+        "question": "Which side of the frame is track 2418 on?",
+        "answer": "In frame 126, the centre of track 2418's box is on the left side of the image.",
+        "cited": [
+          "E2"
+        ],
+        "replayFrame": 126,
+        "seconds": 0.915,
+        "matches_saved_task1_observations": true,
+        "receipt": {
+          "result_file_sha256": "61cf9a3dee6c948e315941786eec7c6add428e06fb81608a4a24e85dea4e2411",
+          "saved_tracks_sha256": "5d99bb0d6ca678e376b6c933e8410b99770d190405650c64c1717d455313ca8a",
+          "sent_privacy_processed_frames": []
+        }
+      },
+      {
+        "width": 390,
+        "recording": "video_054907",
+        "frame": 71,
+        "question": "Which types of road users are detected in this frame?",
+        "answer": "In frame 71, the tracker reported car (9), large vehicle (1), medium vehicle (1).",
+        "cited": [
+          "E1"
+        ],
+        "replayFrame": 71,
+        "seconds": 0.556,
+        "matches_saved_task1_observations": true,
+        "receipt": {
+          "result_file_sha256": "cc2ad18645ff3041600ef0abb91fbe79c49bf9b1548d76f3b84830e4db6af53f",
+          "saved_tracks_sha256": "95df6a0030009d4340869aa92b8bce6f8265116a9bf446274dc732966d127f3c",
+          "sent_privacy_processed_frames": []
+        }
+      },
+      {
+        "width": 390,
+        "recording": "video_054907",
+        "frame": 71,
+        "question": "Which side of the frame is track 6 on?",
+        "answer": "In frame 71, the centre of track 6's box is on the left side of the image.",
+        "cited": [
+          "E2"
+        ],
+        "replayFrame": 71,
+        "seconds": 0.999,
+        "matches_saved_task1_observations": true,
+        "receipt": {
+          "result_file_sha256": "fba3491d9c2fdb2d96a23ad09517d809758e567fde9ce3f77f05f34f789ae329",
+          "saved_tracks_sha256": "95df6a0030009d4340869aa92b8bce6f8265116a9bf446274dc732966d127f3c",
+          "sent_privacy_processed_frames": []
+        }
+      }
+    ]
+  },
+  "hosted_and_time_guard": {
+    "visual_answers": 2,
+    "future_guard_without_provider": 1,
+    "cases": [
+      {
+        "clip": "video_054907",
+        "frame": 150,
+        "question": "At 0:07, what structure stretches across the road above the traffic?",
+        "answer": {
+          "answer_status": "answered",
+          "answer": "At 0:07 (frame 71), an overpass bridge stretches across the road above the traffic.",
+          "cited_evidence_ids": [
+            "E1"
+          ]
+        },
+        "citedFrames": [
+          71
+        ],
+        "seconds": 16.197,
+        "receipt": {
+          "result_file_sha256": "121953cfa07f6d0df408a325a5445e56a90ac41b432cc001fed1542a065dc03b",
+          "saved_tracks_sha256": "95df6a0030009d4340869aa92b8bce6f8265116a9bf446274dc732966d127f3c",
+          "model": "gemini-3.5-flash-lite",
+          "provider_status": "completed",
+          "provider_reason": null,
+          "sent_privacy_processed_frames": [
+            71
+          ],
+          "provider_receipt_sha256": "d9dc541a99dee6fe4ce233ae1a9eaf3d8f657382662ca2c274a0df6ef6f07057"
+        }
+      },
+      {
+        "clip": "video_054604",
+        "frame": 150,
+        "question": "Is the yellow bus visible on the left at both 0:03 and 0:12.5?",
+        "answer": {
+          "answer_status": "answered",
+          "answer": "The yellow bus on the left is visible at 0:12.5 (frame 126), but is not visible at 0:03 (frame 31).",
+          "cited_evidence_ids": [
+            "E2",
+            "E3"
+          ]
+        },
+        "citedFrames": [
+          31,
+          126
+        ],
+        "seconds": 5.516,
+        "receipt": {
+          "result_file_sha256": "8a887b6f27633edf689505c16036c431a3779ce080cdd0f1ad63312969b3525b",
+          "saved_tracks_sha256": "5d99bb0d6ca678e376b6c933e8410b99770d190405650c64c1717d455313ca8a",
+          "model": "gemini-3.5-flash-lite",
+          "provider_status": "completed",
+          "provider_reason": null,
+          "sent_privacy_processed_frames": [
+            31,
+            111,
+            117,
+            126
+          ],
+          "provider_receipt_sha256": "28784a014d1650aa0fe9259d9d865c2df2c26512a8bfb58ed90fa6ef237ccb39"
+        }
+      },
+      {
+        "clip": "video_054907",
+        "frame": 71,
+        "question": "What colour is the truck at 0:13?",
+        "answer": {
+          "answer_status": "insufficient_evidence",
+          "answer": "That time is outside the footage available from the start through the paused frame.",
+          "cited_evidence_ids": []
+        },
+        "citedFrames": [],
+        "seconds": 0.147,
+        "receipt": {
+          "result_file_sha256": "89e0acbe43c4a1489f738d41c48f2d4ffa6b83d96eaa3267b2ebe6b58317666e",
+          "saved_tracks_sha256": "95df6a0030009d4340869aa92b8bce6f8265116a9bf446274dc732966d127f3c",
+          "sent_privacy_processed_frames": []
+        }
+      }
+    ]
+  },
+  "additional_first_pass": [
+    {
+      "recording": "video_054604",
+      "paused_at": 126,
+      "question": "How many buses are detected in frame 126?",
+      "answer_source": "local_tracks",
+      "answer": {
+        "answer_status": "answered",
+        "answer": "The tracker detected 1 bus in frame 126.",
+        "cited_evidence_ids": [
+          "E2"
+        ]
+      },
+      "cited_frames": [
+        126
+      ],
+      "returned_frames": [
+        126
+      ],
+      "scope": null,
+      "seconds": 0.814,
+      "meets_expectation": true,
+      "receipt": {
+        "result_file_sha256": "9875bebadfb4e5d951e128b061cb63ae678ec72cfaadbcfce3d2ae0e5bfe056a",
+        "saved_tracks_sha256": "5d99bb0d6ca678e376b6c933e8410b99770d190405650c64c1717d455313ca8a",
+        "sent_privacy_processed_frames": []
+      }
+    },
+    {
+      "recording": "video_054907",
+      "paused_at": 71,
+      "question": "How many cars are there?",
+      "answer_source": "local_tracks",
+      "answer": {
+        "answer_status": "answered",
+        "answer": "The tracker detected 9 cars in frame 71.",
+        "cited_evidence_ids": [
+          "E2"
+        ]
+      },
+      "cited_frames": [
+        71
+      ],
+      "returned_frames": [
+        71
+      ],
+      "scope": null,
+      "seconds": 1.284,
+      "meets_expectation": true,
+      "receipt": {
+        "result_file_sha256": "38b78a17d3e2ff67a2d3918dcd184816e1e4f428834bd39f24fd985d593d1ea8",
+        "saved_tracks_sha256": "95df6a0030009d4340869aa92b8bce6f8265116a9bf446274dc732966d127f3c",
+        "sent_privacy_processed_frames": []
+      }
+    },
+    {
+      "recording": "video_054604",
+      "paused_at": 126,
+      "question": "What type is track 999999?",
+      "answer_source": "local_tracks",
+      "answer": {
+        "answer_status": "insufficient_evidence",
+        "answer": "The saved tracks and the retrieved frames do not establish that detail at the requested moment.",
+        "cited_evidence_ids": []
+      },
+      "cited_frames": [],
+      "returned_frames": [
+        126
+      ],
+      "scope": null,
+      "seconds": 0.622,
+      "meets_expectation": true,
+      "receipt": {
+        "result_file_sha256": "1d02d6f3f7445397795b5a8d99e26d8123b2fe0beef96470f9056783bbefeac6",
+        "saved_tracks_sha256": "5d99bb0d6ca678e376b6c933e8410b99770d190405650c64c1717d455313ca8a",
+        "sent_privacy_processed_frames": []
+      }
+    },
+    {
+      "recording": "video_054907",
+      "paused_at": 71,
+      "question": "What color is the car in front?",
+      "answer_source": "evidence_only",
+      "answer": {
+        "answer_status": "not_requested",
+        "answer": null,
+        "cited_evidence_ids": []
+      },
+      "cited_frames": [],
+      "returned_frames": [
+        1
+      ],
+      "scope": null,
+      "seconds": 1.31,
+      "meets_expectation": true,
+      "receipt": {
+        "result_file_sha256": "bbd78c63c8c5413b6d68f8f0fd995aa81bab52afc132284b7ccd250d8f99276c",
+        "saved_tracks_sha256": "95df6a0030009d4340869aa92b8bce6f8265116a9bf446274dc732966d127f3c",
+        "sent_privacy_processed_frames": []
+      }
+    },
+    {
+      "recording": "video_054907",
+      "paused_at": 101,
+      "question": "At 0:07 (frame 81), what structure is over the roadway?",
+      "answer_source": "gemini",
+      "answer": {
+        "answer_status": "insufficient_evidence",
+        "answer": "The stated frame and time refer to different moments. Which one should I check?",
+        "cited_evidence_ids": []
+      },
+      "cited_frames": [],
+      "returned_frames": [],
+      "scope": {
+        "status": "conflicting_frame_and_time",
+        "paused_seconds": 10.0,
+        "moments": []
+      },
+      "seconds": 0.139,
+      "meets_expectation": true,
+      "receipt": {
+        "result_file_sha256": "8f3b783fecc7e34b36b97ad6e325b8e9db4b39b3f0dc6b2f74a78e341e34046f",
+        "saved_tracks_sha256": "95df6a0030009d4340869aa92b8bce6f8265116a9bf446274dc732966d127f3c",
+        "sent_privacy_processed_frames": []
+      }
+    },
+    {
+      "recording": "video_054604",
+      "paused_at": 101,
+      "question": "Compare the bus at 7 and 14 seconds.",
+      "answer_source": "gemini",
+      "answer": {
+        "answer_status": "insufficient_evidence",
+        "answer": "That time is outside the footage available from the start through the paused frame.",
+        "cited_evidence_ids": []
+      },
+      "cited_frames": [],
+      "returned_frames": [],
+      "scope": {
+        "status": "outside_review_window",
+        "paused_seconds": 10.0,
+        "moments": []
+      },
+      "seconds": 0.111,
+      "meets_expectation": true,
+      "receipt": {
+        "result_file_sha256": "877efbaebfbd185a13c8cccec4f13d4d6ebc1b9e633f8335852355620653e944",
+        "saved_tracks_sha256": "5d99bb0d6ca678e376b6c933e8410b99770d190405650c64c1717d455313ca8a",
+        "sent_privacy_processed_frames": []
+      }
+    },
+    {
+      "recording": "video_054907",
+      "paused_at": 103,
+      "question": "What is the precise physical speed of the pickup truck in km/h?",
+      "answer_source": "gemini",
+      "answer": {
+        "answer_status": "insufficient_evidence",
+        "answer": null,
+        "cited_evidence_ids": []
+      },
+      "cited_frames": [],
+      "returned_frames": [],
+      "scope": null,
+      "seconds": 0.138,
+      "meets_expectation": false,
+      "receipt": {
+        "result_file_sha256": "7f6a75851711357efdc9eb6b9cb7abf771d2f7553e8263a0611d72c950020bf3",
+        "saved_tracks_sha256": "95df6a0030009d4340869aa92b8bce6f8265116a9bf446274dc732966d127f3c",
+        "sent_privacy_processed_frames": []
+      }
+    }
+  ]
+}

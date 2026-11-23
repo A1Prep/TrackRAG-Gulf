@@ -4,6 +4,10 @@ TrackRAG-Gulf connects two questions about a recorded UAE road scene. A reviewer
 
 ## Run the demonstration
 
+To watch from another computer, sign in to GitHub with an account that has access to this private repository. The four-minute recording shows both footage review and passenger drop-off. Download the MP4 and English captions to watch offline. A lecturer can also inspect the passenger’s words, the two detected vehicles and the proposed point in a browser screenshot. The recording and caption file can accompany a course submission for an examiner without repository access. [Walkthrough and captions](https://github.com/A1Prep/TrackRAG-Gulf/releases/tag/assessment-3-demo-20261123) · [Passenger confirmation screen](docs/passenger-ux-desktop.jpg)
+
+The interactive links below open the application on the computer running it. To run it on another Windows machine, follow the installation guide first. [Fresh-machine installation](docs/passenger-release.md#start-on-another-windows-machine)
+
 On the prepared project laptop, run this from the repository root and leave the terminal open.
 
 ```powershell
@@ -14,7 +18,7 @@ On the prepared project laptop, run this from the repository root and leave the 
 - **Try a passenger instruction.** On the white-sedan photo, type or say “Could you drop me off behind the white car?” English speech opens an editable transcript. Submit it, inspect the pin, then decide whether to save it as the passenger’s intended location. [White sedan](http://127.0.0.1:8775/?scene=10e8284093286234e0bdd0df)
 - **Try two plausible spots.** Ask “Could you drop me next to the restaurant?” The photo shows two marked bays beside the frontage. Choose an outlined bay and confirm, or start again and tap the paint shared by the two bays. Tapping the traffic lane in the same photo withholds the destination. [Restaurant photo](http://127.0.0.1:8775/?scene=4edc9abbff73676b9a63bc1d) · [Another marked roadside bay](http://127.0.0.1:8775/?scene=ef1207ebb0cf2f79ec0eb895)
 
-On a fresh machine, install Python 3.11, restore the private adapter and saved predictions, and prepare the two original EMT recordings. Install the UAE photo bank for the shop-front example. The general passenger model runs on a compatible NVIDIA GPU. English speech and local footage retrieval run on CPU. Hosted footage answers use a Gemini API key, and the automatic two-vehicle specialist uses a configured Modal account. The laptop flag releases the local 8B worker after each inference. [Fresh-machine installation](docs/passenger-release.md#start-on-another-windows-machine) · [UAE photos, cloud setup and attribution](docs/passenger-parking-feature.md)
+On a fresh machine, install Python 3.11, restore the private adapter and saved predictions, and prepare the two original EMT recordings. Install the UAE photo bank for the shop-front example. The general passenger model runs on a compatible NVIDIA GPU. English speech and local footage retrieval run on CPU. Hosted footage answers use a Gemini API key. Fresh calls to the deployed two-vehicle parking service require access to the team’s private Modal workspace. The laptop flag releases the local 8B worker after each inference. [UAE photos, cloud setup and attribution](docs/passenger-parking-feature.md)
 
 ## What the team built
 

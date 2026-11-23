@@ -143,7 +143,7 @@ class FootageReview:
         return True
 
     def ask(self, scene, text, *, hosted=False, image_guard=None):
-        from trackrag.answering import answer_question, spatial_reference_from_tracks
+        from trackrag.answering import UNMEASURED_SPEED, answer_question, asks_for_unmeasured_speed, spatial_reference_from_tracks
         from trackrag.footage_facts import answer_from_tracks, supports_track_question
         from trackrag.playback_time import playback_scope
         from trackrag.evidence_time import requested_frame_ids
@@ -160,7 +160,10 @@ class FootageReview:
                     "query_frame":original["frame_id"],"question":text.strip()}
         clock = playback_scope(text, prefix, original["frame_id"])
         clarification = None if hosted else spatial_reference_from_tracks(question, scene["tracks"], original["width"])
+        unmeasured_speed = asks_for_unmeasured_speed(text)
         def local_answer(q, evidence, _folder):
+            if unmeasured_speed:
+                return {"answer_status":"insufficient_evidence","answer":UNMEASURED_SPEED,"cited_evidence_ids":[]}
             if clarification and any(item["interval"]["track_id"] is None and
                                      any(image["frame_id"] == q["query_frame"] for image in item["images"])
                                      for item in evidence):
@@ -174,7 +177,7 @@ class FootageReview:
                               "answer":"The saved tracks and the retrieved frames do not establish that detail at the requested moment.",
                               "cited_evidence_ids":[]}
 
-        local = not hosted and (clarification is not None or supports_track_question(text))
+        local = not hosted and (unmeasured_speed or clarification is not None or supports_track_question(text))
         answerer = "gemini" if hosted else "local_tracks" if local else "evidence_only"
         result = review_recording(prefix,[question],source="predicted",load_tracks=lambda _: tracks,
                                   build_index=build_index,rank_evidence=rank_evidence,

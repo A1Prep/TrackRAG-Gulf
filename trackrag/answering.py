@@ -10,6 +10,7 @@ from trackrag.contracts import Answer, Evidence, Question
 from trackrag.privacy import anonymize_image
 from trackrag.questions import validate_evidence
 from trackrag.evidence_time import requested_frame_ids,referenced_track_ids
+from trackrag.evidence_motion import verify_horizontal_claim
 
 
 ANSWER_SCHEMA = {
@@ -99,6 +100,7 @@ def validate_answer(result, evidence, question=None) -> Answer:
         if (not stated and len(required)>1 and not required.issubset(scene_frames)
                 and not any(required.issubset(frames|scene_frames) for frames in per_track.values())):
             raise ValueError('Unrelated identities cannot donate temporal comparison endpoints')
+        verify_horizontal_claim(question['question'], text, [item for item in evidence if item['evidence_id'] in citations])
     return make_answer(status, text, list(citations))
 
 
@@ -290,6 +292,11 @@ def answer_question(question: Question, evidence: list[Evidence], run_dir: str |
         receipt = {'question_id': question['question_id'], 'recording_id': question['recording_id'],
                    'query_frame': question['query_frame'], 'role': 'task3 grounded answer',
                    'request_status': 'not_requested', 'cached': False, 'sent': []}
+        unavailable = unavailable_observation_source(question['question'], evidence)
+        if unavailable:
+            receipt['reason'] = 'requested_observation_source_unavailable'
+            receipt['public_question'] = dict(question)
+            return make_answer('insufficient_evidence', unavailable)
         prepared = prepare_evidence(evidence, run_path, question)
         # Copy the exact bytes that will be sent into the auditor's hosted namespace.
         # The model receives those same files; neither the audit nor the upload

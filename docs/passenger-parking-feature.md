@@ -4,11 +4,11 @@ The passenger can describe two vehicles in English, by voice or text. The app us
 
 ## Open the prepared app
 
-From the project root on the prepared Windows laptop, use the local grounding environment. The first command downloads and verifies the original UAE photos and writes an app-ready set of 31 scenes. It resumes from verified files. The second command opens the regular passenger and footage app with the cloud parking model enabled. Open the local page once the server prints its address.
+From the project root on the prepared Windows laptop, use the local grounding environment. The first command downloads and verifies the original UAE photos and writes an app-ready set of 47 public UAE scenes. It resumes from verified files. The second command opens the regular passenger and footage app with the cloud parking model enabled. Open the local page once the server prints its address.
 
 ~~~powershell
 .\.venv-grounding-local\Scripts\python.exe -m tools.passenger_parking_photos
-.\.venv-grounding-local\Scripts\python.exe -m tools.passenger_release start --parking-backend modal --require-footage 2 --low-memory --port 8775 --vision-cache runs/model-cache/airport-segformer-b0
+.\.venv-grounding-local\Scripts\python.exe -m tools.passenger_release start --parking-backend modal --public-places --require-footage 2 --low-memory --port 8775 --vision-cache runs/model-cache/airport-segformer-b0
 ~~~
 
 The launcher includes the installed UAE photo bank and the optional two-vehicle bank. Explicit `--requests` options select exactly the listed banks. On a new machine, install the local passenger bundle, speech model and road model first. The standard support location works without the machine-specific `--vision-cache` option. [Passenger setup](passenger-release.md)

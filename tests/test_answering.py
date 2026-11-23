@@ -10,6 +10,53 @@ import pytest
 
 
 from trackrag.answering import answer_question, prepare_evidence, validate_answer
+from trackrag.evidence_time import referenced_track_ids, requested_frame_ids
+from trackrag.evidence_motion import horizontal_motion, verify_horizontal_claim
+
+
+def test_explicit_id_aliases_require_real_cited_observations():
+    assert referenced_track_ids("track IDs 7, ID 9 and track #11; tracked under ID 13") == [7, 9, 11, 13]
+    assert requested_frame_ids("frame ID 7 through frame #11, 50 kilometres per hour") == [7, 11]
+    assert requested_frame_ids("The centre moved from 0.41201 in frame 1 to 0.18868 in frame 100.") == [1, 100]
+    assert requested_frame_ids("Frames 1 through 100.") == [1, 100]
+    assert referenced_track_ids("The bus was tracked as ID 42 at frame 8.") == [42]
+    evidence = [{'evidence_id':'E1','interval':{'track_id':7,'source':'predicted'},
+                 'images':[{'frame_id':5,'observations':[{'track_id':7}]}]}]
+    question = {'question':'What appears at frame 5?'}
+    for phrase in ('track #999', 'track ID 999', 'tracked as ID 999', 'frame #999', 'frame ID 999'):
+        with pytest.raises(ValueError):
+            validate_answer({'answer_status':'answered','answer':phrase,'cited_evidence_ids':['E1']}, evidence, question)
+
+
+def test_motion_is_specific_to_the_cited_identity_and_requested_frames():
+    def image(frame, x):
+        return {'frame_id':frame, 'privacy':{'original_size_wh':[100,50]}, 'observations':[
+            {'track_id':7, 'bbox_xyxy':[x,0,x+5,10]}, {'track_id':8,'bbox_xyxy':[90-x,0,95-x,10]}]}
+    e = [{'interval':{'track_id':7}, 'images':[image(5,60),image(8,40),image(10,20),image(12,85)]}]
+    q = 'Does the vehicle move left or right in the image from frame 5 to frame 10?'
+    assert horizontal_motion(e, 7, {5,10})['image_direction'] == 'left'
+    verify_horizontal_claim(q, 'Track ID 8 moves toward the right of the image.', e)
+    with pytest.raises(ValueError,match='contradicts'):
+        verify_horizontal_claim(q, 'Track ID 7 moves toward the right of the image.', e)
+    verify_horizontal_claim(q, 'Track ID 7 is on the right.', e)
+    verify_horizontal_claim(q, 'Track ID 7 does not move right.', e)
+    verify_horizontal_claim(q, 'Track 7 moves right-to-left.', e)
+    with pytest.raises(ValueError,match='contradicts'):
+        verify_horizontal_claim(q, 'Track 7 moves left to right.', e)
+    with pytest.raises(ValueError,match='contradicts'):
+        verify_horizontal_claim('Toward which side of the image does track 7 move from frame 5 to frame 10?', 'To the right.', e)
+    assert horizontal_motion(e, 7) is None  # The later movement reverses direction.
+
+
+def test_unavailable_labels_do_not_send_detector_images(sample_question, sample_evidence, tmp_path):
+    sample_question['question'] = 'Which predicted track is visible?'
+    for item in sample_evidence: item['interval']['source'] = 'annotated'
+    model = Mock()
+    result = answer_question(sample_question,sample_evidence,tmp_path,model)
+    assert result['answer_status'] == 'insufficient_evidence'
+    model.generate.assert_not_called()
+    receipt = json.loads(next(tmp_path.glob('hosted/*/receipt.json')).read_bytes())
+    assert receipt['request_status'] == 'not_requested' and receipt['sent'] == []
 
 def create_test_observations(run_dir):
     """Minimal Task 5 export; not evidence for the real starter answer key."""

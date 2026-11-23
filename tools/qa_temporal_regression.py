@@ -18,9 +18,9 @@ import shutil
 import time
 import zipfile
 
-from evaluation.run_audit import audit_run
+from evaluation.run_audit import SOURCE_NOT_AVAILABLE, audit_run
 from evaluation.score import read_jsonl
-from tools.qa_request_fingerprints import preflight, verify_delivery
+from tools.qa_request_fingerprints import preflight, processed_images, verify_delivery
 from tools.vision_saved_adapters import open_recording, predict_tracks_with_receipt
 from trackrag.answering import answer_question, prepare_evidence, validate_answer
 from trackrag.review import _answer, review_recording
@@ -32,8 +32,9 @@ RECORDINGS = {"video_054604": "experiments/temporal-development-questions.jsonl"
               "video_054907": "experiments/temporal-second-questions.jsonl"}
 SOURCES = ("trackrag/answering.py", "trackrag/model_client.py", "trackrag/privacy.py", "trackrag/questions.py",
            "trackrag/retrieval.py",
-           "trackrag/review.py", "trackrag/retrieval_temporal.py", "trackrag/evidence_time.py",
-           "tools/vision_saved_adapters.py","tools/qa_request_fingerprints.py")
+           "trackrag/review.py", "trackrag/retrieval_temporal.py", "trackrag/evidence_time.py", "trackrag/evidence_motion.py",
+           "tools/vision_saved_adapters.py","tools/qa_request_fingerprints.py", "tools/qa_temporal_regression.py",
+           "evaluation/run_audit.py")
 MODEL = "gemini-3.5-flash-lite"
 
 
@@ -96,6 +97,16 @@ def model_source():
     return {name: file_sha(name) for name in SOURCES}
 
 
+def dispatch_mode(previous_input, current):
+    if "no_provider_reason" in current:
+        require(current["no_provider_reason"] == SOURCE_NOT_AVAILABLE, "Unknown local source disposition")
+        return "local_source_abstention"
+    after = current["request_arguments_sha256"]
+    if after == previous_input["request_arguments_sha256"] and "no_provider_reason" not in previous_input:
+        return "unchanged_prior"
+    return "changed_live" if after is not None else "changed_empty"
+
+
 def prepare(args):
     """Write real new ranked evidence, byte-exact provider-input digests and previews, with no network."""
     args.out.mkdir(parents=True, exist_ok=True)
@@ -151,20 +162,26 @@ def prepare(args):
                     "Original question, cutoff or actual predicted tracks changed")
             frozen = preflight(row, out, refs[qid], MODEL)
             before, after = stored[qid]["request_arguments_sha256"], frozen["request_arguments_sha256"]
-            same = before == after
-            if (earlier is not None or args.boundary_changes_only) and not same:
+            mode = dispatch_mode(stored[qid], frozen)
+            same = mode == "unchanged_prior"
+            if (earlier is not None or args.boundary_changes_only) and not same and after is not None:
                 require((lookup.question_scope(row["question"]["question"]) or {}).get("boundary"),
                         "An input outside the predeclared boundary class would need another provider call")
             if same or earlier is not None:
+                compared_images = frozen["images"]
+                if earlier is not None and mode == "local_source_abstention" and before:
+                    # The source guard sends zero images today. A sealed replay
+                    # still checks the earlier transmitted pixels against the originals.
+                    compared_images = processed_images(prepare_evidence(row["evidence"], out, row["question"]), row["question"])
                 require(frozen["evidence_intervals_sha256"] == stored[qid]["evidence_intervals_sha256"]
-                        and [(i["evidence_id"],i["frame_id"],i["sha256"]) for i in frozen["images"]]
+                        and [(i["evidence_id"],i["frame_id"],i["sha256"]) for i in compared_images]
                             == [(i["evidence_id"],i["frame_id"],i["sha256"]) for i in stored[qid]["images"]],
                         "Identical model digest has different evidence")
             for item in frozen["images"]:
                 if not same and item["sha256"] not in prior_images:
                     previews.setdefault(item["sha256"], {"question_id":qid, **item})
             rows[qid] = {"input":frozen,"previous_arguments_sha256":before, "previous_run":old_dir.name,
-                         "dispatch":("unchanged_prior" if same else "changed_live" if after else "changed_empty")}
+                         "dispatch":mode}
     require(len(rows)==36 and len({r["input"]["request_arguments_sha256"] for r in rows.values()
             if r["input"]["request_arguments_sha256"]}) == sum(bool(r["input"]["request_arguments_sha256"]) for r in rows.values()),
             "New model inputs are missing or duplicated")
@@ -266,7 +283,13 @@ def collect(args):
             elif mode=="changed_empty":
                 require(not row["evidence"],"Missing new provider input")
                 answer=_answer(q,[],out,answer_question)
+            elif mode == "local_source_abstention":
+                projected = preflight(row, out, q, MODEL)
+                require(projected == frozen and projected.get("no_provider_reason") == SOURCE_NOT_AVAILABLE,
+                        "Local source disposition changed after the review")
+                answer = _answer(q, row["evidence"], out, answer_question)
             else:
+                require(mode == "changed_live" and frozen["request_arguments_sha256"], "Unknown provider dispatch")
                 # Recompute from the real staged image bytes immediately before transmitting.
                 assert_projection=preflight(row,out,q,MODEL)
                 require(assert_projection["request_arguments_sha256"]==frozen["request_arguments_sha256"],

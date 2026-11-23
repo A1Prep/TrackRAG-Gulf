@@ -207,6 +207,26 @@ def test_rejects_file_replacement_and_mismatched_hash(site, tmp_path):
     with pytest.raises(ValueError, match="hash"): load_scenes([bank])
 
 
+def test_reinstalled_scene_accepts_identical_photos_but_verifies_each_copy(site, tmp_path):
+    first_bank = tmp_path / "bank.jsonl"
+    request = json.loads(first_bank.read_bytes().splitlines()[0])
+    installed = tmp_path / "second-install"
+    installed.mkdir()
+    image = installed / "1.png"
+    image.write_bytes((tmp_path / "1.png").read_bytes())
+    second_bank = installed / "bank.jsonl"
+    second_bank.write_text(json.dumps(request))
+    assert load_scenes([first_bank, second_bank]) == site.scenes
+    image.write_bytes((tmp_path / "2.png").read_bytes())
+    with pytest.raises(ValueError, match="hash"):
+        load_scenes([first_bank, second_bank])
+    image.write_bytes((tmp_path / "1.png").read_bytes())
+    request["scene"]["frame"]["timestamp_s"] += 1
+    second_bank.write_text(json.dumps(request))
+    with pytest.raises(ValueError, match="Conflicting"):
+        load_scenes([first_bank, second_bank])
+
+
 def test_navigation_and_abandoned_voice_draft_preserve_confirmed_receipt(site):
     first, second = site.scenes
     sid = site.open(first)["session"]

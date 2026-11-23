@@ -24,6 +24,9 @@ SEG_HASHES = {
 }
 
 
+PUBLIC_PHOTO_LISTS = ("passenger-uae-parking-photos-20261123.json", "passenger-place-public-photos-20261123.json")
+
+
 def file_hash(path):
     with Path(path).open("rb") as src:
         import hashlib
@@ -225,7 +228,10 @@ def start(args):
         argv.extend(["--between-road-mode", getattr(args, "between_road_mode", "edge")])
         if getattr(args, "parking_backend", None):
             argv.extend(["--parking-backend", args.parking_backend])
-        for path in getattr(args, "place_public_sources", None) or ():
+        sources = list(getattr(args, "place_public_sources", None) or ())
+        if getattr(args, "public_places", False):
+            sources.extend(ROOT / "experiments/dropoff" / name for name in PUBLIC_PHOTO_LISTS)
+        for path in dict.fromkeys(Path(source).resolve() for source in sources):
             argv.extend(["--place-public-sources",str(path)])
         if getattr(args, "low_memory", False):
             argv.append("--low-memory")
@@ -278,6 +284,8 @@ def main():
                            help="Check the visible road edge, or also check angled and facing parking bays")
             p.add_argument("--parking-backend", choices=("modal",),
                            help="Use the hosted two-vehicle parking model in the ordinary passenger form")
+            p.add_argument("--public-places", action="store_true",
+                           help="Verify named places on the published UAE demo photos using Modal")
             p.add_argument("--place-public-sources",type=Path,action="append",metavar="JSON",
                            help="Enable GPU verification of places on these public KartaView source lists")
             p.add_argument("--asr-model",type=Path)

@@ -60,6 +60,32 @@ def _box(box):
         raise ValueError("Observation boxes require four finite original-pixel coordinates and positive area")
 
 
+SOURCE_NOT_AVAILABLE = "requested_observation_source_unavailable"
+
+
+def verify_source_no_call(question, evidence, answer, receipt):
+    """Authenticate the local policy decision without accepting a provider response as a no-call."""
+    from trackrag.answering import make_answer, unavailable_observation_source
+    explanation = unavailable_observation_source(question["question"], evidence)
+    expected = {"question_id": question["question_id"], "recording_id": question["recording_id"],
+                "query_frame": question["query_frame"], "role": "task3 grounded answer",
+                "request_status": "not_requested", "cached": False, "sent": [],
+                "reason": SOURCE_NOT_AVAILABLE, "public_question": question}
+    if (not explanation or answer != make_answer("insufficient_evidence", explanation)
+            or json.dumps(receipt, sort_keys=True, allow_nan=False) != json.dumps(expected, sort_keys=True)):
+        raise ValueError("Local source-abstention receipt or answer differs from the question and evidence")
+
+
+def receipt_inventory_version(receipt):
+    """Unversioned archived receipts predate derived image geometry."""
+    if "evidence_inventory_version" not in receipt:
+        return 1
+    version = receipt["evidence_inventory_version"]
+    if type(version) is not int or version != 2:
+        raise ValueError("Unsupported provider evidence inventory version")
+    return version
+
+
 def _verified_grounding_abstention(directory, question, evidence, answer, receipt, response):
     """Reproduce a source or temporal veto from original observations, submitted pixels and raw response."""
     if (response.get("answer_status") != "answered" or answer.get("answer_status") != "insufficient_evidence"
@@ -94,14 +120,23 @@ def _verified_grounding_abstention(directory, question, evidence, answer, receip
             return False
         if scope is None and "\nTemporal evidence: " in receipt.get("prompt", ""):
             return False
-        inventory = [{"evidence_id": e["evidence_id"], "interval": e["interval"],
-                      "images": [{k: im[k] for k in ("frame_id", "bbox_xyxy", "observations", "privacy")}
-                                 for im in e["images"]]} for e in prepared]
+        if receipt_inventory_version(receipt) == 2:
+            from trackrag.model_client import evidence_inventory
+            inventory = evidence_inventory(question, prepared)
+        else:
+            inventory = [{"evidence_id": e["evidence_id"], "interval": e["interval"],
+                          "images": [{k: im[k] for k in ("frame_id", "bbox_xyxy", "observations", "privacy")}
+                                     for im in e["images"]]} for e in prepared]
         actual = [(e["evidence_id"], im["frame_id"], fingerprint(im["image_path"]))
                   for e in prepared for im in e["images"]]
         sent = [(im.get("evidence_id"), im.get("frame_id"), im.get("sha256"))
                 for im in receipt.get("sent", [])]
-        if inventory != receipt.get("evidence_inventory") or actual != sent:
+        inventory_text = receipt.get("prompt", "").partition("\nEvidence inventory: ")[2]
+        try:
+            prompted, _ = json.JSONDecoder().raw_decode(inventory_text)
+        except ValueError:
+            return False
+        if inventory != receipt.get("evidence_inventory") or inventory != prompted or actual != sent:
             return False
         if validate_answer(response, prepared, question) != answer:
             return False
@@ -238,6 +273,10 @@ def audit_run(directory, expected):
                 raise ValueError("Provider receipt belongs to a different question")
             verified_veto = False
             if name == "receipt.json":
+                receipt_inventory_version(receipt)
+                if receipt.get("request_status") == "not_requested" or receipt.get("reason") == SOURCE_NOT_AVAILABLE:
+                    verify_source_no_call(question, evidence, answer, receipt)
+                    verified_veto = "local_source_abstention"
                 if receipt.get("request_status") == "error" and status != "error":
                     raise ValueError("Delivered answer contradicts its failed final provider receipt")
                 response = receipt.get("response")

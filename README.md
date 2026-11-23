@@ -17,6 +17,8 @@ On a fresh machine, install Python 3.11, restore the private adapter and saved p
 
 ## What the team built
 
+For the driveway example, speak or type “Could you let me out on the driveway of the first arched villa on the left?” When the app asks for clarification, you can tap the photo, check your mark and confirm it. [Open the villa photo](http://127.0.0.1:8775/?scene=8e586163045c8dbc54ed00c1) · [Sixteen UAE street photos and measured results](docs/passenger-frontage-field-test.md)
+
 | Component | Implementation and evidence |
 | --- | --- |
 | Vision · MAAI 901 | RF-DETR Large fine-tuned on EMT, followed by BoT-SORT tracking. On the five official test recordings, road-user detection AP improved from 0.303 to 0.355 and IDF1 from 0.400 to 0.443. Identity switches increased. [Training, augmentations and full results](docs/task1-vision.md) |

@@ -4,7 +4,7 @@ The passenger can describe two vehicles in English, by voice or text. The app us
 
 ## Open the prepared app
 
-From the project root on the prepared Windows laptop, use the local grounding environment. The first command downloads and verifies the original UAE photos and writes an app-ready set of 47 public UAE scenes. It resumes from verified files. The second command opens the regular passenger and footage app with the cloud parking model enabled. Open the local page once the server prints its address.
+From the project root on the prepared Windows laptop, use the local grounding environment. The first command downloads and verifies the original UAE photos and writes an app-ready set of 63 public UAE scenes. It resumes from verified files. The second command opens the regular passenger and footage app with the cloud parking model enabled. Open the local page once the server prints its address.
 
 ~~~powershell
 .\.venv-grounding-local\Scripts\python.exe -m tools.passenger_parking_photos

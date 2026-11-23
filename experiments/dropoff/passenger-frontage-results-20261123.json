@@ -1,0 +1,1758 @@
+{
+  "date_dubai": "2026-11-23",
+  "reference_type": "Independent AI visual review of original photographs. No passenger, legal, safety or permission labels.",
+  "design": "Two separately frozen balanced samples from 16 different UAE drives. Each challenger faced the released v3 on the same eight photos and utterances via HTTP. The second is a new challenger, not a repeat of the first. Ground truth was opened only after sealing each pair of automatic arms.",
+  "scoring": "First automatic response. A visible target requires the point to fall inside a predeclared polygon. A blocked or ambiguous target requires an explicit no-pin response. Operational errors, incorrect points and assisted corrections earn no automatic credit.",
+  "prediction_methods": {
+    "release": "trained_qwen_place_with_parking_surface_v3",
+    "cohort_1": "trained_qwen_place_with_curb_frontage_v1",
+    "cohort_2": "trained_qwen_place_landmark_then_marked_bay_v2"
+  },
+  "release_base_commit": "3ed32c6a54a46a3a394ac6ed93549bc555e4622e",
+  "experimental_commit": "eec1f50",
+  "assisted_procedure": "After unsealing both sets, submit the unchanged words through the regular app. Use the interior point furthest from each reference polygon edge in a 1001-square normalized image; check the small mark using the ordinary UI/API road check and confirm only an inside result. One scripted mark per visible case. Do not use these coordinates for inference.",
+  "cohorts": [
+    {
+      "name": "First field test",
+      "reference_sha256": "0d9789a08c4270e6dbe895c39e762af958fbdc63f715ae62f03075e4e63ee3c8",
+      "neutral_input_sha256": "ba7ca425d10502372895b2217f788dfb19f32be8e97d8b121768c83f7fa6d4f3",
+      "frozen_methods_sha256": "ad77710927aa09788eff64fbe8458c3c75ebb6f709621b386537d114eae5a9fc",
+      "frozen_utc": "2026-11-23T13:29:22.444782+00:00",
+      "seal_utc": "2026-11-23T13:33:44.151077+00:00",
+      "first_turn_seals": {
+        "release": "a6c072b709f1fee51467bbbd955777d7671b93a806ff64a047c1a9f26025b6e8",
+        "candidate": "9f7add3384fb7c7b69f53880ef11ecc5420ca22b8f00ea7038206bc4384c0553"
+      },
+      "summary": {
+        "release": {
+          "correct": 4,
+          "correct_pins": 0,
+          "correct_withholds": 4,
+          "counts": {
+            "correct_withhold": 4,
+            "missed_visible": 3,
+            "wrong_pin_on_visible": 1
+          }
+        },
+        "candidate": {
+          "correct": 3,
+          "correct_pins": 0,
+          "correct_withholds": 3,
+          "counts": {
+            "correct_withhold": 3,
+            "false_pin_on_blocked": 1,
+            "missed_visible": 3,
+            "wrong_pin_on_visible": 1
+          }
+        }
+      }
+    },
+    {
+      "name": "Independent reserve",
+      "reference_sha256": "cadec568e9f1eafcf6ce4dd52ec54d65bf53ee8f89df996c20da88d8dccf7e41",
+      "neutral_input_sha256": "2c45d94bb8dc83d6850197a30ed51420e4aab86d78764c4848d5568bf1b055c7",
+      "frozen_methods_sha256": "2aed0ea0acb16037dc5603000b58b797e761c7d13de61f9b8d0687ce74024bf8",
+      "frozen_utc": "2026-11-23T13:50:03.257736+00:00",
+      "seal_utc": "2026-11-23T13:54:06.313525+00:00",
+      "first_turn_seals": {
+        "release": "45cb292a107c875a0f06b36478b9fbe17524493435d8c569b29688ea35be7f71",
+        "candidate": "0817ea228e30a54f1e7c7f87f8dd735c5c4d987b8e76effe3c512ca865ecf175"
+      },
+      "summary": {
+        "release": {
+          "correct": 4,
+          "correct_pins": 0,
+          "correct_withholds": 4,
+          "counts": {
+            "correct_withhold": 4,
+            "missed_visible": 3,
+            "error_or_inconsistent": 1
+          }
+        },
+        "candidate": {
+          "correct": 4,
+          "correct_pins": 0,
+          "correct_withholds": 4,
+          "counts": {
+            "correct_withhold": 4,
+            "missed_visible": 3,
+            "error_or_inconsistent": 1
+          }
+        }
+      }
+    }
+  ],
+  "cases": [
+    {
+      "id": "field-01",
+      "caption": "Red and glass building",
+      "request": "Could you let me out by that red and glass building on the right?",
+      "source": {
+        "url": "https://kartaview.org/details/1119285/104/",
+        "metadata": "https://api.kartaview.org/2.0/photo/191406769",
+        "recording_id": "kartaview_1119285",
+        "frame_id": 104,
+        "width": 2688,
+        "height": 1520,
+        "sha256": "9c09315b50ba13b7f4d17051aed887fef81e3f52c2544963a69a17ee4c8f5a17",
+        "app_scene": "20a2acd10f5e5c96d953166a"
+      },
+      "expected": "clarify",
+      "visible_evidence": "The right edge of the moving lane meets a curbed planted island, red sidewalk and a short crossing at the driveway. No unoccupied, distinct roadside pull-in can be identified beside that facade.",
+      "reference_polygons_1000": [],
+      "arms": {
+        "release": {
+          "grade": "correct_withhold",
+          "state": "needs_clarification",
+          "point_px": null,
+          "reason": "no_visible_parking_surface",
+          "method": "trained_qwen_place_with_parking_surface_v3",
+          "error_code": null,
+          "model_stages": [],
+          "signed_place_replay": true,
+          "journal_sha256_at_first_turn": "7216056a59c04b886a122c6a64b8714e582f715848798474ee7acff77853befa"
+        },
+        "challenger": {
+          "grade": "correct_withhold",
+          "state": "needs_clarification",
+          "point_px": null,
+          "reason": "no_visible_curb_ground",
+          "method": "trained_qwen_place_with_curb_frontage_v1",
+          "error_code": null,
+          "model_stages": [],
+          "signed_place_replay": true,
+          "journal_sha256_at_first_turn": "79474583ffc70d6562c87ad7a08f08f8d97d5b1fe2b80d7b544535ab3b96133d"
+        }
+      }
+    },
+    {
+      "id": "field-02",
+      "caption": "Burjeel hospital",
+      "request": "Could you drop me off beside the Burjeel hospital on the right?",
+      "source": {
+        "url": "https://kartaview.org/details/5299897/55/",
+        "metadata": "https://api.kartaview.org/2.0/photo/1507968185",
+        "recording_id": "kartaview_5299897",
+        "frame_id": 55,
+        "width": 3264,
+        "height": 1836,
+        "sha256": "69f729d28a4ae2c2d202a5cb10f64eb2922dfba09b84e363cb64caa3058622cd",
+        "app_scene": "4e4bad932d9c469819b15213"
+      },
+      "expected": "clarify",
+      "visible_evidence": "The maroon vehicle occupies the first bay, the row immediately behind is full, and the open area on the near side is a raised pedestrian corner. The central street and junction are outside the requested frontage.",
+      "reference_polygons_1000": [],
+      "arms": {
+        "release": {
+          "grade": "correct_withhold",
+          "state": "needs_clarification",
+          "point_px": null,
+          "reason": "no_visible_parking_surface",
+          "method": "trained_qwen_place_with_parking_surface_v3",
+          "error_code": null,
+          "model_stages": [],
+          "signed_place_replay": true,
+          "journal_sha256_at_first_turn": "1c6077a38f66728b3ee003b9af6dbd509ad3e191fd7ebdf3bb9932b853e70867"
+        },
+        "challenger": {
+          "grade": "false_pin_on_blocked",
+          "state": "proposed",
+          "point_px": [
+            2533.2266666666665,
+            1453.197628458498
+          ],
+          "reason": "visible_curb_apron",
+          "method": "trained_qwen_place_with_curb_frontage_v1",
+          "error_code": null,
+          "model_stages": [
+            [
+              "curb_layout",
+              "APRON"
+            ],
+            [
+              "curb_choose",
+              "5"
+            ],
+            [
+              "curb_check",
+              "APRON"
+            ]
+          ],
+          "signed_place_replay": true,
+          "journal_sha256_at_first_turn": "04b805967f4ae714b348166221aea685fb4c2edfe77b287c158164ff9c02d7a6"
+        }
+      }
+    },
+    {
+      "id": "field-03",
+      "caption": "Starbucks entrance",
+      "request": "Please let me out at the Starbucks entrance on the right.",
+      "source": {
+        "url": "https://kartaview.org/details/3075690/358/",
+        "metadata": "https://api.kartaview.org/2.0/photo/1106129194",
+        "recording_id": "kartaview_3075690",
+        "frame_id": 358,
+        "width": 1552,
+        "height": 720,
+        "sha256": "01d73d105e4ea270322f24c01b2199fed8a7cc3346d8957d2278b652849927a9",
+        "app_scene": "19ff155a74b523df2405975c"
+      },
+      "expected": "clarify",
+      "visible_evidence": "A row of closely spaced posts separates the travelling lane from the shop frontage. There is no visible unobstructed off-lane stopping area at the requested entrance in the shown approach.",
+      "reference_polygons_1000": [],
+      "arms": {
+        "release": {
+          "grade": "correct_withhold",
+          "state": "needs_clarification",
+          "point_px": null,
+          "reason": "no_visible_parking_surface",
+          "method": "trained_qwen_place_with_parking_surface_v3",
+          "error_code": null,
+          "model_stages": [],
+          "signed_place_replay": true,
+          "journal_sha256_at_first_turn": "61e743d691fc47423028845986a7627f214972d196ecfeef8574fb4b9587b83b"
+        },
+        "challenger": {
+          "grade": "correct_withhold",
+          "state": "needs_clarification",
+          "point_px": null,
+          "reason": "no_visible_curb_ground",
+          "method": "trained_qwen_place_with_curb_frontage_v1",
+          "error_code": null,
+          "model_stages": [],
+          "signed_place_replay": true,
+          "journal_sha256_at_first_turn": "9c7d9c57e11b07d682c0123f58d7debaea3971646373b526075c7553a7b643e8"
+        }
+      }
+    },
+    {
+      "id": "field-04",
+      "caption": "Roundabout parking bays",
+      "request": "Could you let me out in the parking spaces on the right by the roundabout?",
+      "source": {
+        "url": "https://kartaview.org/details/5200729/338/",
+        "metadata": "https://api.kartaview.org/2.0/photo/1492273529",
+        "recording_id": "kartaview_5200729",
+        "frame_id": 338,
+        "width": 3840,
+        "height": 2160,
+        "sha256": "a7dec675112e51d79bea0cc0898d511e88287b7f71be11796aadbdad8cb50fc9",
+        "app_scene": "67c8b96416f1dc9f40a21a72"
+      },
+      "expected": "propose",
+      "visible_evidence": "The right-hand row has more than one empty white-lined space on grey pavers. The accepted zone covers the empty spaces past the pedestrian, short of the parked SUV. It excludes the access aisle, crossing pedestrian, kerbs, neighbouring sidewalk and dashboard.",
+      "reference_polygons_1000": [
+        [
+          [
+            587,
+            464
+          ],
+          [
+            619,
+            450
+          ],
+          [
+            691,
+            456
+          ],
+          [
+            772,
+            470
+          ],
+          [
+            821,
+            484
+          ],
+          [
+            898,
+            488
+          ],
+          [
+            905,
+            503
+          ],
+          [
+            906,
+            549
+          ],
+          [
+            856,
+            570
+          ],
+          [
+            673,
+            574
+          ],
+          [
+            601,
+            555
+          ],
+          [
+            552,
+            526
+          ],
+          [
+            534,
+            504
+          ],
+          [
+            560,
+            485
+          ]
+        ]
+      ],
+      "arms": {
+        "release": {
+          "grade": "missed_visible",
+          "state": "needs_clarification",
+          "point_px": null,
+          "reason": "location_blocked",
+          "method": "trained_qwen_place_with_parking_surface_v3",
+          "error_code": null,
+          "model_stages": [
+            [
+              "choose",
+              "5"
+            ],
+            [
+              "check",
+              "BLOCKED"
+            ]
+          ],
+          "signed_place_replay": true,
+          "journal_sha256_at_first_turn": "1db4d0713474615c6c86f405dc1b599a73c786808ce14a29962a539aeec5f305"
+        },
+        "challenger": {
+          "grade": "missed_visible",
+          "state": "needs_clarification",
+          "point_px": null,
+          "reason": "location_blocked",
+          "method": "trained_qwen_place_with_curb_frontage_v1",
+          "error_code": null,
+          "model_stages": [
+            [
+              "choose",
+              "5"
+            ],
+            [
+              "check",
+              "BLOCKED"
+            ]
+          ],
+          "signed_place_replay": true,
+          "journal_sha256_at_first_turn": "351ea9ee3c3062a86f085da9d1f613461cbbb41fc24a2331fcec68a766891b19"
+        }
+      },
+      "scripted_correction": {
+        "first_state": "needs_clarification",
+        "first_method": "trained_qwen_place_with_parking_surface_v3",
+        "first_seconds": 47.12,
+        "request_box": [
+          2592,
+          1102,
+          2608,
+          1118
+        ],
+        "point": [
+          2598.75,
+          1106.25
+        ],
+        "actor": "passenger",
+        "inside": true,
+        "final": "confirmed",
+        "journal_sha256": "86c7f89e3c11f0f84f9764876d0f26264ce0169be1d48f2a090be4d29dc83c50",
+        "invalid_confirmation_http": 409
+      }
+    },
+    {
+      "id": "field-05",
+      "caption": "Yellow skip",
+      "request": "Please let me out by the yellow skip on the right.",
+      "source": {
+        "url": "https://kartaview.org/details/976103/139/",
+        "metadata": "https://api.kartaview.org/2.0/photo/169673191",
+        "recording_id": "kartaview_976103",
+        "frame_id": 139,
+        "width": 3840,
+        "height": 2160,
+        "sha256": "bae3d01037cdc79d690fe49f11cf8603abec303643967805ffdbb72abff23b36",
+        "app_scene": "af1fb24715c0017475b0afa1"
+      },
+      "expected": "propose",
+      "visible_evidence": "There is a continuous paved parallel-parking strip between the white edge line and the kerb, on the near side of the parked silver sedan. The skip sits beyond the kerb on soil. The polygon is the visible parking strip beside it, clipping at the bottom of the image.",
+      "reference_polygons_1000": [
+        [
+          [
+            526,
+            881
+          ],
+          [
+            551,
+            889
+          ],
+          [
+            578,
+            891
+          ],
+          [
+            623,
+            899
+          ],
+          [
+            651,
+            914
+          ],
+          [
+            715,
+            952
+          ],
+          [
+            759,
+            977
+          ],
+          [
+            789,
+            998
+          ],
+          [
+            565,
+            998
+          ],
+          [
+            538,
+            944
+          ],
+          [
+            519,
+            908
+          ]
+        ]
+      ],
+      "arms": {
+        "release": {
+          "grade": "missed_visible",
+          "state": "needs_clarification",
+          "point_px": null,
+          "reason": "no_visible_parking_surface",
+          "method": "trained_qwen_place_with_parking_surface_v3",
+          "error_code": null,
+          "model_stages": [],
+          "signed_place_replay": true,
+          "journal_sha256_at_first_turn": "cd9be8c872d75a1a8e813d9726131f9061c032a51b4efd5c7f35ec852d77d6f2"
+        },
+        "challenger": {
+          "grade": "missed_visible",
+          "state": "needs_clarification",
+          "point_px": null,
+          "reason": "no_matching_curb_place",
+          "method": "trained_qwen_place_with_curb_frontage_v1",
+          "error_code": null,
+          "model_stages": [
+            [
+              "curb_layout",
+              "APRON"
+            ],
+            [
+              "curb_choose",
+              "NONE"
+            ]
+          ],
+          "signed_place_replay": true,
+          "journal_sha256_at_first_turn": "ed8a60e608b997d2cc94a3464f16d32eb7a1a1f4314c4c2cb37f2e2430e110fb"
+        }
+      },
+      "scripted_correction": {
+        "first_state": "needs_clarification",
+        "first_method": "trained_qwen_place_with_parking_surface_v3",
+        "first_seconds": 5.11,
+        "request_box": [
+          2284,
+          2038,
+          2300,
+          2054
+        ],
+        "point": [
+          2291.25,
+          2043.75
+        ],
+        "actor": "passenger",
+        "inside": true,
+        "final": "confirmed",
+        "journal_sha256": "ba138e985d2b78cd4143617ddec8837c695cf9c37c678d739d4742eb95f041fc",
+        "invalid_confirmation_http": 409
+      }
+    },
+    {
+      "id": "field-06",
+      "caption": "Mercure hotel entrance",
+      "request": "I'd like to get out at the Mercure hotel entrance on the right.",
+      "source": {
+        "url": "https://kartaview.org/details/6581529/932/",
+        "metadata": "https://api.kartaview.org/2.0/photo/1679103289",
+        "recording_id": "kartaview_6581529",
+        "frame_id": 932,
+        "width": 3840,
+        "height": 2160,
+        "sha256": "9cf36c28c6a1643cceb7089316aadddd8fa5a51d3b8ef76ee801ab0f44e4f30c",
+        "app_scene": "60b6c5b84add0e64f1fdd4aa"
+      },
+      "expected": "propose",
+      "visible_evidence": "The Mercure has an off-lane paved hotel arrival forecourt with its own raised islands and a yellow arrow. The accepted area is the visible, unoccupied part inside the forecourt, between its islands and before the parked cars. It excludes the parallel road, parked vehicles, red sidewalk, and the ramp apron crossing the road edge.",
+      "reference_polygons_1000": [
+        [
+          [
+            554,
+            612
+          ],
+          [
+            606,
+            593
+          ],
+          [
+            643,
+            577
+          ],
+          [
+            665,
+            564
+          ],
+          [
+            711,
+            555
+          ],
+          [
+            745,
+            558
+          ],
+          [
+            761,
+            578
+          ],
+          [
+            757,
+            601
+          ],
+          [
+            745,
+            640
+          ],
+          [
+            751,
+            660
+          ],
+          [
+            778,
+            708
+          ],
+          [
+            726,
+            684
+          ],
+          [
+            618,
+            652
+          ],
+          [
+            576,
+            631
+          ]
+        ]
+      ],
+      "arms": {
+        "release": {
+          "grade": "missed_visible",
+          "state": "needs_clarification",
+          "point_px": null,
+          "reason": "no_visible_parking_surface",
+          "method": "trained_qwen_place_with_parking_surface_v3",
+          "error_code": null,
+          "model_stages": [],
+          "signed_place_replay": true,
+          "journal_sha256_at_first_turn": "a09a1189b551b8c6ab2a6f56f4fcca48f2e822fe38d57d8cc7f581ab47f16023"
+        },
+        "challenger": {
+          "grade": "missed_visible",
+          "state": "needs_clarification",
+          "point_px": null,
+          "reason": "no_visible_curb_ground",
+          "method": "trained_qwen_place_with_curb_frontage_v1",
+          "error_code": null,
+          "model_stages": [],
+          "signed_place_replay": true,
+          "journal_sha256_at_first_turn": "fd2fa94a27c4a98353b0e1515e49e2bba00cb5381a4ae14e1366a605a2d989c8"
+        }
+      },
+      "scripted_correction": {
+        "first_state": "needs_clarification",
+        "first_method": "trained_qwen_place_with_parking_surface_v3",
+        "first_seconds": 5.63,
+        "request_box": [
+          2657,
+          1323,
+          2673,
+          1339
+        ],
+        "point": [
+          2666.25,
+          1331.25
+        ],
+        "actor": "passenger",
+        "inside": true,
+        "final": "confirmed",
+        "journal_sha256": "1ed1b6d6a3500d7d062e2912f6ba49382654f266a28d2774d36ee5d2a6e650a4",
+        "invalid_confirmation_http": 409
+      }
+    },
+    {
+      "id": "field-07",
+      "caption": "St Regis entrance",
+      "request": "Could you drop me off by the St Regis entrance on the right?",
+      "source": {
+        "url": "https://kartaview.org/details/5204473/819/",
+        "metadata": "https://api.kartaview.org/2.0/photo/1493092345",
+        "recording_id": "kartaview_5204473",
+        "frame_id": 819,
+        "width": 3840,
+        "height": 2160,
+        "sha256": "129e43a4f8482d50707f75d002c0e8dc809d2ae0fea3da57a1e4d030527c080a",
+        "app_scene": "dac285188df6c2206f3e4a2e"
+      },
+      "expected": "propose",
+      "visible_evidence": "The pale paved hotel pull-in separates from the moving lane immediately before the entrance. The red pedestrian islands, bollards, vehicle bodies, and the camera bonnet are excluded.",
+      "reference_polygons_1000": [
+        [
+          [
+            284,
+            499
+          ],
+          [
+            344,
+            472
+          ],
+          [
+            409,
+            426
+          ],
+          [
+            456,
+            419
+          ],
+          [
+            484,
+            421
+          ],
+          [
+            486,
+            450
+          ],
+          [
+            510,
+            452
+          ],
+          [
+            518,
+            423
+          ],
+          [
+            591,
+            414
+          ],
+          [
+            585,
+            457
+          ],
+          [
+            575,
+            503
+          ],
+          [
+            574,
+            540
+          ],
+          [
+            582,
+            573
+          ],
+          [
+            423,
+            593
+          ],
+          [
+            364,
+            552
+          ]
+        ]
+      ],
+      "arms": {
+        "release": {
+          "grade": "wrong_pin_on_visible",
+          "state": "proposed",
+          "point_px": [
+            1290.6666666666667,
+            954.0711462450593
+          ],
+          "reason": "visible_parking_point",
+          "method": "trained_qwen_place_with_parking_surface_v3",
+          "error_code": null,
+          "model_stages": [
+            [
+              "choose",
+              "2"
+            ],
+            [
+              "check",
+              "MATCH"
+            ]
+          ],
+          "signed_place_replay": true,
+          "journal_sha256_at_first_turn": "5e1e77334cca4b571c168eafbf10fe41eb04fa013b903c0b97c1cb36e1c49524"
+        },
+        "challenger": {
+          "grade": "wrong_pin_on_visible",
+          "state": "proposed",
+          "point_px": [
+            1290.6666666666667,
+            954.0711462450593
+          ],
+          "reason": "visible_parking_point",
+          "method": "trained_qwen_place_with_curb_frontage_v1",
+          "error_code": null,
+          "model_stages": [
+            [
+              "choose",
+              "2"
+            ],
+            [
+              "check",
+              "MATCH"
+            ]
+          ],
+          "signed_place_replay": true,
+          "journal_sha256_at_first_turn": "af912290b5b6731ec5a3c91be96e3fc1261c246287582e22672849cd42ee11f5"
+        }
+      },
+      "scripted_correction": {
+        "first_state": "proposed",
+        "first_method": "trained_qwen_place_with_parking_surface_v3",
+        "first_seconds": 5.96,
+        "request_box": [
+          1651,
+          1083,
+          1667,
+          1099
+        ],
+        "point": [
+          1661.25,
+          1091.25
+        ],
+        "actor": "passenger",
+        "inside": true,
+        "final": "confirmed",
+        "journal_sha256": "2cf8723159f5d14592f81c730c634ab8fdf72a53d1f5c5645aac418f2abba051",
+        "invalid_confirmation_http": 409
+      }
+    },
+    {
+      "id": "field-08",
+      "caption": "Just Play entrance",
+      "request": "I'd like to get out by the Just Play entrance on the right.",
+      "source": {
+        "url": "https://kartaview.org/details/1269447/242/",
+        "metadata": "https://api.kartaview.org/2.0/photo/289199505",
+        "recording_id": "kartaview_1269447",
+        "frame_id": 242,
+        "width": 3840,
+        "height": 2160,
+        "sha256": "5597212281d86a728d6d9dbf482f05ca0dee72fcc15a6f8225520d7e30aebe38",
+        "app_scene": "550e051ead850fb310f3c395"
+      },
+      "expected": "clarify",
+      "visible_evidence": "A chain and red posts cordon the paved area next to the entrance, cars occupy the adjoining row, and the open red forecourt in the foreground is raised sidewalk.",
+      "reference_polygons_1000": [],
+      "arms": {
+        "release": {
+          "grade": "correct_withhold",
+          "state": "needs_clarification",
+          "point_px": null,
+          "reason": "location_blocked",
+          "method": "trained_qwen_place_with_parking_surface_v3",
+          "error_code": null,
+          "model_stages": [
+            [
+              "choose",
+              "1"
+            ],
+            [
+              "check",
+              "BLOCKED"
+            ]
+          ],
+          "signed_place_replay": true,
+          "journal_sha256_at_first_turn": "a68c4a664a2c761d3c89ef07cd323823636b49c7311bc3ad8b1c67e5d419a66c"
+        },
+        "challenger": {
+          "grade": "correct_withhold",
+          "state": "needs_clarification",
+          "point_px": null,
+          "reason": "location_blocked",
+          "method": "trained_qwen_place_with_curb_frontage_v1",
+          "error_code": null,
+          "model_stages": [
+            [
+              "choose",
+              "1"
+            ],
+            [
+              "check",
+              "BLOCKED"
+            ]
+          ],
+          "signed_place_replay": true,
+          "journal_sha256_at_first_turn": "b0ab4b7d41d7c57d2fae7c88541c298ede71d9eeff5f882022bb37b12c5c3757"
+        }
+      }
+    },
+    {
+      "id": "reserve-01",
+      "caption": "Lulu Exchange",
+      "request": "Please let me out at the blue Lulu Exchange sign on the right.",
+      "source": {
+        "url": "https://kartaview.org/details/1257895/48/",
+        "metadata": "https://api.kartaview.org/2.0/photo/272957237",
+        "recording_id": "kartaview_1257895",
+        "frame_id": 48,
+        "width": 3840,
+        "height": 2160,
+        "sha256": "83c12806c2a5380cae15ae202f0e1b5e3500637c811afb4c96069bf643aec9c8",
+        "app_scene": "5abd48db0e652d87179b0a8d"
+      },
+      "expected": "clarify",
+      "visible_evidence": "The storefront has a full row of cars and vans at its curb. A painted or accessible vacant patch is not identifiable beside the signed shop.",
+      "reference_polygons_1000": [],
+      "arms": {
+        "release": {
+          "grade": "correct_withhold",
+          "state": "needs_clarification",
+          "point_px": null,
+          "reason": "no_visible_parking_surface",
+          "method": "trained_qwen_place_with_parking_surface_v3",
+          "error_code": null,
+          "model_stages": [],
+          "signed_place_replay": true,
+          "journal_sha256_at_first_turn": "5e342f56288ae7d0502a1843706e11e2190f11c8b3ba73a9e099289ee4af83e3"
+        },
+        "challenger": {
+          "grade": "correct_withhold",
+          "state": "needs_clarification",
+          "point_px": null,
+          "reason": "no_visible_parking_surface",
+          "method": "trained_qwen_place_landmark_then_marked_bay_v2",
+          "error_code": null,
+          "model_stages": [],
+          "signed_place_replay": true,
+          "journal_sha256_at_first_turn": "c295afe4bb66ffcefec1a4fa8d46afe15d8fa7bb18556087524b780e11b1ad31"
+        }
+      }
+    },
+    {
+      "id": "reserve-02",
+      "caption": "Orange parking sign",
+      "request": "Please let me out beside the orange parking sign on the right.",
+      "source": {
+        "url": "https://kartaview.org/details/66346/113/",
+        "metadata": "https://api.kartaview.org/2.0/photo/24348819",
+        "recording_id": "kartaview_66346",
+        "frame_id": 113,
+        "width": 2688,
+        "height": 1520,
+        "sha256": "28eb871a346c5792d7f63ad1186edcc967a6f96a2469984ecc86c5df7d177d1c",
+        "app_scene": "b478c884c0832f9ea6d0fc05"
+      },
+      "expected": "propose",
+      "visible_evidence": "An empty parallel bay lies behind the white SUV, indicated by a white transverse parking marking and the orange parking sign. The occupied stall, taxi, flush outer edge and pavement on the right are excluded.",
+      "reference_polygons_1000": [
+        [
+          [
+            659,
+            932
+          ],
+          [
+            672,
+            920
+          ],
+          [
+            760,
+            918
+          ],
+          [
+            844,
+            929
+          ],
+          [
+            917,
+            945
+          ],
+          [
+            981,
+            972
+          ],
+          [
+            998,
+            988
+          ],
+          [
+            998,
+            998
+          ],
+          [
+            702,
+            998
+          ],
+          [
+            675,
+            970
+          ]
+        ]
+      ],
+      "arms": {
+        "release": {
+          "grade": "missed_visible",
+          "state": "needs_clarification",
+          "point_px": null,
+          "reason": "no_visible_parking_surface",
+          "method": "trained_qwen_place_with_parking_surface_v3",
+          "error_code": null,
+          "model_stages": [],
+          "signed_place_replay": true,
+          "journal_sha256_at_first_turn": "16221a875dc32f023b929f36fcbd449ec74abeb27821db6d0021dec4d1dde7aa"
+        },
+        "challenger": {
+          "grade": "missed_visible",
+          "state": "needs_clarification",
+          "point_px": null,
+          "reason": "no_visible_parking_surface",
+          "method": "trained_qwen_place_landmark_then_marked_bay_v2",
+          "error_code": null,
+          "model_stages": [],
+          "signed_place_replay": true,
+          "journal_sha256_at_first_turn": "72a63dc340af9a328192991bb7ad43b2463bf702e8df6e8310b1933c90a2dae5"
+        }
+      },
+      "scripted_correction": {
+        "first_state": "needs_clarification",
+        "first_method": "trained_qwen_place_with_parking_surface_v3",
+        "first_seconds": 4.53,
+        "request_box": [
+          2037,
+          1450,
+          2049,
+          1462
+        ],
+        "point": [
+          2044.875,
+          1454.4827586206898
+        ],
+        "actor": "passenger",
+        "inside": true,
+        "final": "confirmed",
+        "journal_sha256": "79abe50afcdf0d9406d4508c8b193cffd27e771a0d5a5e17e7a3a103a703f5b2",
+        "invalid_confirmation_http": 409
+      }
+    },
+    {
+      "id": "reserve-03",
+      "caption": "Green bins",
+      "request": "Could you drop me beside the green bins on the right?",
+      "source": {
+        "url": "https://kartaview.org/details/166806/131/",
+        "metadata": "https://api.kartaview.org/2.0/photo/32609960",
+        "recording_id": "kartaview_166806",
+        "frame_id": 131,
+        "width": 2688,
+        "height": 1520,
+        "sha256": "42b05ee428418cbc10827ed4ceaa88b805114bbce662c28f8b2096ca1b3fc538",
+        "app_scene": "168771678c9a940c342034fd"
+      },
+      "expected": "clarify",
+      "visible_evidence": "The bins stand on a continuous shallow footway against a wall on a narrow street. A closed garage and the traffic lane do not establish an accessible off-lane pull-in at the bins.",
+      "reference_polygons_1000": [],
+      "arms": {
+        "release": {
+          "grade": "correct_withhold",
+          "state": "needs_clarification",
+          "point_px": null,
+          "reason": "no_visible_parking_surface",
+          "method": "trained_qwen_place_with_parking_surface_v3",
+          "error_code": null,
+          "model_stages": [],
+          "signed_place_replay": true,
+          "journal_sha256_at_first_turn": "945337571ca81c3a33a081436b38a6cd03357fb4902ff318dcd92db40b0e00aa"
+        },
+        "challenger": {
+          "grade": "correct_withhold",
+          "state": "needs_clarification",
+          "point_px": null,
+          "reason": "no_visible_parking_surface",
+          "method": "trained_qwen_place_landmark_then_marked_bay_v2",
+          "error_code": null,
+          "model_stages": [],
+          "signed_place_replay": true,
+          "journal_sha256_at_first_turn": "1694df6b87a96b111f56fffd9089206325a0af010016688a756e2e2070ef0fad"
+        }
+      }
+    },
+    {
+      "id": "reserve-04",
+      "caption": "White canopy",
+      "request": "Please let me out by that big white canopy on the right.",
+      "source": {
+        "url": "https://kartaview.org/details/5053449/2/",
+        "metadata": "https://api.kartaview.org/2.0/photo/1468800617",
+        "recording_id": "kartaview_5053449",
+        "frame_id": 2,
+        "width": 3264,
+        "height": 1836,
+        "sha256": "e8de171dafb0a692e499ea75275ca9662171324da732d6cc291fcf941cb250d2",
+        "app_scene": "05a6744a42eef6693e072b82"
+      },
+      "expected": "clarify",
+      "visible_evidence": "The white canopy shelters a raised island at a pedestrian crossing, with posts and a cyclist. The unoccupied moving lane and crossing have no distinguishable off-lane stopping area at the canopy.",
+      "reference_polygons_1000": [],
+      "arms": {
+        "release": {
+          "grade": "correct_withhold",
+          "state": "needs_clarification",
+          "point_px": null,
+          "reason": "no_visible_parking_surface",
+          "method": "trained_qwen_place_with_parking_surface_v3",
+          "error_code": null,
+          "model_stages": [],
+          "signed_place_replay": true,
+          "journal_sha256_at_first_turn": "35fb76f27fad737ff658e5878b2f3203ff71dbbde1cf46802a0c0247cfe9470e"
+        },
+        "challenger": {
+          "grade": "correct_withhold",
+          "state": "needs_clarification",
+          "point_px": null,
+          "reason": "no_visible_parking_surface",
+          "method": "trained_qwen_place_landmark_then_marked_bay_v2",
+          "error_code": null,
+          "model_stages": [],
+          "signed_place_replay": true,
+          "journal_sha256_at_first_turn": "7b6330ddd3507d9900103b7b9cf9983f649c903f80f58b17b93cfcd862c05403"
+        }
+      }
+    },
+    {
+      "id": "reserve-05",
+      "caption": "Yellow forklift",
+      "request": "Could you let me out by the yellow forklift on the right?",
+      "source": {
+        "url": "https://kartaview.org/details/54900/393/",
+        "metadata": "https://api.kartaview.org/2.0/photo/21887883",
+        "recording_id": "kartaview_54900",
+        "frame_id": 393,
+        "width": 2688,
+        "height": 1520,
+        "sha256": "1002226173c113c3ead9370fd6e8aa2dbabc6b650ca983198adff0778138b657",
+        "app_scene": "be7794edf1d44b01f31a65e9"
+      },
+      "expected": "propose",
+      "visible_evidence": "An open hardstanding with a forklift and parked cars is separated from the approach lane by a grass island, gravel and a change in pavement. The empty apron on the near side belongs to this vehicle area. The moving lane, gravel verge and machinery are excluded.",
+      "reference_polygons_1000": [
+        [
+          [
+            579,
+            787
+          ],
+          [
+            632,
+            775
+          ],
+          [
+            704,
+            778
+          ],
+          [
+            717,
+            802
+          ],
+          [
+            779,
+            811
+          ],
+          [
+            823,
+            837
+          ],
+          [
+            844,
+            869
+          ],
+          [
+            956,
+            881
+          ],
+          [
+            998,
+            879
+          ],
+          [
+            998,
+            998
+          ],
+          [
+            747,
+            998
+          ],
+          [
+            703,
+            943
+          ],
+          [
+            638,
+            863
+          ],
+          [
+            600,
+            823
+          ]
+        ]
+      ],
+      "arms": {
+        "release": {
+          "grade": "missed_visible",
+          "state": "needs_clarification",
+          "point_px": null,
+          "reason": "no_visible_parking_surface",
+          "method": "trained_qwen_place_with_parking_surface_v3",
+          "error_code": null,
+          "model_stages": [],
+          "signed_place_replay": true,
+          "journal_sha256_at_first_turn": "a5e74d8cb48f416ca025a397de2ac4d01a3bee68c2aabceb4c3c5938002025cb"
+        },
+        "challenger": {
+          "grade": "missed_visible",
+          "state": "needs_clarification",
+          "point_px": null,
+          "reason": "no_visible_parking_surface",
+          "method": "trained_qwen_place_landmark_then_marked_bay_v2",
+          "error_code": null,
+          "model_stages": [],
+          "signed_place_replay": true,
+          "journal_sha256_at_first_turn": "568254940fdd845db42f3b27cf6abefc292874ecc480928af488d89fec67c208"
+        }
+      },
+      "scripted_correction": {
+        "first_state": "needs_clarification",
+        "first_method": "trained_qwen_place_with_parking_surface_v3",
+        "first_seconds": 4.58,
+        "request_box": [
+          2056,
+          1356,
+          2067,
+          1368
+        ],
+        "point": [
+          2060.625,
+          1360.1379310344828
+        ],
+        "actor": "passenger",
+        "inside": true,
+        "final": "confirmed",
+        "journal_sha256": "1d94c263206c2ad93418f23eec703be286dd802ac74e44acb6f73fcd121ac869",
+        "invalid_confirmation_http": 409
+      }
+    },
+    {
+      "id": "reserve-06",
+      "caption": "Villa driveway",
+      "request": "Could you let me out on the driveway of the first arched villa on the left?",
+      "source": {
+        "url": "https://kartaview.org/details/986841/26/",
+        "metadata": "https://api.kartaview.org/2.0/photo/180338693",
+        "recording_id": "kartaview_986841",
+        "frame_id": 26,
+        "width": 3840,
+        "height": 2160,
+        "sha256": "28ddebe0da1ff4df35c58dfde9836c88345cd101064d29250f7b38b20bbd3e16",
+        "app_scene": "8e586163045c8dbc54ed00c1"
+      },
+      "expected": "propose",
+      "visible_evidence": "The villa has a visibly empty paved recessed opening between landscaping islands on the left. The polygon follows the pavers between the road-facing edge and the pedestrian frontage, excluding plants, curb tops and the through street.",
+      "reference_polygons_1000": [
+        [
+          [
+            142,
+            897
+          ],
+          [
+            179,
+            875
+          ],
+          [
+            265,
+            851
+          ],
+          [
+            336,
+            835
+          ],
+          [
+            386,
+            833
+          ],
+          [
+            405,
+            837
+          ],
+          [
+            395,
+            851
+          ],
+          [
+            329,
+            871
+          ],
+          [
+            252,
+            901
+          ],
+          [
+            167,
+            923
+          ],
+          [
+            134,
+            930
+          ]
+        ]
+      ],
+      "arms": {
+        "release": {
+          "grade": "error_or_inconsistent",
+          "state": "error",
+          "point_px": null,
+          "reason": null,
+          "method": "qwen_landmark_region",
+          "error_code": "grounding_failed",
+          "model_stages": [],
+          "signed_place_replay": false,
+          "journal_sha256_at_first_turn": "55707a5a6d618c996c6e8882fd7e8f82c7bfe37bcda8ebf65dd3d60bcf8c1df8"
+        },
+        "challenger": {
+          "grade": "error_or_inconsistent",
+          "state": "error",
+          "point_px": null,
+          "reason": null,
+          "method": "qwen_landmark_region",
+          "error_code": "resource_unavailable",
+          "model_stages": [],
+          "signed_place_replay": false,
+          "journal_sha256_at_first_turn": "281f4e17e7b1f35d0bcc9acb3044da1ea5e60e7fe66f5999531446b508ea6d16"
+        }
+      },
+      "scripted_correction": {
+        "first_state": "needs_clarification",
+        "first_method": "trained_qwen_place_with_parking_surface_v3",
+        "first_seconds": 5.26,
+        "request_box": [
+          929,
+          1893,
+          945,
+          1909
+        ],
+        "point": [
+          933.75,
+          1901.25
+        ],
+        "actor": "passenger",
+        "inside": true,
+        "final": "confirmed",
+        "journal_sha256": "c454b46267426765953b83c0508d2fc1b0c279653305337c0042a81ba636a4a4",
+        "invalid_confirmation_http": 409
+      }
+    },
+    {
+      "id": "reserve-07",
+      "caption": "Brixton shop",
+      "request": "Could you let me out in front of the Brixton shop on the right?",
+      "source": {
+        "url": "https://kartaview.org/details/6315033/178/",
+        "metadata": "https://api.kartaview.org/2.0/photo/1644768025",
+        "recording_id": "kartaview_6315033",
+        "frame_id": 178,
+        "width": 3840,
+        "height": 2160,
+        "sha256": "e21f0aad1482c686d8c00c156018ced599944c8982b24a9510f30068443748eb",
+        "app_scene": "92232b13f6848ac14983955d"
+      },
+      "expected": "clarify",
+      "visible_evidence": "The white van occupies the shop-front bay, the adjoining pink island is raised sidewalk, and the set of marked spaces farther ahead is also occupied.",
+      "reference_polygons_1000": [],
+      "arms": {
+        "release": {
+          "grade": "correct_withhold",
+          "state": "needs_clarification",
+          "point_px": null,
+          "reason": "no_visible_parking_surface",
+          "method": "trained_qwen_place_with_parking_surface_v3",
+          "error_code": null,
+          "model_stages": [],
+          "signed_place_replay": true,
+          "journal_sha256_at_first_turn": "b0b92431f79eb961b3d9e7e6218f71efdc286115c34a07ee6ed41e2b0a65c429"
+        },
+        "challenger": {
+          "grade": "correct_withhold",
+          "state": "needs_clarification",
+          "point_px": null,
+          "reason": "no_visible_parking_surface",
+          "method": "trained_qwen_place_landmark_then_marked_bay_v2",
+          "error_code": null,
+          "model_stages": [],
+          "signed_place_replay": true,
+          "journal_sha256_at_first_turn": "aa3ec2e09e57dad94ed236207fd7ee7ef83b82e0925100943b85a1e429d94625"
+        }
+      }
+    },
+    {
+      "id": "reserve-08",
+      "caption": "White building parking strip",
+      "request": "Could you let me out on the pale parking strip along the white building on the right?",
+      "source": {
+        "url": "https://kartaview.org/details/4572137/14/",
+        "metadata": "https://api.kartaview.org/2.0/photo/1438900025",
+        "recording_id": "kartaview_4572137",
+        "frame_id": 14,
+        "width": 3264,
+        "height": 1836,
+        "sha256": "98dbfd42cf22eab79bff24cbf227cdefb7663b12c0d7d1014569642f067adfbd",
+        "app_scene": "b8faeaf1196af1cb5c4e435f"
+      },
+      "expected": "propose",
+      "visible_evidence": "The white building has a continuous recessed brick vehicle-parking strip. Two patches are visible, one between the two parked vehicles and one on the far side of the dark vehicle. The polygons exclude the vehicles, asphalt traffic lane and raised edge.",
+      "reference_polygons_1000": [
+        [
+          [
+            688,
+            575
+          ],
+          [
+            720,
+            568
+          ],
+          [
+            756,
+            558
+          ],
+          [
+            792,
+            556
+          ],
+          [
+            806,
+            546
+          ],
+          [
+            819,
+            548
+          ],
+          [
+            822,
+            573
+          ],
+          [
+            818,
+            601
+          ],
+          [
+            818,
+            610
+          ],
+          [
+            766,
+            604
+          ],
+          [
+            731,
+            594
+          ],
+          [
+            691,
+            582
+          ]
+        ],
+        [
+          [
+            557,
+            529
+          ],
+          [
+            574,
+            522
+          ],
+          [
+            601,
+            521
+          ],
+          [
+            608,
+            535
+          ],
+          [
+            613,
+            551
+          ],
+          [
+            600,
+            550
+          ],
+          [
+            577,
+            541
+          ]
+        ]
+      ],
+      "arms": {
+        "release": {
+          "grade": "missed_visible",
+          "state": "needs_clarification",
+          "point_px": null,
+          "reason": "no_visible_parking_surface",
+          "method": "trained_qwen_place_with_parking_surface_v3",
+          "error_code": null,
+          "model_stages": [],
+          "signed_place_replay": true,
+          "journal_sha256_at_first_turn": "873c060f7c494178ac8ec024c966f36c354d13adb4930ca5bf008fb1a1b522ad"
+        },
+        "challenger": {
+          "grade": "missed_visible",
+          "state": "needs_clarification",
+          "point_px": null,
+          "reason": "no_visible_parking_surface",
+          "method": "trained_qwen_place_landmark_then_marked_bay_v2",
+          "error_code": null,
+          "model_stages": [],
+          "signed_place_replay": true,
+          "journal_sha256_at_first_turn": "f7b9ba5c10f6796586456d59da9cdd1b13ff78975ed8ad16b37c5b9b7b5794a0"
+        }
+      },
+      "scripted_correction": {
+        "first_state": "needs_clarification",
+        "first_method": "trained_qwen_place_with_parking_surface_v3",
+        "first_seconds": 4.71,
+        "request_box": [
+          2588,
+          1060,
+          2602,
+          1074
+        ],
+        "point": [
+          2597.8125,
+          1067.8125
+        ],
+        "actor": "passenger",
+        "inside": true,
+        "final": "confirmed",
+        "journal_sha256": "e1ba13faeb0d2ed9566000d2dc9a8f48cbf430662d2e7a7705c8dccaeece6929",
+        "invalid_confirmation_http": 409
+      }
+    }
+  ],
+  "diagnosis": {
+    "first": [
+      {
+        "id": "field-04",
+        "request": "Could you let me out in the parking spaces on the right by the roundabout?",
+        "reason": "location_blocked",
+        "offered": {
+          "parking": {
+            "all": 6,
+            "inside": [
+              2,
+              3,
+              4,
+              5,
+              6
+            ]
+          },
+          "curb": {
+            "all": 0,
+            "inside": []
+          }
+        },
+        "inside_classes_pct": {
+          "10": 55.8,
+          "15": 35.8,
+          "2": 7.3,
+          "24": 1.1
+        },
+        "receipts": [
+          [
+            "choose",
+            "5"
+          ],
+          [
+            "check",
+            "BLOCKED"
+          ]
+        ]
+      },
+      {
+        "id": "field-05",
+        "request": "Please let me out by the yellow skip on the right.",
+        "reason": "no_matching_curb_place",
+        "offered": {
+          "parking": {
+            "all": 0,
+            "inside": []
+          },
+          "curb": {
+            "all": 1,
+            "inside": []
+          }
+        },
+        "inside_classes_pct": {
+          "13": 74.1,
+          "2": 19.9,
+          "29": 4.9,
+          "24": 1.1
+        },
+        "receipts": [
+          [
+            "curb_layout",
+            "APRON"
+          ],
+          [
+            "curb_choose",
+            "NONE"
+          ]
+        ]
+      },
+      {
+        "id": "field-06",
+        "request": "I'd like to get out at the Mercure hotel entrance on the right.",
+        "reason": "no_visible_curb_ground",
+        "offered": {
+          "parking": {
+            "all": 0,
+            "inside": []
+          },
+          "curb": {
+            "all": 0,
+            "inside": []
+          }
+        },
+        "inside_classes_pct": {
+          "13": 88.8,
+          "24": 6.2,
+          "2": 4.8,
+          "10": 0.1
+        },
+        "receipts": []
+      },
+      {
+        "id": "field-07",
+        "request": "Could you drop me off by the St Regis entrance on the right?",
+        "reason": "visible_parking_point",
+        "offered": {
+          "parking": {
+            "all": 2,
+            "inside": []
+          },
+          "curb": {
+            "all": 2,
+            "inside": []
+          }
+        },
+        "inside_classes_pct": {
+          "15": 96.9,
+          "2": 2.3,
+          "45": 0.3,
+          "10": 0.3,
+          "41": 0.2
+        },
+        "receipts": [
+          [
+            "choose",
+            "2"
+          ],
+          [
+            "check",
+            "MATCH"
+          ]
+        ]
+      }
+    ],
+    "reserve": [
+      {
+        "id": "reserve-02",
+        "request": "Please let me out beside the orange parking sign on the right.",
+        "reason": "no_visible_parking_surface",
+        "offered": {
+          "parking": {
+            "all": 0,
+            "inside": []
+          },
+          "curb": {
+            "all": 0,
+            "inside": []
+          }
+        },
+        "inside_classes_pct": {
+          "13": 86.1,
+          "36": 10.4,
+          "24": 2.0,
+          "41": 1.5
+        },
+        "receipts": []
+      },
+      {
+        "id": "reserve-05",
+        "request": "Could you let me out by the yellow forklift on the right?",
+        "reason": "no_visible_parking_surface",
+        "offered": {
+          "parking": {
+            "all": 0,
+            "inside": []
+          },
+          "curb": {
+            "all": 1,
+            "inside": [
+              1
+            ]
+          }
+        },
+        "inside_classes_pct": {
+          "13": 100.0
+        },
+        "receipts": []
+      },
+      {
+        "id": "reserve-06",
+        "request": "Could you let me out on the driveway of the first arched villa on the left?",
+        "reason": "resource_unavailable",
+        "offered": null,
+        "inside_classes_pct": null,
+        "receipts": []
+      },
+      {
+        "id": "reserve-08",
+        "request": "Could you let me out on the pale parking strip along the white building on the right?",
+        "reason": "no_visible_parking_surface",
+        "offered": {
+          "parking": {
+            "all": 0,
+            "inside": []
+          },
+          "curb": {
+            "all": 2,
+            "inside": []
+          }
+        },
+        "inside_classes_pct": {
+          "10": 93.4,
+          "24": 2.9,
+          "55": 1.8,
+          "15": 1.2,
+          "23": 0.7,
+          "17": 0.0
+        },
+        "receipts": []
+      }
+    ]
+  },
+  "vehicle_regression": {
+    "archived_two_vehicle_decisions_replayed": 33,
+    "distinct_source_photos": 25,
+    "archived_language_calls": 68,
+    "new_gpu_calls": 0
+  },
+  "browser": {
+    "mobile": {
+      "mode": "uploaded WAV and touch",
+      "scene": "8a32b5b5965ebf8299cc1343",
+      "actions": [
+        "sessions",
+        "begin-audio",
+        "audio",
+        "submit",
+        "area",
+        "cancel"
+      ],
+      "results": [
+        {
+          "action": "submit",
+          "state": "needs_clarification",
+          "selected_by": "model",
+          "point": null
+        },
+        {
+          "action": "area",
+          "state": "needs_clarification",
+          "selected_by": "passenger",
+          "point": null
+        }
+      ],
+      "errors": [],
+      "preview_post_requests": 0,
+      "scripted": true
+    },
+    "desktop": {
+      "mode": "typed and mouse, keyboard",
+      "scene": "6ccefa5974ed735c050df095",
+      "actions": [
+        "sessions",
+        "submit",
+        "area",
+        "confirm"
+      ],
+      "results": [
+        {
+          "action": "submit",
+          "state": "needs_clarification",
+          "selected_by": "model",
+          "point": null
+        },
+        {
+          "action": "area",
+          "state": "proposed",
+          "selected_by": "passenger",
+          "point": [
+            2291.25,
+            1781.25
+          ]
+        },
+        {
+          "action": "confirm",
+          "state": "confirmed",
+          "selected_by": "passenger",
+          "point": [
+            2291.25,
+            1781.25
+          ]
+        }
+      ],
+      "errors": [],
+      "preview_post_requests": 0,
+      "scripted": true
+    }
+  },
+  "actual_replaced_proposal": {
+    "id": "field-07",
+    "first_state": "proposed",
+    "actual_prior_offer": true,
+    "http_for_actual_prior_offer": 409,
+    "confirmed_actor": "passenger",
+    "new_point": [
+      1661.25,
+      1091.25
+    ]
+  },
+  "recovery_verified": {
+    "all_signed_first_turns_replayed": 8,
+    "all_actual_road_masks_replayed": 8,
+    "assisted_confirmed_inside": 8,
+    "first_turn_correct_pins": 0
+  }
+}

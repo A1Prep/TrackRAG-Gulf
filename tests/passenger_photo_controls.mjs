@@ -29,6 +29,23 @@ for (const displayWidth of [320,375,1000,1800]) {
 }
 assert.equal(positionWords([3800,2000],3840,2160), "lower right");
 
+// Direct marking opens a local draft. A keyboard or assistive activation has no screen coordinate.
+const handlers = {}, canvasEvents = {addEventListener:(name,fn)=>{handlers[name]=fn;}};
+const controls = new PhotoTools(canvasEvents, {addEventListener(){}}, ()=>{}, ()=>false, {open:false});
+const drafts = [];
+controls.point = () => [400,250];
+controls.begin = (...args) => drafts.push(args);
+controls.quickMark = true;
+handlers.click({button:0,detail:1});
+handlers.click({button:0,detail:0});
+controls.key({key:"Enter",preventDefault(){}});
+assert.deepEqual(drafts, [[[400,250],true],[],[]]);
+controls.quickMark = false;
+handlers.click({button:0,detail:1});
+controls.quickMark = true; controls.locked = () => true;
+handlers.click({button:0,detail:1});
+assert.equal(drafts.length,3);
+
 // On the furniture-store photo, five vehicle detections overlap the estimated region.
 // Its pin is the only part checked against the road mask.
 const savedPoint = [2958.75,1983.75];

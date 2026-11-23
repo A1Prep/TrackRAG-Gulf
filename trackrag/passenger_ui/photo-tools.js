@@ -49,6 +49,11 @@ export class PhotoTools {
     this.locked = locked; this.pairs = pairPicker;
     this.zoom = 0; this.reset();
     canvas.addEventListener("pointerdown", e => this.pointerDown(e));
+    canvas.addEventListener("click", e => {
+      if (!this.quickMark || e.button !== 0 || this.locked()) return;
+      if (e.detail > 0) this.begin(this.point(e), true);
+      else this.begin();
+    });
     canvas.addEventListener("pointermove", e => {
       if (this.start && e.isPrimary && !this.locked()) this.updateBox(this.point(e), false);
     });
@@ -108,8 +113,9 @@ export class PhotoTools {
     this.canvas.focus({preventScroll:true});
     this.viewport.scrollIntoView({block:"nearest"});
   }
-  begin(point) {
+  begin(point, placeMark = false) {
     this.reset(); this.active = true; this.cursor = point || this.viewCenter();
+    if (placeMark) this.box = this.tapBox(this.cursor);
     this.canvas.tabIndex = 0; this.refresh(); this.focusPhoto();
   }
   point(e) {
@@ -140,7 +146,11 @@ export class PhotoTools {
     this.refresh();
   }
   key(e) {
-    if (!this.active || this.locked() || e.ctrlKey || e.metaKey || e.altKey) return;
+    if (this.locked() || e.ctrlKey || e.metaKey || e.altKey) return;
+    if (this.quickMark && (e.key === "Enter" || e.key === " ")) {
+      e.preventDefault(); this.begin(); return;
+    }
+    if (!this.active) return;
     if (e.key === "Escape") { e.preventDefault(); document.getElementById("discard-box").click(); return; }
     if (this.panning) return;
     if (["Enter", " "].includes(e.key)) {
@@ -156,7 +166,7 @@ export class PhotoTools {
     if (this.zoom) this.centerOn(this.cursor);
     this.refresh();
   }
-  controls(ready, busy, overlayLabel) {
+  controls(ready, busy, overlayLabel, offerMark = false) {
     const get = id => document.getElementById(id);
     get("zoom-in").disabled = !ready || this.zoom === steps.length-1;
     get("zoom-out").disabled = !ready || this.zoom === 0;
@@ -168,8 +178,11 @@ export class PhotoTools {
     this.viewport.classList.toggle("pan-view", this.zoom > 0 && !this.pairs.open && (!this.active || this.panning));
     this.canvas.classList.toggle("drawing", this.active && !this.panning);
     this.canvas.classList.toggle("choosing-pair", this.pairs.open);
-    this.canvas.setAttribute("role", this.active ? "application" : "img");
-    this.canvas.setAttribute("aria-label", this.active ? "Mark your spot on the road photo" : overlayLabel);
+    this.quickMark = offerMark && ready && !busy && !this.active && !this.pairs.open && this.zoom === 0;
+    this.canvas.classList.toggle("quick-mark", this.quickMark);
+    this.canvas.tabIndex = this.active || this.quickMark ? 0 : -1;
+    this.canvas.setAttribute("role", this.active ? "application" : this.quickMark ? "button" : "img");
+    this.canvas.setAttribute("aria-label", this.active || this.quickMark ? "Mark your spot on the road photo" : overlayLabel);
     this.canvas.setAttribute("aria-describedby", this.active ? "mark-help mark-position" : "legend status");
     get("draw-tools").hidden = !this.active;
     get("use-box").disabled = busy || !ready || !this.box || this.panning;

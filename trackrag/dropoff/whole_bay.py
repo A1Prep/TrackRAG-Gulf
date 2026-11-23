@@ -288,6 +288,10 @@ def select_mark(request, box):
             from . import vehicle_ground_reference
             vehicle_mark = vehicle_ground_reference.available(clean, data, packet, mark)
             if vehicle_mark is not None:
+                if (vehicle_mark['provenance'].get('explicit_passenger_ground')
+                        and vehicle_ground_reference.mark_agrees_with_bay(clean, vehicle_mark, bay)
+                        and not vehicle_ground_reference.direct_reference(clean).get('qualified')):
+                    return bay
                 if vehicle_mark['provenance']['bay_choices']:
                     return vehicle_mark
                 if vehicle_ground_reference.mark_agrees_with_bay(clean, vehicle_mark, bay):
@@ -815,11 +819,14 @@ def verify(request, outcome, *, requested_box=None):
     elif source.get('vehicle_ground_policy') is not None:
         from . import vehicle_ground_reference, vehicle_ground_view
         if (policy != CLEARANCE_POLICY or language is not None or source['vehicle_ground_policy'] != vehicle_ground_view.RECIPE
+                or source.get('vehicle_relation_policy') not in (None,vehicle_ground_reference.RELATION_POLICY)
                 or method not in {AUTO, MARK} or (method == MARK) != (requested_box is not None)):
             raise ValueError('The vehicle and ground must match the original request and mark.')
         expected = vehicle_ground_reference.outcome(request, photo, source['surface_evidence'],
                                                     source['vehicle_observation'], requested_box,
-                                                    qualifier_packets=source.get('vehicle_qualifier_evidence'))
+                                                    qualifier_packets=source.get('vehicle_qualifier_evidence'),
+                                                    earlier_vehicle=source.get('earlier_vehicle_observation'),
+                                                    expanded=source.get('vehicle_relation_policy') is not None)
     elif source.get("divider_policy") is not None:
         from . import parking_divider_choice
         if (method!=MARK or requested_box is None or policy!=CLEARANCE_POLICY

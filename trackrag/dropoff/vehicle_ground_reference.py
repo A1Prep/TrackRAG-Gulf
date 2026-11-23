@@ -9,16 +9,19 @@ from . import bay_intent, manual_offlane, manual_surfaces, single_vehicle, vehic
 from . import vehicle_ground_view as view, vehicle_reference_qualifiers as qualifiers
 from .bay_packets import read_photo_packet
 from .parking_evidence import _authenticate, source_input
+from .passenger import digest, unresolved
 
 
 BANK = Path(__file__).resolve().parents[2] / 'experiments/dropoff/passenger-vehicle-reference-views-v1.zip'
 MODEL = 'Qwen/Qwen3.6-35B-A3B-FP8'
 REVISION = 'c653bba46dfa06e9658dcc0b0dc87fe4685f14a2'
 CHOICE_REASON = 'choose_observed_ground_behind_vehicle'
+RELATION_POLICY = 'separate_vehicle_and_measured_destination_v2'
+NO_READING = 'passenger_vehicle_reading_unavailable_v1'
 
 
-def direct_reference(request):
-    qualified = qualifiers.parse(request)
+def direct_reference(request, *, expanded=True):
+    qualified = qualifiers.parse(request) if expanded else qualifiers.parse(request, expanded=False)
     if qualified is not None:
         return qualified
     text = request['text'].lower()
@@ -98,14 +101,27 @@ def mark_agrees_with_bay(request, vehicle_mark, bay):
     return aligned([(x0+x1)/2, (y0+y1)/2]) and aligned(bay['result']['destination_point_xy'])
 
 
-def decision(request, ref, specs, answers, classes, mark=None, *, observations=()):
+def decision(request, ref, specs, answers, classes, mark=None, *, observations=(), expanded=True):
     """Return the anchor(s), independently observed ground, and a passenger-facing decision."""
     scene = request['scene']
     frame = scene['frame']
     size = (frame['width'], frame['height'])
     if ref.get('qualified'):
-        matches, boxes, question = qualifiers.resolve(request, ref, specs, answers, observations=observations)
+        matches, boxes, question = qualifiers.resolve(request, ref, specs, answers, observations=observations, expanded=expanded)
         if question:
+            if expanded and mark is not None:
+                cx = (mark[0]+mark[2])/2
+                cy = (mark[1]+mark[3])/2
+                checked, detail = manual_offlane.surface_check(frame, scene['tracks'], mark, [cx,cy], classes)
+                cell = detail.get('center_class_id')
+                if checked in {'observed_object','broad_area'}:
+                    question = manual_offlane.QUESTIONS[checked]
+                elif cell in {8,23}:
+                    question = manual_offlane.QUESTIONS['pedestrian_crossing']
+                elif cell in {2,15}:
+                    question = 'Your mark falls on the curb or footpath. I can’t verify vehicle access there. Could you choose another visible area?'
+                else:
+                    question = 'I checked the spot you marked. I can’t verify a separate open parking area there. Could you choose another visible area?'
             return boxes, [], 'vehicle_seen_space_withheld' if boxes else 'vehicle_reference_unmatched', question
     else:
         matches = _matching(specs, answers, ref, size[0])
@@ -154,9 +170,58 @@ def decision(request, ref, specs, answers, classes, mark=None, *, observations=(
     return boxes, [_option(spec)], CHOICE_REASON, question+' The photo doesn’t show how much room a vehicle would have.'
 
 
-def outcome(request, photo, surface, packet, mark=None, *, qualifier_packets=None):
+def _explicit_ground(scene, classes, mark, center):
+    from . import bay_clearance
+    frame = scene['frame']
+    reason, detail = manual_offlane.surface_check(frame, scene['tracks'], mark, center, classes)
+    if reason != 'parking':
+        return None
+    road = bay_clearance.visible_road_component(classes)
+    x, y = detail['center_cell_xy']
+    if road is None or not road[y,x]:
+        return None
+    # The selection authorizes only the actual mark. Its extent says nothing about vehicle clearance.
+    left, top, right, bottom = mark
+    return {'point':center, 'box':mark, 'polygon':[[left,top],[right,top],[right,bottom],[left,bottom]],
+            'evidence':{'recipe':RELATION_POLICY, 'coverage':'interior_point_only'}}
+
+
+def _previously_observed_rear(request, photo, surface, earlier, specs, answers, boxes):
+    """Reconcile two visual readings of the same point using an independently measured stall."""
+    from . import bay_clearance, vehicle_relative_bays, whole_bay
+    if len(boxes) != 1:
+        return None
+    matches = [(s, a) for s, a in zip(specs, answers, strict=True) if s['box'] == boxes[0]]
+    if len(matches) != 1:
+        return None
+    spec, reading = matches[0]
+    frame = request['scene']['frame']
+    if (not spec['ground'] or reading[2] != 'REAR' or reading[3] not in {'UNCLEAR','LANE'}
+            or not single_vehicle.visible_vehicle_end(spec['box'], (frame['width'], frame['height']))):
+        return None
+    replay = single_vehicle.outcome(request, photo, earlier)['result']
+    point = replay.get('destination_point_xy')
+    if (replay['status'] != 'proposed' or replay['anchor_boxes_xyxy'] != boxes
+            or not np.allclose(point, spec['ground']['point'], rtol=0, atol=1)):
+        return None
+    clean, _, classes, stalls = whole_bay._layout(request, photo, surface)
+    stalls = whole_bay._with_rows(clean, photo, surface, stalls, whole_bay.CLEARANCE_POLICY)
+    road = bay_clearance.visible_road_component(classes)
+    if road is None:
+        return None
+    supported = [o for o in stalls if vehicle_relative_bays.is_complete(o)
+                 and cv2.pointPolygonTest(np.float32(o['polygon']), tuple(point), False) == 1
+                 and bay_clearance.on_visible_road(o, road, frame)]
+    if len(supported) != 1:
+        return None
+    option = _option(spec)
+    return option, ('I found the vehicle and a marked bay behind it. The image checks disagree about the lane edge. '
+                    'Is the highlighted point where you meant? The driver still needs to check the available room.')
+
+
+def outcome(request, photo, surface, packet, mark=None, *, qualifier_packets=None, earlier_vehicle=None, expanded=True):
     from . import whole_bay
-    ref = direct_reference(request)
+    ref = direct_reference(request, expanded=expanded)
     if ref is None:
         return None
     clean, photo_sha, portable = source_input(request, photo)
@@ -178,6 +243,8 @@ def outcome(request, photo, surface, packet, mark=None, *, qualifier_packets=Non
     center = None
     evidence = {'clearance_policy':whole_bay.CLEARANCE_POLICY, 'vehicle_ground_policy':view.RECIPE,
                 'vehicle_observation':packet}
+    if expanded:
+        evidence['vehicle_relation_policy'] = RELATION_POLICY
     observations = []
     if ref.get('qualified'):
         qualifier_packets = qualifier_packets if qualifier_packets is not None else qualifiers.packets_for(photo_sha)
@@ -186,7 +253,23 @@ def outcome(request, photo, surface, packet, mark=None, *, qualifier_packets=Non
     if mark is not None:
         clean, _, mark, center = manual_offlane.mark_input(clean, mark)
         evidence['selected_box'] = mark
-    boxes, options, reason, question = decision(clean, ref, specs, answers, classes, mark, observations=observations)
+    boxes, options, reason, question = decision(clean, ref, specs, answers, classes, mark, observations=observations, expanded=expanded)
+    if (expanded and not options and mark is None and earlier_vehicle is not None
+            and ref['relation'] == 'behind' and not ref.get('qualified')):
+        supported = _previously_observed_rear(clean, photo, surface, earlier_vehicle, specs, answers, boxes)
+        if supported is not None:
+            option, question = supported
+            options, reason = [option], CHOICE_REASON
+            evidence['earlier_vehicle_observation'] = earlier_vehicle
+    if expanded and mark is not None and not options:
+        from . import vehicle_relative_bays
+        marked = _explicit_ground(clean['scene'], classes, mark, center)
+        if marked is not None and not vehicle_relative_bays.restricted_instruction(clean['text']):
+            options = [marked]
+            reason = CHOICE_REASON
+            question = ('I can see open parking pavement at your exact mark. I couldn’t verify its position '
+                        'relative to the vehicle you described. Do you want to use the spot you marked?')
+            evidence['explicit_passenger_ground'] = True
     if mark is not None and ref['relation'] == 'behind':
         frame = clean['scene']['frame']
         evidence['visible_rear_boxes'] = [s['box'] for s, a in zip(specs, answers, strict=True)
@@ -199,7 +282,7 @@ def outcome(request, photo, surface, packet, mark=None, *, qualifier_packets=Non
     return answer
 
 
-def available(request, photo=None, surface=None, mark=None):
+def available(request, photo=None, surface=None, mark=None, *, earlier_vehicle=None):
     if not direct_reference(request):
         return None
     key = request['scene']['provenance'].get('image_sha256')
@@ -211,4 +294,24 @@ def available(request, photo=None, surface=None, mark=None):
         return None
     if photo is None:
         photo = Path(request['scene']['frame']['image_path']).read_bytes()
-    return outcome(request, photo, surface, packet, mark)
+    try:
+        return outcome(request, photo, surface, packet, mark, earlier_vehicle=earlier_vehicle)
+    except (KeyError, TypeError, ValueError, OSError):
+        return None
+
+
+def unavailable(request):
+    if direct_reference(request) is None:
+        raise ValueError('An explicit vehicle reference is required.')
+    frame = request['scene']['frame']
+    clean, sha, portable = source_input(request, Path(frame['image_path']).read_bytes())
+    return {'ok':True, 'request_id':clean['request_id'],
+            'result':unresolved('I don’t have a verified view of that vehicle here. Could you mark the ground you meant so I can check that spot?'),
+            'provenance':{'method':NO_READING, 'reason':'vehicle_reading_unavailable', 'image':{'sha256':sha},
+                          'request_sha256':digest(clean), 'inference_input_sha256':portable, 'independent_model_proposal':False}}
+
+
+def verify_unavailable(request, result):
+    if unavailable(request) != result:
+        raise ValueError('The unavailable vehicle reading differs from the original instruction or photograph.')
+    return {'input_verified':True, 'decision_reproduced':True, 'independent_model_proposal':False}

@@ -357,6 +357,9 @@ class InteractionController:
 
 def signed_place_verifier(method, *, live=False):
     """Replay recorded decisions. A new offer or confirmation must also pass today's model policy."""
+    if method == 'passenger_vehicle_reading_unavailable_v1':
+        from .vehicle_ground_reference import verify_unavailable
+        return verify_unavailable
     if method == "public_painted_bay_landmark_v1":
         from . import whole_bay
         return whole_bay.verify_current if live else whole_bay.verify
@@ -447,7 +450,7 @@ class PassengerSession:
                 bay["bay_outline"] = receipt["provenance"]["bay_outline"]
             if self._bay_menu is not None:
                 bay["bay_choices"] = self._bay_menu[0]["provenance"]["bay_choices"]
-                if self._bay_menu[0]['provenance'].get('vehicle_ground_policy'):
+                if self._bay_menu[0]['provenance'].get('vehicle_ground_policy') and self._result.get('anchor_boxes_xyxy'):
                     bay['vehicle_ground_choice'] = True
                 if self._bay_menu[0]["provenance"]["reason"] in {"unverified_bay_reference", "passenger_choice_of_observed_alternative", "choose_observed_ground_behind_vehicle"}:
                     bay["bay_reference_uncertain"] = True

@@ -1,0 +1,1552 @@
+{
+  "scope": "Availability diagnostic for original public gallery photographs. For each distinct readable body type and colour observed by the neutral Qwen vehicle inspection in a scene, replay a simple behind request through the basic vehicle/ground decision. These machine-derived prompts describe feature coverage, without independent labels for truth or clearance. Legacy and additional measured-bay routes are excluded from these counts.",
+  "total_original_public_photos": 81,
+  "photos_with_zero_candidates_under_earlier_rear_patch_check": 48,
+  "photos_with_neutral_vehicle_readings": 72,
+  "neutral_vehicle_readings": 239,
+  "unique_within_photo_type_colour_prompts": 203,
+  "responses": {
+    "reference_only": 171,
+    "ambiguous": 31,
+    "choice": 1
+  },
+  "photos_per_response": {
+    "reference_only": 68,
+    "ambiguous": 27,
+    "choice": 1
+  },
+  "photos": [
+    {
+      "recording": "kartaview_1258531",
+      "frame": 39,
+      "source": "976a275111769a8fbd066f25a3b6fd2b231dc7ddf5a42d6d6bfd2f74233b09a0",
+      "earlier_rear_patches": 0,
+      "prominent_vehicles": 4,
+      "behind_questions": [
+        {
+          "reference": "black sedan",
+          "outcome": "reference_only"
+        },
+        {
+          "reference": "silver sedan",
+          "outcome": "reference_only"
+        },
+        {
+          "reference": "white sedan",
+          "outcome": "reference_only"
+        },
+        {
+          "reference": "white suv",
+          "outcome": "reference_only"
+        }
+      ]
+    },
+    {
+      "recording": "kartaview_980209",
+      "frame": 34,
+      "source": "a8cb3c5926766d950eca0588e6bdd178e72026f07d5710f027d2e695d6628de2",
+      "earlier_rear_patches": 4,
+      "prominent_vehicles": 4,
+      "behind_questions": [
+        {
+          "reference": "black sedan",
+          "outcome": "reference_only"
+        },
+        {
+          "reference": "cream pickup",
+          "outcome": "reference_only"
+        },
+        {
+          "reference": "white suv",
+          "outcome": "reference_only"
+        },
+        {
+          "reference": "white truck",
+          "outcome": "reference_only"
+        }
+      ]
+    },
+    {
+      "recording": "kartaview_5139785",
+      "frame": 165,
+      "source": "6ae04a49e1e911130e5786a75ed4b74e54aaaec98e873f57b1c2faf24bc82ae8",
+      "earlier_rear_patches": 1,
+      "prominent_vehicles": 4,
+      "behind_questions": [
+        {
+          "reference": "silver sedan",
+          "outcome": "ambiguous"
+        },
+        {
+          "reference": "white truck",
+          "outcome": "ambiguous"
+        }
+      ]
+    },
+    {
+      "recording": "kartaview_5124937",
+      "frame": 12,
+      "source": "c4d59cba6fe27a9aa31b27decb3b5c5dd40945ef3e8a89865f325b307e577411",
+      "earlier_rear_patches": 3,
+      "prominent_vehicles": 4,
+      "behind_questions": [
+        {
+          "reference": "cream van",
+          "outcome": "reference_only"
+        },
+        {
+          "reference": "gray suv",
+          "outcome": "reference_only"
+        },
+        {
+          "reference": "silver sedan",
+          "outcome": "reference_only"
+        },
+        {
+          "reference": "silver suv",
+          "outcome": "reference_only"
+        }
+      ]
+    },
+    {
+      "recording": "kartaview_6951113",
+      "frame": 266,
+      "source": "cc939b757441dcbe24cde9101ad577d60ceda970abc67a2a57498fe06648dd0e",
+      "earlier_rear_patches": 0,
+      "prominent_vehicles": 4,
+      "behind_questions": [
+        {
+          "reference": "black suv",
+          "outcome": "reference_only"
+        },
+        {
+          "reference": "white suv",
+          "outcome": "reference_only"
+        },
+        {
+          "reference": "white van",
+          "outcome": "ambiguous"
+        }
+      ]
+    },
+    {
+      "recording": "kartaview_3329429",
+      "frame": 213,
+      "source": "5b635a7c2e4f7eebd4ae50b91b725fd9054bf7b41bda28248e36e5bfa0de7e5b",
+      "earlier_rear_patches": 1,
+      "prominent_vehicles": 2,
+      "behind_questions": [
+        {
+          "reference": "blue sedan",
+          "outcome": "reference_only"
+        },
+        {
+          "reference": "white sedan",
+          "outcome": "reference_only"
+        }
+      ]
+    },
+    {
+      "recording": "kartaview_3336817",
+      "frame": 14,
+      "source": "e42cb766f40a42ac9ccd31bb27d446371bf7972f721883fb64c315713baa5f6f",
+      "earlier_rear_patches": 5,
+      "prominent_vehicles": 3,
+      "behind_questions": [
+        {
+          "reference": "red truck",
+          "outcome": "reference_only"
+        },
+        {
+          "reference": "silver suv",
+          "outcome": "reference_only"
+        },
+        {
+          "reference": "white sedan",
+          "outcome": "reference_only"
+        }
+      ]
+    },
+    {
+      "recording": "kartaview_5331945",
+      "frame": 29,
+      "source": "cb01925b9b3beb0377212524b9c02680e777d1371536dc0c373b0a7809eb533a",
+      "earlier_rear_patches": 2,
+      "prominent_vehicles": 4,
+      "behind_questions": [
+        {
+          "reference": "gray sedan",
+          "outcome": "reference_only"
+        },
+        {
+          "reference": "silver sedan",
+          "outcome": "ambiguous"
+        },
+        {
+          "reference": "white sedan",
+          "outcome": "reference_only"
+        }
+      ]
+    },
+    {
+      "recording": "kartaview_1129101",
+      "frame": 0,
+      "source": "0dfd8dadbb1ad54388d3ca1c9bb6473aa5eeebf407cb7cbdd7a45ee1b5b0c836",
+      "earlier_rear_patches": 7,
+      "prominent_vehicles": 4,
+      "behind_questions": [
+        {
+          "reference": "black sedan",
+          "outcome": "reference_only"
+        },
+        {
+          "reference": "black suv",
+          "outcome": "reference_only"
+        },
+        {
+          "reference": "cream sedan",
+          "outcome": "reference_only"
+        },
+        {
+          "reference": "white suv",
+          "outcome": "reference_only"
+        }
+      ]
+    },
+    {
+      "recording": "kartaview_5053433",
+      "frame": 0,
+      "source": "7cc82c9152e1c0bada060789698e19b695cba6a92d6dd67efa982eddb1c97965",
+      "earlier_rear_patches": 0,
+      "prominent_vehicles": 4,
+      "behind_questions": [
+        {
+          "reference": "black suv",
+          "outcome": "reference_only"
+        },
+        {
+          "reference": "cream car",
+          "outcome": "reference_only"
+        },
+        {
+          "reference": "silver car",
+          "outcome": "reference_only"
+        },
+        {
+          "reference": "white suv",
+          "outcome": "reference_only"
+        }
+      ]
+    },
+    {
+      "recording": "kartaview_5265705",
+      "frame": 5,
+      "source": "224d70111037d4a1e7931373c27a3f3b3fa8c9eb010ff5774666e68d94a4ef23",
+      "earlier_rear_patches": 0,
+      "prominent_vehicles": 4,
+      "behind_questions": [
+        {
+          "reference": "black sedan",
+          "outcome": "reference_only"
+        },
+        {
+          "reference": "black suv",
+          "outcome": "reference_only"
+        },
+        {
+          "reference": "silver suv",
+          "outcome": "reference_only"
+        },
+        {
+          "reference": "yellow car",
+          "outcome": "reference_only"
+        }
+      ]
+    },
+    {
+      "recording": "kartaview_66350",
+      "frame": 18,
+      "source": "83dfd7edbc1972d742b885c98e8bde7eeb51d37ab0e4c42d246db39c3f133b06",
+      "earlier_rear_patches": 0,
+      "prominent_vehicles": 4,
+      "behind_questions": [
+        {
+          "reference": "black suv",
+          "outcome": "reference_only"
+        },
+        {
+          "reference": "white sedan",
+          "outcome": "reference_only"
+        },
+        {
+          "reference": "white suv",
+          "outcome": "ambiguous"
+        }
+      ]
+    },
+    {
+      "recording": "kartaview_7130313",
+      "frame": 1390,
+      "source": "4e305274bf98f5a5ef5bfbd4224af7bebddcde53657624c3901ed5b7c2b8c15e",
+      "earlier_rear_patches": 2,
+      "prominent_vehicles": 2,
+      "behind_questions": [
+        {
+          "reference": "black sedan",
+          "outcome": "reference_only"
+        },
+        {
+          "reference": "silver sedan",
+          "outcome": "reference_only"
+        }
+      ]
+    },
+    {
+      "recording": "kartaview_7199353",
+      "frame": 2205,
+      "source": "b2b5aeb414b0b52e47f90118b1cb9daa48d61910ce7e1a112a197ce7084245be",
+      "earlier_rear_patches": 5,
+      "prominent_vehicles": 4,
+      "behind_questions": [
+        {
+          "reference": "black sedan",
+          "outcome": "reference_only"
+        },
+        {
+          "reference": "gray suv",
+          "outcome": "reference_only"
+        },
+        {
+          "reference": "silver car",
+          "outcome": "reference_only"
+        },
+        {
+          "reference": "white sedan",
+          "outcome": "reference_only"
+        }
+      ]
+    },
+    {
+      "recording": "kartaview_3051014",
+      "frame": 701,
+      "source": "5b4302a90fad5d86120690fc9857bfe0e7ab7f628922d7d260b97d35990a842c",
+      "earlier_rear_patches": 0,
+      "prominent_vehicles": 4,
+      "behind_questions": [
+        {
+          "reference": "black sedan",
+          "outcome": "reference_only"
+        },
+        {
+          "reference": "cream sedan",
+          "outcome": "reference_only"
+        },
+        {
+          "reference": "white sedan",
+          "outcome": "reference_only"
+        },
+        {
+          "reference": "white suv",
+          "outcome": "reference_only"
+        }
+      ]
+    },
+    {
+      "recording": "kartaview_7120073",
+      "frame": 499,
+      "source": "d0b190d43a9dcfe9a013ae71a0f776494db53901fd70beb8477a8dacdc1763d6",
+      "earlier_rear_patches": 0,
+      "prominent_vehicles": 4,
+      "behind_questions": [
+        {
+          "reference": "black sedan",
+          "outcome": "ambiguous"
+        },
+        {
+          "reference": "black suv",
+          "outcome": "reference_only"
+        },
+        {
+          "reference": "blue pickup",
+          "outcome": "reference_only"
+        }
+      ]
+    },
+    {
+      "recording": "kartaview_6267977",
+      "frame": 1221,
+      "source": "a2f0e3c9a1649193592e0cea6d3107df01599bb7d0aefa5b19a76cc46bff4e55",
+      "earlier_rear_patches": 0,
+      "prominent_vehicles": 1,
+      "behind_questions": [
+        {
+          "reference": "red suv",
+          "outcome": "reference_only"
+        }
+      ]
+    },
+    {
+      "recording": "kartaview_986839",
+      "frame": 1,
+      "source": "528de6137375fa351d4d85d5f25d3eca7b0034c2542983e75c32ad6b1013d2ac",
+      "earlier_rear_patches": 0,
+      "prominent_vehicles": 2,
+      "behind_questions": [
+        {
+          "reference": "cream car",
+          "outcome": "reference_only"
+        },
+        {
+          "reference": "silver suv",
+          "outcome": "reference_only"
+        }
+      ]
+    },
+    {
+      "recording": "kartaview_7199289",
+      "frame": 14,
+      "source": "032ea529fb20fd7fff661a90456ed1875b849aac1df4da73bc6466c1124c9545",
+      "earlier_rear_patches": 0,
+      "prominent_vehicles": 4,
+      "behind_questions": [
+        {
+          "reference": "black car",
+          "outcome": "reference_only"
+        },
+        {
+          "reference": "white car",
+          "outcome": "reference_only"
+        },
+        {
+          "reference": "white pickup",
+          "outcome": "ambiguous"
+        }
+      ]
+    },
+    {
+      "recording": "kartaview_6327417",
+      "frame": 13,
+      "source": "87af60ca411087c3c3217f90120bf1ab3bbaf4369c184e7261ef51fbf18a697d",
+      "earlier_rear_patches": 9,
+      "prominent_vehicles": 4,
+      "behind_questions": [
+        {
+          "reference": "black suv",
+          "outcome": "reference_only"
+        },
+        {
+          "reference": "gray sedan",
+          "outcome": "reference_only"
+        },
+        {
+          "reference": "white sedan",
+          "outcome": "ambiguous"
+        }
+      ]
+    },
+    {
+      "recording": "kartaview_7120169",
+      "frame": 165,
+      "source": "71df6d0a6a705be760e5be20937a2442f9cfaedeed71f3c093d894049bd84724",
+      "earlier_rear_patches": 0,
+      "prominent_vehicles": 4,
+      "behind_questions": [
+        {
+          "reference": "black sedan",
+          "outcome": "reference_only"
+        },
+        {
+          "reference": "gray sedan",
+          "outcome": "reference_only"
+        },
+        {
+          "reference": "red suv",
+          "outcome": "reference_only"
+        }
+      ]
+    },
+    {
+      "recording": "kartaview_7271081",
+      "frame": 72,
+      "source": "918e3e64b7e104fa7e25758e853e712d435ac234349aa802c183f7940c34ea6e",
+      "earlier_rear_patches": 0,
+      "prominent_vehicles": 4,
+      "behind_questions": [
+        {
+          "reference": "cream sedan",
+          "outcome": "reference_only"
+        },
+        {
+          "reference": "gray suv",
+          "outcome": "reference_only"
+        },
+        {
+          "reference": "white sedan",
+          "outcome": "reference_only"
+        },
+        {
+          "reference": "white suv",
+          "outcome": "reference_only"
+        }
+      ]
+    },
+    {
+      "recording": "kartaview_4728505",
+      "frame": 60,
+      "source": "b656dfe867d2d0d43d0b7d109e63e62ac84a0b441c10b8b93391be2f4ddbe60e",
+      "earlier_rear_patches": 0,
+      "prominent_vehicles": 2,
+      "behind_questions": [
+        {
+          "reference": "white suv",
+          "outcome": "reference_only"
+        },
+        {
+          "reference": "yellow bus",
+          "outcome": "reference_only"
+        }
+      ]
+    },
+    {
+      "recording": "kartaview_7199241",
+      "frame": 48,
+      "source": "ed69e5e794d9618bd153a0ea0266dd0a9203b1526c279ec01a0c9c64b2b0124b",
+      "earlier_rear_patches": 1,
+      "prominent_vehicles": 4,
+      "behind_questions": [
+        {
+          "reference": "cream sedan",
+          "outcome": "reference_only"
+        },
+        {
+          "reference": "red sedan",
+          "outcome": "ambiguous"
+        },
+        {
+          "reference": "white sedan",
+          "outcome": "reference_only"
+        }
+      ]
+    },
+    {
+      "recording": "kartaview_444109",
+      "frame": 36,
+      "source": "51b52d8bac8ef5743305426fd4eead308446d04f79fa65ecdd63566bf32d9e5f",
+      "earlier_rear_patches": 5,
+      "prominent_vehicles": 4,
+      "behind_questions": [
+        {
+          "reference": "black suv",
+          "outcome": "reference_only"
+        },
+        {
+          "reference": "silver sedan",
+          "outcome": "reference_only"
+        },
+        {
+          "reference": "white sedan",
+          "outcome": "reference_only"
+        },
+        {
+          "reference": "white suv",
+          "outcome": "reference_only"
+        }
+      ]
+    },
+    {
+      "recording": "kartaview_7271097",
+      "frame": 62,
+      "source": "a07e0ded72bad166579a87adea852f1a5eef11e83e43f11c914388370c5c1e9a",
+      "earlier_rear_patches": 3,
+      "prominent_vehicles": 4,
+      "behind_questions": [
+        {
+          "reference": "gray sedan",
+          "outcome": "reference_only"
+        },
+        {
+          "reference": "silver sedan",
+          "outcome": "reference_only"
+        },
+        {
+          "reference": "white suv",
+          "outcome": "reference_only"
+        },
+        {
+          "reference": "white van",
+          "outcome": "reference_only"
+        }
+      ]
+    },
+    {
+      "recording": "kartaview_5231529",
+      "frame": 132,
+      "source": "78e265faad2f94bbfe80c56cb7f4b33723340268cfb9a4f5829145f69ee06c3a",
+      "earlier_rear_patches": 0,
+      "prominent_vehicles": 2,
+      "behind_questions": [
+        {
+          "reference": "silver suv",
+          "outcome": "reference_only"
+        },
+        {
+          "reference": "white sedan",
+          "outcome": "reference_only"
+        }
+      ]
+    },
+    {
+      "recording": "kartaview_7130313",
+      "frame": 1395,
+      "source": "3ed141c2c0b33754e2ee822ec16e1c1ed1c713dbd29b16e94acde77b950c6af8",
+      "earlier_rear_patches": 2,
+      "prominent_vehicles": 2,
+      "behind_questions": [
+        {
+          "reference": "black suv",
+          "outcome": "reference_only"
+        },
+        {
+          "reference": "white sedan",
+          "outcome": "reference_only"
+        }
+      ]
+    },
+    {
+      "recording": "kartaview_3849837",
+      "frame": 74,
+      "source": "a85ff634bcd205e61948238e8201d2f78e50b2cc517a7d1d4516250072ec52e8",
+      "earlier_rear_patches": 0,
+      "prominent_vehicles": 4,
+      "behind_questions": [
+        {
+          "reference": "brown truck",
+          "outcome": "ambiguous"
+        },
+        {
+          "reference": "white bus",
+          "outcome": "reference_only"
+        },
+        {
+          "reference": "white suv",
+          "outcome": "reference_only"
+        }
+      ]
+    },
+    {
+      "recording": "kartaview_5231497",
+      "frame": 102,
+      "source": "ab05db00759062595063f27d3aff5b608c323d62872429ac596fd2fcf07ee8b3",
+      "earlier_rear_patches": 1,
+      "prominent_vehicles": 4,
+      "behind_questions": [
+        {
+          "reference": "blue sedan",
+          "outcome": "reference_only"
+        },
+        {
+          "reference": "cream car",
+          "outcome": "reference_only"
+        },
+        {
+          "reference": "silver suv",
+          "outcome": "reference_only"
+        },
+        {
+          "reference": "white suv",
+          "outcome": "reference_only"
+        }
+      ]
+    },
+    {
+      "recording": "kartaview_5204489",
+      "frame": 936,
+      "source": "4b839f186c8365013c4db4087373e1b3fa26dba12777e34b32e4fd34d7c87d27",
+      "earlier_rear_patches": 9,
+      "prominent_vehicles": 4,
+      "behind_questions": [
+        {
+          "reference": "silver sedan",
+          "outcome": "ambiguous"
+        }
+      ]
+    },
+    {
+      "recording": "kartaview_7168777",
+      "frame": 1211,
+      "source": "6c09f8965a7203ca86f42d18d4b7fc43fa38c700d827a3b92bf90189b394d273",
+      "earlier_rear_patches": 3,
+      "prominent_vehicles": 4,
+      "behind_questions": [
+        {
+          "reference": "blue sedan",
+          "outcome": "reference_only"
+        },
+        {
+          "reference": "red sedan",
+          "outcome": "reference_only"
+        },
+        {
+          "reference": "white sedan",
+          "outcome": "reference_only"
+        },
+        {
+          "reference": "white van",
+          "outcome": "reference_only"
+        }
+      ]
+    },
+    {
+      "recording": "kartaview_7173145",
+      "frame": 1173,
+      "source": "02743df87088fa38698cf3093947cbb3085c14755dd49fa16cadc8fb24b2e080",
+      "earlier_rear_patches": 2,
+      "prominent_vehicles": 3,
+      "behind_questions": [
+        {
+          "reference": "white sedan",
+          "outcome": "reference_only"
+        },
+        {
+          "reference": "white suv",
+          "outcome": "reference_only"
+        },
+        {
+          "reference": "white truck",
+          "outcome": "reference_only"
+        }
+      ]
+    },
+    {
+      "recording": "kartaview_3333849",
+      "frame": 525,
+      "source": "cd4e27b8077b24d36169170a847c9f5d382e9c315ad5bb670cb51ecf6ed40082",
+      "earlier_rear_patches": 4,
+      "prominent_vehicles": 4,
+      "behind_questions": [
+        {
+          "reference": "black suv",
+          "outcome": "reference_only"
+        },
+        {
+          "reference": "silver sedan",
+          "outcome": "ambiguous"
+        },
+        {
+          "reference": "white sedan",
+          "outcome": "reference_only"
+        }
+      ]
+    },
+    {
+      "recording": "kartaview_7168793",
+      "frame": 16,
+      "source": "df3c7569cf08071fe7492af65e599d7132364496766bb9e1e4fa4c3966dccc04",
+      "earlier_rear_patches": 6,
+      "prominent_vehicles": 4,
+      "behind_questions": [
+        {
+          "reference": "black suv",
+          "outcome": "ambiguous"
+        },
+        {
+          "reference": "red suv",
+          "outcome": "reference_only"
+        },
+        {
+          "reference": "white car",
+          "outcome": "reference_only"
+        }
+      ]
+    },
+    {
+      "recording": "kartaview_5105913",
+      "frame": 1982,
+      "source": "e6a01b783361da5c8f854ef90c6fb4d9bc6b58f46284af27e51f41e9c4230e43",
+      "earlier_rear_patches": 0,
+      "prominent_vehicles": 4,
+      "behind_questions": [
+        {
+          "reference": "black car",
+          "outcome": "reference_only"
+        },
+        {
+          "reference": "cream car",
+          "outcome": "reference_only"
+        },
+        {
+          "reference": "red suv",
+          "outcome": "reference_only"
+        },
+        {
+          "reference": "white van",
+          "outcome": "reference_only"
+        }
+      ]
+    },
+    {
+      "recording": "kartaview_5662233",
+      "frame": 314,
+      "source": "f573cd9c81bd5cad617c7f9e979ba736140925426632e84cce0569a3e877ceee",
+      "earlier_rear_patches": 0,
+      "prominent_vehicles": 2,
+      "behind_questions": [
+        {
+          "reference": "black suv",
+          "outcome": "reference_only"
+        },
+        {
+          "reference": "white sedan",
+          "outcome": "reference_only"
+        }
+      ]
+    },
+    {
+      "recording": "kartaview_7199273",
+      "frame": 176,
+      "source": "53d8ce7e491f3c4fe6e96983eff8c1f15c0f4b26eff6e1dc1f6d860882bf9a0c",
+      "earlier_rear_patches": 0,
+      "prominent_vehicles": 4,
+      "behind_questions": [
+        {
+          "reference": "silver van",
+          "outcome": "reference_only"
+        },
+        {
+          "reference": "white sedan",
+          "outcome": "ambiguous"
+        }
+      ]
+    },
+    {
+      "recording": "kartaview_6693449",
+      "frame": 1144,
+      "source": "1fb0ced74b073b01aa01707e27e120266a4e53629afea0adabfe44adfd0e842a",
+      "earlier_rear_patches": 0,
+      "prominent_vehicles": 4,
+      "behind_questions": [
+        {
+          "reference": "black car",
+          "outcome": "reference_only"
+        },
+        {
+          "reference": "blue suv",
+          "outcome": "reference_only"
+        },
+        {
+          "reference": "orange car",
+          "outcome": "reference_only"
+        },
+        {
+          "reference": "red sedan",
+          "outcome": "reference_only"
+        }
+      ]
+    },
+    {
+      "recording": "kartaview_4574809",
+      "frame": 203,
+      "source": "cd54579e2c76ee57708918e3d91c1b1304e6c034977eefa23e815d65977052f9",
+      "earlier_rear_patches": 0,
+      "prominent_vehicles": 0,
+      "behind_questions": []
+    },
+    {
+      "recording": "kartaview_8081545",
+      "frame": 14,
+      "source": "b5f7f2a659e8f7815ff0d2ed09969a0908f68d56d2ca942a756b8926357f33a8",
+      "earlier_rear_patches": 3,
+      "prominent_vehicles": 4,
+      "behind_questions": [
+        {
+          "reference": "black car",
+          "outcome": "ambiguous"
+        },
+        {
+          "reference": "black suv",
+          "outcome": "reference_only"
+        },
+        {
+          "reference": "red car",
+          "outcome": "reference_only"
+        }
+      ]
+    },
+    {
+      "recording": "kartaview_5139769",
+      "frame": 64,
+      "source": "a2b23025bda4791dd7a53822937eeb69f2b9655011b6b8be537d9cde4f8158c0",
+      "earlier_rear_patches": 0,
+      "prominent_vehicles": 4,
+      "behind_questions": [
+        {
+          "reference": "blue sedan",
+          "outcome": "reference_only"
+        },
+        {
+          "reference": "gray sedan",
+          "outcome": "reference_only"
+        },
+        {
+          "reference": "silver suv",
+          "outcome": "reference_only"
+        },
+        {
+          "reference": "white sedan",
+          "outcome": "reference_only"
+        }
+      ]
+    },
+    {
+      "recording": "kartaview_5092153",
+      "frame": 703,
+      "source": "82822b8b140ca1aa39af2772815a3438d5f9ae65b8125c4558027e67877b5ec7",
+      "earlier_rear_patches": 0,
+      "prominent_vehicles": 0,
+      "behind_questions": []
+    },
+    {
+      "recording": "kartaview_66245",
+      "frame": 146,
+      "source": "534ff1819947cffe773874bc601925b76ad97e8a17048ec75ff76ba916b7a9e3",
+      "earlier_rear_patches": 0,
+      "prominent_vehicles": 4,
+      "behind_questions": [
+        {
+          "reference": "black sedan",
+          "outcome": "reference_only"
+        },
+        {
+          "reference": "black suv",
+          "outcome": "reference_only"
+        },
+        {
+          "reference": "blue sedan",
+          "outcome": "reference_only"
+        }
+      ]
+    },
+    {
+      "recording": "kartaview_7343369",
+      "frame": 95,
+      "source": "57fe9aef1fc88a095ea2b011467ad575499e44feedbbd8a5e5ca309c2e5c3128",
+      "earlier_rear_patches": 0,
+      "prominent_vehicles": 1,
+      "behind_questions": [
+        {
+          "reference": "white sedan",
+          "outcome": "reference_only"
+        }
+      ]
+    },
+    {
+      "recording": "kartaview_66245",
+      "frame": 185,
+      "source": "766f78cb42fe0d16ac0f682aa9c21227b6417a7b2b9a42e917e88721d5aaf4ef",
+      "earlier_rear_patches": 0,
+      "prominent_vehicles": 4,
+      "behind_questions": [
+        {
+          "reference": "cream sedan",
+          "outcome": "reference_only"
+        },
+        {
+          "reference": "white sedan",
+          "outcome": "ambiguous"
+        },
+        {
+          "reference": "white suv",
+          "outcome": "reference_only"
+        }
+      ]
+    },
+    {
+      "recording": "kartaview_5124809",
+      "frame": 287,
+      "source": "37249c17aea5689c7f6d059e5fb99ed405a9d95a414f444571d44906033b6626",
+      "earlier_rear_patches": 1,
+      "prominent_vehicles": 4,
+      "behind_questions": [
+        {
+          "reference": "black suv",
+          "outcome": "reference_only"
+        },
+        {
+          "reference": "silver suv",
+          "outcome": "reference_only"
+        },
+        {
+          "reference": "white car",
+          "outcome": "reference_only"
+        },
+        {
+          "reference": "white van",
+          "outcome": "reference_only"
+        }
+      ]
+    },
+    {
+      "recording": "kartaview_1119285",
+      "frame": 104,
+      "source": "9c09315b50ba13b7f4d17051aed887fef81e3f52c2544963a69a17ee4c8f5a17",
+      "earlier_rear_patches": 0,
+      "prominent_vehicles": 1,
+      "behind_questions": [
+        {
+          "reference": "white van",
+          "outcome": "reference_only"
+        }
+      ]
+    },
+    {
+      "recording": "kartaview_5299897",
+      "frame": 55,
+      "source": "69f729d28a4ae2c2d202a5cb10f64eb2922dfba09b84e363cb64caa3058622cd",
+      "earlier_rear_patches": 0,
+      "prominent_vehicles": 3,
+      "behind_questions": [
+        {
+          "reference": "red suv",
+          "outcome": "reference_only"
+        },
+        {
+          "reference": "white sedan",
+          "outcome": "ambiguous"
+        }
+      ]
+    },
+    {
+      "recording": "kartaview_3075690",
+      "frame": 358,
+      "source": "01d73d105e4ea270322f24c01b2199fed8a7cc3346d8957d2278b652849927a9",
+      "earlier_rear_patches": 0,
+      "prominent_vehicles": 4,
+      "behind_questions": [
+        {
+          "reference": "black suv",
+          "outcome": "ambiguous"
+        },
+        {
+          "reference": "silver sedan",
+          "outcome": "ambiguous"
+        }
+      ]
+    },
+    {
+      "recording": "kartaview_5200729",
+      "frame": 338,
+      "source": "a7dec675112e51d79bea0cc0898d511e88287b7f71be11796aadbdad8cb50fc9",
+      "earlier_rear_patches": 0,
+      "prominent_vehicles": 2,
+      "behind_questions": [
+        {
+          "reference": "black suv",
+          "outcome": "reference_only"
+        },
+        {
+          "reference": "white bus",
+          "outcome": "reference_only"
+        }
+      ]
+    },
+    {
+      "recording": "kartaview_976103",
+      "frame": 139,
+      "source": "bae3d01037cdc79d690fe49f11cf8603abec303643967805ffdbb72abff23b36",
+      "earlier_rear_patches": 0,
+      "prominent_vehicles": 3,
+      "behind_questions": [
+        {
+          "reference": "black suv",
+          "outcome": "reference_only"
+        },
+        {
+          "reference": "white sedan",
+          "outcome": "reference_only"
+        },
+        {
+          "reference": "white suv",
+          "outcome": "reference_only"
+        }
+      ]
+    },
+    {
+      "recording": "kartaview_6581529",
+      "frame": 932,
+      "source": "9cf36c28c6a1643cceb7089316aadddd8fa5a51d3b8ef76ee801ab0f44e4f30c",
+      "earlier_rear_patches": 0,
+      "prominent_vehicles": 4,
+      "behind_questions": [
+        {
+          "reference": "silver car",
+          "outcome": "ambiguous"
+        },
+        {
+          "reference": "silver suv",
+          "outcome": "reference_only"
+        },
+        {
+          "reference": "white car",
+          "outcome": "ambiguous"
+        },
+        {
+          "reference": "white suv",
+          "outcome": "reference_only"
+        }
+      ]
+    },
+    {
+      "recording": "kartaview_5204473",
+      "frame": 819,
+      "source": "129e43a4f8482d50707f75d002c0e8dc809d2ae0fea3da57a1e4d030527c080a",
+      "earlier_rear_patches": 2,
+      "prominent_vehicles": 3,
+      "behind_questions": [
+        {
+          "reference": "black van",
+          "outcome": "reference_only"
+        },
+        {
+          "reference": "cream sedan",
+          "outcome": "reference_only"
+        },
+        {
+          "reference": "white sedan",
+          "outcome": "reference_only"
+        }
+      ]
+    },
+    {
+      "recording": "kartaview_1269447",
+      "frame": 242,
+      "source": "5597212281d86a728d6d9dbf482f05ca0dee72fcc15a6f8225520d7e30aebe38",
+      "earlier_rear_patches": 2,
+      "prominent_vehicles": 4,
+      "behind_questions": [
+        {
+          "reference": "gray suv",
+          "outcome": "ambiguous"
+        },
+        {
+          "reference": "silver sedan",
+          "outcome": "ambiguous"
+        }
+      ]
+    },
+    {
+      "recording": "kartaview_1257895",
+      "frame": 48,
+      "source": "83c12806c2a5380cae15ae202f0e1b5e3500637c811afb4c96069bf643aec9c8",
+      "earlier_rear_patches": 0,
+      "prominent_vehicles": 4,
+      "behind_questions": [
+        {
+          "reference": "black car",
+          "outcome": "reference_only"
+        },
+        {
+          "reference": "white sedan",
+          "outcome": "reference_only"
+        },
+        {
+          "reference": "white van",
+          "outcome": "ambiguous"
+        }
+      ]
+    },
+    {
+      "recording": "kartaview_66346",
+      "frame": 113,
+      "source": "28eb871a346c5792d7f63ad1186edcc967a6f96a2469984ecc86c5df7d177d1c",
+      "earlier_rear_patches": 0,
+      "prominent_vehicles": 4,
+      "behind_questions": [
+        {
+          "reference": "black sedan",
+          "outcome": "reference_only"
+        },
+        {
+          "reference": "cream sedan",
+          "outcome": "reference_only"
+        },
+        {
+          "reference": "silver suv",
+          "outcome": "reference_only"
+        },
+        {
+          "reference": "white suv",
+          "outcome": "choice"
+        }
+      ]
+    },
+    {
+      "recording": "kartaview_166806",
+      "frame": 131,
+      "source": "42b05ee428418cbc10827ed4ceaa88b805114bbce662c28f8b2096ca1b3fc538",
+      "earlier_rear_patches": 0,
+      "prominent_vehicles": 0,
+      "behind_questions": []
+    },
+    {
+      "recording": "kartaview_5053449",
+      "frame": 2,
+      "source": "e8de171dafb0a692e499ea75275ca9662171324da732d6cc291fcf941cb250d2",
+      "earlier_rear_patches": 0,
+      "prominent_vehicles": 0,
+      "behind_questions": []
+    },
+    {
+      "recording": "kartaview_54900",
+      "frame": 393,
+      "source": "1002226173c113c3ead9370fd6e8aa2dbabc6b650ca983198adff0778138b657",
+      "earlier_rear_patches": 0,
+      "prominent_vehicles": 4,
+      "behind_questions": [
+        {
+          "reference": "black suv",
+          "outcome": "ambiguous"
+        },
+        {
+          "reference": "white sedan",
+          "outcome": "reference_only"
+        },
+        {
+          "reference": "yellow truck",
+          "outcome": "reference_only"
+        }
+      ]
+    },
+    {
+      "recording": "kartaview_986841",
+      "frame": 26,
+      "source": "28ddebe0da1ff4df35c58dfde9836c88345cd101064d29250f7b38b20bbd3e16",
+      "earlier_rear_patches": 0,
+      "prominent_vehicles": 0,
+      "behind_questions": []
+    },
+    {
+      "recording": "kartaview_6315033",
+      "frame": 178,
+      "source": "e21f0aad1482c686d8c00c156018ced599944c8982b24a9510f30068443748eb",
+      "earlier_rear_patches": 2,
+      "prominent_vehicles": 4,
+      "behind_questions": [
+        {
+          "reference": "gray suv",
+          "outcome": "reference_only"
+        },
+        {
+          "reference": "white sedan",
+          "outcome": "ambiguous"
+        },
+        {
+          "reference": "white van",
+          "outcome": "reference_only"
+        }
+      ]
+    },
+    {
+      "recording": "kartaview_4572137",
+      "frame": 14,
+      "source": "98dbfd42cf22eab79bff24cbf227cdefb7663b12c0d7d1014569642f067adfbd",
+      "earlier_rear_patches": 0,
+      "prominent_vehicles": 2,
+      "behind_questions": [
+        {
+          "reference": "black suv",
+          "outcome": "reference_only"
+        },
+        {
+          "reference": "white van",
+          "outcome": "reference_only"
+        }
+      ]
+    },
+    {
+      "recording": "kartaview_7120185",
+      "frame": 54,
+      "source": "5a9b732bb1a487c9769eba291ff49bf9c0fff286efe7a849a66b296704c8cffa",
+      "earlier_rear_patches": 7,
+      "prominent_vehicles": 4,
+      "behind_questions": [
+        {
+          "reference": "black suv",
+          "outcome": "reference_only"
+        },
+        {
+          "reference": "blue suv",
+          "outcome": "reference_only"
+        },
+        {
+          "reference": "silver suv",
+          "outcome": "reference_only"
+        },
+        {
+          "reference": "white sedan",
+          "outcome": "reference_only"
+        }
+      ]
+    },
+    {
+      "recording": "kartaview_6342905",
+      "frame": 1320,
+      "source": "576c4df33c560fedfdbd0615e4179dd4247b2d9e1f49197c2e2b0464a3f409ca",
+      "earlier_rear_patches": 0,
+      "prominent_vehicles": 2,
+      "behind_questions": [
+        {
+          "reference": "white suv",
+          "outcome": "reference_only"
+        },
+        {
+          "reference": "white truck",
+          "outcome": "reference_only"
+        }
+      ]
+    },
+    {
+      "recording": "kartaview_5236457",
+      "frame": 540,
+      "source": "c7dac6799cf84dd6ba0f3a709205f23f481a336ae97547c60206a2ffc722e3ec",
+      "earlier_rear_patches": 0,
+      "prominent_vehicles": 0,
+      "behind_questions": []
+    },
+    {
+      "recording": "kartaview_6348665",
+      "frame": 1076,
+      "source": "4549afaa313cb102d869866b1abb492b8716804d03859838de5de442a3482b44",
+      "earlier_rear_patches": 0,
+      "prominent_vehicles": 4,
+      "behind_questions": [
+        {
+          "reference": "black van",
+          "outcome": "reference_only"
+        },
+        {
+          "reference": "white van",
+          "outcome": "ambiguous"
+        }
+      ]
+    },
+    {
+      "recording": "kartaview_5546153",
+      "frame": 445,
+      "source": "df4b13c0f17548cf0a1911efdbe0f94b00c1299c97a07a6c3783beab3ce2b416",
+      "earlier_rear_patches": 3,
+      "prominent_vehicles": 4,
+      "behind_questions": [
+        {
+          "reference": "black suv",
+          "outcome": "reference_only"
+        },
+        {
+          "reference": "silver suv",
+          "outcome": "reference_only"
+        },
+        {
+          "reference": "white suv",
+          "outcome": "ambiguous"
+        }
+      ]
+    },
+    {
+      "recording": "kartaview_5098777",
+      "frame": 73,
+      "source": "d6219bd62cb3eb77119a72473ad133ce125ad8b02645d2bdc44f817590764203",
+      "earlier_rear_patches": 7,
+      "prominent_vehicles": 1,
+      "behind_questions": [
+        {
+          "reference": "cream suv",
+          "outcome": "reference_only"
+        }
+      ]
+    },
+    {
+      "recording": "kartaview_3849789",
+      "frame": 98,
+      "source": "0420006fe0b85512c7224deb7d1d266e8b9db2c5a535f66b27a32821c0633089",
+      "earlier_rear_patches": 3,
+      "prominent_vehicles": 4,
+      "behind_questions": [
+        {
+          "reference": "silver sedan",
+          "outcome": "ambiguous"
+        },
+        {
+          "reference": "white van",
+          "outcome": "reference_only"
+        }
+      ]
+    },
+    {
+      "recording": "kartaview_5095849",
+      "frame": 996,
+      "source": "88cc304edc4b1232912979a59870954915b8e8dc51de853d45e2b5315b2f95be",
+      "earlier_rear_patches": 7,
+      "prominent_vehicles": 4,
+      "behind_questions": [
+        {
+          "reference": "cream suv",
+          "outcome": "reference_only"
+        },
+        {
+          "reference": "red suv",
+          "outcome": "reference_only"
+        },
+        {
+          "reference": "white sedan",
+          "outcome": "ambiguous"
+        }
+      ]
+    },
+    {
+      "recording": "kartaview_5299801",
+      "frame": 24,
+      "source": "8321f9007c4e1c8de9b4d804ea5cd8cccb77d5c4e6316cba190b1cb8d8b22865",
+      "earlier_rear_patches": 0,
+      "prominent_vehicles": 1,
+      "behind_questions": [
+        {
+          "reference": "red pickup",
+          "outcome": "reference_only"
+        }
+      ]
+    },
+    {
+      "recording": "kartaview_1164973",
+      "frame": 76,
+      "source": "d71ea4fdb3a5e8c6ae6fcd442618b9975ece3aa772539c1d354a1eb6a310ddbd",
+      "earlier_rear_patches": 0,
+      "prominent_vehicles": 0,
+      "behind_questions": []
+    },
+    {
+      "recording": "kartaview_4828025",
+      "frame": 0,
+      "source": "202205cffd48d91136e16515caedfae8af8603875a94a92538ef2fe45b914ee9",
+      "earlier_rear_patches": 0,
+      "prominent_vehicles": 3,
+      "behind_questions": [
+        {
+          "reference": "blue suv",
+          "outcome": "reference_only"
+        },
+        {
+          "reference": "white bus",
+          "outcome": "reference_only"
+        },
+        {
+          "reference": "white suv",
+          "outcome": "reference_only"
+        }
+      ]
+    },
+    {
+      "recording": "kartaview_5092073",
+      "frame": 32,
+      "source": "071e888bfbe0a8ac621a1d39c4df81ff637d1eb90a78cdebf3db94fd018f80c1",
+      "earlier_rear_patches": 0,
+      "prominent_vehicles": 0,
+      "behind_questions": []
+    },
+    {
+      "recording": "kartaview_7245129",
+      "frame": 110,
+      "source": "f457631526f126fdbd4badfca1c184a04520d08edde7f165255ba7d51e4c51c7",
+      "earlier_rear_patches": 0,
+      "prominent_vehicles": 1,
+      "behind_questions": [
+        {
+          "reference": "red sedan",
+          "outcome": "reference_only"
+        }
+      ]
+    },
+    {
+      "recording": "kartaview_1119287",
+      "frame": 3,
+      "source": "7605f69bab2f8e946b7b86d7b22743d65b26c17e22aec2763ac2d2a0b84315cf",
+      "earlier_rear_patches": 0,
+      "prominent_vehicles": 1,
+      "behind_questions": [
+        {
+          "reference": "white van",
+          "outcome": "reference_only"
+        }
+      ]
+    },
+    {
+      "recording": "kartaview_66396",
+      "frame": 161,
+      "source": "4195865865ba917ea8b64832726fbe5ad4b77c95d2e0a52916ea50b24cc1e226",
+      "earlier_rear_patches": 2,
+      "prominent_vehicles": 3,
+      "behind_questions": [
+        {
+          "reference": "black sedan",
+          "outcome": "ambiguous"
+        },
+        {
+          "reference": "red suv",
+          "outcome": "reference_only"
+        }
+      ]
+    },
+    {
+      "recording": "kartaview_3075698",
+      "frame": 120,
+      "source": "8dfdff87ba2ed6bdb046a7db879bd9c24048989b7d8fdff906e88e021860a31e",
+      "earlier_rear_patches": 3,
+      "prominent_vehicles": 4,
+      "behind_questions": [
+        {
+          "reference": "black sedan",
+          "outcome": "reference_only"
+        },
+        {
+          "reference": "black suv",
+          "outcome": "reference_only"
+        },
+        {
+          "reference": "silver sedan",
+          "outcome": "reference_only"
+        },
+        {
+          "reference": "white sedan",
+          "outcome": "reference_only"
+        }
+      ]
+    },
+    {
+      "recording": "kartaview_7165449",
+      "frame": 33,
+      "source": "e121d0e57b8fbcba436e01a11989063a027652e2c80fcc5c9b4b89ad4cd673cc",
+      "earlier_rear_patches": 1,
+      "prominent_vehicles": 3,
+      "behind_questions": [
+        {
+          "reference": "black sedan",
+          "outcome": "reference_only"
+        },
+        {
+          "reference": "red car",
+          "outcome": "reference_only"
+        },
+        {
+          "reference": "silver suv",
+          "outcome": "reference_only"
+        }
+      ]
+    },
+    {
+      "recording": "kartaview_976109",
+      "frame": 11,
+      "source": "516cafa94d1ec06f646787428396f2e956e6afbb66c7c1fcae61c6951bd2eacf",
+      "earlier_rear_patches": 0,
+      "prominent_vehicles": 0,
+      "behind_questions": []
+    }
+  ]
+}

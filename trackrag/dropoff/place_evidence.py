@@ -341,8 +341,7 @@ class PlaceDialogueGrounder:
             ref = vehicle_ground_reference.direct_reference(request)
             if ref and (ref.get('qualified') or ref['relation'] == 'beside'):
                 pictured = vehicle_ground_reference.available(request)
-                if pictured is not None:
-                    return pictured
+                return pictured if pictured is not None else vehicle_ground_reference.unavailable(request)
         # A direct request behind one identified vehicle already has its own signed
         # rear-view and parking check. Do not scan unrelated storefronts first.
         if self.single_vehicle is not None and self.single_vehicle.eligible(request):

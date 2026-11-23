@@ -85,6 +85,24 @@ def test_the_reader_never_invents_ground_from_an_incomplete_response():
         ['white','suv','REAR','CURBSIDE'], ['unknown','unknown','UNCLEAR','UNCLEAR']]
 
 
+def test_passengers_exact_ground_survives_an_unverified_vehicle_detail(scene, pavement):
+    point = [270,222]
+    box = [267,219,273,225]
+    choice = reference._explicit_ground(scene, pavement, box, point)
+    assert choice['point'] == point and choice['evidence']['coverage'] == 'interior_point_only'
+    assert reference._explicit_ground(scene, pavement, [190,220,196,226], [193,223]) is None
+    occupied = {'frame_id':1,'track_id':9,'class_name':'pedestrian','bbox_xyxy':[264,215,280,227]}
+    scene['tracks'].append(occupied)
+    assert reference._explicit_ground(scene, pavement, box, point) is None
+
+
+def test_parking_island_on_other_side_of_kerb_does_not_validate_a_tap(scene):
+    labels = np.full((300,400),13,dtype='uint8')
+    labels[:,280:288]=15
+    labels[:,288:]=10
+    assert reference._explicit_ground(scene,labels,[355,239,361,245],[358,242]) is None
+
+
 def test_surface_point_and_reference_are_bound_to_passenger_words():
     actual = {'text':'Could you drop me behind the white car?'}
     assert reference.direct_reference(actual)['relation'] == 'behind'

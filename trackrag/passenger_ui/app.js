@@ -151,7 +151,7 @@ function response(v, stage, bay, choices) {
   if (editing === "reply") return ["clarify", "Tell me more", v.result?.clarification_question || v.turns?.filter(t=>t.role==="assistant").at(-1)?.text || ""];
   if (editing) return ["idle", editing === "new" ? "Where would you like to get out?" : "Edit your description", ""];
   if (choices.length) {
-    if (v.bay_reference_uncertain) return ["clarify", choices.some(c=>c.extent==="interior_point_only") ? "Is this the spot you meant?" : choices.some(c=>c.extent==="visible_parking_surface") ? "Does a highlighted area match?" : "Which outlined bay did you mean?",
+    if (v.bay_reference_uncertain) return ["clarify", choices.some(c=>c.extent==="interior_point_only") ? "Is this the spot you meant?" : choices.some(c=>c.extent==="visible_parking_surface") ? "Does a highlighted area match?" : choices.length===1 ? "Is this the bay you meant?" : "Which outlined bay did you mean?",
       v.result.clarification_question + " You can also mark another spot."];
     if (choices.some(c=>c.extent==="interior_point_only")) return ["clarify","Which spot did you mean?",v.result.clarification_question];
     if (choices.some(c=>c.extent==="visible_parking_surface")) return ["clarify","Which highlighted area do you mean?",

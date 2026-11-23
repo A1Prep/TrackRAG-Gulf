@@ -81,12 +81,11 @@ class SingleVehicleBackend:
         saved = self.cache / (key + ".json")
         result = self._cached(key, saved, request, data)
         from . import vehicle_ground_reference
-        pictured = vehicle_ground_reference.available(request, data)
+        earlier = (result['provenance'].get('single_vehicle_evidence') if result is not None
+                   and result['result']['status'] == 'proposed' else None)
+        pictured = vehicle_ground_reference.available(request, data, earlier_vehicle=earlier)
         if pictured is not None:
-            anchors = pictured['result'].get('anchor_boxes_xyxy', [])
-            if (result is None or result['result']['status'] != 'proposed' or len(anchors) != 1
-                    or result['result'].get('anchor_boxes_xyxy') != anchors):
-                return pictured
+            return pictured
         if result is not None:
             return result
         from . import manual_surfaces

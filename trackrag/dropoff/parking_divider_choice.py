@@ -37,7 +37,8 @@ def _stripe(gray, classes, p):
     if detected is None:
         return None
     lines = []
-    for edge in detected[:, 0].reshape(-1, 2, 2):
+    # OpenCV exposes either (N, 4) or (N, 1, 4), depending on the build.
+    for edge in detected.reshape(-1, 2, 2):
         a, b = edge + [left, top]
         length = np.linalg.norm(b - a)
         if length < max(17, .033*w):

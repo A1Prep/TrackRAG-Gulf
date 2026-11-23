@@ -36,6 +36,11 @@ _LANE_TARGET = re.compile(r"\b(?:in|into|on)\s+(?:(?:the|that|this|active|moving
                           r"driving|bus|cycle|bike|fast|main|middle|of)\s+)+lane\b|"
                           r"(?:^|[,;]|\bstop|\bout|\boff)\s*(in (?:its|their|his|her) lane)\b|"
                           r"\b(?:in|into) the (?:middle|centre|center) of (?:the |this )?(?:street|road)\b", re.I)
+_WORK_AREA_TARGET = re.compile(
+    r"\b(?:in|inside|into|within|onto)\s+(?:(?:the|that|this|a|an|active|road)\s+)*"
+    r"(?:(?:coned[- ]off|cordoned[- ]off|barricaded|closed)\s+"
+    r"(?:(?:construction|work|roadworks?|maintenance)\s+)?(?:area|zone|site|section)|"
+    r"(?:construction|roadworks?|work|maintenance)[- ](?:area|zone|site))\b", re.I)
 _QUESTIONS = {
     "cycle": "One of those references may be a bicycle. I can check a gap between two motor vehicles. "
              "Could you name both vehicle types and colours, or mark the intended area on the photo?",
@@ -45,6 +50,7 @@ _QUESTIONS = {
                          "or mark the intended area on the photo.",
     "crossing_target": "You asked to get out on a pedestrian crossing. Could you choose a pull-in before or after it?",
     "lane_target": "You asked to get out in a travel lane. Is there a pull-in off the lane that you meant?",
+    "work_area_target": "You asked for a spot inside the work area. Could you choose a pull-in outside it?",
 }
 
 
@@ -53,11 +59,15 @@ def requested_hazard(text):
     speech = parking._PREFACE.sub("", text.strip())
     if (_VETO.search(text) or parking._CANCEL.search(text) or not parking._PLACEMENT_ACT.search(speech)):
         return None
-    for reason, pattern in (("crossing_target", _CROSSING_TARGET), ("lane_target", _LANE_TARGET)):
+    for reason, pattern in (("crossing_target", _CROSSING_TARGET), ("lane_target", _LANE_TARGET),
+                            ("work_area_target", _WORK_AREA_TARGET)):
         match = pattern.search(text)
         if match:
             before = re.split(r"[,;.!?]", text[:match.start()])[-1]
             if re.search(r"\b(?:which|who|that['’]s|(?:that|there) (?:is|was)|moving|waiting|parked)\s*$", before, re.I):
+                continue
+            if reason == "work_area_target" and re.search(
+                    r"\b(?:beside|near|by|next to|outside|opposite|past|behind|in front of)\b.+$", before, re.I):
                 continue
             span = match.span(1) if match.lastindex else match.span()
             return {"reason":reason,"literal_references":[{"text":text[slice(*span)],"start":span[0],"end":span[1]}]}

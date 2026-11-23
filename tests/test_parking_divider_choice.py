@@ -59,6 +59,20 @@ def test_real_paint_requires_two_current_independent_interiors_and_explicit_choi
     assert parking_divider_choice.adjacent_points(*stripe("vehicle_gate")) is not None
 
 
+@pytest.mark.parametrize("singleton_axis", [True, False])
+def test_divider_accepts_both_opencv_line_shapes(monkeypatch, singleton_axis):
+    native = cv2.createLineSegmentDetector()
+
+    class Detector:
+        def detect(self, crop):
+            lines, *rest = native.detect(crop)
+            shape = (-1, 1, 4) if singleton_axis else (-1, 4)
+            return (lines.reshape(shape), *rest)
+
+    monkeypatch.setattr(cv2, "createLineSegmentDetector", Detector)
+    assert parking_divider_choice.adjacent_points(*stripe()) is not None
+
+
 @pytest.mark.parametrize("fault",["one_point","no_visible_paint","no_signed_paint","through_lane","zebra",
                                  "another_divider_to_point","wall_across","walk_gate","parked_vehicle_between",
                                  "tapped_vehicle","unknown_surface_on_one_side"])

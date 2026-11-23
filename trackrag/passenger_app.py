@@ -474,6 +474,8 @@ def main(argv=None):
                         help="Check the visible road edge, or also check angled and facing parking bays")
     parser.add_argument("--parking-backend", choices=("modal",),
                         help="Use the hosted parking model on active English instructions between two vehicles")
+    parser.add_argument("--place-public-sources", action="append", type=Path, metavar="JSON",
+                        help="Use the private trained GPU place model only on these listed public KartaView photographs")
     parser.add_argument("--verify-landmarks", action="store_true", help="Enable the model's additional landmark check")
     parser.add_argument("--asr-model", type=Path, help="Unpacked local Vosk English model")
     parser.add_argument("--whisper-model", type=Path, help="Use this verified local English Whisper Small model on CPU")
@@ -498,6 +500,9 @@ def main(argv=None):
     if args.referent:
         from trackrag.dropoff.infrastructure import PassengerDialogueGrounder
         dialogue_model = PassengerDialogueGrounder(model)
+    if args.place_public_sources:
+        from trackrag.dropoff.place_evidence import PlaceDialogueGrounder, PublicPlaceBackend
+        dialogue_model = PlaceDialogueGrounder(dialogue_model, PublicPlaceBackend(args.place_public_sources))
     footage = None
     if args.qa_data_root:
         from trackrag.footage_app import FootageReview

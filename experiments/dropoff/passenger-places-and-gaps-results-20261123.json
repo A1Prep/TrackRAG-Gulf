@@ -1,0 +1,880 @@
+{
+  "reference_sha256": "573f2f4ca40ead166e4cbf42f8c70fdf8964c4195ab8c8f81a974afc3412405b",
+  "baseline_first_turns_sha256": "b5205e4546b11d584df2179678345b9f88f80983d480d1a2a2a3959c799d25f9",
+  "release_first_turns_sha256": "fd0ab8fdcf5c29b20628922470e779850f049010bf0d1fdcf9df44037ded6259",
+  "baseline_commit": "c9e987b9f02f600ac00e900cec33d4bf5e3f680a",
+  "scoring": "A proposed point must fall inside a frozen independent AI visual reference polygon. A no-pin clarification counts on a withhold reference. A resource error never counts. A scripted tap is scored separately.",
+  "baseline": {
+    "all": {
+      "n": 8,
+      "correct": 1,
+      "grades": {
+        "error_or_inconsistent_response": 6,
+        "missed_visible_target": 1,
+        "correct_withhold": 1
+      }
+    },
+    "single_landmark": {
+      "n": 6,
+      "correct": 0,
+      "grades": {
+        "error_or_inconsistent_response": 6
+      }
+    },
+    "two_vehicle": {
+      "n": 2,
+      "correct": 1,
+      "grades": {
+        "missed_visible_target": 1,
+        "correct_withhold": 1
+      }
+    }
+  },
+  "release": {
+    "all": {
+      "n": 8,
+      "correct": 4,
+      "grades": {
+        "missed_visible_target": 4,
+        "correct_withhold": 4
+      }
+    },
+    "single_landmark": {
+      "n": 6,
+      "correct": 3,
+      "grades": {
+        "missed_visible_target": 3,
+        "correct_withhold": 3
+      }
+    },
+    "two_vehicle": {
+      "n": 2,
+      "correct": 1,
+      "grades": {
+        "missed_visible_target": 1,
+        "correct_withhold": 1
+      }
+    }
+  },
+  "cases": [
+    {
+      "id": "uae-fresh-01",
+      "route": "single_landmark",
+      "expected": "propose",
+      "source": "https://kartaview.org/details/4574809/203/",
+      "baseline": {
+        "id": "uae-fresh-01",
+        "method": "qwen_landmark_region",
+        "request": "Could you let me out just in front of the glass lobby doors, by the silver bollards?",
+        "state": "error",
+        "point_px": null,
+        "submit_seconds": 26.758,
+        "image_sha256": "cd54579e2c76ee57708918e3d91c1b1304e6c034977eefa23e815d65977052f9",
+        "reason": null,
+        "question": null,
+        "error_code": "resource_unavailable",
+        "journal_at_first_submit_sha256": "d473c79fd94e7247b0d657d65fc62e00024c00c0fd2c148df80d1ea1c7c657c6"
+      },
+      "release": {
+        "id": "uae-fresh-01",
+        "method": "trained_qwen_place_with_parking_surface_v3",
+        "request": "Could you let me out just in front of the glass lobby doors, by the silver bollards?",
+        "state": "needs_clarification",
+        "point_px": null,
+        "submit_seconds": 47.099,
+        "image_sha256": "cd54579e2c76ee57708918e3d91c1b1304e6c034977eefa23e815d65977052f9",
+        "reason": "no_visible_parking_surface",
+        "question": "I can’t place that request on a clear bay in this view. Could you mark the spot you mean, or name another visible landmark?",
+        "error_code": null,
+        "journal_at_first_submit_sha256": "450eaddce683a6d69983f27b23ee431353debe03565f597417351ab47e217a25",
+        "recipe": "trained_qwen_place_with_parking_surface_v3",
+        "visual_language_reads": 0,
+        "responses": [],
+        "signed_body_sha256": "e81ca3b1ccc3d950933034a0fbc00c701f65a4c0dae0ad9a12f2935d479ca18d"
+      },
+      "grade": "missed_visible_target",
+      "passenger_assisted": {
+        "id": "uae-fresh-01",
+        "point_px": [
+          1654.3125,
+          1488.5625
+        ],
+        "box_px": [
+          1645,
+          1480,
+          1658,
+          1494
+        ],
+        "selected_by": "passenger",
+        "inside": true,
+        "confirmed": true,
+        "repeated_confirmation_http": 409,
+        "handoff_replayed": true
+      }
+    },
+    {
+      "id": "uae-fresh-02",
+      "route": "single_landmark",
+      "expected": "propose",
+      "source": "https://kartaview.org/details/8081545/14/",
+      "baseline": {
+        "id": "uae-fresh-02",
+        "method": "qwen_landmark_region",
+        "request": "Could you drop me in the open part of the pull-in on our right, just behind the dark parked car?",
+        "state": "error",
+        "point_px": null,
+        "submit_seconds": 28.4921,
+        "image_sha256": "b5f7f2a659e8f7815ff0d2ed09969a0908f68d56d2ca942a756b8926357f33a8",
+        "reason": null,
+        "question": null,
+        "error_code": "resource_unavailable",
+        "journal_at_first_submit_sha256": "a00e3b32c07e3c8049fb0ec6bc061391588b6c8c138e18b2bf9655cdfd11b44e"
+      },
+      "release": {
+        "id": "uae-fresh-02",
+        "method": "trained_qwen_place_with_parking_surface_v3",
+        "request": "Could you drop me in the open part of the pull-in on our right, just behind the dark parked car?",
+        "state": "needs_clarification",
+        "point_px": null,
+        "submit_seconds": 8.38,
+        "image_sha256": "b5f7f2a659e8f7815ff0d2ed09969a0908f68d56d2ca942a756b8926357f33a8",
+        "reason": "location_blocked",
+        "question": "I can’t place that request on a clear bay in this view. Could you mark the spot you mean, or name another visible landmark?",
+        "error_code": null,
+        "journal_at_first_submit_sha256": "86a77568d50272f8fae69b4a35eacb1b4fbca92203e082c5b108556434301eb0",
+        "recipe": "trained_qwen_place_with_parking_surface_v3",
+        "visual_language_reads": 2,
+        "responses": [
+          "1",
+          "BLOCKED"
+        ],
+        "signed_body_sha256": "fc159349ac72dab2bdfa7614165a20c1d3afcff40f44c5d9f9b1bb5d4780335c"
+      },
+      "grade": "missed_visible_target",
+      "passenger_assisted": {
+        "id": "uae-fresh-02",
+        "point_px": [
+          1363.125,
+          639.375
+        ],
+        "box_px": [
+          1361,
+          636,
+          1369,
+          645
+        ],
+        "selected_by": "passenger",
+        "inside": true,
+        "confirmed": true,
+        "repeated_confirmation_http": 409,
+        "handoff_replayed": true
+      }
+    },
+    {
+      "id": "uae-fresh-03",
+      "route": "single_landmark",
+      "expected": "withhold",
+      "source": "https://kartaview.org/details/5139769/64/",
+      "baseline": {
+        "id": "uae-fresh-03",
+        "method": "qwen_landmark_region",
+        "request": "Let me out right at the entrance to the Cibo Diet shop on our right.",
+        "state": "error",
+        "point_px": null,
+        "submit_seconds": 27.8596,
+        "image_sha256": "a2b23025bda4791dd7a53822937eeb69f2b9655011b6b8be537d9cde4f8158c0",
+        "reason": null,
+        "question": null,
+        "error_code": "resource_unavailable",
+        "journal_at_first_submit_sha256": "da157362fe496c8500fa5ebed55af58e7cf849b3ce381ff00b73122db3c69cea"
+      },
+      "release": {
+        "id": "uae-fresh-03",
+        "method": "trained_qwen_place_with_parking_surface_v3",
+        "request": "Let me out right at the entrance to the Cibo Diet shop on our right.",
+        "state": "needs_clarification",
+        "point_px": null,
+        "submit_seconds": 4.878,
+        "image_sha256": "a2b23025bda4791dd7a53822937eeb69f2b9655011b6b8be537d9cde4f8158c0",
+        "reason": "no_visible_parking_surface",
+        "question": "I can’t place that request on a clear bay in this view. Could you mark the spot you mean, or name another visible landmark?",
+        "error_code": null,
+        "journal_at_first_submit_sha256": "ac17d6bed0f7ab63a3921e45481923c96a6747dcdd2062980ddfa2b94ac45486",
+        "recipe": "trained_qwen_place_with_parking_surface_v3",
+        "visual_language_reads": 0,
+        "responses": [],
+        "signed_body_sha256": "09597b298d3bacc7b5eae2a5e93f21c1ae6f278ccecc6a20f49fa085fa3cb9aa"
+      },
+      "grade": "correct_withhold",
+      "passenger_assisted": null
+    },
+    {
+      "id": "uae-fresh-04",
+      "route": "single_landmark",
+      "expected": "withhold",
+      "source": "https://kartaview.org/details/5092153/703/",
+      "baseline": {
+        "id": "uae-fresh-04",
+        "method": "qwen_landmark_region",
+        "request": "Please drop me at the entrance to the Guess store on the right.",
+        "state": "error",
+        "point_px": null,
+        "submit_seconds": 20.0761,
+        "image_sha256": "82822b8b140ca1aa39af2772815a3438d5f9ae65b8125c4558027e67877b5ec7",
+        "reason": null,
+        "question": null,
+        "error_code": "resource_unavailable",
+        "journal_at_first_submit_sha256": "5de8f58bae0e05a16c7609ce51ea89752e2e835ff52f3974ad5c633c3c82f6bc"
+      },
+      "release": {
+        "id": "uae-fresh-04",
+        "method": "trained_qwen_place_with_parking_surface_v3",
+        "request": "Please drop me at the entrance to the Guess store on the right.",
+        "state": "needs_clarification",
+        "point_px": null,
+        "submit_seconds": 4.934,
+        "image_sha256": "82822b8b140ca1aa39af2772815a3438d5f9ae65b8125c4558027e67877b5ec7",
+        "reason": "no_visible_parking_surface",
+        "question": "I can’t place that request on a clear bay in this view. Could you mark the spot you mean, or name another visible landmark?",
+        "error_code": null,
+        "journal_at_first_submit_sha256": "a17da4a22a5ea02b8c2fe1839c6441262e0762cc03ecf2c50ed4c04868fed0cf",
+        "recipe": "trained_qwen_place_with_parking_surface_v3",
+        "visual_language_reads": 0,
+        "responses": [],
+        "signed_body_sha256": "c13320a81ea47c1747b00bc6cf8e20e65dff49a73ea8b3a985334c9207ff664d"
+      },
+      "grade": "correct_withhold",
+      "passenger_assisted": null
+    },
+    {
+      "id": "uae-fresh-05",
+      "route": "single_landmark",
+      "expected": "propose",
+      "source": "https://kartaview.org/details/66245/146/",
+      "baseline": {
+        "id": "uae-fresh-05",
+        "method": "qwen_landmark_region",
+        "request": "Can you drop me in the empty bay on the right beside the white construction fence?",
+        "state": "error",
+        "point_px": null,
+        "submit_seconds": 24.4859,
+        "image_sha256": "534ff1819947cffe773874bc601925b76ad97e8a17048ec75ff76ba916b7a9e3",
+        "reason": null,
+        "question": null,
+        "error_code": "resource_unavailable",
+        "journal_at_first_submit_sha256": "bc6dd8b7fa9c7c64b814e01b2c3d86c6c55f4f3e9c3b54675f85c60458e4852c"
+      },
+      "release": {
+        "id": "uae-fresh-05",
+        "method": "trained_qwen_place_with_parking_surface_v3",
+        "request": "Can you drop me in the empty bay on the right beside the white construction fence?",
+        "state": "needs_clarification",
+        "point_px": null,
+        "submit_seconds": 12.219,
+        "image_sha256": "534ff1819947cffe773874bc601925b76ad97e8a17048ec75ff76ba916b7a9e3",
+        "reason": "no_visible_parking_surface",
+        "question": "I can’t place that request on a clear bay in this view. Could you mark the spot you mean, or name another visible landmark?",
+        "error_code": null,
+        "journal_at_first_submit_sha256": "0f596104125a6bfc1784f56c69e08ddc985e56aa842599400b51b6b51b48c3eb",
+        "recipe": "trained_qwen_place_with_parking_surface_v3",
+        "visual_language_reads": 0,
+        "responses": [],
+        "signed_body_sha256": "a33b28fc9d2ce30fae9785a880221f61cfde59188ac4be3c0962d7dbf03e4520"
+      },
+      "grade": "missed_visible_target",
+      "passenger_assisted": {
+        "id": "uae-fresh-05",
+        "point_px": [
+          2244.375,
+          1407.3103448275863
+        ],
+        "box_px": [
+          2239,
+          1400,
+          2250,
+          1412
+        ],
+        "selected_by": "passenger",
+        "inside": true,
+        "confirmed": true,
+        "repeated_confirmation_http": 409,
+        "handoff_replayed": true
+      }
+    },
+    {
+      "id": "uae-fresh-06",
+      "route": "single_landmark",
+      "expected": "withhold",
+      "source": "https://kartaview.org/details/7343369/95/",
+      "baseline": {
+        "id": "uae-fresh-06",
+        "method": "qwen_landmark_region",
+        "request": "Could you let me out right by the stack of grey paving blocks on the right?",
+        "state": "error",
+        "point_px": null,
+        "submit_seconds": 23.7178,
+        "image_sha256": "57fe9aef1fc88a095ea2b011467ad575499e44feedbbd8a5e5ca309c2e5c3128",
+        "reason": null,
+        "question": null,
+        "error_code": "resource_unavailable",
+        "journal_at_first_submit_sha256": "735656805e55a0476be33ef32c8b16234fbbd499f3e5ee2c9ae1ca547c073f3f"
+      },
+      "release": {
+        "id": "uae-fresh-06",
+        "method": "trained_qwen_place_with_parking_surface_v3",
+        "request": "Could you let me out right by the stack of grey paving blocks on the right?",
+        "state": "needs_clarification",
+        "point_px": null,
+        "submit_seconds": 6.304,
+        "image_sha256": "57fe9aef1fc88a095ea2b011467ad575499e44feedbbd8a5e5ca309c2e5c3128",
+        "reason": "no_visible_parking_surface",
+        "question": "I can’t place that request on a clear bay in this view. Could you mark the spot you mean, or name another visible landmark?",
+        "error_code": null,
+        "journal_at_first_submit_sha256": "78eceacf0914ed369c6c74f99c592595f6f3da189414d7cfb3268ec1d8a63bc2",
+        "recipe": "trained_qwen_place_with_parking_surface_v3",
+        "visual_language_reads": 0,
+        "responses": [],
+        "signed_body_sha256": "5e3d7fd8184cdea311db7842668e38a474c8662982866b7138ae8abfbc885457"
+      },
+      "grade": "correct_withhold",
+      "passenger_assisted": null
+    },
+    {
+      "id": "uae-fresh-07",
+      "route": "two_vehicle",
+      "expected": "propose",
+      "source": "https://kartaview.org/details/66245/185/",
+      "baseline": {
+        "id": "uae-fresh-07",
+        "method": "identified_vehicle_parking_v1",
+        "request": "Please let me out in the curbside gap between the two white sedans parked ahead on our right.",
+        "state": "needs_clarification",
+        "point_px": null,
+        "submit_seconds": 47.2518,
+        "image_sha256": "766f78cb42fe0d16ac0f682aa9c21227b6417a7b2b9a42e917e88721d5aaf4ef",
+        "reason": "no_supported_roadside_patch",
+        "question": "I can’t locate a clear roadside opening between those vehicles. Can you mark the intended area?",
+        "error_code": null,
+        "journal_at_first_submit_sha256": "05e71cfdae43512d084e4f83a40097d898ede60869b38113d2e791cd07018245",
+        "recipe": "current-vehicle-pair-supported-parking-2",
+        "visual_language_reads": 2,
+        "responses": [
+          "```json\n{\"vehicles\": [[625, 654, 973, 958], [553, 661, 635, 760]]}\n```",
+          "{\"ids\": [4, 1]}"
+        ],
+        "signed_body_sha256": "ab598b324f3dd3b1de1d1cd3db71deff1c6fb68e8d9d14289a5f923ab4e0418f"
+      },
+      "release": {
+        "id": "uae-fresh-07",
+        "method": "identified_vehicle_parking_v1",
+        "request": "Please let me out in the curbside gap between the two white sedans parked ahead on our right.",
+        "state": "needs_clarification",
+        "point_px": null,
+        "submit_seconds": 87.27,
+        "image_sha256": "766f78cb42fe0d16ac0f682aa9c21227b6417a7b2b9a42e917e88721d5aaf4ef",
+        "reason": "no_supported_roadside_patch",
+        "question": "I can’t locate a clear roadside opening between those vehicles. Can you mark the intended area?",
+        "error_code": null,
+        "journal_at_first_submit_sha256": "14a35ad0466cbb9c3e30abcca2924f618afd1a94a8a4186d35c7b261a7ae029f",
+        "recipe": "current-vehicle-pair-supported-parking-3",
+        "visual_language_reads": 2,
+        "responses": [
+          "```json\n{\"vehicles\": [[625, 654, 973, 958], [553, 661, 635, 760]]}\n```",
+          "{\"ids\": [4, 1]}"
+        ],
+        "signed_body_sha256": "a54ec45a5ce432c233f5f0b4e8ca8552e0ec404d936bd782fb9a5e6e39e344b7"
+      },
+      "grade": "missed_visible_target",
+      "passenger_assisted": {
+        "id": "uae-fresh-07",
+        "point_px": [
+          1624.875,
+          1192.4137931034484
+        ],
+        "box_px": [
+          1620,
+          1189,
+          1632,
+          1200
+        ],
+        "selected_by": "passenger",
+        "inside": true,
+        "confirmed": true,
+        "repeated_confirmation_http": 409,
+        "handoff_replayed": true
+      }
+    },
+    {
+      "id": "uae-fresh-08",
+      "route": "two_vehicle",
+      "expected": "withhold",
+      "source": "https://kartaview.org/details/5124809/287/",
+      "baseline": {
+        "id": "uae-fresh-08",
+        "method": "identified_vehicle_parking_v1",
+        "request": "I'd like to get out in the space between the white delivery van and the dark SUV closest to us on the right.",
+        "state": "needs_clarification",
+        "point_px": null,
+        "submit_seconds": 8.595,
+        "image_sha256": "37249c17aea5689c7f6d059e5fb99ed405a9d95a414f444571d44906033b6626",
+        "reason": "model_declined_parking_components",
+        "question": "I can’t locate a clear roadside opening between those vehicles. Can you mark the intended area?",
+        "error_code": null,
+        "journal_at_first_submit_sha256": "ffef3ae90096d2eafe078d9b51b832178e6da658ec493c316631a706b6b53702",
+        "recipe": "current-vehicle-pair-supported-parking-2",
+        "visual_language_reads": 2,
+        "responses": [
+          "```json\n{\"vehicles\": [[663, 368, 1000, 812], [439, 406, 818, 726]]}\n```",
+          "{\"choice\":null}"
+        ],
+        "signed_body_sha256": "9d64f0decf5229f34dcd0df839fcc3d0d0e142b9796c5e360e7343f770fae7a0"
+      },
+      "release": {
+        "id": "uae-fresh-08",
+        "method": "identified_vehicle_parking_v1",
+        "request": "I'd like to get out in the space between the white delivery van and the dark SUV closest to us on the right.",
+        "state": "needs_clarification",
+        "point_px": null,
+        "submit_seconds": 25.838,
+        "image_sha256": "37249c17aea5689c7f6d059e5fb99ed405a9d95a414f444571d44906033b6626",
+        "reason": "model_declined_parking_components",
+        "question": "I can’t locate a clear roadside opening between those vehicles. Can you mark the intended area?",
+        "error_code": null,
+        "journal_at_first_submit_sha256": "29dabd587ca10cdc646d1cd9a8cd9ff71d41e6f3f01e9aa6885fc8cab1957644",
+        "recipe": "current-vehicle-pair-supported-parking-3",
+        "visual_language_reads": 2,
+        "responses": [
+          "```json\n{\"vehicles\": [[663, 368, 1000, 812], [439, 406, 818, 726]]}\n```",
+          "{\"choice\":null}"
+        ],
+        "signed_body_sha256": "98c52cfecf35bd7cb8e878b479f69f8277e96b0499368a7b3eb455f7da6508fb"
+      },
+      "grade": "correct_withhold",
+      "passenger_assisted": null
+    }
+  ],
+  "previously_evaluated_pair_replay": {
+    "records": 33,
+    "unique_photos": 25,
+    "positives": 17,
+    "negatives": 16,
+    "extra_calls": 4,
+    "before_hits": 9,
+    "after_hits": 12,
+    "before_negative_abstain": 16,
+    "after_negative_abstain": 16,
+    "gained_ids": [
+      "fresh-uae-02",
+      "word-07",
+      "uae-new-01"
+    ],
+    "lost_ids": [],
+    "extra_ids": [
+      "fresh-uae-02",
+      "fresh-uae-03",
+      "word-07",
+      "uae-new-01"
+    ]
+  },
+  "selected_previous_pair_live": [
+    {
+      "id": "verified-fresh-uae-02",
+      "method": "identified_vehicle_parking_v1",
+      "request": "Please drop me between the white SUV with the red door logo and the white sedan parked farther ahead on the right.",
+      "state": "proposed",
+      "point_px": [
+        1678.9333333333334,
+        1180.316205533597
+      ],
+      "submit_seconds": 41.142,
+      "image_sha256": "02743df87088fa38698cf3093947cbb3085c14755dd49fa16cadc8fb24b2e080",
+      "reason": "visually_confirmed_parking_opening",
+      "question": null,
+      "error_code": null,
+      "journal_at_first_submit_sha256": "abe727048de631ea2b3094703872b3b9e94dbd2384cc8bd27b05893e8933cd8b",
+      "recipe": "current-vehicle-pair-supported-parking-3",
+      "visual_language_reads": 3,
+      "responses": [
+        "```json\n{\"vehicles\": [[456, 390, 672, 607], [314, 419, 392, 507]]}\n```",
+        "{\"choice\":null}",
+        "```json\n{\n  \"references_match\": true,\n  \"layout\": \"opening\"\n}\n```"
+      ],
+      "signed_body_sha256": "2c6bb820e0fc201b3fdd9028a63a3725dc2ca805dee968a873ba18eca900b7c2",
+      "reference_margin_px": 17.2,
+      "inside": true,
+      "source": "https://kartaview.org/details/7173145/1173/",
+      "reference_polygons_1000": [
+        [
+          [
+            341.0,
+            515.0
+          ],
+          [
+            390.0,
+            507.0
+          ],
+          [
+            452.0,
+            508.0
+          ],
+          [
+            455.0,
+            554.0
+          ],
+          [
+            409.0,
+            555.0
+          ]
+        ]
+      ]
+    },
+    {
+      "id": "verified-uae-new-01",
+      "method": "identified_vehicle_parking_v1",
+      "request": "Please let me out between the small black SUV with the spare wheel and the white sedan farther along the same row.",
+      "state": "proposed",
+      "point_px": [
+        1461.3333333333333,
+        1124.8221343873518
+      ],
+      "submit_seconds": 65.895,
+      "image_sha256": "3ed141c2c0b33754e2ee822ec16e1c1ed1c713dbd29b16e94acde77b950c6af8",
+      "reason": "visible_roadside_proposal",
+      "question": null,
+      "error_code": null,
+      "journal_at_first_submit_sha256": "fbc27feb148c885297407ed1c71534fc7164a2189f07459829f18be6853f53cc",
+      "recipe": "current-vehicle-pair-supported-parking-3",
+      "visual_language_reads": 2,
+      "responses": [
+        "```json\n{\"vehicles\": [[438, 405, 575, 561], [244, 420, 346, 486]]}\n```",
+        "{\"choice\": \"A\"}"
+      ],
+      "signed_body_sha256": "a9871e80a23b0632dc28882702b1f42337833f53297dd5366fb25cc23165e1e8",
+      "reference_margin_px": 57.0,
+      "inside": true,
+      "source": "https://kartaview.org/details/7130313/1395/",
+      "reference_polygons_1000": [
+        [
+          [
+            246.0,
+            492.01
+          ],
+          [
+            342.0,
+            486.68
+          ],
+          [
+            433.0,
+            504.44
+          ],
+          [
+            437.0,
+            543.52
+          ],
+          [
+            332.0,
+            557.73
+          ],
+          [
+            283.0,
+            525.75
+          ]
+        ]
+      ]
+    },
+    {
+      "id": "verified-word-07",
+      "method": "identified_vehicle_parking_v1",
+      "request": "Drop me off between the white SUV and the white minivan parked by the medical center.",
+      "state": "proposed",
+      "point_px": [
+        2626.133333333333,
+        1385.217391304348
+      ],
+      "submit_seconds": 18.024,
+      "image_sha256": "a07e0ded72bad166579a87adea852f1a5eef11e83e43f11c914388370c5c1e9a",
+      "reason": "visible_roadside_proposal",
+      "question": null,
+      "error_code": null,
+      "journal_at_first_submit_sha256": "b682d98c8f6c5e2c1faacc4f95c2b28132523d876cd3cf74c32dbbb5634c34c0",
+      "recipe": "current-vehicle-pair-supported-parking-3",
+      "visual_language_reads": 2,
+      "responses": [
+        "```json\n{\"vehicles\": [[512, 536, 625, 615], [709, 521, 920, 661]]}\n```",
+        "{\"choice\": \"A\"}"
+      ],
+      "signed_body_sha256": "eb1f243934bb566f5a2290ae711a1f19b86ab76be7e55bc1c3acf1ba0a60ae1c",
+      "reference_margin_px": 40.6,
+      "inside": true,
+      "source": "https://kartaview.org/details/7271097/62/",
+      "reference_polygons_1000": [
+        [
+          [
+            623.0,
+            618.12
+          ],
+          [
+            654.0,
+            616.34
+          ],
+          [
+            702.0,
+            621.67
+          ],
+          [
+            706.0,
+            639.43
+          ],
+          [
+            704.0,
+            657.19
+          ],
+          [
+            680.0,
+            660.75
+          ],
+          [
+            640.0,
+            650.09
+          ],
+          [
+            615.0,
+            635.88
+          ]
+        ]
+      ]
+    }
+  ],
+  "selected_prior_place_requests": [
+    {
+      "id": "place-bay",
+      "method": "trained_qwen_place_with_parking_surface_v3",
+      "request": "Could you drop me in the closest empty marked bay on the right, just beside our bonnet and the pink curb?",
+      "state": "needs_clarification",
+      "point_px": null,
+      "submit_seconds": 65.851,
+      "image_sha256": "df3c7569cf08071fe7492af65e599d7132364496766bb9e1e4fa4c3966dccc04",
+      "reason": "location_blocked",
+      "question": "I can’t place that request on a clear bay in this view. Could you mark the spot you mean, or name another visible landmark?",
+      "error_code": null,
+      "journal_at_first_submit_sha256": "43d77563c67ca867a600dc9d53728d65f35bdf9e1da0729a42e626ce5a23c837",
+      "recipe": "trained_qwen_place_with_parking_surface_v3",
+      "visual_language_reads": 2,
+      "responses": [
+        "2",
+        "BLOCKED"
+      ],
+      "signed_body_sha256": "5611bd10e5cf3e9f83d9ede0975de05889b30be501b9a34d08cf1851da8eed30"
+    },
+    {
+      "id": "place-blue-bay",
+      "method": "trained_qwen_place_with_parking_surface_v3",
+      "request": "Please let me out in the empty marked bay on the right, next to the building.",
+      "state": "needs_clarification",
+      "point_px": null,
+      "submit_seconds": 11.528,
+      "image_sha256": "6c09f8965a7203ca86f42d18d4b7fc43fa38c700d827a3b92bf90189b394d273",
+      "reason": "location_blocked",
+      "question": "I can’t place that request on a clear bay in this view. Could you mark the spot you mean, or name another visible landmark?",
+      "error_code": null,
+      "journal_at_first_submit_sha256": "8bdb5c602cca911985f61fc1c9c8102dca10ee2e7a013506361e1111abe6b790",
+      "recipe": "trained_qwen_place_with_parking_surface_v3",
+      "visual_language_reads": 2,
+      "responses": [
+        "2",
+        "BLOCKED"
+      ],
+      "signed_body_sha256": "aa8d661d0f0c995eb38d5fdb054f18ca78d035db41bf6ac6f03521fb9207b7b6"
+    },
+    {
+      "id": "place-cafe",
+      "method": "trained_qwen_place_with_parking_surface_v3",
+      "request": "Could you drop me right by the entrance to the cafe on the right?",
+      "state": "needs_clarification",
+      "point_px": null,
+      "submit_seconds": 13.619,
+      "image_sha256": "53d8ce7e491f3c4fe6e96983eff8c1f15c0f4b26eff6e1dc1f6d860882bf9a0c",
+      "reason": "no_visible_parking_surface",
+      "question": "I can’t place that request on a clear bay in this view. Could you mark the spot you mean, or name another visible landmark?",
+      "error_code": null,
+      "journal_at_first_submit_sha256": "871b8d25f0243d0d3662cd0219374ca276c7a161507b4dac77520e09b549674d",
+      "recipe": "trained_qwen_place_with_parking_surface_v3",
+      "visual_language_reads": 0,
+      "responses": [],
+      "signed_body_sha256": "6a0d61c6bf2cdec2342c23144cc239630c292fb05a8c919cf6bf834881b4cc93"
+    },
+    {
+      "id": "place-fuel",
+      "method": "trained_qwen_place_with_parking_surface_v3",
+      "request": "Could you let me out at the shop entrance immediately behind the petrol pump?",
+      "state": "needs_clarification",
+      "point_px": null,
+      "submit_seconds": 4.769,
+      "image_sha256": "f573cd9c81bd5cad617c7f9e979ba736140925426632e84cce0569a3e877ceee",
+      "reason": "no_visible_parking_surface",
+      "question": "I can’t place that request on a clear bay in this view. Could you mark the spot you mean, or name another visible landmark?",
+      "error_code": null,
+      "journal_at_first_submit_sha256": "655191dbaa408f71f27758f80def6e847bfbfd33f1bbf6cc15e1aec5145b0479",
+      "recipe": "trained_qwen_place_with_parking_surface_v3",
+      "visual_language_reads": 0,
+      "responses": [],
+      "signed_body_sha256": "517449ac4bb22dcccc7c251f75aee70fdc42b2799bdfc73c71c9ddca6ca8a287"
+    },
+    {
+      "id": "place-full-row",
+      "method": "trained_qwen_place_with_parking_surface_v3",
+      "request": "Drop me in an empty bay directly in front of the Asian Cargo shop.",
+      "state": "needs_clarification",
+      "point_px": null,
+      "submit_seconds": 5.239,
+      "image_sha256": "e6a01b783361da5c8f854ef90c6fb4d9bc6b58f46284af27e51f41e9c4230e43",
+      "reason": "no_visible_parking_surface",
+      "question": "I can’t place that request on a clear bay in this view. Could you mark the spot you mean, or name another visible landmark?",
+      "error_code": null,
+      "journal_at_first_submit_sha256": "878a78dce946dd05f15f1e7d8021878f16447ee045afc736d24d2a323e498e70",
+      "recipe": "trained_qwen_place_with_parking_surface_v3",
+      "visual_language_reads": 0,
+      "responses": [],
+      "signed_body_sha256": "fc1eaeee75580a3a3e5bcfc11c15819f289c33c13b34848a449334662abb4cf9"
+    },
+    {
+      "id": "place-furniture",
+      "method": "trained_qwen_place_with_parking_surface_v3",
+      "request": "could you drop me near the furniture store on the right",
+      "state": "needs_clarification",
+      "point_px": null,
+      "submit_seconds": 9.556,
+      "image_sha256": "0dfd8dadbb1ad54388d3ca1c9bb6473aa5eeebf407cb7cbdd7a45ee1b5b0c836",
+      "reason": "no_visible_parking_surface",
+      "question": "I can’t place that request on a clear bay in this view. Could you mark the spot you mean, or name another visible landmark?",
+      "error_code": null,
+      "journal_at_first_submit_sha256": "5e51d5d15cecfeec3f83467fed756e9ca832d7b5c9539389e38f0f50e9c3a5b3",
+      "recipe": "trained_qwen_place_with_parking_surface_v3",
+      "visual_language_reads": 0,
+      "responses": [],
+      "signed_body_sha256": "cfc6b48cf5bc58805c9a0fa82f4941cbe4a58e0fefc55a44a1e976e73beec09a"
+    }
+  ],
+  "selected_prior_place_rephrasings": [
+    {
+      "id": "landmark-fresh-uae-02",
+      "method": "trained_qwen_place_with_parking_surface_v3",
+      "request": "Please let me out in the open roadside bay on the right just past the white SUV with the red door logo.",
+      "state": "needs_clarification",
+      "point_px": null,
+      "submit_seconds": 9.235,
+      "image_sha256": "02743df87088fa38698cf3093947cbb3085c14755dd49fa16cadc8fb24b2e080",
+      "reason": "no_visible_parking_surface",
+      "question": "I can’t place that request on a clear bay in this view. Could you mark the spot you mean, or name another visible landmark?",
+      "error_code": null,
+      "journal_at_first_submit_sha256": "03102788294198f9bf6a746d345ae19cf7a5ba417f8cb9c085eadb8c44cb8271",
+      "recipe": "trained_qwen_place_with_parking_surface_v3",
+      "visual_language_reads": 0,
+      "responses": [],
+      "signed_body_sha256": "a4d3287f779505d94fe3a3d51c51560add905224ebd23026680598fbeb14af68"
+    },
+    {
+      "id": "landmark-uae-new-01",
+      "method": "trained_qwen_place_with_parking_surface_v3",
+      "request": "Please let me out in the nearest empty painted parking bay on the right, alongside the blue and white curb before the black SUV.",
+      "state": "needs_clarification",
+      "point_px": null,
+      "submit_seconds": 10.589,
+      "image_sha256": "3ed141c2c0b33754e2ee822ec16e1c1ed1c713dbd29b16e94acde77b950c6af8",
+      "reason": "location_blocked",
+      "question": "I can’t place that request on a clear bay in this view. Could you mark the spot you mean, or name another visible landmark?",
+      "error_code": null,
+      "journal_at_first_submit_sha256": "33233fdfbda0836eb57043e0b9a9e07b4337e6fb187c21f1a0740f41b94de057",
+      "recipe": "trained_qwen_place_with_parking_surface_v3",
+      "visual_language_reads": 2,
+      "responses": [
+        "1",
+        "BLOCKED"
+      ],
+      "signed_body_sha256": "a501dbafbad5c3109514161218ceb8c48cb7f8bb04438c723e2c5d12342c9340"
+    }
+  ],
+  "voice": {
+    "asr": "Systran/faster-whisper-small.en",
+    "edited_words_retained": true,
+    "states": [
+      "needs_clarification",
+      "proposed",
+      "proposed",
+      "confirmed"
+    ],
+    "selected_by": "passenger",
+    "four_stale_premature_or_repeated_confirmations_rejected": true,
+    "model_proposal_count": 0
+  },
+  "footage_qa": [
+    {
+      "id": "001",
+      "recording": "video_054604",
+      "reference_frame": 150,
+      "evidence_frames": [
+        111,
+        131,
+        150,
+        110,
+        1
+      ],
+      "answer_status": "not_requested"
+    },
+    {
+      "id": "019",
+      "recording": "video_054604",
+      "reference_frame": 30,
+      "evidence_frames": [],
+      "answer_status": "not_requested"
+    },
+    {
+      "id": "025",
+      "recording": "video_054907",
+      "reference_frame": 1,
+      "evidence_frames": [
+        1,
+        1,
+        1
+      ],
+      "answer_status": "not_requested"
+    },
+    {
+      "id": "027",
+      "recording": "video_054907",
+      "reference_frame": 100,
+      "evidence_frames": [],
+      "answer_status": "not_requested"
+    }
+  ],
+  "latency_furniture_seconds": {
+    "before_change_observed_burst": [
+      45.465,
+      4.861,
+      4.823
+    ],
+    "after_lazy_loading_confirmed_zero_active_containers": 0,
+    "after_lazy_loading_http_submit": [
+      18.522,
+      4.96,
+      4.801
+    ],
+    "requests_per_burst": 3,
+    "result": "needs_clarification",
+    "surface_model_calls_per_request": 1,
+    "language_calls_per_request": 0,
+    "scope": "Same original and words in separate ordinary sessions. HTTP submit includes client, queue, network and replay. One measured cold start; subsequent submissions used the same service."
+  },
+  "language_after_lazy_loading": {
+    "case": "uae-fresh-02",
+    "image_sha256": "b5f7f2a659e8f7815ff0d2ed09969a0908f68d56d2ca942a756b8926357f33a8",
+    "same_signed_visual_inputs_responses_and_surface": true,
+    "visual_language_reads": 2,
+    "runtime_measurement_seconds": 31.252
+  },
+  "previous_client_compatibility": {
+    "older_app_signed_recipe": "current-vehicle-pair-supported-parking-2",
+    "state": "proposed",
+    "original_sha256": "3ed141c2c0b33754e2ee822ec16e1c1ed1c713dbd29b16e94acde77b950c6af8"
+  }
+}

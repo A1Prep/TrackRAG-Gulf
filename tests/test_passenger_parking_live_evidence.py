@@ -44,7 +44,9 @@ def make_packet(request, photo, classes, key, answers, recipe=evidence.RECIPE):
     Image.fromarray(classes).save(png,format="PNG")
     data=png.getvalue()
     from trackrag.dropoff.parking_reference_board import steps as reviewed_steps
-    algorithm = reviewed_steps if recipe == evidence.REVIEWED_RECIPE else steps
+    from trackrag.dropoff.parking_gap_review import steps as inspected_steps
+    algorithm = {evidence.RECIPE: steps, evidence.REVIEWED_RECIPE: reviewed_steps,
+                 evidence.INSPECTED_RECIPE: inspected_steps}[recipe]
     machine=algorithm(evidence.current_only(evidence.portable_request(request)),classes)
     calls=[]
     try:
@@ -163,7 +165,8 @@ def test_road_labelled_gap_needs_matching_references_and_visible_opening(
 
 def test_current_and_earlier_genuine_protocols_replay_independently(tmp_path, monkeypatch):
     req, photo, classes, key = setup_case(tmp_path, monkeypatch)
-    for recipe, selector in [(evidence.RECIPE, "choice"), (evidence.REVIEWED_RECIPE, "parking_components")]:
+    for recipe, selector in [(evidence.RECIPE, "choice"), (evidence.REVIEWED_RECIPE, "parking_components"),
+                             (evidence.INSPECTED_RECIPE, "parking_components")]:
         packet = make_packet(req, photo, classes, key, [ANCHORS, '{"choice":"A"}'], recipe)
         assert [c["kind"] for c in packet["body"]["calls"]] == ["anchors", selector]
         outcome = evidence.build_outcome(req, photo, packet)
@@ -193,3 +196,60 @@ def test_output_track_order_matches_original_boxes_after_ranked_board_reorders_p
     ids = outcome["provenance"]["track_ids"]
     by_id = {t["track_id"]:t["bbox_xyxy"] for t in req["scene"]["tracks"]}
     assert outcome["result"]["anchor_boxes_xyxy"] == [by_id[i] for i in ids]
+
+
+@pytest.mark.parametrize("reply,status", [
+    ('{"references_match":true,"layout":"opening"}', "proposed"),
+    ('{"references_match":false,"layout":"opening"}', "needs_clarification"),
+    ('{"references_match":true,"layout":"occupied"}', "needs_clarification"),
+    ('{"references_match":true,"layout":"elsewhere"}', "needs_clarification"),
+    ('{"references_match":true,"layout":"uncertain"}', "needs_clarification"),
+    ('{"references_match":1,"layout":"opening"}', "invalid_model_output"),
+    ('{"references_match":true,"layout":"unexpected"}', "invalid_model_output"),
+])
+def test_inspected_recipe_rechecks_one_supported_central_spot(tmp_path, monkeypatch, reply, status):
+    req, photo, classes, key = setup_case(tmp_path, monkeypatch)
+    packet = make_packet(req, photo, classes, key, [ANCHORS, '{"choice":null}', reply], evidence.INSPECTED_RECIPE)
+    assert [c["kind"] for c in packet["body"]["calls"]] == ["anchors", "parking_components", "gap_inspection"]
+    outcome = evidence.build_outcome(req, photo, packet)
+    if status == "invalid_model_output":
+        assert not outcome["ok"] and outcome["error"]["code"] == status
+        return
+    assert outcome["result"]["status"] == status
+    assert evidence.verify(req, outcome)["model_images_reproduced"]
+    if status == "proposed":
+        x, y = outcome["result"]["destination_point_xy"]
+        assert classes[int(y), int(x)] == 10
+        assert outcome["provenance"]["reason"] == "visually_confirmed_parking_opening"
+    else:
+        assert outcome["result"]["destination_point_xy"] is None
+
+
+def test_centrality_is_perspective_scaled_and_independent_of_car_order():
+    from trackrag.dropoff.parking_gap_review import central_to_pair
+
+    boxes = [[12, 20, 52, 60], [52, 48, 152, 96]]
+    for order in (boxes, boxes[::-1]):
+        assert central_to_pair({"anchor_boxes": order, "point": [67, 74.48]})
+        assert not central_to_pair({"anchor_boxes": order, "point": [38, 58]})
+
+
+def test_blocked_structure_has_no_crop_override(tmp_path, monkeypatch):
+    req, photo, classes, key = setup_case(tmp_path, monkeypatch)
+    classes[70:109, 101:125] = 17
+    packet = make_packet(req, photo, classes, key, [ANCHORS], evidence.INSPECTED_RECIPE)
+    assert [c["kind"] for c in packet["body"]["calls"]] == ["anchors"]
+    outcome = evidence.build_outcome(req, photo, packet)
+    assert outcome["result"]["destination_point_xy"] is None
+    assert outcome["provenance"]["reason"] == "structural_obstruction_in_requested_row"
+
+
+def test_off_center_patch_cannot_override_an_initial_decline(tmp_path, monkeypatch):
+    req, photo, classes, key = setup_case(tmp_path, monkeypatch)
+    classes[:] = 13
+    classes[90:115, 126:134] = 10
+    packet = make_packet(req, photo, classes, key, [ANCHORS, '{"choice":null}'], evidence.INSPECTED_RECIPE)
+    assert [c["kind"] for c in packet["body"]["calls"]] == ["anchors", "parking_components"]
+    outcome = evidence.build_outcome(req, photo, packet)
+    assert outcome["provenance"]["reason"] == "model_declined_parking_components"
+    assert outcome["result"]["destination_point_xy"] is None

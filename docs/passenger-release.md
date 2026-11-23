@@ -1,5 +1,7 @@
 # Run the passenger drop-off and footage review application
 
+The public-photo option adds a parking-surface check for named places and visible bays. Its evaluation includes automatic pins, missed locations, passenger corrections and measured start-up time. [Setup and results](passenger-places-and-gaps.md)
+
 From the prepared laptop checkout, run the following command and open the local page. Each of the two attached recordings has 150 frames. Ten scenes are bookmarked in both sections. The passenger view also opens the optional two-car photograph when installed. Select **Open another frame in this recording** to choose a different recorded frame. The first request that needs Qwen loads the 8B model.
 
 ```powershell

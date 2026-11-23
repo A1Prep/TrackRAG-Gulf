@@ -108,3 +108,18 @@ def test_surface_point_and_reference_are_bound_to_passenger_words():
     assert reference.direct_reference(actual)['relation'] == 'behind'
     assert reference.direct_reference({'text':'Tell me the price behind the white car.'}) is None
     assert reference.direct_reference({'text':'Stop behind the white car or the red one.'}) is None
+
+
+def test_unprepared_photo_returns_a_replayable_question_and_cannot_offer_a_pin(tmp_path, monkeypatch):
+    from tests.test_passenger_place_grounding import case
+    from trackrag.dropoff.interaction import signed_place_verifier
+    request, _, _, _ = case(tmp_path, monkeypatch)
+    request['text'] = 'Could you drop me behind the red Jeep?'
+    assert reference.available(request) is None
+    reply = reference.unavailable(request)
+    assert reply['result']['status'] == 'needs_clarification' and reply['result']['destination_point_xy'] is None
+    verify = signed_place_verifier(reply['provenance']['method'], live=True)
+    assert verify(request, reply)['decision_reproduced']
+    other_words = {**request, 'text':'Could you drop me behind the blue Jeep?'}
+    with pytest.raises(ValueError):
+        verify(other_words, reply)

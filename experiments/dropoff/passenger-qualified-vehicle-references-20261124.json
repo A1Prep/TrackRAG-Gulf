@@ -1,0 +1,259 @@
+{
+  "scope": "Post-study diagnostic on the same four already evaluated UAE photographs and eight difficult wordings. Current measurements call the production vehicle-reference source reader directly, including authenticated original photograph, cropped vehicles, current tracks, signed ground classes and original request. They measure local computation, not end-to-end browser latency. No new language-model calls, ground-truth coordinates or vehicle names are supplied at inference. An outline identifies a possible vehicle. Only a separately checked ground point can be selected.",
+  "checked_utc": "2026-11-23T23:51:51.374372+00:00",
+  "source_reader_sha256": "14d54ffa765d7c29b39de66e7de82cd6b9ae6bcb72de483670e30b0e69ef11e1",
+  "focus_tests_sha256": "bc507dac4402544a75a4572cc9ab949ffa58cab9a284fa8230cde197c73860e2",
+  "cohort_and_public_order_sha256": "9f7cbab9eaa30cd7667dd24a7ab98ec1903518e6d479917fff61fa7f29c581db",
+  "historical_policy_git": "844e93c",
+  "historical_parsing_identical_on_all_15_public_inputs": 15,
+  "historical_qualified_decisions_replayed": 8,
+  "strict_current_replays": 8,
+  "altered_anchor_and_changed_wording_denials": 16,
+  "image_reference": "Frozen original-pixel boxes from an independent AI reader in the already-opened seven-gallery study. Image IoU only indicates overlap with at least one eligible vehicle; multiple boxes remain ambiguous. No human reference collection or fresh cohort is claimed.",
+  "source_credit": "© Grab and KartaView Contributors, CC BY-SA 4.0",
+  "licence": "https://creativecommons.org/licenses/by-sa/4.0/",
+  "outcomes": [
+    {
+      "case": "V06",
+      "source": "https://kartaview.org/details/7173145/1173/",
+      "original_sha256": "02743df87088fa38698cf3093947cbb3085c14755dd49fa16cadc8fb24b2e080",
+      "words": "Could you drop me behind the white SUV with the red design on its door?",
+      "previous_browser": "operational_wait",
+      "current_source_seconds": 1.358,
+      "reference_boxes_xyxy": [
+        [
+          1740.9437255859375,
+          833.390625,
+          2593.42529296875,
+          1318.2387084960938
+        ]
+      ],
+      "reference_iou_against_prior_ai_review": [
+        0.969
+      ],
+      "current_status": "needs_clarification",
+      "current_first_turn_reason": "vehicle_seen_space_withheld",
+      "current_destination_point": null,
+      "current_question": "I can outline the vehicle matching the basic description. I couldn’t verify red design on the door. Could you identify it another way or mark the ground behind it?",
+      "supporting_vehicle_and_place_archives": [],
+      "strict_replay": "passed",
+      "old_decision_replay": "passed",
+      "altered_reference_box_rejected": true,
+      "different_words_rejected": true
+    },
+    {
+      "case": "V07",
+      "source": "https://kartaview.org/details/7173145/1173/",
+      "original_sha256": "02743df87088fa38698cf3093947cbb3085c14755dd49fa16cadc8fb24b2e080",
+      "words": "Could you drop me beside the white SUV with the red design on its door?",
+      "previous_browser": "operational_wait",
+      "current_source_seconds": 0.067,
+      "reference_boxes_xyxy": [
+        [
+          1740.9437255859375,
+          833.390625,
+          2593.42529296875,
+          1318.2387084960938
+        ]
+      ],
+      "reference_iou_against_prior_ai_review": [
+        0.969
+      ],
+      "current_status": "needs_clarification",
+      "current_first_turn_reason": "vehicle_seen_space_withheld",
+      "current_destination_point": null,
+      "current_question": "I can outline the vehicle matching the basic description. I couldn’t verify red design on the door. Could you identify it another way or mark the ground beside it?",
+      "supporting_vehicle_and_place_archives": [],
+      "strict_replay": "passed",
+      "old_decision_replay": "passed",
+      "altered_reference_box_rejected": true,
+      "different_words_rejected": true
+    },
+    {
+      "case": "V08",
+      "source": "https://kartaview.org/details/7120185/54/",
+      "original_sha256": "5a9b732bb1a487c9769eba291ff49bf9c0fff286efe7a849a66b296704c8cffa",
+      "words": "Could you drop me beside the grey Mini outside Dog Spot, on its right?",
+      "previous_browser": "operational_wait",
+      "current_source_seconds": 2.094,
+      "reference_boxes_xyxy": [
+        [
+          1454.6855163574219,
+          1061.6428527832031,
+          2104.4935913085938,
+          1389.8486938476562
+        ],
+        [
+          2453.7222290039062,
+          1027.7738342285156,
+          3063.955078125,
+          1513.6122436523438
+        ]
+      ],
+      "reference_iou_against_prior_ai_review": [
+        0.0,
+        0.967
+      ],
+      "current_status": "needs_clarification",
+      "current_first_turn_reason": "vehicle_seen_space_withheld",
+      "current_destination_point": null,
+      "current_question": "I can see the Dog Spot frontage. The close-up readings disagree about the outlined vehicles’ colours or body types. I couldn’t confirm the Mini make. Could you identify which vehicle you mean or mark the ground on its right?",
+      "supporting_vehicle_and_place_archives": [
+        "roadside"
+      ],
+      "strict_replay": "passed",
+      "old_decision_replay": "passed",
+      "altered_reference_box_rejected": true,
+      "different_words_rejected": true
+    },
+    {
+      "case": "V09",
+      "source": "https://kartaview.org/details/7120185/54/",
+      "original_sha256": "5a9b732bb1a487c9769eba291ff49bf9c0fff286efe7a849a66b296704c8cffa",
+      "words": "Could you drop me behind the grey Mini outside Dog Spot?",
+      "previous_browser": "operational_wait",
+      "current_source_seconds": 0.066,
+      "reference_boxes_xyxy": [
+        [
+          1454.6855163574219,
+          1061.6428527832031,
+          2104.4935913085938,
+          1389.8486938476562
+        ],
+        [
+          2453.7222290039062,
+          1027.7738342285156,
+          3063.955078125,
+          1513.6122436523438
+        ]
+      ],
+      "reference_iou_against_prior_ai_review": [
+        0.0,
+        0.967
+      ],
+      "current_status": "needs_clarification",
+      "current_first_turn_reason": "vehicle_seen_space_withheld",
+      "current_destination_point": null,
+      "current_question": "I can see the Dog Spot frontage. The close-up readings disagree about the outlined vehicles’ colours or body types. I couldn’t confirm the Mini make. Could you identify which vehicle you mean or mark the ground behind it?",
+      "supporting_vehicle_and_place_archives": [
+        "roadside"
+      ],
+      "strict_replay": "passed",
+      "old_decision_replay": "passed",
+      "altered_reference_box_rejected": true,
+      "different_words_rejected": true
+    },
+    {
+      "case": "V10",
+      "source": "https://kartaview.org/details/7120169/165/",
+      "original_sha256": "71df6d0a6a705be760e5be20937a2442f9cfaedeed71f3c093d894049bd84724",
+      "words": "Could you drop me beside the black sedan nearest the motorcycles, in the gravel gap?",
+      "previous_browser": "operational_wait",
+      "current_source_seconds": 0.051,
+      "reference_boxes_xyxy": [
+        [
+          1110.8290100097656,
+          1189.6285400390625,
+          1661.6700439453125,
+          1631.5127563476562
+        ]
+      ],
+      "reference_iou_against_prior_ai_review": [
+        0.938
+      ],
+      "current_status": "needs_clarification",
+      "current_first_turn_reason": "vehicle_seen_space_withheld",
+      "current_destination_point": null,
+      "current_question": "I can outline the vehicle matching the basic description. I couldn’t verify the requested gravel gap. Could you identify it another way or mark the ground beside it?",
+      "supporting_vehicle_and_place_archives": [],
+      "strict_replay": "passed",
+      "old_decision_replay": "passed",
+      "altered_reference_box_rejected": true,
+      "different_words_rejected": true
+    },
+    {
+      "case": "V11",
+      "source": "https://kartaview.org/details/7120169/165/",
+      "original_sha256": "71df6d0a6a705be760e5be20937a2442f9cfaedeed71f3c093d894049bd84724",
+      "words": "Could you drop me behind the black sedan nearest the motorcycles?",
+      "previous_browser": "operational_wait",
+      "current_source_seconds": 0.839,
+      "reference_boxes_xyxy": [
+        [
+          1110.8290100097656,
+          1189.6285400390625,
+          1661.6700439453125,
+          1631.5127563476562
+        ]
+      ],
+      "reference_iou_against_prior_ai_review": [
+        0.938
+      ],
+      "current_status": "needs_clarification",
+      "current_first_turn_reason": "vehicle_seen_space_withheld",
+      "current_destination_point": null,
+      "current_question": "I found the outlined black sedan. I can’t verify open curbside ground behind it. Could you mark the area you mean?",
+      "supporting_vehicle_and_place_archives": [],
+      "strict_replay": "passed",
+      "old_decision_replay": "passed",
+      "altered_reference_box_rejected": true,
+      "different_words_rejected": true
+    },
+    {
+      "case": "V12",
+      "source": "https://kartaview.org/details/6267977/1221/",
+      "original_sha256": "a2f0e3c9a1649193592e0cea6d3107df01599bb7d0aefa5b19a76cc46bff4e55",
+      "words": "Could you drop me behind the red Jeep?",
+      "previous_browser": "timeout",
+      "current_source_seconds": 0.697,
+      "reference_boxes_xyxy": [
+        [
+          1817.7139892578125,
+          896.0963745117188,
+          3508.9599609375,
+          1869.9277954101562
+        ]
+      ],
+      "reference_iou_against_prior_ai_review": [
+        0.956
+      ],
+      "current_status": "needs_clarification",
+      "current_first_turn_reason": "vehicle_seen_space_withheld",
+      "current_destination_point": null,
+      "current_question": "I can outline the vehicle matching the basic description. I couldn’t verify the Jeep make. Could you identify it another way or mark the ground behind it?",
+      "supporting_vehicle_and_place_archives": [],
+      "strict_replay": "passed",
+      "old_decision_replay": "passed",
+      "altered_reference_box_rejected": true,
+      "different_words_rejected": true
+    },
+    {
+      "case": "V13",
+      "source": "https://kartaview.org/details/6267977/1221/",
+      "original_sha256": "a2f0e3c9a1649193592e0cea6d3107df01599bb7d0aefa5b19a76cc46bff4e55",
+      "words": "Could you drop me beside the red Jeep?",
+      "previous_browser": "timeout",
+      "current_source_seconds": 0.036,
+      "reference_boxes_xyxy": [
+        [
+          1817.7139892578125,
+          896.0963745117188,
+          3508.9599609375,
+          1869.9277954101562
+        ]
+      ],
+      "reference_iou_against_prior_ai_review": [
+        0.956
+      ],
+      "current_status": "needs_clarification",
+      "current_first_turn_reason": "vehicle_seen_space_withheld",
+      "current_destination_point": null,
+      "current_question": "I can outline the vehicle matching the basic description. I couldn’t verify the Jeep make. Could you identify it another way or mark the ground beside it?",
+      "supporting_vehicle_and_place_archives": [],
+      "strict_replay": "passed",
+      "old_decision_replay": "passed",
+      "altered_reference_box_rejected": true,
+      "different_words_rejected": true
+    }
+  ]
+}

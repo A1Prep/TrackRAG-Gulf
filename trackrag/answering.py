@@ -49,6 +49,38 @@ def unavailable_observation_source(question_text, evidence):
     return None
 
 
+def spatial_reference_question(question, evidence):
+    """Ask which unqualified vehicle the reviewer means when retrieval found distinct current matches."""
+    from trackrag.retrieval_temporal import current_spatial_relation, matches_vehicle_class
+
+    words = question['question']
+    subject = re.search(r"\b(?:is|was)\s+(?:the|that)\s+(truck|lorry|pickup|car|sedan|suv|van|bus|coach|vehicle)"
+                        r"\s+(?:near|next to|beside|opposite|behind|under|in front of|to the (?:left|right) of)\b", words, re.I)
+    if not subject or not current_spatial_relation(words):
+        return None
+    locations = {}
+    for item in evidence:
+        track = item['interval']['track_id']
+        if track is None:
+            continue
+        for view in item['images']:
+            if view['frame_id'] != question['query_frame'] or not view.get('bbox_xyxy'):
+                continue
+            if not any(row['track_id'] == track and matches_vehicle_class(subject[1].lower(), row['class_name'])
+                       for row in view.get('observations', [])):
+                continue
+            left, _, right, _ = view['bbox_xyxy']
+            width = view['privacy']['original_size_wh'][0]
+            centre = (left + right) / (2 * width)
+            position = "on the left" if centre < 1/3 else "on the right" if centre > 2/3 else "near the centre"
+            locations[track] = (position, left, right)
+    for first, (where, left, right) in locations.items():
+        for other, (second, other_left, other_right) in locations.items():
+            if first < other and where != second and (right < other_left or other_right < left):
+                return f"Which {subject[1].lower()} do you mean? There are possible matches {where} and {second} in the paused frame."
+    return None
+
+
 def validate_answer(result, evidence, question=None) -> Answer:
     """Keep a supported abstention distinct from provider/validation failure."""
     if not isinstance(result, dict) or set(result) != set(ANSWER_SCHEMA['required']):
@@ -298,6 +330,11 @@ def answer_question(question: Question, evidence: list[Evidence], run_dir: str |
             receipt['public_question'] = dict(question)
             return make_answer('insufficient_evidence', unavailable)
         prepared = prepare_evidence(evidence, run_path, question)
+        clarification = spatial_reference_question(question, prepared)
+        if clarification:
+            receipt['reason'] = 'ambiguous_current_vehicle'
+            receipt['public_question'] = dict(question)
+            return make_answer('insufficient_evidence', clarification)
         # Copy the exact bytes that will be sent into the auditor's hosted namespace.
         # The model receives those same files; neither the audit nor the upload
         # depends on absolute paths surviving Task 5's final directory rename.

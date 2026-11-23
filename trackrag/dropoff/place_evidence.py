@@ -130,11 +130,15 @@ class PlaceDialogueGrounder:
     def __init__(self, model, backend):
         self.dialogue, self.backend = model, backend
         self.model = getattr(model, "model", model)
+        from .single_vehicle_backend import SingleVehicleBackend
+        self.single_vehicle = SingleVehicleBackend(backend) if isinstance(backend, PublicPlaceBackend) else None
 
     def __getattr__(self, name):
         return getattr(self.dialogue, name)
 
     def interpret(self, request):
+        if self.single_vehicle is not None and self.single_vehicle.eligible(request):
+            return self.single_vehicle.interpret(request)
         if self.backend.eligible(request):
             return self.backend.interpret(request)
         return self.dialogue.interpret(request)

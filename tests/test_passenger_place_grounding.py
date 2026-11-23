@@ -165,7 +165,10 @@ def test_confirmation_is_separate_and_invalid_evidence_withdraws_the_pin(tmp_pat
     assert session.view()["state"]=="error" and not session.view()["proposal_id"]
 
 
-@pytest.mark.parametrize("error",[RuntimeError("CUDA out of memory"),MemoryError()])
+@pytest.mark.parametrize("error", [
+    RuntimeError("CUDA out of memory"), MemoryError(), RuntimeError("CUDA error: unknown error"),
+    RuntimeError("CUDA error: CUBLAS_STATUS_NOT_SUPPORTED"), RuntimeError("bad allocation")
+])
 def test_resource_failure_offers_manual_recovery_only_for_the_bound_original(tmp_path,monkeypatch,error):
     from trackrag.dropoff import passenger
     from trackrag.dropoff.passenger_pair_choice import landmark_error_guidance

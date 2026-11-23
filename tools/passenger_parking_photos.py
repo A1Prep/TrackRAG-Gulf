@@ -12,7 +12,7 @@ from .passenger_release import PUBLIC_PHOTO_LISTS, ROOT, download
 CORE_BANKS = ("passenger-uae-gap-requests-20261123", "passenger-uae-parking-requests-20261123",
               "passenger-uae-parking-replication-20261123", "passenger-uae-parking-ux-requests-20261123")
 PLACE_BANKS = ("passenger-uae-parking-fresh-requests-20261123", "passenger-place-demo-requests-20261123",
-               "passenger-frontage-requests-20261123")
+               "passenger-frontage-requests-20261123", "passenger-frontage-extended-requests-20261123")
 
 
 def write_request_bank(folder, metadata, banks=CORE_BANKS):

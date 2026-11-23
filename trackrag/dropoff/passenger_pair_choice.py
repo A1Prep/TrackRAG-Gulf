@@ -213,6 +213,8 @@ def landmark_error_guidance(request, outcome):
     except (ValueError, OSError):
         return None
     if memory_failure:
+        if any(detail in error.get("message", "").lower() for detail in ("cublas_status", "cuda error: unknown error")):
+            return "The local GPU could not finish this request. You can still mark the spot you mean on this photo."
         return "The local model ran out of resources. You can still mark the spot you mean on this photo."
     if options(request):
         return "I couldn’t match both vehicles. Which two do you mean? Select their outlines or mark the intended road area."

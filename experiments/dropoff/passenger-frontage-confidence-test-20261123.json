@@ -1,0 +1,693 @@
+{
+  "graded_utc": "2026-11-23T16:20:46.690589+00:00",
+  "input_sha256": "00d8ee2b1f38740ca6733b5ccf48501b913a4ce28decf725b0bef3d8d9f68015",
+  "reference_sha256": "1b2ed5e992ee8fd9642b4165bed8c1ffdc0038bd402ef4ecc389f3e163ee636a",
+  "policy_sha256": "187466149559932efd13224e69d8ac3122f1f1bdaba95c8cd1df30ab76aa6a23",
+  "prediction_sha256": {
+    "baseline": "aaf2dcd61b5c879e629a4e6438fe04ea4dcdd3fd427ae01bd1265cb9b7dd5056",
+    "candidate": "eda1ce3751f06efb5a4bde43600bf092e3f84d7982b747472d98432bd74efa0c"
+  },
+  "positive_count": 4,
+  "ambiguous_or_unavailable_count": 4,
+  "source": "Independent visual scoring of original KartaView images by an AI reviewer. No human passenger rating or on-road trial. Baseline uses real first-turn HTTP application journals. Challenger used real image model calls and independent offline replay of the frozen combination. No assisted user marks count.",
+  "summary": {
+    "baseline": {
+      "correct_pin": 0,
+      "correct_withhold": 4,
+      "false_pin_on_blocked": 0,
+      "wrong_pin_on_visible": 1,
+      "missed_visible": 2,
+      "operational_error": 1
+    },
+    "candidate": {
+      "correct_pin": 1,
+      "correct_withhold": 4,
+      "false_pin_on_blocked": 0,
+      "wrong_pin_on_visible": 1,
+      "missed_visible": 1,
+      "operational_error": 1
+    },
+    "raw_specialist": {
+      "correct_pin": 2,
+      "correct_withhold": 0,
+      "false_pin_on_blocked": 4,
+      "wrong_pin_on_visible": 2,
+      "missed_visible": 0,
+      "operational_error": 0
+    }
+  },
+  "promotion": {
+    "additional_correct_pins": 1,
+    "new_wrong_pins": [],
+    "new_operational_errors": [],
+    "lost_previously_correct": [],
+    "passes": true
+  },
+  "cases": [
+    {
+      "id": "confirm-01",
+      "request": "Could you let me out at the silver-roofed shelter on the right?",
+      "expected": "clarify",
+      "baseline_grade": "correct_withhold",
+      "candidate_grade": "correct_withhold",
+      "raw_specialist_grade": "false_pin_on_blocked",
+      "baseline_point": null,
+      "candidate_point": null,
+      "raw_point_1000": [
+        973,
+        662
+      ],
+      "specialist_self_check": "NO",
+      "qwen_scene": "UNCLEAR",
+      "qwen_crop": "BLOCKED",
+      "segmentation_center_class": 15,
+      "class_fraction_first_gate": 1.0,
+      "baseline_method": "trained_qwen_place_with_parking_surface_v3",
+      "candidate_method": "trained_qwen_place_with_parking_surface_v3",
+      "baseline_error_code": null,
+      "candidate_error_code": null,
+      "eligible": true,
+      "baseline_journal_sha256": "24f010daab4f60c1e84da8816af876c7b04fad780f3876793594d5d4d40832d6",
+      "annotator": "independent AI judge",
+      "gate": {
+        "score": null,
+        "accept": false,
+        "reason": "non_drivable_surface",
+        "veto": "non_drivable_surface"
+      }
+    },
+    {
+      "id": "confirm-02",
+      "request": "I'd like to get out by China Garden on the right.",
+      "expected": "clarify",
+      "baseline_grade": "correct_withhold",
+      "candidate_grade": "correct_withhold",
+      "raw_specialist_grade": "false_pin_on_blocked",
+      "baseline_point": null,
+      "candidate_point": null,
+      "raw_point_1000": [
+        605,
+        662
+      ],
+      "specialist_self_check": "NO",
+      "qwen_scene": "BLOCKED",
+      "qwen_crop": "WALK",
+      "segmentation_center_class": 15,
+      "class_fraction_first_gate": 1.0,
+      "baseline_method": "trained_qwen_place_with_parking_surface_v3",
+      "candidate_method": "trained_qwen_place_with_parking_surface_v3",
+      "baseline_error_code": null,
+      "candidate_error_code": null,
+      "eligible": true,
+      "baseline_journal_sha256": "63273ac8be806e9843660771a9bc9a2dc829b70d4ca71b496f22cc7ec999adbc",
+      "annotator": "independent AI judge",
+      "gate": {
+        "score": null,
+        "accept": false,
+        "reason": "non_drivable_surface",
+        "veto": "non_drivable_surface"
+      }
+    },
+    {
+      "id": "confirm-03",
+      "request": "Could you leave me by the little signpost beside the long beige wall on the right?",
+      "expected": "propose",
+      "baseline_grade": "missed_visible",
+      "candidate_grade": "missed_visible",
+      "raw_specialist_grade": "wrong_pin_on_visible",
+      "baseline_point": null,
+      "candidate_point": null,
+      "raw_point_1000": [
+        898,
+        569
+      ],
+      "specialist_self_check": "NO",
+      "qwen_scene": "BLOCKED",
+      "qwen_crop": "BLOCKED",
+      "segmentation_center_class": 15,
+      "class_fraction_first_gate": 1.0,
+      "baseline_method": "trained_qwen_place_with_parking_surface_v3",
+      "candidate_method": "trained_qwen_place_with_parking_surface_v3",
+      "baseline_error_code": null,
+      "candidate_error_code": null,
+      "eligible": true,
+      "baseline_journal_sha256": "cb0b9b6bce19641c38047ee4a348711c01a699d0993a0989dede2022d3d559cf",
+      "annotator": "independent AI judge",
+      "gate": {
+        "score": null,
+        "accept": false,
+        "reason": "non_drivable_surface",
+        "veto": "non_drivable_surface"
+      }
+    },
+    {
+      "id": "confirm-04",
+      "request": "By the coffee shop on the left, please.",
+      "expected": "clarify",
+      "baseline_grade": "correct_withhold",
+      "candidate_grade": "correct_withhold",
+      "raw_specialist_grade": "false_pin_on_blocked",
+      "baseline_point": null,
+      "candidate_point": null,
+      "raw_point_1000": [
+        657,
+        775
+      ],
+      "specialist_self_check": "NO",
+      "qwen_scene": "BLOCKED",
+      "qwen_crop": "BAY",
+      "segmentation_center_class": 13,
+      "class_fraction_first_gate": 1.0,
+      "baseline_method": "trained_qwen_place_with_parking_surface_v3",
+      "candidate_method": "trained_qwen_place_with_parking_surface_v3",
+      "baseline_error_code": null,
+      "candidate_error_code": null,
+      "eligible": true,
+      "baseline_journal_sha256": "78c84557ef1216e23b58b127ee81229284fc5b95b1ea5a4b3d82b406cf3c4580",
+      "annotator": "independent AI judge",
+      "gate": {
+        "score": 0.1996390660296232,
+        "accept": false,
+        "reason": "learned_confidence",
+        "veto": null
+      }
+    },
+    {
+      "id": "confirm-05",
+      "request": "Can you drop me by the rail viaduct on the left?",
+      "expected": "propose",
+      "baseline_grade": "wrong_pin_on_visible",
+      "candidate_grade": "wrong_pin_on_visible",
+      "raw_specialist_grade": "wrong_pin_on_visible",
+      "baseline_point": [
+        73.17333333333333,
+        1210.9233791748527
+      ],
+      "candidate_point": [
+        73.17333333333333,
+        1210.9233791748527
+      ],
+      "raw_point_1000": [
+        542,
+        729
+      ],
+      "specialist_self_check": "NO",
+      "qwen_scene": "OPEN",
+      "qwen_crop": "BLOCKED",
+      "segmentation_center_class": 10,
+      "class_fraction_first_gate": 1.0,
+      "baseline_method": "trained_qwen_place_with_parking_surface_v3",
+      "candidate_method": "trained_qwen_place_with_parking_surface_v3",
+      "baseline_error_code": null,
+      "candidate_error_code": null,
+      "eligible": false,
+      "baseline_journal_sha256": "604827a9509dad627c1089b96ed04053945628a702b4a745416e4472f5492a47",
+      "annotator": "independent AI judge",
+      "gate": {
+        "score": 0.35055373566329984,
+        "accept": false,
+        "reason": "learned_confidence",
+        "veto": null
+      }
+    },
+    {
+      "id": "confirm-06",
+      "request": "Could you leave me at Nazim on the left?",
+      "expected": "clarify",
+      "baseline_grade": "correct_withhold",
+      "candidate_grade": "correct_withhold",
+      "raw_specialist_grade": "false_pin_on_blocked",
+      "baseline_point": null,
+      "candidate_point": null,
+      "raw_point_1000": [
+        402,
+        729
+      ],
+      "specialist_self_check": "NO",
+      "qwen_scene": "OPEN",
+      "qwen_crop": "BLOCKED",
+      "segmentation_center_class": 13,
+      "class_fraction_first_gate": 0.9804,
+      "baseline_method": "trained_qwen_place_with_parking_surface_v3",
+      "candidate_method": "trained_qwen_place_with_parking_surface_v3",
+      "baseline_error_code": null,
+      "candidate_error_code": null,
+      "eligible": true,
+      "baseline_journal_sha256": "063e1fce0ef71680b35528ffa16f43d10571dd09f2a0ef9649f6ead74670be1f",
+      "annotator": "independent AI judge",
+      "gate": {
+        "score": null,
+        "accept": false,
+        "reason": "uncorroborated_road",
+        "veto": "uncorroborated_road"
+      }
+    },
+    {
+      "id": "confirm-07",
+      "request": "Let me out by those tall grey double doors on the right, please.",
+      "expected": "propose",
+      "baseline_grade": "missed_visible",
+      "candidate_grade": "correct_pin",
+      "raw_specialist_grade": "correct_pin",
+      "baseline_point": null,
+      "candidate_point": [
+        2119.68,
+        1350.0
+      ],
+      "raw_point_1000": [
+        552,
+        625
+      ],
+      "specialist_self_check": "NO",
+      "qwen_scene": "BLOCKED",
+      "qwen_crop": "BLOCKED",
+      "segmentation_center_class": 10,
+      "class_fraction_first_gate": 0.5187,
+      "baseline_method": "trained_qwen_place_with_parking_surface_v3",
+      "candidate_method": "checked_molmo2_with_learned_gate",
+      "baseline_error_code": null,
+      "candidate_error_code": null,
+      "eligible": true,
+      "baseline_journal_sha256": "89a380aafa00ef698dba92b2d72247affba223347af67b07d72b428dacb756ed",
+      "annotator": "independent AI judge",
+      "gate": {
+        "score": 0.72464592312999,
+        "accept": true,
+        "reason": "learned_confidence",
+        "veto": null
+      }
+    },
+    {
+      "id": "confirm-08",
+      "request": "That's the house with the bicycle outside on the right. Can you drop me there?",
+      "expected": "propose",
+      "baseline_grade": "operational_error",
+      "candidate_grade": "operational_error",
+      "raw_specialist_grade": "correct_pin",
+      "baseline_point": null,
+      "candidate_point": null,
+      "raw_point_1000": [
+        748,
+        923
+      ],
+      "specialist_self_check": "YES",
+      "qwen_scene": "OPEN",
+      "qwen_crop": "BLOCKED",
+      "segmentation_center_class": 15,
+      "class_fraction_first_gate": 1.0,
+      "baseline_method": "qwen_landmark_region",
+      "candidate_method": "qwen_landmark_region",
+      "baseline_error_code": "resource_unavailable",
+      "candidate_error_code": "resource_unavailable",
+      "eligible": false,
+      "baseline_journal_sha256": "6900dac00aa9c6afd51f6eeeb2355d7772d4c8cb031831be2a268a1b9af9baa5",
+      "annotator": "independent AI judge",
+      "gate": {
+        "score": null,
+        "accept": false,
+        "reason": "non_drivable_surface",
+        "veto": "non_drivable_surface"
+      }
+    }
+  ],
+  "purpose": "The learned gate was fit on 26 previously opened drives using independent visual references. The eight-drive final comparison used unseen sources; these are not passenger-submitted destinations.",
+  "model_sha256": "e01b87af952230391df6496f963faf214a1e187121f196d1d0b314f51a9d3fcb",
+  "development_protocol_sha256": "69f0651e07560367dce6efafb7f23cbcd9cba2ba5b5fb797d5688f11db248194",
+  "training_freeze_sha256": "60a5c35e2ab22252e7247a6fa6287b475c8ec714d9ba8eae823dcffffa6f8776",
+  "freeze": {
+    "model_development_receipt": "6f973af80c0b238922293dac35ad96a21e4ec65574b5beaf2b8611aedf29acd1",
+    "neutral_sha": "00d8ee2b1f38740ca6733b5ccf48501b913a4ce28decf725b0bef3d8d9f68015",
+    "reference_sha": "1b2ed5e992ee8fd9642b4165bed8c1ffdc0038bd402ef4ecc389f3e163ee636a",
+    "integration": "Use the regular app with the fixed location phrasing as paired comparator. Preserve existing proposals. For an eligible place withheld by that app, or a local resource error, accept only the exact Molmo point admitted by the trained frozen gate. Preserve original response on abstention or ineligible requests.",
+    "promotion": "At least one more correct automatic pin on visible cases, no lost originally correct response, no new wrong pin on a visible or blocked case, and no added operational errors. No post hoc changes.",
+    "files": {
+      "model.json": "e01b87af952230391df6496f963faf214a1e187121f196d1d0b314f51a9d3fcb",
+      "passenger_frontage_confidence.py": "6629b5924fd6dbd0ac758d0b66e8f5fd2192235967997a636d59bb2a7c781159",
+      "place_grounding.py": "7b833eb46df2a84c8cd1f966c4b92d97284fe3cfe1c31dac0d64d165b5c56dc4",
+      "frontage_verifier.py": "ed721952fc12b9a55ca01c1a0a83c97f1eb084e11db8bc05cd652027deb9da11",
+      "passenger_frontage_pointing.py": "14ce8e0327652012b28f27fe9e8241cf65493ffb69581f2c3d1decde8f9ebcc0",
+      "passenger_place_modal.py": "23509d7a86665fd842be768e09a50911423a5185ac53c0610d8e0b4431d7d9af",
+      "passenger_frontage_surfaces.py": "110bbed8bdb8b63a8046422e9035360a6a0718e494c7de6556d413de29bdfc5e",
+      "check_reserve.py": "ee1396562e32e69a8151e4ceecadd2accfcb37f1764852821f68f258e74dcc80",
+      "seal_reserve.py": "02fd42c60c6b8e49d0b076850fa0ffe14f3e63ece590addf00a3f9a7b2b8c9e4"
+    }
+  },
+  "reference_cases": [
+    {
+      "id": "confirm-01",
+      "original_sha256": "202205cffd48d91136e16515caedfae8af8603875a94a92538ef2fe45b914ee9",
+      "size": [
+        3264,
+        1836
+      ],
+      "expected": "clarify",
+      "polygons_1000": [],
+      "visible_evidence": "The raised shelter platform borders a marked traffic lane occupied by a blue car and the white bus or minibus in front. Neither the sidewalk nor a patch of the through lane establishes an empty off-lane space at the shelter."
+    },
+    {
+      "id": "confirm-02",
+      "original_sha256": "071e888bfbe0a8ac621a1d39c4df81ff637d1eb90a78cdebf3db94fd018f80c1",
+      "size": [
+        3264,
+        1836
+      ],
+      "expected": "clarify",
+      "polygons_1000": [],
+      "visible_evidence": "China Garden faces a raised brick pedestrian apron and planted bed. The through lane bends toward a splitter island. No unoccupied vehicle apron, parking bay or recessed curb is visible for this restaurant."
+    },
+    {
+      "id": "confirm-03",
+      "original_sha256": "f457631526f126fdbd4badfca1c184a04520d08edde7f165255ba7d51e4c51c7",
+      "size": [
+        3840,
+        2160
+      ],
+      "expected": "propose",
+      "polygons_1000": [
+        [
+          [
+            220.0,
+            495.961
+          ],
+          [
+            241.818,
+            494.346
+          ],
+          [
+            320.0,
+            512.116
+          ],
+          [
+            383.636,
+            537.964
+          ],
+          [
+            450.909,
+            565.428
+          ],
+          [
+            580.909,
+            609.047
+          ],
+          [
+            708.182,
+            657.512
+          ],
+          [
+            810.909,
+            697.9
+          ],
+          [
+            760.909,
+            701.131
+          ],
+          [
+            726.364,
+            709.208
+          ],
+          [
+            639.091,
+            694.669
+          ],
+          [
+            547.273,
+            696.284
+          ],
+          [
+            434.545,
+            701.131
+          ],
+          [
+            385.455,
+            654.281
+          ],
+          [
+            326.364,
+            594.507
+          ],
+          [
+            269.091,
+            536.349
+          ]
+        ]
+      ],
+      "visible_evidence": "A continuous, empty light-paved pull-in is recessed along the camera-side lane at the sign. Its inner edge is the raised island and its outer edge meets the darker black running surface. The vehicle bonnet and the separate road beyond the island are excluded."
+    },
+    {
+      "id": "confirm-04",
+      "original_sha256": "7605f69bab2f8e946b7b86d7b22743d65b26c17e22aec2763ac2d2a0b84315cf",
+      "size": [
+        2688,
+        1520
+      ],
+      "expected": "clarify",
+      "polygons_1000": [],
+      "visible_evidence": "The coffee shop entrance and tables face a raised plaza behind the planting border. The paved space closer to the camera is the divided turning carriageway with traffic islands. No separate unoccupied pull-in is identifiable at the shop."
+    },
+    {
+      "id": "confirm-05",
+      "original_sha256": "4195865865ba917ea8b64832726fbe5ad4b77c95d2e0a52916ea50b24cc1e226",
+      "size": [
+        2688,
+        1520
+      ],
+      "expected": "propose",
+      "polygons_1000": [
+        [
+          [
+            0.909,
+            726.688
+          ],
+          [
+            72.727,
+            707.395
+          ],
+          [
+            148.182,
+            696.141
+          ],
+          [
+            197.273,
+            694.534
+          ],
+          [
+            211.818,
+            688.103
+          ],
+          [
+            229.091,
+            691.318
+          ],
+          [
+            321.818,
+            675.241
+          ],
+          [
+            370.0,
+            668.81
+          ],
+          [
+            383.636,
+            668.81
+          ],
+          [
+            331.818,
+            688.103
+          ],
+          [
+            260.909,
+            718.65
+          ],
+          [
+            191.818,
+            747.588
+          ],
+          [
+            123.636,
+            776.527
+          ],
+          [
+            70.0,
+            786.174
+          ],
+          [
+            0.909,
+            782.958
+          ]
+        ]
+      ],
+      "visible_evidence": "On the left of the access street, angled painted bays extend along the viaduct and hedge. The ground inside the marked row is unoccupied and distinct from the travel lane. Exclude the landscaping, viaduct columns and marked travel lane."
+    },
+    {
+      "id": "confirm-06",
+      "original_sha256": "8dfdff87ba2ed6bdb046a7db879bd9c24048989b7d8fdff906e88e021860a31e",
+      "size": [
+        1552,
+        720
+      ],
+      "expected": "clarify",
+      "polygons_1000": [],
+      "visible_evidence": "The clearly signed Nazim shop faces a continuous occupied row including the black SUV and white pickup. The open passage behind their bumpers is the through aisle. No distinct vacant part of a bay at this frontage can be identified."
+    },
+    {
+      "id": "confirm-07",
+      "original_sha256": "e121d0e57b8fbcba436e01a11989063a027652e2c80fcc5c9b4b89ad4cd673cc",
+      "size": [
+        3840,
+        2160
+      ],
+      "expected": "propose",
+      "polygons_1000": [
+        [
+          [
+            389.091,
+            610.662
+          ],
+          [
+            420.909,
+            612.278
+          ],
+          [
+            464.545,
+            610.662
+          ],
+          [
+            475.455,
+            594.507
+          ],
+          [
+            548.182,
+            621.971
+          ],
+          [
+            628.182,
+            651.05
+          ],
+          [
+            699.091,
+            678.514
+          ],
+          [
+            779.091,
+            705.977
+          ],
+          [
+            780.0,
+            738.288
+          ],
+          [
+            782.727,
+            775.444
+          ],
+          [
+            742.727,
+            780.291
+          ],
+          [
+            674.545,
+            770.598
+          ],
+          [
+            591.818,
+            759.289
+          ],
+          [
+            556.364,
+            751.212
+          ],
+          [
+            508.182,
+            720.517
+          ],
+          [
+            430.0,
+            655.897
+          ]
+        ]
+      ],
+      "visible_evidence": "A vacant recessed paved strip lies immediately below the taller of the grey double doors, between the near red car and the black sedan. Its width and aligned parked neighbours distinguish it from the moving lane and the raised footway."
+    },
+    {
+      "id": "confirm-08",
+      "original_sha256": "516cafa94d1ec06f646787428396f2e956e6afbb66c7c1fcae61c6951bd2eacf",
+      "size": [
+        3840,
+        2160
+      ],
+      "expected": "propose",
+      "polygons_1000": [
+        [
+          [
+            518.182,
+            901.454
+          ],
+          [
+            554.545,
+            901.454
+          ],
+          [
+            611.818,
+            896.607
+          ],
+          [
+            641.818,
+            883.683
+          ],
+          [
+            675.455,
+            875.606
+          ],
+          [
+            677.273,
+            888.53
+          ],
+          [
+            718.182,
+            890.145
+          ],
+          [
+            738.182,
+            890.145
+          ],
+          [
+            750.909,
+            885.299
+          ],
+          [
+            833.636,
+            886.914
+          ],
+          [
+            858.182,
+            878.837
+          ],
+          [
+            859.091,
+            925.687
+          ],
+          [
+            866.364,
+            946.688
+          ],
+          [
+            889.091,
+            956.381
+          ],
+          [
+            931.818,
+            991.922
+          ],
+          [
+            620.909,
+            991.922
+          ],
+          [
+            574.545,
+            953.15
+          ]
+        ]
+      ],
+      "visible_evidence": "The visible bicycle singles out this house's paved vehicle apron. The open forecourt in front of it lies between the dark street and house walls, adjacent to similar driveways. The cycle, bins, garden, curb stones, walls and approach lane are outside the accepted area."
+    }
+  ]
+}

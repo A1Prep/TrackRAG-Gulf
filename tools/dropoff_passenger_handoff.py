@@ -38,12 +38,13 @@ def bound_outcome(outcome, request, *, passenger_selected=False, passenger_landm
                 "native_model_calls":0}
     from trackrag.dropoff import passenger_parking as parking
     from trackrag.dropoff import parking_clarification
-    from trackrag.dropoff import place_grounding
-    if outcome.get("ok") and source.get("method") == place_grounding.METHOD:
-        from trackrag.dropoff.place_evidence import verify
+    from trackrag.dropoff.interaction import signed_place_verifier
+    place_verifier = signed_place_verifier(source.get("method"))
+    if place_verifier is not None:
         need(dialogue_policy and not (passenger_selected or passenger_landmarks or passenger_requested_pointing),
              "A place-model decision belongs to a normal submitted request")
-        checked = verify(request, outcome)
+    if outcome.get("ok") and place_verifier is not None:
+        checked = place_verifier(request, outcome)
         return {"ok":True,"method":source["method"],"request_id":request["request_id"],"result":outcome["result"],
                 "image_sha256":source["image"]["sha256"], "inference_input_sha256":source["inference_input_sha256"],
                 "saved_provenance":source, "place_verification":checked, "native_model_calls":checked["language_calls"],
@@ -329,7 +330,8 @@ def session(journal_path, *, referent_path=None, pair_geometry=None, road_cache=
                         if item["outcome"]["result"]["status"] == "proposed":
                             item["phase"] = "automatic_parking_proposal"
                             parking_offer_sha = digest(detail["outcome"])
-                if item["outcome"].get("place_verification", {}).get("independent_model_proposal"):
+                if (item["outcome"].get("place_verification") and item["outcome"]["ok"]
+                        and item["outcome"]["result"]["status"] == "proposed"):
                     place_offer_sha = digest(detail["outcome"])
                 if item["outcome"].get("method") == "deictic_pair_clarification" and item["outcome"]["ok"]:
                     item["phase"] = "automatic_pair_identification_question"

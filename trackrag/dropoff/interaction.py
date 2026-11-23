@@ -355,6 +355,21 @@ class InteractionController:
         return path
 
 
+def signed_place_verifier(method):
+    """Use the evidence checker for the exact signed model recipe in the receipt."""
+    if method == "molmo2_frontage_confidence_v1":
+        from .frontage_evidence import verify
+        return verify
+    if method == "single_vehicle_behind_parking_v1":
+        from .single_vehicle import verify
+        return verify
+    from .place_grounding import METHOD
+    if method == METHOD:
+        from .place_evidence import verify
+        return verify
+    return None
+
+
 class PassengerSession:
     """Keep the passenger application's synchronous scene and journal API.
 
@@ -378,6 +393,7 @@ class PassengerSession:
         self._turns = []
         self._state, self._proposal, self._result = "idle", None, None
         self._place_offer = None
+        self._place_offer_sha256 = None
         self._requested_area = False
         self._error, self._selected_by, self._request = None, None, None
         self._save("opened", {"scene":clean})
@@ -427,6 +443,10 @@ class PassengerSession:
         req = self._request
         if not isinstance(outcome,dict) or outcome.get("request_id") != req["request_id"]:
             raise ValueError("Grounding outcome belongs to a different request")
+        source = outcome.get("provenance")
+        verifier = signed_place_verifier(source.get("method")) if isinstance(source,dict) else None
+        if verifier is not None and selected_by != "model":
+            raise ValueError("Only an automatic passenger instruction can offer a place-model result")
         if outcome.get("ok") is False:
             self._state, self._error = "error",deepcopy(outcome["error"])
             return
@@ -440,14 +460,11 @@ class PassengerSession:
         from .manual_mark import REQUEST_METHOD
         if info.get("method") == REQUEST_METHOD and (not self._requested_area or selected_by != "passenger"):
             raise ValueError("Only the passenger can request to mark the photo.")
-        from .place_grounding import METHOD as place_method
-        if info.get("method") == place_method:
-            if selected_by != "model":
-                raise ValueError("Only an automatic passenger instruction can offer a place-model result")
-            from .place_evidence import verify
-            verify(req, outcome)
+        if verifier is not None:
+            verifier(req, outcome)
             if result["status"] == "proposed":
                 self._place_offer = deepcopy(outcome)
+                self._place_offer_sha256 = digest(outcome)
         self._state, self._result, self._selected_by = result["status"],result,selected_by
         if self._state == "proposed":
             self._proposal = uuid4().hex
@@ -460,6 +477,7 @@ class PassengerSession:
     def _clear(self):
         self._proposal, self._result, self._error, self._selected_by = None, None, None, None
         self._place_offer = None
+        self._place_offer_sha256 = None
 
     def _save_turn(self, action, detail):
         try:
@@ -575,12 +593,16 @@ class PassengerSession:
                 self._save("confirmation_blocked",{})
                 raise ValueError(self._error["message"])
             detail = {"proposal_id":proposal_id,"selected_by":self._selected_by}
-            if self._place_offer is not None:
-                from .place_evidence import verify
+            if self._place_offer is not None or self._place_offer_sha256 is not None:
                 try:
-                    if self._selected_by != "model" or self._place_offer["result"] != self._result:
+                    if (self._selected_by != "model" or not self._place_offer or
+                            self._place_offer.get("result") != self._result or
+                            self._place_offer_sha256 != digest(self._place_offer)):
                         raise ValueError("The displayed place proposal changed")
-                    verify(self._request, self._place_offer)
+                    verifier = signed_place_verifier(self._place_offer["provenance"]["method"])
+                    if verifier is None:
+                        raise ValueError("Unknown place proposal source")
+                    verifier(self._request, self._place_offer)
                 except Exception as exc:
                     self._clear()
                     self._state = "error"
@@ -588,7 +610,7 @@ class PassengerSession:
                                    "message":"The evidence for this pin changed before confirmation."}
                     self._save("confirmation_blocked", {})
                     raise ValueError(self._error["message"]) from exc
-                detail["verified_place_outcome_sha256"] = digest(self._place_offer)
+                detail["verified_place_outcome_sha256"] = self._place_offer_sha256
             self._state = "confirmed"
             try:
                 self._save("confirmed",detail)

@@ -73,15 +73,35 @@ _CLASSES = {
 }
 
 
-def _current_object_detail(text):
-    """An observable appearance or attachment can be seen even if its name has no lexical hit."""
+def _untimed_visible_object(text):
     objects = set(_tokens(text)) & (_CLASSES.keys() | {"bus", "car", "vehicle", "cyclist", "pedestrian"})
-    if not objects or _matches(r"\b(?:why|will|would|later|next|future|tomorrow|yesterday|earlier|previous(?:ly)?|"
+    return bool(objects) and not _matches(r"\b(?:why|will|would|later|next(?!\s+to\b)|future|tomorrow|yesterday|earlier|previous(?:ly)?|"
                                r"before|after|frames?|seconds?|minutes?|timestamps?|prefer(?:s|red)?|favou?rite|"
-                               r"think(?:s|ing)?|imagined?)\b|\d+:\d{2}|\d\s*(?:ms|s|secs?)\b", text):
-        return False
-    return _matches(r"\b(?:colou?rs?|shape|appearance|patterns?|markings?|lettering|logos?|stripes?|"
-                    r"attachments?|mounted|attached|structures?|looks? like)\b", text)
+                               r"think(?:s|ing)?|imagined?)\b|\d+:\d{2}|\d\s*(?:ms|s|secs?)\b", text)
+
+
+def _current_object_detail(text):
+    """Visible appearance, cargo and attachments can have no lexical hit in the track index."""
+    return _untimed_visible_object(text) and _matches(r"\b(?:colou?rs?|shape|appearance|patterns?|markings?|lettering|logos?|stripes?|"
+                    r"attachments?|mounted|attached|structures?|looks? like|carrying|hauling|cargo|load on)\b", text)
+
+
+def current_spatial_relation(text):
+    # Buildings, kerbs and gates usually have no track ID. Include the full current image
+    # for their relationship to a road user, even if a lexical vehicle match exists.
+    return _untimed_visible_object(text) and _matches(
+        r"\b(?:near|next to|beside|opposite|behind|under|in front of|to the (?:left|right) of)\s+"
+        r"(?:(?:the|a|an|that|this|those|another)\s+)?"
+        r"(?:[\w'-]+\s+){0,3}(?:buildings?|shops?|bridges?|overpasses?|gates?|kerbs?|curbs?|"
+        r"sidewalks?|junctions?|signs?|barriers?|trees?|houses?|walls?|entrances?|"
+        r"cars?|trucks?|vans?|buses|bus|pickups?|lanes?|pedestrians?)\b", text)
+
+
+def matches_vehicle_class(noun, label):
+    label = label.casefold().replace(" ", "_")
+    if noun == "vehicle":
+        return label in {"car", "truck", "bus", "van", "medium_vehicle", "large_vehicle"}
+    return label in _CLASSES.get(noun, {noun}) or label == noun
 
 
 def _object_score(rows, text, dimensions, frame, direction):
@@ -135,6 +155,10 @@ def rank_evidence(question, index, k=3):
     cutoff = _validate_question(question, index)
     text = question["question"]
     scope = question_scope(text)
+    cargo = _untimed_visible_object(text) and _matches(r"\b(?:carrying|hauling|cargo|load on)\b", text)
+    if scope is None and (current_spatial_relation(text) or cargo):
+        # A load or an untracked landmark needs the visible scene at the paused frame.
+        scope = question_scope(text, current_if_untimed=True)
     if scope is None:
         windows = rank_windows(question, index, k=k)
         if windows or not _current_object_detail(text):

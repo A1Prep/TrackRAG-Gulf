@@ -30,6 +30,7 @@ STATIC = {"/": ("index.html", "text/html; charset=utf-8"),
           "/favicon.ico": ("favicon.ico", "image/x-icon"),
           "/footage": ("footage.html", "text/html; charset=utf-8"),
           "/footage.js": ("footage.js", "text/javascript"),
+          "/footage-player.js": ("footage-player.js", "text/javascript"),
           "/frames.js": ("frames.js", "text/javascript"),
           "/pair-choices.js": ("pair-choices.js", "text/javascript"),
           "/photo-tools.js": ("photo-tools.js", "text/javascript"),
@@ -359,15 +360,19 @@ class PassengerSite:
 
 def handler(site):
     class Handler(BaseHTTPRequestHandler):
-        def send_data(self, status, mime, data):
+        def send_data(self, status, mime, data, *, etag=None):
             self.send_response(status)
             self.send_header("Content-Type", mime)
-            self.send_header("Content-Length", str(len(data)))
-            self.send_header("Cache-Control", "no-store")
+            if status != 304:
+                self.send_header("Content-Length", str(len(data)))
+            self.send_header("Cache-Control", "private, no-cache" if etag else "no-store")
+            if etag:
+                self.send_header("ETag", etag)
             self.send_header("X-Content-Type-Options", "nosniff")
             self.send_header("Content-Security-Policy", "default-src 'self'; object-src 'none'; base-uri 'none'; frame-ancestors 'none'")
             self.end_headers()
-            self.wfile.write(data)
+            if status != 304:
+                self.wfile.write(data)
 
         def respond(self, value, status=200):
             self.send_data(status, "application/json", json.dumps(value, allow_nan=False).encode("utf-8"))
@@ -393,6 +398,27 @@ def handler(site):
                     return self.send_data(200, mime, (ASSETS / filename).read_bytes())
                 if path == "/api/scenes":
                     return self.respond(site.catalog())
+                dropoff = re.fullmatch(r"/api/footage-preview/([a-f0-9]{24})/dropoff/(\d{1,10})", path)
+                if dropoff and dropoff[1] in site.footage_scenes:
+                    bound = site.open_recording_frame(dropoff[1], int(dropoff[2]), for_footage=True)
+                    self.send_response(303)
+                    self.send_header("Location", "/?scene=" + bound["key"])
+                    self.send_header("Cache-Control", "no-store")
+                    self.end_headers()
+                    return
+                preview = re.fullmatch(r"/api/footage-preview/([a-f0-9]{24})/(timeline|\d{1,10})", path)
+                if preview:
+                    key, item = preview.groups()
+                    if not site.footage or key not in site.footage_scenes:
+                        raise PassengerRequestError(404, "This recording has no attached original footage.")
+                    try:
+                        if item == "timeline":
+                            return self.respond(site.footage.timeline(site.scenes[key]))
+                        mime, data, etag = site.footage.preview_frame(site.scenes[key], int(item),
+                                                                    self.headers.get("If-None-Match"))
+                    except (KeyError, OSError, ValueError):
+                        raise PassengerRequestError(404, "This original footage is unavailable.")
+                    return self.send_data(304 if data is None else 200, mime, data or b"", etag=etag)
                 match = re.fullmatch(r"/api/footage/([0-9a-f]{32})/(\d{1,2})/(\d{1,2})",path)
                 if match and site.footage:
                     try:
@@ -516,7 +542,11 @@ def main(argv=None):
         dialogue_model = PassengerDialogueGrounder(model)
     if args.place_public_sources:
         from trackrag.dropoff.place_evidence import PlaceDialogueGrounder, PublicPlaceBackend
-        dialogue_model = PlaceDialogueGrounder(dialogue_model, PublicPlaceBackend(args.place_public_sources))
+        from trackrag.dropoff.frontage_evidence import PublicFrontageGrounder
+        public_places = PublicPlaceBackend(args.place_public_sources)
+        dialogue_model = PlaceDialogueGrounder(dialogue_model, public_places)
+        dialogue_model = PublicFrontageGrounder(dialogue_model, public_places, args.place_public_sources,
+                                               args.out/"frontage-cache")
     footage = None
     if args.qa_data_root:
         from trackrag.footage_app import FootageReview

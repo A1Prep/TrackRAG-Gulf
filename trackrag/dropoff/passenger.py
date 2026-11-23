@@ -145,7 +145,11 @@ def operational_code(exc):
         return "dependency_unavailable"
     if isinstance(exc, FileNotFoundError):
         return "checkpoint_or_image_unavailable"
-    if isinstance(exc, (ResourceError, MemoryError)) or "out of memory" in str(exc).lower():
+    message = str(exc).lower()
+    gpu_failure = isinstance(exc, RuntimeError) and any(detail in message for detail in (
+        "cublas_status_not_supported", "cuda error: unknown error", "bad allocation"
+    ))
+    if isinstance(exc, (ResourceError, MemoryError)) or "out of memory" in message or gpu_failure:
         return "resource_unavailable"
     if isinstance(exc, ValueError):
         return "invalid_input_or_output"

@@ -1,0 +1,92 @@
+{
+  "date": "2026-11-23",
+  "scope": "Chrome on the normal passenger release web application. Two original EMT recordings, local evidence retrieval, no hosted model calls.",
+  "desktop_and_mobile": [
+    {
+      "mobile": false,
+      "recording": "video_054907",
+      "displayed": 103,
+      "played_to": 107,
+      "caption": "Frame 103 \u00b7 0:10.2 / 0:14.9",
+      "question": "Does the white pickup look larger now than at the beginning?",
+      "intervals": [
+        [
+          1,
+          103
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          103,
+          103
+        ]
+      ],
+      "evidence_images": [
+        1,
+        52,
+        103,
+        1,
+        103
+      ],
+      "reload_at_selected_frame": true,
+      "chrome_page_errors": [],
+      "both_recordings_available": true,
+      "available_frames": 150,
+      "first_timestamp_s": 0.0,
+      "last_timestamp_s": 14.9,
+      "displayed_timestamp_s": 10.2,
+      "original_jpeg_sha256": "0448ff2ffa6959029f2af9d6f9fefc72af976679d400fe796e4e7064ce425213",
+      "repeat_request_http_status": 304
+    },
+    {
+      "mobile": true,
+      "recording": "video_054604",
+      "displayed": 125,
+      "played_to": 129,
+      "caption": "Frame 125 \u00b7 0:12.4 / 0:14.9",
+      "question": "Which bus entered from the left after the recording started?",
+      "intervals": [
+        [
+          111,
+          125
+        ],
+        [
+          110,
+          110
+        ],
+        [
+          1,
+          1
+        ]
+      ],
+      "evidence_images": [
+        111,
+        117,
+        125,
+        110,
+        1
+      ],
+      "reload_at_selected_frame": true,
+      "chrome_page_errors": [],
+      "both_recordings_available": true,
+      "available_frames": 150,
+      "first_timestamp_s": 0.0,
+      "last_timestamp_s": 14.9,
+      "displayed_timestamp_s": 12.4,
+      "original_jpeg_sha256": "ee09ca72f4a30db930b57473fb6986fe6f78e5ff4bbc6c6a0083f4c077de3ae3",
+      "repeat_request_http_status": 304
+    }
+  ],
+  "provider_outage_control": {
+    "simulated_provider_failure": true,
+    "live_local_retrieval": true,
+    "provider_requests_sent": 0,
+    "paused_frame": 103,
+    "question_retained": true,
+    "real_evidence_visible": true,
+    "raw_provider_details_hidden": true,
+    "retry_reran_same_question": true
+  }
+}

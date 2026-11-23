@@ -273,7 +273,7 @@ def mark_outcome(request, photo, surface, box, stall_review=None, *, policy=CLEA
 
 def select_mark(request, box):
     from . import roadside_context, surface_stalls
-    clean, original_sha, mark, _ = manual_offlane.mark_input(request,box)
+    clean, original_sha, mark, center = manual_offlane.mark_input(request,box)
     try:
         packet = manual_surfaces.get_packet(original_sha)
         if packet is not None:
@@ -292,6 +292,21 @@ def select_mark(request, box):
                     return paved
             if bay is not None:
                 return bay
+            from . import curb_points, parking_divider_choice, recessed_kerb
+            frame=clean["scene"]["frame"]
+            classes=manual_surfaces.decode(packet,frame,original_sha)
+            reason,_=manual_offlane.surface_check(frame,clean["scene"]["tracks"],mark,center,classes)
+            if reason=="through_lane":
+                recess=recessed_kerb.marked_outcome(clean,data,packet,mark)
+                if recess is not None:
+                    return recess
+            elif (reason in {"unverified_surface","mixed_area"}
+                  and parking_divider_choice.near_paint(classes,frame,center)):
+                points=curb_points.get_packet(original_sha)
+                if points is not None:
+                    divider=parking_divider_choice.marked_outcome(clean,data,packet,mark,points)
+                    if divider is not None:
+                        return divider
             gravel = roadside_context.get_packet(original_sha, gravel_only=True)
             if gravel is not None:
                 bay = mark_outcome(clean,data,packet,mark,stall_review,gravel_packet=gravel)
@@ -733,11 +748,12 @@ def explicit_request(request):
 
 
 def choice_outcome(request, offered, bay_id):
+    from . import curb_alternatives
     source = offered["provenance"]
     choices = source.get("bay_choices") or []
     if (source.get("method") not in {AUTO,MARK} or offered["result"]["status"] != "needs_clarification"
             or not isinstance(bay_id,str) or not choices or
-            (len(choices)==1 and source.get("reason") not in {"single_visible_bay_at_painted_edge","unverified_bay_reference"})):
+            (len(choices)==1 and source.get("reason") not in {"single_visible_bay_at_painted_edge","unverified_bay_reference",curb_alternatives.REASON})):
         raise ValueError("Choose a bay from the current highlighted alternatives.")
     verify(request,offered,requested_box=source.get("selected_box"))
     selected = next((row for row in choices if row["id"]==bay_id),None)
@@ -784,6 +800,19 @@ def verify(request, outcome, *, requested_box=None):
         if original.get("provenance",{}).get("method") not in {MARK,AUTO}:
             raise ValueError("Only an original set of pictured bays can be selected.")
         expected = choice_outcome(request,original,source["bay_id"])
+    elif source.get("divider_policy") is not None:
+        from . import parking_divider_choice
+        if (method!=MARK or requested_box is None or policy!=CLEARANCE_POLICY
+                or source["divider_policy"]!=parking_divider_choice.POLICY or language is not None):
+            raise ValueError("A painted divider requires the original passenger tap and checked adjacent points.")
+        expected=parking_divider_choice.marked_outcome(request,photo,source["surface_evidence"],
+                                                      requested_box,source["divider_point_observations"])
+    elif source.get("kerb_policy") is not None:
+        from . import recessed_kerb
+        if (method!=MARK or requested_box is None or policy!=CLEARANCE_POLICY
+                or source["kerb_policy"]!=recessed_kerb.RECIPE or language is not None):
+            raise ValueError("A recessed kerb requires its original passenger tap and measured current road edges.")
+        expected=recessed_kerb.marked_outcome(request,photo,source["surface_evidence"],requested_box)
     elif source.get("pullin_policy") == native_destination.POLICY:
         if policy != CLEARANCE_POLICY:
             raise ValueError("Unknown native destination clearance checks.")
@@ -812,9 +841,12 @@ def verify(request, outcome, *, requested_box=None):
         expected = mark_outcome(request,photo,source["surface_evidence"],requested_box,source.get("stall_review"),
                                 policy=policy,gravel_packet=source.get("gravel_evidence"))
     elif method==AUTO and source.get("explanation_policy") is not None:
-        from . import photo_clarification
+        from . import curb_alternatives, photo_clarification
         if source["explanation_policy"]==photo_clarification.VEGETATION_POLICY:
             expected=photo_clarification.greenery(request,photo,source["surface_evidence"])
+        elif source["explanation_policy"]==curb_alternatives.POLICY and type(source.get("local_photo_check")) is bool:
+            expected=curb_alternatives.rebuild(request,photo,source["surface_evidence"],source.get("curb_point_evidence"),
+                                               source.get("landmark_evidence"),public_stall_review=source.get("public_stall_review"))
         elif source["explanation_policy"]==photo_clarification.POLICY and type(source.get("local_photo_check")) is bool:
             expected=photo_clarification.rebuild(request,photo,source["surface_evidence"],source.get("landmark_evidence"),
                                                  local=source["local_photo_check"])
@@ -882,13 +914,14 @@ def verify(request, outcome, *, requested_box=None):
 
 
 def verify_current(request, outcome, *, requested_box=None):
-    from . import curb_point_language
+    from . import curb_alternatives, curb_point_language
     source = outcome["provenance"]
     if source["method"] == CHOICE:
         source = source["choice_source"]["provenance"]
     if source.get("clearance_policy") != CLEARANCE_POLICY:
         raise ValueError("Request a new check on the current photo before saving this location.")
-    if (source["method"]==AUTO and any(source.get(key) for key in ("roadside_evidence","curb_point_evidence","gravel_evidence"))
+    if (source["method"]==AUTO and source.get("explanation_policy")!=curb_alternatives.POLICY
+            and any(source.get(key) for key in ("roadside_evidence","curb_point_evidence","gravel_evidence"))
             and curb_point_language.indexed_reference(request["text"],expanded=True)
             and source.get("language_policy")!=SPATIAL_DIALOGUE_POLICY):
         raise ValueError("Recheck this passenger instruction with the current pictured-location policy.")

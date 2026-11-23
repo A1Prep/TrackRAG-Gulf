@@ -317,6 +317,7 @@ class PlaceDialogueGrounder:
         if local or (isinstance(self.backend,PublicPlaceBackend) and self.backend.allows_photo(request)):
             prior=observed_pullin.supplement(request,whole_bay.explicit_request(request))
             if local or (prior is not None and (photo_clarification.vegetation_reference(request["text"]) or
+                          photo_clarification.has_public_alternative(request,prior) or
                           prior["provenance"].get("reason") in
                           {"indexed_reference_unmatched","indexed_no_open_location","parking_fragments_at_vehicles"})):
                 try:

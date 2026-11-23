@@ -107,10 +107,21 @@ def rebuild(request,photo,surface,landmarks,*,local):
                            landmark_evidence=landmarks,clearance_policy=whole_bay.CLEARANCE_POLICY)
 
 
+def has_public_alternative(request,prior):
+    """Consider stronger close-view evidence only after a genuine prior unmatched bay request."""
+    from . import curb_alternatives, curb_points, surface_stalls
+    if (not prior or prior.get("result",{}).get("status")!="needs_clarification" or
+            prior.get("provenance",{}).get("reason") not in {"no_supported_bay_for_instruction","no_visible_bay_for_instruction"} or
+            not curb_alternatives.intent(request["text"])):
+        return False
+    key=request["scene"]["provenance"]["image_sha256"]
+    return surface_stalls.get_packet(key) is not None and curb_points.get_packet(key) is not None
+
+
 def explain(request,prior,*,local=False):
-    from . import curb_points, whole_bay
+    from . import curb_alternatives, curb_points, surface_stalls, whole_bay
     if (whole_bay._has_location(prior) or (prior and prior.get("result",{}).get("anchor_boxes_xyxy")) or
-            not bay_intent.permitted_destination(request["text"])):
+            not (bay_intent.permitted_destination(request["text"]) or curb_alternatives.intent(request["text"]))):
         return prior
     key=request["scene"]["provenance"]["image_sha256"]
     surface=manual_surfaces.get_packet(key)
@@ -128,4 +139,11 @@ def explain(request,prior,*,local=False):
             answer=whole_bay.point_outcome(request,photo,surface,points,conversational=True,expanded=True)
             if whole_bay._has_location(answer):
                 return answer
+    if curb_alternatives.intent(request["text"]):
+        review=None if local else surface_stalls.get_packet(key)
+        if local or review is not None:
+            alternative=curb_alternatives.rebuild(request,photo,surface,curb_points.get_packet(key),
+                                                  bay_landmarks.get_packet(key),public_stall_review=review)
+            if alternative is not None:
+                return alternative
     return greenery(request,photo,surface) or rebuild(request,photo,surface,bay_landmarks.get_packet(key),local=local) or prior

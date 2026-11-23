@@ -1,0 +1,279 @@
+{
+  "schema_version": 1,
+  "study": "Passenger-selected kerb recess and parking-divider repair",
+  "date": "2026-11-24",
+  "scope": "Development repair after the fourth six-drive evaluation was opened. The original prospective results are unchanged. These native checks concern explicit passenger marks. No stopping legality, operational safety or full physical stall extent was adjudicated.",
+  "frozen_reference_sha256": "e3b14f93129781060779da0e46048ae013fb833f4516d4ca8c2345c746c711ea",
+  "historical_first_result": "passenger-placement-fourth-holdout-results-20261124.json",
+  "environment": {
+    "platform": "Windows, Chromium Microsoft Edge",
+    "path": "normal passenger site on loopback port 8812, followed by strict source/journal replay",
+    "surface_model": "pinned local Mask2Former Mapillary Vistas classes",
+    "second_check": "Source-bound trained local full-image and crop OPEN observations for both divider choices.",
+    "cloud_calls": 0,
+    "source_images": "KartaView published processed photographs, locally installed",
+    "attribution": "Copyright Grab and KartaView Contributors",
+    "source_license": "https://creativecommons.org/licenses/by-sa/4.0/",
+    "registered_point_model": {
+      "base": "10d842936325905934ea24e64325d774693f166e",
+      "adapter": "76bfb3230b17a86248b52ca6a9f8d2ffca324aa80216d6b93845ccb12ad86743",
+      "processor": "0c351dd01ed87e9c1b53cbc748cba10e6187ff3b"
+    }
+  },
+  "recipe_sha256": {
+    "trackrag/dropoff/recessed_kerb.py": "5ef524a1286d927a0d16b2987aa3a50434da50c85eb91ca2165b96834738af5c",
+    "trackrag/dropoff/parking_divider_choice.py": "35f56a8436312bb2ef3021210c459e3eb672b0a5655531e83d12425f70a44373"
+  },
+  "methods": {
+    "kerb": "Measure straight outside kerb approaches before and after a short setback. Require an unoccupied opening from the current road, signed road continuity and a vehicle-width section with no intervening optical curb, lane stripe, planted strip or current obstacle. Keep the exact tap.",
+    "divider": "Fit the visible paint in RGB, require matching marking cells and parking on both sides, replay the independent interiors on the original, and check the touching parking areas can be reached through a substantial opening. Ask for one explicit choice from two point-only options."
+  },
+  "real_browser": [
+    {
+      "case": "N01/interior",
+      "source_url": "https://kartaview.org/details/4716457/586/",
+      "source_sha256": "23e5daf9f36f07025239167d7d2853be6ced5f4f21c7d6f9645ca6018c26c21d",
+      "frame_size": [
+        3264,
+        1836
+      ],
+      "frozen_first_run": "withheld",
+      "submitted_original_point": [
+        2196.6538066337603,
+        1115.2964764656674
+      ],
+      "first_state": "proposed",
+      "first_destination_point": [
+        2196.6538066337603,
+        1115.2964764656674
+      ],
+      "selectable_point_interiors": [],
+      "point_extent": "interior_point_only",
+      "save_was_visible_initially": true,
+      "saved_automatically": false,
+      "after_explicit_save": [
+        2196.6538066337603,
+        1115.2964764656674
+      ],
+      "elapsed_ms": {
+        "tap_to_visible": 892,
+        "choose_to_offer": null,
+        "explicit_save": 369
+      },
+      "browser_errors": [],
+      "browser_screenshot_sha256": "71790be7838e0204ce2fa4ee425a92a08e6a980de6cca7a07c41b4b68088e200",
+      "strict_handoff": {
+        "journal_sha256": "ab3a4bf07e7c1ad7b0e140981bdc132712c72548193523b16cb3903bcf76d95b",
+        "event_sequence": [
+          "opened",
+          "explicit_passenger_area_request",
+          "passenger_marked",
+          "confirmed_previous_selection"
+        ],
+        "saved_proof": true
+      }
+    },
+    {
+      "case": "N04/edge",
+      "source_url": "https://kartaview.org/details/4722665/4/",
+      "source_sha256": "5c8a40b1a7f2fc106fae50949ab85a4dbe10b313850e4128b33a09dc45816fcb",
+      "frame_size": [
+        3840,
+        2160
+      ],
+      "frozen_first_run": "withheld",
+      "submitted_original_point": [
+        1793.261566827357,
+        1833.8824286372794
+      ],
+      "first_state": "needs_clarification",
+      "first_destination_point": null,
+      "selectable_point_interiors": [
+        [
+          1683.2,
+          1769.407114624506
+        ],
+        [
+          1401.6,
+          1910.2766798418972
+        ]
+      ],
+      "point_extent": "interior_point_only",
+      "save_was_visible_initially": false,
+      "saved_automatically": false,
+      "after_explicit_save": [
+        1683.2,
+        1769.407114624506
+      ],
+      "elapsed_ms": {
+        "tap_to_visible": 4514,
+        "choose_to_offer": 915,
+        "explicit_save": 296
+      },
+      "browser_errors": [],
+      "browser_screenshot_sha256": "9b30bc942a4524b19781d22e36d737ef1b19b4493987a95f41159cc658703a0d",
+      "strict_handoff": {
+        "journal_sha256": "d77c2034a9bb968291ce606abfdd92c171975da55d2bea5ef33966b0c9c45f25",
+        "event_sequence": [
+          "opened",
+          "explicit_passenger_area_request",
+          "passenger_marked",
+          "passenger_selected_bay",
+          "confirmed_previous_selection"
+        ],
+        "saved_proof": true
+      }
+    }
+  ],
+  "second_divider_choice_normal_http": {
+    "source_sha256": "5c8a40b1a7f2fc106fae50949ab85a4dbe10b313850e4128b33a09dc45816fcb",
+    "events": [
+      {
+        "action": "submit",
+        "state": "needs_clarification",
+        "elapsed_ms": 46,
+        "point": null,
+        "choices": [],
+        "has_save_token": false
+      },
+      {
+        "action": "area",
+        "state": "needs_clarification",
+        "elapsed_ms": 469,
+        "point": null,
+        "choices": [
+          [
+            1683.2,
+            1769.407114624506
+          ],
+          [
+            1401.6,
+            1910.2766798418972
+          ]
+        ],
+        "has_save_token": false
+      },
+      {
+        "action": "select-bay",
+        "state": "proposed",
+        "elapsed_ms": 219,
+        "point": [
+          1401.6,
+          1910.2766798418972
+        ],
+        "choices": [],
+        "has_save_token": true
+      },
+      {
+        "action": "confirm",
+        "state": "confirmed",
+        "elapsed_ms": 156,
+        "point": [
+          1401.6,
+          1910.2766798418972
+        ],
+        "choices": [],
+        "has_save_token": true
+      }
+    ],
+    "journal_sha256": "3418b21ff14638a3826dcc6929aa2d807af93832ba2b35c66e7dc089e3f050a3",
+    "strict_replay": true
+  },
+  "source_bound_marks": {
+    "separate_source_drives": 6,
+    "four_interior_marks_all_proposed": true,
+    "shared_divider_choices": 2,
+    "through_lanes_withheld": 6,
+    "prohibited_marks_withheld": 2,
+    "original_actions_reproduced": 13,
+    "separate_visible_hood_control": {
+      "sha256": "23e5daf9f36f07025239167d7d2853be6ced5f4f21c7d6f9645ca6018c26c21d",
+      "native_tap": [
+        1795.2,
+        1795.608
+      ],
+      "class_id": 64,
+      "reason": "unverified_surface",
+      "point": null,
+      "verified": true
+    }
+  },
+  "old_feature_replays": [
+    {
+      "case": "Passenger's original curb tap",
+      "source": "kartaview_66245/146",
+      "point": [
+        2058.119,
+        1327.806
+      ],
+      "choices": [],
+      "reproduced": true
+    },
+    {
+      "case": "Same street, traffic lane",
+      "source": "kartaview_66245/146",
+      "point": null,
+      "choices": [],
+      "reproduced": true
+    },
+    {
+      "case": "Line between adjacent bays",
+      "source": "kartaview_7199241/48",
+      "point": null,
+      "choices": [
+        [
+          1893.315,
+          1434.021
+        ],
+        [
+          2190.935,
+          1564.406
+        ]
+      ],
+      "reproduced": true
+    },
+    {
+      "case": "Restaurant street, traffic lane",
+      "source": "kartaview_7199241/48",
+      "point": null,
+      "choices": [],
+      "reproduced": true
+    },
+    {
+      "case": "Occupied white car",
+      "source": "kartaview_3329429/213",
+      "point": null,
+      "choices": [],
+      "reproduced": true
+    }
+  ],
+  "independent_counterexamples": {
+    "original_failure_1": "A raised optical kerb 0.03 image widths inside the apparent approach previously allowed the exact palm-scene mark under an erroneous unchanged road mask.",
+    "repaired_1": "Withheld at both tested offsets. A continuous signed fence and a five-cell pedestrian hole also withheld. The original unblocked scene still accepted its exact mark.",
+    "original_failure_2": "A nine-row obstruction with a five-cell pedestrian hole across the parking approach previously preserved both mall choices.",
+    "repaired_2": "The pedestrian hole and fully closed fence now withhold. A 45-cell open gate offers both points. Occupied options, a completely enclosing fence, missing source paint, and blank optical input also withhold.",
+    "independent_synthetic_transfer": {
+      "preregistered_program_sha256": "07dc20f401393e9d0f7c67df5ffc143f262d89a2866b84ccda032160ae89d3a4",
+      "method": "Asymmetric perspective inlet at 704 by 396 with independent noise and mirrored geometry, created and frozen before running.",
+      "positive_configurations": 3,
+      "correct_positive_cases": 3,
+      "straight_or_fenced_negative_configurations": 3,
+      "correct_negative_cases": 3
+    }
+  },
+  "catalog_screen": {
+    "historical_photos": 81,
+    "source_set_sha256": "572843a80d53860f29d08890a82431451f25baa95446600d70833c6a7a37e343",
+    "new_kerb_recess_proposals": 0,
+    "seconds": 6.109,
+    "interpretation": "An inventory of detector coverage, without new visual ground truth. Only one natural source has so far confirmed this specific recess geometry."
+  },
+  "focused_automated_tests": {
+    "passed": 146,
+    "failed": 0,
+    "seconds": 16.46,
+    "geometry_tests": 24,
+    "commands": "python -m pytest -q tests/test_recessed_kerb.py tests/test_parking_divider_choice.py tests/test_bay_clearance.py tests/test_manual_offlane_confirmation.py tests/test_painted_bays.py tests/test_native_destination.py tests/test_passenger_bay_evidence.py tests/test_passenger_whole_bays.py tests/test_passenger_manual_offlane.py"
+  },
+  "limits": "The positive photos were available in development. Synthetic control variations and historical source scans do not estimate success on new roads. Both divider options depend on genuine point observations. Some real stalls or bays without visible boundaries will still need another image or a clarification."
+}

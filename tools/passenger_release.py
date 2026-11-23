@@ -26,6 +26,14 @@ SEG_HASHES = {
 
 PUBLIC_PHOTO_LISTS = ("passenger-uae-parking-photos-20261123.json", "passenger-place-public-photos-20261123.json",
                       "passenger-frontage-photos-20261123.json", "passenger-frontage-extended-photos-20261123.json")
+EXTRA_PHOTO_BANK = "data/uae-parking-local-extra/passenger-requests.jsonl"
+EXTRA_PHOTO_RESULTS = "experiments/dropoff/passenger-additional-local-photos-20261124"
+EXTRA_MODEL_FILES = {
+    "local_surface_index": ("passenger-local-image-surfaces-v1.json",
+                            "41a0c2e929523fb2220e04027203c2f863b8e9653a3ba7c1d21e675f92b8e4e8"),
+    "local_observations": ("observations.json",
+                           "3c11f54f49eb0f5db47e8715e252e8b091b20830930d75e61eb1fb6eb0f75e6f"),
+}
 
 
 def file_hash(path):
@@ -214,10 +222,10 @@ def start(args):
     banks = args.requests or [ROOT/"runs/passenger-inputs/requests.jsonl"]
     if args.requests is None:
         for extra in ("runs/passenger-pair-scene/requests.jsonl", "data/uae-parking-study/passenger-requests.jsonl",
-                      "data/uae-parking-local/passenger-requests.jsonl"):
+                      "data/uae-parking-local/passenger-requests.jsonl", EXTRA_PHOTO_BANK):
             if (ROOT/extra).is_file():
                 banks.append(ROOT/extra)
-    banks = [*banks, *(getattr(args,"additional_requests",None) or ())]
+    banks = list(dict.fromkeys(Path(p).resolve() for p in [*banks, *(getattr(args,"additional_requests",None) or ())]))
     for path in banks:
         if not path.is_file():
             raise FileNotFoundError(f"Prepared scene bank unavailable: {path}")
@@ -237,8 +245,12 @@ def start(args):
         for path in dict.fromkeys(Path(source).resolve() for source in sources):
             argv.extend(["--place-public-sources",str(path)])
         for option in ("local_surface_index", "local_observations"):
-            for path, expected in getattr(args,option,None) or ():
-                argv.extend(["--"+option.replace("_","-"),str(Path(path).resolve()),expected])
+            pairs = [(Path(path).resolve(), expected) for path, expected in getattr(args,option,None) or ()]
+            if ROOT / EXTRA_PHOTO_BANK in banks and option in EXTRA_MODEL_FILES:
+                name, digest = EXTRA_MODEL_FILES[option]
+                pairs.insert(0, (ROOT / EXTRA_PHOTO_RESULTS / name, digest))
+            for path, expected in dict.fromkeys(pairs):
+                argv.extend(["--"+option.replace("_","-"),str(path),expected])
         if getattr(args, "low_memory", False):
             argv.append("--low-memory")
         for bank in banks:

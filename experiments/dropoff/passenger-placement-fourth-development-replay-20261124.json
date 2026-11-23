@@ -1,0 +1,676 @@
+{
+  "scope": "Post-disclosure development replay of the 19 original browser trials on the same six previously evaluated KartaView photographs. The earlier study remains the independent held-out performance. A separate retry of the one operational failure is reported independently.",
+  "plan_sha256": "e3b14f93129781060779da0e46048ae013fb833f4516d4ca8c2345c746c711ea",
+  "first_field_result": "passenger-placement-fourth-holdout-results-20261124.json",
+  "first_field_result_sha256": "537d18a855a1d40688886ded2efa67ff44ac2e51ccb0545a0e033a959f3a07c3",
+  "source_only_model_8b_sha256": "d570c39941902351fd61ea194bb567b4372612cffcb80c3cd8226c8e1b985c99",
+  "software": {
+    "base_git": "d2117d6c583b580d32e0fad271f84884b3c0bd18",
+    "integration": "Stage included working-tree changes for supported reference alternatives, the measured kerb recess, and painted-divider choices at launch. The server did not expose a full working-tree revision. Several checks ran concurrently with local model preparation.",
+    "kerb_source_sha256": "5ef524a1286d927a0d16b2987aa3a50434da50c85eb91ca2165b96834738af5c",
+    "painted_divider_source_sha256": "35f56a8436312bb2ef3021210c459e3eb672b0a5655531e83d12425f70a44373"
+  },
+  "started_utc": "2026-11-23T23:05:53.231Z",
+  "finished_utc": "2026-11-23T23:06:43.441Z",
+  "observed_firsts_sha256": "1d49b89abdc2e9454dc7c787a63e4ecd73e61333f2d74cec2fe80699104c205c",
+  "protocol": "Fresh normal Edge sessions, one browser process. The renderer fetched the source bytes locally and checked their SHA-256 and dimensions. Each first visible response and available choice was retained before clicking. An independent source-bound journal confirmed each response and tested distinct passenger save. No external service received new sources or passenger words.",
+  "positive_natural_firsts": {
+    "n": 4,
+    "correct_direct": 0,
+    "correct_guided_and_saved": 3,
+    "incorrect_location_or_choice": 0,
+    "operational_errors": 1
+  },
+  "negative_natural_firsts": {
+    "n": 2,
+    "withheld": 2,
+    "specific_explanations": 2
+  },
+  "manual": {
+    "interior_taps": 4,
+    "interior_points_saved_in_reference": 4,
+    "travel_lane_marks_withheld": 6,
+    "travel_lane_marks": 6,
+    "separate_disallowed_marks_withheld": 2,
+    "separate_disallowed_marks": 2,
+    "painted_divider_marks": 1,
+    "correct_choices_on_divider": 2,
+    "initial_saved": 0
+  },
+  "timing_ms": {
+    "ack_ms": {
+      "n": 6,
+      "min": 60,
+      "median": 70.0,
+      "max": 122
+    },
+    "visible_ms": {
+      "n": 6,
+      "min": 589,
+      "median": 1111.5,
+      "max": 4242
+    }
+  },
+  "first_sessions": [
+    {
+      "case_id": "N01",
+      "task": "natural",
+      "input_sha256": "23e5daf9f36f07025239167d7d2853be6ced5f4f21c7d6f9645ca6018c26c21d",
+      "state": "needs_clarification",
+      "ack_ms": 122,
+      "visible_ms": 1757,
+      "actor": "model",
+      "heading": "Is this the spot you meant?",
+      "message": "The kerb bends into a recess on the right, below greenery and a sign. I couldn’t identify the trees as palms. Is the marked point in that recess what you meant? You can also mark another spot.",
+      "saved_xy": [
+        2181.288,
+        1128.451
+      ],
+      "selected_ms": 360,
+      "saved_ms": 229,
+      "save_button_visible": false,
+      "direct_xy": null,
+      "choice_xy": [
+        [
+          2181.288,
+          1128.451
+        ]
+      ],
+      "choice_in_reference": [
+        true
+      ],
+      "saved_inside": true,
+      "grade": "correct_choice",
+      "journal": {
+        "method": "public_painted_bay_landmark_v1",
+        "reason": "passenger_choice_of_observed_alternative",
+        "outcome_ok": true,
+        "journal_sha256": "2f7dcf21cfbec0145d6663e54bc732d5cfe002864c5c2cd657255575db5b2ed2"
+      }
+    },
+    {
+      "case_id": "N02",
+      "task": "natural",
+      "input_sha256": "6c75b87cf07d846faf4059d71c9dae7636e91d36a9a53531b29d93514e7caafd",
+      "state": "needs_clarification",
+      "ack_ms": 72,
+      "visible_ms": 604,
+      "actor": "reference_clarification",
+      "heading": "Which spot do you mean?",
+      "message": "You asked to get out on a pedestrian crossing. Could you choose a pull-in before or after it?",
+      "save_button_visible": false,
+      "direct_xy": null,
+      "choice_xy": [],
+      "choice_in_reference": [],
+      "saved_inside": false,
+      "grade": "withheld",
+      "journal": {
+        "method": "passenger_vehicle_reference_clarification_v1",
+        "outcome_ok": true,
+        "journal_sha256": "db70ad8f18379f04db9ec336cba23b63822222dd8cbd8419df6573b27505b716"
+      }
+    },
+    {
+      "case_id": "N03",
+      "task": "natural",
+      "input_sha256": "f54b64ca973b1dee85217c345b043aef8d9a5bd3854f8d6f25a3fa42edce1eed",
+      "state": "needs_clarification",
+      "ack_ms": 62,
+      "visible_ms": 1619,
+      "actor": "model",
+      "heading": "Is this the spot you meant?",
+      "message": "I can see a dark SUV among the vehicles beside this parking area. Its marked point is to their left. I couldn’t verify the gravel surface or whether the vehicle is parked. Is this the spot you meant? You can also mark another spot.",
+      "saved_xy": [
+        46.29333333333334,
+        1157.1709233791748
+      ],
+      "selected_ms": 360,
+      "saved_ms": 214,
+      "save_button_visible": false,
+      "direct_xy": null,
+      "choice_xy": [
+        [
+          46.29333333333334,
+          1157.1709233791748
+        ]
+      ],
+      "choice_in_reference": [
+        true
+      ],
+      "saved_inside": true,
+      "grade": "correct_choice",
+      "journal": {
+        "method": "public_painted_bay_landmark_v1",
+        "reason": "passenger_choice_of_observed_alternative",
+        "outcome_ok": true,
+        "journal_sha256": "8951c55cc7a9d05c5812469f6da2b24f2c8b75c2201ddbc3db3b0b1af12d4bae"
+      }
+    },
+    {
+      "case_id": "N04",
+      "task": "natural",
+      "input_sha256": "5c8a40b1a7f2fc106fae50949ab85a4dbe10b313850e4128b33a09dc45816fcb",
+      "state": "error",
+      "ack_ms": 60,
+      "visible_ms": 589,
+      "actor": null,
+      "heading": "The request couldn’t finish",
+      "message": "Try the description again or choose another scene.",
+      "save_button_visible": false,
+      "direct_xy": null,
+      "choice_xy": [],
+      "choice_in_reference": [],
+      "saved_inside": false,
+      "grade": "operational_error",
+      "journal": {
+        "outcome_ok": false,
+        "error": {
+          "code": "resource_unavailable",
+          "message": "MemoryError"
+        },
+        "journal_sha256": "e395add39bbf9c9f8f79feac2e4db2f6300ed308d57900c41ad65fb9f886c615"
+      }
+    },
+    {
+      "case_id": "N05",
+      "task": "natural",
+      "input_sha256": "4832889ce5ce64f7c373a1e5c615e1aef12efbdf466945dfc88482bd3000d9f7",
+      "state": "needs_clarification",
+      "ack_ms": 68,
+      "visible_ms": 598,
+      "actor": "reference_clarification",
+      "heading": "Which spot do you mean?",
+      "message": "You asked to get out in a travel lane. Is there a pull-in off the lane that you meant?",
+      "save_button_visible": false,
+      "direct_xy": null,
+      "choice_xy": [],
+      "choice_in_reference": [],
+      "saved_inside": false,
+      "grade": "withheld",
+      "journal": {
+        "method": "passenger_vehicle_reference_clarification_v1",
+        "outcome_ok": true,
+        "journal_sha256": "07ded2e8859278d312bf260e575a4881519b13a6e9d69d9b98a5f3c9d161ee7a"
+      }
+    },
+    {
+      "case_id": "N06",
+      "task": "natural",
+      "input_sha256": "1948be1039f755691fda591237ef9aa41ff0a0fc4179a9269d005662347753ce",
+      "state": "needs_clarification",
+      "ack_ms": 108,
+      "visible_ms": 4242,
+      "actor": "model",
+      "heading": "Is this the spot you meant?",
+      "message": "The photo shows open parking on the right, with greenery and a wall in that part of the picture. I couldn’t verify the landmark’s size or identify the trees as palms. Is this the spot you meant? You can also mark another spot.",
+      "saved_xy": [
+        2801.0666666666666,
+        1978.5770750988142
+      ],
+      "selected_ms": 925,
+      "saved_ms": 323,
+      "save_button_visible": false,
+      "direct_xy": null,
+      "choice_xy": [
+        [
+          2801.0666666666666,
+          1978.5770750988142
+        ]
+      ],
+      "choice_in_reference": [
+        true
+      ],
+      "saved_inside": true,
+      "grade": "correct_choice",
+      "journal": {
+        "method": "public_painted_bay_landmark_v1",
+        "reason": "passenger_choice_of_observed_alternative",
+        "outcome_ok": true,
+        "journal_sha256": "e5d6ac7aa46d092826726d3b14c70c5d35b2221d93421e7add6635c7c693bc39"
+      }
+    },
+    {
+      "case_id": "N01",
+      "task": "lane",
+      "input_sha256": "23e5daf9f36f07025239167d7d2853be6ced5f4f21c7d6f9645ca6018c26c21d",
+      "state": "needs_clarification",
+      "visible_ms": 565,
+      "actor": "passenger",
+      "actual_tap": [
+        1478.5750163251196,
+        1412.0355901295798
+      ],
+      "heading": "Choose another location",
+      "message": "That point appears to be in a traffic lane. Could you mark a visible parking bay instead?",
+      "save_button_visible": false,
+      "direct_xy": null,
+      "choice_xy": [],
+      "choice_in_reference": [],
+      "saved_inside": false,
+      "grade": "withheld",
+      "journal": {
+        "method": "explicit_passenger_offlane_region_v1",
+        "reason": "through_lane",
+        "operational_status": "complete",
+        "outcome_ok": true,
+        "journal_sha256": "c683e246acb7e6b3acc35e297cadac677cf93dfda1054ae655fafcfae1e04e89"
+      }
+    },
+    {
+      "case_id": "N02",
+      "task": "lane",
+      "input_sha256": "6c75b87cf07d846faf4059d71c9dae7636e91d36a9a53531b29d93514e7caafd",
+      "state": "needs_clarification",
+      "visible_ms": 1813,
+      "actor": "passenger",
+      "actual_tap": [
+        840.9398947509939,
+        1726.4513051866015
+      ],
+      "heading": "Choose another location",
+      "message": "That point appears to be in a traffic lane. Could you mark a visible parking bay instead?",
+      "save_button_visible": false,
+      "direct_xy": null,
+      "choice_xy": [],
+      "choice_in_reference": [],
+      "saved_inside": false,
+      "grade": "withheld",
+      "journal": {
+        "method": "explicit_passenger_offlane_region_v1",
+        "reason": "through_lane",
+        "operational_status": "complete",
+        "outcome_ok": true,
+        "journal_sha256": "4fcb6bcfe489829c5ae0d37ed652dbcf0a4a18135836c627744e23a1fe8a1e60"
+      }
+    },
+    {
+      "case_id": "N03",
+      "task": "lane",
+      "input_sha256": "f54b64ca973b1dee85217c345b043aef8d9a5bd3854f8d6f25a3fa42edce1eed",
+      "state": "needs_clarification",
+      "visible_ms": 836,
+      "actor": "passenger",
+      "actual_tap": [
+        1309.0400637639964,
+        1283.2534304734734
+      ],
+      "heading": "Choose another location",
+      "message": "That point appears to be in a traffic lane. Could you mark a visible parking bay instead?",
+      "save_button_visible": false,
+      "direct_xy": null,
+      "choice_xy": [],
+      "choice_in_reference": [],
+      "saved_inside": false,
+      "grade": "withheld",
+      "journal": {
+        "method": "explicit_passenger_offlane_region_v1",
+        "reason": "through_lane",
+        "operational_status": "complete",
+        "outcome_ok": true,
+        "journal_sha256": "538adc2c008f1b5619e9f0293d30388b5c3096661243a1aea3dc94b5a500ba08"
+      }
+    },
+    {
+      "case_id": "N04",
+      "task": "lane",
+      "input_sha256": "5c8a40b1a7f2fc106fae50949ab85a4dbe10b313850e4128b33a09dc45816fcb",
+      "state": "needs_clarification",
+      "visible_ms": 2712,
+      "actor": "passenger",
+      "actual_tap": [
+        2323.1841665546317,
+        2098.590372861679
+      ],
+      "heading": "Choose another location",
+      "message": "That point appears to be in a traffic lane. Could you mark a visible parking bay instead?",
+      "save_button_visible": false,
+      "direct_xy": null,
+      "choice_xy": [],
+      "choice_in_reference": [],
+      "saved_inside": false,
+      "grade": "withheld",
+      "journal": {
+        "method": "explicit_passenger_offlane_region_v1",
+        "reason": "through_lane",
+        "operational_status": "complete",
+        "outcome_ok": true,
+        "journal_sha256": "0e9251d707bab081bfd35616b063032d9ad0cb732c09d28c9925a6221d2de1a8"
+      }
+    },
+    {
+      "case_id": "N05",
+      "task": "lane",
+      "input_sha256": "4832889ce5ce64f7c373a1e5c615e1aef12efbdf466945dfc88482bd3000d9f7",
+      "state": "needs_clarification",
+      "visible_ms": 1064,
+      "actor": "passenger",
+      "actual_tap": [
+        1017.5649163577698,
+        1599.8559621162974
+      ],
+      "heading": "Choose another location",
+      "message": "That point appears to be in a traffic lane. Could you mark a visible parking bay instead?",
+      "save_button_visible": false,
+      "direct_xy": null,
+      "choice_xy": [],
+      "choice_in_reference": [],
+      "saved_inside": false,
+      "grade": "withheld",
+      "journal": {
+        "method": "explicit_passenger_offlane_region_v1",
+        "reason": "through_lane",
+        "operational_status": "complete",
+        "outcome_ok": true,
+        "journal_sha256": "d17e60688803bc92913316ea0bd2c5676a450774da41375f8ef32343e43a14ff"
+      }
+    },
+    {
+      "case_id": "N06",
+      "task": "lane",
+      "input_sha256": "1948be1039f755691fda591237ef9aa41ff0a0fc4179a9269d005662347753ce",
+      "state": "needs_clarification",
+      "visible_ms": 834,
+      "actor": "passenger",
+      "actual_tap": [
+        1820.1187892523096,
+        2002.676219397685
+      ],
+      "heading": "Choose another location",
+      "message": "That point appears to be in a traffic lane. Could you mark a visible parking bay instead?",
+      "save_button_visible": false,
+      "direct_xy": null,
+      "choice_xy": [],
+      "choice_in_reference": [],
+      "saved_inside": false,
+      "grade": "withheld",
+      "journal": {
+        "method": "explicit_passenger_offlane_region_v1",
+        "reason": "through_lane",
+        "operational_status": "complete",
+        "outcome_ok": true,
+        "journal_sha256": "b92ed7940111a929b14bb099feeda804e5ba5ee1c8051b38a99df44a6c93df2d"
+      }
+    },
+    {
+      "case_id": "N01",
+      "task": "interior",
+      "input_sha256": "23e5daf9f36f07025239167d7d2853be6ced5f4f21c7d6f9645ca6018c26c21d",
+      "state": "proposed",
+      "visible_ms": 1227,
+      "actor": "passenger",
+      "actual_tap": [
+        2196.6538066337603,
+        1115.2964764656674
+      ],
+      "heading": "Is this the spot you meant?",
+      "message": "The blue diamond marks your tap. The gold ring shows the spot in the middle right of the photo. Check that it is where you meant.",
+      "saved_xy": [
+        2196.6538066337603,
+        1115.2964764656674
+      ],
+      "saved_ms": 328,
+      "save_button_visible": true,
+      "direct_xy": [
+        2196.6538066337603,
+        1115.2964764656674
+      ],
+      "choice_xy": [],
+      "choice_in_reference": [],
+      "saved_inside": true,
+      "grade": "correct_direct",
+      "journal": {
+        "method": "passenger_marked_painted_bay_v1",
+        "reason": "passenger_mark_inside_measured_kerb_recess",
+        "outcome_ok": true,
+        "journal_sha256": "78cf6320a639d9cd436cd23af800ab79f91f7948d66add8e77a44c9e9007fe8c"
+      }
+    },
+    {
+      "case_id": "N03",
+      "task": "interior",
+      "input_sha256": "f54b64ca973b1dee85217c345b043aef8d9a5bd3854f8d6f25a3fa42edce1eed",
+      "state": "proposed",
+      "visible_ms": 425,
+      "actor": "passenger",
+      "actual_tap": [
+        204.2646722012023,
+        1094.9183988859452
+      ],
+      "heading": "Is this your intended location?",
+      "message": "The blue pin is at the centre of your mark, in the lower left of the photo. Save it if this is where you want to get out.",
+      "saved_xy": [
+        204.2646722012023,
+        1094.9183988859452
+      ],
+      "saved_ms": 135,
+      "save_button_visible": true,
+      "direct_xy": [
+        204.2646722012023,
+        1094.9183988859452
+      ],
+      "choice_xy": [],
+      "choice_in_reference": [],
+      "saved_inside": true,
+      "grade": "correct_direct",
+      "journal": {
+        "method": "explicit_passenger_offlane_region_v1",
+        "reason": "parking",
+        "operational_status": "complete",
+        "outcome_ok": true,
+        "journal_sha256": "10b5b0b0ffe1a8577cd0bdf9e4378ed83cf4c191d4a97960d4e4409749bd84c9"
+      }
+    },
+    {
+      "case_id": "N04",
+      "task": "interior",
+      "input_sha256": "5c8a40b1a7f2fc106fae50949ab85a4dbe10b313850e4128b33a09dc45816fcb",
+      "state": "proposed",
+      "visible_ms": 569,
+      "actor": "passenger",
+      "actual_tap": [
+        1105.8775712063302,
+        1868.3869549629528
+      ],
+      "heading": "Is this your intended location?",
+      "message": "The blue pin is at the centre of your mark, in the lower left of the photo. Save it if this is where you want to get out.",
+      "saved_xy": [
+        1105.8775712063302,
+        1868.3869549629528
+      ],
+      "saved_ms": 163,
+      "save_button_visible": true,
+      "direct_xy": [
+        1105.8775712063302,
+        1868.3869549629528
+      ],
+      "choice_xy": [],
+      "choice_in_reference": [],
+      "saved_inside": true,
+      "grade": "correct_direct",
+      "journal": {
+        "method": "explicit_passenger_offlane_region_v1",
+        "reason": "parking",
+        "operational_status": "complete",
+        "outcome_ok": true,
+        "journal_sha256": "df650b8aba273e641b45968b1e2c8667fe6715f26887ca34a321244df57972f7"
+      }
+    },
+    {
+      "case_id": "N06",
+      "task": "interior",
+      "input_sha256": "1948be1039f755691fda591237ef9aa41ff0a0fc4179a9269d005662347753ce",
+      "state": "proposed",
+      "visible_ms": 375,
+      "actor": "passenger",
+      "actual_tap": [
+        3152.595117828951,
+        1987.33562459453
+      ],
+      "heading": "Is this your intended location?",
+      "message": "The blue pin is at the centre of your mark, in the lower right of the photo. Save it if this is where you want to get out.",
+      "saved_xy": [
+        3152.595117828951,
+        1987.33562459453
+      ],
+      "saved_ms": 140,
+      "save_button_visible": true,
+      "direct_xy": [
+        3152.595117828951,
+        1987.33562459453
+      ],
+      "choice_xy": [],
+      "choice_in_reference": [],
+      "saved_inside": true,
+      "grade": "correct_direct",
+      "journal": {
+        "method": "explicit_passenger_offlane_region_v1",
+        "reason": "parking",
+        "operational_status": "complete",
+        "outcome_ok": true,
+        "journal_sha256": "9ec805016e81dc7400358cf6af0f68b2de09d886a245962e05494f59da97784d"
+      }
+    },
+    {
+      "case_id": "N04",
+      "task": "edge",
+      "input_sha256": "5c8a40b1a7f2fc106fae50949ab85a4dbe10b313850e4128b33a09dc45816fcb",
+      "state": "needs_clarification",
+      "visible_ms": 560,
+      "actor": "passenger",
+      "actual_tap": [
+        1793.261566827357,
+        1833.8824286372794
+      ],
+      "heading": "Which spot did you mean?",
+      "message": "Your mark touches a painted divider. Which of the two marked points on either side did you mean?",
+      "saved_xy": [
+        1683.2,
+        1769.407114624506
+      ],
+      "selected_ms": 369,
+      "saved_ms": 200,
+      "save_button_visible": false,
+      "direct_xy": null,
+      "choice_xy": [
+        [
+          1683.2,
+          1769.407114624506
+        ],
+        [
+          1401.6,
+          1910.2766798418972
+        ]
+      ],
+      "choice_in_reference": [
+        true,
+        true
+      ],
+      "saved_inside": true,
+      "grade": "correct_choice",
+      "journal": {
+        "method": "passenger_marked_painted_bay_v1",
+        "reason": "passenger_mark_between_checked_interiors",
+        "outcome_ok": true,
+        "journal_sha256": "47402c1cf98e4eec80f6db206f81e54a00b0a66cf96d5b5a364dc6660f4881ed"
+      }
+    },
+    {
+      "case_id": "N02",
+      "task": "forbidden",
+      "input_sha256": "6c75b87cf07d846faf4059d71c9dae7636e91d36a9a53531b29d93514e7caafd",
+      "state": "needs_clarification",
+      "visible_ms": 245,
+      "actor": "passenger",
+      "actual_tap": [
+        1121.2649086753606,
+        1526.929076894185
+      ],
+      "heading": "Choose another location",
+      "message": "Your mark falls on pedestrian crossing markings. Could you mark a pull-in before or after the crossing?",
+      "save_button_visible": false,
+      "direct_xy": null,
+      "choice_xy": [],
+      "choice_in_reference": [],
+      "saved_inside": false,
+      "grade": "withheld",
+      "journal": {
+        "method": "explicit_passenger_offlane_region_v1",
+        "reason": "pedestrian_crossing",
+        "operational_status": "complete",
+        "outcome_ok": true,
+        "journal_sha256": "571673fd90e387793270c45e4e4bf1a20bb48b2122555d2fc80ba4e90c6de063"
+      }
+    },
+    {
+      "case_id": "N05",
+      "task": "forbidden",
+      "input_sha256": "4832889ce5ce64f7c373a1e5c615e1aef12efbdf466945dfc88482bd3000d9f7",
+      "state": "needs_clarification",
+      "visible_ms": 308,
+      "actor": "passenger",
+      "actual_tap": [
+        2303.973438070179,
+        1611.325972274388
+      ],
+      "heading": "Choose another location",
+      "message": "That point appears to be in a traffic lane. Could you mark a visible parking bay instead?",
+      "save_button_visible": false,
+      "direct_xy": null,
+      "choice_xy": [],
+      "choice_in_reference": [],
+      "saved_inside": false,
+      "grade": "withheld",
+      "journal": {
+        "method": "explicit_passenger_offlane_region_v1",
+        "reason": "through_lane",
+        "operational_status": "complete",
+        "outcome_ok": true,
+        "journal_sha256": "a33165b0baa79f24fabf0f724bd7b0aa4901e810bcd67c1027ae4407c4ebe889"
+      }
+    }
+  ],
+  "isolated_retry": {
+    "occurred_after_first_sessions": true,
+    "started_utc": "2026-11-23T23:07:44.712Z",
+    "observed_sha256": "3dadbea9b81aa6a6420abe17ac89a2bb96d28d4e45e3bf2cc472ec20b136a5a4",
+    "case_id": "N04",
+    "task": "natural",
+    "input_sha256": "5c8a40b1a7f2fc106fae50949ab85a4dbe10b313850e4128b33a09dc45816fcb",
+    "state": "needs_clarification",
+    "ack_ms": 89,
+    "visible_ms": 813,
+    "actor": "model",
+    "heading": "Is this the spot you meant?",
+    "message": "I found open parking near the orange parking sign. I can also read “mega mall” elsewhere in the photo. I couldn’t verify that the spot is across the street from it or trace the whole bay. Is this the spot you meant? You can also mark another spot.",
+    "saved_xy": [
+      552.5333333333333,
+      1880.395256916996
+    ],
+    "selected_ms": 884,
+    "saved_ms": 380,
+    "save_button_visible": false,
+    "direct_xy": null,
+    "choice_xy": [
+      [
+        552.5333333333333,
+        1880.395256916996
+      ]
+    ],
+    "choice_in_reference": [
+      true
+    ],
+    "saved_inside": true,
+    "grade": "correct_choice",
+    "journal": {
+      "method": "public_painted_bay_landmark_v1",
+      "reason": "passenger_choice_of_observed_alternative",
+      "outcome_ok": true,
+      "journal_sha256": "8fb333bf4d62d6fc26e58d92538131426ef40e457e8b1b0565e220b2d851402d"
+    }
+  },
+  "findings": [
+    "Three positive natural first requests offered one correct selectable pictured point each. The fourth returned a MemoryError during concurrent local processing. Its independent subsequent browser session offered one point that was selected and saved in the frozen region. There were no wrong locations, options or automatic saves.",
+    "The two natural negatives specifically identified crossing and travel-lane requests. All eight fixed travel or prohibited-point controls withheld. Each of the four positive passenger-marked interiors could be saved. The original mall stripe presented two inside-region points and required selection and a separate save.",
+    "The four original positive descriptions include location features that remained uncertain. Each guided response explicitly stated the outstanding visual relation or attribute. Neither selecting the point nor these studies validate a complete bay footprint, legal stopping or real vehicle clearance."
+  ]
+}

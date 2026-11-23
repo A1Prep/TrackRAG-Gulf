@@ -99,7 +99,7 @@ def _has_parking_index(scene, backend):
             if picture.size != size:
                 return False
         return whole_bay.index_has_outline(scene, photo, shapes)
-    except (OSError,TypeError,ValueError,KeyError):
+    except (OSError,TypeError,ValueError,KeyError,MemoryError):
         return False
 
 
@@ -246,7 +246,9 @@ class PassengerSite:
         self.model_lock = threading.Lock()
         self.release_after_request = release_after_request
         self.scene_lock = threading.Lock()
+        self.catalog_lock = threading.Lock()
         self.grounding_pool = ThreadPoolExecutor(max_workers=4,thread_name_prefix="passenger-photo")
+        self.public_grounding_pool = ThreadPoolExecutor(max_workers=2,thread_name_prefix="passenger-public-photo")
 
     @contextmanager
     def model_request(self):
@@ -261,7 +263,13 @@ class PassengerSite:
         with self.scene_lock:
             scenes = list(self.scenes.items())
             covered = sorted(self.footage_scenes)
-        frames = [self._catalog_frame(key,scene) if include_parking else public_frame(key,scene) for key,scene in scenes]
+        if include_parking:
+            # Concurrent first visits share the measured photo index. A missing index
+            # must not run a full computer-vision scan in every open browser tab.
+            with self.catalog_lock:
+                frames = [self._catalog_frame(key,scene) for key,scene in scenes]
+        else:
+            frames = [public_frame(key,scene) for key,scene in scenes]
         return {"scenes": sorted(frames, key=lambda f: (f["recording_id"], f["frame_id"])),
                 "speech_available": self.recognizer is not None, "footage_available": bool(covered),
                 "footage_scenes": covered}
@@ -376,13 +384,12 @@ class PassengerSite:
         with s.lock:
             self._finish_grounding(s,job,interactive_timeout(job.request),"model")
 
-    def _run_grounding(self, s, job):
+    def _run_grounding(self, s, job, public):
         from trackrag.dropoff.contracts import error_outcome
         from trackrag.dropoff.passenger import operational_code
+        from trackrag.dropoff.place_evidence import guard_public_fallback
         try:
-            remote = getattr(self.model,"uses_public_service",None)
-            # A private cloud request does not reserve the laptop GPU or block speech/road checks.
-            with nullcontext() if callable(remote) and remote(job.request) else self.model_request():
+            with guard_public_fallback(self.model_request) if public else self.model_request():
                 with s.lock:
                     if s.retired or s.pending is not job:
                         return
@@ -400,7 +407,12 @@ class PassengerSite:
         timer.daemon = True
         s.pending = job
         try:
-            job.future = self.grounding_pool.submit(self._run_grounding,s,job)
+            public_route = getattr(self.model,"uses_public_service",None)
+            public = callable(public_route) and bool(public_route(req))
+            # A queue of slow laptop inferences must not delay a different passenger's
+            # signed photo lookup or cloud request before it gets to run at all.
+            pool = self.public_grounding_pool if public else self.grounding_pool
+            job.future = pool.submit(self._run_grounding,s,job,public)
             timer.start()
         except RuntimeError:
             s.pending = None
@@ -723,6 +735,9 @@ def main(argv=None):
     parser.add_argument("--out", type=Path, required=True, help="Local session receipts and source WAVs")
     parser.add_argument("--port", type=int, default=8765)
     args = parser.parse_args(argv)
+    if args.low_memory and args.place_public_sources:
+        import cv2
+        cv2.setNumThreads(2)
     if args.require_footage < 0:
         parser.error("--require-footage must be nonnegative.")
     if bool(args.qa_data_root) != bool(args.qa_predictions):
@@ -771,6 +786,7 @@ def main(argv=None):
                 pass
     finally:
         site.grounding_pool.shutdown(wait=True,cancel_futures=True)
+        site.public_grounding_pool.shutdown(wait=True,cancel_futures=True)
         model.close()
 
 

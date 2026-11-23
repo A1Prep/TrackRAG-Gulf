@@ -122,10 +122,13 @@ def unmeasured_scene_quantity(text):
 
 def current_scene_layout(text):
     """A present visual relationship in the road scene, independent of any assigned track."""
+    vehicle_detail = _current_object_detail(text) and _matches(
+        r"\b(?:mounted|attachments?|attached|carrying|hauling|cargo|load|beds?|bumpers?|roofs?|"
+        r"colou?rs?|shapes?|patterns?|markings?|lettering|logos?|stripes?)\b", text)
     return bool(_SCENE_FEATURE.search(text) and _SCENE_LAYOUT.search(text)
                 and not _OTHER_MOMENT_OR_FACT.search(text) and not requested_frame_ids(text)
                 and not requested_playback_times(text) and not referenced_track_ids(text)
-                and not current_spatial_relation(text) and not _current_object_detail(text)
+                and not current_spatial_relation(text) and not vehicle_detail
                 and not supports_track_question(text))
 
 

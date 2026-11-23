@@ -1,0 +1,766 @@
+{
+  "predeclared_plan_sha256": "734a9e26313fb0767b910b0a36d2aec0892f91029a053f509a4ae7abac52da68",
+  "scope": "Post-exposure application reruns of the original twelve on the same four released public photos, each in a new Edge session. Sessions check original bytes, and every bounded location receipt is recomputed locally from the source photograph, verified description and current tracks.",
+  "judge": "Expected polygons and changed-colour controls sealed before the original first run. Timeouts receive no semantic credit. A visual point or option must lie in a reference polygon to receive localization credit. No location was confirmed.",
+  "runs": {
+    "conversational_v2": {
+      "started_utc": "2026-11-23T21:43:50.732Z",
+      "finished_utc": "2026-11-23T21:44:56.101Z",
+      "positive_grades": {
+        "correct_choices_only": 2,
+        "correct_first_pin": 2,
+        "clarified_without_location": 2,
+        "operational_failure": 2
+      },
+      "counterfactual_grades": {
+        "withheld_counterfactual": 3,
+        "operational_failure": 1
+      },
+      "trials": [
+        {
+          "id": "H02-A",
+          "source_sha256": "a8cb3c5926766d950eca0588e6bdd178e72026f07d5710f027d2e695d6628de2",
+          "ack_ms": 62,
+          "visible_ms": 2633,
+          "state": "needs_clarification",
+          "grade": "correct_choices_only",
+          "point": null,
+          "choices": [
+            {
+              "xy": [
+                2335.5,
+                1811.595
+              ],
+              "inside_target": true,
+              "extent": "visible_parking_surface"
+            }
+          ],
+          "save_visible": false,
+          "confirmed": false,
+          "page_errors": [],
+          "method": "public_painted_bay_landmark_v1",
+          "reason": "unverified_bay_reference",
+          "error": null,
+          "journal_sha256": "075b1005a80168d57c5c80681fa067ea2d592a5fbfd908817a66fd20139256a2",
+          "evidence": [
+            {
+              "kind": "roadside_evidence",
+              "repo": "Qwen/Qwen3.6-35B-A3B-FP8",
+              "revision": "c653bba46dfa06e9658dcc0b0dc87fe4685f14a2",
+              "numbered_rows": 5
+            }
+          ],
+          "replayed_signed_location_checks": true,
+          "policy": "scoped_conversational_landmarks_v2",
+          "ground_policy": null
+        },
+        {
+          "id": "H04-B",
+          "source_sha256": "e121d0e57b8fbcba436e01a11989063a027652e2c80fcc5c9b4b89ad4cd673cc",
+          "ack_ms": 66,
+          "visible_ms": 1644,
+          "state": "proposed",
+          "grade": "correct_first_pin",
+          "point": {
+            "xy": [
+              2199.4666666666667,
+              1496.205533596838
+            ],
+            "inside_target": true
+          },
+          "choices": [],
+          "save_visible": true,
+          "confirmed": false,
+          "page_errors": [],
+          "method": "public_painted_bay_landmark_v1",
+          "reason": "matched_roadside_observations",
+          "error": null,
+          "journal_sha256": "9e31817f7c9356dbc2f7ddd241cdf44092dd71b0a204b00b46f44dfcf1a8854f",
+          "evidence": [
+            {
+              "kind": "roadside_evidence",
+              "repo": "Qwen/Qwen3.6-35B-A3B-FP8",
+              "revision": "c653bba46dfa06e9658dcc0b0dc87fe4685f14a2",
+              "numbered_rows": 3
+            }
+          ],
+          "replayed_signed_location_checks": true,
+          "policy": "scoped_conversational_landmarks_v2",
+          "ground_policy": null
+        },
+        {
+          "id": "H05-C",
+          "source_sha256": "032ea529fb20fd7fff661a90456ed1875b849aac1df4da73bc6466c1124c9545",
+          "ack_ms": 60,
+          "visible_ms": 1611,
+          "state": "needs_clarification",
+          "grade": "withheld_counterfactual",
+          "point": null,
+          "choices": [],
+          "save_visible": false,
+          "confirmed": false,
+          "page_errors": [],
+          "method": "public_painted_bay_landmark_v1",
+          "reason": "indexed_no_open_location",
+          "error": null,
+          "journal_sha256": "12c0392fbb05c8cde14ad824ac549a317c2ee28b09a8e7240bc04ec4926d8d3b",
+          "evidence": [
+            {
+              "kind": "gravel_evidence",
+              "repo": "Qwen/Qwen3.6-35B-A3B-FP8",
+              "revision": "c653bba46dfa06e9658dcc0b0dc87fe4685f14a2",
+              "numbered_rows": 1
+            }
+          ],
+          "replayed_signed_location_checks": true,
+          "policy": "scoped_conversational_landmarks_v2",
+          "ground_policy": null
+        },
+        {
+          "id": "H03-A",
+          "source_sha256": "5a9b732bb1a487c9769eba291ff49bf9c0fff286efe7a849a66b296704c8cffa",
+          "ack_ms": 61,
+          "visible_ms": 2666,
+          "state": "needs_clarification",
+          "grade": "correct_choices_only",
+          "point": null,
+          "choices": [
+            {
+              "xy": [
+                2284.3,
+                1435.943
+              ],
+              "inside_target": true,
+              "extent": "visible_parking_surface"
+            }
+          ],
+          "save_visible": false,
+          "confirmed": false,
+          "page_errors": [],
+          "method": "public_painted_bay_landmark_v1",
+          "reason": "unverified_bay_reference",
+          "error": null,
+          "journal_sha256": "977ace7eb6f876e22e2ba1666e3852b6587ad71b65dbbc8647fdf8e259d5e059",
+          "evidence": [
+            {
+              "kind": "roadside_evidence",
+              "repo": "Qwen/Qwen3.6-35B-A3B-FP8",
+              "revision": "c653bba46dfa06e9658dcc0b0dc87fe4685f14a2",
+              "numbered_rows": 5
+            }
+          ],
+          "replayed_signed_location_checks": true,
+          "policy": "scoped_conversational_landmarks_v2",
+          "ground_policy": null
+        },
+        {
+          "id": "H04-C",
+          "source_sha256": "e121d0e57b8fbcba436e01a11989063a027652e2c80fcc5c9b4b89ad4cd673cc",
+          "ack_ms": 126,
+          "visible_ms": 675,
+          "state": "needs_clarification",
+          "grade": "withheld_counterfactual",
+          "point": null,
+          "choices": [],
+          "save_visible": false,
+          "confirmed": false,
+          "page_errors": [],
+          "method": "public_painted_bay_landmark_v1",
+          "reason": "indexed_reference_unmatched",
+          "error": null,
+          "journal_sha256": "87eb599e5c05e23b205f043165b87b0a486f73163e49f680090e9e22c0e7a266",
+          "evidence": [
+            {
+              "kind": "roadside_evidence",
+              "repo": "Qwen/Qwen3.6-35B-A3B-FP8",
+              "revision": "c653bba46dfa06e9658dcc0b0dc87fe4685f14a2",
+              "numbered_rows": 3
+            }
+          ],
+          "replayed_signed_location_checks": true,
+          "policy": "scoped_conversational_landmarks_v2",
+          "ground_policy": null
+        },
+        {
+          "id": "H05-B",
+          "source_sha256": "032ea529fb20fd7fff661a90456ed1875b849aac1df4da73bc6466c1124c9545",
+          "ack_ms": 63,
+          "visible_ms": 592,
+          "state": "needs_clarification",
+          "grade": "clarified_without_location",
+          "point": null,
+          "choices": [],
+          "save_visible": false,
+          "confirmed": false,
+          "page_errors": [],
+          "method": "public_painted_bay_landmark_v1",
+          "reason": "indexed_no_open_location",
+          "error": null,
+          "journal_sha256": "4e8cfa73e52e06848e66f640b65e78ae8d5b4f31804b0a29e89add3125ea2356",
+          "evidence": [
+            {
+              "kind": "gravel_evidence",
+              "repo": "Qwen/Qwen3.6-35B-A3B-FP8",
+              "revision": "c653bba46dfa06e9658dcc0b0dc87fe4685f14a2",
+              "numbered_rows": 1
+            }
+          ],
+          "replayed_signed_location_checks": true,
+          "policy": "scoped_conversational_landmarks_v2",
+          "ground_policy": null
+        },
+        {
+          "id": "H02-C",
+          "source_sha256": "a8cb3c5926766d950eca0588e6bdd178e72026f07d5710f027d2e695d6628de2",
+          "ack_ms": 76,
+          "visible_ms": 602,
+          "state": "needs_clarification",
+          "grade": "withheld_counterfactual",
+          "point": null,
+          "choices": [],
+          "save_visible": false,
+          "confirmed": false,
+          "page_errors": [],
+          "method": "public_painted_bay_landmark_v1",
+          "reason": "indexed_reference_unmatched",
+          "error": null,
+          "journal_sha256": "5ad3519f0d93eba5815045b8d4ddab242e7b556f37502509d394f2aacae734f0",
+          "evidence": [
+            {
+              "kind": "roadside_evidence",
+              "repo": "Qwen/Qwen3.6-35B-A3B-FP8",
+              "revision": "c653bba46dfa06e9658dcc0b0dc87fe4685f14a2",
+              "numbered_rows": 5
+            }
+          ],
+          "replayed_signed_location_checks": true,
+          "policy": "scoped_conversational_landmarks_v2",
+          "ground_policy": null
+        },
+        {
+          "id": "H03-B",
+          "source_sha256": "5a9b732bb1a487c9769eba291ff49bf9c0fff286efe7a849a66b296704c8cffa",
+          "ack_ms": 81,
+          "visible_ms": 15136,
+          "state": "error",
+          "grade": "operational_failure",
+          "point": null,
+          "choices": [],
+          "save_visible": false,
+          "confirmed": false,
+          "page_errors": [],
+          "method": "passenger_interactive_deadline",
+          "reason": null,
+          "error": "timeout",
+          "journal_sha256": "c7fbff4be17886e0d5b382ec63f48402e2b7cace6be598a71241971a72568daf",
+          "evidence": [],
+          "replayed_signed_location_checks": false,
+          "policy": null,
+          "ground_policy": null
+        },
+        {
+          "id": "H05-A",
+          "source_sha256": "032ea529fb20fd7fff661a90456ed1875b849aac1df4da73bc6466c1124c9545",
+          "ack_ms": 97,
+          "visible_ms": 629,
+          "state": "needs_clarification",
+          "grade": "clarified_without_location",
+          "point": null,
+          "choices": [],
+          "save_visible": false,
+          "confirmed": false,
+          "page_errors": [],
+          "method": "public_painted_bay_landmark_v1",
+          "reason": "indexed_no_open_location",
+          "error": null,
+          "journal_sha256": "6066e0be7ff42a8b7e2fa787452b0f973e3b7afdf4f21a76cb1be2b11784c0e2",
+          "evidence": [
+            {
+              "kind": "gravel_evidence",
+              "repo": "Qwen/Qwen3.6-35B-A3B-FP8",
+              "revision": "c653bba46dfa06e9658dcc0b0dc87fe4685f14a2",
+              "numbered_rows": 1
+            }
+          ],
+          "replayed_signed_location_checks": true,
+          "policy": "scoped_conversational_landmarks_v2",
+          "ground_policy": null
+        },
+        {
+          "id": "H04-A",
+          "source_sha256": "e121d0e57b8fbcba436e01a11989063a027652e2c80fcc5c9b4b89ad4cd673cc",
+          "ack_ms": 93,
+          "visible_ms": 598,
+          "state": "proposed",
+          "grade": "correct_first_pin",
+          "point": {
+            "xy": [
+              2199.4666666666667,
+              1496.205533596838
+            ],
+            "inside_target": true
+          },
+          "choices": [],
+          "save_visible": true,
+          "confirmed": false,
+          "page_errors": [],
+          "method": "public_painted_bay_landmark_v1",
+          "reason": "matched_roadside_observations",
+          "error": null,
+          "journal_sha256": "797df91397d1937c5a97d5026c1dda79fc635e729a0b16b0faa9838426029968",
+          "evidence": [
+            {
+              "kind": "roadside_evidence",
+              "repo": "Qwen/Qwen3.6-35B-A3B-FP8",
+              "revision": "c653bba46dfa06e9658dcc0b0dc87fe4685f14a2",
+              "numbered_rows": 3
+            }
+          ],
+          "replayed_signed_location_checks": true,
+          "policy": "scoped_conversational_landmarks_v2",
+          "ground_policy": null
+        },
+        {
+          "id": "H03-C",
+          "source_sha256": "5a9b732bb1a487c9769eba291ff49bf9c0fff286efe7a849a66b296704c8cffa",
+          "ack_ms": 121,
+          "visible_ms": 15529,
+          "state": "error",
+          "grade": "operational_failure",
+          "point": null,
+          "choices": [],
+          "save_visible": false,
+          "confirmed": false,
+          "page_errors": [],
+          "method": "passenger_interactive_deadline",
+          "reason": null,
+          "error": "timeout",
+          "journal_sha256": "ee167d30769473f29f2b4c806e6743cd697aae213af343209bba80cdc0ab992a",
+          "evidence": [],
+          "replayed_signed_location_checks": false,
+          "policy": null,
+          "ground_policy": null
+        },
+        {
+          "id": "H02-B",
+          "source_sha256": "a8cb3c5926766d950eca0588e6bdd178e72026f07d5710f027d2e695d6628de2",
+          "ack_ms": 50,
+          "visible_ms": 15518,
+          "state": "error",
+          "grade": "operational_failure",
+          "point": null,
+          "choices": [],
+          "save_visible": false,
+          "confirmed": false,
+          "page_errors": [],
+          "method": "passenger_interactive_deadline",
+          "reason": null,
+          "error": "timeout",
+          "journal_sha256": "40d39904a7db6101d0d5a2aa41c390efce3776e15061ca63e9fedb16ec58aa90",
+          "evidence": [],
+          "replayed_signed_location_checks": false,
+          "policy": null,
+          "ground_policy": null
+        }
+      ]
+    },
+    "spatial_v3_separate_queue": {
+      "started_utc": "2026-11-23T21:54:06.505Z",
+      "finished_utc": "2026-11-23T21:54:24.644Z",
+      "positive_grades": {
+        "correct_choices_only": 4,
+        "correct_first_pin": 2,
+        "clarified_without_location": 2
+      },
+      "counterfactual_grades": {
+        "withheld_counterfactual": 4
+      },
+      "trials": [
+        {
+          "id": "H02-A",
+          "source_sha256": "a8cb3c5926766d950eca0588e6bdd178e72026f07d5710f027d2e695d6628de2",
+          "ack_ms": 118,
+          "visible_ms": 677,
+          "state": "needs_clarification",
+          "grade": "correct_choices_only",
+          "point": null,
+          "choices": [
+            {
+              "xy": [
+                2335.5,
+                1811.595
+              ],
+              "inside_target": true,
+              "extent": "visible_parking_surface"
+            }
+          ],
+          "save_visible": false,
+          "confirmed": false,
+          "page_errors": [],
+          "method": "public_painted_bay_landmark_v1",
+          "reason": "unverified_bay_reference",
+          "error": null,
+          "journal_sha256": "083b7807081f9d39acdc76d7ba25004313f50967a804aae67a3b1c48501fb004",
+          "evidence": [
+            {
+              "kind": "roadside_evidence",
+              "repo": "Qwen/Qwen3.6-35B-A3B-FP8",
+              "revision": "c653bba46dfa06e9658dcc0b0dc87fe4685f14a2",
+              "numbered_rows": 5
+            }
+          ],
+          "replayed_signed_location_checks": true,
+          "policy": "scoped_directional_landmarks_v3",
+          "ground_policy": null
+        },
+        {
+          "id": "H04-B",
+          "source_sha256": "e121d0e57b8fbcba436e01a11989063a027652e2c80fcc5c9b4b89ad4cd673cc",
+          "ack_ms": 121,
+          "visible_ms": 667,
+          "state": "proposed",
+          "grade": "correct_first_pin",
+          "point": {
+            "xy": [
+              2199.4666666666667,
+              1496.205533596838
+            ],
+            "inside_target": true
+          },
+          "choices": [],
+          "save_visible": true,
+          "confirmed": false,
+          "page_errors": [],
+          "method": "public_painted_bay_landmark_v1",
+          "reason": "matched_roadside_observations",
+          "error": null,
+          "journal_sha256": "a9a6ed5be7ebe784226e14c8458fdaea4aeb06c7c19be847db5aeb5a946cedb8",
+          "evidence": [
+            {
+              "kind": "roadside_evidence",
+              "repo": "Qwen/Qwen3.6-35B-A3B-FP8",
+              "revision": "c653bba46dfa06e9658dcc0b0dc87fe4685f14a2",
+              "numbered_rows": 3
+            }
+          ],
+          "replayed_signed_location_checks": true,
+          "policy": "scoped_directional_landmarks_v3",
+          "ground_policy": null
+        },
+        {
+          "id": "H05-C",
+          "source_sha256": "032ea529fb20fd7fff661a90456ed1875b849aac1df4da73bc6466c1124c9545",
+          "ack_ms": 106,
+          "visible_ms": 2200,
+          "state": "needs_clarification",
+          "grade": "withheld_counterfactual",
+          "point": null,
+          "choices": [],
+          "save_visible": false,
+          "confirmed": false,
+          "page_errors": [],
+          "method": "public_painted_bay_landmark_v1",
+          "reason": "indexed_no_open_location",
+          "error": null,
+          "journal_sha256": "d62d3320245d24d3e50824a377acebddef3902c7e08647d5e254c8351101527f",
+          "evidence": [
+            {
+              "kind": "gravel_evidence",
+              "repo": "Qwen/Qwen3.6-35B-A3B-FP8",
+              "revision": "c653bba46dfa06e9658dcc0b0dc87fe4685f14a2",
+              "numbered_rows": 1
+            }
+          ],
+          "replayed_signed_location_checks": true,
+          "policy": "scoped_directional_landmarks_v3",
+          "ground_policy": null
+        },
+        {
+          "id": "H03-A",
+          "source_sha256": "5a9b732bb1a487c9769eba291ff49bf9c0fff286efe7a849a66b296704c8cffa",
+          "ack_ms": 196,
+          "visible_ms": 863,
+          "state": "needs_clarification",
+          "grade": "correct_choices_only",
+          "point": null,
+          "choices": [
+            {
+              "xy": [
+                2284.3,
+                1435.943
+              ],
+              "inside_target": true,
+              "extent": "visible_parking_surface"
+            }
+          ],
+          "save_visible": false,
+          "confirmed": false,
+          "page_errors": [],
+          "method": "public_painted_bay_landmark_v1",
+          "reason": "unverified_bay_reference",
+          "error": null,
+          "journal_sha256": "4f54f5475a4aaf69f421e063abf2a0dc6cc7c8b1f1476d234484b3de13f9b618",
+          "evidence": [
+            {
+              "kind": "roadside_evidence",
+              "repo": "Qwen/Qwen3.6-35B-A3B-FP8",
+              "revision": "c653bba46dfa06e9658dcc0b0dc87fe4685f14a2",
+              "numbered_rows": 5
+            }
+          ],
+          "replayed_signed_location_checks": true,
+          "policy": "scoped_directional_landmarks_v3",
+          "ground_policy": null
+        },
+        {
+          "id": "H04-C",
+          "source_sha256": "e121d0e57b8fbcba436e01a11989063a027652e2c80fcc5c9b4b89ad4cd673cc",
+          "ack_ms": 111,
+          "visible_ms": 614,
+          "state": "needs_clarification",
+          "grade": "withheld_counterfactual",
+          "point": null,
+          "choices": [],
+          "save_visible": false,
+          "confirmed": false,
+          "page_errors": [],
+          "method": "public_painted_bay_landmark_v1",
+          "reason": "indexed_reference_unmatched",
+          "error": null,
+          "journal_sha256": "98ea9653686cb7ccaa9f515efb7a391c71d85d3d5b3b295bb27880d1ec5abfe8",
+          "evidence": [
+            {
+              "kind": "roadside_evidence",
+              "repo": "Qwen/Qwen3.6-35B-A3B-FP8",
+              "revision": "c653bba46dfa06e9658dcc0b0dc87fe4685f14a2",
+              "numbered_rows": 3
+            }
+          ],
+          "replayed_signed_location_checks": true,
+          "policy": "scoped_directional_landmarks_v3",
+          "ground_policy": null
+        },
+        {
+          "id": "H05-B",
+          "source_sha256": "032ea529fb20fd7fff661a90456ed1875b849aac1df4da73bc6466c1124c9545",
+          "ack_ms": 112,
+          "visible_ms": 640,
+          "state": "needs_clarification",
+          "grade": "clarified_without_location",
+          "point": null,
+          "choices": [],
+          "save_visible": false,
+          "confirmed": false,
+          "page_errors": [],
+          "method": "public_painted_bay_landmark_v1",
+          "reason": "indexed_no_open_location",
+          "error": null,
+          "journal_sha256": "c12c829bc9f7537311f0a24c8e20228fecf5142f65904899f8acf3392fb0e924",
+          "evidence": [
+            {
+              "kind": "gravel_evidence",
+              "repo": "Qwen/Qwen3.6-35B-A3B-FP8",
+              "revision": "c653bba46dfa06e9658dcc0b0dc87fe4685f14a2",
+              "numbered_rows": 1
+            }
+          ],
+          "replayed_signed_location_checks": true,
+          "policy": "scoped_directional_landmarks_v3",
+          "ground_policy": null
+        },
+        {
+          "id": "H02-C",
+          "source_sha256": "a8cb3c5926766d950eca0588e6bdd178e72026f07d5710f027d2e695d6628de2",
+          "ack_ms": 103,
+          "visible_ms": 637,
+          "state": "needs_clarification",
+          "grade": "withheld_counterfactual",
+          "point": null,
+          "choices": [],
+          "save_visible": false,
+          "confirmed": false,
+          "page_errors": [],
+          "method": "public_painted_bay_landmark_v1",
+          "reason": "indexed_reference_unmatched",
+          "error": null,
+          "journal_sha256": "2d0c1ef37927e7e765fbd4a46750ae5bb4accca45eb3858e9db42ecf20c0719e",
+          "evidence": [
+            {
+              "kind": "roadside_evidence",
+              "repo": "Qwen/Qwen3.6-35B-A3B-FP8",
+              "revision": "c653bba46dfa06e9658dcc0b0dc87fe4685f14a2",
+              "numbered_rows": 5
+            }
+          ],
+          "replayed_signed_location_checks": true,
+          "policy": "scoped_directional_landmarks_v3",
+          "ground_policy": null
+        },
+        {
+          "id": "H03-B",
+          "source_sha256": "5a9b732bb1a487c9769eba291ff49bf9c0fff286efe7a849a66b296704c8cffa",
+          "ack_ms": 58,
+          "visible_ms": 595,
+          "state": "needs_clarification",
+          "grade": "correct_choices_only",
+          "point": null,
+          "choices": [
+            {
+              "xy": [
+                2284.3,
+                1435.943
+              ],
+              "inside_target": true,
+              "extent": "visible_parking_surface"
+            }
+          ],
+          "save_visible": false,
+          "confirmed": false,
+          "page_errors": [],
+          "method": "public_painted_bay_landmark_v1",
+          "reason": "unverified_bay_reference",
+          "error": null,
+          "journal_sha256": "0b496ff78077931a3cc7c5a44b0c6b6569861b97bd8adc8d6390dcacfafbbd81",
+          "evidence": [
+            {
+              "kind": "roadside_evidence",
+              "repo": "Qwen/Qwen3.6-35B-A3B-FP8",
+              "revision": "c653bba46dfa06e9658dcc0b0dc87fe4685f14a2",
+              "numbered_rows": 5
+            }
+          ],
+          "replayed_signed_location_checks": true,
+          "policy": "scoped_directional_landmarks_v3",
+          "ground_policy": null
+        },
+        {
+          "id": "H05-A",
+          "source_sha256": "032ea529fb20fd7fff661a90456ed1875b849aac1df4da73bc6466c1124c9545",
+          "ack_ms": 67,
+          "visible_ms": 605,
+          "state": "needs_clarification",
+          "grade": "clarified_without_location",
+          "point": null,
+          "choices": [],
+          "save_visible": false,
+          "confirmed": false,
+          "page_errors": [],
+          "method": "public_painted_bay_landmark_v1",
+          "reason": "indexed_no_open_location",
+          "error": null,
+          "journal_sha256": "12a1dd36af423a7d249c4f5d3e3464a00941d9b7b4e3807e6d8266ee787c483d",
+          "evidence": [
+            {
+              "kind": "gravel_evidence",
+              "repo": "Qwen/Qwen3.6-35B-A3B-FP8",
+              "revision": "c653bba46dfa06e9658dcc0b0dc87fe4685f14a2",
+              "numbered_rows": 1
+            }
+          ],
+          "replayed_signed_location_checks": true,
+          "policy": "scoped_directional_landmarks_v3",
+          "ground_policy": null
+        },
+        {
+          "id": "H04-A",
+          "source_sha256": "e121d0e57b8fbcba436e01a11989063a027652e2c80fcc5c9b4b89ad4cd673cc",
+          "ack_ms": 65,
+          "visible_ms": 572,
+          "state": "proposed",
+          "grade": "correct_first_pin",
+          "point": {
+            "xy": [
+              2199.4666666666667,
+              1496.205533596838
+            ],
+            "inside_target": true
+          },
+          "choices": [],
+          "save_visible": true,
+          "confirmed": false,
+          "page_errors": [],
+          "method": "public_painted_bay_landmark_v1",
+          "reason": "matched_roadside_observations",
+          "error": null,
+          "journal_sha256": "5321b235e4b16783f25694d1358a769dbb2924bb43c030b79941f565de79dfba",
+          "evidence": [
+            {
+              "kind": "roadside_evidence",
+              "repo": "Qwen/Qwen3.6-35B-A3B-FP8",
+              "revision": "c653bba46dfa06e9658dcc0b0dc87fe4685f14a2",
+              "numbered_rows": 3
+            }
+          ],
+          "replayed_signed_location_checks": true,
+          "policy": "scoped_directional_landmarks_v3",
+          "ground_policy": null
+        },
+        {
+          "id": "H03-C",
+          "source_sha256": "5a9b732bb1a487c9769eba291ff49bf9c0fff286efe7a849a66b296704c8cffa",
+          "ack_ms": 89,
+          "visible_ms": 618,
+          "state": "needs_clarification",
+          "grade": "withheld_counterfactual",
+          "point": null,
+          "choices": [],
+          "save_visible": false,
+          "confirmed": false,
+          "page_errors": [],
+          "method": "public_painted_bay_landmark_v1",
+          "reason": "indexed_reference_unmatched",
+          "error": null,
+          "journal_sha256": "2ecf53ef9cdbbb66f6da30f0171c047c6753ead7f783dbe61848176c891cf9b1",
+          "evidence": [
+            {
+              "kind": "roadside_evidence",
+              "repo": "Qwen/Qwen3.6-35B-A3B-FP8",
+              "revision": "c653bba46dfa06e9658dcc0b0dc87fe4685f14a2",
+              "numbered_rows": 5
+            }
+          ],
+          "replayed_signed_location_checks": true,
+          "policy": "scoped_directional_landmarks_v3",
+          "ground_policy": null
+        },
+        {
+          "id": "H02-B",
+          "source_sha256": "a8cb3c5926766d950eca0588e6bdd178e72026f07d5710f027d2e695d6628de2",
+          "ack_ms": 93,
+          "visible_ms": 613,
+          "state": "needs_clarification",
+          "grade": "correct_choices_only",
+          "point": null,
+          "choices": [
+            {
+              "xy": [
+                2335.5,
+                1811.595
+              ],
+              "inside_target": true,
+              "extent": "visible_parking_surface"
+            }
+          ],
+          "save_visible": false,
+          "confirmed": false,
+          "page_errors": [],
+          "method": "public_painted_bay_landmark_v1",
+          "reason": "unverified_bay_reference",
+          "error": null,
+          "journal_sha256": "f7d2658c2cfbc47d52754b483078629b65efb9f52d87c1ad8dfc2e8c6136de2a",
+          "evidence": [
+            {
+              "kind": "roadside_evidence",
+              "repo": "Qwen/Qwen3.6-35B-A3B-FP8",
+              "revision": "c653bba46dfa06e9658dcc0b0dc87fe4685f14a2",
+              "numbered_rows": 5
+            }
+          ],
+          "replayed_signed_location_checks": true,
+          "policy": "scoped_directional_landmarks_v3",
+          "ground_policy": null
+        }
+      ]
+    }
+  }
+}

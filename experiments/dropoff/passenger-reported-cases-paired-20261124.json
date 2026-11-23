@@ -1,0 +1,614 @@
+{
+  "checked_utc": "2026-11-23T21:30:42.318260+00:00",
+  "frozen_reference_sha256": "39cbc2ded4958b6e045172ab6bcef482c43172ec7650f35f34abe69d4d9d3b82",
+  "scope": "Regression of seven prior user reports on six UAE road photographs, with source bytes verified against each KartaView photo hash. AI visual review using native-resolution original, no human reference and no new generalization claim. Both direct locations and the first restaurant choice were explicitly saved in separate ordinary passenger sessions. Latencies exclude scene opening and image download and include repeated 200-ms browser-style GET polling. The previous gallery was warm. The canonical host had just restarted while other checks were active. Both used released source receipts; the measured response time includes operating conditions and is not isolated GPU execution time.",
+  "attribution": "Grab and KartaView contributors, CC BY-SA 4.0. Original links and SHA-256 above each pair.",
+  "wording_note": "The older tree clarification referred to parked cars elsewhere in the photo. The canonical response now accurately states that it could not verify an open parking area beside the requested place. Both correctly withheld the pin.",
+  "summary": {
+    "previous-8812": {
+      "cases": 7,
+      "single_proposals": 2,
+      "actionable_choices": 1,
+      "correct_withholds": 4,
+      "operational_errors": 0,
+      "median_seconds": 0.4632,
+      "max_seconds": 0.9064,
+      "journal_replays": 7
+    },
+    "canonical-8775": {
+      "cases": 7,
+      "single_proposals": 2,
+      "actionable_choices": 1,
+      "correct_withholds": 4,
+      "operational_errors": 0,
+      "median_seconds": 0.7774,
+      "max_seconds": 30.1728,
+      "journal_replays": 7
+    }
+  },
+  "rows": [
+    {
+      "case": "white-rear",
+      "source": "https://kartaview.org/details/3329429/213/",
+      "source_sha256": "5b635a7c2e4f7eebd4ae50b91b725fd9054bf7b41bda28248e36e5bfa0de7e5b",
+      "words": "Could you drop me off behind the white car?",
+      "expectation": "point",
+      "independent_visual_reading": "The right white sedan faces away. There is open marked off-lane pavement just behind its rear bumper between the kerb and the outside lane marking. The white vehicles ahead or across the street are weaker references.",
+      "previous-8812": {
+        "grade": "correct_single_proposal",
+        "seconds": 0.4412,
+        "submission_ack_seconds": 0.0047,
+        "state": "proposed",
+        "point": [
+          2243.0933333333332,
+          1369.7430830039527
+        ],
+        "outline": null,
+        "choices": [],
+        "has_confirmation_offer": true,
+        "explicit_save_verified": true,
+        "question": null,
+        "message": "Please check the pin on the photo. Is this where you want to get out?",
+        "method": "single_vehicle_behind_parking_v1",
+        "reason": "matched",
+        "independent_original_region_matches": [
+          true
+        ],
+        "strict_journal_replayed": true,
+        "journal_sha256": "fc78618446d029f8c208ace9c98a0505fe1659255c36d6172811bb3e5b1fc367",
+        "events": [
+          "opened",
+          "submitted",
+          "confirmed"
+        ],
+        "scoring_references_read_by_application": false
+      },
+      "canonical-8775": {
+        "grade": "correct_single_proposal",
+        "seconds": 30.1728,
+        "submission_ack_seconds": 0.0361,
+        "state": "proposed",
+        "point": [
+          2243.0933333333332,
+          1369.7430830039527
+        ],
+        "outline": null,
+        "choices": [],
+        "has_confirmation_offer": true,
+        "explicit_save_verified": true,
+        "question": null,
+        "message": "Please check the pin on the photo. Is this where you want to get out?",
+        "method": "single_vehicle_behind_parking_v1",
+        "reason": "matched",
+        "independent_original_region_matches": [
+          true
+        ],
+        "strict_journal_replayed": true,
+        "journal_sha256": "b4c3e99167543d74ff545e7268f4c7e1255571cc1512c13750063ee2bb789607",
+        "events": [
+          "opened",
+          "submitted",
+          "confirmed"
+        ],
+        "scoring_references_read_by_application": false
+      }
+    },
+    {
+      "case": "gate-truck",
+      "source": "https://kartaview.org/details/986839/1/",
+      "source_sha256": "528de6137375fa351d4d85d5f25d3eca7b0034c2542983e75c32ad6b1013d2ac",
+      "words": "can u drop me behind the truck",
+      "expectation": "clarify",
+      "independent_visual_reading": "The blue delivery lorry is standing in the gated access lane. A lowered barrier and checkpoint equipment sit at its rear. No separate open stopping space there is visible.",
+      "previous-8812": {
+        "grade": "correct_no_pin",
+        "seconds": 0.9064,
+        "submission_ack_seconds": 0.0244,
+        "state": "needs_clarification",
+        "point": null,
+        "outline": null,
+        "choices": [],
+        "has_confirmation_offer": false,
+        "explicit_save_verified": false,
+        "question": "I can\u2019t see a clear off-lane space immediately behind that vehicle. Could you mark a different spot or name another landmark?",
+        "message": "I can\u2019t see a clear off-lane space immediately behind that vehicle. Could you mark a different spot or name another landmark?",
+        "method": "single_vehicle_behind_parking_v1",
+        "reason": "no_supported_space",
+        "independent_original_region_matches": [],
+        "strict_journal_replayed": true,
+        "journal_sha256": "c80119f379a6c043ac16cff5dc8c50ee4abf1bc83d7d4c24e693426e9817622d",
+        "events": [
+          "opened",
+          "submitted"
+        ],
+        "scoring_references_read_by_application": false
+      },
+      "canonical-8775": {
+        "grade": "correct_no_pin",
+        "seconds": 1.5128,
+        "submission_ack_seconds": 0.0292,
+        "state": "needs_clarification",
+        "point": null,
+        "outline": null,
+        "choices": [],
+        "has_confirmation_offer": false,
+        "explicit_save_verified": false,
+        "question": "I can\u2019t see a clear off-lane space immediately behind that vehicle. Could you mark a different spot or name another landmark?",
+        "message": "I can\u2019t see a clear off-lane space immediately behind that vehicle. Could you mark a different spot or name another landmark?",
+        "method": "single_vehicle_behind_parking_v1",
+        "reason": "no_supported_space",
+        "independent_original_region_matches": [],
+        "strict_journal_replayed": true,
+        "journal_sha256": "49d14c4e16540cd9995c9fc0acb0abd0f177455a8fc1fd24fc4131f17f5bba39",
+        "events": [
+          "opened",
+          "submitted"
+        ],
+        "scoring_references_read_by_application": false
+      }
+    },
+    {
+      "case": "side-pickup",
+      "source": "https://kartaview.org/details/5124809/287/",
+      "source_sha256": "37249c17aea5689c7f6d059e5fb99ed405a9d95a414f444571d44906033b6626",
+      "words": "Could you drop me next to that black pickup truck?",
+      "expectation": "clarify",
+      "independent_visual_reading": "The black pickup is at the far end of a perpendicular row. A raised planted kerb separates that row from the camera lane; the visible side is occupied or hidden. An adjacent free and accessible area cannot be identified.",
+      "previous-8812": {
+        "grade": "correct_no_pin",
+        "seconds": 0.4632,
+        "submission_ack_seconds": 0.0279,
+        "state": "needs_clarification",
+        "point": null,
+        "outline": null,
+        "choices": [],
+        "has_confirmation_offer": false,
+        "explicit_save_verified": false,
+        "question": "I can\u2019t see a clear off-lane space beside that vehicle. Could you mark a different spot or name another landmark?",
+        "message": "I can\u2019t see a clear off-lane space beside that vehicle. Could you mark a different spot or name another landmark?",
+        "method": "single_vehicle_behind_parking_v1",
+        "reason": "no_supported_side_space",
+        "independent_original_region_matches": [],
+        "strict_journal_replayed": true,
+        "journal_sha256": "cc16ba1affe19709654c75f173ef52c8ccee2987c6bad102eed684c75ccf307c",
+        "events": [
+          "opened",
+          "submitted"
+        ],
+        "scoring_references_read_by_application": false
+      },
+      "canonical-8775": {
+        "grade": "correct_no_pin",
+        "seconds": 0.5552,
+        "submission_ack_seconds": 0.007,
+        "state": "needs_clarification",
+        "point": null,
+        "outline": null,
+        "choices": [],
+        "has_confirmation_offer": false,
+        "explicit_save_verified": false,
+        "question": "I can\u2019t see a clear off-lane space beside that vehicle. Could you mark a different spot or name another landmark?",
+        "message": "I can\u2019t see a clear off-lane space beside that vehicle. Could you mark a different spot or name another landmark?",
+        "method": "single_vehicle_behind_parking_v1",
+        "reason": "no_supported_side_space",
+        "independent_original_region_matches": [],
+        "strict_journal_replayed": true,
+        "journal_sha256": "6a444a45a2c580ca4c384f6303dee0fbf200d8c95d7457946a93d2de4dd77b6b",
+        "events": [
+          "opened",
+          "submitted"
+        ],
+        "scoring_references_read_by_application": false
+      }
+    },
+    {
+      "case": "black-rear",
+      "source": "https://kartaview.org/details/4572137/14/",
+      "source_sha256": "98dbfd42cf22eab79bff24cbf227cdefb7663b12c0d7d1014569642f067adfbd",
+      "words": "Could you drop me behind the black car?",
+      "expectation": "clarify",
+      "independent_visual_reading": "The black SUV on the right is broadside, nose toward the right. The narrow paved wedge behind the tail tapers into the intersection; a passenger-area patch of adequate visible extent cannot be delineated. There is also a much farther black car in the travel lane.",
+      "previous-8812": {
+        "grade": "correct_no_pin",
+        "seconds": 0.2455,
+        "submission_ack_seconds": 0.0269,
+        "state": "needs_clarification",
+        "point": null,
+        "outline": null,
+        "choices": [],
+        "has_confirmation_offer": false,
+        "explicit_save_verified": false,
+        "question": "I can\u2019t see a clear off-lane space immediately behind that vehicle. Could you mark a different spot or name another landmark?",
+        "message": "I can\u2019t see a clear off-lane space immediately behind that vehicle. Could you mark a different spot or name another landmark?",
+        "method": "single_vehicle_behind_parking_v1",
+        "reason": "no_supported_space",
+        "independent_original_region_matches": [],
+        "strict_journal_replayed": true,
+        "journal_sha256": "b4ea866ba9f1900c369e10a7f922ec14e413425b9864122aa44c3e687319e76f",
+        "events": [
+          "opened",
+          "submitted"
+        ],
+        "scoring_references_read_by_application": false
+      },
+      "canonical-8775": {
+        "grade": "correct_no_pin",
+        "seconds": 0.429,
+        "submission_ack_seconds": 0.006,
+        "state": "needs_clarification",
+        "point": null,
+        "outline": null,
+        "choices": [],
+        "has_confirmation_offer": false,
+        "explicit_save_verified": false,
+        "question": "I can\u2019t see a clear off-lane space immediately behind that vehicle. Could you mark a different spot or name another landmark?",
+        "message": "I can\u2019t see a clear off-lane space immediately behind that vehicle. Could you mark a different spot or name another landmark?",
+        "method": "single_vehicle_behind_parking_v1",
+        "reason": "no_supported_space",
+        "independent_original_region_matches": [],
+        "strict_journal_replayed": true,
+        "journal_sha256": "7310b2c595788ca1e128a56c56704c762c99a60e6c15df7ea4cc6ec14f40629f",
+        "events": [
+          "opened",
+          "submitted"
+        ],
+        "scoring_references_read_by_application": false
+      }
+    },
+    {
+      "case": "left-trees",
+      "source": "https://kartaview.org/details/4572137/14/",
+      "source_sha256": "98dbfd42cf22eab79bff24cbf227cdefb7663b12c0d7d1014569642f067adfbd",
+      "words": "Could you drop me next to the trees on the left?",
+      "expectation": "clarify",
+      "independent_visual_reading": "The trees are visible, immediately behind a raised continuous sidewalk. Between the carriageway and that sidewalk there is no credible recessed parking or drop-off footprint; marking the traffic lane would be a false location.",
+      "previous-8812": {
+        "grade": "correct_no_pin",
+        "seconds": 0.4661,
+        "submission_ack_seconds": 0.0265,
+        "state": "needs_clarification",
+        "point": null,
+        "outline": null,
+        "choices": [],
+        "has_confirmation_offer": false,
+        "explicit_save_verified": false,
+        "question": "I can see parking pavement near the parked vehicles, but I can\u2019t outline an empty bay there. Can you see another open space?",
+        "message": "I can see parking pavement near the parked vehicles, but I can\u2019t outline an empty bay there. Can you see another open space?",
+        "method": "public_painted_bay_landmark_v1",
+        "reason": "parking_fragments_at_vehicles",
+        "independent_original_region_matches": [],
+        "strict_journal_replayed": true,
+        "journal_sha256": "af3813a17e4c09c992413ba3bbe22f5817ac1a19bf427635a44e61d4702201be",
+        "events": [
+          "opened",
+          "submitted"
+        ],
+        "scoring_references_read_by_application": false
+      },
+      "canonical-8775": {
+        "grade": "correct_no_pin",
+        "seconds": 0.7774,
+        "submission_ack_seconds": 0.0532,
+        "state": "needs_clarification",
+        "point": null,
+        "outline": null,
+        "choices": [],
+        "has_confirmation_offer": false,
+        "explicit_save_verified": false,
+        "question": "I couldn\u2019t verify an open parking area beside the place you described. Could you mark a visible space?",
+        "message": "I couldn\u2019t verify an open parking area beside the place you described. Could you mark a visible space?",
+        "method": "public_painted_bay_landmark_v1",
+        "reason": "parking_fragments_at_vehicles",
+        "independent_original_region_matches": [],
+        "strict_journal_replayed": true,
+        "journal_sha256": "7610b528c4c9b1d2847d8e8d8a0c88f986d39641e5df11a2113d2ab70b28f366",
+        "events": [
+          "opened",
+          "submitted"
+        ],
+        "scoring_references_read_by_application": false
+      }
+    },
+    {
+      "case": "restaurant",
+      "source": "https://kartaview.org/details/7199241/48/",
+      "source_sha256": "ed69e5e794d9618bd153a0ea0266dd0a9203b1526c279ec01a0c9c64b2b0124b",
+      "words": "Could you drop me next to the restaurant?",
+      "expectation": "either_bay_or_two_choices",
+      "independent_visual_reading": "Piquant Pick is the readable business on the right. Two visibly separated empty painted stalls lie between the beige sedan and red sedan in front of it. Either stall or choices allowing the passenger to pick either are useful.",
+      "previous-8812": {
+        "grade": "correct_actionable_choices",
+        "seconds": 0.8001,
+        "submission_ack_seconds": 0.0275,
+        "state": "needs_clarification",
+        "point": null,
+        "outline": null,
+        "choices": [
+          {
+            "centre": [
+              1893.315,
+              1434.021
+            ],
+            "outline": [
+              [
+                1686.224,
+                1541.502
+              ],
+              [
+                2404.944,
+                1393.098
+              ],
+              [
+                2166.617,
+                1357.333
+              ],
+              [
+                1992.18,
+                1357.333
+              ],
+              [
+                1461.517,
+                1431.071
+              ]
+            ]
+          },
+          {
+            "centre": [
+              2190.935,
+              1564.406
+            ],
+            "outline": [
+              [
+                1686.224,
+                1541.502
+              ],
+              [
+                2404.944,
+                1393.098
+              ],
+              [
+                2517.656,
+                1607.36
+              ],
+              [
+                2517.656,
+                1633.025
+              ],
+              [
+                2283.371,
+                1738.299
+              ]
+            ]
+          }
+        ],
+        "has_confirmation_offer": false,
+        "explicit_save_verified": true,
+        "question": "I found several outlined bays that fit those details. Which bay would you like?",
+        "message": "I found several outlined bays that fit those details. Which bay would you like?",
+        "method": "public_painted_bay_landmark_v1",
+        "reason": "visible_bay_matches_stated_anchors",
+        "independent_original_region_matches": [
+          true,
+          true
+        ],
+        "strict_journal_replayed": true,
+        "journal_sha256": "05591b095c04f971f81a70990a5c6735878d29ea59ae704f092287a4300a91d4",
+        "events": [
+          "opened",
+          "submitted",
+          "passenger_selected_bay",
+          "confirmed"
+        ],
+        "scoring_references_read_by_application": false
+      },
+      "canonical-8775": {
+        "grade": "correct_actionable_choices",
+        "seconds": 1.0372,
+        "submission_ack_seconds": 0.0076,
+        "state": "needs_clarification",
+        "point": null,
+        "outline": null,
+        "choices": [
+          {
+            "centre": [
+              1893.315,
+              1434.021
+            ],
+            "outline": [
+              [
+                1686.224,
+                1541.502
+              ],
+              [
+                2404.944,
+                1393.098
+              ],
+              [
+                2166.617,
+                1357.333
+              ],
+              [
+                1992.18,
+                1357.333
+              ],
+              [
+                1461.517,
+                1431.071
+              ]
+            ]
+          },
+          {
+            "centre": [
+              2190.935,
+              1564.406
+            ],
+            "outline": [
+              [
+                1686.224,
+                1541.502
+              ],
+              [
+                2404.944,
+                1393.098
+              ],
+              [
+                2517.656,
+                1607.36
+              ],
+              [
+                2517.656,
+                1633.025
+              ],
+              [
+                2283.371,
+                1738.299
+              ]
+            ]
+          }
+        ],
+        "has_confirmation_offer": false,
+        "explicit_save_verified": true,
+        "question": "Which of these visible areas did you mean?",
+        "message": "Which of these visible areas did you mean?",
+        "method": "public_painted_bay_landmark_v1",
+        "reason": "matched_roadside_observations",
+        "independent_original_region_matches": [
+          true,
+          true
+        ],
+        "strict_journal_replayed": true,
+        "journal_sha256": "f999b86372fba6b5309db26940a71697acc92dacb22dbc0e444bebda1962162a",
+        "events": [
+          "opened",
+          "submitted",
+          "passenger_selected_bay",
+          "confirmed"
+        ],
+        "scoring_references_read_by_application": false
+      }
+    },
+    {
+      "case": "right-bay",
+      "source": "https://kartaview.org/details/66245/146/",
+      "source_sha256": "534ff1819947cffe773874bc601925b76ad97e8a17048ec75ff76ba916b7a9e3",
+      "words": "Can you drop me next to the parking spot on the right?",
+      "expectation": "point",
+      "independent_visual_reading": "There is a delineated parallel bay in the near-right foreground alongside the construction wall, behind the grey parked sedan and ahead of the bonnet. Keep the point within the lateral paint/kerb interval and off the through lane.",
+      "previous-8812": {
+        "grade": "correct_single_proposal",
+        "seconds": 0.2444,
+        "submission_ack_seconds": 0.0293,
+        "state": "proposed",
+        "point": [
+          2058.119,
+          1327.806
+        ],
+        "outline": [
+          [
+            1606.08,
+            1222.268
+          ],
+          [
+            1973.44,
+            1222.268
+          ],
+          [
+            2636.48,
+            1412.548
+          ],
+          [
+            1910.72,
+            1412.548
+          ]
+        ],
+        "choices": [],
+        "has_confirmation_offer": true,
+        "explicit_save_verified": true,
+        "question": null,
+        "message": "Is the outlined bay where you want to get out?",
+        "method": "public_painted_bay_landmark_v1",
+        "reason": "visible_bay_matches_stated_anchors",
+        "independent_original_region_matches": [
+          true
+        ],
+        "strict_journal_replayed": true,
+        "journal_sha256": "6f70df97944de483156e47861abbb6643b6beb674f863835cb14005d4337972b",
+        "events": [
+          "opened",
+          "submitted",
+          "confirmed"
+        ],
+        "scoring_references_read_by_application": false
+      },
+      "canonical-8775": {
+        "grade": "correct_single_proposal",
+        "seconds": 0.2817,
+        "submission_ack_seconds": 0.0313,
+        "state": "proposed",
+        "point": [
+          2058.119,
+          1327.806
+        ],
+        "outline": [
+          [
+            1606.08,
+            1222.268
+          ],
+          [
+            1973.44,
+            1222.268
+          ],
+          [
+            2636.48,
+            1412.548
+          ],
+          [
+            1910.72,
+            1412.548
+          ]
+        ],
+        "choices": [],
+        "has_confirmation_offer": true,
+        "explicit_save_verified": true,
+        "question": null,
+        "message": "Is the outlined bay where you want to get out?",
+        "method": "public_painted_bay_landmark_v1",
+        "reason": "visible_bay_matches_stated_anchors",
+        "independent_original_region_matches": [
+          true
+        ],
+        "strict_journal_replayed": true,
+        "journal_sha256": "a514dc24267b2f605979a4416ac95845b25744be8f6e1b1e6697f360292b51ec",
+        "events": [
+          "opened",
+          "submitted",
+          "confirmed"
+        ],
+        "scoring_references_read_by_application": false
+      }
+    }
+  ],
+  "single_target_diagnostic_repeat": {
+    "case": "white-rear",
+    "first_turn_seconds": 30.1728,
+    "repeat_seconds": 15.0542,
+    "submit_ack_seconds": 0.0056,
+    "grade": "operational_error",
+    "state": "error",
+    "error": {
+      "code": "timeout",
+      "message": "The automatic photo check took too long. You can mark your spot or try a different description."
+    },
+    "strict_journal_replayed": true,
+    "journal_sha256": "5b03c3e8bf90bfe89e25e28a327eb09271ee8728162645f10031fceec6b0a0a0",
+    "submitted_after_initial_seven": true,
+    "scope": "Same original and wording, without clearing caches. Excluded from the predeclared seven-unique-request score, retained as an additional failed execution. Do not describe this cold-start batch as reliably fast. An offline replay of the saved single-vehicle proof took about 0.14 seconds; the unneeded roadside interpretation took about two seconds in a separate unloaded process. The root cause of all 30 seconds was not isolated."
+  },
+  "catalog_observation": {
+    "complete_index_http": 500,
+    "preview_http": 200,
+    "preview_seconds": 0.03,
+    "first_turns_dispatched_via": "same preview endpoint as normal web app",
+    "context": "Intermittent full-catalog error during code restart and concurrent requests, separate from the seven passenger returns; no instructions were sent in the failed preflight."
+  }
+}

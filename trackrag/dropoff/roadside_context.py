@@ -98,7 +98,7 @@ def verified(request, photo, surface, review, packet, *, gravel_only=False):
     return result
 
 
-def match(request, options, *, strict=True):
+def match(request, options, *, strict=True, conversational=False, expanded=False):
     from . import bay_intent,curb_point_language
     scene=request["scene"]; text=request["text"]; size=curb_points.source_context(scene)["size"]
     if strict and not bay_intent.permitted_destination(text):
@@ -111,7 +111,8 @@ def match(request, options, *, strict=True):
         context[digest(o["polygon"])]={"frontage":d["frontage"]+" | "+d["roadside"],"descriptions":d,"pair":[]}
     # Ordinary landmark requests need the same noun/colour binding on stalls as on unmarked points.
     # The measured-bay parser additionally handles explicit orientation, markings and relative ranks.
-    use_measured = not strict or bay_intent.PARKING.search(text)
+    use_measured = (not strict or bay_intent.PARKING.search(text)) and not (
+        expanded and curb_point_language.references_individual_sides(text))
     traced,possible_stalls = (bay_intent.match(words,stalls,scene,context,require_observed_landmark=True,
                                                strict_words=text if strict else None)
                               if use_measured else ([],[]))
@@ -125,7 +126,8 @@ def match(request, options, *, strict=True):
     kinds = ("stall","recess","unpaved_pullin","parking_point") if strict else ("recess","stall","parking_point")
     for kind in kinds:
         supported,possible=curb_point_language.match_points(text,[o for o in options if o["kind"]==kind],size,
-                                                           native_scalars=strict)
+                                                           native_scalars=strict,conversational=strict and conversational,
+                                                           expanded=expanded)
         if strict:
             full.extend(supported)
             partial.extend(possible)

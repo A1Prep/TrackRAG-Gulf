@@ -1,9 +1,11 @@
 """Match passenger words and marks to visible parking stalls on the exact original frame."""
 from collections import OrderedDict
 from copy import deepcopy
+from functools import lru_cache
 from hashlib import sha256
 from io import BytesIO
 from pathlib import Path
+import json
 import re
 from threading import Lock
 
@@ -23,8 +25,12 @@ LANDMARK_POLICY = "parking_clearance_and_connected_pavement_v4"
 ROW_POLICY = "parking_rows_and_observed_landmarks_v5"
 CLEARANCE_POLICY = "parking_outlines_and_observed_pullins_v6"
 LANGUAGE_POLICY = "scoped_landmark_observations_v1"
+INDEXED_DIALOGUE_POLICY = "scoped_conversational_landmarks_v2"
+SPATIAL_DIALOGUE_POLICY = "scoped_directional_landmarks_v3"
 _cache, _lock = OrderedDict(), Lock()
+_layout_build = Lock()
 _index_cache = OrderedDict()
+_GALLERY_INDEX = Path(__file__).resolve().parents[2] / "experiments/dropoff/passenger-gallery-outlines-v1.json"
 
 
 def _road_for_policy(classes, policy):
@@ -71,17 +77,24 @@ def _layout(request, photo, surface, stall_review=None, *, rows=False):
         if key in _cache:
             _cache.move_to_end(key)
             return clean, portable, classes, deepcopy(_cache[key])
-    with Image.open(BytesIO(photo)) as original:
-        image = original.convert("RGB")
-        if rows:
-            from .parking_row_bays import candidates
-            options = candidates(image, classes, context)
-        else:
-            options = visible_stalls(image, classes, context, surface, stall_review)
-    with _lock:
-        _cache[key] = deepcopy(options)
-        if len(_cache) > 96:
-            _cache.popitem(last=False)
+    # A cold image can briefly require several large optical arrays. Parallel
+    # sessions can read cached results while a single new layout is being built.
+    with _layout_build:
+        with _lock:
+            if key in _cache:
+                _cache.move_to_end(key)
+                return clean, portable, classes, deepcopy(_cache[key])
+        with Image.open(BytesIO(photo)) as original:
+            image = original.convert("RGB")
+            if rows:
+                from .parking_row_bays import candidates
+                options = candidates(image, classes, context)
+            else:
+                options = visible_stalls(image, classes, context, surface, stall_review)
+        with _lock:
+            _cache[key] = deepcopy(options)
+            if len(_cache) > 96:
+                _cache.popitem(last=False)
     return clean, portable, classes, options
 
 
@@ -109,22 +122,37 @@ def _with_rows(request, photo, surface, options, policy):
     return sorted(accepted, key=lambda opt: tuple(opt["point"]))
 
 
-def index_has_outline(scene, photo, indexed_shapes):
-    """Match the gallery shortcut to the same surviving shapes as the normal request."""
+@lru_cache(maxsize=1)
+def _published_gallery():
+    try:
+        entries = json.loads(_GALLERY_INDEX.read_bytes())
+        if entries["policy"] == CLEARANCE_POLICY and isinstance(entries["outlines"], dict):
+            return entries["outlines"]
+    except (OSError, ValueError, KeyError, TypeError):
+        pass
+    return {}
+
+
+def gallery_outline_entry(scene, photo, indexed_shapes, *, measure=False):
+    """Look up a navigation hint tied to the exact inputs or measure it on demand."""
     from . import bay_clearance, surface_stalls
     key = scene["provenance"]["image_sha256"]
     surface = manual_surfaces.get_packet(key)
     if surface is None:
-        return False
+        return None, False
     review = surface_stalls.get_packet(key)
     frame_id = scene["frame"]["frame_id"]
     current = [t for t in scene["tracks"] if t["frame_id"] == frame_id]
     stamp = digest([CLEARANCE_POLICY, key, current, sorted(indexed_shapes) if indexed_shapes is not None else None,
-                    surface["signature"], review and review["signature"]])
+                    surface, review])
+    if not measure:
+        published = _published_gallery().get(stamp)
+        if type(published) is bool:
+            return stamp, published
     with _lock:
         if stamp in _index_cache:
             _index_cache.move_to_end(stamp)
-            return _index_cache[stamp]
+            return stamp, _index_cache[stamp]
     request = {"scene":scene, "text":"Find the marked parking bays.", "input_mode":"typed", "dialogue":[], "request_id":"catalog"}
     _, _, classes, options = _layout(request, photo, surface, review)
     road = bay_clearance.visible_road_component(classes)
@@ -136,7 +164,12 @@ def index_has_outline(scene, photo, indexed_shapes):
         _index_cache[stamp] = matches
         if len(_index_cache) > 96:
             _index_cache.popitem(last=False)
-    return matches
+    return stamp, matches
+
+
+def index_has_outline(scene, photo, indexed_shapes):
+    """Only the gallery uses this flag. Each proposed or marked destination is checked on the original."""
+    return gallery_outline_entry(scene, photo, indexed_shapes)[1]
 
 
 def _present(options, tap):
@@ -149,6 +182,8 @@ def _present(options, tap):
         # Only the painted-divider and kerb-end detectors reconstruct the entire measured stall.
         if option["evidence"]["recipe"] == surface_stalls.RECIPE or option["evidence"].get("coverage") == "visible_portion":
             item["extent"] = "visible_parking_surface"
+        elif option["evidence"].get("coverage") == "interior_point_only":
+            item["extent"] = "interior_point_only"
         description=option.get("descriptions") or {}
         observed=[]
         for key in ("nearer_vehicle","farther_vehicle","frontage","roadside"):
@@ -249,6 +284,11 @@ def select_mark(request, box):
                 if stall_review is None:
                     raise
                 bay = mark_outcome(clean,data,packet,mark)
+            if bay is None or bay["provenance"].get("reason")=="parking_fragment_at_vehicle":
+                from .observed_pullin import marked_outcome
+                paved = marked_outcome(clean,data,packet,mark)
+                if paved is not None:
+                    return paved
             if bay is not None:
                 return bay
             gravel = roadside_context.get_packet(original_sha, gravel_only=True)
@@ -459,41 +499,62 @@ def explicit_outcome(request, photo, surface, stall_review, anchors, *, row_anch
                  **evidence)
 
 
-def point_outcome(request, photo, surface, packet):
+def _unmatched_index(clean, portable, surface, options, evidence, *, expanded):
+    """The inspected candidates support neither a matching location nor a selectable alternative."""
+    reason = "indexed_reference_unmatched" if options else "indexed_no_open_location"
+    words = ("I couldn’t match all those details to an open area in this photo. Could you mark the spot or "
+             "describe a different landmark?" if options else
+             "I couldn’t verify an open pull-in for this request in the photo. Could you mark another area "
+             "or describe a different landmark?")
+    return _make(clean,portable,[],surface,method=AUTO,reason=reason,question=words,
+                 language_policy=SPATIAL_DIALOGUE_POLICY if expanded else INDEXED_DIALOGUE_POLICY,
+                 clearance_policy=CLEARANCE_POLICY,**evidence)
+
+
+def point_outcome(request, photo, surface, packet, *, conversational=False, expanded=False):
     from . import curb_points, curb_point_language
     clean, _, portable = source_input(request,photo)
     if not curb_points.may_describe_point(clean["text"]):
         return None
     options=curb_points.verified_options(clean["scene"],photo,surface,packet)
-    supported, possible = curb_point_language.match_points(clean["text"],options,curb_points.source_context(clean["scene"])["size"])
+    supported, possible = curb_point_language.match_points(clean["text"],options,curb_points.source_context(clean["scene"])["size"],
+                                                          conversational=conversational,expanded=expanded)
     if not (supported or possible):
+        if conversational and curb_point_language.indexed_reference(clean["text"],expanded=expanded):
+            return _unmatched_index(clean,portable,surface,options,{"curb_point_evidence":packet},expanded=expanded)
         return None
     shown=supported or possible
     question=("I can see more than one area matching those details. Which one did you mean?" if supported else
               "I can show the visible parking area, but I couldn’t verify every landmark you mentioned. Is this where you meant?")
     return _make(clean,portable,shown,surface,method=AUTO,
                  reason="observed_open_pullin" if supported else "unverified_bay_reference",question=question,
-                 require_choice=not supported,curb_point_evidence=packet,clearance_policy=CLEARANCE_POLICY)
+                 require_choice=not supported,curb_point_evidence=packet,clearance_policy=CLEARANCE_POLICY,
+                 **({"language_policy":SPATIAL_DIALOGUE_POLICY if expanded else INDEXED_DIALOGUE_POLICY} if conversational else {}))
 
 
-def roadside_outcome(request, photo, surface, review, packet, *, gravel_packet=None, strict=True):
-    from . import roadside_context
+def roadside_outcome(request, photo, surface, review, packet, *, gravel_packet=None, strict=True, conversational=False,
+                    expanded=False):
+    from . import curb_point_language,roadside_context
     clean,_,portable=source_input(request,photo)
     options = roadside_context.verified(clean,photo,surface,review,packet) if packet is not None else []
     evidence = {"roadside_evidence":packet} if packet is not None else {}
     if gravel_packet is not None:
         options.extend(roadside_context.verified(clean,photo,surface,review,gravel_packet,gravel_only=True))
         evidence["gravel_evidence"] = gravel_packet
+    if review is not None:
+        evidence["stall_review"]=review
+    shown,supported=roadside_context.match(clean,options,strict=strict,conversational=conversational,expanded=expanded)
+    if not shown:
+        if conversational and (packet is not None or gravel_packet is not None) and curb_point_language.indexed_reference(clean["text"],expanded=expanded):
+            return _unmatched_index(clean,portable,surface,options,evidence,expanded=expanded)
+        return None
     if strict:
-        evidence["language_policy"] = LANGUAGE_POLICY
-    shown,supported=roadside_context.match(clean,options,strict=strict)
-    if not shown: return None
+        evidence["language_policy"] = SPATIAL_DIALOGUE_POLICY if expanded else INDEXED_DIALOGUE_POLICY if conversational else LANGUAGE_POLICY
     question=("Which of these visible areas did you mean?" if supported else
               "I can show an open area near some of your landmarks. Could you check the highlight and confirm which place you meant?")
     return _make(clean,portable,shown,surface,method=AUTO,
                  reason="matched_roadside_observations" if supported else "unverified_bay_reference",
-                 require_choice=not supported, question=question,**evidence,
-                 **({"stall_review":review} if review else {}),clearance_policy=CLEARANCE_POLICY)
+                 require_choice=not supported, question=question,**evidence,clearance_policy=CLEARANCE_POLICY)
 
 
 def _clarify_destination(request, photo):
@@ -506,8 +567,64 @@ def _clarify_destination(request, photo):
                  destination_scope_checked=True,language_policy=LANGUAGE_POLICY,clearance_policy=CLEARANCE_POLICY)
 
 
+def _has_location(outcome):
+    if outcome is None:
+        return False
+    source=outcome["provenance"]
+    return bool(source.get("bay_outline") or source.get("bay_choices") or outcome.get("result",{}).get("status")=="proposed")
+
+
+def _context_outcome(request, photo, surface, review, roadside, gravel, points, *, indexed):
+    answer = None
+    if roadside is not None or gravel is not None:
+        try:
+            answer=roadside_outcome(request,photo,surface,review,roadside,gravel_packet=gravel,conversational=indexed,expanded=indexed)
+        except (ValueError,KeyError,TypeError):
+            pass
+    # The full roadside board already reviewed all marker points. A rejected point there cannot
+    # be silently reinstated by an older reading of the same location.
+    if _has_location(answer) or (indexed and answer is not None and roadside is not None):
+        return answer
+    if points is not None:
+        try:
+            marker=point_outcome(request,photo,surface,points,conversational=indexed,expanded=indexed)
+            if _has_location(marker) or answer is None:
+                return marker
+        except (ValueError,KeyError,TypeError):
+            pass
+    return answer
+
+
+def _native_pair_fallback(request):
+    """Preserve the trained vehicle-pair route when the complete request fits its own evidence."""
+    from . import between_road,curb_point_language,curb_utterance
+    if not between_road.requested(request):
+        return False
+    words=curb_point_language._normal(curb_utterance.destination_clause(request["text"]))
+    required=curb_point_language._requirements(words)
+    if required is None or len(required[1])!=2 or required[2]:
+        return False
+    frame=request["scene"]["frame"]
+    return sum(t["frame_id"]==frame["frame_id"] and t["class_name"] in between_road.MOTOR
+               for t in request["scene"]["tracks"])>=2
+
+
+def _empty_geometry(request, photo, surface, review, *, expanded=False):
+    """An authenticated source with no eligible pictured candidate can answer immediately."""
+    from . import curb_point_language,roadside_context
+    clean,_,portable=source_input(request,photo)
+    if not curb_point_language.indexed_reference(clean["text"],expanded=expanded):
+        return None
+    if any(roadside_context.candidates(clean,photo,surface,review,gravel_only=gravel) for gravel in (False,True)):
+        return None
+    evidence={"index_geometry_checked":True}
+    if review is not None:
+        evidence["stall_review"]=review
+    return _unmatched_index(clean,portable,surface,[],evidence,expanded=expanded)
+
+
 def explicit_request(request):
-    from . import bay_anchors, bay_intent, curb_points, roadside_context, surface_stalls
+    from . import bay_anchors, bay_clearance, bay_intent, curb_point_language, curb_points, roadside_context, surface_stalls
     if not bay_intent.permitted_destination(request["text"]):
         photo = Path(request["scene"]["frame"]["image_path"]).read_bytes()
         return _clarify_destination(request, photo)
@@ -516,7 +633,8 @@ def explicit_request(request):
     points = curb_points.get_packet(key) if curb_points.may_describe_point(request["text"]) else None
     roadside=roadside_context.get_packet(key)
     gravel=roadside_context.get_packet(key, gravel_only=True)
-    if intent is None and points is None and roadside is None and gravel is None:
+    indexed=curb_point_language.indexed_reference(request["text"],expanded=True)
+    if not indexed and intent is None and points is None and roadside is None and gravel is None:
         return None
     surface = manual_surfaces.get_packet(key)
     if surface is None:
@@ -524,20 +642,31 @@ def explicit_request(request):
     photo = Path(request["scene"]["frame"]["image_path"]).read_bytes()
     review = surface_stalls.get_packet(key)
     def from_context():
-        if roadside is not None or gravel is not None:
-            try:
-                value=roadside_outcome(request,photo,surface,review,roadside,gravel_packet=gravel)
-                if value is not None: return value
-            except (ValueError,KeyError,TypeError):
-                pass
-        if points is not None:
-            try:
-                return point_outcome(request,photo,surface,points)
-            except (ValueError,KeyError,TypeError):
-                pass
-        return None
+        return _context_outcome(request,photo,surface,review,roadside,gravel,points,indexed=indexed)
+
+    preserve_pair = indexed and _native_pair_fallback(request)
+    early = from_context() if indexed else None
+    if _has_location(early) and not (preserve_pair and early["provenance"]["reason"]=="unverified_bay_reference"):
+        return early
+    if indexed and early is None and not preserve_pair:
+        try:
+            early = _empty_geometry(request,photo,surface,review,expanded=True)
+        except (ValueError,KeyError,TypeError):
+            pass
+    if indexed and curb_point_language.references_individual_sides(request["text"]):
+        # A broad stall caption cannot establish the individual flanking crop directions.
+        return early
+    if early is not None and not preserve_pair:
+        # Existing measured bays can have independent signed vehicle crops. Preserve their chance
+        # to identify a destination even when the general roadside caption could not match it.
+        clean,_,classes,old = _layout(request,photo,surface,review)
+        old = _with_rows(clean,photo,surface,old,CLEARANCE_POLICY)
+        road = _road_for_policy(classes,CLEARANCE_POLICY)
+        if intent is None or not any(bay_clearance.vehicle_sized(o,clean["scene"]) and
+                                     bay_clearance.on_visible_road(o,road,clean["scene"]["frame"]) for o in old):
+            return early
     if intent is None:
-        return from_context()
+        return (None if preserve_pair else early) if indexed else from_context()
     anchors = bay_anchors.get_packet(key)
     row_anchors = bay_anchors.get_row_packet(key)
     # The signed region review and the signed language observations are independent. A stale
@@ -556,14 +685,22 @@ def explicit_request(request):
         except (ValueError, KeyError, TypeError):
             continue
         if (points or roadside or gravel) and (result is None or not result["provenance"].get("bay_outline")):
-            alternate=from_context()
-            if alternate is not None:
+            alternate=early if indexed else from_context()
+            if _has_location(alternate):
                 if (result is not None and result["provenance"].get("bay_choices")
                         and alternate["provenance"]["reason"]=="unverified_bay_reference"):
                     return result
+                if preserve_pair and not _has_location(result) and alternate["provenance"]["reason"]=="unverified_bay_reference":
+                    return None
                 return alternate
-        return result
-    return None
+        if result is not None:
+            if preserve_pair and not _has_location(result):
+                return None
+            if early is not None and not preserve_pair and not _has_location(result):
+                return early
+            return result
+        return None if preserve_pair else early
+    return None if preserve_pair else early
 
 
 def choice_outcome(request, offered, bay_id):
@@ -605,6 +742,11 @@ def verify(request, outcome, *, requested_box=None):
     photo = Path(request["scene"]["frame"]["image_path"]).read_bytes()
     method = source["method"]
     policy = source.get("clearance_policy")
+    language = source.get("language_policy")
+    conversational = language in (INDEXED_DIALOGUE_POLICY,SPATIAL_DIALOGUE_POLICY)
+    expanded = language==SPATIAL_DIALOGUE_POLICY
+    if language not in (None,LANGUAGE_POLICY,INDEXED_DIALOGUE_POLICY,SPATIAL_DIALOGUE_POLICY):
+        raise ValueError("Unknown passenger language checks.")
     if policy not in (None,VEHICLE_POLICY,CONNECTED_POLICY,LANDMARK_POLICY,ROW_POLICY,CLEARANCE_POLICY):
         raise ValueError("Unknown parking clearance checks.")
     if method==CHOICE:
@@ -612,6 +754,16 @@ def verify(request, outcome, *, requested_box=None):
         if original.get("provenance",{}).get("method") not in {MARK,AUTO}:
             raise ValueError("Only an original set of pictured bays can be selected.")
         expected = choice_outcome(request,original,source["bay_id"])
+    elif source.get("pullin_policy") is not None:
+        from . import observed_pullin
+        if source["pullin_policy"]!=observed_pullin.POLICY or policy!=CLEARANCE_POLICY:
+            raise ValueError("Unknown paved pull-in evidence.")
+        if method==MARK and requested_box is not None:
+            expected=observed_pullin.marked_outcome(request,photo,source["surface_evidence"],requested_box)
+        elif method==AUTO and source.get("visual_space_evidence") and language==INDEXED_DIALOGUE_POLICY:
+            expected=observed_pullin.visual_outcome(request,photo,source["surface_evidence"],source["visual_space_evidence"])
+        else:
+            raise ValueError("A paved pull-in requires its original mark or signed visual observations.")
     elif method==MARK:
         if requested_box is None:
             raise ValueError("The original passenger mark is required.")
@@ -619,11 +771,16 @@ def verify(request, outcome, *, requested_box=None):
                                 policy=policy,gravel_packet=source.get("gravel_evidence"))
     elif method==AUTO and source.get("destination_scope_checked") is True and policy == CLEARANCE_POLICY:
         expected = _clarify_destination(request, photo)
+    elif (method==AUTO and source.get("index_geometry_checked") is True
+          and conversational and policy==CLEARANCE_POLICY):
+        expected = _empty_geometry(request,photo,source["surface_evidence"],source.get("stall_review"),expanded=expanded)
     elif method==AUTO and source.get("curb_point_evidence") is not None and policy==CLEARANCE_POLICY:
-        expected=point_outcome(request,photo,source["surface_evidence"],source["curb_point_evidence"])
+        expected=point_outcome(request,photo,source["surface_evidence"],source["curb_point_evidence"],
+                               conversational=conversational,expanded=expanded)
     elif method==AUTO and (source.get("roadside_evidence") or source.get("gravel_evidence")) and policy==CLEARANCE_POLICY:
         expected=roadside_outcome(request,photo,source["surface_evidence"],source.get("stall_review"),source.get("roadside_evidence"),
-                                  gravel_packet=source.get("gravel_evidence"), strict=source.get("language_policy")==LANGUAGE_POLICY)
+                                  gravel_packet=source.get("gravel_evidence"),strict=language==LANGUAGE_POLICY or conversational,
+                                  conversational=conversational,expanded=expanded)
     elif method==AUTO and source.get("bay_instruction_checked") is True:
         expected=explicit_outcome(request,photo,source["surface_evidence"],source.get("stall_review"),source["bay_anchor_evidence"],
                                   row_anchors=source.get("row_anchor_evidence"),policy=policy,
@@ -660,13 +817,22 @@ def verify(request, outcome, *, requested_box=None):
         result["archived_roadside_context_records"] = len(source["roadside_evidence"]["body"]["rows"])
     if source.get("gravel_evidence"):
         result["archived_gravel_context_records"] = len(source["gravel_evidence"]["body"]["rows"])
+    if original.get("pullin_policy"):
+        result["native_paved_entrance_checked"] = True
+        if original.get("visual_space_evidence"):
+            result["archived_ground_inspections"] = sum(len(side["reviewed"]) for side in original["visual_space_evidence"]["body"]["sides"].values())
     return result
 
 
 def verify_current(request, outcome, *, requested_box=None):
+    from . import curb_point_language
     source = outcome["provenance"]
     if source["method"] == CHOICE:
         source = source["choice_source"]["provenance"]
     if source.get("clearance_policy") != CLEARANCE_POLICY:
         raise ValueError("Request a new check on the current photo before saving this location.")
+    if (source["method"]==AUTO and any(source.get(key) for key in ("roadside_evidence","curb_point_evidence","gravel_evidence"))
+            and curb_point_language.indexed_reference(request["text"],expanded=True)
+            and source.get("language_policy")!=SPATIAL_DIALOGUE_POLICY):
+        raise ValueError("Recheck this passenger instruction with the current pictured-location policy.")
     return verify(request, outcome, requested_box=requested_box)

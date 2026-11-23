@@ -511,7 +511,8 @@ class PassengerSession:
         if self._state == "proposed":
             self._proposal = uuid4().hex
             outline = info.get("bay_outline") or {}
-            prompt = ("Is this visible parking area where you want to get out?" if outline.get("extent") == "visible_parking_surface" else
+            prompt = ("Is the highlighted point where you mean to get out?" if outline.get("extent")=="interior_point_only" else
+                      "Is this visible parking area where you want to get out?" if outline.get("extent") == "visible_parking_surface" else
                       "Is the outlined bay where you want to get out?" if outline else
                       "Please check the pin on the photo. Is this where you want to get out?")
             self._turns.append(self._turn("assistant",prompt))

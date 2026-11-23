@@ -272,10 +272,61 @@ def _numeric_pair(values):
             and all(isinstance(n,Real) and not isinstance(n,bool) and math.isfinite(n) for n in values))
 
 
-def match_points(text, options, frame_size, *, native_scalars=True):
+def _spoken_form(text, expanded):
+    from .curb_utterance import destination_clause,opposing_image_sides
+    normalized = destination_clause(text,expanded=expanded)
+    return opposing_image_sides(normalized) if expanded else (normalized,None)
+
+
+def references_individual_sides(text):
+    return _spoken_form(text,True)[1] is not None
+
+
+def indexed_reference(text, *, expanded=False):
+    """Whether the complete utterance asks for a vehicle gap or a specifically anchored open pull-in."""
+    if not isinstance(text,str) or not bay_intent.permitted_destination(text):
+        return False
+    text = _normal(_spoken_form(text,expanded)[0])
+    if not DESTINATION.search(text) or UNSUPPORTED.search(text):
+        return False
+    request = _requirements(text)
+    if request is None:
+        return False
+    _,vehicles,landmarks = request
+    return len(vehicles)==2 or bool(landmarks and re.search(r"\b(?:gap|pullout|opening|gravel|unpaved|layby)\b",text))
+
+
+def _signed_directions(option, fields, directions, frame_size):
+    crops=option.get("vehicle_crops")
+    if not isinstance(crops,list) or len(crops)!=2:
+        return False
+    w,h=frame_size
+    rows={}
+    seen=set()
+    for field,item in zip(("nearer_vehicle","farther_vehicle"),crops):
+        if not isinstance(item,(list,tuple)) or len(item)!=2:
+            return False
+        track,box=item
+        if (type(track) is not int or track in seen or not isinstance(box,(list,tuple)) or len(box)!=4
+                or not _numeric_pair(box[:2]) or not _numeric_pair(box[2:]) or
+                not (0<=box[0]<box[2]<=w and 0<=box[1]<box[3]<=h)):
+            return False
+        seen.add(track)
+        rows[field]=box
+    x=option["point"][0]
+    return all(x<rows[field][0]-1 if side=="left" else x>rows[field][2]+1
+               for field,side in zip(fields,directions))
+
+
+def match_points(text, options, frame_size, *, native_scalars=True, conversational=False, expanded=False):
     """Return the original options explicitly supported, then those suitable only for clarification."""
     if not isinstance(text,str) or not text.strip():
         return [],[]
+    directions=None
+    if conversational:
+        if not bay_intent.permitted_destination(text):
+            return [],[]
+        text,directions = _spoken_form(text,expanded)
     text = _normal(text)
     if not DESTINATION.search(text) or bay_intent.UNSUPPORTED.search(text) or UNSUPPORTED.search(text):
         return [],[]
@@ -308,7 +359,8 @@ def match_points(text, options, frame_size, *, native_scalars=True):
                 ambiguous = True
         if vehicles:
             assignments = [[_vehicle_match(spec,obs.get(field)) for spec,field in zip(vehicles,fields)]
-                           for fields in permutations(("nearer_vehicle","farther_vehicle"),len(vehicles))]
+                           for fields in permutations(("nearer_vehicle","farther_vehicle"),len(vehicles))
+                           if directions is None or _signed_directions(option,fields,directions,frame_size)]
             if not any(all(state is True for state in row) for row in assignments):
                 if not any(False not in row and (True in row or places) for row in assignments):
                     continue

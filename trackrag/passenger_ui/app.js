@@ -121,6 +121,8 @@ function suggestion(v, bay) {
   const point = v.result?.destination_point_xy;
   if (!point) return "Choose a location on the photo.";
   const where = positionWords(point, canvas.width, canvas.height);
+  if (bay?.extent === "interior_point_only") return (bay.passenger_tap_xy ? "The blue diamond marks your tap. " : "")
+    + "The gold ring shows the spot in the " + where + " of the photo. Check that it is where you meant.";
   if (bay?.extent === "visible_parking_surface") return (bay.passenger_tap_xy ? tapName(v) + " is the blue diamond. " : "")
     + "The gold ring is inside the visible parking area in the " + where + ". The photo leaves its full edges uncertain.";
   if (bay) return (bay.passenger_tap_xy ? tapName(v) + " is the blue diamond. " : "")
@@ -149,8 +151,9 @@ function response(v, stage, bay, choices) {
   if (editing === "reply") return ["clarify", "Tell me more", v.result?.clarification_question || v.turns?.filter(t=>t.role==="assistant").at(-1)?.text || ""];
   if (editing) return ["idle", editing === "new" ? "Where would you like to get out?" : "Edit your description", ""];
   if (choices.length) {
-    if (v.bay_reference_uncertain) return ["clarify", choices.some(c=>c.extent==="visible_parking_surface") ? "Does a highlighted area match?" : "Which outlined bay did you mean?",
+    if (v.bay_reference_uncertain) return ["clarify", choices.some(c=>c.extent==="interior_point_only") ? "Is this the spot you meant?" : choices.some(c=>c.extent==="visible_parking_surface") ? "Does a highlighted area match?" : "Which outlined bay did you mean?",
       v.result.clarification_question + " You can also mark another spot."];
+    if (choices.some(c=>c.extent==="interior_point_only")) return ["clarify","Which spot did you mean?",v.result.clarification_question];
     if (choices.some(c=>c.extent==="visible_parking_surface")) return ["clarify","Which highlighted area do you mean?",
       "Choose a label to review its pin, or mark a different spot on the photo."];
     if (choices.length === 1) return ["clarify", "Did you mean this side of the line?",
@@ -158,8 +161,9 @@ function response(v, stage, bay, choices) {
     const why = choices.some(choice => choice.passenger_tap_xy) ? "More than one bay is near your mark." : "More than one bay matches your description.";
     return ["clarify", "Which parking bay do you mean?", why + (choices.length === 2 ? " Choose bay A or bay B." : " Choose the labelled bay you mean.")];
   }
-  if (v.state === "proposed") return ["proposed", bay?.extent === "visible_parking_surface" ? "Is this the parking area you meant?" : bay ? "Is this your intended bay?" : "Is this your intended location?", suggestion(v,bay)];
+  if (v.state === "proposed") return ["proposed", bay?.extent === "interior_point_only" ? "Is this the spot you meant?" : bay?.extent === "visible_parking_surface" ? "Is this the parking area you meant?" : bay ? "Is this your intended bay?" : "Is this your intended location?", suggestion(v,bay)];
   if (v.state === "confirmed") {
+    if (bay?.extent === "interior_point_only") return ["confirmed","Location saved","You chose the spot at the gold ring as your intended drop-off."];
     if (bay?.extent === "visible_parking_surface") return ["confirmed", "Location saved", "You chose the gold ring inside the outlined parking area as your intended drop-off."];
     if (bay) return ["confirmed", "Location saved", "You chose the outlined parking bay as your intended drop-off. The gold ring marks its centre."];
     const point = v.result?.destination_point_xy;
@@ -190,7 +194,7 @@ function legend(v, offerMark, bay, choices) {
   else if (pin) {
     if (bay) {
       node.dataset.kind = "bay";
-      label = bay.extent === "visible_parking_surface" ? "Visible parking area · Gold ring at selected location" : "Gold ring at bay centre";
+      label = bay.extent === "interior_point_only" ? "Gold ring at the selected spot" : bay.extent === "visible_parking_surface" ? "Visible parking area · Gold ring at selected location" : "Gold ring at bay centre";
       if (bay.passenger_tap_xy) label += " · Blue diamond at " + tapName(v).toLowerCase();
     } else label = destinationLabel(v);
     if (v.state === "confirmed") label += " · saved location";
@@ -262,7 +266,7 @@ function render() {
 
   el("confirm").hidden = !(decision && v.state === "proposed" && v.proposal_id);
   el("confirm").disabled = locked || !ready;
-  text(el("confirm"),bay && bay.extent !== "visible_parking_surface" ? "Save this bay" : "Save this location");
+  text(el("confirm"),bay && !bay.extent ? "Save this bay" : "Save this location");
   el("draw").hidden = !(decision && canMark(v));
   el("draw").disabled = locked || !ready;
   el("take-over-area").hidden = !pending;

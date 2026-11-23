@@ -11,10 +11,13 @@ import re
 import secrets
 import tempfile
 import threading
+from concurrent.futures import ThreadPoolExecutor
 from contextlib import contextmanager, nullcontext
-from dataclasses import asdict
+from copy import deepcopy
+from dataclasses import asdict, dataclass
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
+from time import monotonic
 from urllib.parse import urlsplit
 
 from PIL import Image
@@ -26,10 +29,12 @@ from trackrag.local_speech import MAX_WAV_BYTES
 
 
 ASSETS = Path(__file__).with_name("passenger_ui")
+INTERACTIVE_DEADLINE_SECONDS = 15
 STATIC = {"/": ("index.html", "text/html; charset=utf-8"),
           "/favicon.ico": ("favicon.ico", "image/x-icon"),
           "/footage": ("footage.html", "text/html; charset=utf-8"),
           "/footage.js": ("footage.js", "text/javascript"),
+          "/footage-player.js": ("footage-player.js", "text/javascript"),
           "/frames.js": ("frames.js", "text/javascript"),
           "/pair-choices.js": ("pair-choices.js", "text/javascript"),
           "/photo-tools.js": ("photo-tools.js", "text/javascript"),
@@ -113,6 +118,27 @@ def archive_wav(directory, data):
     return digest
 
 
+@dataclass
+class GroundingJob:
+    request: dict
+    speech: dict | None
+    replaces: str | None
+    accepted_revision: int
+    started: float
+    timer: threading.Timer | None = None
+    future: object = None
+
+    def stop_waiting(self):
+        if self.timer is not None:
+            self.timer.cancel()
+        if self.future is not None:
+            self.future.cancel()
+
+    def public(self):
+        return {"request_id":self.request["request_id"], "text":self.request["text"],
+                "mode":self.request["input_mode"], "elapsed_s":round(monotonic()-self.started,2)}
+
+
 class BrowserSession:
     def __init__(self, identity, scene_key, dialogue, directory):
         self.identity = identity
@@ -125,6 +151,8 @@ class BrowserSession:
         self.receipt = None
         self.speech_error = None
         self.retired = False
+        self.pending = self.last_background = None
+        self.background_error = None
 
     def snapshot(self):
         view = dict(self.dialogue.view())
@@ -133,8 +161,16 @@ class BrowserSession:
             view.update(proposal_id=None, result=None)
             if "pair_choices" in view:
                 view["pair_choices"] = []
+        if self.pending:
+            req = self.pending.request
+            view.update(state="processing", request_id=req["request_id"], result=None, error=None, proposal_id=None,
+                        selected_by=None, pair_choices=[], turns=[*req["dialogue"],
+                        {"role":"user","text":req["text"],"recording_id":view["recording_id"],"frame_id":view["frame_id"]}])
+        if self.background_error:
+            view.update(state="error", result=None, proposal_id=None, selected_by=None, error=self.background_error)
         return {"session": self.identity, "scene": self.scene_key, "revision": self.revision,
                 "view": view, "voice_stage": self.voice_stage, "speech_error": self.speech_error,
+                "pending_grounding":self.pending.public() if self.pending else None,
                 "audio_sha256": self.receipt["audio_sha256"] if self.receipt else None,
                 "transcript": self.receipt["transcript"] if self.receipt else None}
 
@@ -156,6 +192,7 @@ class PassengerSite:
         self.model_lock = threading.Lock()
         self.release_after_request = release_after_request
         self.scene_lock = threading.Lock()
+        self.grounding_pool = ThreadPoolExecutor(max_workers=4,thread_name_prefix="passenger-photo")
 
     @contextmanager
     def model_request(self):
@@ -226,6 +263,9 @@ class PassengerSite:
                     # Navigation retires the old link. Only an explicit passenger action cancels a request.
                     old.clear_audio()
                     old.retired = True
+                    if old.pending:
+                        old.pending.stop_waiting()
+                        old.pending = None
                     self.sessions.pop(old.identity, None)
                 self.sessions[sid] = session
         return session.snapshot()
@@ -252,11 +292,88 @@ class PassengerSite:
             raise PassengerRequestError(415, "This frame format cannot be shown in the browser.")
         return mime, data
 
+    def _finish_grounding(self, s, job, outcome, actor):
+        # Callers hold s.lock. Only the currently displayed request can gain a proposal.
+        if s.retired or s.pending is not job:
+            return
+        job.stop_waiting()
+        s.pending = None
+        s.last_background = job
+        try:
+            s.dialogue.submit(job.request["text"], original_transcript=job.request.get("original_transcript"),
+                              speech=job.speech, replaces_request_id=job.replaces, _completed=(job.request,outcome,actor))
+        except (ValueError, OSError):
+            s.background_error = {"code":"input_or_audit_changed",
+                                  "message":"The photo, recording or saved request changed. Reopen the scene to try again."}
+        s.revision += 1
+
+    def _deadline(self, s, job):
+        from trackrag.dropoff.passenger import interactive_timeout
+        with s.lock:
+            self._finish_grounding(s,job,interactive_timeout(job.request),"model")
+
+    def _run_grounding(self, s, job):
+        from trackrag.dropoff.contracts import error_outcome
+        from trackrag.dropoff.passenger import operational_code
+        try:
+            remote = getattr(self.model,"uses_public_service",None)
+            # A private cloud request does not reserve the laptop GPU or block speech/road checks.
+            with nullcontext() if callable(remote) and remote(job.request) else self.model_request():
+                with s.lock:
+                    if s.retired or s.pending is not job:
+                        return
+                outcome, actor = s.dialogue.interpret_automatic(deepcopy(job.request))
+        except Exception as exc:
+            outcome = error_outcome(operational_code(exc),str(exc)[:4000] or type(exc).__name__,job.request["request_id"])
+            actor = "model"
+        with s.lock:
+            self._finish_grounding(s,job,outcome,actor)
+
+    def _start_grounding(self, s, text, speech, replaces):
+        req = s.dialogue.prepare_automatic(text,speech=speech,replaces_request_id=replaces)
+        job = GroundingJob(req,speech,replaces,s.revision+1,monotonic())
+        timer = job.timer = threading.Timer(INTERACTIVE_DEADLINE_SECONDS,self._deadline,args=(s,job))
+        timer.daemon = True
+        s.pending = job
+        try:
+            job.future = self.grounding_pool.submit(self._run_grounding,s,job)
+            timer.start()
+        except RuntimeError:
+            s.pending = None
+            job.stop_waiting()
+            raise PassengerRequestError(503,"The photo check could not start. You can mark your spot on the photo.")
+
     def change(self, sid, revision, action, payload):
         s = self.lookup(sid)
         with s.lock:
-            if s.retired or type(revision) is not int or revision != s.revision:
+            pending_action = action in {"take-over-area","cancel"} and isinstance(payload,dict) and payload.get("request_id")
+            job = (s.pending or s.last_background) if pending_action else None
+            matching = job is not None and payload["request_id"] == job.request["request_id"]
+            just_finished = (matching and s.pending is None and revision == job.accepted_revision
+                             and s.revision == revision + 1)
+            if s.retired or type(revision) is not int or (revision != s.revision and not just_finished):
                 raise PassengerRequestError(409, "This action is out of date. Use the current frame and proposal.")
+            if (s.pending and not matching) or (pending_action and not matching) or (action=="take-over-area" and not matching):
+                raise PassengerRequestError(409,"This action requires the current photo check.")
+            if matching:
+                if action=="take-over-area":
+                    if not s.dialogue.view().get("can_request_area"):
+                        raise PassengerRequestError(409,"Marking is unavailable for this scene.")
+                    s.dialogue.submit(job.request["text"],original_transcript=job.request.get("original_transcript"),
+                                      speech=job.speech,mark_on_photo=True,
+                                      replaces_request_id=job.replaces if s.pending else job.request["request_id"])
+                elif s.pending:
+                    s.dialogue.cancel_pending(job.request,job.speech,job.replaces)
+                else:
+                    s.dialogue.cancel()
+                job.stop_waiting()
+                s.pending = s.last_background = None
+                s.background_error = None
+                s.clear_audio()
+                s.revision += 1
+                return s.snapshot()
+            s.last_background = None
+            s.background_error = None
             if action == "begin-audio":
                 s.clear_audio()
                 s.voice_stage = "recording"
@@ -303,9 +420,18 @@ class PassengerSite:
                 pointing = payload.get("point_to_vehicles", False)
                 if type(pointing) is not bool:
                     raise PassengerRequestError(400, "Invalid vehicle selection mode.")
+                area = payload.get("mark_on_photo", False)
+                if type(area) is not bool or (area and pointing):
+                    raise PassengerRequestError(400, "Choose one way to identify your spot.")
                 if pointing and not s.dialogue.view().get("can_request_pointing"):
                     raise PassengerRequestError(409, "Vehicle selection is unavailable for this scene.")
+                if area and s.voice_stage and mode != "voice":
+                    raise PassengerRequestError(409, "Review or discard your recording before marking the photo.")
+                if area and not s.dialogue.view().get("can_request_area"):
+                    raise PassengerRequestError(409, "Marking is unavailable for this scene.")
                 kwargs = {"point_to_vehicles":True} if pointing else {}
+                if area:
+                    kwargs["mark_on_photo"] = True
                 if "replaces_request_id" in payload:
                     previous_id = payload["replaces_request_id"]
                     current = s.dialogue.view()
@@ -314,13 +440,22 @@ class PassengerSite:
                         raise PassengerRequestError(409, "Only the current, unfinished description can be replaced.")
                     kwargs["replaces_request_id"] = previous_id
                 receipt = s.receipt if mode == "voice" else None
-                with self.model_request():
-                    s.dialogue.submit(text, original_transcript=receipt["transcript"] if receipt else None, speech=receipt, **kwargs)
+                background = payload.get("background",False)
+                if type(background) is not bool or (background and (area or pointing)):
+                    raise PassengerRequestError(400,"Only an automatic photo check can run in the background.")
+                if background:
+                    self._start_grounding(s,text,receipt,payload.get("replaces_request_id"))
+                else:
+                    # Opening a passenger mark checks the current photograph and never invokes a model.
+                    with nullcontext() if area else self.model_request():
+                        s.dialogue.submit(text, original_transcript=receipt["transcript"] if receipt else None, speech=receipt, **kwargs)
                 s.clear_audio()
             elif action == "area":
                 if s.voice_stage:
                     raise PassengerRequestError(409, "Finish your new instruction before marking its area.")
-                with self.model_request():
+                # The installed photo maps can be checked while an unrelated cloud or local model is busy.
+                needs_inference = not getattr(self.model, "requires_verified_manual_surface", False)
+                with self.model_request() if needs_inference else nullcontext():
                     s.dialogue.select_area(payload.get("box"))
             elif action == "select-pair":
                 if s.voice_stage:
@@ -349,15 +484,19 @@ class PassengerSite:
 
 def handler(site):
     class Handler(BaseHTTPRequestHandler):
-        def send_data(self, status, mime, data):
+        def send_data(self, status, mime, data, *, etag=None):
             self.send_response(status)
             self.send_header("Content-Type", mime)
-            self.send_header("Content-Length", str(len(data)))
-            self.send_header("Cache-Control", "no-store")
+            if status != 304:
+                self.send_header("Content-Length", str(len(data)))
+            self.send_header("Cache-Control", "private, no-cache" if etag else "no-store")
+            if etag:
+                self.send_header("ETag", etag)
             self.send_header("X-Content-Type-Options", "nosniff")
             self.send_header("Content-Security-Policy", "default-src 'self'; object-src 'none'; base-uri 'none'; frame-ancestors 'none'")
             self.end_headers()
-            self.wfile.write(data)
+            if status != 304:
+                self.wfile.write(data)
 
         def respond(self, value, status=200):
             self.send_data(status, "application/json", json.dumps(value, allow_nan=False).encode("utf-8"))
@@ -383,6 +522,27 @@ def handler(site):
                     return self.send_data(200, mime, (ASSETS / filename).read_bytes())
                 if path == "/api/scenes":
                     return self.respond(site.catalog())
+                dropoff = re.fullmatch(r"/api/footage-preview/([a-f0-9]{24})/dropoff/(\d{1,10})", path)
+                if dropoff and dropoff[1] in site.footage_scenes:
+                    bound = site.open_recording_frame(dropoff[1], int(dropoff[2]), for_footage=True)
+                    self.send_response(303)
+                    self.send_header("Location", "/?scene=" + bound["key"])
+                    self.send_header("Cache-Control", "no-store")
+                    self.end_headers()
+                    return
+                preview = re.fullmatch(r"/api/footage-preview/([a-f0-9]{24})/(timeline|\d{1,10})", path)
+                if preview:
+                    key, item = preview.groups()
+                    if not site.footage or key not in site.footage_scenes:
+                        raise PassengerRequestError(404, "This recording has no attached original footage.")
+                    try:
+                        if item == "timeline":
+                            return self.respond(site.footage.timeline(site.scenes[key]))
+                        mime, data, etag = site.footage.preview_frame(site.scenes[key], int(item),
+                                                                    self.headers.get("If-None-Match"))
+                    except (KeyError, OSError, ValueError):
+                        raise PassengerRequestError(404, "This original footage is unavailable.")
+                    return self.send_data(304 if data is None else 200, mime, data or b"", etag=etag)
                 match = re.fullmatch(r"/api/footage/([0-9a-f]{32})/(\d{1,2})/(\d{1,2})",path)
                 if match and site.footage:
                     try:
@@ -506,7 +666,11 @@ def main(argv=None):
         dialogue_model = PassengerDialogueGrounder(model)
     if args.place_public_sources:
         from trackrag.dropoff.place_evidence import PlaceDialogueGrounder, PublicPlaceBackend
-        dialogue_model = PlaceDialogueGrounder(dialogue_model, PublicPlaceBackend(args.place_public_sources))
+        from trackrag.dropoff.frontage_evidence import PublicFrontageGrounder
+        public_places = PublicPlaceBackend(args.place_public_sources,cache=Path(args.vision_cache).parent/"public-places-v3")
+        dialogue_model = PlaceDialogueGrounder(dialogue_model, public_places)
+        dialogue_model = PublicFrontageGrounder(dialogue_model, public_places, args.place_public_sources,
+                                               args.out/"frontage-cache")
     footage = None
     if args.qa_data_root:
         from trackrag.footage_app import FootageReview
@@ -529,6 +693,7 @@ def main(argv=None):
             except KeyboardInterrupt:
                 pass
     finally:
+        site.grounding_pool.shutdown(wait=True,cancel_futures=True)
         model.close()
 
 

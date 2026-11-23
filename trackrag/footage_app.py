@@ -1,12 +1,14 @@
 """Run the existing cited footage reviewer from a scene in the passenger application."""
-from dataclasses import dataclass
+from dataclasses import dataclass, field
+from hashlib import sha256
 import json
 import math
 from pathlib import Path
 import re
 import secrets
+from threading import Lock
 
-from trackrag.dropoff.inputs import _inspect_image
+from trackrag.dropoff.inputs import MAX_IMAGE_BYTES, _inspect_image
 
 
 @dataclass
@@ -16,6 +18,61 @@ class FootageReview:
     vision_config: Path
     out: Path
     frame_rate: float | None = None
+    _clips: dict = field(default_factory=dict, init=False, repr=False)
+    _clip_lock: Lock = field(default_factory=Lock, init=False, repr=False)
+
+    def _clip(self, scene):
+        """Cache original file locations and the release clock, never labels or generated frames."""
+        from trackrag.emt import open_recording
+        from tools.vision_saved_adapters import validated_frame_ids
+
+        name = scene["frame"]["recording_id"]
+        provenance_sha = scene["provenance"]["prediction_provenance_sha256"]
+        source = self.predictions / f"{name}.provenance.json"
+        stat = source.stat()
+        key = (name, provenance_sha, stat.st_mtime_ns, stat.st_size)
+        with self._clip_lock:
+            if key not in self._clips:
+                raw = source.read_bytes()
+                stored = json.loads(raw)
+                if sha256(raw).hexdigest() != provenance_sha or stored.get("recording_id") != name:
+                    raise ValueError("The clip and selected recording use different prediction provenance.")
+                rec = open_recording(self.images, name, frame_rate=self.frame_rate)
+                clock, paths = [], {}
+                for original, predicted in zip(rec.frame_ids, validated_frame_ids(stored["frame_ids"])):
+                    if original != predicted:
+                        break  # The saved-prediction reader accepts only its exact original prefix.
+                    stamp = (original - rec.first_frame_id) / rec.frame_rate
+                    clock.append({"id": original, "time": stamp})
+                    paths[original] = rec.frame_index[original]
+                if not clock:
+                    raise ValueError("No original preview frames match the saved footage.")
+                self._clips[key] = (clock, paths)
+            return self._clips[key]
+
+    def timeline(self, scene):
+        clock, paths = self._clip(scene)
+        if scene["frame"]["frame_id"] not in paths:
+            raise ValueError("The selected frame is unavailable for this recording.")
+        return {"recording_id": scene["frame"]["recording_id"], "frames": clock}
+
+    def preview_frame(self, scene, frame_id, if_none_match=None):
+        _, paths = self._clip(scene)
+        path = paths.get(frame_id)
+        if path is None:
+            raise ValueError("The original frame is unavailable.")
+        stat = path.stat()
+        if not 0 < stat.st_size <= MAX_IMAGE_BYTES:
+            raise ValueError("The original frame is unavailable.")
+        etag = f'W/"{stat.st_mtime_ns:x}-{stat.st_size:x}"'
+        mime = {".jpg":"image/jpeg", ".jpeg":"image/jpeg", ".png":"image/png"}[path.suffix.lower()]
+        if if_none_match == etag:
+            return mime, None, etag
+        with path.open("rb") as stream:
+            data = stream.read(MAX_IMAGE_BYTES + 1)
+        if len(data) != stat.st_size:
+            raise ValueError("The original changed while reading this frame.")
+        return mime, data, etag
 
     def _source(self, template, frame_id):
         from tools.dropoff_prepare_scene import _RecordingPrefix

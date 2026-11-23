@@ -14,6 +14,7 @@ from trackrag.dropoff.contracts import error_outcome
 from trackrag.dropoff.passenger import PassengerGrounder, digest
 from trackrag.dropoff.road_cache import mask_shape
 from tests.test_passenger_projected_pair import fitted_head, obs
+from tests.test_passenger_manual_offlane import provide_bay
 
 
 COMMAND = "Leave me between the two black cars."
@@ -226,6 +227,65 @@ def test_passenger_can_point_without_rewriting_words_or_running_native_model(set
     journal.write_text("".join(json.dumps(line)+"\n" for line in lines), encoding="utf-8")
     with pytest.raises(ValueError):
         export(journal)
+
+
+def test_mark_first_waits_for_passenger_and_checks_original_parking_and_role(setup, tmp_path, monkeypatch):
+    req, model = setup
+    provide_bay(monkeypatch,req["scene"],[42,110,73,135])
+    original_lock = model.lock
+
+    class UnavailableModelLock:
+        def __enter__(self):
+            pytest.fail("Opening the photo waited for an automatic model")
+
+        def __exit__(self, *_):
+            pass
+
+    model.interpret = lambda _: pytest.fail("A passenger-selected area called automatic inference")
+    directory = tmp_path / "mark"
+    sess = pc.PassengerSession(req["scene"], model, audit_dir=directory)
+    model.lock = UnavailableModelLock()
+    asked = sess.submit("Next to the shop.", mark_on_photo=True)
+    assert asked["state"] == "needs_clarification" and asked["selected_by"] == "passenger"
+    assert asked["can_request_area"] and not asked["proposal_id"] and not asked["pair_choices"]
+    with pytest.raises(ValueError, match="current"):
+        sess.submit("A different spot", replaces_request_id="stale", mark_on_photo=True)
+    with pytest.raises(ValueError):
+        sess.select_pair([51, 92], "between")
+    with pytest.raises(ValueError):
+        sess.confirm("unoffered")
+    assert sess.view() == asked
+    model.lock = original_lock
+    # The first mark lies fully on an observed vehicle. The next is inside the test parking bay.
+    refused = sess.select_area([136, 75, 159, 93])
+    assert refused["state"] == "needs_clarification" and not refused["proposal_id"]
+    offered = sess.select_area([48, 115, 67, 129])
+    assert offered["state"] == "proposed" and offered["selected_by"] == "passenger"
+    assert sess.confirm(offered["proposal_id"])["state"] == "confirmed"
+    journal, = directory.glob("*.jsonl")
+    events = export(journal)["events"]
+    assert [e["phase"] for e in events] == ["opened", "explicit_passenger_area_request", "passenger_marked",
+                                           "passenger_marked", "confirmed_previous_selection"]
+    assert events[1]["outcome"]["native_model_calls"] == 0
+    assert events[1]["outcome"]["independent_model_proposal"] is False
+    assert events[3]["outcome"]["passenger_mark_verification"]["submitted_mark"] == [48, 115, 67, 129]
+    lines = [json.loads(line) for line in journal.read_bytes().splitlines()]
+    del lines[1]["detail"]["passenger_requested_area"]
+    journal.write_text("".join(json.dumps(line)+"\n" for line in lines), encoding="utf-8")
+    with pytest.raises(ValueError):
+        export(journal)
+
+
+def test_first_mark_rejects_a_photo_that_changed_after_opening(setup, tmp_path):
+    req, model = setup
+    sess = pc.PassengerSession(req["scene"], model, audit_dir=tmp_path / "changed")
+    model.interpret = lambda _: pytest.fail("Changed photo called automatic inference")
+    Image.new("RGB", (360,180), "red").save(req["scene"]["frame"]["image_path"])
+    rejected = sess.submit("By this entrance.", mark_on_photo=True)
+    assert rejected["state"] == "error" and rejected["proposal_id"] is None
+    assert "changed" in rejected["error"]["message"]
+    with pytest.raises(ValueError):
+        sess.select_area([20,100,40,120])
 
 
 def test_explicit_pointing_is_one_turn_only_and_handles_missing_tracks(setup, tmp_path):

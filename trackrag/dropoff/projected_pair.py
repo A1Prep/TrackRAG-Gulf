@@ -441,3 +441,7 @@ class ProjectedPairGrounder:
 
     def passenger_area(self, request, box):
         return self.dialogue.passenger_area(request, box)
+
+    @property
+    def requires_verified_manual_surface(self):
+        return self.dialogue.requires_verified_manual_surface

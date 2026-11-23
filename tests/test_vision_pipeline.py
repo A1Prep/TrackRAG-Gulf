@@ -102,6 +102,52 @@ def run(recording, script, factory=FakeIoUTracker, **options):
                           tracker_factory=factory)
 
 
+def test_frozen_continuity_matches_saved_replay_and_online_prefix(tmp_path):
+    from tools import vision_relink_tracks, vision_saved_adapters
+    from trackrag.vision.__main__ import JsonlSink
+    from trackrag.vision.config import CONTINUITY_KIND
+
+    class SplitTracker:
+        def __init__(self, settings):
+            self.frame = 0
+
+        def update(self, detections, image):
+            self.frame += 1
+            return [(index + (10 if self.frame == 1 else 20), index) for index in range(len(detections))]
+
+    original = make_config()
+    active = original.with_overrides(tracker={"kind": CONTINUITY_KIND})
+    config_file = tmp_path / "target.json"
+    config_file.write_text(json.dumps({"name": active.name, "detector": active.identity()["detector"],
+                                      "tracker": active.identity()["tracker"]}))
+    script = moving_script([1, 2, 3])
+    recording = FakeRecording(tmp_path / "images", "drive", [1, 2, 3])
+    base = tmp_path / "base"
+    base.mkdir()
+    predict_tracks(recording, config=original, detector=ScriptedDetector(script), tracker_factory=SplitTracker,
+                   sink=JsonlSink(base, "drive"))
+    live = predict_tracks(recording, config=active, detector=ScriptedDetector(script), tracker_factory=SplitTracker)
+    prefix = FakeRecording(tmp_path / "images", "drive", [1, 2])
+    assert predict_tracks(prefix, config=active, detector=ScriptedDetector(script), tracker_factory=SplitTracker
+                          ) == [row for row in live if row["frame_id"] <= 2]
+    assert len({row["track_id"] for row in live}) == 2
+    output = tmp_path / "relinked"
+    args = ["--pred-dir", str(base), "--out", str(output), "--recordings", "drive", "--config", str(config_file)]
+    assert vision_relink_tracks.main(args) == 0
+    assert vision_saved_adapters.predict_tracks(recording, directory=output, config=active) == live
+    assert json.loads((output / "drive.provenance.json").read_text())["track_handoffs"] == 2
+    with pytest.raises(ValueError, match="identity"):
+        vision_saved_adapters.predict_tracks(recording, directory=output, config=original)
+    with pytest.raises(SystemExit):
+        vision_relink_tracks.main(args)
+    # A failed multi-recording replay must not publish partial predictions.
+    failed_output = tmp_path / "failed"
+    with pytest.raises(FileNotFoundError):
+        vision_relink_tracks.main(["--pred-dir", str(base), "--out", str(failed_output),
+                                  "--recordings", "drive", "missing", "--config", str(config_file)])
+    assert not failed_output.exists()
+
+
 def test_contract_types_and_downstream_acceptance(tmp_path):
     from trackrag.retrieval import build_index
 

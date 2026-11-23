@@ -71,6 +71,15 @@ class PassengerReferenceScoringTests(TestCase):
         self.assertFalse(row["point_in_authored_box"])
         self.assertFalse(row["status_matches"])
 
+    def test_passenger_mark_cannot_enter_either_model_score_with_an_altered_role_flag(self):
+        self.output["provenance"].update(method="explicit_passenger_offlane_region_v1",
+                                         independent_model_proposal=True)
+        self.assertEqual(self.score([self.output])["failure"],"invalid_or_mismatched_output")
+        case={"case_id":"p","scene_group":"test","source":{"image_sha256":self.digest}}
+        public=score_outcome(case,self.request,[self.output])
+        self.assertEqual(public["failure"],"invalid_or_unbound_output")
+        self.assertIn("passenger-marked",public["detail"])
+
     def test_pack_cannot_build_without_checked_blind_source(self):
         with TemporaryDirectory() as temp:
             directory = Path(temp)

@@ -25,6 +25,8 @@ small,.hint{color:#43584e}.alert{color:#922e22;font-weight:600}[hidden]{display:
 <blockquote id="script"></blockquote>
 <label>Recording environment <select id="noise"><option value="quiet">Quiet</option><option value="real_background">Real background noise</option><option value="added_noise">Added noise</option></select></label>
 <label>Brief background description <input id="noiseNote" type="text" maxlength="300" placeholder="Optional for quiet recordings"></label>
+<label>Microphone input <select id="micInput"><option value="">System default</option></select></label>
+<button id="listInputs" class="secondary">Show microphones</button>
 <button id="record">Start microphone</button><button id="stop" disabled>Stop recording</button>
 <button id="pick" class="secondary">Use my original WAV</button><input id="audioFile" type="file" accept=".wav,audio/wav,audio/x-wav" hidden>
 <p class="hint" id="captureHint">Speak the displayed words after the microphone starts. Maximum 30 seconds. An original WAV can be mono or stereo, 16-bit PCM, 16–48 kHz.</p>
@@ -56,15 +58,16 @@ const bytes64=s=>Uint8Array.from(atob(s),x=>x.charCodeAt(0));
 function decode(bytes){
   need(bytes.byteLength>=44&&bytes.byteLength<=meta.max_clip_bytes,'Choose a WAV no larger than 6 MiB.');
   const d=new DataView(bytes.buffer,bytes.byteOffset,bytes.byteLength);
-  const id=i=>String.fromCharCode(...bytes.slice(i,i+4));let format=null,n=null;
+  const id=i=>String.fromCharCode(...bytes.slice(i,i+4));let format=null,n=null,offset=0;
   need(id(0)==='RIFF'&&id(8)==='WAVE','Choose an original PCM WAV file.');
   for(let i=12;i+8<=bytes.length;){const k=id(i),size=d.getUint32(i+4,true),j=i+8;
     need(j+size<=bytes.length,'The WAV file is incomplete.');
     if(k==='fmt '&&!format){need(size>=16,'Invalid WAV format.');format=[d.getUint16(j,true),d.getUint16(j+2,true),d.getUint32(j+4,true),d.getUint16(j+14,true)];}
-    if(k==='data'&&n===null)n=size;i=j+size+(size%2);}
+    if(k==='data'&&n===null){n=size;offset=j;}i=j+size+(size%2);}
   need(format&&format[0]===1&&[1,2].includes(format[1])&&format[2]>=16000&&format[2]<=48000&&format[3]===16&&n!==null,
        'Use mono or stereo 16-bit PCM WAV at 16–48 kHz.');
-  const seconds=n/(format[1]*2*format[2]);need(seconds>=.25&&seconds<=30,'Choose a take from 0.25 to 30 seconds.');return seconds;
+  const seconds=n/(format[1]*2*format[2]);need(seconds>=.25&&seconds<=30,'Choose a take from 0.25 to 30 seconds.');
+  need(bytes.subarray(offset,offset+n).some(value=>value!==0),'No sound was recorded. Unmute or select another microphone, or choose a WAV with your voice.');return seconds;
 }
 function wav(chunks,rate){
   const len=chunks.reduce((n,b)=>n+b.length,0),raw=new ArrayBuffer(44+2*len),d=new DataView(raw);
@@ -78,6 +81,7 @@ function wav(chunks,rate){
 function state(){
   const busy=Boolean(capture||pending), quiet=$('noise').value==='quiet'||$('noiseNote').value.trim();
   $('record').disabled=busy;$('stop').disabled=!capture;$('pick').disabled=busy;$('prompts').disabled=busy;
+  $('micInput').disabled=busy;$('listInputs').disabled=busy||!navigator.mediaDevices?.enumerateDevices;
   $('noise').disabled=busy;$('noiseNote').disabled=busy;$('resume').disabled=busy;
   $('keep').disabled=busy||!take||!listened||!$('attest').checked||!/[a-z0-9]/i.test($('reference').value)||!quiet;
   $('export').disabled=busy||!saved.size||unsaved;
@@ -109,14 +113,37 @@ function controlsAfterPlayback(){
   if(seconds+.025<take.duration*.97){report('Please listen from the beginning through the end.',true);return;}
   listened=now();$('same').disabled=false;$('attest').disabled=false;$('reference').disabled=$('same').checked;state();
 }
-async function start(){
-  need(navigator.mediaDevices?.getUserMedia&&window.AudioContext,'This browser cannot open a microphone here. You can load your own WAV.');
-  clearTake();pending=true;state();let stream=null,context=null,worklet=null,expired=false,timer;
+async function openInput(deviceId){
+  need(navigator.mediaDevices?.getUserMedia,'This browser cannot open a microphone here. You can load your own WAV.');
+  const audio={channelCount:1};if(deviceId)audio.deviceId={exact:deviceId};
+  let expired=false,timer;
+  const waiting=navigator.mediaDevices.getUserMedia({audio,video:false});
+  waiting.then(s=>{if(expired)s.getTracks().forEach(t=>t.stop());},()=>{});
+  try{return await Promise.race([waiting,new Promise((_,reject)=>{
+    timer=setTimeout(()=>{expired=true;reject(new Error('Microphone permission timed out. Try again or use your original WAV.'));},15000);
+  })]);}finally{clearTimeout(timer);}
+}
+async function listMicrophones(ask=false){
+  if(!navigator.mediaDevices?.enumerateDevices)return;
+  let stream=null;
   try{
-    const waiting=navigator.mediaDevices.getUserMedia({audio:{channelCount:1},video:false});
-    waiting.then(s=>{if(expired)s.getTracks().forEach(t=>t.stop());},()=>{});
-    stream=await Promise.race([waiting,new Promise((_,reject)=>{timer=setTimeout(()=>{expired=true;reject(new Error('Microphone permission timed out. Try again or use your original WAV.'));},15000);})]);
-    clearTimeout(timer);context=new AudioContext({sampleRate:16000});await context.resume();
+    let devices=await navigator.mediaDevices.enumerateDevices();
+    if(ask&&!devices.some(d=>d.kind==='audioinput'&&d.label)){
+      stream=await openInput('');devices=await navigator.mediaDevices.enumerateDevices();
+    }
+    const list=$('micInput'),prior=list.value;
+    const inputs=devices.filter(d=>d.kind==='audioinput'&&d.deviceId&&d.label);
+    list.replaceChildren();choose(list,'',inputs.find(d=>d.deviceId==='default')?.label||'System default');
+    for(const d of inputs)if(d.deviceId!=='default'&&d.deviceId!=='communications')choose(list,d.deviceId,d.label);
+    if(Array.from(list.options).some(o=>o.value===prior))list.value=prior;
+  }finally{stream?.getTracks().forEach(t=>t.stop());}
+}
+async function start(){
+  need(window.AudioContext,'This browser cannot record here. You can load your own WAV.');
+  clearTake();pending=true;state();let stream=null,context=null,worklet=null;
+  try{
+    stream=await openInput($('micInput').value);
+    context=new AudioContext({sampleRate:16000});await context.resume();
     need(context.sampleRate>=16000&&context.sampleRate<=48000,'Microphone capture is unavailable. Use your original WAV.');
     let node=null;
     if(context.audioWorklet){try{
@@ -133,9 +160,11 @@ async function start(){
     if(node.port)node.port.onmessage=e=>saveSamples(new Float32Array(e.data));
     else node.onaudioprocess=e=>saveSamples(e.inputBuffer.getChannelData(0));
     source.connect(node);node.connect(mute);mute.connect(context.destination);
-    c.timer=setTimeout(()=>stop().catch(showError),30000);report('Microphone recording. Speak now, then press Stop.');
+    c.timer=setTimeout(()=>stop().catch(showError),30000);
+    const sourceLabel=stream.getAudioTracks()[0]?.label||'the selected microphone';
+    report('Recording from '+sourceLabel+'. Speak now, then press Stop.');void listMicrophones().catch(()=>{});
   }catch(e){stream?.getTracks().forEach(t=>t.stop());if(context&&context.state!=='closed')await context.close();throw e;}
-  finally{if(timer)clearTimeout(timer);if(worklet)URL.revokeObjectURL(worklet);pending=false;state();}
+  finally{if(worklet)URL.revokeObjectURL(worklet);pending=false;state();}
 }
 async function stop(){
   if(!capture)return;const c=capture;capture=null;pending=true;state();clearTimeout(c.timer);
@@ -149,7 +178,9 @@ for(const id of meta.speakers)choose($('speaker'),id,id);
 $('fixture').hidden=!meta.software_fixture;$('consentText').textContent=meta.consent;$('attestText').textContent=meta.attestation;
 $('begin').onclick=guarded(()=>{need(meta.speakers.includes($('speaker').value)&&$('consent').checked,'Choose your assigned code and give consent to begin.');
   speaker=$('speaker').value;consented=now();$('setup').hidden=true;$('workspace').hidden=false;$('returns').hidden=false;
-  $('sessionLabel').textContent='Recordings for '+speaker;menu();select(meta.prompts[0].id);});
+  $('sessionLabel').textContent='Recordings for '+speaker;menu();select(meta.prompts[0].id);void listMicrophones().catch(()=>{});});
+$('listInputs').onclick=guarded(async()=>{pending=true;state();try{await listMicrophones(true);}
+  finally{pending=false;state();}});
 $('prompts').onchange=()=>{const id=$('prompts').value;if(unsaved&&!confirm('Discard this unsaved take?')){$('prompts').value=selected.id;return;}select(id);};
 $('record').onclick=guarded(async()=>{if(unsaved&&!confirm('Replace this unsaved recording?'))return;await start();});
 $('stop').onclick=guarded(stop);$('pick').onclick=()=>{if(!unsaved||confirm('Replace this unsaved recording?'))$('audioFile').click();};

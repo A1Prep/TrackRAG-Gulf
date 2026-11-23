@@ -1,0 +1,31 @@
+{
+  "name": "rfdetr-large-2026-finetuned-emt-continuity-v1",
+  "notes": "Selected on video_054907 and video_174340. The v1 handoff profile allows a 25-frame gap, requires IoU >= 0.15 and a 0.08 margin among eligible candidates. New track IDs have their own configuration hash.",
+  "detector": {
+    "kind": "rfdetr_large",
+    "label_space": "emt",
+    "checkpoint": "checkpoint_best_total.pth",
+    "checkpoint_sha256": "9ea96f1050f1d3375c5cf0f25a086cd5bb9c6a290fa5fdc009804d9a31181d95",
+    "threshold": 0.05,
+    "resolution": 704,
+    "inference_long_side": 1280,
+    "antialias": true,
+    "nms_iou": 0.8,
+    "rider_merge_iou": 0.1,
+    "ego_bottom_fraction": 0.97,
+    "ego_min_width_fraction": 0.6
+  },
+  "tracker": {
+    "kind": "ultralytics_botsort_continuity_v1",
+    "track_high_thresh": 0.15,
+    "track_low_thresh": 0.1,
+    "new_track_thresh": 0.15,
+    "track_buffer": 30,
+    "match_thresh": 0.8,
+    "fuse_score": true,
+    "gmc_method": "sparseOptFlow",
+    "proximity_thresh": 0.5,
+    "appearance_thresh": 0.8,
+    "with_reid": false
+  }
+}

@@ -1,0 +1,528 @@
+{
+  "date_utc": "2026-11-23",
+  "scope": "Causal post-association for the fine-tuned RF-DETR / BoT-SORT profile on EMT.",
+  "protocol": {
+    "baseline": "Published frozen fine-tuned RF-DETR and BoT-SORT outputs",
+    "development": [
+      "video_054907",
+      "video_174340"
+    ],
+    "held_out": [
+      "video_122233",
+      "video_125233",
+      "video_155425",
+      "video_160325",
+      "video_204647"
+    ],
+    "candidates_gap_frames_min_iou": [
+      [
+        3,
+        0.45
+      ],
+      [
+        6,
+        0.35
+      ],
+      [
+        10,
+        0.25
+      ],
+      [
+        16,
+        0.2
+      ],
+      [
+        25,
+        0.15
+      ]
+    ],
+    "ambiguity_margin": 0.08,
+    "model": "Match newly seen raw IDs to an absent same-group track using IoU of past boxes and motion-predicted boxes. Require reciprocal uniqueness with the specified margin. Never change boxes, classes, detector scores or timestamps.",
+    "selection": "On pooled development, require fewer switches and nondecreasing IDF1 relative to baseline and exactly the same per-frame observations. Maximize IDF1, break ties by fewer switches then shorter gap. Freeze the selected settings before scoring official test. Report held-out even if performance regresses. No test-based retuning.",
+    "official_metrics": "motmetrics road-user IoU >= 0.5, same as tools.vision_evaluate"
+  },
+  "frozen_protocol_sha256": "4ac29089c8569504783177c044316515ba12a2cfd4f8a30d160e2a2db11d818a",
+  "development_selection_frozen_utc": "2026-11-23T15:07:25.155244+00:00",
+  "source_profile": "configs/vision/finetuned.json",
+  "target_profile": "configs/vision/finetuned-continuity.json",
+  "source_identity_sha256": "acf21b53525d5729541aaedbf961a9c634399fa881fc7976909d48575c5e870d",
+  "target_identity_sha256": "a56343c383ee7f5f3da2dcdc5e94c5ec9792f50c60a3d24382b30785da5963b3",
+  "development": {
+    "frames": 3600,
+    "baseline": {
+      "idf1": 0.4008755928,
+      "num_switches": 3650,
+      "num_predictions": 46115,
+      "num_fragmentations": 3015,
+      "precision": 0.7891141711,
+      "recall": 0.4711899521,
+      "mota": 0.2980059562
+    },
+    "candidates": [
+      {
+        "max_gap": 3,
+        "min_iou": 0.45,
+        "metrics": {
+          "idf1": 0.407864121,
+          "num_switches": 3559,
+          "num_predictions": 46115,
+          "num_fragmentations": 3015,
+          "precision": 0.7890708013,
+          "recall": 0.4711640554,
+          "mota": 0.2991324615
+        }
+      },
+      {
+        "max_gap": 6,
+        "min_iou": 0.35,
+        "metrics": {
+          "idf1": 0.4086424257,
+          "num_switches": 3476,
+          "num_predictions": 46115,
+          "num_fragmentations": 3015,
+          "precision": 0.7890708013,
+          "recall": 0.4711640554,
+          "mota": 0.3002071734
+        }
+      },
+      {
+        "max_gap": 10,
+        "min_iou": 0.25,
+        "metrics": {
+          "idf1": 0.4099071709,
+          "num_switches": 3370,
+          "num_predictions": 46115,
+          "num_fragmentations": 3015,
+          "precision": 0.7890708013,
+          "recall": 0.4711640554,
+          "mota": 0.301579697
+        }
+      },
+      {
+        "max_gap": 16,
+        "min_iou": 0.2,
+        "metrics": {
+          "idf1": 0.4113664924,
+          "num_switches": 3327,
+          "num_predictions": 46115,
+          "num_fragmentations": 3013,
+          "precision": 0.7890708013,
+          "recall": 0.4711640554,
+          "mota": 0.3021364755
+        }
+      },
+      {
+        "max_gap": 25,
+        "min_iou": 0.15,
+        "metrics": {
+          "idf1": 0.4150958693,
+          "num_switches": 3287,
+          "num_predictions": 46115,
+          "num_fragmentations": 3013,
+          "precision": 0.7890708013,
+          "recall": 0.4711640554,
+          "mota": 0.3026544089
+        }
+      }
+    ],
+    "frozen_selection": {
+      "max_gap": 25,
+      "min_iou": 0.15,
+      "metrics": {
+        "idf1": 0.4150958693,
+        "num_switches": 3287,
+        "num_predictions": 46115,
+        "num_fragmentations": 3013,
+        "precision": 0.7890708013,
+        "recall": 0.4711640554,
+        "mota": 0.3026544089
+      }
+    },
+    "matching_note": "Same 46115 boxes and labels. CLEAR MOT association carried from the preceding frame changes two matches on development (40840/40842 misses, 9725/9727 false positives)."
+  },
+  "held_out": {
+    "frames": 8530,
+    "frames_by_recording": {
+      "video_122233": 1800,
+      "video_125233": 1800,
+      "video_155425": 1330,
+      "video_160325": 1800,
+      "video_204647": 1800
+    },
+    "baseline": {
+      "idf1": 0.4426829202,
+      "mota": 0.3407047658,
+      "num_switches": 1861,
+      "num_fragmentations": 2830,
+      "num_predictions": 75533,
+      "precision": 0.755656468,
+      "recall": 0.5290099542,
+      "num_false_positives": 18456,
+      "num_misses": 50817
+    },
+    "continuity": {
+      "idf1": 0.4778576764,
+      "mota": 0.3435038093,
+      "num_switches": 1559,
+      "num_fragmentations": 2830,
+      "num_predictions": 75533,
+      "precision": 0.755656468,
+      "recall": 0.5290099542,
+      "num_false_positives": 18456,
+      "num_misses": 50817
+    },
+    "results_by_recording": {
+      "video_122233": {
+        "original": {
+          "idf1": 0.3226521467,
+          "mota": 0.307126572,
+          "num_switches": 340,
+          "num_fragmentations": 559,
+          "num_predictions": 14312,
+          "precision": 0.8036612633,
+          "recall": 0.4229609473,
+          "num_false_positives": 2810,
+          "num_misses": 15692
+        },
+        "continuity": {
+          "idf1": 0.4232159206,
+          "mota": 0.309958079,
+          "num_switches": 263,
+          "num_fragmentations": 557,
+          "num_predictions": 14312,
+          "precision": 0.8036612633,
+          "recall": 0.4229609473,
+          "num_false_positives": 2810,
+          "num_misses": 15692
+        }
+      },
+      "video_125233": {
+        "original": {
+          "idf1": 0.4232547532,
+          "mota": 0.3745687222,
+          "num_switches": 411,
+          "num_fragmentations": 657,
+          "num_predictions": 16349,
+          "precision": 0.8777906906,
+          "recall": 0.4501285992,
+          "num_false_positives": 1998,
+          "num_misses": 17531
+        },
+        "continuity": {
+          "idf1": 0.4536916091,
+          "mota": 0.3775484599,
+          "num_switches": 316,
+          "num_fragmentations": 657,
+          "num_predictions": 16349,
+          "precision": 0.8777906906,
+          "recall": 0.4501285992,
+          "num_false_positives": 1998,
+          "num_misses": 17531
+        }
+      },
+      "video_155425": {
+        "original": {
+          "idf1": 0.4890208643,
+          "mota": 0.2422504734,
+          "num_switches": 540,
+          "num_fragmentations": 675,
+          "num_predictions": 19906,
+          "precision": 0.6260423993,
+          "recall": 0.6741682445,
+          "num_false_positives": 7444,
+          "num_misses": 6023
+        },
+        "continuity": {
+          "idf1": 0.4901669662,
+          "mota": 0.2439816067,
+          "num_switches": 508,
+          "num_fragmentations": 677,
+          "num_predictions": 19906,
+          "precision": 0.6260423993,
+          "recall": 0.6741682445,
+          "num_false_positives": 7444,
+          "num_misses": 6023
+        }
+      },
+      "video_160325": {
+        "original": {
+          "idf1": 0.5294087137,
+          "mota": 0.4380253632,
+          "num_switches": 352,
+          "num_fragmentations": 635,
+          "num_predictions": 17979,
+          "precision": 0.7604983592,
+          "recall": 0.6643506146,
+          "num_false_positives": 4306,
+          "num_misses": 6908
+        },
+        "continuity": {
+          "idf1": 0.5403526971,
+          "mota": 0.4408920849,
+          "num_switches": 293,
+          "num_fragmentations": 635,
+          "num_predictions": 17979,
+          "precision": 0.7604983592,
+          "recall": 0.6643506146,
+          "num_false_positives": 4306,
+          "num_misses": 6908
+        }
+      },
+      "video_204647": {
+        "original": {
+          "idf1": 0.4902323914,
+          "mota": 0.3048605414,
+          "num_switches": 218,
+          "num_fragmentations": 304,
+          "num_predictions": 6987,
+          "precision": 0.7283526549,
+          "recall": 0.5218416735,
+          "num_false_positives": 1898,
+          "num_misses": 4663
+        },
+        "continuity": {
+          "idf1": 0.5107832009,
+          "mota": 0.3088597211,
+          "num_switches": 179,
+          "num_fragmentations": 304,
+          "num_predictions": 6987,
+          "precision": 0.7283526549,
+          "recall": 0.5218416735,
+          "num_false_positives": 1898,
+          "num_misses": 4663
+        }
+      }
+    },
+    "by_group": {
+      "Pedestrian": {
+        "labelled_objects": 43,
+        "original": {
+          "idf1": 0.2554931017,
+          "num_switches": 84
+        },
+        "continuity": {
+          "idf1": 0.2667347982,
+          "num_switches": 75
+        }
+      },
+      "Cyclist": {
+        "labelled_objects": 0,
+        "original": {
+          "idf1": null,
+          "num_switches": 0
+        },
+        "continuity": {
+          "idf1": null,
+          "num_switches": 0
+        }
+      },
+      "Motorbike": {
+        "labelled_objects": 15,
+        "original": {
+          "idf1": 0.3369330454,
+          "num_switches": 7
+        },
+        "continuity": {
+          "idf1": 0.3576673866,
+          "num_switches": 6
+        }
+      },
+      "Vehicle": {
+        "labelled_objects": 1326,
+        "original": {
+          "idf1": 0.4467206176,
+          "num_switches": 1727
+        },
+        "continuity": {
+          "idf1": 0.4817435863,
+          "num_switches": 1437
+        }
+      }
+    }
+  },
+  "verified_artifacts_by_recording": {
+    "video_054907": {
+      "observations": 33710,
+      "all_frame_source_label_and_boxes_match": true,
+      "source_tracks_sha256": "7d3e650b6a8e5f4ca1d5e1197e9efaaa724e9ffb3d2d649d7266659774f239f8",
+      "relabelled_tracks_sha256": "043b3d0a0a8635622ae515d7839d1eda8b56b5197b506258073597e6273151cd",
+      "label_file_sha256": "20c48cd36e20acb302ac7f68b48df8ca976ae7a7fddf98dd0c48b28b7abdf67b",
+      "source_provenance_sha256": "9b7e9264ea021fd8cfa070d7479b43c82faa51257819c036ab5498a98373dbde",
+      "track_handoffs": 1479
+    },
+    "video_174340": {
+      "observations": 12405,
+      "all_frame_source_label_and_boxes_match": true,
+      "source_tracks_sha256": "16fc153eb316532aedc116db284fadef750349758241fad4324bf20b7811ea03",
+      "relabelled_tracks_sha256": "84530b544083dcd730ea5cf95435da4b669a15d5a8faea8b11977564f170e6aa",
+      "label_file_sha256": "497579fd3aabd63f92120da9c6e2b0653295b0294a4dce5705aeb2f823a7f9e1",
+      "source_provenance_sha256": "62a7bd613ed3290c710f4892743db9011da0fb7a17ee85d5cc55f127014ffd98",
+      "track_handoffs": 158
+    },
+    "video_122233": {
+      "observations": 14312,
+      "all_frame_source_label_and_boxes_match": true,
+      "source_tracks_sha256": "4f2409447fdefd464aa39bb61e6ca0b340c186a7730658998ed7a3afda6dccff",
+      "relabelled_tracks_sha256": "ddd8e8ebac5d666282afecaa06e49eb704416af324516f78e82a262ceafdb7d9",
+      "label_file_sha256": "1745d2fedb37ce72cc59fdfecc47a7aea596cab379c7aa44069b8ee061be6812",
+      "source_provenance_sha256": "fdedf6bfee8550a0ae16c7dc0697ee246b16c3a28cc49ed7d4d8a55cbcbe0c13",
+      "track_handoffs": 249
+    },
+    "video_125233": {
+      "observations": 16349,
+      "all_frame_source_label_and_boxes_match": true,
+      "source_tracks_sha256": "92241a0921512ea53d886ef11b2fe1028deefd8fcb48c174e24ce8923757ca8d",
+      "relabelled_tracks_sha256": "fb346115f0ad4c600298674548a442c710ce34c593ff1123bdd2ae3bf2063a97",
+      "label_file_sha256": "f62c306fecc14135103ecdf1d11a9cb75810ffaccf330098dc82c08cc7419c84",
+      "source_provenance_sha256": "acfcb1765efd1a21ea4657dfb5bd2f5f905f5eba5bf45373222d727db4eb00d9",
+      "track_handoffs": 249
+    },
+    "video_155425": {
+      "observations": 19906,
+      "all_frame_source_label_and_boxes_match": true,
+      "source_tracks_sha256": "91d423c61dce47b8fdf4328e15ceecbca003fc67ad290762a68d9452b349ea92",
+      "relabelled_tracks_sha256": "ae3a7b17f8f58000ba227feb945a2661a6855423ef2c44747724965a6c141a05",
+      "label_file_sha256": "bbfea780db187968a9bb992c8d74676e74c26c961044742901645c677df82096",
+      "source_provenance_sha256": "a799b44335ba18537484745380d0686f449b1db5a6faa4c5b334218eba954aea",
+      "track_handoffs": 425
+    },
+    "video_160325": {
+      "observations": 17979,
+      "all_frame_source_label_and_boxes_match": true,
+      "source_tracks_sha256": "b0a2f7d2bcb01db97d5fb6827628238c3a0f7575fc2b9416df27dcf9bcc029ee",
+      "relabelled_tracks_sha256": "cf9c411e59fc0c0e6c24212d39b1644755780cc629058f939104b35715312e22",
+      "label_file_sha256": "1cb87aa0582914b0637c3cd3bc8652410bfc783c9aef4ba8833e62e4df085975",
+      "source_provenance_sha256": "d4a99fdf9df614282a8ae08b2c9aec8d68ae981204c6be27619b0a0cd7bd544e",
+      "track_handoffs": 327
+    },
+    "video_204647": {
+      "observations": 6987,
+      "all_frame_source_label_and_boxes_match": true,
+      "source_tracks_sha256": "68642044eb2e2d02597073093d061f4863064859af8e68f4d37d5f1f92123b1c",
+      "relabelled_tracks_sha256": "ca7d137bddb5e3b2a99117a9c2182daad26475c5d3013f9e32c5d03beea38a21",
+      "label_file_sha256": "fb6f1f86fff0e1c0bc439a61dc4fe8d75a090f6688e6c15123bed13baad52ba9",
+      "source_provenance_sha256": "df76f2486ff77f23221a1f88de447654c149b9643c7de4c50c48b5467b076ad9",
+      "track_handoffs": 132
+    }
+  },
+  "fresh_replay_parity": {
+    "recording": "video_054907",
+    "method": "Two independent CPU runs on original image-only EMT frames, then replay the baseline saved tracks.",
+    "frames": 36,
+    "observations": 423,
+    "handoffs": 2,
+    "byte_identical_raw_detection_output_sha256": "4b7654dc75e28cb8ae7ff0e672927847b3ff3f0a738b539a78a0447a03ab045c",
+    "byte_identical_live_and_replayed_tracks_sha256": "ed2df04edf7451485eafa9510b135c8e19a29335ccfd2c1a0c5e4477dc47b467"
+  },
+  "example": {
+    "recording": "video_122233",
+    "review_rule": "Each saved box overlaps the same official EMT object by IoU >= 0.75 with a margin >= 0.25 to the next box. Five observations on each side have the same raw ID within that side.",
+    "columns": [
+      "frame",
+      "official_ground_truth_id",
+      "class",
+      "raw_botsort_id",
+      "continuity_id",
+      "matched_iou"
+    ],
+    "before": [
+      [
+        726,
+        31,
+        "Car",
+        31500,
+        181,
+        0.816
+      ],
+      [
+        728,
+        31,
+        "Car",
+        31500,
+        181,
+        0.909
+      ],
+      [
+        729,
+        31,
+        "Car",
+        31500,
+        181,
+        0.917
+      ],
+      [
+        730,
+        31,
+        "Car",
+        31500,
+        181,
+        0.827
+      ],
+      [
+        734,
+        31,
+        "Car",
+        31500,
+        181,
+        0.782
+      ]
+    ],
+    "after": [
+      [
+        736,
+        31,
+        "Car",
+        34018,
+        181,
+        0.85
+      ],
+      [
+        737,
+        31,
+        "Car",
+        34018,
+        181,
+        0.804
+      ],
+      [
+        738,
+        31,
+        "Car",
+        34018,
+        181,
+        0.807
+      ],
+      [
+        739,
+        31,
+        "Car",
+        34018,
+        181,
+        0.809
+      ],
+      [
+        740,
+        31,
+        "Car",
+        34018,
+        181,
+        0.871
+      ]
+    ]
+  },
+  "limitations": [
+    "Official saved bundles have no confidence-scored raw detections. Full-test AP and detector-to-tracker coverage are archived results. Every original track observation was independently matched exactly after relabelling.",
+    "Tracking recall limits continuity. The five test recordings contain no cyclist ground truth or cyclist predictions.",
+    "A new profile creates a new ID namespace. Existing evidence indexes and their questions must use their original profile."
+  ],
+  "review_smoke": {
+    "recording": "video_054907",
+    "question_count": 12,
+    "observation_count": 1840,
+    "source": "predicted",
+    "questions_with_evidence": 7,
+    "same_number_of_evidence_items_for_each_question_as_baseline": true,
+    "answerer": "none",
+    "scope": "Retrieval/evidence plumbing; no answer quality claim."
+  }
+}

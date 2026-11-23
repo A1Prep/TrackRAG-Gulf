@@ -42,6 +42,50 @@ def test_current_frame_overview_is_available_without_named_objects(wording):
     assert all(item["end_frame"] <= 38 for item in evidence)
 
 
+@pytest.mark.parametrize("words", ["Is the truck near the building?", "Is the lorry next to that red shop?",
+                                   "What is the white pickup on the left carrying?"])
+def test_spatial_context_and_cargo_include_the_original_at_the_viewed_moment(words):
+    visible=[track(5,2,"Medium_vehicle",10),track(38,2,"Medium_vehicle",30)]
+    current=rank_evidence(query(words),build_index(Frames(),visible))
+    assert (None,38,38) in intervals(current)
+    assert current==rank_evidence(query(words),build_index(Frames(),visible+[track(44,9,"Medium_vehicle",58)]))
+
+
+def test_spatial_clarification_requires_distinct_current_candidates_and_an_unqualified_vehicle():
+    from trackrag.answering import spatial_reference_question
+
+    def candidate(tid, box, cls="Medium_vehicle", frame=38):
+        return {"interval":{"track_id":tid}, "images":[{"frame_id":frame,"bbox_xyxy":box,
+                "privacy":{"original_size_wh":[100,80]}, "observations":[{"track_id":tid,"class_name":cls}]}]}
+    first = candidate(4, [1,10,20,40])
+    second = candidate(6, [48,9,55,20])
+    q = query("Is the truck near the building?")
+    assert "on the left and near the centre" in spatial_reference_question(q, [first, second])
+    assert spatial_reference_question(query("Is the white truck on the left near the building?"), [first, second]) is None
+    for alternative in (candidate(6,[18,10,58,40]),candidate(6,[48,9,55,20],"Pedestrian"),
+                        candidate(6,[48,9,55,20],frame=44)):
+        assert spatial_reference_question(q, [first,alternative]) is None
+
+
+@pytest.mark.parametrize("second_box", [
+    [19, 5, 28, 16],  # Both are on the left, clearly separated from left to right.
+    [4, 30, 15, 49],  # Both are on the left, clearly separated vertically.
+])
+def test_current_distinct_trucks_on_one_side_require_a_distinguishing_detail(second_box):
+    from trackrag.answering import spatial_reference_question
+
+    matches = [{"interval":{"track_id":track_id}, "images":[{
+        "frame_id":38, "bbox_xyxy":box, "privacy":{"original_size_wh":[100,70]},
+        "observations":[{"track_id":track_id,"class_name":"Truck"}]}]}
+        for track_id,box in [(4,[3,7,15,18]), (6,second_box)]]
+    q = query("Is the truck near the building?")
+    answer = spatial_reference_question(q,matches)
+    assert "two possible matches on the left" in answer
+    assert "detail" in answer
+    matches[1]["images"][0]["frame_id"] = 44
+    assert spatial_reference_question(q,matches) is None
+
+
 @pytest.mark.parametrize("source", ["predicted", "annotated"])
 def test_late_object_uses_the_requested_frame_and_source(source):
     rows = [track(5, 6, "Car", 75, source=source), track(38, 7, "Car", 70, source=source),

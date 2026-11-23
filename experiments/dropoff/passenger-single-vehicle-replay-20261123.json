@@ -1,0 +1,431 @@
+{
+  "scope": "Targeted reproductions on four named, previously inspected public UAE photos. Independent AI visual review and ordinary Chrome checks cover three photos. These observations do not estimate passenger-population accuracy or physical stopping feasibility.",
+  "date_utc": "2026-11-23",
+  "method": "single_vehicle_behind_parking_v1",
+  "decision_policy": "single_vehicle_visible_rear_v3",
+  "scene_evidence_recipe": "single_vehicle_rear_observations_v1",
+  "models": {
+    "ranker_sha256": "d96a9a69e2e52ddbc21851d5ff6f79b344de6c8558600e54be5cb2712480a07d",
+    "base": "10d842936325905934ea24e64325d774693f166e",
+    "adapter_sha256": "76bfb3230b17a86248b52ca6a9f8d2ffca324aa80216d6b93845ccb12ad86743",
+    "processor": "0c351dd01ed87e9c1b53cbc748cba10e6187ff3b",
+    "parking_segmenter": "4772b6bf101d91f2534c106dc524d906aeb3c68a"
+  },
+  "coordinates": "Original-image pixels from the top left. The passenger explicitly confirms any suggested area; the driver assesses the road.",
+  "photo_credit": "© Grab and KartaView Contributors",
+  "photo_license": "https://creativecommons.org/licenses/by-sa/4.0/",
+  "cases": [
+    {
+      "recording": "kartaview_3329429",
+      "frame": 213,
+      "original_size": [
+        3264,
+        1836
+      ],
+      "original_sha256": "5b635a7c2e4f7eebd4ae50b91b725fd9054bf7b41bda28248e36e5bfa0de7e5b",
+      "photo_url": "https://kartaview.org/details/3329429/213/",
+      "source_manifest": "passenger-uae-parking-photos-20261123.json",
+      "prior_application_history": {
+        "input": "voice and typed",
+        "method": "qwen_landmark_region",
+        "outcomes": [
+          "grounding_failed: CUDA matrix multiplication",
+          "grounding_failed: local allocation"
+        ]
+      },
+      "visual_review": "The near-right white sedan is rear-facing. The proposal sits on visually empty curbside ground immediately beyond its rear, within a marking and the curb. The independent browser reviewer agreed.",
+      "current_checks": [
+        {
+          "decision_policy": "single_vehicle_visible_rear_v3",
+          "request": "Could you drop me off behind the white car?",
+          "input_mode": "typed",
+          "state": "proposed",
+          "reason": "matched",
+          "point_xy": [
+            2243.0933333333332,
+            1369.7430830039527
+          ],
+          "confirmation_offered": true,
+          "submit_http_seconds": 0.547,
+          "outcome_sha256": "707000cd1ddee7566be0178a0cec253025ea55b9e63ace1ab85aea987afe6575",
+          "journal_sha256": "42edf76c469e0d586351712bbef8a19f2f8a0cdf44c2f3a1408b761095bc708b",
+          "handoff_replayed": true,
+          "authenticated_scene_packet_sha256": "4ea94ea1218888e80176265251fb37efe0a72d3392ab7de86595c3b91d52c9de",
+          "trained_model_observations": [
+            {
+              "track_id": 2,
+              "description": "SEDAN WHITE"
+            }
+          ],
+          "surface_model_passes_in_saved_evidence": 1,
+          "anchor_track_id": 2,
+          "anchor_box_xyxy": [
+            1895.5494415283201,
+            1067.6167831420898,
+            2195.9110839843747,
+            1296.4726684570312
+          ],
+          "spot_box_xyxy": [
+            2215.893333333333,
+            1342.5296442687747,
+            2270.293333333333,
+            1396.9565217391305
+          ],
+          "parking_seed_pixels": 472,
+          "connected_surface_pixels": 3722,
+          "surface_kind": "marked_lane_edge_to_curb",
+          "confirmed_by_test_action": true,
+          "confirmation_http_seconds": 0.17
+        }
+      ]
+    },
+    {
+      "recording": "kartaview_986839",
+      "frame": 1,
+      "original_size": [
+        3840,
+        2160
+      ],
+      "original_sha256": "528de6137375fa351d4d85d5f25d3eca7b0034c2542983e75c32ad6b1013d2ac",
+      "photo_url": "https://kartaview.org/details/986839/1/",
+      "source_manifest": "passenger-uae-parking-photos-20261123.json",
+      "prior_application_history": {
+        "input": "typed",
+        "method": "qwen_landmark_region",
+        "outcomes": [
+          "grounding_failed: CUDA runtime"
+        ]
+      },
+      "visual_review": "Vehicles queue on the gate approach. The surface model supported no separate rear parking patch in the current frame. The app offered a different landmark or a mark.",
+      "current_checks": [
+        {
+          "decision_policy": "single_vehicle_visible_rear_v3",
+          "request": "can u drop me behind the truck",
+          "input_mode": "typed",
+          "state": "needs_clarification",
+          "reason": "no_supported_space",
+          "point_xy": null,
+          "confirmation_offered": false,
+          "submit_http_seconds": 0.555,
+          "outcome_sha256": "c4166c5a88a056a201ac8644e4f5abe86f6de5a8a089f7e26dc573fd3d4f1ca4",
+          "journal_sha256": "098b35eb2a7a28b130a5073e3a7194506b4d6d4d1273ff7d178a6c070e8fe9e7",
+          "handoff_replayed": true,
+          "authenticated_scene_packet_sha256": "4ee053f1d59211292737c89a63a06af9f4fb6b94018acb84b5005cebc1149709",
+          "trained_model_observations": [],
+          "surface_model_passes_in_saved_evidence": 1
+        }
+      ]
+    },
+    {
+      "recording": "kartaview_5124809",
+      "frame": 287,
+      "original_size": [
+        3264,
+        1836
+      ],
+      "original_sha256": "37249c17aea5689c7f6d059e5fb99ed405a9d95a414f444571d44906033b6626",
+      "photo_url": "https://kartaview.org/details/5124809/287/",
+      "source_manifest": "passenger-place-public-photos-20261123.json",
+      "prior_application_history": {
+        "input": "voice",
+        "method": "qwen_landmark_region",
+        "outcomes": [
+          "resource_unavailable: local 4 GiB GPU out of memory"
+        ]
+      },
+      "visual_review": "The observed black truck is at the left end of a diagonally parked row. The side-surface check found a possible parking patch beside a different car. The requested dark truck had none. A near-lane point would be across a raised strip.",
+      "current_checks": [
+        {
+          "decision_policy": "single_vehicle_visible_rear_v3",
+          "request": "Could you drop me next to that black pickup truck?",
+          "input_mode": "typed",
+          "state": "needs_clarification",
+          "reason": "no_supported_side_space",
+          "point_xy": null,
+          "confirmation_offered": false,
+          "submit_http_seconds": 0.42,
+          "outcome_sha256": "6bc7808752a4bc2223ec6ce2a15bc5c9e3728161873eaee74b67ec5b9227998d",
+          "journal_sha256": "f9c7923603632eb09f67f601bf56d3814e71b5c201c11aa2cab7810fdfbe3eba",
+          "handoff_replayed": true,
+          "authenticated_scene_packet_sha256": "96a5f622af2874ff9f0d7d4d8a9be8147ab13f35b18c36d2171cbcfb47012ac5",
+          "trained_model_observations": [
+            {
+              "track_id": 4,
+              "description": "TRUCK BLACK"
+            }
+          ],
+          "surface_model_passes_in_saved_evidence": 1
+        }
+      ]
+    },
+    {
+      "recording": "kartaview_4572137",
+      "frame": 14,
+      "original_size": [
+        3264,
+        1836
+      ],
+      "original_sha256": "98dbfd42cf22eab79bff24cbf227cdefb7663b12c0d7d1014569642f067adfbd",
+      "photo_url": "https://kartaview.org/details/4572137/14/",
+      "source_manifest": "passenger-frontage-photos-20261123.json",
+      "prior_application_history": {
+        "earlier_turn": "Could you drop me next to the trees on the left?",
+        "earlier_result": "The place route asked for clarification. The passenger marked an area and confirmed it.",
+        "later_voice_turn": "Could you drop me behind the black car?",
+        "later_result": "The recorded application turn already returned a signed single-vehicle clarification. The new typed beside-instruction is tested separately."
+      },
+      "visual_review": "A dark SUV is mostly side-on at the right edge of the roadway. Another dark car is farther ahead. The original surface and detections yielded no qualifying adjoining parking patch for either requested relation.",
+      "current_checks": [
+        {
+          "decision_policy": "single_vehicle_visible_rear_v3",
+          "request": "Could you drop me behind the black car?",
+          "input_mode": "voice",
+          "state": "needs_clarification",
+          "reason": "no_supported_space",
+          "point_xy": null,
+          "confirmation_offered": false,
+          "submit_http_seconds": 0.184,
+          "outcome_sha256": "b30d774b5019e45895758d04d922ba604ece45e0eaf0acd55d848404e50f2ebf",
+          "journal_sha256": "ddb2c065d336b47ad63d5aed312232764b79a03a55ce630abb91c64609c91c54",
+          "handoff_replayed": true,
+          "authenticated_scene_packet_sha256": "5e43122c9fb4cf9e72b466c0a3aa981755e5d75e0c88b29367b7618314e04abd",
+          "trained_model_observations": [],
+          "surface_model_passes_in_saved_evidence": 1,
+          "speech": {
+            "engine": "Systran/faster-whisper-small.en",
+            "model_revision": "d1d751a5f8271d482d14ca55d9e2deeebbae577f",
+            "device": "cpu",
+            "source_duration_seconds": 4.021333333333334,
+            "transcription_model_seconds": 2.534,
+            "audio_to_review_http_seconds": 2.544,
+            "exact_reviewed_transcript": true
+          }
+        },
+        {
+          "decision_policy": "single_vehicle_visible_rear_v3",
+          "request": "Drop me next to the black car",
+          "input_mode": "typed",
+          "state": "needs_clarification",
+          "reason": "no_supported_side_space",
+          "point_xy": null,
+          "confirmation_offered": false,
+          "submit_http_seconds": 0.556,
+          "outcome_sha256": "1f29ec8fa2ea13d5449408846d02463f91ab879def95ce518c6ffc1d49f55432",
+          "journal_sha256": "2e760e7cd0e837565f55f39979a7c09697fc61c57525eef62f9fa61d75f0184e",
+          "handoff_replayed": true,
+          "authenticated_scene_packet_sha256": "1ae2bbc2ba4b922952140fd018fc8086211fd458367ee9d61df39ea373ca6009",
+          "trained_model_observations": [],
+          "surface_model_passes_in_saved_evidence": 1
+        }
+      ]
+    }
+  ],
+  "attribute_and_ambiguity_controls": {
+    "sedan-blue": {
+      "request": "Could you drop me off behind the blue car?",
+      "state": "needs_clarification",
+      "reason": "unverified_vehicle",
+      "point_xy": null,
+      "submit_http_seconds": 0.614,
+      "journal_sha256": "28e2a8126d30ae3455710a94465a9b94615bc6aad3acc3ba5552f58b9faec7bc",
+      "handoff_replayed": true
+    },
+    "sedan-generic": {
+      "request": "Could you drop me off behind the car?",
+      "state": "needs_clarification",
+      "reason": "ambiguous",
+      "point_xy": null,
+      "submit_http_seconds": 0.514,
+      "journal_sha256": "31ab28a3290bca2c88f20a4cb31b021e937a3ead72e705af8478ed6157126db6",
+      "handoff_replayed": true
+    },
+    "pickup-red": {
+      "request": "Could you drop me off behind the red truck?",
+      "state": "needs_clarification",
+      "reason": "unverified_vehicle",
+      "point_xy": null,
+      "submit_http_seconds": 0.641,
+      "journal_sha256": "b67b94a42df114a9f6c1464e9bfd13a0a57c07757fb2f7e300d34bc4cbff655f",
+      "handoff_replayed": true
+    },
+    "pickup-white-pickup": {
+      "request": "Could you drop me next to that white pickup truck?",
+      "state": "needs_clarification",
+      "reason": "side_unverified_vehicle",
+      "point_xy": null,
+      "submit_http_seconds": 0.599,
+      "journal_sha256": "fa48327e351d29e4b2abb2dc16765c25b056bd45ad4ebdfca91b10a559ef44db",
+      "handoff_replayed": true
+    },
+    "pickup-truck-white": {
+      "request": "Drop me off behind the white truck.",
+      "state": "needs_clarification",
+      "reason": "unverified_vehicle",
+      "point_xy": null,
+      "submit_http_seconds": 0.843,
+      "journal_sha256": "d42b135d02e1d3140b73739c1df34e696a6af36f2ce30e45b1d071b30885c0b3",
+      "handoff_replayed": true
+    },
+    "pickup-black-rear": {
+      "request": "Drop me off behind the black truck.",
+      "state": "needs_clarification",
+      "reason": "rear_view_unclear",
+      "point_xy": null,
+      "submit_http_seconds": 0.3,
+      "journal_sha256": "8876ad38afb5a46b5dc9da0133b7f2a1d80c53269487da6b797a5780c06556dc",
+      "handoff_replayed": true
+    }
+  },
+  "independent_chrome_repeats": [
+    {
+      "case": "white-sedan",
+      "state": "proposed",
+      "reason_at_browser_test": "matched",
+      "elapsed_seconds": 0.296,
+      "visual_confirmation_offered": true,
+      "passenger_confirmed": false,
+      "no_browser_errors": true,
+      "signed_decision_recomputed": true,
+      "journal_sha256": "673cd8506f27e0d713f63c33ddef7cd55100a336ac72b9b6f1fb7a24075fd5fb"
+    },
+    {
+      "case": "truck",
+      "state": "needs_clarification",
+      "reason_at_browser_test": "no_supported_space",
+      "elapsed_seconds": 0.222,
+      "visual_confirmation_offered": false,
+      "passenger_confirmed": false,
+      "no_browser_errors": true,
+      "signed_decision_recomputed": true,
+      "journal_sha256": "3225236382481783cbbbabe130f68aa2f56d1692d3454e191f509e6498b09d5d"
+    },
+    {
+      "case": "black-pickup",
+      "state": "needs_clarification",
+      "reason_at_browser_test": "side_needs_mark",
+      "elapsed_seconds": 0.322,
+      "visual_confirmation_offered": false,
+      "passenger_confirmed": false,
+      "no_browser_errors": true,
+      "signed_decision_recomputed": true,
+      "journal_sha256": "9dcc9260d5672793c9e5ff381b359feed579c55f64eeb5ac1e08670ffe226435"
+    }
+  ],
+  "browser_version_note": "Chrome repeated the three original user requests without a passenger mark or confirmation. The final side clarification narrows the inspected geometry to the observed dark truck. Both versions withheld a pin.",
+  "timing": {
+    "units": "seconds. Individual HTTP observations. An empty local evidence cache triggers a private GPU call. Container startup duration was not measured separately.",
+    "before_interactive_limit": {
+      "concurrent_cold_white_sedan": 59.179,
+      "concurrent_cold_gate_truck": 69.441
+    },
+    "after_interactive_limit": {
+      "gate_empty_cache_first_answer": 4.036,
+      "gate_first_answer_reason": "pending",
+      "gate_additional_time_until_verified_packet_observed": 18.52,
+      "gate_cached_result": 0.158,
+      "fourth_photo_new_empty_cache_typed_side_first_answer": 4.054,
+      "fourth_photo_typed_side_first_reason": "pending",
+      "fourth_photo_voice_with_concurrent_new_check": {
+        "audio_to_review_http": 6.559,
+        "actual_transcription": 2.504,
+        "subsequent_signed_voice_submit": 0.133
+      },
+      "fourth_photo_cached_side_result": 0.142
+    }
+  },
+  "limitations": [
+    "The independent model can propose a rear curbside point. Side requests presently ask for a passenger mark, including when a possible side patch lacks independent visual confirmation.",
+    "The compact file records hashes and measured outcomes. Raw microphone recordings, machine-local paths, session tokens, model weights and original photographs remain outside Git."
+  ],
+  "broadside_counterfactual": {
+    "request": "Drop me off behind the black truck.",
+    "recording": "kartaview_5124809",
+    "frame": 287,
+    "prior_policy": "single_vehicle_rear_and_side_v2",
+    "prior_unsupported_pin_xy": [
+      1075.3066666666666,
+      1220.9762845849802
+    ],
+    "prior_test_action_confirmed": true,
+    "prior_journal_sha256": "f553ca98a6e6a7116d9c51263816dd321af4313bb1aa8204aa4ce50232ac4a97",
+    "independent_visual_finding": "The crop reader called the side-on truck rear-facing, and the pin projected toward the neighboring parked car.",
+    "current_policy": "single_vehicle_visible_rear_v3",
+    "current_state": "needs_clarification",
+    "current_reason": "rear_view_unclear",
+    "current_submit_http_seconds": 0.3,
+    "current_journal_sha256": "8876ad38afb5a46b5dc9da0133b7f2a1d80c53269487da6b797a5780c06556dc",
+    "correction": "The active policy requires an entirely visible vehicle with a plausible end-on shape as well as the trained crop, ranker and surface checks. A strongly elongated or clipped box triggers clarification. This remains a conservative two-dimensional check."
+  },
+  "independent_chrome_refresh": [
+    {
+      "case": "white-sedan",
+      "decision_policy": "single_vehicle_rear_and_side_v2",
+      "state": "proposed",
+      "reason": "matched",
+      "first_ui_update_seconds": 0.062,
+      "complete_ui_response_seconds": 0.588,
+      "pin_offered": true,
+      "browser_errors": 0,
+      "journal_sha256": "8bec6c5b9cafb5f1adee9d8df92fecd0adfc3290a124c482d435c80700ca95a8",
+      "handoff_replayed": true
+    },
+    {
+      "case": "truck",
+      "decision_policy": "single_vehicle_rear_and_side_v2",
+      "state": "needs_clarification",
+      "reason": "no_supported_space",
+      "first_ui_update_seconds": 0.047,
+      "complete_ui_response_seconds": 0.575,
+      "pin_offered": false,
+      "browser_errors": 0,
+      "journal_sha256": "dc5be83a51a49d6a8a23520742153df5d25fc5bba194fa1d27b9173fcbe10fdd",
+      "handoff_replayed": true
+    },
+    {
+      "case": "black-pickup",
+      "decision_policy": "single_vehicle_rear_and_side_v2",
+      "state": "needs_clarification",
+      "reason": "no_supported_side_space",
+      "first_ui_update_seconds": 0.057,
+      "complete_ui_response_seconds": 0.586,
+      "pin_offered": false,
+      "browser_errors": 0,
+      "journal_sha256": "21101b1031dbe34e7a3586e293f39bf8d6f7c6f7e16c38052abd70e7b52b90f6",
+      "handoff_replayed": true
+    }
+  ],
+  "fourth_photo_repeated_model_evidence": {
+    "authenticated_fetches": 3,
+    "map_pixels": 455400,
+    "observation": "The two separately fetched empty-cache packets agree pixel for pixel. The earlier application packet differs at 574 pixels. All three reproduce the same two decisions.",
+    "retrievals": [
+      {
+        "packet_sha256": "1ae2bbc2ba4b922952140fd018fc8086211fd458367ee9d61df39ea373ca6009",
+        "class_map_png_sha256": "845729202ff5db522bd6fa436f390b084bea646ddbf5e9214324e339b6106f69",
+        "different_pixels_from_first": 0,
+        "eligible_rear_regions": 0,
+        "eligible_side_regions": 0,
+        "behind_reason": "no_supported_space",
+        "beside_reason": "no_supported_side_space"
+      },
+      {
+        "packet_sha256": "5e43122c9fb4cf9e72b466c0a3aa981755e5d75e0c88b29367b7618314e04abd",
+        "class_map_png_sha256": "dce04296c4d9d8fdf83847355e47cffa63541be89ca8678dc8834f18b8e72bbb",
+        "different_pixels_from_first": 574,
+        "eligible_rear_regions": 0,
+        "eligible_side_regions": 0,
+        "behind_reason": "no_supported_space",
+        "beside_reason": "no_supported_side_space"
+      },
+      {
+        "packet_sha256": "5e43122c9fb4cf9e72b466c0a3aa981755e5d75e0c88b29367b7618314e04abd",
+        "class_map_png_sha256": "dce04296c4d9d8fdf83847355e47cffa63541be89ca8678dc8834f18b8e72bbb",
+        "different_pixels_from_first": 574,
+        "eligible_rear_regions": 0,
+        "eligible_side_regions": 0,
+        "behind_reason": "no_supported_space",
+        "beside_reason": "no_supported_side_space"
+      }
+    ]
+  }
+}

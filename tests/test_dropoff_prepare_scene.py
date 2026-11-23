@@ -84,6 +84,73 @@ def instruction(identity="a", recording_id="rec_a", frame_id=2, **extra):
             "text": "Please identify the destination next to that car", **extra}
 
 
+def test_footage_player_uses_original_sparse_clock_and_validated_coverage(scene_fixture):
+    from trackrag.footage_app import FootageReview
+
+    f = scene_fixture
+    source = f.artifacts(image_frames=(3, 6, 10, 20), predicted_frames=(3, 6, 10), track_frames=(3, 6, 10))
+    f.run([instruction(frame_id=6)])
+    scene = read_requests(f.root/"prepared"/"requests.jsonl")[0]["scene"]
+    review = FootageReview(f.data, f.predictions, f.config_path, f.root/"results", frame_rate=20.0)
+    assert review.timeline(scene)["frames"] == [{"id":3,"time":0.0},{"id":6,"time":0.15},{"id":10,"time":0.35}]
+    mime, data, etag = review.preview_frame(scene, 6)
+    assert mime == "image/png" and data == (source.images/"00006.png").read_bytes()
+    assert review.preview_frame(scene, 6, etag) == (mime, None, etag)
+    for unavailable in (4, 20):
+        with pytest.raises(ValueError):
+            review.preview_frame(scene, unavailable)
+    # A cached manifest must not be served after its provenance changes.
+    source.provenance["observations"] += 1
+    source.provenance_path.write_text(json.dumps(source.provenance) + "\n")
+    with pytest.raises(ValueError, match="provenance"):
+        review.timeline(scene)
+
+
+def test_footage_preview_http_returns_only_attached_originals_and_revalidates_cache(scene_fixture):
+    import threading
+    from urllib.error import HTTPError
+    from urllib.request import Request, urlopen
+    from trackrag.footage_app import FootageReview
+    from trackrag.passenger_app import PassengerSite, ThreadingHTTPServer, handler, load_scenes
+
+    f = scene_fixture
+    source = f.artifacts()
+    f.run([instruction()])
+    scenes = load_scenes([f.root/"prepared"/"requests.jsonl"])
+    site = PassengerSite(scenes, None, None, f.root/"app", None,
+                         FootageReview(f.data, f.predictions, f.config_path, f.root/"out", frame_rate=20))
+    with ThreadingHTTPServer(("127.0.0.1",0), handler(site)) as server:
+        thread = threading.Thread(target=server.serve_forever, daemon=True)
+        thread.start()
+        url = f"http://127.0.0.1:{server.server_port}/api/footage-preview/"
+        prefix = url + next(iter(scenes)) + "/"
+        try:
+            with urlopen(prefix+"timeline") as src:
+                assert [f["id"] for f in json.load(src)["frames"]] == [1,2,3]
+            with urlopen(prefix+"2") as src:
+                assert src.read() == (source.images/"00002.png").read_bytes()
+                etag = src.headers["ETag"]
+            with pytest.raises(HTTPError) as same:
+                urlopen(Request(prefix+"2",headers={"If-None-Match":etag}))
+            assert same.value.code == 304
+            for invalid in (prefix+"4", url+"a"*24+"/timeline"):
+                with pytest.raises(HTTPError) as missing:
+                    urlopen(invalid)
+                assert missing.value.code == 404
+        finally:
+            server.shutdown()
+            thread.join()
+
+
+def test_footage_player_never_advances_past_a_pause_or_replays_an_old_recording():
+    import shutil
+    import subprocess
+    node = shutil.which("node")
+    if node is None:
+        pytest.skip("Browser playback timing regression needs Node.js")
+    subprocess.run([node,str(Path(__file__).with_name("footage_player_controls.mjs"))],check=True)
+
+
 def test_browser_footage_search_opens_only_the_saved_prefix_and_selected_sources(scene_fixture):
     from trackrag.footage_app import FootageReview
     f = scene_fixture

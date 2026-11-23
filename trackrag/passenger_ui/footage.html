@@ -8,14 +8,24 @@
 <body>
   <header class="top"><div class="nav-inner"><span class="brand"><i aria-hidden="true" class="brand-road"></i>TrackRAG<span>Gulf</span></span><nav aria-label="Project tools"><a id="passenger-link" href="/">Passenger drop-off</a><span aria-current="page">Search footage</span></nav></div></header>
   <main>
-    <div class="intro"><h1>Search road footage</h1><p>Search the predicted tracks and original frames up to the selected moment.</p></div>
+    <div class="intro"><h1>Search road footage</h1><p>Play the recording, then ask about what happened up to the displayed frame.</p></div>
     <form class="card review-form" id="search">
-      <label for="scene">Recording and latest frame</label><select id="scene" required></select>
+      <label for="scene">Recording</label><select id="scene" required></select>
+      <div class="clip-player" role="group" aria-label="Original recording playback">
+        <div id="clip-screen" class="clip-screen"><img id="clip-frame" alt="Original road footage" hidden>
+          <p id="clip-message" role="status">Opening the recording…</p></div>
+        <div class="clip-controls">
+          <button type="button" id="clip-play" disabled>Play</button>
+          <input id="clip-seek" type="range" min="0" max="0" value="0" step="1" aria-label="Scrub recording" disabled>
+          <output id="clip-position" for="clip-seek"></output>
+        </div>
+      </div>
       <details id="frame-picker" class="frame-picker" hidden><summary>Open another frame in this recording</summary>
         <div><label for="frame-id">Frame number</label><input id="frame-id" type="number" min="0" step="1">
         <button type="button" id="open-frame" class="subtle">Open frame</button></div>
       </details>
       <label for="question">Footage question</label><textarea id="question" rows="2" maxlength="4096" required></textarea>
+      <div id="examples" class="question-examples" aria-label="Example questions"></div>
       <label for="answer-mode">Answer mode</label><select id="answer-mode">
         <option value="local">Find evidence locally</option><option value="gemini">Ask Gemini using privacy-processed evidence</option>
       </select>

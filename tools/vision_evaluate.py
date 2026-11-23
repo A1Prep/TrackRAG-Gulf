@@ -231,7 +231,7 @@ def operating_point(recordings: list[dict], score: float = OPERATING_SCORE) -> d
     return {"score_threshold": score, "iou": MATCH_IOU, "groups": result}
 
 
-def tracking(recordings: list[dict]) -> dict:
+def tracking(recordings: list[dict], *, groups: tuple[str, ...] = ("road_user", *GROUPS)) -> dict:
     import motmetrics as mm
     import numpy as np
 
@@ -239,7 +239,7 @@ def tracking(recordings: list[dict]) -> dict:
         return [box[0], box[1], box[2] - box[0], box[3] - box[1]]
 
     results = {}
-    for group in ("road_user", *GROUPS):
+    for group in groups:
         accumulators, names = [], []
         for data in recordings:
             accumulator = mm.MOTAccumulator(auto_id=False)

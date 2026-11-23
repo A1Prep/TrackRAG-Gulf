@@ -39,13 +39,8 @@ def fingerprints(path, names):
     return digest(hashes)
 
 
-@app.cls(image=image,gpu="A100-40GB",cpu=4,memory=30000,timeout=200,startup_timeout=360,
-         min_containers=0,max_containers=1,scaledown_window=30,retries=0,
-         volumes={"/base":modal.Volume.from_name("trackrag-qwen8b-public-weights").read_only(),
-                  "/parking":modal.Volume.from_name("trackrag-parking-vistas-weights").read_only()},
-         secrets=[modal.Secret.from_name("trackrag-parking-receipt-v1")])
-class PassengerPlaces:
-    @modal.enter()
+class TrainedPlaceReader:
+    """Local implementation shared by the authenticated private services."""
     def load(self):
         from cryptography.hazmat.primitives.asymmetric.ed25519 import Ed25519PrivateKey
         from tools.passenger_parking_study import ParkingSegmenter, SEG_REVISION
@@ -97,6 +92,47 @@ class PassengerPlaces:
         with torch.inference_mode():
             result = self.qwen.generate(**data.to("cuda:0"),do_sample=False,use_cache=True,max_new_tokens=16,logits_to_keep=1)
         return self.processor.batch_decode(result[:,tokens:],skip_special_tokens=True)[0].strip().upper()
+
+    def check_frontage_point(self, photo, key, words, point):
+        from PIL import Image
+        from trackrag.dropoff import frontage_verifier as checks
+        from trackrag.dropoff.parking_evidence import MAX_IMAGE_BYTES, MAX_IMAGE_PIXELS, map_shape, signed_bytes
+        from trackrag.dropoff.place_grounding import call_identity
+        if (not isinstance(photo,bytes) or len(photo)>MAX_IMAGE_BYTES or sha256(photo).hexdigest()!=key
+                or not isinstance(words,str) or not 1<=len(words)<=1600):
+            raise ValueError("Invalid frontage request")
+        with Image.open(BytesIO(photo)) as src:
+            if src.width*src.height>MAX_IMAGE_PIXELS:
+                raise ValueError("Photograph too large")
+            original=src.convert("RGB")
+        calls=[]
+        for stage,guide,xy in (("scene",checks.SCENE,None),("surface",checks.SURFACE,point)):
+            pixels=checks.photo_view(original,xy)
+            reply=self.read(guide,words,pixels)
+            calls.append({**call_identity(stage,guide,words,pixels),"response":reply})
+        classes,_=self.segmenter.predict(original,map_shape({"width":original.width,"height":original.height}))
+        png=BytesIO()
+        Image.fromarray(classes).save(png,format="PNG")
+        packed=png.getvalue()
+        body={"recipe":"frontage_point_crop_check_v1","model":"trained_qwen3_vl_8b","image_sha256":key,
+              "words":words,"point_1000":point,"calls":calls,
+              "class_map":{"sha256":sha256(packed).hexdigest(),"png":base64.b64encode(packed).decode("ascii")}}
+        return {"body":body,"signature":self.key.sign(signed_bytes(body)).hex()}
+
+
+@app.cls(image=image,gpu="A100-40GB",cpu=4,memory=30000,timeout=200,startup_timeout=360,
+         min_containers=0,max_containers=1,scaledown_window=30,retries=0,
+         volumes={"/base":modal.Volume.from_name("trackrag-qwen8b-public-weights").read_only(),
+                  "/parking":modal.Volume.from_name("trackrag-parking-vistas-weights").read_only()},
+         secrets=[modal.Secret.from_name("trackrag-parking-receipt-v1")])
+class PassengerPlaces(TrainedPlaceReader):
+    @modal.enter()
+    def load(self):
+        super().load()
+
+    @modal.method()
+    def check_frontage_point(self, photo, key, words, point):
+        return super().check_frontage_point(photo, key, words, point)
 
     @modal.method()
     def interpret(self, context, input_sha, photo):

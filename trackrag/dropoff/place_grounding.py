@@ -10,20 +10,40 @@ from tools.passenger_place_call import PROCESSOR_REVISION as PROCESSOR
 from .passenger import instruction_context, proposed, unresolved
 
 METHOD = "trained_qwen_place_with_parking_surface_v3"
+EMPTY_SURFACE_METHOD = "signed_public_place_empty_surface_v1"
 BASE = "10d842936325905934ea24e64325d774693f166e"
 ADAPTER = "76bfb3230b17a86248b52ca6a9f8d2ffca324aa80216d6b93845ccb12ad86743"
 PLACE = re.compile(
     r"\b(?:bays?|parking (?:spots?|spaces?|stalls?)|(?:marked|painted|empty) (?:spaces?|stalls?)|"
     r"shopfronts?|storefronts?|shops?|stores?|caf[eé]s?|restaurants?|pharmac(?:y|ies)|hotels?|malls?|supermarkets?|"
     r"garages?|entrances?|doorways?|driveways?|forecourts?|villas?|gates?|buildings?|receptions?|lobb(?:y|ies)|kiosks?|"
-    r"mosques?|schools?|clinics?|hospitals?|offices?|terminals?|petrol (?:station|pump)s?)\b", re.I)
-VEHICLE = re.compile(r"\b(?:cars?|vehicles?|suvs?|sedans?|taxis?|trucks?|buses|bus|minivans?|vans?|motorcycles?|"
+    r"mosques?|schools?|clinics?|hospitals?|offices?|terminals?|petrol (?:station|pump)s?|"
+    r"trees?|palms?|bush(?:es)?|hedges?|shrubs?|flower[ -]?beds?|planters?|bench(?:es)?|fountains?|"
+    r"signposts?|lamp[ -]?posts?|streetlights?|bollards?)\b", re.I)
+VEHICLE = re.compile(r"\b(?:cars?|vehicles?|suvs?|sedans?|taxis?|trucks?|lorr(?:y|ies)|buses|bus|minivans?|vans?|motorcycles?|"
                      r"patrol|camry|land cruiser|corolla|tesla|jeep|lexus|toyota|nissan|honda|bmw|mercedes)\b", re.I)
 VEHICLE_COMPOUND = re.compile(r"\b(?:school bus|hotel (?:shuttle|bus|van)|delivery (?:van|truck))\b", re.I)
-LANDMARK_PHRASE = re.compile(r"\b(?:near|beside|by|at|in front of|next to|behind|in)\s+(?:the|that|this|a|an)\s+", re.I)
+LANDMARK_PHRASE = re.compile(r"\b(?:near|beside|by|at|in front of|next to|behind|outside|opposite|"
+                             r"(?:left|right) of|in)\s+(?:the|that|those|this|a|an)\s+", re.I)
+# A business name may have no article, as in "at Al Noor". Preserve case for the name.
+NAMED_BUSINESS = re.compile(r"\b(?i:near|beside|by|at|outside|opposite|in front of|next to)\s+"
+                            r"([A-Z][\w’'-]+(?:[ \t]+[A-Z][\w’'-]+){0,4})\b")
+CLOCK_OR_GESTURE = frozenset("midnight noon sunrise sunset dawn dusk monday tuesday wednesday thursday friday "
+                             "saturday sunday am pm here there it this that those them the same left right one".split())
 UNSPECIFIC = frozenset("one ones side other nearer closer nearest farthest far right left here there middle front "
                        "back ahead same next dark light red white black blue green spot part open empty of the on "
                        "at to this that and please just me us you can could would stop get out".split())
+NON_LANDMARK_TERMS = UNSPECIFIC | CLOCK_OR_GESTURE | frozenset(
+    "a an it them previous usual place point around exactly about today tonight tomorrow yesterday later "
+    "morning afternoon evening night time lunch lunchtime after before in hour hours minute minutes "
+    "one two three four five six seven eight nine ten eleven twelve fifteen twenty thirty forty fifty half past quarter".split())
+
+
+def has_landmark_terms(phrase):
+    """A clock reading or gesture alone cannot identify an object in the photograph."""
+    # Keep the noun in 'at the clock', while treating 'five o'clock' and '5 p.m.' as times.
+    phrase = re.sub(r"\bo\s*['’]?\s*clock\b|\b[ap]\.\s*m\b", " ", phrase.casefold())
+    return any(word not in NON_LANDMARK_TERMS for word in re.findall(r"[^\W\d_]+", phrase))
 
 
 def named_reference(words):
@@ -35,13 +55,14 @@ def named_reference(words):
     if fixed and not VEHICLE.search(words[:fixed.start()]):
         return True
     if not relation:
-        return False
+        business = NAMED_BUSINESS.search(words)
+        return bool(business and not vehicle and has_landmark_terms(business[1]))
     # Let the image model interpret unfamiliar place nouns. Relationship words and
     # adjectives alone cannot convert an unpointed gesture into a visual target.
     scope = re.split(r"[,;.!?]|\b(?:just behind|just before|beside|next to)\b",words[relation.end():],maxsplit=1,flags=re.I)[0]
     if vehicle and (vehicle.start() < relation.end() or VEHICLE.search(scope)):
         return False
-    return any(x.casefold() not in UNSPECIFIC for x in re.findall(r"[^\W\d_]+",scope))
+    return has_landmark_terms(scope)
 CHOOSE = (
     "The numbered dots indicate the centres of different pieces of visible parking pavement. "
     "Read the passenger's words. Identify the named place or exact marked bay in the actual scene. "
@@ -169,10 +190,14 @@ def view_bytes(original, options, selected=None):
     return out.getvalue()
 
 
+def no_parking_surface():
+    return unresolved(QUESTION), "no_visible_parking_surface"
+
+
 def steps(context, classes, original):
     options = surface_options(classes, context["size"], context["current_boxes"])
     if not options:
-        return unresolved(QUESTION), "no_visible_parking_surface"
+        return no_parking_surface()
     raw = yield "choose", CHOOSE, view_bytes(original, options)
     if raw == "NONE":
         return unresolved(QUESTION), "no_matching_place"

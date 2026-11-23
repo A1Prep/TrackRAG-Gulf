@@ -1,0 +1,585 @@
+{
+  "date_utc": "2026-11-23T17:50:53.027706+00:00",
+  "source_selection": "passenger-manual-point-challenge-20261123.json",
+  "selection_sha256": "c3e223a79c955e96b51c248e04029b867a6ef521f37f41353b0b92fe1ff06693",
+  "frozen_policy_sha256": "ee54502751b933fda4a7400f93cda4f374448551c78d25a4150257c0332b89cc",
+  "reference": "One independent AI reviewer selected 14 unambiguous original-pixel taps over four original public UAE photos before testing and withheld coordinates from the implementer. Photos are in the existing collection; there were no new human or on-road assessments.",
+  "entry_points": {
+    "before": "Frozen production PassengerGrounder.passenger_area from 1557b5fb9bd66eeae0790ea28bd280417a09f90d and authenticated real cached SegFormer-B0 road maps; each outcome was independently recomputed from the original photo, tracks, box and map.",
+    "after": "Normal integrated local HTTP passenger page session endpoints, same original photographs and tap rectangles; signed per-photo parking maps, submitted boxes, roles and all outcomes checked by independent journal replay. Two accepted good locations were then explicitly confirmed. Three independent Chrome GUI repeats additionally covered real desktop and mobile interaction."
+  },
+  "criterion": "An offer must retain the indicated ground location within three original pixels, have a real proposal and require explicit passenger confirmation. A withheld case must show no pin and offer no confirmation; an unavailable service is reported separately. The same normal passenger interaction is used for every case.",
+  "before": {
+    "row_count": 14,
+    "matches_expected": 7,
+    "visible_bays": 3,
+    "visible_bays_offered": 3,
+    "wrong_offers": 5,
+    "negative_taps": 11,
+    "unavailable": 0
+  },
+  "after": {
+    "row_count": 14,
+    "matches_expected": 13,
+    "visible_bays": 3,
+    "visible_bays_offered": 2,
+    "wrong_offers": 0,
+    "negative_taps": 11,
+    "unavailable": 0
+  },
+  "results": [
+    {
+      "id": "T1",
+      "visual_class": "through_lane",
+      "original_input_xy": [
+        1530,
+        1280
+      ],
+      "submitted_box_xyxy": [
+        1523,
+        1273,
+        1537,
+        1287
+      ],
+      "expected": "withhold",
+      "before": {
+        "offered": true,
+        "returned_point": [
+          1526.8125,
+          1278.1875
+        ],
+        "offset_px": 3.66679,
+        "matches_frozen_criterion": false
+      },
+      "after": {
+        "offered": false,
+        "returned_point": null,
+        "offset_px": null,
+        "reason": "through_lane",
+        "source_replayed": true,
+        "explicit_test_confirmation": false,
+        "matches_frozen_criterion": true,
+        "local_open_and_check_seconds": 0.292
+      }
+    },
+    {
+      "id": "T2",
+      "visual_class": "footway",
+      "original_input_xy": [
+        510,
+        990
+      ],
+      "submitted_box_xyxy": [
+        503,
+        983,
+        517,
+        997
+      ],
+      "expected": "withhold",
+      "before": {
+        "offered": false,
+        "returned_point": null,
+        "offset_px": null,
+        "matches_frozen_criterion": true
+      },
+      "after": {
+        "offered": false,
+        "returned_point": null,
+        "offset_px": null,
+        "reason": "unverified_surface",
+        "source_replayed": true,
+        "explicit_test_confirmation": false,
+        "matches_frozen_criterion": true,
+        "local_open_and_check_seconds": 0.195
+      }
+    },
+    {
+      "id": "T3",
+      "visual_class": "occupied",
+      "original_input_xy": [
+        2300,
+        930
+      ],
+      "submitted_box_xyxy": [
+        2293,
+        923,
+        2307,
+        937
+      ],
+      "expected": "withhold",
+      "before": {
+        "offered": false,
+        "returned_point": null,
+        "offset_px": null,
+        "matches_frozen_criterion": true
+      },
+      "after": {
+        "offered": false,
+        "returned_point": null,
+        "offset_px": null,
+        "reason": "observed_object",
+        "source_replayed": true,
+        "explicit_test_confirmation": false,
+        "matches_frozen_criterion": true,
+        "local_open_and_check_seconds": 0.17
+      }
+    },
+    {
+      "id": "B1",
+      "visual_class": "empty_marked_bay",
+      "original_input_xy": [
+        2530,
+        1575
+      ],
+      "submitted_box_xyxy": [
+        2522,
+        1567,
+        2538,
+        1583
+      ],
+      "expected": "offer",
+      "before": {
+        "offered": true,
+        "returned_point": [
+          2531.25,
+          1571.25
+        ],
+        "offset_px": 3.95285,
+        "matches_frozen_criterion": false
+      },
+      "after": {
+        "offered": true,
+        "returned_point": [
+          2530.0,
+          1575.0
+        ],
+        "offset_px": 0.0,
+        "reason": "parking",
+        "source_replayed": true,
+        "explicit_test_confirmation": true,
+        "matches_frozen_criterion": true,
+        "local_open_and_check_seconds": 0.204
+      }
+    },
+    {
+      "id": "B2",
+      "visual_class": "access_aisle",
+      "original_input_xy": [
+        880,
+        1520
+      ],
+      "submitted_box_xyxy": [
+        872,
+        1512,
+        888,
+        1528
+      ],
+      "expected": "withhold",
+      "before": {
+        "offered": true,
+        "returned_point": [
+          881.25,
+          1518.75
+        ],
+        "offset_px": 1.76777,
+        "matches_frozen_criterion": false
+      },
+      "after": {
+        "offered": false,
+        "returned_point": null,
+        "offset_px": null,
+        "reason": "through_lane",
+        "source_replayed": true,
+        "explicit_test_confirmation": false,
+        "matches_frozen_criterion": true,
+        "local_open_and_check_seconds": 0.194
+      }
+    },
+    {
+      "id": "B3",
+      "visual_class": "occupied",
+      "original_input_xy": [
+        2090,
+        1260
+      ],
+      "submitted_box_xyxy": [
+        2082,
+        1252,
+        2098,
+        1268
+      ],
+      "expected": "withhold",
+      "before": {
+        "offered": false,
+        "returned_point": null,
+        "offset_px": null,
+        "matches_frozen_criterion": true
+      },
+      "after": {
+        "offered": false,
+        "returned_point": null,
+        "offset_px": null,
+        "reason": "observed_object",
+        "source_replayed": true,
+        "explicit_test_confirmation": false,
+        "matches_frozen_criterion": true,
+        "local_open_and_check_seconds": 0.21
+      }
+    },
+    {
+      "id": "M1",
+      "visual_class": "empty_marked_bay",
+      "original_input_xy": [
+        2300,
+        1530
+      ],
+      "submitted_box_xyxy": [
+        2292,
+        1522,
+        2308,
+        1538
+      ],
+      "expected": "offer",
+      "before": {
+        "offered": true,
+        "returned_point": [
+          2298.75,
+          1526.25
+        ],
+        "offset_px": 3.95285,
+        "matches_frozen_criterion": false
+      },
+      "after": {
+        "offered": false,
+        "returned_point": null,
+        "offset_px": null,
+        "reason": "through_lane",
+        "source_replayed": true,
+        "explicit_test_confirmation": false,
+        "matches_frozen_criterion": false,
+        "local_open_and_check_seconds": 0.209
+      }
+    },
+    {
+      "id": "M2",
+      "visual_class": "access_aisle",
+      "original_input_xy": [
+        710,
+        1535
+      ],
+      "submitted_box_xyxy": [
+        702,
+        1527,
+        718,
+        1543
+      ],
+      "expected": "withhold",
+      "before": {
+        "offered": true,
+        "returned_point": [
+          708.75,
+          1533.75
+        ],
+        "offset_px": 1.76777,
+        "matches_frozen_criterion": false
+      },
+      "after": {
+        "offered": false,
+        "returned_point": null,
+        "offset_px": null,
+        "reason": "through_lane",
+        "source_replayed": true,
+        "explicit_test_confirmation": false,
+        "matches_frozen_criterion": true,
+        "local_open_and_check_seconds": 0.195
+      }
+    },
+    {
+      "id": "M3",
+      "visual_class": "footway",
+      "original_input_xy": [
+        3170,
+        1424
+      ],
+      "submitted_box_xyxy": [
+        3162,
+        1416,
+        3178,
+        1432
+      ],
+      "expected": "withhold",
+      "before": {
+        "offered": true,
+        "returned_point": [
+          3168.75,
+          1421.25
+        ],
+        "offset_px": 3.02076,
+        "matches_frozen_criterion": false
+      },
+      "after": {
+        "offered": false,
+        "returned_point": null,
+        "offset_px": null,
+        "reason": "unverified_surface",
+        "source_replayed": true,
+        "explicit_test_confirmation": false,
+        "matches_frozen_criterion": true,
+        "local_open_and_check_seconds": 0.18
+      }
+    },
+    {
+      "id": "M4",
+      "visual_class": "occupied",
+      "original_input_xy": [
+        3340,
+        1170
+      ],
+      "submitted_box_xyxy": [
+        3332,
+        1162,
+        3348,
+        1178
+      ],
+      "expected": "withhold",
+      "before": {
+        "offered": false,
+        "returned_point": null,
+        "offset_px": null,
+        "matches_frozen_criterion": true
+      },
+      "after": {
+        "offered": false,
+        "returned_point": null,
+        "offset_px": null,
+        "reason": "observed_object",
+        "source_replayed": true,
+        "explicit_test_confirmation": false,
+        "matches_frozen_criterion": true,
+        "local_open_and_check_seconds": 0.207
+      }
+    },
+    {
+      "id": "S1",
+      "visual_class": "empty_marked_bay",
+      "original_input_xy": [
+        2800,
+        1390
+      ],
+      "submitted_box_xyxy": [
+        2792,
+        1382,
+        2808,
+        1398
+      ],
+      "expected": "offer",
+      "before": {
+        "offered": true,
+        "returned_point": [
+          2801.25,
+          1391.25
+        ],
+        "offset_px": 1.76777,
+        "matches_frozen_criterion": true
+      },
+      "after": {
+        "offered": true,
+        "returned_point": [
+          2800.0,
+          1390.0
+        ],
+        "offset_px": 0.0,
+        "reason": "parking",
+        "source_replayed": true,
+        "explicit_test_confirmation": true,
+        "matches_frozen_criterion": true,
+        "local_open_and_check_seconds": 0.213
+      }
+    },
+    {
+      "id": "S2",
+      "visual_class": "through_lane",
+      "original_input_xy": [
+        860,
+        1330
+      ],
+      "submitted_box_xyxy": [
+        852,
+        1322,
+        868,
+        1338
+      ],
+      "expected": "withhold",
+      "before": {
+        "offered": true,
+        "returned_point": [
+          858.75,
+          1331.25
+        ],
+        "offset_px": 1.76777,
+        "matches_frozen_criterion": false
+      },
+      "after": {
+        "offered": false,
+        "returned_point": null,
+        "offset_px": null,
+        "reason": "through_lane",
+        "source_replayed": true,
+        "explicit_test_confirmation": false,
+        "matches_frozen_criterion": true,
+        "local_open_and_check_seconds": 0.206
+      }
+    },
+    {
+      "id": "S3",
+      "visual_class": "occupied",
+      "original_input_xy": [
+        2150,
+        1050
+      ],
+      "submitted_box_xyxy": [
+        2142,
+        1042,
+        2158,
+        1058
+      ],
+      "expected": "withhold",
+      "before": {
+        "offered": false,
+        "returned_point": null,
+        "offset_px": null,
+        "matches_frozen_criterion": true
+      },
+      "after": {
+        "offered": false,
+        "returned_point": null,
+        "offset_px": null,
+        "reason": "observed_object",
+        "source_replayed": true,
+        "explicit_test_confirmation": false,
+        "matches_frozen_criterion": true,
+        "local_open_and_check_seconds": 0.207
+      }
+    },
+    {
+      "id": "S4",
+      "visual_class": "footway",
+      "original_input_xy": [
+        3070,
+        1165
+      ],
+      "submitted_box_xyxy": [
+        3062,
+        1157,
+        3078,
+        1173
+      ],
+      "expected": "withhold",
+      "before": {
+        "offered": false,
+        "returned_point": null,
+        "offset_px": null,
+        "matches_frozen_criterion": true
+      },
+      "after": {
+        "offered": false,
+        "returned_point": null,
+        "offset_px": null,
+        "reason": "unverified_surface",
+        "source_replayed": true,
+        "explicit_test_confirmation": false,
+        "matches_frozen_criterion": true,
+        "local_open_and_check_seconds": 0.229
+      }
+    }
+  ],
+  "failure": {
+    "id": "M1",
+    "review": "Clearly vacant marked angled bay; the application withheld the pin.",
+    "original_surface_class": 13,
+    "class_name": "road",
+    "parking_cells_within_submitted_box": [
+      0,
+      20
+    ],
+    "parking_cells_in_local_neighbourhood": [
+      0,
+      49
+    ]
+  },
+  "historical_controls": {
+    "scope": "The four previously confirmed taps clearly on through roadway were replayed with their exact original public photograph and rectangle. One additional previously confirmed mark on ambiguous paving by a building entrance was also rechecked. Text was generic to reproduce the manual action. No personal logs or speech are included.",
+    "old_confirmed_through_road_taps": 4,
+    "since_withheld_with_no_pin_or_confirmation": 4,
+    "ambiguous_paved_entrance_withheld": 1,
+    "old_observed_pin_delta_range_px": [
+      0.3754,
+      2.2378
+    ]
+  },
+  "timing": {
+    "locally_cached_maps": true,
+    "http_full_session_open_submit_mark_seconds": {
+      "min": 0.17,
+      "median": 0.2065,
+      "max": 0.292
+    },
+    "scope": "Warm local system. Excludes the time a person spends choosing a point, speech transcription, and cold map generation."
+  },
+  "independent_browser": [
+    {
+      "id": "T1",
+      "viewport": "desktop, 1270 pixels",
+      "desired_xy": [
+        1530,
+        1280
+      ],
+      "reconstructed_click_xy": [
+        1530,
+        1280
+      ],
+      "returned_xy": null,
+      "state": "needs_clarification",
+      "actual_confirmation_offered": false,
+      "check_until_visible_ms": 133,
+      "browser_errors": []
+    },
+    {
+      "id": "B1",
+      "viewport": "desktop, 1270 pixels",
+      "desired_xy": [
+        2530,
+        1575
+      ],
+      "reconstructed_click_xy": [
+        2530,
+        1575
+      ],
+      "returned_xy": [
+        2530,
+        1575
+      ],
+      "state": "proposed",
+      "actual_confirmation_offered": true,
+      "check_until_visible_ms": 148,
+      "browser_errors": []
+    },
+    {
+      "id": "M1",
+      "viewport": "mobile, 390 pixels",
+      "desired_xy": [
+        2300,
+        1530
+      ],
+      "reconstructed_click_xy": [
+        2300,
+        1530
+      ],
+      "returned_xy": null,
+      "state": "needs_clarification",
+      "actual_confirmation_offered": false,
+      "check_until_visible_ms": 151,
+      "browser_errors": []
+    }
+  ]
+}

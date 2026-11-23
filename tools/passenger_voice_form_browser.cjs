@@ -58,10 +58,22 @@ async function main() {
       return output;
     }
     const page = await open();
+    await page.locator("#listInputs").click();
+    await page.waitForFunction(() => document.querySelector("#micInput").options.length > 1);
+    const selectedInput = await page.locator("#micInput option").nth(1).getAttribute("value");
+    await page.locator("#micInput").selectOption(selectedInput);
+    await page.evaluate(() => {
+      const open = navigator.mediaDevices.getUserMedia.bind(navigator.mediaDevices);
+      navigator.mediaDevices.getUserMedia = constraints => {
+        window.selectedInputForTest = constraints.audio.deviceId?.exact;
+        return open(constraints);
+      };
+    });
     await page.locator("#record").click();
     await page.waitForFunction(() => !document.querySelector("#stop").disabled ||
       document.querySelector("#status").classList.contains("alert"));
     assert(!(await page.locator("#stop").isDisabled()), await page.locator("#status").innerText());
+    assert.equal(await page.evaluate(() => window.selectedInputForTest), selectedInput);
     await page.waitForTimeout(1850);
     await page.locator("#stop").click();
     await playAndSave(page, true);
@@ -70,6 +82,15 @@ async function main() {
     const resumed = await open();
     await resumed.locator("#returnFile").setInputFiles(partial);
     await resumed.waitForFunction(() => document.querySelector("#count").textContent.startsWith("1 of"));
+    const silent = Buffer.alloc(44 + 16000);
+    silent.write("RIFF"); silent.writeUInt32LE(silent.length - 8, 4); silent.write("WAVEfmt ", 8);
+    silent.writeUInt32LE(16, 16); silent.writeUInt16LE(1, 20); silent.writeUInt16LE(1, 22);
+    silent.writeUInt32LE(16000, 24); silent.writeUInt32LE(32000, 28);
+    silent.writeUInt16LE(2, 32); silent.writeUInt16LE(16, 34);
+    silent.write("data", 36); silent.writeUInt32LE(silent.length - 44, 40);
+    await resumed.locator("#audioFile").setInputFiles({name:"silent-fixture.wav", mimeType:"audio/wav", buffer:silent});
+    await resumed.getByText(/No sound was recorded/).waitFor();
+    assert(await resumed.locator("#keep").isDisabled());
     await resumed.locator("#audioFile").setInputFiles(sample);
     await playAndSave(resumed, false);
     const complete = await download(resumed, "private-two.json");
@@ -83,6 +104,7 @@ async function main() {
     console.log(JSON.stringify({kind:"marked_fixture_offline_browser_exercise", browser:browser.version(),
       tested_form_id:plan.form_id, external_page_requests:external.length, page_errors:errors.length,
       restored_unchanged_takes:1, verified_software_takes:b.entries.length,
+      selected_microphone_requested:true, silent_wav_rejected:true,
       microphone_and_original_wav:true, original_words_verified_before_asr:true,
       formal_human_speakers:0, formal_human_recordings:0}, null, 2));
   } finally { await browser.close(); }

@@ -1,0 +1,310 @@
+{
+  "scope": "Targeted owner-inspected regression on four previously studied UAE photos, three visually chosen taps per photo. The actual release model and passenger web sessions checked each mark. This check is separate from the independent blind manual-mark challenge.",
+  "method": "explicit_passenger_offlane_region_v1",
+  "source_attribution": "© Grab and KartaView Contributors",
+  "photo_license": "https://creativecommons.org/licenses/by-sa/4.0/",
+  "design": "An AI reviewer used 640 × 360 original-photo previews to select one plausible parking bay, one through aisle and one visible vehicle for each scene. The twelve selections were written before querying the new decision rule. The app received each exact original-frame tap box and real Task 1 tracks. A script confirmed only accepted owner-marked bays and verified the signed session journals.",
+  "input_sha256": "2a5a6de794dc79a68713f3d60ee3639af472cdd992e9e1e6cd6c97138f944f8a",
+  "source_policy_sha256": "ee54502751b933fda4a7400f93cda4f374448551c78d25a4150257c0332b89cc",
+  "measurements": {
+    "distinct_photos": 4,
+    "through_aisles_withheld": 4,
+    "vehicle_marks_withheld": 4,
+    "visually_plausible_bays": 4,
+    "visual_bays_accepted": 1,
+    "accepted_pin_displacement_pixels": 0.0,
+    "check_http_seconds_median": 0.079,
+    "check_http_seconds_min": 0.076,
+    "check_http_seconds_max": 0.096
+  },
+  "interpretation": "This strict check accepts an exact passenger-mark centre supported by the authenticated parking map. Three visually plausible bay taps were withheld. Two centres were labelled road and one sidewalk; none was moved to nearby pavement. The result concerns visible passenger intent and does not establish clearance or stopping legality.",
+  "cases": [
+    {
+      "recording": "kartaview_7168777",
+      "frame": 1211,
+      "photo_sha256": "6c09f8965a7203ca86f42d18d4b7fc43fa38c700d827a3b92bf90189b394d273",
+      "owner_visual_intent": "visible_bay",
+      "original_mark_box": [
+        2650,
+        1528,
+        2666,
+        1544
+      ],
+      "status": "proposed",
+      "pin": [
+        2658.0,
+        1536.0
+      ],
+      "reason": "parking",
+      "semantic_center_class": 10,
+      "occupied": [],
+      "seconds": 0.096,
+      "passed": true,
+      "confirmed_in_script": true,
+      "journal_sha256": "fe0dcf993fd0ab55dde72f8ab027c09db4be67cd971b4ea7ea775bfa8794554d",
+      "packet_sha256": "ae258b888d57ad673bd4d5a7c1a99a2c0733251cfc9631f9fc00640b455e76e2",
+      "photo_url": "https://kartaview.org/details/7168777/1211/"
+    },
+    {
+      "recording": "kartaview_7168777",
+      "frame": 1211,
+      "photo_sha256": "6c09f8965a7203ca86f42d18d4b7fc43fa38c700d827a3b92bf90189b394d273",
+      "owner_visual_intent": "through_aisle",
+      "original_mark_box": [
+        922,
+        1474,
+        938,
+        1490
+      ],
+      "status": "needs_clarification",
+      "pin": null,
+      "reason": "through_lane",
+      "semantic_center_class": 13,
+      "occupied": [],
+      "seconds": 0.076,
+      "passed": true,
+      "confirmed_in_script": false,
+      "journal_sha256": "18fd3dcbae3843dcccbf40dbda5ad0ec895cc3dafd04faa426bcaddf70d5dd71",
+      "packet_sha256": "ae258b888d57ad673bd4d5a7c1a99a2c0733251cfc9631f9fc00640b455e76e2",
+      "photo_url": "https://kartaview.org/details/7168777/1211/"
+    },
+    {
+      "recording": "kartaview_7168777",
+      "frame": 1211,
+      "photo_sha256": "6c09f8965a7203ca86f42d18d4b7fc43fa38c700d827a3b92bf90189b394d273",
+      "owner_visual_intent": "vehicle",
+      "original_mark_box": [
+        2182,
+        1258,
+        2198,
+        1274
+      ],
+      "status": "needs_clarification",
+      "pin": null,
+      "reason": "observed_object",
+      "semantic_center_class": null,
+      "occupied": [
+        1
+      ],
+      "seconds": 0.08,
+      "passed": true,
+      "confirmed_in_script": false,
+      "journal_sha256": "79b095585680614abfdd44d2cd8a763c6453bf409a24699588444aeed5c4107f",
+      "packet_sha256": "ae258b888d57ad673bd4d5a7c1a99a2c0733251cfc9631f9fc00640b455e76e2",
+      "photo_url": "https://kartaview.org/details/7168777/1211/"
+    },
+    {
+      "recording": "kartaview_7173145",
+      "frame": 1173,
+      "photo_sha256": "02743df87088fa38698cf3093947cbb3085c14755dd49fa16cadc8fb24b2e080",
+      "owner_visual_intent": "visible_bay",
+      "original_mark_box": [
+        3100,
+        1474,
+        3116,
+        1490
+      ],
+      "status": "needs_clarification",
+      "pin": null,
+      "reason": "unverified_surface",
+      "semantic_center_class": 15,
+      "occupied": [],
+      "seconds": 0.084,
+      "passed": false,
+      "confirmed_in_script": false,
+      "journal_sha256": "290ba7caf13a57c6987d80b907474b5e0778fc8fb8e974499c8b8430a98883eb",
+      "packet_sha256": "d1141135942cdd4237bb9129d6a8502eb2b25089e98f69989537190d48b03323",
+      "photo_url": "https://kartaview.org/details/7173145/1173/"
+    },
+    {
+      "recording": "kartaview_7173145",
+      "frame": 1173,
+      "photo_sha256": "02743df87088fa38698cf3093947cbb3085c14755dd49fa16cadc8fb24b2e080",
+      "owner_visual_intent": "through_aisle",
+      "original_mark_box": [
+        1018,
+        1378,
+        1034,
+        1394
+      ],
+      "status": "needs_clarification",
+      "pin": null,
+      "reason": "through_lane",
+      "semantic_center_class": 13,
+      "occupied": [],
+      "seconds": 0.095,
+      "passed": true,
+      "confirmed_in_script": false,
+      "journal_sha256": "a4e0975314f26a2d06896b2d790546cf4d0a3252c22c99cd24a899341a5c6200",
+      "packet_sha256": "d1141135942cdd4237bb9129d6a8502eb2b25089e98f69989537190d48b03323",
+      "photo_url": "https://kartaview.org/details/7173145/1173/"
+    },
+    {
+      "recording": "kartaview_7173145",
+      "frame": 1173,
+      "photo_sha256": "02743df87088fa38698cf3093947cbb3085c14755dd49fa16cadc8fb24b2e080",
+      "owner_visual_intent": "vehicle",
+      "original_mark_box": [
+        2122,
+        1054,
+        2138,
+        1070
+      ],
+      "status": "needs_clarification",
+      "pin": null,
+      "reason": "observed_object",
+      "semantic_center_class": null,
+      "occupied": [
+        1
+      ],
+      "seconds": 0.078,
+      "passed": true,
+      "confirmed_in_script": false,
+      "journal_sha256": "650229bc773c17bb6dc15fd59195cf4c58ec796e3b641fc33504ec2c972c5824",
+      "packet_sha256": "d1141135942cdd4237bb9129d6a8502eb2b25089e98f69989537190d48b03323",
+      "photo_url": "https://kartaview.org/details/7173145/1173/"
+    },
+    {
+      "recording": "kartaview_7168793",
+      "frame": 16,
+      "photo_sha256": "df3c7569cf08071fe7492af65e599d7132364496766bb9e1e4fa4c3966dccc04",
+      "owner_visual_intent": "visible_bay",
+      "original_mark_box": [
+        2764,
+        1558,
+        2780,
+        1574
+      ],
+      "status": "needs_clarification",
+      "pin": null,
+      "reason": "through_lane",
+      "semantic_center_class": 13,
+      "occupied": [],
+      "seconds": 0.094,
+      "passed": false,
+      "confirmed_in_script": false,
+      "journal_sha256": "4a108bf0caa7c868135390bd6777682a808b032e5bcacd67565c01896dbbfb14",
+      "packet_sha256": "ad073ecb733493c0386f9a69a6f3cbc0ede0da93c8c022df32041611595eeb3a",
+      "photo_url": "https://kartaview.org/details/7168793/16/"
+    },
+    {
+      "recording": "kartaview_7168793",
+      "frame": 16,
+      "photo_sha256": "df3c7569cf08071fe7492af65e599d7132364496766bb9e1e4fa4c3966dccc04",
+      "owner_visual_intent": "through_aisle",
+      "original_mark_box": [
+        760,
+        1486,
+        776,
+        1502
+      ],
+      "status": "needs_clarification",
+      "pin": null,
+      "reason": "through_lane",
+      "semantic_center_class": 13,
+      "occupied": [],
+      "seconds": 0.076,
+      "passed": true,
+      "confirmed_in_script": false,
+      "journal_sha256": "5c225507cbb89a8e32097f3e061bd5386742fb870403c6285d651c1420a368fe",
+      "packet_sha256": "ad073ecb733493c0386f9a69a6f3cbc0ede0da93c8c022df32041611595eeb3a",
+      "photo_url": "https://kartaview.org/details/7168793/16/"
+    },
+    {
+      "recording": "kartaview_7168793",
+      "frame": 16,
+      "photo_sha256": "df3c7569cf08071fe7492af65e599d7132364496766bb9e1e4fa4c3966dccc04",
+      "owner_visual_intent": "vehicle",
+      "original_mark_box": [
+        3346,
+        1174,
+        3362,
+        1190
+      ],
+      "status": "needs_clarification",
+      "pin": null,
+      "reason": "observed_object",
+      "semantic_center_class": null,
+      "occupied": [
+        1
+      ],
+      "seconds": 0.077,
+      "passed": true,
+      "confirmed_in_script": false,
+      "journal_sha256": "9b7c90ddab616fec6ac51a61c9d8ba12034787a7bd4d3cc146b72ce6e0ff2c2b",
+      "packet_sha256": "ad073ecb733493c0386f9a69a6f3cbc0ede0da93c8c022df32041611595eeb3a",
+      "photo_url": "https://kartaview.org/details/7168793/16/"
+    },
+    {
+      "recording": "kartaview_3329429",
+      "frame": 213,
+      "photo_sha256": "5b635a7c2e4f7eebd4ae50b91b725fd9054bf7b41bda28248e36e5bfa0de7e5b",
+      "owner_visual_intent": "visible_bay",
+      "original_mark_box": [
+        2237,
+        1365,
+        2251,
+        1379
+      ],
+      "status": "needs_clarification",
+      "pin": null,
+      "reason": "through_lane",
+      "semantic_center_class": 13,
+      "occupied": [],
+      "seconds": 0.092,
+      "passed": false,
+      "confirmed_in_script": false,
+      "journal_sha256": "520496aac918f71394e40b3911b4f51dd36142c567ebc4761da321ff735dc22b",
+      "packet_sha256": "ef5c4ee92531f363a5552deca3e3c215a2c1ecbe81f946ebaf269464e83c620c",
+      "photo_url": "https://kartaview.org/details/3329429/213/"
+    },
+    {
+      "recording": "kartaview_3329429",
+      "frame": 213,
+      "photo_sha256": "5b635a7c2e4f7eebd4ae50b91b725fd9054bf7b41bda28248e36e5bfa0de7e5b",
+      "owner_visual_intent": "through_aisle",
+      "original_mark_box": [
+        1447,
+        1391,
+        1460,
+        1404
+      ],
+      "status": "needs_clarification",
+      "pin": null,
+      "reason": "through_lane",
+      "semantic_center_class": 13,
+      "occupied": [],
+      "seconds": 0.078,
+      "passed": true,
+      "confirmed_in_script": false,
+      "journal_sha256": "5b67a8baf5d04c4beb0bd39402e64b7a5a057d2b48ab5cccc6241e4e46dfdfdb",
+      "packet_sha256": "ef5c4ee92531f363a5552deca3e3c215a2c1ecbe81f946ebaf269464e83c620c",
+      "photo_url": "https://kartaview.org/details/3329429/213/"
+    },
+    {
+      "recording": "kartaview_3329429",
+      "frame": 213,
+      "photo_sha256": "5b635a7c2e4f7eebd4ae50b91b725fd9054bf7b41bda28248e36e5bfa0de7e5b",
+      "owner_visual_intent": "vehicle",
+      "original_mark_box": [
+        2038,
+        1171,
+        2052,
+        1185
+      ],
+      "status": "needs_clarification",
+      "pin": null,
+      "reason": "observed_object",
+      "semantic_center_class": null,
+      "occupied": [
+        2
+      ],
+      "seconds": 0.077,
+      "passed": true,
+      "confirmed_in_script": false,
+      "journal_sha256": "8f0c4876b956d195f175784846cd9d7c98b1e4d850a7403287b3bfd9a61ad778",
+      "packet_sha256": "ef5c4ee92531f363a5552deca3e3c215a2c1ecbe81f946ebaf269464e83c620c",
+      "photo_url": "https://kartaview.org/details/3329429/213/"
+    }
+  ]
+}

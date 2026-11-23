@@ -1,0 +1,27 @@
+{
+  "recording_id": "kartaview_4572137",
+  "frame_id": 14,
+  "photo_url": "https://kartaview.org/details/4572137/14/",
+  "image_sha256": "98dbfd42cf22eab79bff24cbf227cdefb7663b12c0d7d1014569642f067adfbd",
+  "request": "Could you drop me next to the trees on the left?",
+  "input": "Original reviewed voice transcript was resubmitted directly to the normal public-photo model backend. No new audio transcription or passenger mark was used.",
+  "native": {
+    "method": "trained_qwen_place_with_parking_surface_v3",
+    "result": "needs_clarification",
+    "reason": "no_visible_parking_surface",
+    "signed_parking_runs": 1,
+    "language_calls": 0,
+    "original_reproduced": true
+  },
+  "optional_frontage": {
+    "point_generated": true,
+    "accepted": false,
+    "reason": "uncorroborated_road",
+    "signed_photo_and_checks_reproduced": true
+  },
+  "passenger_result": "needs_clarification",
+  "automatic_pin": null,
+  "automatic_pin_in_original_voice_session": null,
+  "observation": "The trees are on the left behind a raised curb. The pavement immediately alongside that curb is part of the through roadway; this view provides no clear off-lane bay there.",
+  "sample_scope": "One reported UAE scene, reproduced as a regression. This cannot establish general landmark accuracy."
+}

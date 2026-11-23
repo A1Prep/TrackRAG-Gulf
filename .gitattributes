@@ -97,3 +97,6 @@ experiments/dropoff/passenger-ux-*-20261123.json text eol=lf
 experiments/dropoff/passenger-precise-tap-20261123.json text eol=lf
 experiments/dropoff/passenger-request-edit-20261123.json text eol=lf
 trackrag/passenger_ui/photo-tools.js text eol=lf
+configs/dropoff/passenger-frontage-confidence-v1.json text eol=lf
+trackrag/dropoff/manual_offlane.py text eol=lf
+experiments/dropoff/passenger-manual-point-challenge-20261123.json text eol=lf

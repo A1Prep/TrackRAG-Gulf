@@ -71,6 +71,20 @@ def packet(request,photo,classes,key,answers=("1","MATCH")):
     ("Actually right here.",["At the library."],False),
     ("Drop me near the one on the left.",[],False),
     ("Right here.",[],False),
+    ("Let me out at Al Noor on the right.",[],True),
+    ("Drop me off outside the blue repair workshop.",[],True),
+    ("Pull in to the left of that blue sign.",[],True),
+    ("Drop me off by the lorry in front of the café.",[],False),
+    ("Let me out At Noon.",[],False),
+    ("Could you stop at 6 PM?",[],False),
+    ("Drop me outside the one on the left.",[],False),
+    ("Could you drop me next to the trees on the left?",[],True),
+    ("Let me off near palm trees.",[],True),
+    ("Please stop alongside those tall hedges.",[],True),
+    ("Where the bushes are on the left.",[],True),
+    ("Just past that lamp post.",[],True),
+    ("Behind the van next to the trees.",[],False),
+    ("Between the two cars beside the shrubs.",[],False),
 ])
 def test_visual_referent_routing(words,history,active):
     req={"text":words,"dialogue":[{"role":"user","text":s} for s in history]}
@@ -99,6 +113,19 @@ def test_empty_surface_is_a_segmentation_abstention(tmp_path,monkeypatch):
     assert audit["surface_model_calls"]==1 and audit["language_calls"]==0 and not audit["independent_model_proposal"]
 
 
+def test_tree_is_a_reference_and_only_parking_pixels_can_supply_the_destination(tmp_path, monkeypatch):
+    req,photo,classes,key=case(tmp_path,monkeypatch)
+    req["text"]="Beside those palm trees."
+    classes.fill(30)
+    blocked=place_evidence.build_outcome(req,photo,packet(req,photo,classes,key,()))
+    assert blocked["result"]["destination_point_xy"] is None
+    assert place_evidence.verify(req,blocked)["language_calls"] == 0
+    classes[40:60,65:91]=10
+    result=place_evidence.build_outcome(req,photo,packet(req,photo,classes,key))["result"]
+    x,y=result["destination_point_xy"]
+    assert classes[int(y),int(x)] == 10
+
+
 @pytest.mark.parametrize("verdict",["MATCH","WRONG","BLOCKED","UNCLEAR"])
 def test_signed_grounding_rejects_other_requests_and_edits(tmp_path,monkeypatch,verdict):
     req,photo,classes,key=case(tmp_path,monkeypatch)
@@ -118,6 +145,45 @@ def test_signed_grounding_rejects_other_requests_and_edits(tmp_path,monkeypatch,
     altered=deepcopy(out);altered["result"]["status"]="confirmed"
     with pytest.raises(ValueError):
         place_evidence.verify(req,altered)
+
+
+def test_signed_empty_surface_replays_for_new_words_and_preserves_the_trained_route(tmp_path, monkeypatch):
+    from tests.test_passenger_manual_offlane import provide_map
+    from tools.dropoff_passenger_handoff import bound_outcome
+
+    req, photo, with_parking, key = case(tmp_path, monkeypatch)
+    manifest = tmp_path/"photos.json"
+    manifest.write_text(json.dumps({"photos":[{"photo_url":"https://kartaview.org/details/42/2/",
+                                               "sha256":sha256(photo).hexdigest()}]}))
+    backend = place_evidence.PublicPlaceBackend([manifest], python="unused", cache=tmp_path/"cache")
+    cloud_calls = []
+    def run(*args, **kwargs):
+        cloud_calls.append(1)
+        return SimpleNamespace(returncode=0, stdout=json.dumps(packet(req,photo,with_parking,key)).encode())
+    monkeypatch.setattr(place_evidence.subprocess, "run", run)
+    empty_map = provide_map(monkeypatch, req["scene"], np.full_like(with_parking,13))
+    new = {**req,"request_id":"second-instruction","text":"Could you let me out by the trees?"}
+    for current in (req, new):
+        out = backend.interpret(current)
+        assert out["result"]["status"] == "needs_clarification" and out["result"]["destination_point_xy"] is None
+        with Image.open(BytesIO(photo)) as original:
+            expected = place.apply_steps(place.current_context(current), np.full_like(with_parking,13), original,
+                                         lambda *_:pytest.fail("The trained route does not call a language model on empty ground"))
+        assert (out["result"],out["provenance"]["reason"]) == expected
+        assert out["provenance"]["method"] == place_evidence.SURFACE_ONLY
+        assert bound_outcome(out,current,dialogue_policy=True)["native_model_calls"] == 0
+        with pytest.raises(ValueError):
+            bound_outcome(out,current,passenger_selected=True)
+    assert not cloud_calls
+    forged = deepcopy(out)
+    forged["provenance"]["surface_evidence"]["body"]["image_sha256"] = "0"*64
+    with pytest.raises(ValueError):
+        place_evidence.verify(new, forged)
+    assert place_evidence.empty_surface_outcome(new,photo,empty_map) == out
+    provide_map(monkeypatch, req["scene"], with_parking)
+    positive = backend.interpret(req)
+    assert cloud_calls == [1] and positive["result"]["status"] == "proposed"
+    assert positive["provenance"]["method"] == place.METHOD
 
 
 def test_only_listed_originals_can_use_the_remote_backend(tmp_path,monkeypatch):
@@ -158,7 +224,10 @@ def test_confirmation_is_separate_and_invalid_evidence_withdraws_the_pin(tmp_pat
     assert session.view()["state"]=="error" and not session.view()["proposal_id"]
 
 
-@pytest.mark.parametrize("error",[RuntimeError("CUDA out of memory"),MemoryError()])
+@pytest.mark.parametrize("error", [
+    RuntimeError("CUDA out of memory"), MemoryError(), RuntimeError("CUDA error: unknown error"),
+    RuntimeError("CUDA error: CUBLAS_STATUS_NOT_SUPPORTED"), RuntimeError("bad allocation")
+])
 def test_resource_failure_offers_manual_recovery_only_for_the_bound_original(tmp_path,monkeypatch,error):
     from trackrag.dropoff import passenger
     from trackrag.dropoff.passenger_pair_choice import landmark_error_guidance
@@ -180,3 +249,60 @@ def test_resource_failure_offers_manual_recovery_only_for_the_bound_original(tmp
     assert landmark_error_guidance(req,unbound) is None
     Image.new("RGB",(96,64),"red").save(original)
     assert landmark_error_guidance(req,failure) is None
+
+
+def test_repeated_public_place_request_replays_exact_signed_inputs_and_never_another_phrase(tmp_path,monkeypatch):
+    req,photo,classes,key=case(tmp_path,monkeypatch)
+    manifest=tmp_path/"photos.json"
+    manifest.write_text(json.dumps({"photos":[{"photo_url":"https://kartaview.org/details/42/2/",
+                                      "sha256":sha256(photo).hexdigest()}]}),encoding="utf8")
+    service=place_evidence.PublicPlaceBackend([manifest],python="unused",cache=tmp_path/"cache")
+    native=packet(req,photo,classes,key)
+    initial=service.remember(req,photo,native)
+    def unavailable(*args,**kwargs):
+        return SimpleNamespace(returncode=1,stdout=b"")
+    monkeypatch.setattr(place_evidence.subprocess,"run",unavailable)
+    repeat={**req,"request_id":"another-real-turn"}
+    observed=service.interpret(repeat)
+    assert initial["result"]==observed["result"] and place_evidence.verify(repeat,observed)["current_language_calls"]==0
+    assert observed["provenance"]["reused_source_request_id"]==req["request_id"]
+    assert observed["provenance"]["request_sha256"]==digest(repeat)
+    different={**repeat,"text":"By the bakery on the left"}
+    assert service.interpret(different)["ok"] is False
+    forged=deepcopy(observed)
+    forged["provenance"]["reused_source_request_id"]="unrelated"
+    with pytest.raises(ValueError):
+        place_evidence.verify(repeat,forged)
+
+
+@pytest.mark.parametrize("transport", ["unavailable", "timeout", "bad_receipt"])
+def test_place_outage_preserves_manual_selection_only_for_the_verified_photo(tmp_path, monkeypatch, transport):
+    import subprocess
+    from trackrag.dropoff.passenger_pair_choice import PassengerSession as DialogueSession, landmark_error_guidance
+
+    request, photo, _, _ = case(tmp_path, monkeypatch)
+    manifest = tmp_path/"public.json"
+    manifest.write_text(json.dumps({"photos":[{"photo_url":"https://kartaview.org/details/42/2/",
+                        "sha256":sha256(photo).hexdigest()}]}), encoding="utf8")
+    backend = place_evidence.PublicPlaceBackend([manifest],python="unused")
+    def bridge(*args, **kwargs):
+        if transport=="timeout":
+            raise subprocess.TimeoutExpired("place", 240)
+        return SimpleNamespace(returncode=1 if transport=="unavailable" else 0,stdout=b"{}")
+    monkeypatch.setattr(subprocess,"run",bridge)
+    if transport=="bad_receipt":
+        with pytest.raises((KeyError,ValueError)):
+            backend.interpret(request)
+        return
+    session = DialogueSession(request["scene"], SimpleNamespace(interpret=backend.interpret,
+                              passenger_area=lambda *_:None),audit_dir=tmp_path/"audit")
+    view = session.submit(request["text"])
+    assert view["state"]=="error" and view["error"]["code"]=="place_service_unavailable"
+    assert view["can_request_pointing"] is False
+    assert view["proposal_id"] is None and "mark the spot" in view["landmark_error_guidance"]
+    outcome = backend.interpret(request)
+    assert place_evidence.verify_unavailable(request,outcome)["input_verified"]
+    changed=deepcopy(request);changed["text"]="At the other shop."
+    assert landmark_error_guidance(changed,outcome) is None
+    Image.new("RGB",(96,64),"red").save(request["scene"]["frame"]["image_path"])
+    assert landmark_error_guidance(request,outcome) is None

@@ -928,5 +928,93 @@
         "55": 56
       }
     }
-  ]
+  ],
+  "additional_convenience_check": {
+    "selection": "Three previously inspected photographs. New utterances and the two positive regions were recorded before these additional submissions, after the independent eight-photo study. This check is separate from the eight-case score.",
+    "reference_sha256": "4fa02ace0d728e5145fa94820c65e0e3e3bb896c2f46903bdaf3e4d8a3ca417a",
+    "cases": [
+      {
+        "id": "visible-place-2",
+        "request": "Can you drop me in the empty marked bay directly below the red Prolab lettering, to the left of the silver parked sedan?",
+        "source_sha256": "a8cb3c5926766d950eca0588e6bdd178e72026f07d5710f027d2e695d6628de2",
+        "reference_polygon_1000": [
+          [
+            550,
+            804
+          ],
+          [
+            648,
+            801
+          ],
+          [
+            660,
+            850
+          ],
+          [
+            539,
+            850
+          ]
+        ],
+        "source": "https://kartaview.org/details/980209/34/",
+        "first_turn_state": "needs_clarification",
+        "first_turn_point_px": null,
+        "reason": "location_blocked",
+        "error_code": null
+      },
+      {
+        "id": "visible-place-16",
+        "request": "Please pull into the open part of the brick bay on the right immediately behind the blue pickup.",
+        "source_sha256": "d0b190d43a9dcfe9a013ae71a0f776494db53901fd70beb8477a8dacdc1763d6",
+        "reference_polygon_1000": [
+          [
+            240,
+            710
+          ],
+          [
+            375,
+            704
+          ],
+          [
+            382,
+            771
+          ],
+          [
+            354,
+            810
+          ],
+          [
+            311,
+            792
+          ]
+        ],
+        "source": "https://kartaview.org/details/7120073/499/",
+        "first_turn_state": "needs_clarification",
+        "first_turn_point_px": null,
+        "reason": "no_visible_parking_surface",
+        "error_code": null
+      },
+      {
+        "id": "visible-place-21",
+        "request": "Please drop me on the sand beside the line of delivery motorcycles, across the paved sidewalk.",
+        "source_sha256": "71df6d0a6a705be760e5be20937a2442f9cfaedeed71f3c093d894049bd84724",
+        "reference_polygon_1000": [],
+        "source": "https://kartaview.org/details/7120169/165/",
+        "first_turn_state": "error",
+        "first_turn_point_px": null,
+        "reason": null,
+        "error_code": "grounding_failed"
+      }
+    ],
+    "runtime_recovery": {
+      "recorded_model_state": "error",
+      "automatic_pin": null,
+      "error_code": "resource_unavailable",
+      "photo_hash": "71df6d0a6a705be760e5be20937a2442f9cfaedeed71f3c093d894049bd84724",
+      "error_offered_manual_mark": true,
+      "mark_on_different_road_patch_for_software_test": true,
+      "selection": "passenger",
+      "confirmation": "explicit_scripted",
+      "handoff_verified": true
+    }
+  }
 }

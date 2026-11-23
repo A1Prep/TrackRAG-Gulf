@@ -5,6 +5,7 @@ from hashlib import sha256
 from io import BytesIO
 import json
 from types import SimpleNamespace
+from threading import RLock
 
 from cryptography.hazmat.primitives.asymmetric.ed25519 import Ed25519PrivateKey
 from cryptography.hazmat.primitives.serialization import Encoding, PublicFormat
@@ -151,3 +152,27 @@ def test_confirmation_is_separate_and_invalid_evidence_withdraws_the_pin(tmp_pat
     with pytest.raises(ValueError):
         session.confirm(pending["proposal_id"])
     assert session.view()["state"]=="error" and not session.view()["proposal_id"]
+
+
+@pytest.mark.parametrize("error",[RuntimeError("CUDA out of memory"),MemoryError()])
+def test_resource_failure_offers_manual_recovery_only_for_the_bound_original(tmp_path,monkeypatch,error):
+    from trackrag.dropoff import passenger
+    from trackrag.dropoff.passenger_pair_choice import landmark_error_guidance
+    req,photo,_,_=case(tmp_path,monkeypatch)
+    original=req["scene"]["frame"]["image_path"]
+    def exhaust(*_):
+        raise error
+    grounder=passenger.PassengerGrounder.__new__(passenger.PassengerGrounder)
+    grounder.config=None
+    grounder.lock=RLock()
+    grounder.resolver=SimpleNamespace(resolve=exhaust)
+    monkeypatch.setattr(passenger,"resolve_image",lambda *_:(Image.open(original),{"sha256":sha256(photo).hexdigest()}))
+    failure=grounder.interpret(req)
+    assert failure["ok"] is False and failure["error"]["code"]=="resource_unavailable"
+    assert "mark the spot" in landmark_error_guidance(req,failure)
+    stale=deepcopy(req);stale["text"]="A different place"
+    assert landmark_error_guidance(stale,failure) is None
+    unbound=deepcopy(failure);unbound["provenance"].pop("image")
+    assert landmark_error_guidance(req,unbound) is None
+    Image.new("RGB",(96,64),"red").save(original)
+    assert landmark_error_guidance(req,failure) is None

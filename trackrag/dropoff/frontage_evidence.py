@@ -10,6 +10,7 @@ from pathlib import Path
 import subprocess
 import tempfile
 from threading import Lock, Thread
+from time import monotonic
 from zipfile import BadZipFile, ZipFile
 
 import numpy as np
@@ -157,19 +158,20 @@ class PublicFrontageGrounder:
         return getattr(self.dialogue,name)
 
     def interpret(self, request):
+        deadline = monotonic() + INTERACTIVE_WAIT_SECONDS
         prior=self.dialogue.interpret(request)
         frame=request["scene"]["frame"]
         key=(request["scene"]["provenance"].get("image_sha256"),frame["recording_id"],frame["frame_id"])
         if key not in self.public.allowed or not prior_eligible(request,prior):
             return prior
         try:
-            return self._interpret(request,prior)
+            return self._interpret(request,prior,deadline)
         except (ValueError,KeyError,TypeError,OSError,RuntimeError,subprocess.SubprocessError) as exc:
             # The already validated first response remains available during a service or cache failure.
             LOG.warning("Public frontage supplement unavailable (%s): %s",type(exc).__name__,str(exc)[:170])
             return prior
 
-    def _interpret(self, request, prior):
+    def _interpret(self, request, prior, deadline):
         source=Path(request["scene"]["frame"]["image_path"])
         if source.stat().st_size>MAX_IMAGE_BYTES:
             raise ValueError("Public photo exceeds service limit")
@@ -194,7 +196,7 @@ class PublicFrontageGrounder:
             pending=self._pending[key]=Future()
             Thread(target=self._collect, args=(clean,photo,key,pending), daemon=True).start()
         try:
-            packet=pending.result(timeout=INTERACTIVE_WAIT_SECONDS)
+            packet=pending.result(timeout=max(0.,deadline-monotonic()))
         except FutureTimeout:
             return prior
         return build_outcome(clean,photo,packet,prior)

@@ -21,6 +21,106 @@ export function destinationLabel(view) {
 
 export function boxCentre([left,top,right,bottom]) { return [(left+right)/2,(top+bottom)/2]; }
 
+function validBay(bay, width, height) {
+  const onPhoto = point => Array.isArray(point) && point.length === 2 && point.every(Number.isFinite)
+    && point[0] >= 0 && point[0] <= width && point[1] >= 0 && point[1] <= height;
+  return bay && onPhoto(bay.center_xy) && Array.isArray(bay.polygon_xy)
+    && bay.polygon_xy.length >= 3 && bay.polygon_xy.every(onPhoto)
+    && (bay.passenger_tap_xy === null || onPhoto(bay.passenger_tap_xy));
+}
+
+export function offeredBay(view, width, height) {
+  const bay = view.bay_outline, pin = view.result?.destination_point_xy;
+  return ["proposed","confirmed"].includes(view.state) && validBay(bay,width,height)
+    && Array.isArray(pin) && bay.center_xy.every((value,i) => Math.abs(value-pin[i]) < 0.001) ? bay : null;
+}
+
+export function bayChoices(view, width, height) {
+  const choices = view.bay_choices;
+  if (view.state !== "needs_clarification" || view.result?.destination_point_xy || !Array.isArray(choices)
+      || !choices.every(bay => validBay(bay,width,height) && typeof bay.id === "string" && bay.id.length)
+      || new Set(choices.map(bay => bay.id)).size !== choices.length) return [];
+  return choices;
+}
+
+export const bayName = index => "Bay " + (index < 26 ? String.fromCharCode(65+index) : index+1);
+
+// A shared painted boundary belongs to neither button. Let the passenger choose a side.
+export function bayAtPoint(choices, [x,y], margin) {
+  const hits = choices.filter(({polygon_xy:vertices}) => {
+    let inside = false;
+    for (let i=0,j=vertices.length-1; i<vertices.length; j=i++) {
+      const [a,b]=vertices[i], [c,d]=vertices[j], dx=c-a, dy=d-b;
+      const length = dx*dx+dy*dy;
+      const t = length ? clamp(((x-a)*dx+(y-b)*dy)/length,0,1) : 0;
+      if (Math.hypot(x-a-t*dx,y-b-t*dy) <= margin) return false;
+      if ((b>y) !== (d>y) && x < a+(y-b)*dx/dy) inside = !inside;
+    }
+    return inside;
+  });
+  return hits.length === 1 ? hits[0] : null;
+}
+
+const bayGold = "#ffda69", tapBlue = "#8ef3f5", markerDark = "#18312e";
+
+function bayLabels(ctx, labels, scale) {
+  const width = ctx.canvas.width/scale, height = ctx.canvas.height/scale;
+  const occupied = [], hitBoxes = [];
+  ctx.save();
+  ctx.scale(scale,scale);
+  ctx.font = "600 12px system-ui, sans-serif"; ctx.textBaseline = "middle";
+  for (const label of labels) {
+    const x = label.point[0]/scale, y = label.point[1]/scale;
+    const w = Math.ceil(ctx.measureText(label.text).width) + 14, h = 21, gap = 16;
+    const above = [x-w/2,y-gap-h], below = [x-w/2,y+gap];
+    const sides = [[x+gap,y-h/2],[x-gap-w,y-h/2]];
+    const extraRows = [[above[0],above[1]-h-4],[below[0],below[1]+h+4]];
+    const positions = (label.color === bayGold ? [above,below,...sides,...extraRows] : [below,above,...sides,...extraRows])
+      .map(([a,b]) => [clamp(a,2,width-w-2),clamp(b,2,height-h-2)]);
+    const [left,top] = positions.find(([a,b]) =>
+      occupied.every(([l,t,r,d]) => a+w+3 < l || a > r+3 || b+h+3 < t || b > d+3)
+      && labels.every(({point:[px,py]}) => px/scale < a-7 || px/scale > a+w+7 || py/scale < b-7 || py/scale > b+h+7)
+    ) || positions[0];
+    occupied.push([left,top,left+w,top+h]);
+    hitBoxes.push({id:label.id,box:[left,top,left+w,top+h].map(value => value*scale)});
+    const endX = clamp(x,left,left+w), endY = clamp(y,top,top+h);
+    ctx.beginPath(); ctx.moveTo(x,y); ctx.lineTo(endX,endY);
+    ctx.lineWidth = 3; ctx.strokeStyle = markerDark; ctx.stroke();
+    ctx.lineWidth = 1.3; ctx.strokeStyle = label.color; ctx.stroke();
+    ctx.fillStyle = "rgba(18,35,33,.94)"; ctx.fillRect(left,top,w,h);
+    ctx.fillStyle = label.color; ctx.fillText(label.text,left+7,top+h/2);
+  }
+  ctx.restore();
+  return hitBoxes;
+}
+
+// Coordinates come from this request's road-photo result. Its bounding box is not the painted bay.
+export function drawBays(ctx, bays, scale, choosing, tapLabel = "Your tap") {
+  ctx.save(); ctx.lineJoin = "round";
+  const labels = [];
+  for (const [index,bay] of bays.entries()) {
+    ctx.beginPath(); ctx.moveTo(...bay.polygon_xy[0]);
+    for (const vertex of bay.polygon_xy.slice(1)) ctx.lineTo(...vertex);
+    ctx.closePath(); ctx.fillStyle = "rgba(255,211,79,.16)"; ctx.fill();
+    ctx.lineWidth = 4.5*scale; ctx.strokeStyle = markerDark; ctx.stroke();
+    ctx.lineWidth = 2.5*scale; ctx.strokeStyle = bayGold; ctx.stroke();
+    const label = bay.extent === "visible_parking_surface" ? "Parking area" : "Bay centre";
+    labels.push({id:bay.id,point:bay.center_xy,text:choosing ? bayName(index) : label,color:bayGold});
+  }
+  const tap = bays.find(bay => bay.passenger_tap_xy)?.passenger_tap_xy;
+  if (tap) labels.push({point:tap,text:tapLabel,color:tapBlue});
+  const hitBoxes = bayLabels(ctx,labels,scale);
+  for (const bay of bays) drawDestination(ctx,bay.center_xy,null,"model",scale);
+  if (tap) {
+    ctx.translate(...tap); ctx.scale(scale,scale);
+    ctx.beginPath(); ctx.moveTo(0,-6); ctx.lineTo(6,0); ctx.lineTo(0,6); ctx.lineTo(-6,0); ctx.closePath();
+    ctx.lineWidth = 4; ctx.strokeStyle = markerDark; ctx.stroke();
+    ctx.lineWidth = 2; ctx.strokeStyle = tapBlue; ctx.stroke();
+  }
+  ctx.restore();
+  return hitBoxes;
+}
+
 export function drawCheckedMark(ctx,point,scale) {
   ctx.save(); ctx.translate(...point); ctx.scale(scale,scale);
   ctx.beginPath(); ctx.moveTo(-6,-6); ctx.lineTo(6,6); ctx.moveTo(-6,6); ctx.lineTo(6,-6);

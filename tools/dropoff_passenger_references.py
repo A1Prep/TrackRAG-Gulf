@@ -15,7 +15,8 @@ from statistics import mean, median
 from tools.dropoff_predict import read_requests
 from trackrag.dropoff.contracts import FULL_FIELDS, validate_target
 from trackrag.dropoff.data import file_sha256, inference_input_sha256
-from trackrag.dropoff.manual_offlane import METHOD as OFFLANE_MARK
+from trackrag.dropoff.interaction import signed_place_verifier
+from trackrag.dropoff.whole_bay import AUTO as BAY_METHOD, MANUAL_METHODS
 from trackrag.vision.geometry import iou
 
 
@@ -48,6 +49,33 @@ def _payload(path):
     if path.stat().st_size > 64 * 1024**2:
         raise ValueError(f"{path.name} exceeds the diagnostic file limit")
     return path.read_bytes()
+
+
+def _automatic_failure(request, outcome):
+    """Distinguish completed automatic interpretations, operational waits and passenger actions."""
+    source = outcome["provenance"]
+    method = source.get("method")
+    if outcome.get("request_id") != request["request_id"]:
+        raise ValueError("Outcome belongs to another passenger request")
+    if (source.get("injected") is True or method in MANUAL_METHODS | {
+            "explicit_passenger_region", "explicit_passenger_landmark_pair", "passenger_requested_pointing",
+            "passenger_requested_area"} or "passenger_selection" in source or "choice_source" in source):
+        raise ValueError("Injected or passenger-marked output cannot score as an independent model")
+    if method != BAY_METHOD and {"bay_outline", "bay_choices", "bay_instruction_checked"} & source.keys():
+        raise ValueError("Pictured bay is attributed to another method")
+    verifier = signed_place_verifier(method)
+    if verifier is None:
+        if source.get("independent_model_proposal") is False:
+            raise ValueError("Output lacks a verifiable independent interpretation")
+        return None
+    checks = verifier(request, outcome)
+    status = checks.get("lookup_status") or checks.get("operational_status")
+    if status in {"pending", "busy", "unavailable"}:
+        return "lookup_" + status
+    if (checks.get("decision_reproduced") is not True or
+            outcome["result"].get("status") == "proposed" and checks.get("independent_model_proposal") is not True):
+        raise ValueError("Automatic model decision could not be reproduced")
+    return None
 
 
 def _lines(raw):
@@ -149,11 +177,6 @@ def _row(ref, request, outputs):
         if outcome.get("ok") is not True:
             raise ValueError("unrecognized outcome type")
         provenance = outcome["provenance"]
-        if provenance.get("injected") is True:
-            raise ValueError("Injected software-check output cannot score as an independent model")
-        if (provenance.get("independent_model_proposal") is False
-                or provenance.get("method") in {"explicit_passenger_region", OFFLANE_MARK}):
-            raise ValueError("passenger marked or intervention-assisted output cannot score as model-only")
         digest = ref["image_sha256"]
         if provenance["image"]["sha256"] != digest:
             raise ValueError("wrong saved image")
@@ -166,6 +189,9 @@ def _row(ref, request, outputs):
             exact = sha256(json.dumps(request, sort_keys=True, separators=(",", ":"), allow_nan=False).encode()).hexdigest()
             if provenance.get("request_sha256") != exact:
                 raise ValueError("wrong instruction/scene binding")
+        row["failure"] = _automatic_failure(request, outcome)
+        if row["failure"]:
+            return row
         result = outcome["result"]
         if not FULL_FIELDS.issubset(result):
             raise ValueError("partial model result cannot count as complete interpretation")
@@ -181,7 +207,7 @@ def _row(ref, request, outputs):
                        normalized_point_error=math.dist([x, y], target["destination_point_xy"]) /
                                               math.hypot(frame["width"], frame["height"]),
                        box_iou=iou(result["destination_box_xyxy"], target["destination_box_xyxy"]))
-    except (KeyError, TypeError, ValueError) as exc:
+    except (KeyError, OSError, TypeError, ValueError) as exc:
         row.update(status=None, status_matches=False, failure="invalid_or_mismatched_output",
                    detail=str(exc))
     return row

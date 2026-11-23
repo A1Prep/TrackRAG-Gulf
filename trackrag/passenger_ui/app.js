@@ -1,7 +1,8 @@
 import {addFrame, openFrame} from "./frames.js";
 import {noSound, openMicrophone} from "./capture.js";
 import {VehiclePairPicker, drawChosenLandmarks} from "./pair-choices.js";
-import {PhotoTools, boxCentre, destinationLabel, drawCheckedMark, drawDestination, positionWords} from "./photo-tools.js";
+import {PhotoTools, bayAtPoint, bayChoices, bayName, boxCentre, destinationLabel, drawBays,
+  drawCheckedMark, drawDestination, offeredBay, positionWords} from "./photo-tools.js";
 
 const el = id => document.getElementById(id);
 const sceneSelect = el("scene"), image = el("frame"), canvas = el("overlay"), input = el("instruction");
@@ -9,7 +10,7 @@ let catalog, session, busy = false, capture = null, editing = false, previousDra
 let editTarget = null, retired = false;
 let photoState = "loading", retry = 0, notice = "", failure = "", historyRevision = "";
 let submitting = null, groundingPoll = null;
-let checkedMark = null;
+let checkedMark = null, bayLabelBoxes = [];
 const pairs = new VehiclePairPicker(render);
 const photo = new PhotoTools(canvas, el("photo-viewport"), render, () => busy || photoState !== "ready", pairs);
 const terminal = state => ["confirmed", "cancelled"].includes(state);
@@ -66,12 +67,17 @@ function resetSelection() { photo.reset(); pairs.reset(); checkedMark=null; }
 function currentMark(v) {
   return checkedMark?.session===session?.session && checkedMark?.request===v.request_id && v.selected_by==="passenger" ? checkedMark : null;
 }
+function visibleChoices(v) {
+  if (photoState !== "ready" || photo.active || pairs.open || editing || submitting || session?.voice_stage || session?.pending_grounding) return [];
+  return bayChoices(v,canvas.width,canvas.height);
+}
+function tapName(v) { return currentMark(v)?.dragged ? "Your mark" : "Your tap"; }
 function staleEdit() {
   return editing && (editTarget !== session?.view.request_id || (editing !== "new" && terminal(session?.view.state)));
 }
 function focus(id) { el(id).focus({preventScroll:true}); }
 function focusResult() {
-  const node = el("destination-title");
+  const node = el("bay-tools").hidden ? el("destination-title") : el("bay-tools");
   node.focus({preventScroll:true});
   const bounds = node.getBoundingClientRect();
   if (bounds.top < 0 || bounds.bottom > innerHeight) node.scrollIntoView({block:"nearest"});
@@ -93,15 +99,19 @@ function canMark(v) {
   return ["proposed","needs_clarification","insufficient_visual_evidence"].includes(v.state)
     || Boolean(v.landmark_error_guidance || v.parking_recovery);
 }
-function suggestion(v) {
+function suggestion(v, bay) {
   const point = v.result?.destination_point_xy;
   if (!point) return "Choose a location on the photo.";
   const where = positionWords(point, canvas.width, canvas.height);
+  if (bay?.extent === "visible_parking_surface") return (bay.passenger_tap_xy ? tapName(v) + " is the blue diamond. " : "")
+    + "The gold ring is inside the visible parking area in the " + where + ". The photo leaves its full edges uncertain.";
+  if (bay) return (bay.passenger_tap_xy ? tapName(v) + " is the blue diamond. " : "")
+    + "The gold ring marks the centre of the outlined parking bay in the " + where + " of the photo.";
   if (v.selected_by === "passenger") return "The blue pin is at the centre of your mark, in the " + where + " of the photo. Save it if this is where you want to get out.";
   if (v.selected_by === "passenger_landmarks") return "The yellow pin in the " + where + " uses the two vehicles you chose.";
   return "Check the yellow pin in the " + where + " of the photo.";
 }
-function response(v, stage) {
+function response(v, stage, bay, choices) {
   if (photoState === "failed") return ["error", retired ? "Reopen this scene" : "Reload the road photo",
     retired ? "This session ended. Reopen the scene to start a new request." : "Open the photo again to check a location."];
   if (busy && notice) return ["working", notice, ""];
@@ -116,12 +126,22 @@ function response(v, stage) {
   }
   if (stage === "review") return ["review", "Did I hear you correctly?", "Edit any words below, then send the transcript."];
   if (stage === "failed" || stage === "recording") return ["clarify", "Try voice again or type", "Your description can also be sent as text."];
-  if (photo.active) return ["mark", "Choose a spot on the photo", "Mark the centre of a visible parking bay. The photo check uses that exact point."];
+  if (photo.active) return ["mark", "Choose a spot on the photo", "Mark where you want to get out. For a painted parking bay, tap inside the bay you mean."];
   if (pairs.open) return ["mark", "Which vehicles do you mean?", "Choose two vehicles and a position in the photo controls."];
   if (editing === "reply") return ["clarify", "Tell me more", v.result?.clarification_question || v.turns?.filter(t=>t.role==="assistant").at(-1)?.text || ""];
   if (editing) return ["idle", editing === "new" ? "Where would you like to get out?" : "Edit your description", ""];
-  if (v.state === "proposed") return ["proposed", "Is this your intended location?", suggestion(v)];
+  if (choices.length) {
+    if (v.bay_reference_uncertain) return ["clarify", "Which outlined bay did you mean?",
+      v.result.clarification_question + " You can also mark another spot."];
+    if (choices.length === 1) return ["clarify", "Did you mean this side of the line?",
+      "Bay A is the visible bay beside your mark. Choose it or mark a different spot."];
+    const why = choices.some(choice => choice.passenger_tap_xy) ? "More than one bay is near your mark." : "More than one bay matches your description.";
+    return ["clarify", "Which parking bay do you mean?", why + (choices.length === 2 ? " Choose bay A or bay B." : " Choose the labelled bay you mean.")];
+  }
+  if (v.state === "proposed") return ["proposed", bay?.extent === "visible_parking_surface" ? "Is this the parking area you meant?" : bay ? "Is this your intended bay?" : "Is this your intended location?", suggestion(v,bay)];
   if (v.state === "confirmed") {
+    if (bay?.extent === "visible_parking_surface") return ["confirmed", "Location saved", "You chose the gold ring inside the outlined parking area as your intended drop-off."];
+    if (bay) return ["confirmed", "Location saved", "You chose the outlined parking bay as your intended drop-off. The gold ring marks its centre."];
     const point = v.result?.destination_point_xy;
     const location = point ? " in the " + positionWords(point, canvas.width, canvas.height) + " of the photo" : "";
     return ["confirmed", "Location saved", "You chose the " + (v.selected_by === "passenger" ? "blue" : "yellow") + " pin" + location + " as your intended drop-off."];
@@ -133,21 +153,30 @@ function response(v, stage) {
     v.turns?.filter(t => t.role === "assistant").at(-1)?.text || "Mark the location on the photo or edit your description."];
   return ["idle", "Where would you like to get out?", ""];
 }
-function legend(v, offerMark) {
+function legend(v, offerMark, bay, choices) {
   const node = el("legend");
-  const pin = v.result?.destination_point_xy && photoState === "ready" && !editing && !session?.voice_stage && !session?.pending_grounding;
+  const pin = ["proposed","confirmed"].includes(v.state) && v.result?.destination_point_xy
+    && photoState === "ready" && !editing && !submitting && !session?.voice_stage && !session?.pending_grounding;
   node.dataset.kind = !photo.active && pin && !pairs.open ? (v.selected_by === "passenger" ? "manual" : "auto") : "none";
   let label = "Original photo";
   if (photoState === "loading") label = "Opening photo…";
   else if (photoState === "failed") label = "Photo unavailable";
   else if (pairs.open) label = "Numbers mark selectable vehicles";
   else if (photo.active) label = "Centre dot · your point to check";
+  else if (choices.length) {
+    label = choices.map((_,i) => bayName(i)).join(" / ");
+    if (choices.some(choice => choice.passenger_tap_xy)) label += " · Blue diamond at " + tapName(v).toLowerCase();
+  }
   else if (pin) {
-    label = destinationLabel(v);
+    if (bay) {
+      node.dataset.kind = "bay";
+      label = bay.extent === "visible_parking_surface" ? "Visible parking area · Gold ring at selected location" : "Gold ring at bay centre";
+      if (bay.passenger_tap_xy) label += " · Blue diamond at " + tapName(v).toLowerCase();
+    } else label = destinationLabel(v);
     if (v.state === "confirmed") label += " · saved location";
-    if (v.result.anchor_boxes_xyxy?.length === 2 && ["parking_model","passenger_landmarks"].includes(v.selected_by)) label += " · A and B mark the vehicles";
+    if (!bay && v.result.anchor_boxes_xyxy?.length === 2 && ["parking_model","passenger_landmarks"].includes(v.selected_by)) label += " · A and B mark the vehicles";
   } else if (!editing && !session?.voice_stage && v.area_landmarks) label = "A and B mark the vehicles";
-  if (currentMark(v) && !pin && !photo.active && !editing) label="Cross = your last mark · no destination pin";
+  if (!choices.length && currentMark(v) && !pin && !photo.active && !editing) label="Cross = your last mark · no destination pin";
   else if (offerMark && !photo.zoom) label = v.area_landmarks ? "A and B mark the vehicles · Tap the photo to mark your spot" : "Tap the photo to mark your spot";
   text(node, label);
   return label;
@@ -156,10 +185,11 @@ function render() {
   const v = session?.view || {}, stage = session?.voice_stage, current = activeScene();
   const opened = Boolean(session), ready = photoState === "ready", micOn = Boolean(capture);
   const pending = session?.pending_grounding;
+  const bay = offeredBay(v,canvas.width,canvas.height), choices = visibleChoices(v);
   const marking = photo.active || pairs.open, locked = busy || micOn || Boolean(submitting), prior = lastUser(v.turns);
   const formOpen = !pending && !marking && (editing || Boolean(stage) || !v.state || v.state === "idle" || (v.state === "error" && !canMark(v)));
   const decision = opened && !pending && !formOpen && !marking && !terminal(v.state);
-  const [kind, heading, status] = response(v, stage);
+  const [kind, heading, status] = response(v, stage, bay, choices);
   el("destination-panel").dataset.state = kind;
   text(el("destination-title"), heading); text(el("status"), status);
   el("stopping-note").hidden = !["proposed","confirmed"].includes(kind);
@@ -191,6 +221,9 @@ function render() {
   text(el("mic"), micOn ? "Stop recording" : "Record voice");
   input.disabled = locked || !opened || marking;
   el("submit").disabled = input.disabled || !ready || !input.value.trim() || staleEdit();
+  el("show-parking-areas").hidden = !(current?.parking_areas_indexed && formOpen && (!v.state || v.state === "idle")
+    && !editing && !stage && !micOn && !input.value.trim());
+  el("show-parking-areas").disabled = input.disabled || !ready;
   text(el("submit"), stage === "review" ? "Send reviewed transcript" : editing === "replace" ? "Send new description" : editing === "reply" ? "Send reply" : "Find my spot");
   text(el("input-label"), stage === "review" ? "Your transcript" : editing === "reply" ? "Your reply" : "Your description");
   el("edit-original").hidden = editing !== "reply" || Boolean(stage) || Boolean(input.value.trim());
@@ -205,12 +238,13 @@ function render() {
 
   el("confirm").hidden = !(decision && v.state === "proposed" && v.proposal_id);
   el("confirm").disabled = locked || !ready;
+  text(el("confirm"),bay && bay.extent !== "visible_parking_surface" ? "Save this bay" : "Save this location");
   el("draw").hidden = !(decision && canMark(v));
   el("draw").disabled = locked || !ready;
   el("take-over-area").hidden = !pending;
   el("take-over-area").disabled = locked || !ready || !v.can_request_area;
-  el("draw").className = v.state === "proposed" ? "subtle" : "primary";
-  text(el("draw"), v.state === "proposed" ? "Change spot on photo" : "Mark my spot on the photo");
+  el("draw").className = v.state === "proposed" || choices.length ? "subtle" : "primary";
+  text(el("draw"), choices.length ? "Mark a different spot" : v.state === "proposed" ? "Change spot on photo" : "Mark my spot on the photo");
   el("edit-words").hidden = !decision || !prior;
   el("edit-words").disabled = locked;
   text(el("edit-words"), v.state === "needs_clarification" || v.state === "insufficient_visual_evidence" ? "Answer in words" : "Edit description");
@@ -221,8 +255,23 @@ function render() {
   el("cancel").hidden = !opened || (!pending && !stage && (!v.state || v.state === "idle" || terminal(v.state))) || marking;
   el("cancel").disabled = locked;
   pairs.controls(locked || !ready);
-  const offerMark = decision && ready && !locked && ["needs_clarification","insufficient_visual_evidence"].includes(v.state);
-  photo.controls(ready, locked, legend(v, offerMark), offerMark);
+  const offerMark = decision && ready && !locked && !choices.length && ["needs_clarification","insufficient_visual_evidence"].includes(v.state);
+  photo.controls(ready, locked, legend(v, offerMark, bay, choices), offerMark);
+  const buttons = el("bay-buttons");
+  const choiceKey = JSON.stringify(choices.map(({id,center_xy}) => [id,center_xy]));
+  if (buttons.dataset.choices !== choiceKey) {
+    buttons.dataset.choices = choiceKey;
+    buttons.replaceChildren(...choices.map((choice,index) => {
+      const button = document.createElement("button"); button.type = "button"; button.dataset.bayId = choice.id;
+      text(button,bayName(index)); button.setAttribute("aria-label",bayName(index).replace("Bay ","Choose bay "));
+      const [across,down] = choice.center_xy.map((value,i) => Math.round(100*value/(i ? canvas.height : canvas.width)));
+      button.setAttribute("aria-description","Centre at " + across + "% across and " + down + "% down the photo.");
+      return button;
+    }));
+  }
+  for (const button of buttons.children) button.disabled = locked;
+  el("bay-tools").hidden = !choices.length;
+  canvas.classList.toggle("choosing-bay",choices.length > 0);
   paint();
   watchGrounding();
 }
@@ -288,22 +337,26 @@ window.addEventListener("resize", () => paint());
 
 function paint() {
   const ctx = canvas.getContext("2d");
+  bayLabelBoxes = [];
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   if (photoState !== "ready" || !canvas.clientWidth) return;
   const v = session.view, scale = photo.frameRatio();
-  if (editing || session.voice_stage || session.pending_grounding) return;
+  if (editing || submitting || session.voice_stage || session.pending_grounding) return;
   if (pairs.open) { pairs.paint(ctx,scale); return; }
-  if (v.area_landmarks) drawChosenLandmarks(ctx, v.area_landmarks.boxes_xyxy, scale);
+  const choices = visibleChoices(v), bay = offeredBay(v,canvas.width,canvas.height);
+  if (v.area_landmarks && (photo.active || (!choices.length && !bay))) drawChosenLandmarks(ctx,v.area_landmarks.boxes_xyxy,scale);
   if (photo.active) {
     if (!photo.box) { photo.drawCursor(ctx,scale); return; }
     drawDestination(ctx, boxCentre(photo.box), photo.dragged ? photo.box : null, "mark_preview", scale);
     return;
   }
   const mark=currentMark(v);
-  if (!v.result?.destination_point_xy) {
+  if (choices.length) { bayLabelBoxes = drawBays(ctx,choices,scale,true,tapName(v)); return; }
+  if (!["proposed","confirmed"].includes(v.state) || !v.result?.destination_point_xy) {
     if (mark) drawCheckedMark(ctx,boxCentre(mark.box),scale);
     return;
   }
+  if (bay) { drawBays(ctx,[bay],scale,false,tapName(v)); return; }
   if (["passenger_landmarks","parking_model"].includes(v.selected_by)) drawChosenLandmarks(ctx, v.result.anchor_boxes_xyxy, scale);
   const showBox = v.selected_by!=="passenger" || mark?.dragged;
   drawDestination(ctx, v.result.destination_point_xy, showBox ? v.result.destination_box_xyxy : null, v.selected_by, scale);
@@ -315,6 +368,32 @@ el("pan").onclick = () => {
   if (!photo.panning) photo.focusPhoto();
 };
 el("draw").onclick = () => photo.begin(session?.view.result?.destination_point_xy);
+function selectBay(id) {
+  if (busy || !visibleChoices(session?.view || {}).some(bay => bay.id === id)) return;
+  perform(() => action("select-bay",{bay_id:id}), "Opening the selected bay…",focusResult);
+}
+el("bay-buttons").onclick = event => {
+  const button = event.target.closest("button");
+  if (button && !button.disabled) selectBay(button.dataset.bayId);
+};
+// In a zoomed photo a drag pans. Only a tap within one candidate selects a bay.
+let bayPointer = null;
+photo.viewport.addEventListener("pointerdown", event => {
+  bayPointer = event.target === canvas && event.isPrimary && event.button === 0 && !busy && visibleChoices(session?.view || {}).length
+    ? {id:event.pointerId,x:event.clientX,y:event.clientY,revision:session.revision,session:session.session} : null;
+},true);
+photo.viewport.addEventListener("pointermove", event => {
+  if (bayPointer?.id === event.pointerId && Math.hypot(bayPointer.x-event.clientX,bayPointer.y-event.clientY) > 5) bayPointer=null;
+});
+photo.viewport.addEventListener("pointercancel", () => { bayPointer=null; });
+photo.viewport.addEventListener("pointerup", event => {
+  const pressed = bayPointer; bayPointer = null;
+  if (!pressed || pressed.id !== event.pointerId || pressed.session !== session?.session || pressed.revision !== session.revision) return;
+  const point = photo.point(event);
+  const label = bayLabelBoxes.find(({box:[l,t,r,b]}) => point[0] >= l && point[0] <= r && point[1] >= t && point[1] <= b);
+  const id = label ? label.id : bayAtPoint(visibleChoices(session.view),point,1.5*photo.frameRatio())?.id;
+  if (id) selectBay(id);
+},true);
 el("take-over-area").onclick = () => perform(async () => {
   await action("take-over-area",{request_id:session.pending_grounding.request_id}); photo.begin();
 }, "Opening the photo to mark…", () => photo.focusPhoto());
@@ -402,6 +481,12 @@ function sendInstruction(choice = "automatic") {
   () => photo.active ? photo.focusPhoto() : pairs.open ? el("pair-first").focus() : focusResult());
 }
 el("form").onsubmit = e => { e.preventDefault(); sendInstruction(); };
+el("show-parking-areas").onclick = () => {
+  const button = el("show-parking-areas");
+  if (button.hidden || button.disabled || input.value.trim()) return;
+  input.value = "Find the marked parking bays.";
+  sendInstruction();
+};
 el("submit-pointing").onclick = () => sendInstruction("vehicles");
 el("submit-area").onclick = () => sendInstruction("area");
 input.addEventListener("input", render);

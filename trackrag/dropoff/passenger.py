@@ -299,9 +299,9 @@ class PassengerGrounder:
         return {"ok":True, "request_id":request["request_id"], "result":result, "provenance":provenance}
 
     def passenger_area(self, request, box):
-        from . import manual_offlane
+        from . import manual_offlane, whole_bay
         try:
-            return manual_offlane.select(request, box)
+            return whole_bay.select_mark(request, box)
         except Exception as exc:
             return error_outcome(operational_code(exc), str(exc)[:4000] or type(exc).__name__,
                                  request.get("request_id","") if isinstance(request,dict) else "",

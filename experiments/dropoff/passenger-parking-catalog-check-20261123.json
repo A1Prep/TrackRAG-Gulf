@@ -1,0 +1,317 @@
+{
+  "endpoint": "normal passenger application",
+  "instruction": "Find the marked parking bays.",
+  "interpretation": "The catalogue check measures whether the normal shortcut yields an outline. A separate image-reference study measures accuracy.",
+  "totals": {
+    "public_photos": 81,
+    "indexed": 17,
+    "returned_outlines": 17,
+    "any_measured": 9,
+    "only_visible_surface": 8,
+    "median_s": 0.47,
+    "max_s": 1.61,
+    "occupied_frontage_in_index": false,
+    "occupied_withheld": 5
+  },
+  "photographs": [
+    {
+      "recording": "kartaview_1129101",
+      "frame": 0,
+      "scene_key": "8a32b5b5965ebf8299cc1343",
+      "seconds": 0.765,
+      "state": "needs_clarification",
+      "count": 2,
+      "partial": 2,
+      "point": null,
+      "save_available": false,
+      "reply": "I found several outlined bays that fit those details. Which bay would you like?"
+    },
+    {
+      "recording": "kartaview_1269447",
+      "frame": 242,
+      "scene_key": "550e051ead850fb310f3c395",
+      "seconds": 0.5,
+      "state": "proposed",
+      "count": 1,
+      "partial": 1,
+      "point": [
+        2511.348,
+        1814.646
+      ],
+      "save_available": true,
+      "reply": null
+    },
+    {
+      "recording": "kartaview_3075698",
+      "frame": 120,
+      "scene_key": "da8773bd6b0c7f02b9900b7e",
+      "seconds": 0.156,
+      "state": "proposed",
+      "count": 1,
+      "partial": 1,
+      "point": [
+        477.895,
+        534.543
+      ],
+      "save_available": true,
+      "reply": null
+    },
+    {
+      "recording": "kartaview_3329429",
+      "frame": 213,
+      "scene_key": "10e8284093286234e0bdd0df",
+      "seconds": 0.39,
+      "state": "proposed",
+      "count": 1,
+      "partial": 0,
+      "point": [
+        2308.967,
+        1377.79
+      ],
+      "save_available": true,
+      "reply": null
+    },
+    {
+      "recording": "kartaview_5124809",
+      "frame": 287,
+      "scene_key": "28d8c40a473886a0b6bf3c77",
+      "seconds": 0.297,
+      "state": "proposed",
+      "count": 1,
+      "partial": 1,
+      "point": [
+        420.919,
+        1113.001
+      ],
+      "save_available": true,
+      "reply": null
+    },
+    {
+      "recording": "kartaview_5139785",
+      "frame": 165,
+      "scene_key": "0c150fa36349744dbd66653b",
+      "seconds": 0.406,
+      "state": "proposed",
+      "count": 1,
+      "partial": 0,
+      "point": [
+        1336.538,
+        1383.327
+      ],
+      "save_available": true,
+      "reply": null
+    },
+    {
+      "recording": "kartaview_5200729",
+      "frame": 338,
+      "scene_key": "67c8b96416f1dc9f40a21a72",
+      "seconds": 0.468,
+      "state": "needs_clarification",
+      "count": 2,
+      "partial": 2,
+      "point": null,
+      "save_available": false,
+      "reply": "I found several outlined bays that fit those details. Which bay would you like?"
+    },
+    {
+      "recording": "kartaview_5231497",
+      "frame": 102,
+      "scene_key": "f4d997a6f22c942559a798dd",
+      "seconds": 0.5,
+      "state": "proposed",
+      "count": 1,
+      "partial": 1,
+      "point": [
+        101.114,
+        1499.676
+      ],
+      "save_available": true,
+      "reply": null
+    },
+    {
+      "recording": "kartaview_5331945",
+      "frame": 29,
+      "scene_key": "0c1bfe0440b27b1f451b01a0",
+      "seconds": 0.36,
+      "state": "proposed",
+      "count": 1,
+      "partial": 1,
+      "point": [
+        2720.382,
+        1380.649
+      ],
+      "save_available": true,
+      "reply": null
+    },
+    {
+      "recording": "kartaview_5546153",
+      "frame": 445,
+      "scene_key": "52f0e45da5785838fa68fdf8",
+      "seconds": 0.454,
+      "state": "needs_clarification",
+      "count": 2,
+      "partial": 2,
+      "point": null,
+      "save_available": false,
+      "reply": "I found several outlined bays that fit those details. Which bay would you like?"
+    },
+    {
+      "recording": "kartaview_66245",
+      "frame": 146,
+      "scene_key": "ef1207ebb0cf2f79ec0eb895",
+      "seconds": 0.172,
+      "state": "proposed",
+      "count": 1,
+      "partial": 0,
+      "point": [
+        2058.119,
+        1327.806
+      ],
+      "save_available": true,
+      "reply": null
+    },
+    {
+      "recording": "kartaview_7130313",
+      "frame": 1390,
+      "scene_key": "7520651abea7382db45fcc04",
+      "seconds": 0.797,
+      "state": "needs_clarification",
+      "count": 2,
+      "partial": 0,
+      "point": null,
+      "save_available": false,
+      "reply": "I found several outlined bays that fit those details. Which bay would you like?"
+    },
+    {
+      "recording": "kartaview_7130313",
+      "frame": 1395,
+      "scene_key": "d76c4ca006dc9332d37ec750",
+      "seconds": 0.641,
+      "state": "proposed",
+      "count": 1,
+      "partial": 0,
+      "point": [
+        1969.731,
+        1299.478
+      ],
+      "save_available": true,
+      "reply": null
+    },
+    {
+      "recording": "kartaview_7168777",
+      "frame": 1211,
+      "scene_key": "ba838168eb20eae7e2ca891f",
+      "seconds": 0.578,
+      "state": "proposed",
+      "count": 1,
+      "partial": 0,
+      "point": [
+        2435.466,
+        1563.243
+      ],
+      "save_available": true,
+      "reply": null
+    },
+    {
+      "recording": "kartaview_7168793",
+      "frame": 16,
+      "scene_key": "5599765f42ff5a3a7efd3944",
+      "seconds": 1.61,
+      "state": "needs_clarification",
+      "count": 3,
+      "partial": 0,
+      "point": null,
+      "save_available": false,
+      "reply": "I found several outlined bays that fit those details. Which bay would you like?"
+    },
+    {
+      "recording": "kartaview_7199241",
+      "frame": 48,
+      "scene_key": "4edc9abbff73676b9a63bc1d",
+      "seconds": 0.813,
+      "state": "needs_clarification",
+      "count": 2,
+      "partial": 0,
+      "point": null,
+      "save_available": false,
+      "reply": "I found several outlined bays that fit those details. Which bay would you like?"
+    },
+    {
+      "recording": "kartaview_7199353",
+      "frame": 2205,
+      "scene_key": "aee36a58cccb5c82aa006bb8",
+      "seconds": 0.297,
+      "state": "proposed",
+      "count": 1,
+      "partial": 0,
+      "point": [
+        850.019,
+        1766.928
+      ],
+      "save_available": true,
+      "reply": null
+    }
+  ],
+  "occupied_regression": [
+    {
+      "recording": "kartaview_5105913",
+      "frame": 1982,
+      "scene_key": "ca3d3cd76d6f0703c963414b",
+      "seconds": 0.703,
+      "state": "needs_clarification",
+      "count": 0,
+      "partial": 0,
+      "point": null,
+      "save_available": false,
+      "reply": "I can see strips of parking pavement beside the parked vehicles, but I can\u2019t outline an empty bay there. Can you see another open space?"
+    },
+    {
+      "recording": "kartaview_5105913",
+      "frame": 1982,
+      "scene_key": "ca3d3cd76d6f0703c963414b",
+      "seconds": 0.141,
+      "state": "needs_clarification",
+      "count": 0,
+      "partial": 0,
+      "point": null,
+      "save_available": false,
+      "reply": "Only a narrow strip of pavement is visible beside the parked vehicle there. Could you mark a different open space?"
+    },
+    {
+      "recording": "kartaview_5105913",
+      "frame": 1982,
+      "scene_key": "ca3d3cd76d6f0703c963414b",
+      "seconds": 0.156,
+      "state": "needs_clarification",
+      "count": 0,
+      "partial": 0,
+      "point": null,
+      "save_available": false,
+      "reply": "Only a narrow strip of pavement is visible beside the parked vehicle there. Could you mark a different open space?"
+    },
+    {
+      "recording": "kartaview_5105913",
+      "frame": 1982,
+      "scene_key": "ca3d3cd76d6f0703c963414b",
+      "seconds": 0.125,
+      "state": "needs_clarification",
+      "count": 0,
+      "partial": 0,
+      "point": null,
+      "save_available": false,
+      "reply": "Only a narrow strip of pavement is visible beside the parked vehicle there. Could you mark a different open space?"
+    },
+    {
+      "recording": "kartaview_5105913",
+      "frame": 1982,
+      "scene_key": "ca3d3cd76d6f0703c963414b",
+      "seconds": 0.14,
+      "state": "needs_clarification",
+      "count": 0,
+      "partial": 0,
+      "point": null,
+      "save_available": false,
+      "reply": "Only a narrow strip of pavement is visible beside the parked vehicle there. Could you mark a different open space?"
+    }
+  ]
+}

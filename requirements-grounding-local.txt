@@ -13,3 +13,5 @@ huggingface-hub==1.33.0
 tokenizers==0.22.2
 Pillow==11.1.0
 numpy==1.26.4
+# Reproduce the line geometry used in the passenger photo evidence.
+opencv-python==4.11.0.86

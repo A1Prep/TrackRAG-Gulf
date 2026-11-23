@@ -8,6 +8,7 @@ from pathlib import Path
 import re
 import subprocess
 from tempfile import NamedTemporaryFile
+from time import monotonic
 from urllib.parse import urlsplit
 
 from PIL import Image
@@ -15,7 +16,8 @@ from PIL import Image
 from . import manual_surfaces, place_grounding as place
 from .parking_evidence import (MAX_IMAGE_BYTES, ModalParkingBackend, _authenticate, _decode_map,
                                signed_bytes, source_input)
-from .passenger import digest
+from .passenger import digest, unresolved
+from .place_lookup import PlaceLookups
 from .contracts import error_outcome
 from tools.passenger_parking_study import SEG_REVISION
 from tools.passenger_place_call import UNAVAILABLE
@@ -25,6 +27,23 @@ MODELS = {"base":place.BASE,"processor":place.PROCESSOR,"adapter_sha256":place.A
 FINGERPRINTS = {"base_files":"13917d7d3d9b5d7a44775a6744e756b552bc4065bf73d633aa14278a0ac66417",
                 "adapter_files":"6abadf2dd704566e2e1dcf24fb003ba1d7e044d88ee5d5aae9c279e9d573a3e7",
                 "processor_files":"3393482a8a7c6da1ca1fa7eafc95b18b5c5539d72f0fe38b3c8830a5a2a69128"}
+WAIT_METHOD = "public_place_lookup_wait_v1"
+INTERACTIVE_WAIT_SECONDS = 4.0
+WAIT_MESSAGES = {
+    "pending":"I’m still checking this photo. You can mark your spot now or send the same description again in a moment.",
+    "busy":"The photo checker is busy. You can mark your spot now or try this description again shortly.",
+}
+
+
+class PlaceTransportUnavailable(RuntimeError):
+    pass
+
+
+def waiting_outcome(request, image_sha, input_sha, status):
+    return {"ok":True, "request_id":request["request_id"], "result":unresolved(WAIT_MESSAGES[status]),
+            "provenance":{"method":WAIT_METHOD, "reason":status, "operational_status":status,
+                          "request_sha256":digest(request), "inference_input_sha256":input_sha,
+                          "image":{"sha256":image_sha},"independent_model_proposal":False}}
 
 def unavailable(request, image_sha, input_sha):
     return error_outcome("place_service_unavailable", "The place model could not finish this request.",
@@ -105,7 +124,19 @@ def empty_surface_outcome(request, photo, packet):
 
 
 def verify(request, outcome):
-    photo = Path(request["scene"]["frame"]["image_path"]).read_bytes()
+    path = Path(request["scene"]["frame"]["image_path"])
+    if path.stat().st_size > MAX_IMAGE_BYTES:
+        raise ValueError("Photograph is too large")
+    photo = path.read_bytes()
+    if outcome["provenance"].get("method") == WAIT_METHOD:
+        clean, image_sha, input_sha = source_input(request,photo)
+        status = outcome["provenance"].get("operational_status")
+        if (not place.place_reference(clean) or not isinstance(status,str) or status not in WAIT_MESSAGES
+                or outcome != waiting_outcome(clean,image_sha,input_sha,status)):
+            raise ValueError("Place lookup status does not belong to this instruction and original")
+        return {"input_verified":True, "decision_reproduced":False, "model_images_reproduced":False,
+                "language_calls":0, "current_language_calls":0, "surface_model_calls":0,
+                "lookup_status":status, "independent_model_proposal":False}
     if outcome["provenance"].get("method") == SURFACE_ONLY:
         if empty_surface_outcome(request, photo, outcome["provenance"]["surface_evidence"]) != outcome:
             raise ValueError("The signed parking map does not explain this clarification.")
@@ -126,6 +157,7 @@ class PublicPlaceBackend(ModalParkingBackend):
     def __init__(self, sources, python=None, *, cache=None):
         super().__init__(python)
         self.cache=Path(cache) if cache is not None else None
+        self.lookups = PlaceLookups()
         self.allowed = set()
         for path in sources:
             for row in json.loads(Path(path).read_bytes())["photos"]:
@@ -136,17 +168,22 @@ class PublicPlaceBackend(ModalParkingBackend):
                     raise ValueError("Expected an original KartaView photo URL and SHA-256")
                 self.allowed.add((row["sha256"],"kartaview_"+photo[1],int(photo[2])))
 
-    def eligible(self, request):
+    def allows_photo(self, request):
         scene = request["scene"]
         f = scene["frame"]
         return (scene["source"] == "predicted" and
-                (scene["provenance"].get("image_sha256"), f["recording_id"], f["frame_id"]) in self.allowed and
-                bool(place.place_reference(request)))
+                (scene["provenance"].get("image_sha256"), f["recording_id"], f["frame_id"]) in self.allowed)
+
+    def eligible(self, request):
+        return self.allows_photo(request) and bool(place.place_reference(request))
+
+    @staticmethod
+    def repeat_key(request, image_sha):
+        from .data import inference_input_sha256
+        return inference_input_sha256({**request,"request_id":"public-place-repeat"},image_sha)
 
     def cache_path(self, request, image_sha):
-        from .data import inference_input_sha256
-        context = inference_input_sha256({**request,"request_id":"public-place-repeat"},image_sha)
-        return self.cache/(context+".json")
+        return self.cache/(self.repeat_key(request,image_sha)+".json")
 
     def remember(self, request, photo, packet):
         """Cache only authenticated responses for an authorized public input."""
@@ -174,6 +211,7 @@ class PublicPlaceBackend(ModalParkingBackend):
         return verified
 
     def interpret(self, request):
+        deadline = monotonic() + INTERACTIVE_WAIT_SECONDS
         if not self.eligible(request):
             raise ValueError("Only the selected public photographs can use hosted place grounding")
         path = Path(request["scene"]["frame"]["image_path"])
@@ -181,9 +219,14 @@ class PublicPlaceBackend(ModalParkingBackend):
             raise ValueError("Photograph is too large")
         photo = path.read_bytes()
         request, image_sha, input_sha = source_input(request, photo)
+        from . import whole_bay
+        bay = whole_bay.automatic(request, photo)
+        if bay is not None:
+            return bay
+        key = self.repeat_key(request,image_sha)
         if self.cache is not None:
             try:
-                saved=self.cache_path(request,image_sha)
+                saved=self.cache/(key+".json")
                 if saved.stat().st_size<=3_000_000:
                     receipt=json.loads(saved.read_bytes())
                     return build_outcome(request,photo,receipt["packet"],recorded_request_id=receipt["request_id"])
@@ -197,16 +240,33 @@ class PublicPlaceBackend(ModalParkingBackend):
                     return empty
         except (OSError, ValueError, TypeError, KeyError):
             pass  # The normal trained route can obtain fresh evidence for a missing or damaged map.
+        try:
+            status, completed = self.lookups.lookup(key,lambda:self._fetch(request,photo,input_sha),deadline)
+        except PlaceTransportUnavailable:
+            return unavailable(request,image_sha,input_sha)
+        if status != "complete":
+            return waiting_outcome(request,image_sha,input_sha,status)
+        # A prior turn can have a different request ID or local path. Replay its signed inputs and
+        # keep exception/mutation handling local to this passenger's copy of the receipt.
+        original = json.loads(completed)
+        if original["provenance"]["request_sha256"] == digest(request):
+            return original
+        return build_outcome(request,photo,original["provenance"]["place_evidence"],
+                             recorded_request_id=original["request_id"])
+
+    def _fetch(self, request, photo, input_sha):
         payload = {"context":place.current_context(request), "input_sha256":input_sha, "photo":base64.b64encode(photo).decode("ascii")}
         try:
             proc = subprocess.run([self.python,"-m","tools.passenger_place_call"],input=signed_bytes(payload),
                                   cwd=self.root,capture_output=True,timeout=240,
                                   creationflags=getattr(subprocess,"CREATE_NO_WINDOW",0))
-        except (subprocess.TimeoutExpired, OSError):
-            return unavailable(request, image_sha, input_sha)
+        except (subprocess.TimeoutExpired, OSError) as exc:
+            raise PlaceTransportUnavailable("The public place service could not finish") from exc
         if proc.returncode:
-            return unavailable(request, image_sha, input_sha)
-        return self.remember(request,photo,json.loads(proc.stdout))
+            raise PlaceTransportUnavailable("The public place service could not finish")
+        if len(proc.stdout) > 3_000_000:
+            raise ValueError("Oversize public place receipt")
+        return signed_bytes(self.remember(request,photo,json.loads(proc.stdout)))
 
 
 class PlaceDialogueGrounder:
@@ -221,9 +281,21 @@ class PlaceDialogueGrounder:
         return getattr(self.dialogue, name)
 
     def uses_public_service(self, request):
-        return (self.single_vehicle is not None and self.single_vehicle.eligible(request)) or self.backend.eligible(request)
+        from . import bay_intent
+        return ((isinstance(self.backend,PublicPlaceBackend) and self.backend.allows_photo(request) and
+                 bay_intent.parse(request["text"]) is not None) or
+                (self.single_vehicle is not None and self.single_vehicle.eligible(request)) or self.backend.eligible(request))
+
+    def inspect_requested_bay(self, request):
+        from . import whole_bay
+        if isinstance(self.backend,PublicPlaceBackend) and self.backend.allows_photo(request):
+            return whole_bay.explicit_request(request)
+        return None
 
     def interpret(self, request):
+        bay=self.inspect_requested_bay(request)
+        if bay is not None:
+            return bay
         if self.single_vehicle is not None and self.single_vehicle.eligible(request):
             return self.single_vehicle.interpret(request)
         if self.backend.eligible(request):

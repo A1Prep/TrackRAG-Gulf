@@ -572,11 +572,12 @@ class PassengerSession(OriginalPassengerSession):
         from . import qualified_pair
         from . import passenger_parking
         from . import parking_clarification
-        from . import manual_offlane
+        from . import manual_offlane, whole_bay
         base = getattr(self.model, "model", self.model)
         if isinstance(outcome, dict) and outcome.get("ok") is True:
             method=outcome.get("provenance",{}).get("method")
             source_actors={METHOD:"passenger_landmarks", "explicit_passenger_region":"passenger", manual_offlane.METHOD:"passenger",
+                           whole_bay.MARK:"passenger", whole_bay.CHOICE:"passenger", whole_bay.AUTO:"model",
                            "passenger_requested_pointing":"passenger", qualified_pair.METHOD:qualified_pair.ACTOR,
                            passenger_parking.METHOD:passenger_parking.ACTOR,
                            parking_clarification.METHOD:parking_clarification.ACTOR}
@@ -590,7 +591,8 @@ class PassengerSession(OriginalPassengerSession):
                 raise ValueError("Passenger selection source and actual decision method disagree")
             if selected_by == qualified_pair.ACTOR:
                 qualified_pair.validate(base,self._request,outcome)
-            elif outcome.get("result", {}).get("status") == "proposed" and method != manual_offlane.METHOD:
+            elif (outcome.get("result", {}).get("status") == "proposed"
+                  and method not in whole_bay.MANUAL_METHODS and method != whole_bay.AUTO):
                 # Two browser sessions can share the segmentation model and its selected original.
                 with getattr(base,"lock",None) or nullcontext():
                     between_road.validate_offer(base, self._request, outcome, selected_by)

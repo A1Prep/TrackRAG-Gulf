@@ -153,7 +153,7 @@ def test_portable_installer_binds_all_public_photos_to_their_original_frames(tmp
     banks = photos.CORE_BANKS + photos.PLACE_BANKS
     target = photos.write_request_bank(tmp_path, {"photos": entries}, banks)
     records = [json.loads(line) for line in target.read_bytes().splitlines()]
-    assert len(entries) == len(records) == 47
+    assert len(entries) == len(records) == 63
     assert [record["request_id"] for record in records] == [row["id"] for row in entries]
     for record, row in zip(records, entries):
         assert record["scene"]["frame"]["image_path"] == row["sha256"] + ".jpg"

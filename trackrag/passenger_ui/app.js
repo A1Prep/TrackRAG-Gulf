@@ -98,7 +98,7 @@ function response(v, stage) {
     v.turns?.filter(t => t.role === "assistant").at(-1)?.text || "Mark the location on the photo or edit your description."];
   return ["idle", "Where would you like to get out?", ""];
 }
-function legend(v) {
+function legend(v, offerMark) {
   const node = el("legend");
   const pin = v.result?.destination_point_xy && photoState === "ready" && !editing && !session?.voice_stage;
   node.dataset.kind = !photo.active && pin && !pairs.open ? (v.selected_by === "passenger" ? "manual" : "auto") : "none";
@@ -112,6 +112,7 @@ function legend(v) {
     if (v.state === "confirmed") label += " · confirmed";
     if (v.result.anchor_boxes_xyxy?.length === 2 && ["parking_model","passenger_landmarks"].includes(v.selected_by)) label += " · A and B mark the vehicles";
   } else if (!editing && !session?.voice_stage && v.area_landmarks) label = "A and B mark the vehicles";
+  if (offerMark && !photo.zoom) label = v.area_landmarks ? "A and B mark the vehicles · Tap the photo to mark your spot" : "Tap the photo to mark your spot";
   text(node, label);
   return label;
 }
@@ -174,7 +175,8 @@ function render() {
   el("cancel").hidden = !opened || (!stage && (!v.state || v.state === "idle" || terminal(v.state))) || marking;
   el("cancel").disabled = locked;
   pairs.controls(locked || !ready);
-  photo.controls(ready, locked, legend(v));
+  const offerMark = decision && ready && !locked && ["needs_clarification","insufficient_visual_evidence"].includes(v.state);
+  photo.controls(ready, locked, legend(v, offerMark), offerMark);
   paint();
 }
 async function perform(work, message = "", after) {

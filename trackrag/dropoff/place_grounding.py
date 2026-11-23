@@ -15,9 +15,9 @@ ADAPTER = "76bfb3230b17a86248b52ca6a9f8d2ffca324aa80216d6b93845ccb12ad86743"
 PLACE = re.compile(
     r"\b(?:bays?|parking (?:spots?|spaces?|stalls?)|(?:marked|painted|empty) (?:spaces?|stalls?)|"
     r"shopfronts?|storefronts?|shops?|stores?|caf[eé]s?|restaurants?|pharmac(?:y|ies)|hotels?|malls?|supermarkets?|"
-    r"garages?|entrances?|doorways?|gates?|buildings?|receptions?|lobb(?:y|ies)|kiosks?|"
+    r"garages?|entrances?|doorways?|driveways?|forecourts?|villas?|gates?|buildings?|receptions?|lobb(?:y|ies)|kiosks?|"
     r"mosques?|schools?|clinics?|hospitals?|offices?|terminals?|petrol (?:station|pump)s?)\b", re.I)
-VEHICLE = re.compile(r"\b(?:cars?|vehicles?|suvs?|sedans?|taxis?|trucks?|buses|bus|vans?|motorcycles?|"
+VEHICLE = re.compile(r"\b(?:cars?|vehicles?|suvs?|sedans?|taxis?|trucks?|buses|bus|minivans?|vans?|motorcycles?|"
                      r"patrol|camry|land cruiser|corolla|tesla|jeep|lexus|toyota|nissan|honda|bmw|mercedes)\b", re.I)
 VEHICLE_COMPOUND = re.compile(r"\b(?:school bus|hotel (?:shuttle|bus|van)|delivery (?:van|truck))\b", re.I)
 LANDMARK_PHRASE = re.compile(r"\b(?:near|beside|by|at|in front of|next to|behind|in)\s+(?:the|that|this|a|an)\s+", re.I)

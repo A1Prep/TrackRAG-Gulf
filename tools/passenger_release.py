@@ -24,7 +24,8 @@ SEG_HASHES = {
 }
 
 
-PUBLIC_PHOTO_LISTS = ("passenger-uae-parking-photos-20261123.json", "passenger-place-public-photos-20261123.json")
+PUBLIC_PHOTO_LISTS = ("passenger-uae-parking-photos-20261123.json", "passenger-place-public-photos-20261123.json",
+                      "passenger-frontage-photos-20261123.json")
 
 
 def file_hash(path):

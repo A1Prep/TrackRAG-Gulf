@@ -86,6 +86,49 @@ def current_spatial_relation(text):
         r"cars?|trucks?|vans?|buses|bus|pickups?|lanes?|pedestrians?)\b", text)
 
 
+_SCENE_FEATURE = re.compile(
+    r"\b(?:road(?:way)?s?|streets?|highways?|lanes?|junctions?|carriageways?|ramps?|roundabouts?|"
+    r"pavement|asphalt|tarmac|shoulders?|verges?|medians?|curbs?|kerbs?|sidewalks?|crossings?|"
+    r"barriers?|guardrails?|dividers?|railings?|fences?|walls?|edges?|"
+    r"buildings?|towers?|construction|cranes?|structures?|flyovers?|overpasses?|underpasses?|"
+    r"bridges?|viaducts?|columns?|pillars?|gantr(?:y|ies)|signs?|signboards?|boards?|traffic lights?|"
+    r"poles?|trees?|palms?|hedges?|vegetation|sand(?:y)?|grass|sky|sun|horizon|shadows?|"
+    r"brightest (?:spot|part)|(?:the|this) (?:picture|image|view|photograph))\b", re.I)
+_SCENE_LAYOUT = re.compile(
+    r"\b(?:left|right|sides?|above|below|overhead|underneath|beneath|over|under|beside|alongside|"
+    r"where|relative to|in relation to|behind|between|beyond|near|across|toward|ahead|background|foreground|middle|cent(?:er|re)|"
+    r"top|bottom|horizon|bend(?:s|ing)?|curv(?:e|es|ing)|cross(?:es|ing)?|span(?:s|ning)?|"
+    r"straight|next to|in front of|in the open|on top of|at the edge)\b", re.I)
+_OTHER_MOMENT_OR_FACT = re.compile(
+    r"\b(?:why|when|will|would|did|was|were|early|earlier|later|first|last|opening|initial|start|beginning|outset|before|after|"
+    r"previous(?:ly)?|recent(?:ly)?|(?:near|at|towards?) the end|next(?!\s+to\b)|future|ago|yesterday|tomorrow|"
+    r"compare|changes?|changed|mov(?:e|es|ed|ing)|enters?|entered|exits?|exited|"
+    r"seconds?|minutes?|hours?|frames?\s*(?:#|\d)|intent\w*|planned?|expect\w*|caus\w*|"
+    r"weigh\w*|mass|speed|velocity|fast|distance|how (?:far|wide|long|tall|high|deep)|"
+    r"exact(?:ly)?|precisely|met(?:er|re)s?|kilomet(?:er|re)s?|miles?|feet|mph|kmh|coordinates|"
+    r"annotat\w*|ground[ -]truth|tracks?|tracker|detector|predicted)\b", re.I)
+
+
+def unmeasured_scene_quantity(text):
+    """Original images lack a physical scale for road or structure dimensions."""
+    if not _SCENE_FEATURE.search(text) or _matches(r"\b(?:pixels?|printed|written|displayed|readout|scale bar|sign says)\b", text):
+        return False
+    if _matches(r"\b(?:exact|precise|actual)\s+(?:physical\s+)?(?:width|length|height|depth|distance)\b|"
+                r"\b(?:how many|in)\s+(?:met(?:er|re)s?|kilomet(?:er|re)s?|miles?|feet)\b", text):
+        return True
+    return (_matches(r"\bhow (?:far|wide|long|tall|high|deep)\b", text)
+            and not _matches(r"\b(?:how far (?:left|right|up|down)|relative to|compared (?:to|with)|image[ -]plane)\b", text))
+
+
+def current_scene_layout(text):
+    """A present visual relationship in the road scene, independent of any assigned track."""
+    return bool(_SCENE_FEATURE.search(text) and _SCENE_LAYOUT.search(text)
+                and not _OTHER_MOMENT_OR_FACT.search(text) and not requested_frame_ids(text)
+                and not requested_playback_times(text) and not referenced_track_ids(text)
+                and not current_spatial_relation(text) and not _current_object_detail(text)
+                and not supports_track_question(text))
+
+
 def matches_vehicle_class(noun, label):
     label = label.casefold().replace(" ", "_")
     if noun == "vehicle":
@@ -138,7 +181,7 @@ def _object_score(rows, text, dimensions, frame, direction):
     return min(score, 1.0) * (support if not named else 1.0)
 
 
-def rank_evidence(question, index, k=3):
+def rank_evidence(question, index, k=3, *, observation_source=None):
     if type(k) is not int or not 0 <= k <= 3:
         raise ValueError("k must be an integer from 0 through 3")
     cutoff = _validate_question(question, index)
@@ -147,6 +190,22 @@ def rank_evidence(question, index, k=3):
     text = question["question"]
     scope = question_scope(text)
     clock = playback_scope(text, index.recording, cutoff)
+    if unmeasured_scene_quantity(text):
+        return []
+    if not clock and current_scene_layout(text) and not (scope and (scope["opening"] or scope["history"] or scope["boundary"])):
+        # A track on the right in an earlier image cannot answer where the road bends now.
+        # The runner can attest its source even when the detector saw nothing in the prefix.
+        if observation_source is not None and observation_source not in {"predicted", "annotated"}:
+            raise ValueError("Unknown observation source for the current scene.")
+        source = observation_source
+        if any(rows[0]["frame_id"] <= cutoff for rows in index.histories.values()):
+            if source is not None and source != index.source:
+                raise ValueError("The current scene and its observations have different sources.")
+            source = index.source
+        if source is None or cutoff not in available_frame_ids(index.recording, cutoff):
+            return []
+        return [{"recording_id": question["recording_id"], "source": source, "track_id": None,
+                 "start_frame": cutoff, "end_frame": cutoff, "rank": 1, "score": 1.0}]
     if clock:
         if clock["status"] != "available":
             return []

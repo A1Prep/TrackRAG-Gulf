@@ -7,7 +7,7 @@ import re
 from .passenger import digest
 
 
-PARKING = re.compile(r"\bbays?\b|\b(?:(?:parking|empty|open|vacant|available|unoccupied|marked|painted|"
+PARKING = re.compile(r"\bbays?\b|\bparking\s+gaps?\b|\b(?:(?:parking|empty|open|vacant|available|unoccupied|marked|painted|"
                      r"parallel|angled|diagonal|perpendicular)\s+)+(?:spaces?|spots?|stalls?)\b", re.I)
 NAMED_GAP = re.compile(r"\b(?:in|into|at|to)\s+(?:(?:the|that|this|a|an|visible|open|empty)\s+)*"
                        r"(?:space|spot|gap|opening)\s+(?:right\s+)?between\b",re.I)
@@ -32,7 +32,7 @@ FILLER = set(("a an the to by near outside of at in on into from with along and 
               "parallel angled diagonal perpendicular forward off out next beside alongside beyond past after before "
               "behind in front facing between parked visible shown picture photo curbside street road carpark of "
               "there here over toward towards go get would like may end first are is either area somewhere "
-              "kindly dropoff help pick passenger driver").split())
+              "kindly dropoff help pick passenger driver gap gaps").split())
 UNCLEAR_OBS = re.compile(r"\b(?:none|unknown|unclear|possibly|maybe|uncertain|unidentifiable|no|not)\b|[?]")
 PLACE_CATEGORIES = set(("building tower residence residential commercial office entrance door shop restaurant "
                         "cafe pharmacy supermarket market garage hotel school mall clinic kiosk house garden "
@@ -41,6 +41,16 @@ PLACE_CATEGORIES = set(("building tower residence residential commercial office 
 UNSUPPORTED = re.compile(r"\b(?:not|except|excluding|avoid|instead of|across from|opposite|across the "
                          r"(?:(?:main )?road|street)|other side of|no stopping|bus bay|loading bay|"
                          r"wheelchair accessible|disabled|accessible|permit.only|reserved|legal|legally)\b|n['’]t\b")
+NON_DESTINATION = re.compile(r"\b(?:for free|free of charge|free parking|parking is free|paid|metered|fee|fare|"
+                             r"price|unless|if(?! possible\b)|no|never|without|in the way of|"
+                             r"what(?:'s| is)? (?:the )?(?:colou?r|time|make|number|plate|cost|speed)|"
+                             r"how (?:much|many|fast)|(?:is|are) (?:there )?any birds|"
+                             r"(?:tell me|do you know) (?:when|what|how)|"
+                             r"(?:in|into|on|inside) (?:(?:an?|the|this|that|left|right|active|live|travel|"
+                             r"through|driving|main|traffic|bus|bike|bicycle|cycle|turning|fast) )*"
+                             r"(?:lane|carriageway|roadway|crosswalk|junction)|"
+                             r"(?:middle|cent(?:er|re)) (?:of )?(?:(?:the|this|that|active|live|main|through|"
+                             r"traffic|travel) )*(?:street|road|lane|junction|crossing))\b")
 SIDE = re.compile(r"\b(?:(?:on|to)\s+(?:the\s+|our\s+|my\s+|your\s+)?(left|right)(?!\s+of)\b|"
                   r"(left|right)(?:[- ]hand)?\s+(?:side|bay|space|spot|stall)s?\b)")
 ORIENT = {"parallel":"parallel","perpendicular":"perpendicular","diagonal":"angled","angled":"angled"}
@@ -51,6 +61,30 @@ RANK = {"nearest":"nearest","closest":"nearest","farthest":"farthest","furthest"
 
 def _tokens(s):
     return [ALIASES.get(w,w) for w in re.findall(r"[^\W_]+",s.casefold())]
+
+
+def permitted_destination(text):
+    """Reject explicit travel-lane targets and non-location tasks before offering a pictured destination."""
+    if not isinstance(text,str) or not text.strip():
+        return False
+    text = text.casefold().replace("’","'")
+    if re.search(r"\b(?:anywhere|wherever|somewhere)\b",text) and not (
+            RELATION.search(text) or PARKING.search(text) or VEHICLE.search(text)):
+        return False
+    return not (UNSUPPORTED.search(text) or NON_DESTINATION.search(text))
+
+
+def destination_words(text):
+    """Allow a verified bay to satisfy a passenger's landmark or vehicle-relative destination."""
+    if not isinstance(text, str) or parse(text) is not None:
+        return text
+    relation = RELATION.search(text.casefold())
+    if not relation or not re.search(r"\b(?:drop|stop|park|pull|leave me|get out|get off|let me out)\b",text,re.I):
+        return None
+    if UNSUPPORTED.search(text) or not (VEHICLE.search(text.casefold()) or relation.group() in
+            {"beside","next to","near","by","outside","at","in front of","alongside"}):
+        return None
+    return text[:relation.start()] + "in the parking bay " + text[relation.start():]
 
 
 def _kind(name):
@@ -224,7 +258,7 @@ def _brackets(first, second, option, frame):
     return perpendicular<=max(.035,.78*math.hypot(width,height),.24*math.sqrt(distance))
 
 
-def _vehicle_constraint(intent, option, scene, observation):
+def _vehicle_constraint(intent, option, scene, observation, *, faithful=False):
     from .bay_anchors import vehicles
 
     frame=scene["frame"]
@@ -253,6 +287,11 @@ def _vehicle_constraint(intent, option, scene, observation):
         kind,box=nearby[key]
         signed.append((key,kind,box,row.get("appearance")))
     genuine_pair=len(signed)==2 and _brackets(signed[0][2],signed[1][2],option,frame)
+    def appearance_state(spec, appearance, detector_type):
+        if faithful and appearance:
+            from .curb_point_language import _vehicle_match
+            return _vehicle_match((spec.kind,{spec.color} if spec.color else set(),set(),False),appearance)
+        return _vehicle_state(spec,appearance,detector_type)
     if intent.vehicle_relation=="between":
         if len(intent.vehicles)!=2:
             return False
@@ -261,8 +300,10 @@ def _vehicle_constraint(intent, option, scene, observation):
         for first,second in permutations(candidates,2):
             if not _brackets(first[2],second[2],option,frame):
                 continue
-            match=[_vehicle_state(spec,c[3],c[1]) for spec,c in zip(intent.vehicles,(first,second))]
+            match=[appearance_state(spec,c[3],c[1]) for spec,c in zip(intent.vehicles,(first,second))]
             if False not in match:
+                if faithful and not (genuine_pair and True in match):
+                    continue
                 states.append(genuine_pair and all(m is True for m in match))
         return True if any(states) else None if states else False
     if len(intent.vehicles)!=1:
@@ -270,7 +311,7 @@ def _vehicle_constraint(intent, option, scene, observation):
     # A genuine per-vehicle crop is usable for 'beside' without requiring both boxes to bracket.
     observed_ids={v[0] for v in signed}
     pool=signed+[(key,kind,box,None) for key,(kind,box) in nearby.items() if key not in observed_ids]
-    states=[_vehicle_state(intent.vehicles[0],appearance,kind) for _,kind,_,appearance in pool]
+    states=[appearance_state(intent.vehicles[0],appearance,kind) for _,kind,_,appearance in pool]
     if any(v is True for v in states):
         return True
     return None if any(v is None for v in states) else False
@@ -304,6 +345,50 @@ def _area(polygon):
     return abs(sum(a[0]*b[1]-a[1]*b[0] for a,b in zip(polygon,polygon[1:]+polygon[:1])))/2
 
 
+def distinct_destinations(candidates):
+    """Deduplicate overlapping evidence at one location without hiding separate eligible destinations."""
+    import cv2
+    import numpy as np
+
+    distinct = []
+    for option in candidates:
+        polygon = np.asarray(option["polygon"],dtype=np.float32)
+        x,y = option["point"]
+        duplicate = False
+        for earlier in distinct:
+            p,q = earlier["point"]
+            if abs(x-p)<=1 and abs(y-q)<=1:
+                duplicate = True
+                break
+            other = np.asarray(earlier["polygon"],dtype=np.float32)
+            if (cv2.pointPolygonTest(polygon,(float(p),float(q)),False)<0 or
+                    cv2.pointPolygonTest(other,(float(x),float(y)),False)<0):
+                continue
+            smallest = min(abs(cv2.contourArea(polygon)),abs(cv2.contourArea(other)))
+            if smallest>0 and cv2.intersectConvexConvex(polygon,other)[0]>=.65*smallest:
+                duplicate = True
+                break
+        if not duplicate:
+            distinct.append(option)
+    return distinct
+
+
+def one_of_matching_bays(words, supported):
+    """A passenger asking for any one bay can confirm the clearest of the supported alternatives."""
+    if len(supported) < 2:
+        return supported
+    destination = PARKING.search(words)
+    if destination is None:
+        return supported
+    lead = words[:destination.start()]
+    if not re.search(r"\b(?:a|an|any|either|one of the)\s+(?:(?:free|available|clear|empty|open|visible|"
+                     r"marked|painted|unoccupied|parking|parallel|angled|diagonal|perpendicular)\s+)*$",lead,re.I):
+        return supported
+    # Compare only the visible, matched footprints in this camera view. Perspective
+    # makes their image areas unsuitable as estimates of real dimensions.
+    return [max(supported,key=lambda o:(_area(o["polygon"]),o["point"][1]))]
+
+
 def _rank(rank, options, frame):
     if rank in {"nearest","farthest"}:
         if len({_side(o,frame) for o in options})!=1:
@@ -324,13 +409,19 @@ def _rank(rank, options, frame):
     return ordered[0] if abs(key(ordered[0])-key(ordered[1]))>minimum else None
 
 
-def match(words, options, scene, observations, *, require_observed_landmark=True):
+def match(words, options, scene, observations, *, require_observed_landmark=True, strict_words=None):
     """Return fully supported options and separate alternatives that require passenger clarification."""
     from .curbside_bays import RECIPE as parallel_geometry
 
     intent=parse(words)
     if intent is None or intent.blocked or scene.get("source")!="predicted":
         return [],[]
+    strict = strict_words is not None
+    if strict and (not permitted_destination(strict_words) or intent.uncertain):
+        return [],[]
+    if strict:
+        from .curb_point_language import measured_frontages, observed_landmark
+        literal_frontages = measured_frontages(strict_words,intent.frontage_phrases)
     frame=scene["frame"]
     supported,plausible=[],[]
     for option in options:
@@ -346,10 +437,29 @@ def match(words, options, scene, observations, *, require_observed_landmark=True
         obs=(observations or {}).get(digest(option["polygon"]),{})
         phrases=[set(_tokens(part)) for part in str(obs.get("frontage") or "").split("|")
                  if part.strip() and not UNCLEAR_OBS.search(part.casefold())]
-        states=[_frontage_state(terms,phrases) for terms in intent.frontage_phrases]
+        if strict:
+            descriptions=obs.get("descriptions") or {"frontage":str(obs.get("frontage") or "")}
+            states=[]
+            for terms,fields in literal_frontages:
+                state = observed_landmark(terms,descriptions,fields)
+                # A verified measured bay on the requested side can be *shown as a question*
+                # when an adjacent kerb is visible but the requested divider is unverified.
+                # A kerb by itself does not establish a divider, its height, or access.
+                if (state is False and intent.side and side==intent.side and "divider" in terms
+                        and evidence.get("coverage")!="visible_portion"
+                        and evidence.get("recipe")!="visually_checked_parking_components_v1"
+                        and set(terms)<={"low","short","divider"} and
+                        observed_landmark(("curb",),descriptions) is True and
+                        observed_landmark(("divider",),descriptions) is False):
+                    state = None
+                states.append(state)
+        else:
+            states=[_frontage_state(terms,phrases) for terms in intent.frontage_phrases]
         frontage=False if False in states else None if None in states else True
-        anchors=_vehicle_constraint(intent,option,scene,obs) if intent.vehicles else True
+        anchors=_vehicle_constraint(intent,option,scene,obs,faithful=strict) if intent.vehicles else True
         if frontage is False or anchors is False:
+            continue
+        if strict and anchors is None and len(intent.vehicles)==1 and True not in states:
             continue
         # A photo side and an unidentified nearby detection cannot locate a named frontage
         # and its neighbouring vehicle. One identified landmark can justify asking about the other.

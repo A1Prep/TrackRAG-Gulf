@@ -1,0 +1,117 @@
+{
+  "checked_utc": "2026-11-23T21:10:44.141Z",
+  "normal_release": "PassengerSite, local HTTP port 8775",
+  "browser": "Microsoft Edge 158.0.4370.33",
+  "source": "https://kartaview.org/details/66245/146/",
+  "input": "Fresh Windows Microsoft Zira generated speech, mono PCM WAVE, 16 kHz upload and 48 kHz simulated media input created from the same synthesized source. Both used the installed local model; device audio travelled through Edge getUserMedia and the app capture implementation. This does not verify physical audio hardware, browser/site permissions on a user profile, or ASR on natural speakers.",
+  "synthetic_words": "Please let me out beside the parking space on the right.",
+  "wav_upload_sha256": "abb186dd4c40f05f6684a8abe22d338e0a14e6fa207629a6d574f1bcf3912383",
+  "simulated_input_sha256": "611b35da444d6a5d57f2b1a7b673d94038df428fcb5bef9324b6cf717edf2f40",
+  "raw_result_sha256": "b62f50ba5aff6dba4a56eaa7611ceaaf865e7bd921c82d086a9bc79a184080f3",
+  "two_browser_runs": [
+    {
+      "mode": "wav_upload",
+      "raw_reviewed_transcript": "Please let me out beside the parking space on the right",
+      "reviewed_text_sent": "Can you drop me next to the parking spot on the right?",
+      "verified_wav_sha256": "abb186dd4c40f05f6684a8abe22d338e0a14e6fa207629a6d574f1bcf3912383",
+      "reviewed_before_proposal": true,
+      "spent_capture_and_asr_ms": 3215,
+      "submitted_to_render_ms": 891,
+      "destination": [
+        2058.119,
+        1327.806
+      ],
+      "native_outline": [
+        [
+          1606.08,
+          1222.268
+        ],
+        [
+          1973.44,
+          1222.268
+        ],
+        [
+          2636.48,
+          1412.548
+        ],
+        [
+          1910.72,
+          1412.548
+        ]
+      ],
+      "explicit_confirmation": "confirmed",
+      "errors": [],
+      "speech_receipt": {
+        "model_id": "Systran/faster-whisper-small.en",
+        "model_revision": "d1d751a5f8271d482d14ca55d9e2deeebbae577f",
+        "engine": "faster-whisper",
+        "engine_version": "1.2.1",
+        "compute_type": "int8",
+        "device": "cpu",
+        "duration_s": 6.628875,
+        "elapsed_s": 3.15698539999903,
+        "sample_rate_hz": 16000,
+        "channels": 1
+      },
+      "strict_journal_replay": true,
+      "journal_sha256": "0bc7d076c8d5369a3218fe41997d481c443a6524e73a8947ecd84a1764d14b72",
+      "actions": [
+        "opened",
+        "submitted",
+        "confirmed"
+      ]
+    },
+    {
+      "mode": "record_button_with_simulated_device",
+      "raw_reviewed_transcript": "Please let me out beside the parking space on the right.",
+      "reviewed_text_sent": "Can you drop me next to the parking spot on the right?",
+      "verified_wav_sha256": "e74caa3f4aee3f5f3e9c6cffa1dad040241846a441a04cfa26a622fc78016072",
+      "reviewed_before_proposal": true,
+      "spent_capture_and_asr_ms": 8790,
+      "submitted_to_render_ms": 887,
+      "destination": [
+        2058.119,
+        1327.806
+      ],
+      "native_outline": [
+        [
+          1606.08,
+          1222.268
+        ],
+        [
+          1973.44,
+          1222.268
+        ],
+        [
+          2636.48,
+          1412.548
+        ],
+        [
+          1910.72,
+          1412.548
+        ]
+      ],
+      "explicit_confirmation": "confirmed",
+      "errors": [],
+      "speech_receipt": {
+        "model_id": "Systran/faster-whisper-small.en",
+        "model_revision": "d1d751a5f8271d482d14ca55d9e2deeebbae577f",
+        "engine": "faster-whisper",
+        "engine_version": "1.2.1",
+        "compute_type": "int8",
+        "device": "cpu",
+        "duration_s": 5.44,
+        "elapsed_s": 2.639897499999279,
+        "sample_rate_hz": 48000,
+        "channels": 1
+      },
+      "strict_journal_replay": true,
+      "journal_sha256": "5dfd63916a1b0937ec8fd35df3f90c3e576745d36d8140f9c13c1b734c1e9c9e",
+      "actions": [
+        "opened",
+        "submitted",
+        "confirmed"
+      ]
+    }
+  ]
+}

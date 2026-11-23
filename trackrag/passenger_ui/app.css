@@ -27,6 +27,7 @@ main {width:min(100%,1550px);margin:auto;padding:clamp(17px,2.7vw,36px) max(4vw,
 .layout {display:grid;grid-template-columns:minmax(0,1.9fr) minmax(320px,1fr);gap:clamp(14px,1.8vw,26px);align-items:start}
 .card {min-width:0;background:var(--white);border:1px solid var(--line);border-radius:13px}
 .scene-card {overflow:hidden}
+.gallery-shortcut {margin:0 14px 5px;min-height:24px;font-size:.8rem}
 label {display:block;font-size:.88rem;font-weight:650}
 button,select,textarea,input {font:inherit}
 button {color:white;background:var(--pine);border:1px solid var(--pine);border-radius:7px;cursor:pointer;min-height:42px;padding:8px 13px;font-size:.9rem;font-weight:650;line-height:1.2}
@@ -134,6 +135,16 @@ summary {cursor:pointer;font-weight:580}
 .evidence-strip {display:flex;flex-wrap:wrap;gap:12px}
 .evidence-strip a {width:min(190px,100%);color:inherit}
 .evidence-strip img {display:block;width:100%}
+.footage-layout {display:grid;grid-template-columns:minmax(0,1.55fr) minmax(320px,1fr);gap:clamp(14px,1.8vw,26px);align-items:start}
+.footage-layout .review-form {margin:0 0 14px;max-width:none;align-content:start}
+.recording-panel {position:sticky;top:12px}
+.footage-questions {min-width:0}
+.footage-questions #results h2 {margin:8px 0}
+.footage-questions #results>p {margin:0 0 14px}
+.footage-questions #progress {font-size:.88rem;color:var(--quiet)}
+.footage-questions .evidence-strip>div {width:min(180px,100%);display:grid;gap:4px;align-content:start}
+.footage-questions .evidence-strip a {width:auto;font-size:.82rem}
+@media(max-width:860px) {.footage-layout {grid-template-columns:minmax(0,1fr);gap:0}.recording-panel {position:static}}
 @media(max-width:780px) {
   .layout {grid-template-columns:minmax(0,1fr);gap:11px}
   .intro {margin-bottom:13px}

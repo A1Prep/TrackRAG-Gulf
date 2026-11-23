@@ -25,6 +25,7 @@
             <button type="button" id="next-scene" class="icon-button" aria-label="Next road scene" disabled>›</button>
           </div>
         </div>
+        <button type="button" id="next-outlined" class="text-btn gallery-shortcut" hidden>Next photo with a parking outline</button>
         <div id="photo-viewport" class="photo-viewport" aria-label="Road photo">
           <div class="frame"><img id="frame" alt="Selected road scene" draggable="false"><canvas id="overlay" tabindex="-1" aria-label="Original photo" aria-describedby="legend status"></canvas></div>
           <div id="photo-unavailable" class="photo-unavailable" hidden><strong>Photo unavailable</strong><button type="button" id="retry-photo">Reload photo</button></div>
@@ -34,7 +35,7 @@
           <div class="zoom-tools" aria-label="Photo zoom"><button type="button" id="zoom-out" class="icon-button" aria-label="Zoom out" disabled>−</button><output id="zoom-level" aria-label="Zoom level">1×</output><button type="button" id="zoom-in" class="icon-button" aria-label="Zoom in" disabled>+</button></div>
         </div>
         <div id="bay-tools" class="bay-tools" role="group" tabindex="-1" aria-label="Choose a parking bay" hidden>
-          <p>Choose a labelled bay on the photo or use a button.</p>
+          <p>Choose a label on the photo or use a button.</p>
           <div id="bay-buttons" class="button-row"></div>
         </div>
         <div id="draw-tools" class="draw-tools" hidden>
@@ -62,6 +63,7 @@
       <section id="destination-panel" class="card dialogue" aria-labelledby="destination-title">
         <div class="response-heading" aria-live="polite" aria-atomic="true"><span id="state-icon" aria-hidden="true"></span><h2 id="destination-title" tabindex="-1">Where would you like to get out?</h2></div>
         <div id="status" role="status" aria-live="polite"></div>
+        <p id="pictured-landmarks" hidden></p>
         <p id="stopping-note" class="stopping-note" hidden>The driver must check traffic, clearance and stopping rules.</p>
         <p id="error" role="alert" hidden></p>
         <div id="last-request" class="last-request" hidden><span>Your words</span><p></p></div>

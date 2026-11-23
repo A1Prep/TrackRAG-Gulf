@@ -1,0 +1,129 @@
+{
+  "checked_utc": "2026-11-23T21:08:11.323Z",
+  "browser": "Microsoft Edge 158.0.4370.33",
+  "source": "https://kartaview.org/details/66245/146/",
+  "original_size": [
+    2688,
+    1520
+  ],
+  "scope": "Two authentic regular localhost PassengerSite sessions on the same public source; no server mocks. In the fault run the browser interceptor forwarded the mutation to the server, received HTTP 200, then deliberately dropped only the response seen by Edge. Readback had to match the exact current session, UUID, mutation revision, pin and outline.",
+  "raw_result_sha256": "f9443bcc967e787b4770416758eb388726d510746952f577457f1fc28e06fae0",
+  "expectation_from_previously_examined_photo": [
+    2058.119,
+    1327.806
+  ],
+  "control": {
+    "terminal_http_revisions": [
+      [
+        2,
+        "proposed"
+      ],
+      [
+        3,
+        "confirmed"
+      ]
+    ],
+    "milliseconds_to_action_or_readback": [
+      284,
+      198
+    ],
+    "exact_action_uuid_readback_checked": false,
+    "area_posts": 1,
+    "confirm_posts": 1,
+    "native_tap": [
+      1953.233906437425,
+      1275.4037488635981
+    ],
+    "native_pin": [
+      2058.119,
+      1327.806
+    ],
+    "saved_outline": [
+      [
+        1606.08,
+        1222.268
+      ],
+      [
+        1973.44,
+        1222.268
+      ],
+      [
+        2636.48,
+        1412.548
+      ],
+      [
+        1910.72,
+        1412.548
+      ]
+    ],
+    "cancellation_revision": 5,
+    "strict_journal_replay": true,
+    "journal_sha256": "85ac623725ec1a13290b34c51a4343d9b902bbdb046011518cd16a9e0363316e",
+    "journal_events": [
+      "opened",
+      "submitted",
+      "passenger_marked",
+      "confirmed",
+      "submitted",
+      "cancelled"
+    ],
+    "page_errors": []
+  },
+  "fault": {
+    "terminal_http_revisions": [
+      [
+        2,
+        "proposed"
+      ],
+      [
+        3,
+        "confirmed"
+      ]
+    ],
+    "milliseconds_to_action_or_readback": [
+      189,
+      123
+    ],
+    "exact_action_uuid_readback_checked": true,
+    "area_posts": 1,
+    "confirm_posts": 1,
+    "native_tap": [
+      1953.233906437425,
+      1275.4037488635981
+    ],
+    "native_pin": [
+      2058.119,
+      1327.806
+    ],
+    "saved_outline": [
+      [
+        1606.08,
+        1222.268
+      ],
+      [
+        1973.44,
+        1222.268
+      ],
+      [
+        2636.48,
+        1412.548
+      ],
+      [
+        1910.72,
+        1412.548
+      ]
+    ],
+    "cancellation_revision": 5,
+    "strict_journal_replay": true,
+    "journal_sha256": "71c08ae3a687c6c78388e5dc02a5be5e91e5ef3df13e07e5751400de225195b8",
+    "journal_events": [
+      "opened",
+      "submitted",
+      "passenger_marked",
+      "confirmed",
+      "submitted",
+      "cancelled"
+    ],
+    "page_errors": []
+  }
+}

@@ -81,6 +81,15 @@ class SingleVehicleBackend:
         result = self._cached(key, saved, request, data)
         if result is not None:
             return result
+        from . import manual_surfaces
+        surface=manual_surfaces.get_packet(ctx["image_sha256"])
+        if surface is not None:
+            try:
+                empty=vehicle.empty_visible_space(request,data,surface)
+            except (TypeError,ValueError,KeyError):
+                empty=None
+            if empty is not None:
+                return empty
         # Only the short in-memory registry operation holds this lock, never a GPU call.
         with self._index_lock:
             packet = self._memory.get(key)

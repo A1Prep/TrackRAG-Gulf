@@ -7,6 +7,7 @@ import time
 from collections.abc import Callable, Iterable, Sequence
 from contextlib import nullcontext
 from copy import deepcopy
+from functools import partial
 from pathlib import Path
 from typing import Any
 
@@ -236,6 +237,9 @@ def review_recording(
         if "trackrag.retrieval_temporal" in (metadata["configuration"].get("retrieval"),
                                             metadata["configuration"].get("retrieval_adapter")):
             from trackrag.playback_time import playback_scope
+            from trackrag.retrieval_temporal import rank_evidence as rank_temporal
+            if rank_evidence is rank_temporal:
+                rank_evidence = partial(rank_evidence, observation_source=source)
             clocks = {}
             for q in questions:
                 clock = playback_scope(q["question"], recording, q["query_frame"])

@@ -52,15 +52,46 @@ class BayContext(TrainedPlaceReader):
               "size":list(im.size),"current_vehicles_sha256":digest(vehicles),"rows":rows,"appearance":appearance}
         return {"body":body,"signature":self.key.sign(signed_bytes(body)).hex()}
 
+    @modal.method()
+    def describe_points(self, photo, points, source_context):
+        from PIL import Image
+        from trackrag.dropoff import bay_landmarks, curb_points as c
+        from trackrag.dropoff.passenger import digest
+        from trackrag.dropoff.parking_evidence import signed_bytes
+        key = sha256(photo).hexdigest()
+        if key not in self.known or not 1 <= len(points) <= 12:
+            raise ValueError("Unknown public curb input")
+        with Image.open(BytesIO(photo)) as image_file:
+            im=image_file.convert("RGB")
+        rows=[]
+        for point in points:
+            views=[c.view(im,point,close=near) for near in (False,True)]
+            verdict=self.read(c.CHECK,c.WORDS[0],views[0])
+            if verdict.strip().upper().strip(".")=="OPEN":
+                replies=[verdict,*[bay_landmarks.public_phrase(self.read(guide,words,views[1]))
+                                   for guide,words in zip(c.GUIDES[1:],c.WORDS[1:],strict=True)]]
+            else:
+                replies=[verdict,"","",""]
+            rows.append({"point":point,"views":[sha256(v).hexdigest() for v in views],"replies":replies})
+        body={"recipe":c.RECIPE,"model":bay_landmarks.MODELS,"guides":digest([c.GUIDES,c.WORDS]),
+              "image_sha256":key,"source_context":source_context,"rows":rows}
+        return {"body":body,"signature":self.key.sign(signed_bytes(body)).hex()}
+
 
 @app.local_entrypoint()
-def main():
+def main(additional_rows: bool = False, unmarked: bool = False):
     from PIL import Image
     from trackrag.dropoff import bay_anchors as a,manual_surfaces,surface_stalls,whole_bay
     from trackrag.dropoff.contracts import validate_request
     from trackrag.dropoff.parking_evidence import signed_bytes
     from tools.passenger_release import ROOT,PUBLIC_PHOTO_LISTS
-    bank=ROOT/"data/uae-parking-study";cache=ROOT/"runs/model-cache/bay-anchors-v1";cache.mkdir(exist_ok=True,parents=True)
+    from trackrag.dropoff import parking_row_bays,curb_points
+    from trackrag.dropoff.passenger import digest
+    if additional_rows and unmarked:
+        raise ValueError("Choose a single source of parking areas for each observation bank.")
+    bank=ROOT/"data/uae-parking-study"
+    cache=ROOT/"runs/model-cache"/("curb-points-v1" if unmarked else "row-anchors-v1" if additional_rows else "bay-anchors-v1")
+    cache.mkdir(exist_ok=True,parents=True)
     keys={p["sha256"] for f in PUBLIC_PHOTO_LISTS for p in json.loads((ROOT/"experiments/dropoff"/f).read_bytes())["photos"]}
     seen=set();records={};worker=BayContext()
     for line in (bank/"passenger-requests.jsonl").read_bytes().splitlines():
@@ -72,9 +103,23 @@ def main():
         if s is None:continue
         context={"size":list(im.size),"image_sha256":key,
                  "current_boxes":[t["bbox_xyxy"] for t in scene["tracks"] if t["frame_id"]==f["frame_id"]]}
-        opts=whole_bay.visible_stalls(im,manual_surfaces.decode(s,f,key),context,s,surface_stalls.get_packet(key))
+        classes=manual_surfaces.decode(s,f,key)
+        opts=(curb_points.locations(scene,classes) if unmarked else
+              parking_row_bays.candidates(im,classes,context) if additional_rows else
+              whole_bay.visible_stalls(im,classes,context,s,surface_stalls.get_packet(key)))
         if not opts:continue
         path = cache / (key + ".json")
+        if unmarked:
+            try:
+                packet=json.loads(path.read_bytes())
+                curb_points.observations(im,scene,opts,packet)
+            except (OSError,TypeError,KeyError,ValueError):
+                packet=worker.describe_points.remote(photo,[o["point"] for o in opts],digest(curb_points.source_context(scene)))
+            open_count=len(curb_points.observations(im,scene,opts,packet))
+            data=signed_bytes(packet); tmp=path.with_suffix(".tmp"); tmp.write_bytes(data); os.replace(tmp,path)
+            records[key]=data
+            print(f"Inspected {len(seen)}/{len(keys)} originals; {open_count}/{len(opts)} visibly open locations.",flush=True)
+            continue
         try:
             packet = json.loads(path.read_bytes())
             reusable = packet["body"]["recipe"] == a.RECIPE and len(a.observations(im, opts, scene, packet)) == len(opts)
@@ -85,7 +130,8 @@ def main():
         if len(a.observations(im,opts,scene,packet))!=len(opts):raise ValueError("Candidate prompts failed replay.")
         data=signed_bytes(packet);tmp=path.with_suffix(".tmp");tmp.write_bytes(data);os.replace(tmp,path);records[key]=data
         print(f"Inspected {len(seen)}/{len(keys)} original photos; {len(opts)} regions.",flush=True)
-    target=a.BANK.with_suffix(".tmp")
+    output=curb_points.BANK if unmarked else a.ROW_BANK if additional_rows else a.BANK
+    target=output.with_suffix(".tmp")
     with ZipFile(target,"w",ZIP_DEFLATED) as archive:
         for key,data in sorted(records.items()):archive.writestr(key+".json",data)
-    os.replace(target,a.BANK);print(f"Finished {len(seen)} originals, {len(records)} with bay context.",flush=True)
+    os.replace(target,output);print(f"Finished {len(seen)} originals, {len(records)} with bay context.",flush=True)

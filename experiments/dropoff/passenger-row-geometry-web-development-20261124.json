@@ -1,0 +1,418 @@
+{
+  "created_utc": "2026-11-23T20:56:50.711691+00:00",
+  "scope": "Development replays on photos and references the project had previously opened. No human trial or new independent accuracy claim. Normal typed PassengerSite first turns; alternatives remain separate from automatic proposals. Source geometry adds proposals before the unchanged language and obstacle checks.",
+  "detector_sha256": "f383aa37ce7e4e3b1c487c90201902fc2625e5b4bc456e93cc202a980878dc32",
+  "source_diagnostics_sha256": "82109a107a93362708eaee33dcbb5fd483f1faf3f11e224ea267140044a6019a",
+  "photo_attribution": "Public KartaView imagery, original links by case. See each publisher link for contributor attribution. Underlying original images are not redistributed here.",
+  "group_stats": {
+    "P": {
+      "reference_sha256": "6237957a6ad68405ebc234ea88fd2f4f8d720b96a5d3ebe1f2942198b9f9f238",
+      "full_audit_sha256": "4aa91ad867bf17edfb975e168e57667360644da088435ef0d32b2e9ee9780dae",
+      "totals": {
+        "prospective_automatic": {
+          "n": 5,
+          "grades": {
+            "correct_whole_bay": 1,
+            "missed_bay": 1,
+            "displayed_correct_choices_without_a_single_destination": 1,
+            "correct_withhold": 2
+          },
+          "success": 3,
+          "median_seconds": 0.422,
+          "max_seconds": 1.391
+        },
+        "all_automatic": {
+          "n": 5,
+          "grades": {
+            "correct_whole_bay": 1,
+            "missed_bay": 1,
+            "displayed_correct_choices_without_a_single_destination": 1,
+            "correct_withhold": 2
+          },
+          "success": 3,
+          "median_seconds": 0.422,
+          "max_seconds": 1.391
+        }
+      },
+      "audit_failures": []
+    },
+    "W": {
+      "reference_sha256": "cdeb3413e5753486e2297cb1c154ed1f77b61836237def555ea6c319c484ae88",
+      "full_audit_sha256": "5c2c9dd7dc87b862ba5dec5cba6da675d7ac7cf3295f07b79f6ebd84fc99784c",
+      "totals": {
+        "primary_automatic": {
+          "n": 6,
+          "grades": {
+            "missed_bay": 2,
+            "displayed_correct_choices_without_a_single_destination": 1,
+            "correct_withhold": 3
+          },
+          "success": 3,
+          "median_seconds": 0.789,
+          "max_seconds": 5.281
+        },
+        "supplemental_automatic": {
+          "n": 4,
+          "grades": {
+            "missed_bay": 2,
+            "correct_withhold": 1,
+            "operational_error": 1
+          },
+          "success": 1,
+          "median_seconds": 0.75,
+          "max_seconds": 15.25
+        },
+        "all_automatic": {
+          "n": 10,
+          "grades": {
+            "missed_bay": 4,
+            "displayed_correct_choices_without_a_single_destination": 1,
+            "correct_withhold": 4,
+            "operational_error": 1
+          },
+          "success": 4,
+          "median_seconds": 0.789,
+          "max_seconds": 15.25
+        }
+      },
+      "audit_failures": []
+    }
+  },
+  "rows": [
+    {
+      "case": "P01",
+      "expected": "whole_bay",
+      "grade": "correct_whole_bay",
+      "seconds": 0.344,
+      "reason": "visible_bay_matches_stated_anchors",
+      "actual_state": "proposed",
+      "operational_error": null,
+      "choices": 0,
+      "pin": [
+        973.156,
+        1595.977
+      ],
+      "outline_metrics": {
+        "iou": 0.7931,
+        "precision": 0.9176,
+        "coverage": 0.8539,
+        "pin_inside": true,
+        "pass": true
+      },
+      "journal_replayed": true,
+      "source": "https://kartaview.org/details/5231529/132/",
+      "sha256": "78e265faad2f94bbfe80c56cb7f4b33723340268cfb9a4f5829145f69ee06c3a",
+      "geometry": [
+        {
+          "extent": "measured_stall",
+          "kind": "curb_facing_capped_row",
+          "reference_match": true,
+          "reference_iou_precision_coverage": [
+            0.7906280661909115,
+            0.9166591384727645,
+            0.851861912725701
+          ]
+        }
+      ]
+    },
+    {
+      "case": "P02",
+      "expected": "whole_bay",
+      "grade": "missed_bay",
+      "seconds": 0.281,
+      "reason": "no_supported_bay_for_instruction",
+      "actual_state": "needs_clarification",
+      "operational_error": null,
+      "choices": 0,
+      "pin": null,
+      "outline_metrics": null,
+      "journal_replayed": true,
+      "source": "https://kartaview.org/details/3336817/14/",
+      "sha256": "e42cb766f40a42ac9ccd31bb27d446371bf7972f721883fb64c315713baa5f6f",
+      "geometry": [
+        {
+          "extent": "visible_portion",
+          "kind": "repeated_pavement_studs",
+          "reference_match": true,
+          "reference_iou_precision_coverage": [
+            0.7512558532705342,
+            0.9319474058116352,
+            0.7948604249531747
+          ]
+        }
+      ]
+    },
+    {
+      "case": "P03",
+      "expected": "whole_bay",
+      "grade": "displayed_correct_choices_without_a_single_destination",
+      "seconds": 0.422,
+      "reason": "unverified_bay_reference",
+      "actual_state": "needs_clarification",
+      "operational_error": null,
+      "choices": 2,
+      "pin": null,
+      "outline_metrics": null,
+      "journal_replayed": true,
+      "source": "https://kartaview.org/details/3333849/525/",
+      "sha256": "cd4e27b8077b24d36169170a847c9f5d382e9c315ad5bb670cb51ecf6ed40082",
+      "geometry": [
+        {
+          "extent": "visible_portion",
+          "kind": "repeated_pavement_studs",
+          "reference_match": true,
+          "reference_iou_precision_coverage": [
+            0.7211280335861432,
+            0.8802754595498073,
+            0.7995469694042434
+          ]
+        },
+        {
+          "extent": "visible_portion",
+          "kind": "repeated_pavement_studs",
+          "reference_match": true,
+          "reference_iou_precision_coverage": [
+            0.6131704268869498,
+            0.9087796899884748,
+            0.6533849831353664
+          ]
+        }
+      ]
+    },
+    {
+      "case": "P04",
+      "expected": "withhold",
+      "grade": "correct_withhold",
+      "seconds": 0.688,
+      "reason": "parking_fragments_at_vehicles",
+      "actual_state": "needs_clarification",
+      "operational_error": null,
+      "choices": 0,
+      "pin": null,
+      "outline_metrics": null,
+      "journal_replayed": true,
+      "source": "https://kartaview.org/details/5105913/1982/",
+      "sha256": "e6a01b783361da5c8f854ef90c6fb4d9bc6b58f46284af27e51f41e9c4230e43",
+      "geometry": []
+    },
+    {
+      "case": "P05",
+      "expected": "withhold",
+      "grade": "correct_withhold",
+      "seconds": 1.391,
+      "reason": "unsupported",
+      "actual_state": "needs_clarification",
+      "operational_error": null,
+      "choices": 0,
+      "pin": null,
+      "outline_metrics": null,
+      "journal_replayed": true,
+      "source": "https://kartaview.org/details/4728505/60/",
+      "sha256": "b656dfe867d2d0d43d0b7d109e63e62ac84a0b441c10b8b93391be2f4ddbe60e",
+      "geometry": []
+    },
+    {
+      "case": "W01",
+      "expected": "whole_bay",
+      "grade": "missed_bay",
+      "seconds": 0.766,
+      "reason": "no_supported_bay_for_instruction",
+      "actual_state": "needs_clarification",
+      "operational_error": null,
+      "choices": 0,
+      "pin": null,
+      "outline_metrics": null,
+      "journal_replayed": true,
+      "source": "https://kartaview.org/details/5139785/165/",
+      "sha256": "6ae04a49e1e911130e5786a75ed4b74e54aaaec98e873f57b1c2faf24bc82ae8",
+      "geometry": [
+        {
+          "extent": "measured_stall",
+          "kind": "curb_facing_capped_row",
+          "reference_match": true,
+          "reference_iou_precision_coverage": [
+            0.5924064696091715,
+            0.779948022447107,
+            0.7112914516991292
+          ]
+        },
+        {
+          "extent": "measured_stall",
+          "kind": "aisle_to_curb_parking_row",
+          "reference_match": true,
+          "reference_iou_precision_coverage": [
+            0.7202255576212201,
+            0.9512107426310419,
+            0.7478524417202572
+          ]
+        }
+      ]
+    },
+    {
+      "case": "W02",
+      "expected": "whole_bay",
+      "grade": "missed_bay",
+      "seconds": 0.297,
+      "reason": "unverified_bay_reference",
+      "actual_state": "needs_clarification",
+      "operational_error": null,
+      "choices": 1,
+      "pin": null,
+      "outline_metrics": null,
+      "journal_replayed": true,
+      "source": "https://kartaview.org/details/5124937/12/",
+      "sha256": "c4d59cba6fe27a9aa31b27decb3b5c5dd40945ef3e8a89865f325b307e577411",
+      "geometry": [
+        {
+          "extent": "measured_stall",
+          "kind": "aisle_to_curb_parking_row",
+          "reference_match": false,
+          "reference_iou_precision_coverage": [
+            0.4527200470404726,
+            0.6419077247985712,
+            0.6056882784768002
+          ]
+        }
+      ]
+    },
+    {
+      "case": "W03",
+      "expected": "whole_bay",
+      "grade": "displayed_correct_choices_without_a_single_destination",
+      "seconds": 0.391,
+      "reason": "unverified_bay_reference",
+      "actual_state": "needs_clarification",
+      "operational_error": null,
+      "choices": 1,
+      "pin": null,
+      "outline_metrics": null,
+      "journal_replayed": true,
+      "source": "https://kartaview.org/details/5331945/29/",
+      "sha256": "cb01925b9b3beb0377212524b9c02680e777d1371536dc0c373b0a7809eb533a",
+      "geometry": []
+    },
+    {
+      "case": "W04",
+      "expected": "withhold",
+      "grade": "correct_withhold",
+      "seconds": 5.235,
+      "reason": "no_visible_parking_surface",
+      "actual_state": "needs_clarification",
+      "operational_error": null,
+      "choices": 0,
+      "pin": null,
+      "outline_metrics": null,
+      "journal_replayed": true,
+      "source": "https://kartaview.org/details/7199273/176/",
+      "sha256": "53d8ce7e491f3c4fe6e96983eff8c1f15c0f4b26eff6e1dc1f6d860882bf9a0c",
+      "geometry": []
+    },
+    {
+      "case": "W05",
+      "expected": "withhold",
+      "grade": "correct_withhold",
+      "seconds": 5.281,
+      "reason": "no_visible_parking_surface",
+      "actual_state": "needs_clarification",
+      "operational_error": null,
+      "choices": 0,
+      "pin": null,
+      "outline_metrics": null,
+      "journal_replayed": true,
+      "source": "https://kartaview.org/details/5092153/703/",
+      "sha256": "82822b8b140ca1aa39af2772815a3438d5f9ae65b8125c4558027e67877b5ec7",
+      "geometry": []
+    },
+    {
+      "case": "W06",
+      "expected": "withhold",
+      "grade": "correct_withhold",
+      "seconds": 0.812,
+      "reason": "no_visible_parking_surface",
+      "actual_state": "needs_clarification",
+      "operational_error": null,
+      "choices": 0,
+      "pin": null,
+      "outline_metrics": null,
+      "journal_replayed": true,
+      "source": "https://kartaview.org/details/7343369/95/",
+      "sha256": "57fe9aef1fc88a095ea2b011467ad575499e44feedbbd8a5e5ca309c2e5c3128",
+      "geometry": []
+    },
+    {
+      "case": "W07",
+      "expected": "whole_bay",
+      "grade": "missed_bay",
+      "seconds": 0.688,
+      "reason": "no_supported_bay_for_instruction",
+      "actual_state": "needs_clarification",
+      "operational_error": null,
+      "choices": 0,
+      "pin": null,
+      "outline_metrics": null,
+      "journal_replayed": true,
+      "source": "https://kartaview.org/details/5546153/445/",
+      "sha256": "df4b13c0f17548cf0a1911efdbe0f94b00c1299c97a07a6c3783beab3ce2b416",
+      "geometry": [
+        {
+          "extent": "visible_portion",
+          "kind": "aisle_to_curb_parking_row",
+          "reference_match": true,
+          "reference_iou_precision_coverage": [
+            0.8342210356416663,
+            0.8644144017415089,
+            0.9598121612899474
+          ]
+        }
+      ]
+    },
+    {
+      "case": "W08",
+      "expected": "whole_bay",
+      "grade": "missed_bay",
+      "seconds": 0.547,
+      "reason": "no_visible_bay_for_instruction",
+      "actual_state": "needs_clarification",
+      "operational_error": null,
+      "choices": 0,
+      "pin": null,
+      "outline_metrics": null,
+      "journal_replayed": true,
+      "source": "https://kartaview.org/details/5236457/540/",
+      "sha256": "c7dac6799cf84dd6ba0f3a709205f23f481a336ae97547c60206a2ffc722e3ec",
+      "geometry": []
+    },
+    {
+      "case": "W09",
+      "expected": "withhold",
+      "grade": "correct_withhold",
+      "seconds": 0.813,
+      "reason": "no_visible_parking_surface",
+      "actual_state": "needs_clarification",
+      "operational_error": null,
+      "choices": 0,
+      "pin": null,
+      "outline_metrics": null,
+      "journal_replayed": true,
+      "source": "https://kartaview.org/details/5053449/2/",
+      "sha256": "e8de171dafb0a692e499ea75275ca9662171324da732d6cc291fcf941cb250d2",
+      "geometry": []
+    },
+    {
+      "case": "W10",
+      "expected": "withhold",
+      "grade": "operational_error",
+      "seconds": 15.25,
+      "reason": null,
+      "actual_state": "error",
+      "operational_error": "timeout",
+      "choices": 0,
+      "pin": null,
+      "outline_metrics": null,
+      "journal_replayed": true,
+      "source": "https://kartaview.org/details/6267977/1221/",
+      "sha256": "a2f0e3c9a1649193592e0cea6d3107df01599bb7d0aefa5b19a76cc46bff4e55",
+      "geometry": []
+    }
+  ]
+}

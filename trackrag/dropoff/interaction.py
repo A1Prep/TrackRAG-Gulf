@@ -363,6 +363,9 @@ def signed_place_verifier(method, *, live=False):
     if method == "molmo2_frontage_confidence_v1":
         from .frontage_evidence import verify
         return verify
+    if method == "single_vehicle_visible_space_check_v1":
+        from .single_vehicle import verify_empty
+        return verify_empty
     if method == "single_vehicle_behind_parking_v1":
         if live:
             from .single_vehicle import verify_current

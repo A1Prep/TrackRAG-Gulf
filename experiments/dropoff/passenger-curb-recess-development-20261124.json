@@ -1,0 +1,318 @@
+{
+  "created_utc": "2026-11-23T21:05:03.151544+00:00",
+  "scope": "Point-only development diagnostics using already opened independent visual references from eight public UAE drives. The observer was an independent AI judge. These eight photos were subsequently used to develop this geometry and are not an unseen evaluation. W/P are older opened controls. The geometry probe does not exercise language matching, confirmation, the web endpoint, cloud latency or vehicle-size/legality in the physical world.",
+  "source": "Maps replayed against their signed original-file digest, full original dimensions and source-current Task 1 public detections. References are applied only after candidate generation. No new model inference in this diagnostic.",
+  "source_credit": "Grab and KartaView contributors",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
+  "recipe": "measured_vehicle_flanked_parking_recess_v1",
+  "module_sha256": "a7bbfa7bbb779bb236f0d17e404386d955826e3e42cb0ff836ae023eeef9b03f",
+  "independent_reference_sha256": "c7b59143eeb0fbb1226e5d0989db92fa7d49d474a2e9faff52114027a7c1a277",
+  "raw_diagnostic_sha256": "c077742ee2e0c5b5b65d82eab30e31a2110da9e8f185054a02625a788be07891",
+  "geometry_seconds_median": 0.0216,
+  "geometry_seconds_max": 0.04593,
+  "interpretation": {
+    "parking_reference_subset": "H02 flatbed and hatchback, H03 blue SUV and grey car, H04 dark and red cars: three correct point patches on three previously missed paved pull-ins. H05 gravel/terrain withheld, so three of four open unmarked references recovered.",
+    "closed_controls": "H06 occupied row, H07 behind an SUV in traffic, H08 across a median: no new patch on all three. H01 required a whole marked bay and is outside the scope of this point detector. All 15 already opened W/P photos returned no new patch.",
+    "regression_review": "Independent reviewer challenged sub-car-width gaps and a passing bus occluding the entire recess entrance despite a visible centre. Regressions cover measured clearance based on parked neighbours, occlusion and contact with the identified parking component."
+  },
+  "first_eight": [
+    {
+      "case": "H01",
+      "source": "https://kartaview.org/details/7199353/2205/",
+      "sha256": "b2b5aeb414b0b52e47f90118b1cb9daa48d61910ce7e1a112a197ce7084245be",
+      "expected_if_applicable": "whole_bay",
+      "geometry_seconds": 0.03901,
+      "proposals": []
+    },
+    {
+      "case": "H02",
+      "source": "https://kartaview.org/details/980209/34/",
+      "sha256": "a8cb3c5926766d950eca0588e6bdd178e72026f07d5710f027d2e695d6628de2",
+      "expected_if_applicable": "visible_gap",
+      "geometry_seconds": 0.0333,
+      "proposals": [
+        {
+          "point": [
+            2335.5,
+            1811.595
+          ],
+          "patch": [
+            [
+              2309.9,
+              1785.982
+            ],
+            [
+              2361.1,
+              1785.982
+            ],
+            [
+              2361.1,
+              1837.208
+            ],
+            [
+              2309.9,
+              1837.208
+            ]
+          ],
+          "flanking_current_ids": [
+            4,
+            3
+          ],
+          "both_current_tyre_contacts": true,
+          "parking_class": 10,
+          "separate_observed_kerb_sections": 48,
+          "separate_observed_aisle_sections": 48,
+          "observed_sections": 48,
+          "inside_independent_opened_region": [
+            "A"
+          ]
+        }
+      ]
+    },
+    {
+      "case": "H03",
+      "source": "https://kartaview.org/details/7120185/54/",
+      "sha256": "5a9b732bb1a487c9769eba291ff49bf9c0fff286efe7a849a66b296704c8cffa",
+      "expected_if_applicable": "visible_gap",
+      "geometry_seconds": 0.0228,
+      "proposals": [
+        {
+          "point": [
+            2284.3,
+            1435.943
+          ],
+          "patch": [
+            [
+              2250.167,
+              1401.792
+            ],
+            [
+              2318.433,
+              1401.792
+            ],
+            [
+              2318.433,
+              1470.093
+            ],
+            [
+              2250.167,
+              1470.093
+            ]
+          ],
+          "flanking_current_ids": [
+            1,
+            2
+          ],
+          "both_current_tyre_contacts": true,
+          "parking_class": 10,
+          "separate_observed_kerb_sections": 38,
+          "separate_observed_aisle_sections": 38,
+          "observed_sections": 38,
+          "inside_independent_opened_region": [
+            "A"
+          ]
+        }
+      ]
+    },
+    {
+      "case": "H04",
+      "source": "https://kartaview.org/details/7165449/33/",
+      "sha256": "e121d0e57b8fbcba436e01a11989063a027652e2c80fcc5c9b4b89ad4cd673cc",
+      "expected_if_applicable": "visible_gap",
+      "geometry_seconds": 0.02041,
+      "proposals": [
+        {
+          "point": [
+            2318.433,
+            1512.781
+          ],
+          "patch": [
+            [
+              2275.767,
+              1470.093
+            ],
+            [
+              2361.1,
+              1470.093
+            ],
+            [
+              2361.1,
+              1555.468
+            ],
+            [
+              2275.767,
+              1555.468
+            ]
+          ],
+          "flanking_current_ids": [
+            2,
+            1
+          ],
+          "both_current_tyre_contacts": true,
+          "parking_class": 10,
+          "separate_observed_kerb_sections": 124,
+          "separate_observed_aisle_sections": 50,
+          "observed_sections": 124,
+          "inside_independent_opened_region": [
+            "A"
+          ]
+        }
+      ]
+    },
+    {
+      "case": "H05",
+      "source": "https://kartaview.org/details/7199289/14/",
+      "sha256": "032ea529fb20fd7fff661a90456ed1875b849aac1df4da73bc6466c1124c9545",
+      "expected_if_applicable": "visible_gap",
+      "geometry_seconds": 0.0003,
+      "proposals": []
+    },
+    {
+      "case": "H06",
+      "source": "https://kartaview.org/details/444109/36/",
+      "sha256": "51b52d8bac8ef5743305426fd4eead308446d04f79fa65ecdd63566bf32d9e5f",
+      "expected_if_applicable": "withhold",
+      "geometry_seconds": 0.04593,
+      "proposals": []
+    },
+    {
+      "case": "H07",
+      "source": "https://kartaview.org/details/3849837/74/",
+      "sha256": "a85ff634bcd205e61948238e8201d2f78e50b2cc517a7d1d4516250072ec52e8",
+      "expected_if_applicable": "withhold",
+      "geometry_seconds": 0.00032,
+      "proposals": []
+    },
+    {
+      "case": "H08",
+      "source": "https://kartaview.org/details/5200729/338/",
+      "sha256": "a7dec675112e51d79bea0cc0898d511e88287b7f71be11796aadbdad8cb50fc9",
+      "expected_if_applicable": "withhold",
+      "geometry_seconds": 0.00867,
+      "proposals": []
+    }
+  ],
+  "additional_source_checks": [
+    {
+      "case": "P01",
+      "source": "https://kartaview.org/details/5231529/132/",
+      "sha256": "78e265faad2f94bbfe80c56cb7f4b33723340268cfb9a4f5829145f69ee06c3a",
+      "expected_if_applicable": null,
+      "geometry_seconds": 0.00023,
+      "proposals": []
+    },
+    {
+      "case": "P02",
+      "source": "https://kartaview.org/details/3336817/14/",
+      "sha256": "e42cb766f40a42ac9ccd31bb27d446371bf7972f721883fb64c315713baa5f6f",
+      "expected_if_applicable": null,
+      "geometry_seconds": 0.02289,
+      "proposals": []
+    },
+    {
+      "case": "P03",
+      "source": "https://kartaview.org/details/3333849/525/",
+      "sha256": "cd4e27b8077b24d36169170a847c9f5d382e9c315ad5bb670cb51ecf6ed40082",
+      "expected_if_applicable": null,
+      "geometry_seconds": 0.0276,
+      "proposals": []
+    },
+    {
+      "case": "P04",
+      "source": "https://kartaview.org/details/5105913/1982/",
+      "sha256": "e6a01b783361da5c8f854ef90c6fb4d9bc6b58f46284af27e51f41e9c4230e43",
+      "expected_if_applicable": null,
+      "geometry_seconds": 0.02574,
+      "proposals": []
+    },
+    {
+      "case": "P05",
+      "source": "https://kartaview.org/details/4728505/60/",
+      "sha256": "b656dfe867d2d0d43d0b7d109e63e62ac84a0b441c10b8b93391be2f4ddbe60e",
+      "expected_if_applicable": null,
+      "geometry_seconds": 0.01391,
+      "proposals": []
+    },
+    {
+      "case": "W01",
+      "source": "https://kartaview.org/details/5139785/165/",
+      "sha256": "6ae04a49e1e911130e5786a75ed4b74e54aaaec98e873f57b1c2faf24bc82ae8",
+      "expected_if_applicable": null,
+      "geometry_seconds": 0.01647,
+      "proposals": []
+    },
+    {
+      "case": "W02",
+      "source": "https://kartaview.org/details/5124937/12/",
+      "sha256": "c4d59cba6fe27a9aa31b27decb3b5c5dd40945ef3e8a89865f325b307e577411",
+      "expected_if_applicable": null,
+      "geometry_seconds": 0.01859,
+      "proposals": []
+    },
+    {
+      "case": "W03",
+      "source": "https://kartaview.org/details/5331945/29/",
+      "sha256": "cb01925b9b3beb0377212524b9c02680e777d1371536dc0c373b0a7809eb533a",
+      "expected_if_applicable": null,
+      "geometry_seconds": 0.0247,
+      "proposals": []
+    },
+    {
+      "case": "W04",
+      "source": "https://kartaview.org/details/7199273/176/",
+      "sha256": "53d8ce7e491f3c4fe6e96983eff8c1f15c0f4b26eff6e1dc1f6d860882bf9a0c",
+      "expected_if_applicable": null,
+      "geometry_seconds": 0.00022,
+      "proposals": []
+    },
+    {
+      "case": "W05",
+      "source": "https://kartaview.org/details/5092153/703/",
+      "sha256": "82822b8b140ca1aa39af2772815a3438d5f9ae65b8125c4558027e67877b5ec7",
+      "expected_if_applicable": null,
+      "geometry_seconds": 0.00026,
+      "proposals": []
+    },
+    {
+      "case": "W06",
+      "source": "https://kartaview.org/details/7343369/95/",
+      "sha256": "57fe9aef1fc88a095ea2b011467ad575499e44feedbbd8a5e5ca309c2e5c3128",
+      "expected_if_applicable": null,
+      "geometry_seconds": 0.00026,
+      "proposals": []
+    },
+    {
+      "case": "W07",
+      "source": "https://kartaview.org/details/5546153/445/",
+      "sha256": "df4b13c0f17548cf0a1911efdbe0f94b00c1299c97a07a6c3783beab3ce2b416",
+      "expected_if_applicable": null,
+      "geometry_seconds": 0.03431,
+      "proposals": []
+    },
+    {
+      "case": "W08",
+      "source": "https://kartaview.org/details/5236457/540/",
+      "sha256": "c7dac6799cf84dd6ba0f3a709205f23f481a336ae97547c60206a2ffc722e3ec",
+      "expected_if_applicable": null,
+      "geometry_seconds": 0.00027,
+      "proposals": []
+    },
+    {
+      "case": "W09",
+      "source": "https://kartaview.org/details/5053449/2/",
+      "sha256": "e8de171dafb0a692e499ea75275ca9662171324da732d6cc291fcf941cb250d2",
+      "expected_if_applicable": null,
+      "geometry_seconds": 0.00032,
+      "proposals": []
+    },
+    {
+      "case": "W10",
+      "source": "https://kartaview.org/details/6267977/1221/",
+      "sha256": "a2f0e3c9a1649193592e0cea6d3107df01599bb7d0aefa5b19a76cc46bff4e55",
+      "expected_if_applicable": null,
+      "geometry_seconds": 0.0003,
+      "proposals": []
+    }
+  ]
+}

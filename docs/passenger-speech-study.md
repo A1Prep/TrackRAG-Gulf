@@ -50,7 +50,7 @@ WER is total word insertions, deletions and substitutions divided by reference w
 
 ## From a fresh team checkout
 
-Clone the private project’s `task-5-passenger-feature` branch and run these commands from its root using Python 3.11 in a virtual environment. On Linux, the system’s PortAudio development package may be needed to build PyAudio. WAV-only teams can install `requirements-speech.txt` and import their audio.
+Clone the private project’s `main` branch and run these commands from its root using Python 3.11 in a virtual environment. On Linux, the system’s PortAudio development package may be needed to build PyAudio. WAV-only teams can install `requirements-speech.txt` and import their audio.
 
 ```powershell
 python -m pip install -r requirements-speech-capture.txt

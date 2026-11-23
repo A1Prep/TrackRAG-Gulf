@@ -1,6 +1,6 @@
 # Task 3 answerer and Task 5 integration
 
-The contributor's answerer, privacy processor and nine starter questions are preserved from commit `4efa775`. The integration keeps the contributor commit and adds the normal Task 5 handoff, response validation and auditable provider inputs. The root README remains unchanged.
+The contributor's answerer, privacy processor and nine starter questions are preserved from commit `4efa775`. The integration keeps the contributor commit and adds the normal Task 5 handoff, response validation and auditable provider inputs. The final README links the integrated application and the fresh 36-question release check.
 
 ## What is connected
 

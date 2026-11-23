@@ -1,5 +1,7 @@
 # Task 4 local application
 
+For the presentation, use the shared passenger and footage launcher with speech and the optional cloud parking model. Below is the development interface and its independently usable adapters. [Final start command](../README.md#run-the-demonstration)
+
 The local application brings the existing cited footage-QA route and the new
 drop-off dialogue into one browser workspace. It opens exact recorded frames,
 shows destination and landmark overlays, supports typed/audio input and transcript

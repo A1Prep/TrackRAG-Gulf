@@ -4,6 +4,8 @@ Checked against the supplied MAAI 901 and 902 subject outlines on 16 November 20
 
 Updated on 20 November 2026 for the approved passenger drop-off addition and Tuesday, 24 November submission. [Part 2: final project completion](final-completion-part2.md) controls current assignments and the four-day delivery plan. The adopted local NLP training objective is now language-conditioned destination grounding, replacing the earlier separate Qwen-reranker objective. Both application routes remain in scope.
 
+The trained models, verification results and outstanding participant evidence are now recorded against these requirements. [Final technical acceptance](project-release.md)
+
 ## Written requirements and lecturer feedback
 
 MAAI 901 Assessment 3 explicitly includes model training, evaluation, preprocessing and augmentation. It measures LO3, which concerns fine-tuning/customizing pretrained models. See the 901 subject outline, pages 2 and 7–8.

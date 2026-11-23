@@ -3,10 +3,12 @@
 From the prepared laptop checkout, run the following command and open the local page. Each of the two attached recordings has 150 frames. Ten scenes are bookmarked in both sections. The passenger view also opens the optional two-car photograph when installed. Select **Open another frame in this recording** to choose a different recorded frame. The first request that needs Qwen loads the 8B model.
 
 ```powershell
-.\.venv-grounding-local\Scripts\python.exe -m tools.passenger_release start
+.\.venv-grounding-local\Scripts\python.exe -m tools.passenger_release start --require-footage 2 --low-memory --parking-backend modal --port 8775 --vision-cache runs/model-cache/airport-segformer-b0
 ```
 
-[Open the local application](http://127.0.0.1:8765/)
+[Open the local application](http://127.0.0.1:8775/)
+
+The prepared laptop opens the installed UAE photo bank automatically. The release command checks two distinct searchable recordings before starting. On the 4 GB laptop, run one server. The low-memory option releases the 8B worker after each passenger inference and preserves the dialogue and proposal.
 
 For a request between two vehicles, the app checks the current road surface, both vehicle footprints and other detected road users before offering a point. The UAE photo trial records when it asked again and where alternative methods pointed. [Road-area checks and trial results](passenger-uae-road-check.md)
 
@@ -60,10 +62,10 @@ $savedPredictions = "models/passenger-demo-predictions"
 python -m zipfile -e models/passenger-finetuned-emt-tracks-20261122.zip "$savedPredictions"
 python -m tools.dropoff_prepare_scene --data-root "$emtImages" --predictions "$savedPredictions" --vision-config configs/vision/finetuned.json --instructions configs/dropoff/passenger-demo-scenes.jsonl --out runs/passenger-inputs
 python -m tools.dropoff_prepare_passenger_ground --requests runs/passenger-inputs/requests.jsonl --vision-cache models/passenger-support/segformer-b0 --report runs/passenger-road-preparation.json
-python -m tools.passenger_release start --qa-data-root "$emtImages" --qa-predictions "$savedPredictions"
+python -m tools.passenger_release start --qa-data-root "$emtImages" --qa-predictions "$savedPredictions" --require-footage 2 --low-memory --port 8775
 ```
 
-With the default directories shown above, subsequent launches need only `python -m tools.passenger_release start`. Keep the files in `images` alongside the prepared `requests.jsonl` if moving the scene bank. A custom EMT subset must include the recording prefix through the requested frame. A fresh download and the released track files reproduced all ten original demonstration inputs. [Image and scene verification](../experiments/dropoff/passenger-demo-image-verification-20261122.json) · [Private release files](https://github.com/A1Prep/TrackRAG-Gulf/releases/tag/passenger-feature-20261122)
+With the default directories shown above, subsequent launches can use `python -m tools.passenger_release start --require-footage 2 --low-memory --port 8775`. Add `--parking-backend modal` for the cloud parking route. Keep the files in `images` alongside the prepared `requests.jsonl` if moving the scene bank. A custom EMT subset must include the recording prefix through the requested frame. A fresh download and the released track files reproduced all ten original demonstration inputs. [Image and scene verification](../experiments/dropoff/passenger-demo-image-verification-20261122.json) · [Private release files](https://github.com/A1Prep/TrackRAG-Gulf/releases/tag/passenger-feature-20261122)
 
 A fresh GitHub clone on the project laptop generated a proposal behind the white SUV and accepted confirmation of that precise proposal. A second install in that checkout downloaded both model and detector archives from the private release. All 300 original photographs passed validation and all ten prepared inputs matched the originals byte for byte. Both rehearsals shared the laptop’s installed Python environment and pinned base model. [Fresh-checkout evidence](../experiments/dropoff/passenger-fresh-checkout-20261122.json)
 

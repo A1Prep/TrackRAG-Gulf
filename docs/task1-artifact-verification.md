@@ -1,5 +1,7 @@
 # Task 1 trained artifact verification
 
+**20 November update.** Task 1 recovered the raw detections and reproduced detection AP and tracking for both profiles. The 19 November audit below describes the original ZIPs. [Reproduction commands](task1-vision.md) · [Comparison of 2,180 values](../experiments/vision/detection_ap_reproduction_20261120.json)
+
 Verified on 19 November 2026 against Task 1 commit `6ea0e126ef77aa1e9b9c0f1746896a0b2b238e29`. The compact machine-readable record is [the verification summary](../experiments/vision/task5_artifact_verification_20261119.json).
 
 The supplied trained checkpoint loads through the real Task 1 adapter and produces road-user predictions on original EMT images. Its outputs connect to the normal reviewer. The supplied test tracking results have been independently recomputed from the official labels. Full-test detection AP remains an archived result because the prediction ZIPs do not include raw detection files.

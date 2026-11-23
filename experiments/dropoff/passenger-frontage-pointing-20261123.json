@@ -1,0 +1,807 @@
+{
+  "purpose": "Paired blind regression on ten new UAE drives. References are independent AI visual review, not passenger or legal judgments.",
+  "policy": {
+    "date": "2026-11-23",
+    "reference_sha256": "ada0f3242ae7ac8466ad65d19976982e6f8a7125267edf8ad1a94e396700d4e9",
+    "inputs_sha256": "86864666e93ff9f146e50fef71e9fbad639eb6c5f892f8c54105b2a477656471",
+    "model": "allenai/Molmo2-8B@e28fa28597e5ec5e0cca2201dd8ab33d48bc4a1b plus project trained Qwen3-VL-8B and Mapillary Mask2Former",
+    "base": "f98d83366dbd4ecc6eea8d5c5846136e5b32edde",
+    "design": "Keep an existing proposal. For a predicted public single-place instruction withheld by the original, or its local out-of-memory error, use the specialist point. Require the trained crop answer BAY and the centre outside all current road-user boxes. Class 10 requires 75% parking in its local neighbourhood; class 13 requires both an OPEN scene and 85% road. No point when unsupported. Keep transport, evidence and other operational errors as failures. Evaluate questions from every original route.",
+    "promotion": "More correct automatic pins on visible cases than the original, no added pin on an unavailable case, no lost correct original, no added wrong pin or operational error. Never score a tap as automatic.",
+    "files": {
+      "tools/passenger_frontage_pointing.py": "14ce8e0327652012b28f27fe9e8241cf65493ffb69581f2c3d1decde8f9ebcc0",
+      "tools/passenger_place_modal.py": "23509d7a86665fd842be768e09a50911423a5185ac53c0610d8e0b4431d7d9af",
+      "trackrag/dropoff/frontage_verifier.py": "ed721952fc12b9a55ca01c1a0a83c97f1eb084e11db8bc05cd652027deb9da11",
+      "runs/frontage-repair-20261123/check_point.py": "815fa15e99d19ee0c0eb56e730b462bd4c9f238c5ee1fbbb72310dd2529fb8dd"
+    }
+  },
+  "policy_sha256": "553ce8b36271b32076716ed61712fca1382bd1cbe245c921b110988ba5662776",
+  "original_seals": {
+    "release": "c30e1a474d5a00c4feebd5b6f58c52e6b471eecc6d2123f778e1752aaa74626b",
+    "candidate": "17e896d47e520403113c8480618b0a82cca1dd8187eb62879a127e38e1a93e37"
+  },
+  "source_attribution": "© Grab and KartaView Contributors, CC BY-SA 4.0",
+  "license": "https://creativecommons.org/licenses/by-sa/4.0/",
+  "development": "16 previously opened drives, 8 visibly available and 8 unavailable. The specialist raw point was in 6/8 visible references and also pointed on all 8 unavailable scenes. Its self-check answered NO on all 16. The independent dense CLIPSeg location ranker hit 1/8 in leave-one-drive-out development. Neither sole method was selected.",
+  "scoring": "Strict first pin inside the predeclared reference on visible targets. A blocked target requires a no-pin reply. Errors and clicks are separate. Candidate includes the existing first response when the frozen policy retains it.",
+  "decision": "Rejected as an automatic replacement. Neither arm placed a correct first pin on a visible target. The candidate added a wrong pin at Cairo Gourmet.",
+  "cases": [
+    {
+      "id": "curb-01",
+      "words": "Could you drop me just to the left of the Dog Spot sign?",
+      "source": {
+        "image_sha256": "5a9b732bb1a487c9769eba291ff49bf9c0fff286efe7a849a66b296704c8cffa",
+        "recording_id": "kartaview_7120185",
+        "frame_id": 54,
+        "width": 3840,
+        "height": 2160,
+        "photo_url": "https://kartaview.org/details/7120185/54/",
+        "metadata_url": "https://api.kartaview.org/2.0/photo/1718794121",
+        "image_url": "https://cdn.kartaview.org/pr:sharp/aHR0cHM6Ly9zdG9yYWdlMTMub3BlbnN0cmVldGNhbS5vcmcvZmlsZXMvcGhvdG8vMjAyMy80LzIwL3Byb2MvNzEyMDE4NV9hMWYzMWQ1YjM0ZGFhOGYzY2UyZGQxYjM5NDRmYTJkNy5qcGc"
+      },
+      "expected": "propose",
+      "polygons_1000": [
+        [
+          [
+            485.455,
+            655.897
+          ],
+          [
+            505.455,
+            651.05
+          ],
+          [
+            518.182,
+            647.819
+          ],
+          [
+            530.909,
+            639.742
+          ],
+          [
+            543.636,
+            626.817
+          ],
+          [
+            547.273,
+            609.047
+          ],
+          [
+            585.455,
+            612.278
+          ],
+          [
+            630.0,
+            618.74
+          ],
+          [
+            639.091,
+            621.971
+          ],
+          [
+            640.0,
+            670.436
+          ],
+          [
+            641.818,
+            696.284
+          ],
+          [
+            600.0,
+            691.438
+          ],
+          [
+            550.909,
+            680.129
+          ],
+          [
+            505.455,
+            665.59
+          ]
+        ]
+      ],
+      "visual_evidence": "Immediately left of the Dog Spot frontage, the vacant reddish parking area between the blue parked SUV and the small grey parked car is separately bounded by the shop walkway and street. The band under either vehicle or across the street-side pavement is excluded.",
+      "raw_molmo_point_1000": [
+        552,
+        652
+      ],
+      "raw_molmo_inside": true,
+      "molmo_self_check": "NO",
+      "trained_checks": [
+        "OPEN",
+        "BLOCKED"
+      ],
+      "signed_check_sha256": "fb69355836f4de14801c484288aa80d5baedfe7fbc4871de0b38f5bab855d07d",
+      "arms": {
+        "released": {
+          "method": "qwen_landmark_region",
+          "state": "proposed",
+          "reason": null,
+          "point_px": [
+            2606.25,
+            1533.75
+          ],
+          "error": null,
+          "grade": "wrong_pin"
+        },
+        "candidate": {
+          "method": "qwen_landmark_region",
+          "state": "proposed",
+          "reason": null,
+          "point_px": [
+            2606.25,
+            1533.75
+          ],
+          "error": null,
+          "grade": "wrong_pin"
+        }
+      }
+    },
+    {
+      "id": "curb-02",
+      "words": "Could you drop me by those rolls of carpet outside the shop?",
+      "source": {
+        "image_sha256": "576c4df33c560fedfdbd0615e4179dd4247b2d9e1f49197c2e2b0464a3f409ca",
+        "recording_id": "kartaview_6342905",
+        "frame_id": 1320,
+        "width": 3264,
+        "height": 1836,
+        "photo_url": "https://kartaview.org/details/6342905/1320/",
+        "metadata_url": "https://api.kartaview.org/2.0/photo/1651672169",
+        "image_url": "https://cdn.kartaview.org/pr:sharp/aHR0cHM6Ly9zdG9yYWdlMTMub3BlbnN0cmVldGNhbS5vcmcvZmlsZXMvcGhvdG8vMjAyMi8xMS8xOS9wcm9jLzYzNDI5MDVfNjZlMTlfNjM3OGRkNmFjYTg4Yy5qcGc"
+      },
+      "expected": "clarify",
+      "polygons_1000": [],
+      "visual_evidence": "The carpet rolls and boxes sit on a raised shop-front walkway; a work truck and people occupy its near access. The camera-side tarmac curves around the kerb, with no distinguishable vacant off-lane patch at the requested display.",
+      "raw_molmo_point_1000": [
+        352,
+        831
+      ],
+      "raw_molmo_inside": false,
+      "molmo_self_check": "YES",
+      "trained_checks": [
+        "OPEN",
+        "BLOCKED"
+      ],
+      "signed_check_sha256": "9074b530152a19436ea7bd0abf6be6450d93661179fbed9e03dc8779cc729bb5",
+      "arms": {
+        "released": {
+          "method": "trained_qwen_place_with_parking_surface_v3",
+          "state": "needs_clarification",
+          "reason": "no_visible_parking_surface",
+          "point_px": null,
+          "error": null,
+          "grade": "correct_withhold"
+        },
+        "candidate": {
+          "method": "specialist_point_checked_by_finetuned_8b_and_segmentation",
+          "state": "needs_clarification",
+          "reason": "unverified",
+          "point_px": null,
+          "error": null,
+          "grade": "correct_withhold"
+        }
+      }
+    },
+    {
+      "id": "curb-03",
+      "words": "Could you drop me beside the long hedge on the right?",
+      "source": {
+        "image_sha256": "c7dac6799cf84dd6ba0f3a709205f23f481a336ae97547c60206a2ffc722e3ec",
+        "recording_id": "kartaview_5236457",
+        "frame_id": 540,
+        "width": 3840,
+        "height": 2160,
+        "photo_url": "https://kartaview.org/details/5236457/540/",
+        "metadata_url": "https://api.kartaview.org/2.0/photo/1497875689",
+        "image_url": "https://cdn.kartaview.org/pr:sharp/aHR0cHM6Ly9zdG9yYWdlMTMub3BlbnN0cmVldGNhbS5vcmcvZmlsZXMvcGhvdG8vMjAyMi81LzIyL3Byb2MvNTIzNjQ1N19hMzI0ZmU5YWQyOGU0MDY2MjU0OTM1MzFkMDU5MzNmYy5qcGc"
+      },
+      "expected": "propose",
+      "polygons_1000": [
+        [
+          [
+            178.182,
+            646.204
+          ],
+          [
+            229.091,
+            646.204
+          ],
+          [
+            317.273,
+            660.743
+          ],
+          [
+            452.727,
+            680.129
+          ],
+          [
+            611.818,
+            702.746
+          ],
+          [
+            790.0,
+            726.979
+          ],
+          [
+            913.636,
+            735.057
+          ],
+          [
+            996.364,
+            749.596
+          ],
+          [
+            996.364,
+            757.674
+          ],
+          [
+            927.273,
+            770.598
+          ],
+          [
+            829.091,
+            785.137
+          ],
+          [
+            688.182,
+            798.061
+          ],
+          [
+            597.273,
+            799.677
+          ],
+          [
+            464.545,
+            754.443
+          ],
+          [
+            322.727,
+            705.977
+          ],
+          [
+            223.636,
+            667.205
+          ]
+        ]
+      ],
+      "visual_evidence": "A continuous row of visibly unoccupied diagonal white-lined bays occupies the paved strip between the hedge-side raised walkway and the road. The accepted row excludes the moving lane, hedging, kerb, walkway and dashboard.",
+      "raw_molmo_point_1000": [
+        582,
+        745
+      ],
+      "raw_molmo_inside": true,
+      "molmo_self_check": "NO",
+      "trained_checks": [
+        "OPEN",
+        "BAY"
+      ],
+      "signed_check_sha256": "38b558f1130d48c945817eeec0f7aed4742514d7a440d3425bf4fb17bcacb811",
+      "arms": {
+        "released": {
+          "method": "trained_qwen_place_with_parking_surface_v3",
+          "state": "needs_clarification",
+          "reason": "no_visible_parking_surface",
+          "point_px": null,
+          "error": null,
+          "grade": "missed_visible"
+        },
+        "candidate": {
+          "method": "specialist_point_checked_by_finetuned_8b_and_segmentation",
+          "state": "needs_clarification",
+          "reason": "unverified",
+          "point_px": null,
+          "error": null,
+          "grade": "missed_visible"
+        }
+      }
+    },
+    {
+      "id": "curb-04",
+      "words": "Can you let me out by the big Tickit billboard on the corner?",
+      "source": {
+        "image_sha256": "4549afaa313cb102d869866b1abb492b8716804d03859838de5de442a3482b44",
+        "recording_id": "kartaview_6348665",
+        "frame_id": 1076,
+        "width": 3840,
+        "height": 2160,
+        "photo_url": "https://kartaview.org/details/6348665/1076/",
+        "metadata_url": "https://api.kartaview.org/2.0/photo/1653289865",
+        "image_url": "https://cdn.kartaview.org/pr:sharp/aHR0cHM6Ly9zdG9yYWdlMTMub3BlbnN0cmVldGNhbS5vcmcvZmlsZXMvcGhvdG8vMjAyMi8xMS8yNC9wcm9jLzYzNDg2NjVfMDVhMTYwMzFjMzdkYTlkMzNmYjlhZGIxZmQyNTMwZWYuanBn"
+      },
+      "expected": "clarify",
+      "polygons_1000": [],
+      "visual_evidence": "The billboard stands behind a barrier on the far side of a signalised junction. The open asphalt is inside the crossing traffic lanes, with a pedestrian edge and no identifiable off-lane destination at the billboard.",
+      "raw_molmo_point_1000": [
+        748,
+        570
+      ],
+      "raw_molmo_inside": false,
+      "molmo_self_check": "NO",
+      "trained_checks": [
+        "BLOCKED",
+        "BLOCKED"
+      ],
+      "signed_check_sha256": "fbf5c6972180b6aee595c285ad138f4a7a8f173399c5e8554ec5ba89a625e265",
+      "arms": {
+        "released": {
+          "method": "trained_qwen_place_with_parking_surface_v3",
+          "state": "needs_clarification",
+          "reason": "no_visible_parking_surface",
+          "point_px": null,
+          "error": null,
+          "grade": "correct_withhold"
+        },
+        "candidate": {
+          "method": "specialist_point_checked_by_finetuned_8b_and_segmentation",
+          "state": "needs_clarification",
+          "reason": "unverified",
+          "point_px": null,
+          "error": null,
+          "grade": "correct_withhold"
+        }
+      }
+    },
+    {
+      "id": "curb-05",
+      "words": "Could you let me out at Cairo Gourmet on the right?",
+      "source": {
+        "image_sha256": "df4b13c0f17548cf0a1911efdbe0f94b00c1299c97a07a6c3783beab3ce2b416",
+        "recording_id": "kartaview_5546153",
+        "frame_id": 445,
+        "width": 3840,
+        "height": 2160,
+        "photo_url": "https://kartaview.org/details/5546153/445/",
+        "metadata_url": "https://api.kartaview.org/2.0/photo/1531481737",
+        "image_url": "https://cdn.kartaview.org/pr:sharp/aHR0cHM6Ly9zdG9yYWdlMTMub3BlbnN0cmVldGNhbS5vcmcvZmlsZXMvcGhvdG8vMjAyMi83LzcvcHJvYy81NTQ2MTUzXzc1Nzg4YTE3OTdjYzI5N2Y3YTQ4NzRkYTM0YmNlM2QwLmpwZw"
+      },
+      "expected": "propose",
+      "polygons_1000": [
+        [
+          [
+            590.909,
+            841.68
+          ],
+          [
+            707.273,
+            801.292
+          ],
+          [
+            732.727,
+            791.599
+          ],
+          [
+            751.818,
+            786.753
+          ],
+          [
+            832.727,
+            807.754
+          ],
+          [
+            900.0,
+            819.063
+          ],
+          [
+            996.364,
+            838.449
+          ],
+          [
+            996.364,
+            962.843
+          ],
+          [
+            884.545,
+            954.766
+          ],
+          [
+            837.273,
+            948.304
+          ],
+          [
+            790.909,
+            935.38
+          ],
+          [
+            709.091,
+            893.376
+          ],
+          [
+            632.727,
+            857.835
+          ]
+        ]
+      ],
+      "visual_evidence": "The orange parking sign and white outlines identify the empty shop-front parking bays immediately on the near side of the grey SUV. A pin belongs on the vacancy's interior, not the occupied adjacent stall or the adjoining travel lane.",
+      "raw_molmo_point_1000": [
+        529,
+        792
+      ],
+      "raw_molmo_inside": false,
+      "molmo_self_check": "NO",
+      "trained_checks": [
+        "BLOCKED",
+        "BAY"
+      ],
+      "signed_check_sha256": "6a0230a49457d32c22cb49c09af4409096612f700d2a878d4460a41ecaa60747",
+      "arms": {
+        "released": {
+          "method": "qwen_landmark_region",
+          "state": "error",
+          "reason": null,
+          "point_px": null,
+          "error": {
+            "code": "resource_unavailable",
+            "message": "Local worker generate failure: RuntimeError: CUDA error: out of memory\nCUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.\nFor debugging consider passing CUDA_LAUNCH_BLOCKING=1\nCompile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.\n"
+          },
+          "grade": "error"
+        },
+        "candidate": {
+          "method": "specialist_point_checked_by_finetuned_8b_and_segmentation",
+          "state": "proposed",
+          "reason": "matched",
+          "point_px": [
+            2031.36,
+            1710.72
+          ],
+          "error": null,
+          "grade": "wrong_pin"
+        }
+      }
+    },
+    {
+      "id": "curb-06",
+      "words": "Drop me outside the blue auto repair workshop up on the right, please.",
+      "source": {
+        "image_sha256": "d6219bd62cb3eb77119a72473ad133ce125ad8b02645d2bdc44f817590764203",
+        "recording_id": "kartaview_5098777",
+        "frame_id": 73,
+        "width": 3264,
+        "height": 1836,
+        "photo_url": "https://kartaview.org/details/5098777/73/",
+        "metadata_url": "https://api.kartaview.org/2.0/photo/1477142361",
+        "image_url": "https://cdn.kartaview.org/pr:sharp/aHR0cHM6Ly9zdG9yYWdlMTMub3BlbnN0cmVldGNhbS5vcmcvZmlsZXMvcGhvdG8vMjAyMi80LzIyL3Byb2MvNTA5ODc3N18yNTc0NzM5ZDMyNDVlN2UyZGNmMDNiNTdkM2E5NmU3Mi5qcGc"
+      },
+      "expected": "propose",
+      "polygons_1000": [
+        [
+          [
+            692.727,
+            516.963
+          ],
+          [
+            721.818,
+            510.501
+          ],
+          [
+            766.364,
+            504.039
+          ],
+          [
+            803.636,
+            505.654
+          ],
+          [
+            839.091,
+            500.808
+          ],
+          [
+            855.455,
+            484.653
+          ],
+          [
+            900.0,
+            476.575
+          ],
+          [
+            935.455,
+            478.191
+          ],
+          [
+            944.545,
+            491.115
+          ],
+          [
+            979.091,
+            491.115
+          ],
+          [
+            996.364,
+            492.73
+          ],
+          [
+            996.364,
+            613.893
+          ],
+          [
+            933.636,
+            591.276
+          ],
+          [
+            830.0,
+            563.813
+          ],
+          [
+            752.727,
+            539.58
+          ]
+        ]
+      ],
+      "visual_evidence": "The workshop has a screen-right paved forecourt off the multi-lane road. Its visible unoccupied apron lies in front of the parked 4x4 and to its right, behind the angled boundary with the main road. Vehicle bodies and the moving lane are excluded.",
+      "raw_molmo_point_1000": [
+        798,
+        538
+      ],
+      "raw_molmo_inside": true,
+      "molmo_self_check": "NO",
+      "trained_checks": [
+        "OPEN",
+        "BLOCKED"
+      ],
+      "signed_check_sha256": "550d237e1767b06b71e339e905daf832034c161bd12e1c22e34578479465d0df",
+      "arms": {
+        "released": {
+          "method": "qwen_landmark_region",
+          "state": "error",
+          "reason": null,
+          "point_px": null,
+          "error": {
+            "code": "resource_unavailable",
+            "message": "Local model worker exited without a response (exit code None)"
+          },
+          "grade": "error"
+        },
+        "candidate": {
+          "method": "qwen_landmark_region",
+          "state": "error",
+          "reason": null,
+          "point_px": null,
+          "error": {
+            "code": "resource_unavailable",
+            "message": "Local model worker exited without a response (exit code None)"
+          },
+          "grade": "error"
+        }
+      }
+    },
+    {
+      "id": "curb-07",
+      "words": "Could you let me out by the shops under that big number four on the left?",
+      "source": {
+        "image_sha256": "0420006fe0b85512c7224deb7d1d266e8b9db2c5a535f66b27a32821c0633089",
+        "recording_id": "kartaview_3849789",
+        "frame_id": 98,
+        "width": 1920,
+        "height": 1080,
+        "photo_url": "https://kartaview.org/details/3849789/98/",
+        "metadata_url": "https://api.kartaview.org/2.0/photo/1377970121",
+        "image_url": "https://cdn.kartaview.org/pr:sharp/aHR0cHM6Ly9zdG9yYWdlMTMub3BlbnN0cmVldGNhbS5vcmcvZmlsZXMvcGhvdG8vMjAyMS85LzIxL3Byb2MvMzg0OTc4OV9lMDZlZF82MTRhMTEzZDZlNDhmLmpwZw"
+      },
+      "expected": "clarify",
+      "polygons_1000": [],
+      "visual_evidence": "The storefront sits behind a raised pedestrian apron, with posts and merchandise; the asphalt on the approach splits into two moving lanes around a kerbed island. The separate covered vehicle row is occupied beside this frontage. An open marked or recessed space at the quoted shop cannot be identified.",
+      "raw_molmo_point_1000": [
+        602,
+        559
+      ],
+      "raw_molmo_inside": false,
+      "molmo_self_check": "NO",
+      "trained_checks": [
+        "BLOCKED",
+        "UNKNOWN"
+      ],
+      "signed_check_sha256": "be34208d097ef78c49cc377133cac7a51ce64d24aded76e95adbb0f0ead9a516",
+      "arms": {
+        "released": {
+          "method": "trained_qwen_place_with_parking_surface_v3",
+          "state": "needs_clarification",
+          "reason": "location_blocked",
+          "point_px": null,
+          "error": null,
+          "grade": "correct_withhold"
+        },
+        "candidate": {
+          "method": "specialist_point_checked_by_finetuned_8b_and_segmentation",
+          "state": "needs_clarification",
+          "reason": "unverified",
+          "point_px": null,
+          "error": null,
+          "grade": "correct_withhold"
+        }
+      }
+    },
+    {
+      "id": "curb-08",
+      "words": "I'd like to get out outside the Fusion shop on the right.",
+      "source": {
+        "image_sha256": "88cc304edc4b1232912979a59870954915b8e8dc51de853d45e2b5315b2f95be",
+        "recording_id": "kartaview_5095849",
+        "frame_id": 996,
+        "width": 3264,
+        "height": 1836,
+        "photo_url": "https://kartaview.org/details/5095849/996/",
+        "metadata_url": "https://api.kartaview.org/2.0/photo/1477025097",
+        "image_url": "https://cdn.kartaview.org/pr:sharp/aHR0cHM6Ly9zdG9yYWdlMTMub3BlbnN0cmVldGNhbS5vcmcvZmlsZXMvcGhvdG8vMjAyMi80LzIyL3Byb2MvNTA5NTg0OV9mMjhmNmI4ZmIzYTJhNDhhOTA5OWM4YTNiM2MzMTYyYi5qcGc"
+      },
+      "expected": "clarify",
+      "polygons_1000": [],
+      "visual_evidence": "The shop-front vehicle row is continuously occupied at Fusion. A raised kerb island and the travel lane border the row. The visible asphalt behind the bumpers is not a separate empty bay.",
+      "raw_molmo_point_1000": [
+        629,
+        731
+      ],
+      "raw_molmo_inside": false,
+      "molmo_self_check": "NO",
+      "trained_checks": [
+        "BLOCKED",
+        "BLOCKED"
+      ],
+      "signed_check_sha256": "3638a6f671510f0b3272be632da33dd0ef0a7d4158146799d21ec5c2658682be",
+      "arms": {
+        "released": {
+          "method": "trained_qwen_place_with_parking_surface_v3",
+          "state": "needs_clarification",
+          "reason": "no_visible_parking_surface",
+          "point_px": null,
+          "error": null,
+          "grade": "correct_withhold"
+        },
+        "candidate": {
+          "method": "specialist_point_checked_by_finetuned_8b_and_segmentation",
+          "state": "needs_clarification",
+          "reason": "unverified",
+          "point_px": null,
+          "error": null,
+          "grade": "correct_withhold"
+        }
+      }
+    },
+    {
+      "id": "curb-09",
+      "words": "Can you leave me by the yellow Hertz sign on the right?",
+      "source": {
+        "image_sha256": "8321f9007c4e1c8de9b4d804ea5cd8cccb77d5c4e6316cba190b1cb8d8b22865",
+        "recording_id": "kartaview_5299801",
+        "frame_id": 24,
+        "width": 3264,
+        "height": 1836,
+        "photo_url": "https://kartaview.org/details/5299801/24/",
+        "metadata_url": "https://api.kartaview.org/2.0/photo/1507925001",
+        "image_url": "https://cdn.kartaview.org/pr:sharp/aHR0cHM6Ly9zdG9yYWdlMTMub3BlbnN0cmVldGNhbS5vcmcvZmlsZXMvcGhvdG8vMjAyMi82LzQvcHJvYy81Mjk5ODAxX2FkYWYwXzYyOWIzMTljYzQ4M2MuanBn"
+      },
+      "expected": "clarify",
+      "polygons_1000": [],
+      "visual_evidence": "Steps, a raised pedestrian frontage and planters separate the Hertz shop from the arrowed drive aisle. A vacant off-lane spot is not visible at the signed shop in this image.",
+      "raw_molmo_point_1000": [
+        352,
+        695
+      ],
+      "raw_molmo_inside": false,
+      "molmo_self_check": "NO",
+      "trained_checks": [
+        "BLOCKED",
+        "BLOCKED"
+      ],
+      "signed_check_sha256": "a7607a501bfca8b2c85d6257a3af269faddccf61addbc11f96abb450a5dd17d3",
+      "arms": {
+        "released": {
+          "method": "trained_qwen_place_with_parking_surface_v3",
+          "state": "needs_clarification",
+          "reason": "no_visible_parking_surface",
+          "point_px": null,
+          "error": null,
+          "grade": "correct_withhold"
+        },
+        "candidate": {
+          "method": "specialist_point_checked_by_finetuned_8b_and_segmentation",
+          "state": "needs_clarification",
+          "reason": "unverified",
+          "point_px": null,
+          "error": null,
+          "grade": "correct_withhold"
+        }
+      }
+    },
+    {
+      "id": "curb-10",
+      "words": "Could you let me out at the black and gold gate on the left?",
+      "source": {
+        "image_sha256": "d71ea4fdb3a5e8c6ae6fcd442618b9975ece3aa772539c1d354a1eb6a310ddbd",
+        "recording_id": "kartaview_1164973",
+        "frame_id": 76,
+        "width": 3840,
+        "height": 2160,
+        "photo_url": "https://kartaview.org/details/1164973/76/",
+        "metadata_url": "https://api.kartaview.org/2.0/photo/226815791",
+        "image_url": "https://cdn.kartaview.org/pr:sharp/aHR0cHM6Ly9zdG9yYWdlNy5vcGVuc3RyZWV0Y2FtLm9yZy9maWxlcy9waG90by8yMDE4LzQvMTMvcHJvYy8xMTY0OTczXzVhNWJkXzEzLmpwZw"
+      },
+      "expected": "propose",
+      "polygons_1000": [
+        [
+          [
+            0.909,
+            749.596
+          ],
+          [
+            53.636,
+            749.596
+          ],
+          [
+            98.182,
+            757.674
+          ],
+          [
+            153.636,
+            778.675
+          ],
+          [
+            217.273,
+            801.292
+          ],
+          [
+            270.909,
+            819.063
+          ],
+          [
+            319.091,
+            840.065
+          ],
+          [
+            330.909,
+            848.142
+          ],
+          [
+            242.727,
+            888.53
+          ],
+          [
+            152.727,
+            930.533
+          ],
+          [
+            68.182,
+            970.921
+          ],
+          [
+            13.636,
+            993.538
+          ],
+          [
+            0.909,
+            993.538
+          ]
+        ]
+      ],
+      "visual_evidence": "The decorated gate identifies the pale paved vehicle apron on the left. Its outer edge meets the road through a lowered kerb. The polygon ends before the bin, lawn, raised kerbstones or moving lane.",
+      "raw_molmo_point_1000": [
+        127,
+        852
+      ],
+      "raw_molmo_inside": true,
+      "molmo_self_check": "NO",
+      "trained_checks": [
+        "BLOCKED",
+        "BLOCKED"
+      ],
+      "signed_check_sha256": "a37ce488eaf3b7b8d6b2db5727364624b7982b57858f573b2287cf89f876bf1f",
+      "arms": {
+        "released": {
+          "method": "trained_qwen_place_with_parking_surface_v3",
+          "state": "needs_clarification",
+          "reason": "no_visible_parking_surface",
+          "point_px": null,
+          "error": null,
+          "grade": "missed_visible"
+        },
+        "candidate": {
+          "method": "specialist_point_checked_by_finetuned_8b_and_segmentation",
+          "state": "needs_clarification",
+          "reason": "unverified",
+          "point_px": null,
+          "error": null,
+          "grade": "missed_visible"
+        }
+      }
+    }
+  ]
+}

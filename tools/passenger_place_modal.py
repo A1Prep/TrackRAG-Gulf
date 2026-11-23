@@ -99,6 +99,33 @@ class PassengerPlaces:
         return self.processor.batch_decode(result[:,tokens:],skip_special_tokens=True)[0].strip().upper()
 
     @modal.method()
+    def check_frontage_point(self, photo, key, words, point):
+        from PIL import Image
+        from trackrag.dropoff import frontage_verifier as checks
+        from trackrag.dropoff.parking_evidence import MAX_IMAGE_BYTES, MAX_IMAGE_PIXELS, map_shape, signed_bytes
+        from trackrag.dropoff.place_grounding import call_identity
+        if (not isinstance(photo,bytes) or len(photo)>MAX_IMAGE_BYTES or sha256(photo).hexdigest()!=key
+                or not isinstance(words,str) or not 1<=len(words)<=1600):
+            raise ValueError("Invalid frontage request")
+        with Image.open(BytesIO(photo)) as src:
+            if src.width*src.height>MAX_IMAGE_PIXELS:
+                raise ValueError("Photograph too large")
+            original=src.convert("RGB")
+        calls=[]
+        for stage,guide,xy in (("scene",checks.SCENE,None),("surface",checks.SURFACE,point)):
+            pixels=checks.photo_view(original,xy)
+            reply=self.read(guide,words,pixels)
+            calls.append({**call_identity(stage,guide,words,pixels),"response":reply})
+        classes,_=self.segmenter.predict(original,map_shape({"width":original.width,"height":original.height}))
+        png=BytesIO()
+        Image.fromarray(classes).save(png,format="PNG")
+        packed=png.getvalue()
+        body={"recipe":"frontage_point_crop_check_v1","model":"trained_qwen3_vl_8b","image_sha256":key,
+              "words":words,"point_1000":point,"calls":calls,
+              "class_map":{"sha256":sha256(packed).hexdigest(),"png":base64.b64encode(packed).decode("ascii")}}
+        return {"body":body,"signature":self.key.sign(signed_bytes(body)).hex()}
+
+    @modal.method()
     def interpret(self, context, input_sha, photo):
         from PIL import Image
         from trackrag.dropoff import place_grounding as place

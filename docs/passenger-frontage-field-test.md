@@ -1,5 +1,19 @@
 # Passenger drop-off at UAE storefronts and driveways
 
+## Can a dedicated pointing model find the ground?
+
+On a subsequent ten-photo test, Molmo2-8B pointed inside four of five independently marked visible targets. It also produced a point on all five blocked frontages. Its own image check rejected all four accurate suggestions. Giving the trained Qwen3-VL-8B a full scene and an enlarged crop, then checking the exact pixel against Mapillary parking and road classes, still yielded zero accurate first pins. It added a wrong pin at Cairo Gourmet. This experiment therefore stayed outside the automatic release. [Per-photo outputs, polygons, original sources and frozen scoring rule](../experiments/dropoff/passenger-frontage-pointing-20261123.json)
+
+![Three UAE street scenes with the model point and the independently marked area](passenger-frontage-pointing-check.jpg)
+
+The reference polygons represent independent visual review. A real passenger's intention requires their own words and confirmation. Photos by © Grab and KartaView Contributors, resized and annotated under [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/).
+
+The exercise also uncovered a separate routing bug. “At Cairo Gourmet”, “outside the blue auto repair workshop” and “to the left of the Dog Spot sign” sent three place requests to the laptop fallback. Two exhausted its memory and one produced a wrong pin. After correcting how the app recognises business names and spatial phrases, all three returned a clarification through the regular public-photo model. These three replays use already-opened test cases.
+
+The field trials used publicly attributed originals and model calls on Modal. `tools.passenger_frontage_weights` downloads the pinned research weights to the workspace volume. `tools.passenger_frontage_pointing` reproduces the pointing trial and `tools.passenger_frontage_surfaces` generates the separate CLIPSeg maps. Each tool checks the public source manifest and original SHA-256 before uploading a photograph. The release also verifies the exact photograph and request before it accepts a manual correction after a place-service outage.
+
+## Previous two cohorts
+
 On 16 new UAE drives, the released app placed its first pin inside **0 of 8 visible targets** and asked for clarification on **all 8 blocked or ambiguous scenes**. After we opened the reference areas, one scripted passenger mark per visible target produced **8 of 8 confirmed pins inside those areas**. This measures two different operations. The first tests whether the app can locate the target by itself. The second tests whether it can preserve a passenger’s choice, check for road support and obtain confirmation. [Case results and first-response records](../experiments/dropoff/passenger-frontage-results-20261123.json)
 
 ## Try it in the regular app

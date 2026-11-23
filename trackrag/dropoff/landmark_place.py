@@ -2,7 +2,6 @@
 from io import BytesIO
 import re
 
-import numpy as np
 from PIL import Image, ImageDraw
 
 from .passenger import proposed, unresolved
@@ -14,24 +13,25 @@ REFERENCE = (
     "or row, as distinct from the place where a car would stop. If it is missing or ambiguous reply NONE. "
     "Otherwise return only x,y as two integers on a 0 to 1000 scale. Origin is the top left."
 )
-GROUND = (
-    "This is a closer crop of the passenger's landmark, marked by a small cyan ring. Identify the centre "
-    "of an unoccupied area for a vehicle immediately beside the named landmark. Look for a marked parking "
-    "space, a strip outside the traffic lane, or a vehicle entrance apron connected to this street. "
-    "The dot is the landmark, not the destination. If its frontage is full, behind a barrier, across "
-    "a divider, on a pedestrian area, or only a moving lane is visible, return NONE. Otherwise return "
-    "only the destination point x,y as two integers from 0 to 1000 relative to THIS crop, top left origin."
+SURFACE = (
+    "The cyan ring marks the passenger's likely landmark. A vehicle may only be shown a requested spot "
+    "if a distinct, visibly empty vehicle parking bay or row is present immediately by that particular "
+    "landmark. One clearly empty stall is sufficient, even when other stalls have vehicles in them. Inspect the surrounding ground, occupied stalls, curb, pedestrian-only paving "
+    "and lines or dividers across the route. If you see empty marked stalls beside that landmark reply "
+    "EMPTY. Otherwise reply OCCUPIED, WALKWAY, TRAFFIC, DIVIDED, WRONG or UNCLEAR. Return one word."
 )
 VERIFY = (
-    "Inspect a passenger's tentative drop-off on the whole photo above and a close view below. Cyan marks "
-    "the requested landmark. The small yellow ring marks the exact proposed ground. Does its CENTRE fall "
-    "inside an empty off-lane vehicle parking space, curb pocket or entrance driveway apron adjacent to "
-    "this specific landmark? Check painted edges, bollards, parked vehicles and the connection to the "
-    "camera's street. A visible sign alone is insufficient. Return BAY, APRON, LANE, SIDEWALK, OCCUPIED, "
-    "DIVIDED, WRONG or UNCLEAR. Use BAY or APRON only if the marked centre actually lies inside it."
+    "Top: original street view. Bottom: enlarged original pixels around the yellow ring. Cyan marks "
+    "the passenger's landmark and yellow marks the exact proposed ground. Is the centre of the yellow "
+    "ring INSIDE a distinct vacant vehicle parking bay in the row next to this landmark? Look for the "
+    "boundaries of an actual stall or row, including its curb or painted lines. A free patch behind a "
+    "parked car, pedestrian pavement, an access aisle, or ground beyond posts is not an empty bay. "
+    "Only mark OCCUPIED if a vehicle occupies the same stall, not if a car is visible in another stall. "
+    "Return only INSIDE, OCCUPIED, WALKWAY, TRAFFIC, DIVIDED, WRONG or UNCLEAR."
 )
-OBSCURED = "I can’t identify that landmark clearly. Could you name another landmark or mark the spot on the photo?"
-NO_GROUND = "I found a possible landmark, but I can’t identify an empty pull-in beside it. Could you mark the area you mean or describe another spot?"
+REJECT = {"OCCUPIED", "WALKWAY", "TRAFFIC", "DIVIDED", "WRONG", "UNCLEAR"}
+OBSCURED = "I couldn’t identify that landmark clearly. Could you name another landmark or mark the spot on the photo?"
+NO_GROUND = "I couldn’t verify an open bay beside that landmark. Could you mark where you mean or describe another spot?"
 
 
 def xy(reply, size):
@@ -60,41 +60,45 @@ def marked(original, window, marks, bounds):
     return image
 
 
-def steps(context, classes, original):
+def steps(original, options):
     w, h = original.size
     full = (0, 0, w, h)
     raw = yield "reference", REFERENCE, encoded(marked(original, full, [], (1250, 850)))
+    if raw == "NONE":
+        return unresolved(OBSCURED), "reference_unresolved"
     anchor = xy(raw, original.size)
     if anchor is None:
-        return unresolved(OBSCURED), "reference_unresolved"
-    # Crop in the original pixels to enlarge small signs and bays on distant frontages.
-    cw = max(1, round(w * .67))
-    left = min(max(0, anchor[0] - cw // 2), w - cw)
-    top = max(0, min(round(h * .36), anchor[1] - round(h * .15)))
-    window = (left, top, left + cw, h)
+        raise ValueError("Invalid landmark coordinates returned by the place model")
+    # Prefer an interior point in the cluster of parking pixels nearest the identified landmark.
+    # The median limits the influence of a single isolated parking prediction at a row's edge.
+    nearest = sorted(options, key=lambda item: ((item["point"][0]-anchor[0])/w)**2 +
+                     ((item["point"][1]-anchor[1])/h)**2)
+    close_options = [item for item in nearest[:3] if
+                     abs(item["point"][0]-nearest[0]["point"][0]) <= .15*w and
+                     abs(item["point"][1]-nearest[0]["point"][1]) <= .10*h]
+    selection = sorted(close_options, key=lambda item: item["point"][0])[1] if len(close_options) == 3 else nearest[0]
+    point = selection["point"]
+    if abs(point[0]-anchor[0]) > w*.42:
+        return unresolved(NO_GROUND), "landmark_far_from_bay"
     marks = [(anchor, "#25f1ff")]
-    raw = yield "frontage_point", GROUND, encoded(marked(original, window, marks, (1000, 850)))
-    rel = xy(raw, (cw, h-top))
-    if rel is None:
-        return unresolved(NO_GROUND), "frontage_unresolved"
-    x, y = point = (left + rel[0], top + rel[1])
-    if (y < .32*h or y > .96*h or abs(x-anchor[0]) > .39*w or
-            any(l <= x <= r and t <= y <= b for l,t,r,b in context["current_boxes"])):
-        return unresolved(NO_GROUND), "frontage_obstructed"
-    mh, mw = classes.shape
-    mx, my = round(x*(mw-1)/max(w-1,1)), round(y*(mh-1)/max(h-1,1))
-    patch = classes[max(0,my-1):my+2, max(0,mx-1):mx+2]
-    # A sidewalk prediction alone cannot distinguish a hotel apron. The two-view check resolves it.
-    if not np.isin(patch, (7, 8, 9, 10, 13, 14, 15)).any():
-        return unresolved(NO_GROUND), "frontage_without_ground"
+    # Keep the street context on the first read. The verifier then sees an independent crop
+    # from original pixels, centred on the selected bay so distant lines and vehicles enlarge.
+    surface = yield "frontage_surface", SURFACE, encoded(marked(original, full, marks, (1250, 850)))
+    if surface not in REJECT | {"EMPTY"}:
+        raise ValueError("Invalid landmark frontage classification")
+    if surface != "EMPTY":
+        return unresolved(NO_GROUND), "frontage_" + surface.lower()
     marks.append((point, "#ffdc33"))
-    wide = marked(original, full, marks, (720, 380))
-    close = marked(original, window, marks, (720, 470))
-    board = Image.new("RGB", (max(wide.width, close.width), wide.height+4+close.height), "#262626")
+    cw, ch = max(1, round(w*.45)), max(1, round(h*.44))
+    left, top = min(max(0, point[0]-cw//2), w-cw), min(max(0, point[1]-ch//2), h-ch)
+    wide = marked(original, full, marks, (700, 310))
+    close = marked(original, (left,top,left+cw,top+ch), marks, (700, 480))
+    board = Image.new("RGB", (max(wide.width,close.width), wide.height+4+close.height), "#262626")
     board.paste(wide, ((board.width-wide.width)//2, 0))
     board.paste(close, ((board.width-close.width)//2, wide.height+4))
     verdict = yield "frontage_verify", VERIFY, encoded(board)
-    if verdict not in {"BAY", "APRON"}:
-        return unresolved(NO_GROUND), "frontage_unverified"
-    dx, dy = max(1, round(w*.023)), max(1, round(h*.016))
-    return proposed([x,y], [max(0,x-dx),max(0,y-dy),min(w,x+dx),min(h,y+dy)]), "verified_landmark_frontage"
+    if verdict not in REJECT | {"INSIDE"}:
+        raise ValueError("Invalid marked-bay assessment")
+    if verdict != "INSIDE":
+        return unresolved(NO_GROUND), "marked_bay_" + verdict.lower()
+    return proposed(point, selection["box"]), "verified_landmark_bay"

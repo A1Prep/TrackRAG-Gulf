@@ -35,7 +35,7 @@ def build_outcome(request, photo, packet):
         raise ValueError("Place model response does not match the current photograph, instruction and boxes")
     classes = _decode_map(body["class_map"], request["scene"]["frame"])
     calls = body["calls"]
-    call_limits = {place.METHOD: 2, place.CURB_METHOD: 4, place.LANDMARK_METHOD: 5}
+    call_limits = {place.METHOD: 2, place.CURB_METHOD: 4, place.LANDMARK_METHOD: 3}
     if not isinstance(calls, list) or len(calls) > call_limits[recipe]:
         raise ValueError("Invalid number of place model responses")
     index = 0

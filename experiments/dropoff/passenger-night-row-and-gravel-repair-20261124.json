@@ -1,0 +1,250 @@
+{
+  "study": "Marked row and unsealed gravel entrance following the fifth independent evaluation",
+  "date": "2026-11-24",
+  "scope": "Post-test repair on the already disclosed four-drive cohort. The original prospective study has not been rescored as new data. Native geometric point evidence does not establish a car footprint, stopping permission or operational safety.",
+  "immutable_prospective_plan_sha256": "f8f70de94a410be5fe5d4c694ca979fee1084d67404fc5cc9d5e4351ade98fce",
+  "frozen_first_observations_sha256": "8eb9b576b1bee6fd74edaff3cc97a0680e8e2754a28a66b3f818e6202ccb8d37",
+  "recipe": {
+    "name": "three_visible_dividers_with_open_aisle_v1",
+    "source_sha256": "e8b6fa8e4b64da2daa244d005dce12add9e3ac9488c45b0289c188c556a1118b",
+    "physical_check": "Measure three separately observed, near-parallel dividers in both the original image and signed map. Check an extended empty footprint based on the apparent length of a nearby similarly oriented vehicle, test the intervening aperture in original RGB and the semantic map, and require a substantial continuous connection to the camera-side driving aisle. Each interior is checked independently. Marking an ambiguous stripe requires an explicit side selection even when only one can be verified.",
+    "output": "interior_point_only",
+    "input_sources": "Original locally installed photograph, registered vehicle/obstacle boxes and authenticated Mapillary Vistas segmentation. The new native physical check requires no language model call or network use."
+  },
+  "night_divider": {
+    "source_url": "https://kartaview.org/details/1465182/0/",
+    "sha256": "ae1831d72b844f5650f519fee363ca8627ac014db00aef1a3d19d655f2584ad2",
+    "frame_size": [
+      4032,
+      3024
+    ],
+    "original_exact_box": [
+      3401.0255128008143,
+      2194.6656001920614,
+      3416.7755128008143,
+      2210.4156001920614
+    ],
+    "first_frozen_grade": "withheld",
+    "generic_native_point": [
+      3484.144,
+      2272.381
+    ],
+    "first_mark_action_destination_point": null,
+    "confirmed_option_after_separate_selection": [
+      3405.812,
+      2268.452
+    ],
+    "other_side": "Withheld because the existing SUV detection overlaps the apparent aisle into the other side. The sole installed two-view OPEN point [3756.48,2470.72] was outside the target and was not used to invent a local confirmation."
+  },
+  "remaining_gravel_refusal": {
+    "source_url": "https://kartaview.org/details/5138697/360/",
+    "sha256": "ffc38d7f8d94ff8cf964ad65002031c558c86b4c14780aa6cd63381e8494de9f",
+    "frame_size": [
+      3264,
+      1836
+    ],
+    "registered_interior": [
+      2960.448,
+      1278.352
+    ],
+    "source_map_class": 15,
+    "reference_cells": 5739,
+    "reference_cells_labelled_sidewalk": 5739,
+    "generated_parking_points": 0,
+    "trained_OPEN_points": 0,
+    "current_outcome": "footpath_access_unverified",
+    "review": "The photograph shows light loose aggregate reaching the main road and a planted island ending nearby. The source mask labels the entire intended interior sidewalk and draws a raised kerb across much of the join. There is no registered vehicle-ground or model-confirmed point to verify the entrance. It remains a miss against the pictured-intent benchmark. The passenger sees the footpath interpretation and a request for a different visible pull-in.",
+    "representative_signed_kerb_thickness_in_900_cell_map": {
+      "x693": 11,
+      "x756": 13,
+      "x819": 14,
+      "x882": 16
+    }
+  },
+  "control_actions": {
+    "F01/lane": {
+      "reason": "through_lane",
+      "point": null,
+      "choices": [],
+      "reproduced": true
+    },
+    "F01/interior": {
+      "reason": "parking",
+      "point": [
+        2568.958361342117,
+        1500.0712240072387
+      ],
+      "choices": [],
+      "reproduced": true
+    },
+    "F02/lane": {
+      "reason": "through_lane",
+      "point": null,
+      "choices": [],
+      "reproduced": true
+    },
+    "F02/forbidden": {
+      "reason": "unverified_surface",
+      "point": null,
+      "choices": [],
+      "reproduced": true
+    },
+    "F03/lane": {
+      "reason": "through_lane",
+      "point": null,
+      "choices": [],
+      "reproduced": true
+    },
+    "F03/interior": {
+      "reason": "footpath_access_unverified",
+      "point": null,
+      "choices": [],
+      "reproduced": true
+    },
+    "F04/lane": {
+      "reason": "through_lane",
+      "point": null,
+      "choices": [],
+      "reproduced": true
+    },
+    "F04/interior": {
+      "reason": "parking",
+      "point": [
+        3426.9407014039602,
+        2261.221046734955
+      ],
+      "choices": [],
+      "reproduced": true
+    },
+    "F04/edge": {
+      "reason": "single_visible_bay_at_painted_edge",
+      "point": null,
+      "choices": [
+        [
+          3405.812,
+          2268.452
+        ]
+      ],
+      "reproduced": true
+    }
+  },
+  "independent_adversarial_replay": {
+    "program_sha256": "b1c53d070ac4d95e0ef2124e518fc6742ca7f42c256e9e83bb8eb20d20aabf3a",
+    "base_photo_and_clear_50_cell_gate": "candidate and manually indicated eligible side retained",
+    "withheld_on_both_routes": [
+      "missing semantic paint",
+      "missing optical paint",
+      "a current vehicle over the point",
+      "closed fence",
+      "five-cell pedestrian aperture",
+      "native raised optical kerb on a mislabelled map"
+    ]
+  },
+  "historical_catalogue": {
+    "photos": 81,
+    "elapsed_seconds": 8.61,
+    "additional_observed_points": [
+      {
+        "source_url": "https://kartaview.org/details/7168777/1211/",
+        "source_sha256": "6c09f8965a7203ca86f42d18d4b7fc43fa38c700d827a3b92bf90189b394d273",
+        "points": [
+          [
+            232.313,
+            1462.661
+          ]
+        ]
+      },
+      {
+        "source_url": "https://kartaview.org/details/7168793/16/",
+        "source_sha256": "df3c7569cf08071fe7492af65e599d7132364496766bb9e1e4fa4c3966dccc04",
+        "points": [
+          [
+            1689.659,
+            1334.55
+          ],
+          [
+            1706.233,
+            1437.697
+          ]
+        ]
+      }
+    ],
+    "review": "An engineering reviewer inspected these two source photos. All three points lie on visibly empty ground between painted dividers. The other 79 photos generated no points with this particular new recipe. This is a source-level diagnostic on previously exposed images."
+  },
+  "automated_tests": {
+    "passed": 162,
+    "failed": 0,
+    "seconds": 17.47,
+    "new_geometry_cases": 13
+  },
+  "image_credit": "Copyright Grab and KartaView Contributors, CC BY-SA 4.0. Original photos and derived screenshots remain local.",
+  "normal_edge_and_strict_handoff": [
+    {
+      "case": "F03/interior",
+      "native_tap": [
+        2960.429912420535,
+        1278.3505373544576
+      ],
+      "first_state": "needs_clarification",
+      "first_message": "The photo check reads this area as a footpath. I can’t verify a vehicle entrance at your mark. Could you mark another visible pull-in?",
+      "initial_save_available": false,
+      "automatic_save": false,
+      "choices": [],
+      "initial_visible_ms": 756,
+      "selection_ms": null,
+      "explicit_save_ms": null,
+      "saved_point": null,
+      "browser_errors": [],
+      "journal_sha256": "db059ba21a96a95ce800deb29d124b33d962e381f4c79b72df92912e307b82a7",
+      "source_actor_verified": false,
+      "strict_event_replay": [
+        "opened",
+        "explicit_passenger_area_request",
+        "passenger_marked"
+      ],
+      "first_screen_sha256": "64acdc1d850d9c890f89d6dd396999acf7327df3060f307cb9dde9fbf9f7161e"
+    },
+    {
+      "case": "F04/edge",
+      "native_tap": [
+        3408.9005128008143,
+        2202.5406001920614
+      ],
+      "first_state": "needs_clarification",
+      "first_message": "I can verify the marked point on one side of this painted divider. Is that the side you meant?",
+      "initial_save_available": false,
+      "automatic_save": false,
+      "choices": [
+        [
+          3405.812,
+          2268.452
+        ]
+      ],
+      "initial_visible_ms": 3082,
+      "selection_ms": 894,
+      "explicit_save_ms": 411,
+      "saved_point": [
+        3405.812,
+        2268.452
+      ],
+      "browser_errors": [],
+      "journal_sha256": "f10d36cf1318015e4b7e30fa9decec18ee55471b5c455c84314b089fe81a390f",
+      "source_actor_verified": false,
+      "strict_event_replay": [
+        "opened",
+        "explicit_passenger_area_request",
+        "passenger_marked",
+        "passenger_selected_bay",
+        "confirmed_previous_selection"
+      ],
+      "first_screen_sha256": "d43ae84ce49241251a0475a1ed6ec0cc92e1cc117e6f6f765748115dc18ec06a"
+    }
+  ],
+  "rejected_receipt_changes": {
+    "move_point": "rejected",
+    "line_coordinates": "rejected",
+    "erase_vehicle_clearance": "rejected",
+    "implicit_choice": "rejected",
+    "new_context": "rejected"
+  }
+}

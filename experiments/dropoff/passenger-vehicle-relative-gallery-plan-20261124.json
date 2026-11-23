@@ -1,0 +1,761 @@
+{
+  "schema": 1,
+  "frozen_utc": "2026-11-23T23:26:28.695686+00:00",
+  "scope": "Independent visual reference study across seven UAE gallery originals. The reviewer used only the original RGB photographs. The reported screenshot tap was supplied as approximate original-relative fractions [0.763,0.892]. One independent AI reviewer recorded the visible features before testing the application.",
+  "credit": "© Grab and KartaView Contributors, CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
+  "source_terms": "https://kartaview.org/terms",
+  "protocol": "Report referent correctness and ambiguity, vehicle-facing direction, relation to original ground, visible approach evidence, and actor separately. A point by the side of a car is not evidence of a point beyond its rear. Do not grade a clearly disclosed rear alternative as a correct answer to a beside question. A selectable grounded reference with a specific extent/clearance limitation is distinct from a directly confirmable destination. A physical area with a visibly uncertain approach receives no stand-alone direct-placement credit. Every manual control is graded on its own explicit location and reply.",
+  "sources": [
+    {
+      "recording_id": "kartaview_66346",
+      "frame_id": 113,
+      "sha256": "28eb871a346c5792d7f63ad1186edcc967a6f96a2469984ecc86c5df7d177d1c",
+      "width": 2688,
+      "height": 1520,
+      "source_url": "https://kartaview.org/details/66346/113/",
+      "source_index": 13,
+      "visual_anchor_box_xyxy": {
+        "right_white_suv": [
+          1600.8,
+          914.882,
+          2121.6,
+          1265.466
+        ],
+        "cream_taxi": [
+          847.2,
+          962.907,
+          1411.2,
+          1407.141
+        ],
+        "partly_seen_light_car": [
+          892.8,
+          1003.728,
+          991.2,
+          1104.581
+        ]
+      },
+      "ground_reference_polygons_xy": {
+        "rear_curb_strip": [
+          [
+            1785.6,
+            1325.498
+          ],
+          [
+            1884.0,
+            1299.084
+          ],
+          [
+            2032.8,
+            1294.281
+          ],
+          [
+            2109.6,
+            1308.689
+          ],
+          [
+            2296.8,
+            1349.51
+          ],
+          [
+            2385.6,
+            1383.128
+          ],
+          [
+            2260.8,
+            1402.338
+          ],
+          [
+            2028.0,
+            1421.548
+          ],
+          [
+            1867.2,
+            1395.134
+          ],
+          [
+            1773.6,
+            1351.912
+          ]
+        ],
+        "farther_rear_curb_strip": [
+          [
+            1891.2,
+            1409.542
+          ],
+          [
+            2013.6,
+            1397.536
+          ],
+          [
+            2268.0,
+            1397.536
+          ],
+          [
+            2409.6,
+            1414.344
+          ],
+          [
+            2582.4,
+            1464.771
+          ],
+          [
+            2515.2,
+            1483.981
+          ],
+          [
+            2052.0,
+            1476.777
+          ]
+        ]
+      },
+      "marks": [
+        {
+          "id": "reported",
+          "point_xy": [
+            2050.944,
+            1355.84
+          ],
+          "pictured_region": "rear_curb_strip",
+          "visual_reading": "Visible unobstructed curbside asphalt behind the right-hand SUV, separated from the travel-line centre. No complete additional vehicle footprint can be measured."
+        },
+        {
+          "id": "travel_lane",
+          "point_xy": [
+            1531.2,
+            1368.72
+          ],
+          "pictured_region": null,
+          "visual_reading": "Main lane between taxi and parking row."
+        }
+      ],
+      "visual_reading": "The rear hatch and both taillamps face the camera. Its bumper is nearer the camera than its front. The reported tap lies below and slightly to the image-right of the rear, along the same curbside strip. A faded transverse marking lies farther toward the camera. The cream taxi is not confidently white. A separate partly visible light car provides a competing generic referent. A nearby pedestrian sidewalk and the traffic lane do not form lateral drop-off ground."
+    },
+    {
+      "recording_id": "kartaview_3329429",
+      "frame_id": 213,
+      "sha256": "5b635a7c2e4f7eebd4ae50b91b725fd9054bf7b41bda28248e36e5bfa0de7e5b",
+      "width": 3264,
+      "height": 1836,
+      "source_url": "https://kartaview.org/details/3329429/213/",
+      "source_index": 31,
+      "visual_anchor_box_xyxy": {
+        "parked_right_white_sedan": [
+          1891.371,
+          1072.457,
+          2200.286,
+          1302.686
+        ],
+        "left_white_crossover": [
+          489.6,
+          1139.486,
+          728.571,
+          1229.829
+        ]
+      },
+      "ground_reference_polygons_xy": {
+        "rear_marked_bay": [
+          [
+            1967.143,
+            1314.343
+          ],
+          [
+            2144.914,
+            1308.514
+          ],
+          [
+            2255.657,
+            1320.171
+          ],
+          [
+            2573.314,
+            1375.543
+          ],
+          [
+            2710.286,
+            1410.514
+          ],
+          [
+            2413.029,
+            1433.829
+          ],
+          [
+            2168.229,
+            1428.0
+          ],
+          [
+            2045.829,
+            1375.543
+          ]
+        ]
+      },
+      "marks": [
+        {
+          "id": "interior",
+          "point_xy": [
+            2311.029,
+            1369.714
+          ],
+          "pictured_region": "rear_marked_bay",
+          "visual_reading": "Behind the near sedan in the parallel curb bay."
+        },
+        {
+          "id": "travel_lane",
+          "point_xy": [
+            1567.886,
+            1407.6
+          ],
+          "pictured_region": null,
+          "visual_reading": "Through lane."
+        }
+      ],
+      "visual_reading": "The nearby white sedan is aligned with the road, trunk/back window facing the camera. The next painted curbside section is open on the camera side of its rear bumper. Its immediate lateral flanks are the driving lane and the kerb/raised outside pavement. A second light vehicle is visible on the far left."
+    },
+    {
+      "recording_id": "kartaview_7173145",
+      "frame_id": 1173,
+      "sha256": "02743df87088fa38698cf3093947cbb3085c14755dd49fa16cadc8fb24b2e080",
+      "width": 3840,
+      "height": 2160,
+      "source_url": "https://kartaview.org/details/7173145/1173/",
+      "source_index": 2,
+      "visual_anchor_box_xyxy": {
+        "near_white_suv": [
+          1741.714,
+          836.571,
+          2598.857,
+          1309.714
+        ],
+        "farther_white_sedan": [
+          1203.429,
+          898.286,
+          1508.571,
+          1097.143
+        ],
+        "white_box_truck": [
+          1032.0,
+          750.857,
+          1371.429,
+          1073.143
+        ]
+      },
+      "ground_reference_polygons_xy": {
+        "rear_paved_bay": [
+          [
+            2201.143,
+            1388.571
+          ],
+          [
+            2701.714,
+            1326.857
+          ],
+          [
+            2924.571,
+            1320.0
+          ],
+          [
+            3558.857,
+            1354.286
+          ],
+          [
+            3716.571,
+            1484.571
+          ],
+          [
+            3154.286,
+            1556.571
+          ],
+          [
+            2609.143,
+            1501.714
+          ],
+          [
+            2348.571,
+            1443.429
+          ]
+        ]
+      },
+      "marks": [
+        {
+          "id": "interior",
+          "point_xy": [
+            2921.143,
+            1429.714
+          ],
+          "pictured_region": "rear_paved_bay",
+          "visual_reading": "An open paved section beyond the rear cross-stripe."
+        },
+        {
+          "id": "travel_lane",
+          "point_xy": [
+            1518.857,
+            1433.143
+          ],
+          "pictured_region": null,
+          "visual_reading": "Asphalt through lane."
+        }
+      ],
+      "visual_reading": "The nearby white SUV with a red door graphic, the farther white sedan and a white truck are distinct. A painted transverse parking divider lies immediately behind the SUV. Beyond the divider is shared-colour paving in the curbside row, below the separate raised pedestrian margin. This additional drive is near the same Donatello hotel district as 66346; it is a different original and framing, not independent evidence of a second neighbourhood."
+    },
+    {
+      "recording_id": "kartaview_7120185",
+      "frame_id": 54,
+      "sha256": "5a9b732bb1a487c9769eba291ff49bf9c0fff286efe7a849a66b296704c8cffa",
+      "width": 3840,
+      "height": 2160,
+      "source_url": "https://kartaview.org/details/7120185/54/",
+      "source_index": 29,
+      "visual_anchor_box_xyxy": {
+        "grey_mini": [
+          2454.857,
+          1035.429,
+          3072.0,
+          1512.0
+        ],
+        "blue_crossover": [
+          1460.571,
+          1080.0,
+          2108.571,
+          1392.0
+        ]
+      },
+      "ground_reference_polygons_xy": {
+        "right_open_paving": [
+          [
+            3096.0,
+            1419.429
+          ],
+          [
+            3480.0,
+            1402.286
+          ],
+          [
+            3750.857,
+            1402.286
+          ],
+          [
+            3754.286,
+            1570.286
+          ],
+          [
+            3432.0,
+            1556.571
+          ],
+          [
+            3185.143,
+            1539.429
+          ],
+          [
+            3096.0,
+            1518.857
+          ]
+        ],
+        "left_between_cars": [
+          [
+            2125.714,
+            1409.143
+          ],
+          [
+            2225.143,
+            1374.857
+          ],
+          [
+            2430.857,
+            1381.714
+          ],
+          [
+            2441.143,
+            1470.857
+          ],
+          [
+            2358.857,
+            1477.714
+          ],
+          [
+            2184.0,
+            1450.286
+          ]
+        ]
+      },
+      "marks": [
+        {
+          "id": "interior",
+          "point_xy": [
+            3397.714,
+            1484.571
+          ],
+          "pictured_region": "right_open_paving",
+          "visual_reading": "Paved area to image-right of the grey Mini in the vehicle row."
+        },
+        {
+          "id": "travel_lane",
+          "point_xy": [
+            1433.143,
+            1638.857
+          ],
+          "pictured_region": null,
+          "visual_reading": "Through lane."
+        }
+      ],
+      "visual_reading": "The grey Mini directly below Dog Spot shows its rear toward the camera. The pink vehicle-standing area beside it and the grey lane/entry area immediately behind it are distinct. The right side provides an unoccupied, materially distinct surface on the same apron with a visible approach. The left gap between cars is narrower, and its whole-vehicle suitability is unknown. Behind the Mini the entrance/through pavement begins shortly after the bumper."
+    },
+    {
+      "recording_id": "kartaview_7120169",
+      "frame_id": 165,
+      "sha256": "71df6d0a6a705be760e5be20937a2442f9cfaedeed71f3c093d894049bd84724",
+      "width": 3840,
+      "height": 2160,
+      "source_url": "https://kartaview.org/details/7120169/165/",
+      "source_index": 35,
+      "visual_anchor_box_xyxy": {
+        "near_black_sedan": [
+          1110.857,
+          1200.0,
+          1666.286,
+          1645.714
+        ],
+        "second_dark_sedan": [
+          829.714,
+          1237.714,
+          1261.714,
+          1542.857
+        ],
+        "motorcycles": [
+          2609.143,
+          1097.143,
+          3836.571,
+          1635.429
+        ]
+      },
+      "ground_reference_polygons_xy": {
+        "right_gravel_reference": [
+          [
+            1707.429,
+            1477.714
+          ],
+          [
+            1813.714,
+            1416.0
+          ],
+          [
+            2379.429,
+            1419.429
+          ],
+          [
+            2523.429,
+            1467.429
+          ],
+          [
+            2547.429,
+            1638.857
+          ],
+          [
+            2376.0,
+            1683.429
+          ],
+          [
+            1786.286,
+            1673.143
+          ],
+          [
+            1700.571,
+            1621.714
+          ]
+        ]
+      },
+      "marks": [
+        {
+          "id": "visible_gravel",
+          "point_xy": [
+            2094.857,
+            1563.429
+          ],
+          "pictured_region": "right_gravel_reference",
+          "visual_reading": "Visible ground only. A continuous contrasting footway lies between the road and gravel in this view; a vehicle entrance at this mark is unestablished."
+        }
+      ],
+      "visual_reading": "The large dark sedan facing away and another dark sedan on its left could both match ‘the black car’. The precise request below distinguishes the near sedan and the motorcycles. The broad gravel patch to its right is visibly empty. A paved pedestrian strip extends across the front; the image alone does not unambiguously establish an approach for a vehicle across this mark."
+    },
+    {
+      "recording_id": "kartaview_6267977",
+      "frame_id": 1221,
+      "sha256": "a2f0e3c9a1649193592e0cea6d3107df01599bb7d0aefa5b19a76cc46bff4e55",
+      "width": 3840,
+      "height": 2160,
+      "source_url": "https://kartaview.org/details/6267977/1221/",
+      "source_index": 54,
+      "visual_anchor_box_xyxy": {
+        "red_jeep": [
+          1820.571,
+          905.143,
+          3534.857,
+          1851.429
+        ],
+        "distant_red_car": [
+          1265.143,
+          1217.143,
+          1402.286,
+          1340.571
+        ]
+      },
+      "ground_reference_polygons_xy": {},
+      "marks": [
+        {
+          "id": "travel_lane",
+          "point_xy": [
+            3329.143,
+            1745.143
+          ],
+          "pictured_region": null,
+          "visual_reading": "Rear/side is on multilane highway or hidden by vehicle; no empty pull-in is shown."
+        }
+      ],
+      "visual_reading": "The red Jeep's spare wheel and taillamps are visible on the camera-facing rear. It occupies a marked through lane. Its visible side and rear do not lead to any off-road bay."
+    },
+    {
+      "recording_id": "kartaview_5105913",
+      "frame_id": 1982,
+      "sha256": "e6a01b783361da5c8f854ef90c6fb4d9bc6b58f46284af27e51f41e9c4230e43",
+      "width": 3264,
+      "height": 1836,
+      "source_url": "https://kartaview.org/details/5105913/1982/",
+      "source_index": 77,
+      "visual_anchor_box_xyxy": {
+        "near_white_minivan": [
+          1005.429,
+          941.314,
+          1701.943,
+          1398.857
+        ],
+        "cream_hatchback": [
+          1669.886,
+          1028.743,
+          2188.629,
+          1384.286
+        ],
+        "right_white_suv": [
+          2535.429,
+          1020.0,
+          3112.457,
+          1355.143
+        ]
+      },
+      "ground_reference_polygons_xy": {},
+      "marks": [
+        {
+          "id": "parking_aisle",
+          "point_xy": [
+            1553.314,
+            1541.657
+          ],
+          "pictured_region": null,
+          "visual_reading": "Forecourt circulation/approach aisle behind the parked row, with no separately established destination."
+        }
+      ],
+      "visual_reading": "Multiple cars in the row are white or pale. The central minivan and cream hatchback show their rears; the right white SUV shows its front. Much of the ground behind that right SUV is hidden by its body/building. The apparently free foreground is the access aisle facing the row. The cars are close laterally, with no complete, visibly free slot between the described neighbours."
+    }
+  ],
+  "requests": [
+    {
+      "id": "V01",
+      "source_index": 13,
+      "words": "Could you drop me behind the white car?",
+      "relation": "behind",
+      "vehicle_identity": "ambiguous",
+      "eligible_visual_anchors": [
+        "right_white_suv",
+        "partly_seen_light_car"
+      ],
+      "depicted_ground_regions": [
+        "rear_curb_strip",
+        "farther_rear_curb_strip"
+      ],
+      "expected_response": "clarify_referent_or_guided_rear"
+    },
+    {
+      "id": "V02",
+      "source_index": 13,
+      "words": "Could you drop me beside the white car?",
+      "relation": "beside",
+      "vehicle_identity": "ambiguous",
+      "eligible_visual_anchors": [
+        "right_white_suv",
+        "partly_seen_light_car"
+      ],
+      "depicted_ground_regions": [],
+      "expected_response": "clarify_no_verified_lateral_ground"
+    },
+    {
+      "id": "V03",
+      "source_index": 13,
+      "words": "Could you drop me behind the white SUV parked on the right?",
+      "relation": "behind",
+      "vehicle_identity": "identified",
+      "eligible_visual_anchors": [
+        "right_white_suv"
+      ],
+      "depicted_ground_regions": [
+        "rear_curb_strip",
+        "farther_rear_curb_strip"
+      ],
+      "expected_response": "pictured_rear_point_or_specific_clearance_question"
+    },
+    {
+      "id": "V04",
+      "source_index": 31,
+      "words": "Could you drop me off behind the white car?",
+      "relation": "behind",
+      "vehicle_identity": "dominant_but_not_unique",
+      "eligible_visual_anchors": [
+        "parked_right_white_sedan",
+        "left_white_crossover"
+      ],
+      "depicted_ground_regions": [
+        "rear_marked_bay"
+      ],
+      "expected_response": "direct_or_guided_with_anchor_identified"
+    },
+    {
+      "id": "V05",
+      "source_index": 31,
+      "words": "Could you drop me beside the white sedan parked on the right?",
+      "relation": "beside",
+      "vehicle_identity": "identified",
+      "eligible_visual_anchors": [
+        "parked_right_white_sedan"
+      ],
+      "depicted_ground_regions": [],
+      "expected_response": "no_verified_lateral_ground"
+    },
+    {
+      "id": "V06",
+      "source_index": 2,
+      "words": "Could you drop me behind the white SUV with the red design on its door?",
+      "relation": "behind",
+      "vehicle_identity": "identified",
+      "eligible_visual_anchors": [
+        "near_white_suv"
+      ],
+      "depicted_ground_regions": [
+        "rear_paved_bay"
+      ],
+      "expected_response": "direct_or_guided"
+    },
+    {
+      "id": "V07",
+      "source_index": 2,
+      "words": "Could you drop me beside the white SUV with the red design on its door?",
+      "relation": "beside",
+      "vehicle_identity": "identified",
+      "eligible_visual_anchors": [
+        "near_white_suv"
+      ],
+      "depicted_ground_regions": [],
+      "expected_response": "no_verified_lateral_ground"
+    },
+    {
+      "id": "V08",
+      "source_index": 29,
+      "words": "Could you drop me beside the grey Mini outside Dog Spot, on its right?",
+      "relation": "beside",
+      "vehicle_identity": "identified",
+      "eligible_visual_anchors": [
+        "grey_mini"
+      ],
+      "depicted_ground_regions": [
+        "right_open_paving"
+      ],
+      "expected_response": "direct_or_guided"
+    },
+    {
+      "id": "V09",
+      "source_index": 29,
+      "words": "Could you drop me behind the grey Mini outside Dog Spot?",
+      "relation": "behind",
+      "vehicle_identity": "identified",
+      "eligible_visual_anchors": [
+        "grey_mini"
+      ],
+      "depicted_ground_regions": [],
+      "expected_response": "no_verified_separate_rear_ground"
+    },
+    {
+      "id": "V10",
+      "source_index": 35,
+      "words": "Could you drop me beside the black sedan nearest the motorcycles, in the gravel gap?",
+      "relation": "beside",
+      "vehicle_identity": "identified",
+      "eligible_visual_anchors": [
+        "near_black_sedan"
+      ],
+      "depicted_ground_regions": [
+        "right_gravel_reference"
+      ],
+      "expected_response": "visible_referent_and_ground_but_access_uncertain"
+    },
+    {
+      "id": "V11",
+      "source_index": 35,
+      "words": "Could you drop me behind the black sedan nearest the motorcycles?",
+      "relation": "behind",
+      "vehicle_identity": "identified",
+      "eligible_visual_anchors": [
+        "near_black_sedan"
+      ],
+      "depicted_ground_regions": [],
+      "expected_response": "no_verified_separate_rear_ground"
+    },
+    {
+      "id": "V12",
+      "source_index": 54,
+      "words": "Could you drop me behind the red Jeep?",
+      "relation": "behind",
+      "vehicle_identity": "identified",
+      "eligible_visual_anchors": [
+        "red_jeep"
+      ],
+      "depicted_ground_regions": [],
+      "expected_response": "through_lane_withhold"
+    },
+    {
+      "id": "V13",
+      "source_index": 54,
+      "words": "Could you drop me beside the red Jeep?",
+      "relation": "beside",
+      "vehicle_identity": "identified",
+      "eligible_visual_anchors": [
+        "red_jeep"
+      ],
+      "depicted_ground_regions": [],
+      "expected_response": "through_lane_withhold"
+    },
+    {
+      "id": "V14",
+      "source_index": 77,
+      "words": "Could you drop me behind the white car?",
+      "relation": "behind",
+      "vehicle_identity": "ambiguous",
+      "eligible_visual_anchors": [
+        "near_white_minivan",
+        "cream_hatchback",
+        "right_white_suv"
+      ],
+      "depicted_ground_regions": [],
+      "expected_response": "clarify_referent_no_verified_ground"
+    },
+    {
+      "id": "V15",
+      "source_index": 77,
+      "words": "Could you drop me beside the white car?",
+      "relation": "beside",
+      "vehicle_identity": "ambiguous",
+      "eligible_visual_anchors": [
+        "near_white_minivan",
+        "cream_hatchback",
+        "right_white_suv"
+      ],
+      "depicted_ground_regions": [],
+      "expected_response": "clarify_referent_no_verified_ground"
+    }
+  ]
+}

@@ -447,7 +447,9 @@ class PassengerSession:
                 bay["bay_outline"] = receipt["provenance"]["bay_outline"]
             if self._bay_menu is not None:
                 bay["bay_choices"] = self._bay_menu[0]["provenance"]["bay_choices"]
-                if self._bay_menu[0]["provenance"]["reason"] in {"unverified_bay_reference", "passenger_choice_of_observed_alternative"}:
+                if self._bay_menu[0]['provenance'].get('vehicle_ground_policy'):
+                    bay['vehicle_ground_choice'] = True
+                if self._bay_menu[0]["provenance"]["reason"] in {"unverified_bay_reference", "passenger_choice_of_observed_alternative", "choose_observed_ground_behind_vehicle"}:
                     bay["bay_reference_uncertain"] = True
             return deepcopy({"state":self._state, "recording_id":frame["recording_id"], "frame_id":frame["frame_id"],
                              "image_sha256":self._scene["provenance"]["image_sha256"],
@@ -491,6 +493,9 @@ class PassengerSession:
                 raise ValueError("This location must come from an explicit mark on the current photo.")
             check = manual_offlane.verify if method == manual_offlane.METHOD else whole_bay.verify_current
             check(req, outcome, requested_box=self._manual_submission_box)
+            if (method == whole_bay.MARK and info.get('vehicle_ground_policy')
+                    and info.get('reason') == 'vehicle_seen_space_withheld' and result.get('anchor_boxes_xyxy')):
+                self._references_only = True
         if method == whole_bay.CHOICE:
             if (selected_by != "passenger" or self._bay_selection is None
                     or self._bay_selection != (digest(info.get("choice_source")), info.get("bay_id"))):

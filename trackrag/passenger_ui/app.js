@@ -194,6 +194,7 @@ function legend(v, offerMark, bay, choices) {
   else if (photo.active) label = "Centre dot · your point to check";
   else if (choices.length) {
     label = choices.map((choice,i) => bayName(i,choice)).join(" / ");
+    if (v.vehicle_ground_choice) label += " · Blue outline around the vehicle";
     if (choices.some(choice => choice.passenger_tap_xy)) label += " · Blue diamond at " + tapName(v).toLowerCase();
   }
   else if (pin) {
@@ -394,7 +395,7 @@ function paint() {
   if (pairs.open) { pairs.paint(ctx,scale); return; }
   const choices = visibleChoices(v), bay = offeredBay(v,canvas.width,canvas.height);
   if (v.area_landmarks && (photo.active || (!choices.length && !bay))) drawChosenLandmarks(ctx,v.area_landmarks.boxes_xyxy,scale);
-  if (v.references_only && v.state==="needs_clarification" && !choices.length && !bay)
+  if ((v.references_only || v.vehicle_ground_choice) && v.state==="needs_clarification" && !bay)
     drawVehicleReferences(ctx,v.result?.anchor_boxes_xyxy,scale,v.reference_kind==="vegetation" ? "Greenery" : "Vehicle");
   if (photo.active) {
     if (!photo.box) { photo.drawCursor(ctx,scale); return; }

@@ -119,9 +119,10 @@ def has_public_alternative(request,prior):
 
 
 def explain(request,prior,*,local=False):
-    from . import curb_alternatives, curb_points, surface_stalls, whole_bay
+    from . import curb_alternatives, curb_points, marked_row_references, surface_stalls, whole_bay
     if (whole_bay._has_location(prior) or (prior and prior.get("result",{}).get("anchor_boxes_xyxy")) or
-            not (bay_intent.permitted_destination(request["text"]) or curb_alternatives.intent(request["text"]))):
+            not (bay_intent.permitted_destination(request["text"]) or curb_alternatives.intent(request["text"]) or
+                 local and marked_row_references.intent(request["text"]))):
         return prior
     key=request["scene"]["provenance"]["image_sha256"]
     surface=manual_surfaces.get_packet(key)
@@ -139,6 +140,10 @@ def explain(request,prior,*,local=False):
             answer=whole_bay.point_outcome(request,photo,surface,points,conversational=True,expanded=True)
             if whole_bay._has_location(answer):
                 return answer
+            if marked_row_references.intent(request["text"]):
+                marked=marked_row_references.rebuild(request,photo,surface,points)
+                if marked is not None:
+                    return marked
     if curb_alternatives.intent(request["text"]):
         review=None if local else surface_stalls.get_packet(key)
         if local or review is not None:

@@ -296,10 +296,11 @@ class PlaceDialogueGrounder:
 
     def uses_public_service(self, request):
         from . import bay_intent,curb_point_language,local_surfaces,native_destination,roadside_context,visual_space
+        from . import vehicle_ground_reference
         if local_surfaces.local_only(request.get("scene",{})):
             return False
         return ((isinstance(self.backend,PublicPlaceBackend) and self.backend.allows_photo(request) and
-                 (bay_intent.parse(request["text"]) is not None or
+                 (vehicle_ground_reference.direct_reference(request) is not None or bay_intent.parse(request["text"]) is not None or
                   curb_point_language.indexed_reference(request["text"],expanded=True) or
                   (curb_point_language.abbreviated_pair(request["text"]) is not None and
                    roadside_context.get_packet(request["scene"]["provenance"]["image_sha256"]) is not None and
@@ -328,7 +329,7 @@ class PlaceDialogueGrounder:
         return None
 
     def interpret(self, request):
-        from . import bay_intent, single_vehicle
+        from . import bay_intent, single_vehicle, vehicle_ground_reference
         from .local_surfaces import local_only
         if local_only(request.get("scene",{})):
             bay = self.inspect_requested_bay(request)
@@ -336,6 +337,12 @@ class PlaceDialogueGrounder:
                 return bay
             with _native_guard.get()():
                 return self.dialogue.interpret(request)
+        if isinstance(self.backend, PublicPlaceBackend) and self.backend.allows_photo(request):
+            ref = vehicle_ground_reference.direct_reference(request)
+            if ref and (ref.get('qualified') or ref['relation'] == 'beside'):
+                pictured = vehicle_ground_reference.available(request)
+                if pictured is not None:
+                    return pictured
         # A direct request behind one identified vehicle already has its own signed
         # rear-view and parking check. Do not scan unrelated storefronts first.
         if self.single_vehicle is not None and self.single_vehicle.eligible(request):

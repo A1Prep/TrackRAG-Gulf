@@ -74,7 +74,7 @@ def marked_scene(tmp_path,monkeypatch):
     ([200,92,226,101],"observed_object"),  # The centre is free, but this box includes part of a car.
     ([149,120,180,131],"through_lane"),  # A prior road-only check could move the pin to its far edge.
     ([162,115,190,126],"mixed_area"),   # The centre is parking, part of the mark is a through lane.
-    ([185,88,196,93],"unverified_surface"),
+    ([185,88,196,93],"footpath_access_unverified"),
     ([177.1,158.1,177.9,158.9],"unverified_surface"),
     ([60,43,65,48],"unverified_surface"),  # Vehicle pixels even without a Task 1 detection.
     ([65,140,172,150],"broad_area"),
@@ -104,6 +104,23 @@ def test_crossing_tap_explains_the_surface_and_replays_older_refusals(marked_sce
     old = manual_offlane._outcome(clean, original, mark, centre, packet, explain_crossing=False)
     assert old["provenance"]["reason"] == "unverified_surface"
     assert manual_offlane.verify(request,old)["decision_reproduced"]
+
+
+def test_footpath_explains_unverified_vehicle_access_and_preserves_old_generic_receipt(marked_scene,monkeypatch):
+    req,_=marked_scene
+    classes=np.full((180,320),13,dtype=np.uint8)
+    classes[90:130,80:155]=15
+    packet=provide_map(monkeypatch,req["scene"],classes)
+    box=[92,100,98,108]
+    current=manual_offlane.select(req,box)
+    assert current["result"]["destination_point_xy"] is None
+    assert current["provenance"]["reason"]=="footpath_access_unverified"
+    assert "footpath" in current["result"]["clarification_question"]
+    assert manual_offlane.verify(req,current)["decision_reproduced"]
+    clean,key,mark,center=manual_offlane.mark_input(req,box)
+    old=manual_offlane._outcome(clean,key,mark,center,packet,explain_footpath=False)
+    assert old["provenance"]["reason"]=="unverified_surface"
+    assert manual_offlane.verify(req,old)["decision_reproduced"]
 
 
 def test_exact_original_point_survives_fractional_coordinates_and_historical_tracks(marked_scene, monkeypatch):

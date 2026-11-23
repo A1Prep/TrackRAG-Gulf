@@ -15,6 +15,7 @@ QUESTIONS = {
     "observed_object": "Your mark touches a detected object. Could you mark the open ground itself?",
     "through_lane": "That point appears to be in a traffic lane. Could you mark a visible parking bay instead?",
     "pedestrian_crossing": "Your mark falls on pedestrian crossing markings. Could you mark a pull-in before or after the crossing?",
+    "footpath_access_unverified": "The photo check reads this area as a footpath. I can’t verify a vehicle entrance at your mark. Could you mark another visible pull-in?",
     "unverified_surface": "I can’t verify an off-lane parking area at that point. Could you mark a different visible bay?",
     "mixed_area": "The marked area includes ground I can’t verify as parking. Could you tap a smaller spot inside the bay?",
     "broad_area": "That box covers a large area. Could you tap the exact spot you mean?",
@@ -88,13 +89,18 @@ def surface_check(frame, tracks, mark, center, classes):
     return "parking", checked
 
 
-def _outcome(clean, original_sha, mark, center, packet, *, explain_crossing=True):
+def _outcome(clean, original_sha, mark, center, packet, *, explain_crossing=True, explain_footpath=True):
     from . import manual_surfaces
     scene = clean["scene"]
     classes = manual_surfaces.decode(packet, scene["frame"], original_sha) if packet is not None else None
     reason, checked = surface_check(scene["frame"], scene["tracks"], mark, center, classes)
     if explain_crossing and reason == "unverified_surface" and checked.get("center_class_id") in (8, 23):
         reason = "pedestrian_crossing"
+    if explain_footpath and reason == "unverified_surface" and checked.get("center_class_id") == 15:
+        x,y=checked["center_cell_xy"]
+        nearby=classes[max(0,y-2):y+3,max(0,x-2):x+3]
+        if (nearby==15).mean()>=.85:
+            reason="footpath_access_unverified"
     result = proposed(center,mark) if reason == "parking" else unresolved(QUESTIONS[reason])
     return {"ok":True, "request_id":clean["request_id"], "result":result, "provenance":{
         "method":METHOD, "image":{"sha256":original_sha}, "request_sha256":digest(clean),
@@ -124,8 +130,9 @@ def verify(request, outcome, *, requested_box=None):
     box = source["selected_box"] if requested_box is None else requested_box
     clean, original_sha, mark, center = mark_input(request, box)
     packet = source["offlane_surface_packet"]
-    # Older archived refusals reported the same crossing pixels as unverified ground.
-    if _outcome(clean,original_sha,mark,center,packet,explain_crossing=source["reason"]!="unverified_surface") != outcome:
+    # Older archived refusals reported pedestrian pavement and crossings as unverified ground.
+    detailed=source["reason"]!="unverified_surface"
+    if _outcome(clean,original_sha,mark,center,packet,explain_crossing=detailed,explain_footpath=detailed) != outcome:
         raise ValueError("Passenger mark differs from the original photo, submitted box or parking evidence")
     return {"current_image_and_tracks_checked":True, "submitted_mark":mark, "mark_center_xy":center,
             "offlane_mask_replayed":packet is not None, "decision_reproduced":True,

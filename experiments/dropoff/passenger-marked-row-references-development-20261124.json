@@ -1,0 +1,410 @@
+{
+  "scope": "Development replay on four previously graded UAE drives. The earlier independent source-new study was frozen before diagnosing these errors. Its 0/3 correct natural positive answers and 2/3 passenger interior marks remain intact. This repeat does not independently estimate accuracy on another drive.",
+  "independent_first_result": "passenger-placement-fifth-holdout-results-20261124.json",
+  "method": {
+    "pink_wall": "Require a separately source-verified OPEN point in both wide and close 8B views, original same-frame object tracks, connected parking and two optically confirmed parking dividers physically spanning the point’s row. Choose a point near the centre between those measured dividers. A wall must be independently segmented above it. The image has pale warm wall pixels, and cannot reliably distinguish pink from peach.",
+    "near_vehicle": "The local 8B recognized the red SUV. Its only archived open ground point was outside the referenced marked row, so it supplies no target geometry. Current vehicle pixels and tracks uniquely corroborate the requested body colour. At least three actual repeated parking lines, a visible open aisle, an unoccupied accessible parking interior, and the point appearing on the camera side of the same vehicle establish a separate point option.",
+    "extent": "Both are passenger-selectable interior points. The system does not certify a full bay, vehicle manoeuvre, legality or physical clearance."
+  },
+  "endpoint_summary": {
+    "total_requests": 14,
+    "eligible_utterances_on_two_marked_drives": 4,
+    "correct_guided": 4,
+    "subsequently_selected_and_saved_by_passenger": 4,
+    "changed_or_restricted_instructions": 8,
+    "withheld_all_locations_for_changed_or_restricted": 8,
+    "range_s": [
+      0.078,
+      3.735
+    ],
+    "median_s": 0.5155000000000001,
+    "receipt_sha256": "ef2f3e001c08009d7bedc0bd821f8d0748cecfbba3c4fc8ebfd8263107370d92"
+  },
+  "rows": [
+    {
+      "case": "F01",
+      "variation": "original",
+      "words": "Could you pull into the empty marked bay beside the pink wall?",
+      "initial_state": "needs_clarification",
+      "point_choices": [
+        [
+          2481.0666666666666,
+          1513.2806324110672
+        ]
+      ],
+      "in_reference": [
+        true
+      ],
+      "initial_save": false,
+      "saved": true,
+      "actor_after_choice": "passenger",
+      "clarification": "I found parking between painted lines beside the light, warm-coloured wall. I couldn’t verify that the wall is pink in this photo. Is this the spot you meant?",
+      "time_s": 3.735,
+      "error": null
+    },
+    {
+      "case": "F01",
+      "variation": "equivalent",
+      "words": "Let me out in the painted parking bay next to the pink wall.",
+      "initial_state": "needs_clarification",
+      "point_choices": [
+        [
+          2481.0666666666666,
+          1513.2806324110672
+        ]
+      ],
+      "in_reference": [
+        true
+      ],
+      "initial_save": false,
+      "saved": true,
+      "actor_after_choice": "passenger",
+      "clarification": "I found parking between painted lines beside the light, warm-coloured wall. I couldn’t verify that the wall is pink in this photo. Is this the spot you meant?",
+      "time_s": 0.438,
+      "error": null
+    },
+    {
+      "case": "F01",
+      "variation": "blue",
+      "words": "Use the empty marked bay beside the blue wall.",
+      "initial_state": "needs_clarification",
+      "point_choices": [],
+      "in_reference": [],
+      "initial_save": false,
+      "saved": false,
+      "actor_after_choice": null,
+      "clarification": "I couldn’t match that description to a visible drop-off area. Tap an off-lane spot to check the surface, or describe another landmark.",
+      "time_s": 0.64,
+      "error": null
+    },
+    {
+      "case": "F01",
+      "variation": "wrong_side",
+      "words": "Use an empty marked bay on the left beside the pink wall.",
+      "initial_state": "needs_clarification",
+      "point_choices": [],
+      "in_reference": [],
+      "initial_save": false,
+      "saved": false,
+      "actor_after_choice": null,
+      "clarification": "I couldn’t match that description to a visible drop-off area. Tap an off-lane spot to check the surface, or describe another landmark.",
+      "time_s": 0.547,
+      "error": null
+    },
+    {
+      "case": "F01",
+      "variation": "road",
+      "words": "Stop in the main road beside the pink wall.",
+      "initial_state": "needs_clarification",
+      "point_choices": [],
+      "in_reference": [],
+      "initial_save": false,
+      "saved": false,
+      "actor_after_choice": null,
+      "clarification": "I couldn’t match that description to a visible drop-off area. Tap an off-lane spot to check the surface, or describe another landmark.",
+      "time_s": 0.406,
+      "error": null
+    },
+    {
+      "case": "F01",
+      "variation": "fee",
+      "words": "Use a free marked space by the pink wall.",
+      "initial_state": "needs_clarification",
+      "point_choices": [],
+      "in_reference": [],
+      "initial_save": false,
+      "saved": false,
+      "actor_after_choice": null,
+      "clarification": "I couldn’t match that description to a visible drop-off area. Tap an off-lane spot to check the surface, or describe another landmark.",
+      "time_s": 0.391,
+      "error": null
+    },
+    {
+      "case": "F02",
+      "variation": "original",
+      "words": "Could you drop me inside the coned-off work area by the yellow arrow sign?",
+      "initial_state": "needs_clarification",
+      "point_choices": [],
+      "in_reference": [],
+      "initial_save": false,
+      "saved": false,
+      "actor_after_choice": null,
+      "clarification": "You asked for a spot inside the work area. Could you choose a pull-in outside it?",
+      "time_s": 0.172,
+      "error": null
+    },
+    {
+      "case": "F03",
+      "variation": "original",
+      "words": "Can you pull onto the light gravel just off the road beside the hedge on our right?",
+      "initial_state": "needs_clarification",
+      "point_choices": [],
+      "in_reference": [],
+      "initial_save": false,
+      "saved": false,
+      "actor_after_choice": null,
+      "clarification": "I couldn’t match that description to a visible drop-off area. Tap an off-lane spot to check the surface, or describe another landmark.",
+      "time_s": 0.328,
+      "error": null
+    },
+    {
+      "case": "F04",
+      "variation": "original",
+      "words": "Could I get out in one of the empty marked spaces on the right, this side of the red SUV?",
+      "initial_state": "needs_clarification",
+      "point_choices": [
+        [
+          3484.144,
+          2272.381
+        ]
+      ],
+      "in_reference": [
+        true
+      ],
+      "initial_save": false,
+      "saved": true,
+      "actor_after_choice": "passenger",
+      "clarification": "I can see a red SUV and painted parking spaces on the right. The marked parking appears on this side of the vehicle in the photo. Is this the spot you meant?",
+      "time_s": 0.703,
+      "error": null
+    },
+    {
+      "case": "F04",
+      "variation": "equivalent",
+      "words": "Use an empty painted space on our right, closer to us than the red SUV.",
+      "initial_state": "needs_clarification",
+      "point_choices": [
+        [
+          3484.144,
+          2272.381
+        ]
+      ],
+      "in_reference": [
+        true
+      ],
+      "initial_save": false,
+      "saved": true,
+      "actor_after_choice": "passenger",
+      "clarification": "I can see a red SUV and painted parking spaces on the right. The marked parking appears on this side of the vehicle in the photo. Is this the spot you meant?",
+      "time_s": 0.641,
+      "error": null
+    },
+    {
+      "case": "F04",
+      "variation": "blue",
+      "words": "Use an empty marked bay on the right, this side of the blue SUV.",
+      "initial_state": "needs_clarification",
+      "point_choices": [],
+      "in_reference": [],
+      "initial_save": false,
+      "saved": false,
+      "actor_after_choice": null,
+      "clarification": "I couldn’t match that description to a visible drop-off area. Tap an off-lane spot to check the surface, or describe another landmark.",
+      "time_s": 0.515,
+      "error": null
+    },
+    {
+      "case": "F04",
+      "variation": "changed_type",
+      "words": "Use an empty marked bay on the right, this side of the red truck.",
+      "initial_state": "needs_clarification",
+      "point_choices": [],
+      "in_reference": [],
+      "initial_save": false,
+      "saved": false,
+      "actor_after_choice": null,
+      "clarification": "I couldn’t match that description to a visible drop-off area. Tap an off-lane spot to check the surface, or describe another landmark.",
+      "time_s": 0.516,
+      "error": null
+    },
+    {
+      "case": "F04",
+      "variation": "left",
+      "words": "Use an empty marked bay on the left, this side of the red SUV.",
+      "initial_state": "needs_clarification",
+      "point_choices": [],
+      "in_reference": [],
+      "initial_save": false,
+      "saved": false,
+      "actor_after_choice": null,
+      "clarification": "I couldn’t match that description to a visible drop-off area. Tap an off-lane spot to check the surface, or describe another landmark.",
+      "time_s": 0.516,
+      "error": null
+    },
+    {
+      "case": "F04",
+      "variation": "unsafe",
+      "words": "Use the reserved marked bay on the right, this side of the red SUV.",
+      "initial_state": "needs_clarification",
+      "point_choices": [],
+      "in_reference": [],
+      "initial_save": false,
+      "saved": false,
+      "actor_after_choice": null,
+      "clarification": "Could you describe a visible off-lane spot or tap the space you mean on the photo?",
+      "time_s": 0.078,
+      "error": null
+    }
+  ],
+  "remaining": {
+    "F03": "The gravel/hedge request has no source-verified open option and the signed surface classified the reference interior as sidewalk. No alternative parking point is claimed for that drive.",
+    "F02": "The coned work area is a genuine prohibited-target control. It should never produce a selectable spot."
+  },
+  "sources": [
+    {
+      "case": "F01",
+      "recording_id": "kartaview_6267177",
+      "frame_id": 167,
+      "image_sha256": "1ce00bae5a7a65d2c2ca1feb6485ce4f6c4fbd0afd18829d3f86cc72d99ed6e6"
+    },
+    {
+      "case": "F02",
+      "recording_id": "kartaview_994509",
+      "frame_id": 281,
+      "image_sha256": "c7e0afd713582d0b3c19567fbf3e6ca537509333c612a1e5ae5e37ec9635f2c1"
+    },
+    {
+      "case": "F03",
+      "recording_id": "kartaview_5138697",
+      "frame_id": 360,
+      "image_sha256": "ffc38d7f8d94ff8cf964ad65002031c558c86b4c14780aa6cd63381e8494de9f"
+    },
+    {
+      "case": "F04",
+      "recording_id": "kartaview_1465182",
+      "frame_id": 0,
+      "image_sha256": "ae1831d72b844f5650f519fee363ca8627ac014db00aef1a3d19d655f2584ad2"
+    }
+  ],
+  "receipt_replay": {
+    "correct_source_reproduced": 2,
+    "modified_coordinates_rejected": 2,
+    "source_replay_file_sha256": "55e42ace410af790ed3a497c4a6a200eb063c054ec3b46574f71ffef4b8efcf8"
+  },
+  "cross_photo_controls": {
+    "scope": "Both location descriptions were repeated against six different, previously opened UAE drives. These check whether the location is being reused across photos; they do not establish overall vision accuracy.",
+    "requests": 12,
+    "no_spurious_options": 12,
+    "receipt_sha256": "7ebb9930d48c46a913bb6855eff43389e29ea7fcd5864db52dd6a3f9ec246f24"
+  },
+  "browser": [
+    {
+      "case": "F01",
+      "words": "Let me out in the painted parking bay next to the pink wall.",
+      "source_sha256": "1ce00bae5a7a65d2c2ca1feb6485ce4f6c4fbd0afd18829d3f86cc72d99ed6e6",
+      "visible_s": 0.929,
+      "visible_copy": "I found parking between painted lines beside the light, warm-coloured wall. I couldn’t verify that the wall is pink in this photo. Is this the spot you meant? You can also mark another spot.",
+      "initial_save_visible": false,
+      "initial_save_token": false,
+      "saved_point": [
+        2481.0666666666666,
+        1513.2806324110672
+      ],
+      "actor": "passenger",
+      "final_heading": "Location saved",
+      "receipt_sha256": "8f06e31654a4b36902baab45667b0c58ca04e7f7e6b30f6bc5f0f7c0d7497e79"
+    },
+    {
+      "case": "F04",
+      "words": "Use an empty painted space on our right, closer to us than the red SUV.",
+      "source_sha256": "ae1831d72b844f5650f519fee363ca8627ac014db00aef1a3d19d655f2584ad2",
+      "visible_s": 0.958,
+      "visible_copy": "I can see a red SUV and painted parking spaces on the right. The marked parking appears on this side of the vehicle in the photo. Is this the spot you meant? You can also mark another spot.",
+      "initial_save_visible": false,
+      "initial_save_token": false,
+      "saved_point": [
+        3484.144,
+        2272.381
+      ],
+      "actor": "passenger",
+      "final_heading": "Location saved",
+      "receipt_sha256": "35f62edaf631e9b7c170c9aa7a14686ff74f5a11204dc54adbb62e11506bb162"
+    }
+  ],
+  "source_only_generic_check": {
+    "scope": "The same neutral request for a marked parking space was tried once per side on ten previously opened local source images. This covers the new fallback alone. Earlier installed parking routes may provide additional options and these twenty generic queries have no independent completeness grade.",
+    "requests": 20,
+    "offered": [
+      {
+        "recording_id": "kartaview_1465182",
+        "frame_id": 0,
+        "requested_side": "right",
+        "points": [
+          [
+            3484.144,
+            2272.381
+          ]
+        ]
+      },
+      {
+        "recording_id": "kartaview_6267177",
+        "frame_id": 167,
+        "requested_side": "right",
+        "points": [
+          [
+            2481.0666666666666,
+            1513.2806324110672
+          ]
+        ]
+      }
+    ],
+    "others_withheld": 18,
+    "receipt_sha256": "095bd21bbf52d6e2aedbbade72ad427cf5ef282ea886f67f535f3c8b0b813b7d"
+  },
+  "generic_app_check": {
+    "requests": 4,
+    "cases": [
+      {
+        "case": "F01",
+        "requested_side": "right",
+        "points": [
+          [
+            2481.0666666666666,
+            1513.2806324110672
+          ]
+        ],
+        "initial_save": false,
+        "separately_saved": true,
+        "latency_s": 0.454
+      },
+      {
+        "case": "F01",
+        "requested_side": "left",
+        "points": [],
+        "initial_save": false,
+        "separately_saved": false,
+        "latency_s": 0.75
+      },
+      {
+        "case": "F04",
+        "requested_side": "right",
+        "points": [
+          [
+            3484.144,
+            2272.381
+          ]
+        ],
+        "initial_save": false,
+        "separately_saved": true,
+        "latency_s": 1.141
+      },
+      {
+        "case": "F04",
+        "requested_side": "left",
+        "points": [],
+        "initial_save": false,
+        "separately_saved": false,
+        "latency_s": 1.094
+      }
+    ],
+    "receipt_sha256": "5bef428c0850539b0624038559b537f6780c072b37ac04f4f97430f98bd6b2d7"
+  },
+  "regression_suite": {
+    "passed": 114,
+    "scope": "Marked-row references, painted-row interiors, explicit/divider choices, earlier curb alternatives, local image sources and preserved whole-bay and native-destination checks."
+  },
+  "code_sha256": {
+    "trackrag\\dropoff\\marked_row_references.py": "ed083d965c6e89f0e9e8c6683ed6d6468bbbe96b2cfb8e43a658ef98baf3a789",
+    "trackrag\\dropoff\\painted_row_interiors.py": "e8b6fa8e4b64da2daa244d005dce12add9e3ac9488c45b0289c188c556a1118b"
+  }
+}

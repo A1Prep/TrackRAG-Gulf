@@ -5,6 +5,7 @@ export function addFrame(select, frame) {
   const drive = frame.recording_id.match(/^kartaview_(\d+)$/);
   option.textContent = drive ? "Street photo " + drive[1] + " · " + frame.frame_id :
     frame.recording_id.replace(/^video_/, "Recording ") + " · frame " + frame.frame_id + " · " + frame.timestamp_s.toFixed(1) + " s";
+  if (frame.parking_areas_indexed) option.textContent += " · Parking outlines";
   select.append(option);
 }
 

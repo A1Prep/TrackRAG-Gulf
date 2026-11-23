@@ -2,7 +2,8 @@ import assert from "node:assert/strict";
 import {readFile} from "node:fs/promises";
 
 const source = await readFile(new URL("../trackrag/passenger_ui/photo-tools.js",import.meta.url));
-const {PhotoTools, boxCentre, destinationLabel, drawDestination, positionWords} = await import("data:text/javascript;base64," + source.toString("base64"));
+const {PhotoTools, bayAtPoint, bayChoices, boxCentre, destinationLabel, drawDestination, offeredBay, positionWords}
+  = await import("data:text/javascript;base64," + source.toString("base64"));
 const car = [1340.16,1281.42];  // Centre of a real vehicle in the blind-07 phone regression.
 for (const displayWidth of [320,375,1000,1800]) {
   for (const zoom of [1,1.5,2,3]) {
@@ -76,3 +77,21 @@ for (const scale of [1,3.84,12]) {
 }
 assert.equal(destinationLabel({selected_by:"passenger"}), "Blue pin at your mark");
 assert.deepEqual(paintCalls("model",null,1), [], "An unplaced pin cannot implicitly highlight a coarse box");
+
+// Test perspective edges and overlap, rather than the enclosing rectangles.
+const a={id:"bay-1",polygon_xy:[[4,8],[12,5],[18,14],[6,17]],center_xy:[9,11],passenger_tap_xy:[15,9.5]};
+const b={id:"bay-2",polygon_xy:[[12,5],[20,3],[28,10],[18,14]],center_xy:[19,8],passenger_tap_xy:[15,9.5]};
+assert.equal(bayAtPoint([a,b],a.center_xy,0.1),a);
+assert.equal(bayAtPoint([a,b],b.center_xy,0.1),b);
+assert.equal(bayAtPoint([a,b],a.passenger_tap_xy,0.1),null);
+assert.equal(bayAtPoint([a,b],[28,14],0.1),null);
+assert.equal(bayAtPoint([a,a],a.center_xy,0.1),null);
+const choicesView={state:"needs_clarification",bay_choices:[a,b]};
+assert.deepEqual(bayChoices(choicesView,30,20),[a,b]);
+assert.deepEqual(bayChoices({...choicesView,state:"cancelled"},30,20),[]);
+assert.deepEqual(bayChoices({...choicesView,bay_choices:[a,a]},30,20),[]);
+const offer={state:"proposed",bay_outline:a,result:{destination_point_xy:a.center_xy}};
+assert.equal(offeredBay(offer,30,20),a);
+assert.equal(offeredBay({...offer,state:"needs_clarification"},30,20),null);
+assert.equal(offeredBay({...offer,result:{destination_point_xy:b.center_xy}},30,20),null);
+assert.equal(offeredBay({...offer,bay_outline:{...a,polygon_xy:[[0,0],[16,-1],[15,14]]}},30,20),null);

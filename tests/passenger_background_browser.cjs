@@ -10,6 +10,15 @@ const scenes = ["first","second"].map((key,i) => ({key,recording_id:"kartaview_"
 const words = "Just behind the last white car on the right";
 const clone = value => JSON.parse(JSON.stringify(value));
 const view = (state="idle",extra={}) => ({state,turns:[],can_request_area:true,can_request_pointing:true,...extra});
+const fixtureBays = [
+  {id:"bay-1",polygon_xy:[[70,190],[260,160],[335,239],[70,300]],center_xy:[185,220],passenger_tap_xy:null},
+  {id:"bay-2",polygon_xy:[[260,160],[435,135],[510,193],[335,239]],center_xy:[380,182],passenger_tap_xy:null}
+];
+function bayOffer(bay, selected_by) {
+  const xs=bay.polygon_xy.map(p=>p[0]), ys=bay.polygon_xy.map(p=>p[1]);
+  return {state:"proposed",bay_outline:bay,proposal_id:"offered-"+bay.id,selected_by,
+    result:{destination_point_xy:bay.center_xy,destination_box_xyxy:[Math.min(...xs),Math.min(...ys),Math.max(...xs),Math.max(...ys)]}};
+}
 const latch = () => {
   let release, notify;
   return {hold:new Promise(done => { release=done; }),entered:new Promise(done => { notify=done; }),
@@ -63,18 +72,26 @@ async function browserCase(browser,url) {
     }
     if (action==="area") {
       assert.equal(body.box.length,4);
-      s.view=view("proposed",{turns:s.view.turns,selected_by:"passenger",proposal_id:"mine",
-        result:{destination_point_xy:[320,180],destination_box_xyxy:body.box}});
+      const tap=[(body.box[0]+body.box[2])/2,(body.box[1]+body.box[3])/2];
+      s.view=mock.manualBays ? view("needs_clarification",{turns:s.view.turns,selected_by:"passenger",
+        bay_choices:(mock.manualBays===1?fixtureBays.slice(0,1):fixtureBays).map(bay=>({...bay,passenger_tap_xy:tap}))}) :
+        view("proposed",{turns:s.view.turns,selected_by:"passenger",proposal_id:"mine",
+          result:{destination_point_xy:tap,destination_box_xyxy:body.box}});
+    }
+    if (action==="select-bay") {
+      assert.equal(req.headers()["x-session-revision"],String(s.revision-1));
+      const bay=s.view.bay_choices.find(option=>option.id===body.bay_id);
+      assert(bay); s.view=view("proposed",{turns:s.view.turns,...bayOffer(bay,s.view.selected_by)});
     }
     if (action==="confirm") {
       assert.equal(body.proposal_id,s.view.proposal_id); s.view.state="confirmed";
     }
     return json(s);
   });
-  mock.finish = () => {
+  mock.finish = (extra={}) => {
     const s=mock.current; s.revision++; s.pending_grounding=null;
     s.view=view("proposed",{turns:s.view.turns,proposal_id:"automatic",selected_by:"model",
-      result:{destination_point_xy:[410,150],destination_box_xyxy:[400,140,420,160]}});
+      result:{destination_point_xy:[410,150],destination_box_xyxy:[400,140,420,160]},...extra});
   };
   await page.goto(url);
   await page.waitForFunction(()=>document.querySelector('#frame').naturalWidth===640 && !document.querySelector('#scene').disabled);
@@ -92,6 +109,13 @@ async function reviewVoice(page) {
 }
 async function heading(page,title) {
   await page.waitForFunction(value=>document.querySelector('#destination-title').textContent===value,title);
+}
+async function clickPhoto(page,[x,y]) {
+  const canvas=page.locator("#overlay"), size=await canvas.boundingBox();
+  await canvas.click({position:{x:x*size.width/640,y:y*size.height/360}});
+}
+async function pixelAlpha(page,point) {
+  return page.locator("#overlay").evaluate((canvas,[x,y])=>canvas.getContext("2d").getImageData(x,y,1,1).data[3],point);
 }
 
 async function main() {
@@ -163,7 +187,64 @@ async function main() {
       await p.locator("#"+button).click(); await p.waitForFunction(()=>document.querySelector('#form').hidden);
       assert.deepEqual(s.requests[0].body,{text:words,mode:"typed",[field]:true}); assert.deepEqual(s.errors,[]); await p.close();
     }
-    console.log("8 browser scenarios passed: typed completion, typed and reviewed-voice marking, reviewed-voice cancellation, stale acknowledgment, stale poll, direct area and vehicle selection.");
+    // Single automatic bay displays its perspective polygon and centre only; new input clears both.
+    {
+      const s=await browserCase(browser,url),p=s.page; await submitTyped(p); await p.locator("#take-over-area").waitFor();
+      s.finish(bayOffer(fixtureBays[0],"model")); await heading(p,"Is this your intended bay?");
+      assert.equal(await p.locator("#confirm").textContent(),"Save this bay");
+      assert.equal(await p.locator("#legend").textContent(),"Gold ring at bay centre");
+      assert(await pixelAlpha(p,[120,237])>0); assert.equal(await pixelAlpha(p,[320,170]),0);
+      await p.locator("#zoom-in").click(); assert.equal(await p.locator("#zoom-level").textContent(),"1.5×");
+      assert(await pixelAlpha(p,[120,237])>0); await p.locator("#confirm").click(); await heading(p,"Location saved");
+      assert.match(await p.locator("#status").textContent(),/outlined parking bay as your intended drop-off/);
+      await p.locator("#new-request").click(); assert.equal(await pixelAlpha(p,[120,237]),0);
+      assert.deepEqual(s.errors,[]); await p.close();
+    }
+    // A stripe can border two bays. A button or a tap inside a single bay selects only that candidate.
+    for (const mode of ["manual buttons","automatic photo","automatic label"]) {
+      const s=await browserCase(browser,url),p=s.page,manual=mode.startsWith("manual");
+      if (mode==="automatic label") await p.evaluate(()=>{
+        const ctx=document.querySelector("#overlay").getContext("2d"),draw=ctx.fillText.bind(ctx);
+        ctx.fillText=function(label,x,y) {
+          if (label==="Bay A") {
+            const t=ctx.getTransform(); window.bayALabel=[t.a*(x+2)+t.e,t.d*y+t.f];
+          }
+          return draw(label,x,y);
+        };
+      });
+      if (manual) {
+        s.manualBays=true; await p.setViewportSize({width:390,height:844});
+        await p.locator("#instruction").fill(words); await p.locator("#submit-area").click();
+        await clickPhoto(p,[297.5,199.5]); await p.locator("#use-box").click();
+      } else {
+        await submitTyped(p); await p.locator("#take-over-area").waitFor();
+        s.finish({state:"needs_clarification",proposal_id:null,result:null,bay_choices:fixtureBays});
+      }
+      await heading(p,"Which parking bay do you mean?");
+      assert.deepEqual(await p.locator("#bay-buttons button").allTextContents(),["Bay A","Bay B"]);
+      assert(await p.locator("#confirm").isHidden()); assert(await pixelAlpha(p,[120,237])>0);
+      await clickPhoto(p,[297.5,199.5]); assert.equal(s.requests.filter(r=>r.action==="select-bay").length,0);
+      const index=manual?1:0;
+      if (manual) await p.getByRole("button",{name:"Choose bay B"}).press("Enter");
+      else if (mode==="automatic label") await clickPhoto(p,await p.evaluate(()=>window.bayALabel));
+      else await clickPhoto(p,fixtureBays[index].center_xy);
+      await heading(p,"Is this your intended bay?"); assert(await p.locator("#bay-tools").isHidden());
+      assert.deepEqual(s.requests.at(-1).body,{bay_id:fixtureBays[index].id});
+      assert.equal(await p.locator("#legend").textContent(),manual?"Gold ring at bay centre · Blue diamond at your tap":"Gold ring at bay centre");
+      assert.equal(await pixelAlpha(p,manual?[120,237]:[470,185]),0);
+      await p.locator("#confirm").click(); await heading(p,"Location saved"); assert.deepEqual(s.errors,[]); await p.close();
+    }
+    // A visible bay beside an ambiguous stripe needs a choice before the save action appears.
+    {
+      const s=await browserCase(browser,url),p=s.page;s.manualBays=1;
+      await p.locator("#instruction").fill(words);await p.locator("#submit-area").click();
+      await clickPhoto(p,[72,220]);await p.locator("#use-box").click();await heading(p,"Did you mean this side of the line?");
+      assert.match(await p.locator("#status").textContent(),/Bay A is the visible bay beside your mark/);
+      assert.deepEqual(await p.locator("#bay-buttons button").allTextContents(),["Bay A"]);assert(await p.locator("#confirm").isHidden());
+      await p.getByRole("button",{name:"Choose bay A"}).click();await heading(p,"Is this your intended bay?");
+      assert(await p.locator("#confirm").isVisible());assert.deepEqual(s.errors,[]);await p.close();
+    }
+    console.log("13 browser scenarios passed, including explicit choice when only one side of a painted line is supported.");
   } finally { await browser.close(); await new Promise(done=>server.close(done)); }
 }
 main().catch(error=>{console.error(error);process.exitCode=1;});

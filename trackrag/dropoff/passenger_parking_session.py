@@ -23,6 +23,12 @@ class ParkingPassengerSession(PassengerSession):
     def interpret_automatic(self, request):
         if not parking.parking_instruction(request):
             return super().interpret_automatic(request)
+        # A named stall can also be described by two vehicles. Check its actual footprint first.
+        inspect=getattr(self.model,"inspect_requested_bay",None)
+        if callable(inspect):
+            bay=inspect(request)
+            if bay is not None:
+                return bay,"model"
         try:
             response = self._parking_backend.interpret(deepcopy(request))
         except ValueError:

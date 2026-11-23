@@ -46,9 +46,59 @@ def scene_key(recording_id, frame_id):
     return hashlib.sha256(json.dumps((recording_id, frame_id)).encode()).hexdigest()[:24]
 
 
-def public_frame(key, scene):
+def public_frame(key, scene, *, parking_areas_indexed=False):
     frame = scene["frame"]
-    return {"key":key, **{field:frame[field] for field in ("recording_id","frame_id","timestamp_s","width","height")}}
+    row = {"key":key, **{field:frame[field] for field in ("recording_id","frame_id","timestamp_s","width","height")}}
+    if parking_areas_indexed:
+        row["parking_areas_indexed"] = True
+    return row
+
+
+def _parking_discovery_backend(model, factory):
+    """Only describe the capability of a session that actually runs public bay interpretation."""
+    from functools import partial
+
+    while isinstance(factory, partial):
+        factory = factory.func
+    place = getattr(getattr(model, "inspect_requested_bay", None), "__self__", None)
+    if place is None or not isinstance(factory,type):
+        return None
+    from trackrag.dropoff.interaction import PassengerSession
+    from trackrag.dropoff.place_evidence import PlaceDialogueGrounder, PublicPlaceBackend
+    if (issubclass(factory,PassengerSession) and isinstance(place,PlaceDialogueGrounder)
+            and isinstance(place.backend,PublicPlaceBackend)):
+        return place.backend
+    return None
+
+
+def _has_parking_index(scene, backend):
+    if backend is None or not backend.allows_photo({"scene":scene}):
+        return False
+    from trackrag.dropoff import bay_anchors, whole_bay
+    frame = scene["frame"]
+    key = scene["provenance"]["image_sha256"]
+    try:
+        packet = bay_anchors.get_packet(key)
+        if packet is None:
+            return False
+        size = (frame["width"], frame["height"])
+        body, _ = bay_anchors.checked_context(packet, scene, size)
+        shapes = {row["shape"] for row in body["rows"] if re.fullmatch("[a-f0-9]{64}",row["shape"])
+                  and re.fullmatch("[a-f0-9]{64}",row["view"])}
+        if len(shapes) != len(body["rows"]):
+            return False
+        path = Path(frame["image_path"])
+        if not 0 < path.stat().st_size <= MAX_IMAGE_BYTES:
+            return False
+        photo = path.read_bytes()
+        if hashlib.sha256(photo).hexdigest() != key:
+            return False
+        with Image.open(io.BytesIO(photo)) as picture:
+            if picture.size != size:
+                return False
+        return whole_bay.index_has_outline(scene, photo, shapes)
+    except (OSError,TypeError,ValueError,KeyError):
+        return False
 
 
 def load_scenes(banks):
@@ -187,6 +237,7 @@ class PassengerSite:
         self.recognizer = recognizer
         self.out = Path(out)
         self.session_factory = session_factory
+        self.parking_discovery_backend = _parking_discovery_backend(model,session_factory)
         self.sessions = {}
         self.session_lock = threading.Lock()
         self.model_lock = threading.Lock()
@@ -205,11 +256,15 @@ class PassengerSite:
 
     def catalog(self):
         with self.scene_lock:
-            frames = [public_frame(key, s) for key, s in self.scenes.items()]
+            scenes = list(self.scenes.items())
             covered = sorted(self.footage_scenes)
+        frames = [self._catalog_frame(key,scene) for key,scene in scenes]
         return {"scenes": sorted(frames, key=lambda f: (f["recording_id"], f["frame_id"])),
                 "speech_available": self.recognizer is not None, "footage_available": bool(covered),
                 "footage_scenes": covered}
+
+    def _catalog_frame(self, key, scene):
+        return public_frame(key, scene, parking_areas_indexed=_has_parking_index(scene,self.parking_discovery_backend))
 
     def check_footage_coverage(self, minimum):
         covered = {self.scenes[key]["frame"]["recording_id"] for key in self.footage_scenes}
@@ -243,7 +298,7 @@ class PassengerSite:
                 if existing != scene:
                     raise PassengerRequestError(409,"The recording changed while this frame was opening.")
                 self.footage_scenes.add(key)
-        return public_frame(key, scene)
+        return self._catalog_frame(key, scene)
 
     def open(self, scene_key, previous=None):
         if not isinstance(scene_key, str) or scene_key not in self.scenes:
@@ -462,6 +517,13 @@ class PassengerSite:
                     raise PassengerRequestError(409, "Finish your new instruction before selecting its vehicles.")
                 with self.model_request():
                     s.dialogue.select_pair(payload.get("track_ids"), payload.get("placement"))
+            elif action == "select-bay":
+                current = s.dialogue.view()
+                key = payload.get("bay_id")
+                if (s.voice_stage or current["state"] != "needs_clarification"
+                        or not isinstance(key, str) or key not in {b["id"] for b in current.get("bay_choices", [])}):
+                    raise PassengerRequestError(409, "Choose one of the currently highlighted bays.")
+                s.dialogue.select_bay(key)
             elif action == "confirm":
                 token = payload.get("proposal_id")
                 current = s.dialogue.view()
@@ -685,6 +747,8 @@ def main(argv=None):
                          release_after_request=model.close if args.low_memory else None)
     try:
         recordings = site.check_footage_coverage(args.require_footage)
+        if site.parking_discovery_backend is not None:
+            site.catalog()  # Warm verified street-photo geometry before accepting interactive requests.
         with ThreadingHTTPServer(("127.0.0.1", args.port), handler(site)) as server:
             print(f"Open http://127.0.0.1:{server.server_port}/  ({len(scenes)} prepared frames, "
                   f"{len(recordings)} searchable recordings, speech {'enabled' if asr else 'disabled'})", flush=True)

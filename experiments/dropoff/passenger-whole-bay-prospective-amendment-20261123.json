@@ -1,0 +1,16 @@
+{
+  "sealed_utc": "2026-11-23T19:27:31.312437+00:00",
+  "prior_sha256": "a3fbdc7d8e579ae62605350dbdf58b4c1d49a593764bf1725ac804801a976776",
+  "initial_plan": "passenger-whole-bay-prospective-plan-20261123.json",
+  "case": "P01",
+  "kind": "shared_line",
+  "initial_xy": [
+    1046,
+    1553
+  ],
+  "corrected_xy": [
+    1040,
+    1528
+  ],
+  "reason": "An image-only consistency check immediately after sealing, before any outcome was inspected on these five sources, showed the intended shared-line tap was 25.7 native pixels from the boundary common to the already traced A and B polygons. The new coordinate is the nearest point on this same preregistered common edge, rounded to an original pixel. The images, requests, polygons, labels and all other taps are unchanged."
+}

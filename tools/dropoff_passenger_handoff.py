@@ -23,11 +23,11 @@ def records(path):
 
 def bound_outcome(outcome, request, *, passenger_selected=False, passenger_landmarks=False, dialogue_policy=False, requested_box=None,
                   referent_path=None, pair_geometry=None, road_cache=None, passenger_requested_pointing=False,
-                  passenger_requested_area=False, parking_artifacts=None):
+                  passenger_requested_area=False, parking_artifacts=None, selected_bay_id=None, bay_source_sha=None):
     need(isinstance(outcome, dict) and outcome.get("request_id") == request["request_id"], "Mismatched outcome ID")
     source = outcome.get("provenance", {})
     need(isinstance(source, dict), "Missing outcome provenance")
-    from trackrag.dropoff import manual_mark, manual_offlane
+    from trackrag.dropoff import manual_mark, manual_offlane, whole_bay
     if passenger_requested_area or source.get("method") == manual_mark.REQUEST_METHOD:
         need(passenger_requested_area and dialogue_policy and
              not (passenger_selected or passenger_landmarks or passenger_requested_pointing) and
@@ -36,13 +36,19 @@ def bound_outcome(outcome, request, *, passenger_selected=False, passenger_landm
                 "image_sha256":source["image"]["sha256"], "inference_input_sha256":source["inference_input_sha256"],
                 "saved_provenance":source, "result":outcome["result"], "independent_model_proposal":False,
                 "native_model_calls":0}
-    if source.get("method") == manual_offlane.METHOD:
+    method = source.get("method")
+    if method in whole_bay.MANUAL_METHODS:
         need(passenger_selected and not (passenger_landmarks or dialogue_policy),
              "An off-lane mark requires a passenger selection")
         if outcome.get("ok") is True:
-            need(requested_box is not None, "An off-lane mark requires the passenger's submitted rectangle")
-            checked = manual_offlane.verify(request, outcome, requested_box=requested_box)
-            return {"ok":True, "request_id":request["request_id"], "method":manual_offlane.METHOD,
+            if method == whole_bay.CHOICE:
+                need(selected_bay_id and selected_bay_id == source.get("bay_id") and bay_source_sha and
+                     bay_source_sha == digest(source.get("choice_source")), "Bay selection differs from the preceding pictured options")
+            else:
+                need(requested_box is not None and selected_bay_id is None, "An off-lane mark requires the passenger's submitted rectangle")
+            check = manual_offlane.verify if method == manual_offlane.METHOD else whole_bay.verify
+            checked = check(request, outcome, requested_box=requested_box)
+            return {"ok":True, "request_id":request["request_id"], "method":method,
                     "image_sha256":source["image"]["sha256"], "inference_input_sha256":source["inference_input_sha256"],
                     "saved_provenance":source, "result":outcome["result"], "passenger_mark_verification":checked,
                     "native_model_calls":0, "independent_model_proposal":False}
@@ -239,6 +245,7 @@ def session(journal_path, *, referent_path=None, pair_geometry=None, road_cache=
     parking_offer_sha = None
     place_offer_sha = None
     manual_offer_sha = None
+    bay_menu_sha = None
     events = []
     for line_sha, event in raw:
         action, detail, view = event["action"], event["detail"], event["view"]
@@ -249,30 +256,45 @@ def session(journal_path, *, referent_path=None, pair_geometry=None, road_cache=
                 "proposal_id": view["proposal_id"], "selected_by": view["selected_by"],
                 "state": view["state"], "raw_event_line_sha256": line_sha}
         token = view["proposal_id"]
+        if view["state"] not in {"proposed", "confirmed"}:
+            need(view.get("bay_outline") is None, "Unproposed interaction contains a pictured destination")
+        if view["state"] != "needs_clarification":
+            need(not view.get("bay_choices"), "Inactive bay choices appear outside clarification")
         if view["state"] in {"proposed", "confirmed"}:
             need(isinstance(token, str) and re.fullmatch(r"[0-9a-f]{32}", token), "Confirmation requires a real proposal token")
             if view["state"] == "proposed":
-                need(action in {"submitted", "passenger_marked", "passenger_selected_pair"} and token not in offered_tokens,
+                need(action in {"submitted", "passenger_marked", "passenger_selected_pair", "passenger_selected_bay"} and token not in offered_tokens,
                      "An offered passenger proposal token was reused")
                 offered_tokens.add(token)
         else:
             need(token is None, "An inactive passenger interaction exposed a proposal token")
-        if action in ("submitted", "passenger_marked", "passenger_selected_pair"):
+        if action in ("submitted", "passenger_marked", "passenger_selected_pair", "passenger_selected_bay"):
             parking_offer_sha = place_offer_sha = manual_offer_sha = None
-            manual = action == "passenger_marked"
+            pick = action == "passenger_selected_bay"
+            manual = action == "passenger_marked" or pick
             pair = action == "passenger_selected_pair"
             if not manual and not pair:
                 # The application can journal a rejected submission before it reaches the model.
                 # Keep that error in the export even if the submitted text failed validation.
+                prior_request = request
                 request = detail["request"] if detail["outcome"] is None else validate_request(detail["request"])
                 need(isinstance(request, dict), "Submitted request is missing")
                 need(request["scene"] == scene, "Submitted request belongs to another scene")
                 if "replaces_request_id" in detail:
+                    need("retries_waiting_request_id" not in detail, "A replacement cannot also retry a waiting result")
                     replaced = detail["replaces_request_id"]
                     need(isinstance(replaced,str) and replaced and previous.get("request_id") == replaced
                          and previous.get("state") not in {"confirmed","cancelled"} and replaced != request["request_id"]
                          and not request["dialogue"], "Replacement retained prior words or targeted a different request")
                     item["replaces_request_id"] = replaced
+                elif "retries_waiting_request_id" in detail:
+                    prior_id = detail["retries_waiting_request_id"]
+                    need(prior_request and events and events[-1].get("outcome",{}).get("method")=="public_place_lookup_wait_v1"
+                         and previous.get("state")=="needs_clarification" and previous.get("request_id")==prior_id
+                         and prior_request["request_id"]==prior_id and request["request_id"]!=prior_id and
+                         all(prior_request.get(k)==request.get(k) for k in ("text","dialogue","scene","input_mode","original_transcript")),
+                         "A repeated waiting check changed its original words, context or mode")
+                    item["retries_waiting_request_id"]=prior_id
                 else:
                     expected_dialogue = [] if previous.get("state") in {"confirmed","cancelled"} else previous.get("turns", [])
                     need(request["dialogue"] == expected_dialogue, "Submitted history differs from the active passenger conversation")
@@ -300,13 +322,18 @@ def session(journal_path, *, referent_path=None, pair_geometry=None, road_cache=
                     active = recovery or (pair and (previous.get("error") or {}).get("code") in RECOVERABLE)
                 need(active and previous.get("request_id") == request["request_id"] and original_submission,
                      "Assisted selection followed an inactive or different passenger request")
-            item["phase"] = ("passenger_selected_landmarks" if pair else "passenger_marked" if manual else
+            item["phase"] = ("passenger_selected_bay" if pick else "passenger_selected_landmarks" if pair else "passenger_marked" if manual else
                              "explicit_passenger_area_request" if passenger_requested_area else
                              "model_after_prior_dialogue" if request["dialogue"] else "initial_model")
             item["submitted_text"] = request["text"]
             item["input_mode"] = request["input_mode"]
             item["original_transcript"] = request.get("original_transcript")
-            if manual:
+            if pick:
+                need(bay_menu_sha and detail.get("prior_outcome_sha256") == bay_menu_sha
+                     and previous.get("state") == "needs_clarification" and detail.get("bay_id") in
+                     {b["id"] for b in previous.get("bay_choices", [])}, "Selection requires the preceding offered bays")
+                item["bay_id"] = detail["bay_id"]
+            elif manual:
                 if (detail.get("outcome") or {}).get("ok") is True:
                     need(detail.get("requested_box") is not None, "Passenger mark lacks its submitted rectangle")
                 item["requested_box"] = detail.get("requested_box")
@@ -331,6 +358,8 @@ def session(journal_path, *, referent_path=None, pair_geometry=None, road_cache=
                                                 dialogue_policy=not manual and not pair, referent_path=referent_path,
                                                 pair_geometry=pair_geometry,road_cache=road_cache,
                                                 requested_box=detail.get("requested_box") if manual else None,
+                                                selected_bay_id=detail.get("bay_id") if pick else None,
+                                                bay_source_sha=bay_menu_sha if pick else None,
                                                 passenger_requested_pointing=passenger_requested_pointing,
                                                 passenger_requested_area=passenger_requested_area and not (manual or pair),
                                                 parking_artifacts=parking_artifacts)
@@ -356,6 +385,9 @@ def session(journal_path, *, referent_path=None, pair_geometry=None, road_cache=
                 if not manual and not pair and passenger_requested_pointing:
                     item["phase"] = "explicit_passenger_pointing_request"
             if item["outcome"]["ok"]:
+                source = detail["outcome"]["provenance"]
+                need(view.get("bay_outline") == source.get("bay_outline") and
+                     view.get("bay_choices", []) == source.get("bay_choices", []), "Displayed bay differs from the verified offer")
                 if pair:
                     receipt = detail["outcome"]["provenance"]
                     origin = "pointing_submission" if passenger_requested_pointing else "automatic_submission"
@@ -374,11 +406,15 @@ def session(journal_path, *, referent_path=None, pair_geometry=None, road_cache=
                 need(view["selected_by"] == selected_by and
                      view["result"] == item["outcome"]["result"] and view["state"] == view["result"]["status"],
                      "Saved view changed the grounding result or who selected it")
+                bay_menu_sha = digest(detail["outcome"]) if view.get("bay_choices") else None
             else:
+                bay_menu_sha = None
                 need(view["state"] == "error" and view.get("result") is None and view.get("selected_by") is None
                      and view.get("error") == item["outcome"].get("error"),
                      "Failed interaction differs from the error presented to the passenger")
         elif action == "confirmed":
+            need(view.get("bay_outline") == previous.get("bay_outline") and not view.get("bay_choices"),
+                 "Confirmed bay differs from the displayed outline")
             need(previous.get("state") == "proposed" and view["state"] == "confirmed" and
                  (previous["request_id"], previous["proposal_id"], previous["selected_by"], previous["result"]) ==
                  (view["request_id"], detail["proposal_id"], detail["selected_by"], view["result"]) and
@@ -398,6 +434,8 @@ def session(journal_path, *, referent_path=None, pair_geometry=None, road_cache=
                      "Parking confirmation differs from the verified decision for this proposal")
                 item["verified_parking_outcome_sha256"] = parking_offer_sha
         else:
+            bay_menu_sha = None
+            need(not view.get("bay_choices") and view.get("bay_outline") is None, "Inactive response contains a pictured bay")
             need(action in ("opened", "cancelled", "confirmation_blocked"), "Unsupported interaction action")
             state = {"opened": "idle", "cancelled": "cancelled", "confirmation_blocked": "error"}[action]
             need(view["state"] == state and view.get("selected_by") is None and view.get("result") is None,

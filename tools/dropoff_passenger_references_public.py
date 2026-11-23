@@ -11,12 +11,11 @@ from pathlib import Path
 from statistics import mean
 
 from PIL import Image
-from tools.dropoff_passenger_references import _index, _lines, _payload
+from tools.dropoff_passenger_references import _automatic_failure, _index, _lines, _payload
 from tools.dropoff_predict import read_requests
 from tools.dropoff_score_methods import point_hit
 from trackrag.dropoff.contracts import DESTINATION_FIELDS, FULL_FIELDS, validate_target
 from trackrag.dropoff.data import file_sha256, inference_input_sha256, load_cases
-from trackrag.dropoff.manual_offlane import METHOD as OFFLANE_MARK
 from trackrag.vision.geometry import iou
 
 
@@ -37,9 +36,6 @@ def score_outcome(case, request, outputs):
             raise ValueError("unrecognized grounding outcome")
         provenance = outcome["provenance"]
         digest = case["source"]["image_sha256"]
-        if (provenance.get("injected") is True or provenance.get("independent_model_proposal") is False
-                or provenance.get("method") in {"explicit_passenger_region", OFFLANE_MARK}):
-            raise ValueError("artificial or passenger-marked outputs cannot score as an independent model")
         if provenance["image"]["sha256"] != digest:
             raise ValueError("output belongs to different image bytes")
         if "inference_input_sha256" in provenance:
@@ -49,6 +45,9 @@ def score_outcome(case, request, outputs):
             model_input = json.dumps(request, sort_keys=True, separators=(",", ":"), allow_nan=False).encode()
             if provenance.get("request_sha256") != sha256(model_input).hexdigest():
                 raise ValueError("wrong request digest")
+        row["failure"] = _automatic_failure(request, outcome)
+        if row["failure"]:
+            return row
         frame = request["scene"]["frame"]
         result = outcome["result"]
         if set(result) != DESTINATION_FIELDS and not FULL_FIELDS.issubset(result):

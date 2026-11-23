@@ -1,0 +1,425 @@
+{
+  "date": "2026-11-23",
+  "scope": "Typed and manually selected passenger drop-offs in a real Edge browser on the integrated local staging release. The photographs and public passenger wording were previously seen. This is an engineering rehearsal. The photo observations were made by an AI reviewer.",
+  "coordinates": "Original-image pixels measured from the upper left. Timings cover the browser action through the visible response and include polling. Saving records the passenger’s intended location.",
+  "photo_credit": "© Grab and KartaView Contributors",
+  "photo_license": "https://creativecommons.org/licenses/by-sa/4.0/",
+  "restaurant": {
+    "photo": "https://kartaview.org/details/7199241/48/",
+    "image_sha256": "ed69e5e794d9618bd153a0ea0266dd0a9203b1526c279ec01a0c9c64b2b0124b",
+    "original_size": [
+      3840,
+      2160
+    ],
+    "offered_bays": [
+      {
+        "id": "bay-1",
+        "polygon_xy": [
+          [
+            1686.224,
+            1541.502
+          ],
+          [
+            2404.944,
+            1393.098
+          ],
+          [
+            2166.617,
+            1357.333
+          ],
+          [
+            1992.18,
+            1357.333
+          ],
+          [
+            1461.517,
+            1431.071
+          ]
+        ],
+        "center_xy": [
+          1893.315,
+          1434.021
+        ]
+      },
+      {
+        "id": "bay-2",
+        "polygon_xy": [
+          [
+            1686.224,
+            1541.502
+          ],
+          [
+            2404.944,
+            1393.098
+          ],
+          [
+            2517.656,
+            1607.36
+          ],
+          [
+            2517.656,
+            1633.025
+          ],
+          [
+            2283.371,
+            1738.299
+          ]
+        ],
+        "center_xy": [
+          2190.935,
+          1564.406
+        ]
+      }
+    ],
+    "photo_review": "Two visible parking stalls share the stripe under the original tap. The marked centre lane between the vehicles had no destination pin.",
+    "first_staging_build": "The original automatic restaurant wording produced a generic clarification without bay choices. The corrected release returned both bays; the initial and repeat times below are from the corrected release.",
+    "browser_cases": [
+      {
+        "case": "automatic-restaurant",
+        "words": "Could you drop me next to the restaurant?",
+        "first_state": "needs_clarification",
+        "choice_count": 2,
+        "visible_ms": 1111,
+        "repeat_visible_ms": 585,
+        "first_heading": "Which parking bay do you mean?",
+        "ack_ms": 85,
+        "saved_center_xy": [
+          1893.315,
+          1434.021
+        ],
+        "destination_read_back": true,
+        "selection_tested": [
+          "keyboard choice button"
+        ]
+      },
+      {
+        "case": "stripe-A",
+        "words": "Could you drop me next to the restaurant?",
+        "first_state": "needs_clarification",
+        "choice_count": 2,
+        "visible_ms": 179,
+        "repeat_visible_ms": 175,
+        "first_heading": "Which parking bay do you mean?",
+        "target_xy": [
+          2277.462,
+          1415.814
+        ],
+        "submitted_xy": [
+          2277.4619569883243,
+          1415.813980940934
+        ],
+        "saved_center_xy": [
+          1893.315,
+          1434.021
+        ],
+        "destination_read_back": true,
+        "selection_tested": [
+          "keyboard choice button",
+          "tap on the Bay A label at mobile width"
+        ]
+      },
+      {
+        "case": "stripe-B",
+        "words": "Could you drop me next to the restaurant?",
+        "first_state": "needs_clarification",
+        "choice_count": 2,
+        "visible_ms": 179,
+        "repeat_visible_ms": 198,
+        "first_heading": "Which parking bay do you mean?",
+        "target_xy": [
+          2277.462,
+          1415.814
+        ],
+        "submitted_xy": [
+          2277.461895294897,
+          1415.8140061585148
+        ],
+        "saved_center_xy": [
+          2190.935,
+          1564.406
+        ],
+        "destination_read_back": true,
+        "selection_tested": [
+          "tap inside Bay B at 1.5×"
+        ]
+      },
+      {
+        "case": "single-interior",
+        "words": "Could you drop me next to the restaurant?",
+        "first_state": "proposed",
+        "choice_count": 0,
+        "visible_ms": 178,
+        "repeat_visible_ms": 183,
+        "first_heading": "Is this your intended bay?",
+        "target_xy": [
+          1893.315,
+          1434.021
+        ],
+        "submitted_xy": [
+          1893.3149587324538,
+          1434.0210527490183
+        ],
+        "saved_center_xy": [
+          1893.315,
+          1434.021
+        ],
+        "destination_read_back": true
+      },
+      {
+        "case": "travel-lane",
+        "words": "Could you drop me next to the restaurant?",
+        "first_state": "needs_clarification",
+        "choice_count": 0,
+        "visible_ms": 221,
+        "repeat_visible_ms": 213,
+        "first_heading": "Choose another location",
+        "target_xy": [
+          1050,
+          1550
+        ],
+        "submitted_xy": [
+          1050,
+          1550.0000780971081
+        ]
+      },
+      {
+        "case": "automatic-nearest",
+        "words": "Please drop me in the nearest painted bay next to the restaurant.",
+        "first_state": "needs_clarification",
+        "choice_count": 2,
+        "visible_ms": 604,
+        "repeat_visible_ms": 591,
+        "first_heading": "Which parking bay do you mean?",
+        "ack_ms": 131,
+        "saved_center_xy": [
+          1893.315,
+          1434.021
+        ],
+        "destination_read_back": true,
+        "selection_tested": [
+          "keyboard choice button"
+        ]
+      }
+    ]
+  },
+  "right_hand_parking": {
+    "polygon_xy": [
+      [
+        1606.08,
+        1222.268
+      ],
+      [
+        1973.44,
+        1222.268
+      ],
+      [
+        2636.48,
+        1412.548
+      ],
+      [
+        1910.72,
+        1412.548
+      ]
+    ],
+    "center_xy": [
+      2058.119,
+      1327.806
+    ],
+    "photo_review": "The outlined curbside stall lies on the right beside the construction frontage and follows faint painted end marks. The original tap is distinct from the bay centre. The separate centre-lane tap lies behind the moving blue vehicle.",
+    "browser_cases": [
+      {
+        "case": "right-automatic",
+        "source": "https://kartaview.org/details/66245/146/",
+        "image_sha256": "534ff1819947cffe773874bc601925b76ad97e8a17048ec75ff76ba916b7a9e3",
+        "words": "Can you drop me next to the parking spot on the right?",
+        "input": "typed",
+        "state": "proposed",
+        "visible_ms": 586,
+        "destination_xy": [
+          2058.119,
+          1327.806
+        ],
+        "whole_bay": true,
+        "choice_count": 0,
+        "save_available": true,
+        "message": "The gold ring marks the centre of the outlined parking bay in the lower right of the photo.",
+        "ack_ms": 94,
+        "pending_controls_available": true,
+        "saved_location_readback_xy": [
+          2058.119,
+          1327.806
+        ]
+      },
+      {
+        "case": "right-tap",
+        "source": "https://kartaview.org/details/66245/146/",
+        "image_sha256": "534ff1819947cffe773874bc601925b76ad97e8a17048ec75ff76ba916b7a9e3",
+        "words": "Can you drop me next to the parking spot on the right?",
+        "input": "manual",
+        "state": "proposed",
+        "visible_ms": 133,
+        "destination_xy": [
+          2058.119,
+          1327.806
+        ],
+        "whole_bay": true,
+        "choice_count": 0,
+        "save_available": true,
+        "message": "Your tap is the blue diamond. The gold ring marks the centre of the outlined parking bay in the lower right of the photo.",
+        "target_xy": [
+          1953.256,
+          1275.42
+        ],
+        "submitted_xy": [
+          1953.2443821916984,
+          1275.4051102667
+        ],
+        "saved_location_readback_xy": [
+          2058.119,
+          1327.806
+        ]
+      },
+      {
+        "case": "right-road",
+        "source": "https://kartaview.org/details/66245/146/",
+        "image_sha256": "534ff1819947cffe773874bc601925b76ad97e8a17048ec75ff76ba916b7a9e3",
+        "words": "Can you drop me next to the parking spot on the right?",
+        "input": "manual",
+        "state": "needs_clarification",
+        "visible_ms": 144,
+        "destination_xy": null,
+        "whole_bay": false,
+        "choice_count": 0,
+        "save_available": false,
+        "message": "That point appears to be in a traffic lane. Could you mark a visible parking bay instead?",
+        "target_xy": [
+          1300,
+          1310
+        ],
+        "submitted_xy": [
+          1299.9670311464547,
+          1309.9863720302567
+        ]
+      }
+    ]
+  },
+  "other_public_requests": [
+    {
+      "case": "white-sedan",
+      "source": "https://kartaview.org/details/3329429/213/",
+      "image_sha256": "5b635a7c2e4f7eebd4ae50b91b725fd9054bf7b41bda28248e36e5bfa0de7e5b",
+      "words": "Could you drop me off behind the white car?",
+      "input": "typed",
+      "state": "proposed",
+      "visible_ms": 575,
+      "destination_xy": [
+        2243.0933333333332,
+        1369.7430830039527
+      ],
+      "whole_bay": false,
+      "choice_count": 0,
+      "save_available": true,
+      "message": "Check the yellow pin in the lower right of the photo.",
+      "ack_ms": 95,
+      "pending_controls_available": true,
+      "saved_location_readback_xy": [
+        2243.0933333333332,
+        1369.7430830039527
+      ],
+      "photo_review": "The proposed point falls in the open curbside strip immediately behind the parked white sedan, between the roadway edge and curb."
+    },
+    {
+      "case": "truck",
+      "source": "https://kartaview.org/details/986839/1/",
+      "image_sha256": "528de6137375fa351d4d85d5f25d3eca7b0034c2542983e75c32ad6b1013d2ac",
+      "words": "can u drop me behind the truck",
+      "input": "typed",
+      "state": "needs_clarification",
+      "visible_ms": 585,
+      "destination_xy": null,
+      "whole_bay": false,
+      "choice_count": 0,
+      "save_available": false,
+      "message": "I can’t see a clear off-lane space immediately behind that vehicle. Could you mark a different spot or name another landmark?",
+      "ack_ms": 93,
+      "pending_controls_available": true,
+      "photo_review": "The truck occupies the gate approach. Its rear opens into the approach lane and the image shows no distinct stopping bay there."
+    },
+    {
+      "case": "black-pickup",
+      "source": "https://kartaview.org/details/5124809/287/",
+      "image_sha256": "37249c17aea5689c7f6d059e5fb99ed405a9d95a414f444571d44906033b6626",
+      "words": "Could you drop me next to that black pickup truck?",
+      "input": "typed",
+      "state": "needs_clarification",
+      "visible_ms": 598,
+      "destination_xy": null,
+      "whole_bay": false,
+      "choice_count": 0,
+      "save_available": false,
+      "message": "I can’t see a clear off-lane space beside that vehicle. Could you mark a different spot or name another landmark?",
+      "ack_ms": 101,
+      "pending_controls_available": true,
+      "photo_review": "The dark pickup is in a parked row beyond a raised strip. An open space on the camera side of the strip would miss the requested vehicle."
+    },
+    {
+      "case": "trees",
+      "source": "https://kartaview.org/details/4572137/14/",
+      "image_sha256": "98dbfd42cf22eab79bff24cbf227cdefb7663b12c0d7d1014569642f067adfbd",
+      "words": "Drop me next to the trees on the left",
+      "input": "typed",
+      "state": "needs_clarification",
+      "visible_ms": 5203,
+      "destination_xy": null,
+      "whole_bay": false,
+      "choice_count": 0,
+      "save_available": false,
+      "message": "I can’t place that request on a clear bay in this view. Could you mark the spot you mean, or name another visible landmark?",
+      "ack_ms": 98,
+      "pending_controls_available": true,
+      "photo_review": "The left trees border a sidewalk beside the roadway. A separate stopping bay is not discernible there.",
+      "repeat_visible_ms": 593
+    },
+    {
+      "case": "black-suv",
+      "source": "https://kartaview.org/details/4572137/14/",
+      "image_sha256": "98dbfd42cf22eab79bff24cbf227cdefb7663b12c0d7d1014569642f067adfbd",
+      "words": "Could you drop me behind the black car?",
+      "input": "typed",
+      "state": "needs_clarification",
+      "visible_ms": 582,
+      "destination_xy": null,
+      "whole_bay": false,
+      "choice_count": 0,
+      "save_available": false,
+      "message": "I can’t see a clear off-lane space immediately behind that vehicle. Could you mark a different spot or name another landmark?",
+      "ack_ms": 85,
+      "pending_controls_available": true,
+      "photo_review": "The dark SUV at the right is shown side-on. The image does not establish a separate open parking patch immediately behind it."
+    },
+    {
+      "case": "beside-black-suv",
+      "source": "https://kartaview.org/details/4572137/14/",
+      "image_sha256": "98dbfd42cf22eab79bff24cbf227cdefb7663b12c0d7d1014569642f067adfbd",
+      "words": "Could you drop me next to the black car?",
+      "input": "typed",
+      "state": "needs_clarification",
+      "visible_ms": 578,
+      "destination_xy": null,
+      "whole_bay": false,
+      "choice_count": 0,
+      "save_available": false,
+      "message": "I can’t see a clear off-lane space beside that vehicle. Could you mark a different spot or name another landmark?",
+      "ack_ms": 59,
+      "pending_controls_available": true,
+      "photo_review": "The side of the dark SUV faces the roadway. An adjacent open stopping bay is not discernible."
+    }
+  ],
+  "ui_regressions": {
+    "controlled_Edge_scenarios": 12,
+    "passenger_application_tests": 15,
+    "coverage": "Typed and reviewed-voice pending actions and races, prior point-only rendering, perspective polygons, shared boundaries, separately labelled taps, menu buttons, keyboard activation, tapping the polygon or its on-photo label, responsive layout, and zoom."
+  },
+  "retained_ambiguity": "The added restaurant request using 'nearest' still offered the two bays. This photo does not establish which bay is physically nearest to the restaurant.",
+  "limitations": "Ordinary browser checks establish the displayed and saved destination for these photos and instructions. A driver must check current traffic, clearance and stopping rules."
+}

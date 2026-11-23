@@ -33,8 +33,12 @@
           <span id="legend">Original photo</span>
           <div class="zoom-tools" aria-label="Photo zoom"><button type="button" id="zoom-out" class="icon-button" aria-label="Zoom out" disabled>−</button><output id="zoom-level" aria-label="Zoom level">1×</output><button type="button" id="zoom-in" class="icon-button" aria-label="Zoom in" disabled>+</button></div>
         </div>
+        <div id="bay-tools" class="bay-tools" role="group" tabindex="-1" aria-label="Choose a parking bay" hidden>
+          <p>Choose a labelled bay on the photo or use a button.</p>
+          <div id="bay-buttons" class="button-row"></div>
+        </div>
         <div id="draw-tools" class="draw-tools" hidden>
-          <h3>Mark your spot</h3><p id="mark-help">Tap your intended location or drag an outline around it. The centre dot is the point checked. With a keyboard, move with the arrow keys and press Enter to place the mark.</p>
+          <h3>Mark your spot</h3><p id="mark-help">Tap your location or drag around it. The centre dot shows your mark. With a keyboard, use the arrow keys and press Enter to place it.</p>
           <p id="mark-position" class="mark-position" aria-live="polite"></p>
           <div class="button-row"><button type="button" id="use-box" class="primary" disabled>Check this point</button><button type="button" id="pan" class="subtle" aria-pressed="false" hidden>Move zoomed photo</button><button type="button" id="discard-box" class="text-btn">Back</button></div>
         </div>
@@ -72,6 +76,7 @@
           <label for="instruction" id="input-label">Your description</label>
           <textarea rows="2" id="instruction" maxlength="4096" placeholder="Between the two parked cars on the right…" required></textarea>
           <div class="compose-actions"><button id="submit" class="primary" type="submit">Find my spot</button>
+            <button id="show-parking-areas" type="button" class="subtle" hidden>Show parking areas</button>
             <div id="speech-controls" class="speech-controls"><button id="mic" type="button" class="subtle">Record voice</button>
               <button id="upload" type="button" class="text-btn">Upload WAV</button><input id="file" type="file" accept=".wav,audio/wav,audio/x-wav" hidden></div></div>
           <div class="mic-settings">

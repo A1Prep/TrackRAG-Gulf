@@ -1,0 +1,67 @@
+{
+  "test": "Two-photo native visual input control for the prior seven-photo direct-point study.",
+  "question_role": "user only; full source image and the same neutral question without names, coordinates, reference or source URL in model messages",
+  "cases": [
+    {
+      "source": "https://kartaview.org/details/7199241/48/",
+      "original_sha256": "ed69e5e794d9618bd153a0ea0266dd0a9203b1526c279ec01a0c9c64b2b0124b",
+      "input_sha256": "e66ef3f2055bdf0a2ae35314b971c19ebfa1099be68ef9b806585c624eb18d86",
+      "input_size": [
+        1280,
+        704
+      ],
+      "request": "What business name can you read on the most prominent storefront sign? Reply with the visible words or NONE.",
+      "locally_frozen_visible_name": "Piquant Pick",
+      "raw_reply": "PIQUANT PICK HOME RESTAURANT",
+      "matches": true,
+      "model_request_seconds": 23.932,
+      "prompt_tokens": 915,
+      "output_tokens": 10
+    },
+    {
+      "source": "https://kartaview.org/details/5105913/1982/",
+      "original_sha256": "e6a01b783361da5c8f854ef90c6fb4d9bc6b58f46284af27e51f41e9c4230e43",
+      "input_sha256": "be228a5d180d08be9f2236c610f9b37fa61e85c9f786503e98fefe4ab4385d62",
+      "input_size": [
+        1280,
+        704
+      ],
+      "request": "What business name can you read on the most prominent storefront sign? Reply with the visible words or NONE.",
+      "locally_frozen_visible_name": "Asian Cargo",
+      "raw_reply": "ASIAN CARGO",
+      "matches": true,
+      "model_request_seconds": 0.651,
+      "prompt_tokens": 915,
+      "output_tokens": 6
+    }
+  ],
+  "hits": 2,
+  "total": 2,
+  "model": {
+    "model": "Qwen/Qwen3.6-35B-A3B-FP8",
+    "revision": "c653bba46dfa06e9658dcc0b0dc87fe4685f14a2",
+    "loader": "vllm",
+    "vllm": "0.19.1",
+    "image": "vllm/vllm-openai:v0.19.1@sha256:2622f38a0aa646c15ccc27bd5033911a58fd94ac69fd8f86aba0692d77cfe5b9",
+    "torch": "2.10.0+cu129",
+    "transformers": "5.5.4",
+    "quantization": "official fine-grained FP8",
+    "gpu": "NVIDIA H100 80GB HBM3",
+    "model_load_seconds": 133.13,
+    "max_new_tokens": 32,
+    "temperature": 0,
+    "thinking": false
+  },
+  "modal_application": "ap-wvV5yNZiuklC13gIuLPVbB",
+  "timing": "Seconds within the loaded H100-class worker. vLLM generate includes image/word processing and decoding. Elapsed initialization is reported separately.",
+  "source_credit": "© Grab and KartaView contributors, CC BY-SA 4.0; note the individual KartaView public URLs in cases.",
+  "source_license": "https://creativecommons.org/licenses/by-sa/4.0/",
+  "evidence": "runs/qwen35-point-trial/sign-control",
+  "files": {
+    "raw.json": "16c45559cb0c988d05cbf58e56f5790792dff09ca5549406fc1f4a16bed67534",
+    "expected.json": "ffbe6c5acde29bbfa95b3d4b592263e85c05d864c94474e2097d69c83b43afa7",
+    "neutral.json": "6daaf07180f7663313ec4153a64006a04972b07fe5c8f3b831f850dea7d2236d"
+  },
+  "seven_case_record_sha256": "be0827c6dc2537258aea86d5e081b6bf9b6cbeeae4136f5dafea20b11cef60e2",
+  "scope": "A matched correctly-read sign demonstrates content-specific visual input on these two frames. It does not demonstrate recognition of an empty parking area or identify which part of that harder decision failed. The seven original point scores stay fixed."
+}

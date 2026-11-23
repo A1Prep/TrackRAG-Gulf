@@ -357,6 +357,9 @@ class InteractionController:
 
 def signed_place_verifier(method, *, live=False):
     """Replay recorded decisions. A new offer or confirmation must also pass today's model policy."""
+    if method == "public_painted_bay_landmark_v1":
+        from . import whole_bay
+        return whole_bay.verify_current if live else whole_bay.verify
     if method == "molmo2_frontage_confidence_v1":
         from .frontage_evidence import verify
         return verify
@@ -367,7 +370,7 @@ def signed_place_verifier(method, *, live=False):
         from .single_vehicle import verify
         return verify
     from .place_grounding import EMPTY_SURFACE_METHOD, METHOD
-    if method in (METHOD, EMPTY_SURFACE_METHOD):
+    if method in (METHOD, EMPTY_SURFACE_METHOD, "public_place_lookup_wait_v1"):
         from .place_evidence import verify
         return verify
     return None
@@ -399,6 +402,8 @@ class PassengerSession:
         self._place_offer_sha256 = None
         self._manual_submission_box = None
         self._manual_offer = None
+        self._bay_menu = self._bay_selection = None
+        self._waiting_place = False
         self._requested_area = False
         self._error, self._selected_by, self._request = None, None, None
         self._save("opened", {"scene":clean})
@@ -428,12 +433,20 @@ class PassengerSession:
     def view(self):
         with self._lock:
             frame = self._scene["frame"]
+            receipt = self._manual_offer[1] if self._manual_offer else self._place_offer
+            bay = {}
+            if receipt is not None and receipt["provenance"].get("bay_outline"):
+                bay["bay_outline"] = receipt["provenance"]["bay_outline"]
+            if self._bay_menu is not None:
+                bay["bay_choices"] = self._bay_menu[0]["provenance"]["bay_choices"]
+                if self._bay_menu[0]["provenance"]["reason"]=="unverified_bay_reference":
+                    bay["bay_reference_uncertain"] = True
             return deepcopy({"state":self._state, "recording_id":frame["recording_id"], "frame_id":frame["frame_id"],
                              "image_sha256":self._scene["provenance"]["image_sha256"],
                              "request_id":self._request.get("request_id") if self._request else None,
                              "proposal_id":self._proposal, "result":self._result, "error":self._error,
                              "selected_by":self._selected_by, "turns":self._turns,
-                             "can_request_area":self._supports_area()})
+                             "can_request_area":self._supports_area(), **bay})
 
     def _supports_area(self):
         return self._scene["source"] == "predicted" and callable(getattr(self.model, "passenger_area", None))
@@ -444,7 +457,7 @@ class PassengerSession:
 
     def _accept(self, outcome, selected_by):
         from .passenger import digest
-        from . import manual_offlane
+        from . import manual_offlane, whole_bay
 
         req = self._request
         if not isinstance(outcome,dict) or outcome.get("request_id") != req["request_id"]:
@@ -460,14 +473,21 @@ class PassengerSession:
             raise ValueError("Invalid grounding outcome")
         info, result = outcome["provenance"], outcome["result"]
         method = info.get("method")
+        self._waiting_place = method == "public_place_lookup_wait_v1"
         if (self._manual_submission_box is not None or method == "explicit_passenger_region") and getattr(
                 self.model, "requires_verified_manual_surface", False):
-            if method != manual_offlane.METHOD:
+            if method not in {manual_offlane.METHOD, whole_bay.MARK}:
                 raise ValueError("The marked location requires parking evidence for this photo.")
-        if method == manual_offlane.METHOD:
+        if method in {manual_offlane.METHOD, whole_bay.MARK}:
             if selected_by != "passenger" or self._manual_submission_box is None:
                 raise ValueError("This location must come from an explicit mark on the current photo.")
-            manual_offlane.verify(req, outcome, requested_box=self._manual_submission_box)
+            check = manual_offlane.verify if method == manual_offlane.METHOD else whole_bay.verify_current
+            check(req, outcome, requested_box=self._manual_submission_box)
+        if method == whole_bay.CHOICE:
+            if (selected_by != "passenger" or self._bay_selection is None
+                    or self._bay_selection != (digest(info.get("choice_source")), info.get("bay_id"))):
+                raise ValueError("Select one of the bays offered for the current passenger instruction.")
+            whole_bay.verify_current(req, outcome)
         if (info.get("image",{}).get("sha256") != self.scene["provenance"]["image_sha256"]
                 or info.get("request_sha256") != digest(req)):
             raise ValueError("Grounding outcome is not bound to this scene and instruction")
@@ -480,12 +500,18 @@ class PassengerSession:
             if result["status"] == "proposed":
                 self._place_offer = deepcopy(outcome)
                 self._place_offer_sha256 = digest(outcome)
-        if method == manual_offlane.METHOD and result["status"] == "proposed":
+        if method in whole_bay.MANUAL_METHODS and result["status"] == "proposed":
             self._manual_offer = (deepcopy(self._manual_submission_box), deepcopy(outcome), digest(outcome))
+        if method in {whole_bay.AUTO, whole_bay.MARK} and result["status"]=="needs_clarification" and info.get("bay_choices"):
+            self._bay_menu = (deepcopy(outcome), digest(outcome))
         self._state, self._result, self._selected_by = result["status"],result,selected_by
         if self._state == "proposed":
             self._proposal = uuid4().hex
-            self._turns.append(self._turn("assistant","Please check the pin on the photo. Is this where you want to get out?"))
+            outline = info.get("bay_outline") or {}
+            prompt = ("Is this visible parking area where you want to get out?" if outline.get("extent") == "visible_parking_surface" else
+                      "Is the outlined bay where you want to get out?" if outline else
+                      "Please check the pin on the photo. Is this where you want to get out?")
+            self._turns.append(self._turn("assistant",prompt))
         elif self._state == "needs_clarification":
             self._turns.append(self._turn("assistant",result["clarification_question"]))
         else:
@@ -497,6 +523,8 @@ class PassengerSession:
         self._place_offer_sha256 = None
         self._manual_offer = None
         self._manual_submission_box = None
+        self._bay_menu = self._bay_selection = None
+        self._waiting_place = False
 
     def _save_turn(self, action, detail):
         try:
@@ -521,6 +549,11 @@ class PassengerSession:
         if point_to_vehicles is not False:
             raise ValueError("Vehicle selection is unavailable for this scene.")
 
+    def _retries_lookup(self, text, original_transcript, replaces_request_id):
+        return bool(self._waiting_place and self._state=="needs_clarification" and self._request
+                    and replaces_request_id is None and self._request["text"]==text
+                    and self._request.get("original_transcript")==original_transcript)
+
     def _submission_input(self, text, original_transcript, replaces_request_id, request_id):
         if replaces_request_id is not None and (not self._request or self._state in {"confirmed", "cancelled"}
                 or self._request["request_id"] != replaces_request_id):
@@ -529,6 +562,8 @@ class PassengerSession:
         request = {"request_id":request_id, "scene":self.scene, "text":text,
                    "input_mode":"typed" if original_transcript is None else "voice",
                    "dialogue":[] if fresh else deepcopy(self._turns)}
+        if self._retries_lookup(text, original_transcript, replaces_request_id):
+            request["dialogue"] = deepcopy(self._request["dialogue"])
         if original_transcript is not None:
             request["original_transcript"] = original_transcript
         return request
@@ -575,6 +610,8 @@ class PassengerSession:
 
         with self._lock:
             request_id = _completed[0]["request_id"] if _completed is not None else uuid4().hex
+            retry_id = (self._request["request_id"] if self._retries_lookup(text, original_transcript, replaces_request_id)
+                        else None)
             request = self._submission_input(text, original_transcript, replaces_request_id, request_id)
             if _completed is not None and (point_to_vehicles or mark_on_photo or self._check_input(request,speech) != _completed[0]):
                 raise ValueError("The completed check belongs to a different passenger request.")
@@ -606,6 +643,8 @@ class PassengerSession:
                 self._state = "error"
                 self._error = error_outcome(operational_code(exc),str(exc)[:4000] or type(exc).__name__,request_id)["error"]
             detail = {"request":self._request,"outcome":outcome,"speech":speech}
+            if retry_id is not None:
+                detail["retries_waiting_request_id"] = retry_id
             if mark_on_photo:
                 detail["passenger_requested_area"] = True
             if replaces_request_id is not None:
@@ -638,6 +677,25 @@ class PassengerSession:
             self._save_turn("passenger_marked",{"requested_box":box,"outcome":outcome})
             return self.view()
 
+    def select_bay(self, bay_id):
+        from . import whole_bay
+        from .passenger import digest
+        with self._lock:
+            if self._state != "needs_clarification" or self._bay_menu is None:
+                raise ValueError("The highlighted alternatives are no longer available.")
+            source, expected = self._bay_menu
+            if digest(source) != expected:
+                raise ValueError("The pictured alternatives changed.")
+            outcome = whole_bay.choice_outcome(self._request, source, bay_id)
+            self._clear()
+            self._bay_selection = (expected, bay_id)
+            try:
+                self._accept(outcome, "passenger")
+            finally:
+                self._bay_selection = None
+            self._save_turn("passenger_selected_bay", {"bay_id":bay_id,"prior_outcome_sha256":expected,"outcome":outcome})
+            return self.view()
+
     def confirm(self, proposal_id):
         from .passenger import digest
 
@@ -657,13 +715,14 @@ class PassengerSession:
             detail = {"proposal_id":proposal_id,"selected_by":self._selected_by}
             if self._manual_offer is not None or (self._selected_by == "passenger" and
                     getattr(self.model, "requires_verified_manual_surface", False)):
-                from . import manual_offlane
+                from . import manual_offlane, whole_bay
                 try:
                     box, receipt, expected = self._manual_offer
                     if (self._selected_by != "passenger" or receipt["result"] != self._result
                             or expected != digest(receipt)):
                         raise ValueError("The marked location changed.")
-                    manual_offlane.verify(self._request, receipt, requested_box=box)
+                    check = manual_offlane.verify if receipt["provenance"]["method"] == manual_offlane.METHOD else whole_bay.verify_current
+                    check(self._request, receipt, requested_box=box)
                 except (ValueError, TypeError, KeyError, OSError) as exc:
                     self._clear()
                     self._state = "error"

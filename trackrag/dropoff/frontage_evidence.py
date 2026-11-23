@@ -40,7 +40,7 @@ def prior_eligible(request, prior):
         return False
     source=prior.get("provenance",{})
     # Only a signed place response can prove the prior decision during journal replay.
-    if source.get("method") != place_grounding.METHOD:
+    if source.get("method") not in {place_grounding.METHOD, place_evidence.SURFACE_ONLY}:
         return False
     if (source.get("image",{}).get("sha256")!=request["scene"]["provenance"]["image_sha256"]
             or source.get("request_sha256")!=digest(request)):
@@ -105,8 +105,12 @@ def build_outcome(request, photo, packet, prior):
     clean,source,request_input=source_input(request,photo)
     if not prior_eligible(clean,prior):
         raise ValueError("A frontage supplement requires the original eligible no-pin response")
-    original=place_evidence.build_outcome(clean,photo,prior["provenance"]["place_evidence"],
-                                          recorded_request_id=prior["provenance"].get("reused_source_request_id"))
+    source_info = prior["provenance"]
+    if source_info["method"] == place_evidence.SURFACE_ONLY:
+        original = place_evidence.empty_surface_outcome(clean, photo, source_info["surface_evidence"])
+    else:
+        original=place_evidence.build_outcome(clean,photo,source_info["place_evidence"],
+                                              recorded_request_id=source_info.get("reused_source_request_id"))
     if original!=prior:
         raise ValueError("Original place decision cannot be reproduced")
     decision,pt=_scored(clean,photo,packet)

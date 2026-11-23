@@ -10,6 +10,7 @@ from tools.passenger_place_call import PROCESSOR_REVISION as PROCESSOR
 from .passenger import instruction_context, proposed, unresolved
 
 METHOD = "trained_qwen_place_with_parking_surface_v3"
+EMPTY_SURFACE_METHOD = "signed_public_place_empty_surface_v1"
 BASE = "10d842936325905934ea24e64325d774693f166e"
 ADAPTER = "76bfb3230b17a86248b52ca6a9f8d2ffca324aa80216d6b93845ccb12ad86743"
 PLACE = re.compile(
@@ -189,10 +190,14 @@ def view_bytes(original, options, selected=None):
     return out.getvalue()
 
 
+def no_parking_surface():
+    return unresolved(QUESTION), "no_visible_parking_surface"
+
+
 def steps(context, classes, original):
     options = surface_options(classes, context["size"], context["current_boxes"])
     if not options:
-        return unresolved(QUESTION), "no_visible_parking_surface"
+        return no_parking_surface()
     raw = yield "choose", CHOOSE, view_bytes(original, options)
     if raw == "NONE":
         return unresolved(QUESTION), "no_matching_place"

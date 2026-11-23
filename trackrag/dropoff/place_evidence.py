@@ -12,7 +12,7 @@ from urllib.parse import urlsplit
 
 from PIL import Image
 
-from . import place_grounding as place
+from . import manual_surfaces, place_grounding as place
 from .parking_evidence import (MAX_IMAGE_BYTES, ModalParkingBackend, _authenticate, _decode_map,
                                signed_bytes, source_input)
 from .passenger import digest
@@ -85,8 +85,33 @@ def build_outcome(request, photo, packet, *, recorded_request_id=None):
                           "independent_model_proposal":result["status"] == "proposed", **replay}}
 
 
+SURFACE_ONLY = place.EMPTY_SURFACE_METHOD
+
+
+def empty_surface_outcome(request, photo, packet):
+    """Reuse the same visual first stage for a new wording when it cannot supply a candidate."""
+    clean, image_sha, input_sha = source_input(request, photo)
+    context = place.current_context(clean)
+    if not context["words"]:
+        raise ValueError("This instruction does not request a named place.")
+    classes = manual_surfaces.decode(packet, clean["scene"]["frame"], image_sha)
+    if place.surface_options(classes, context["size"], context["current_boxes"]):
+        return None
+    result, reason = place.no_parking_surface()
+    return {"ok":True, "request_id":clean["request_id"], "result":result, "provenance":{
+        "method":SURFACE_ONLY, "request_sha256":digest(clean), "image":{"sha256":image_sha},
+        "inference_input_sha256":input_sha, "reason":reason, "surface_evidence":packet,
+        "independent_model_proposal":False}}
+
+
 def verify(request, outcome):
     photo = Path(request["scene"]["frame"]["image_path"]).read_bytes()
+    if outcome["provenance"].get("method") == SURFACE_ONLY:
+        if empty_surface_outcome(request, photo, outcome["provenance"]["surface_evidence"]) != outcome:
+            raise ValueError("The signed parking map does not explain this clarification.")
+        return {"input_verified":True, "decision_reproduced":True, "model_images_reproduced":False,
+                "language_calls":0, "current_language_calls":0, "surface_model_calls":0,
+                "signed_surface_replayed":True, "independent_model_proposal":False}
     packet = outcome["provenance"]["place_evidence"]
     original_id=outcome["provenance"].get("reused_source_request_id")
     if build_outcome(request, photo, packet, recorded_request_id=original_id) != outcome:
@@ -164,6 +189,14 @@ class PublicPlaceBackend(ModalParkingBackend):
                     return build_outcome(request,photo,receipt["packet"],recorded_request_id=receipt["request_id"])
             except (OSError,ValueError,TypeError,KeyError):
                 pass
+        try:
+            surface = manual_surfaces.get_packet(image_sha)
+            if surface is not None:
+                empty = empty_surface_outcome(request, photo, surface)
+                if empty is not None:
+                    return empty
+        except (OSError, ValueError, TypeError, KeyError):
+            pass  # The normal trained route can obtain fresh evidence for a missing or damaged map.
         payload = {"context":place.current_context(request), "input_sha256":input_sha, "photo":base64.b64encode(photo).decode("ascii")}
         try:
             proc = subprocess.run([self.python,"-m","tools.passenger_place_call"],input=signed_bytes(payload),

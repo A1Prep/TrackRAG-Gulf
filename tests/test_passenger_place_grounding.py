@@ -147,6 +147,45 @@ def test_signed_grounding_rejects_other_requests_and_edits(tmp_path,monkeypatch,
         place_evidence.verify(req,altered)
 
 
+def test_signed_empty_surface_replays_for_new_words_and_preserves_the_trained_route(tmp_path, monkeypatch):
+    from tests.test_passenger_manual_offlane import provide_map
+    from tools.dropoff_passenger_handoff import bound_outcome
+
+    req, photo, with_parking, key = case(tmp_path, monkeypatch)
+    manifest = tmp_path/"photos.json"
+    manifest.write_text(json.dumps({"photos":[{"photo_url":"https://kartaview.org/details/42/2/",
+                                               "sha256":sha256(photo).hexdigest()}]}))
+    backend = place_evidence.PublicPlaceBackend([manifest], python="unused", cache=tmp_path/"cache")
+    cloud_calls = []
+    def run(*args, **kwargs):
+        cloud_calls.append(1)
+        return SimpleNamespace(returncode=0, stdout=json.dumps(packet(req,photo,with_parking,key)).encode())
+    monkeypatch.setattr(place_evidence.subprocess, "run", run)
+    empty_map = provide_map(monkeypatch, req["scene"], np.full_like(with_parking,13))
+    new = {**req,"request_id":"second-instruction","text":"Could you let me out by the trees?"}
+    for current in (req, new):
+        out = backend.interpret(current)
+        assert out["result"]["status"] == "needs_clarification" and out["result"]["destination_point_xy"] is None
+        with Image.open(BytesIO(photo)) as original:
+            expected = place.apply_steps(place.current_context(current), np.full_like(with_parking,13), original,
+                                         lambda *_:pytest.fail("The trained route does not call a language model on empty ground"))
+        assert (out["result"],out["provenance"]["reason"]) == expected
+        assert out["provenance"]["method"] == place_evidence.SURFACE_ONLY
+        assert bound_outcome(out,current,dialogue_policy=True)["native_model_calls"] == 0
+        with pytest.raises(ValueError):
+            bound_outcome(out,current,passenger_selected=True)
+    assert not cloud_calls
+    forged = deepcopy(out)
+    forged["provenance"]["surface_evidence"]["body"]["image_sha256"] = "0"*64
+    with pytest.raises(ValueError):
+        place_evidence.verify(new, forged)
+    assert place_evidence.empty_surface_outcome(new,photo,empty_map) == out
+    provide_map(monkeypatch, req["scene"], with_parking)
+    positive = backend.interpret(req)
+    assert cloud_calls == [1] and positive["result"]["status"] == "proposed"
+    assert positive["provenance"]["method"] == place.METHOD
+
+
 def test_only_listed_originals_can_use_the_remote_backend(tmp_path,monkeypatch):
     req,photo,_,_=case(tmp_path,monkeypatch)
     manifest=tmp_path/"photos.json"

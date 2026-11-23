@@ -366,8 +366,8 @@ def signed_place_verifier(method, *, live=False):
             return verify_current
         from .single_vehicle import verify
         return verify
-    from .place_grounding import METHOD
-    if method == METHOD:
+    from .place_grounding import EMPTY_SURFACE_METHOD, METHOD
+    if method in (METHOD, EMPTY_SURFACE_METHOD):
         from .place_evidence import verify
         return verify
     return None

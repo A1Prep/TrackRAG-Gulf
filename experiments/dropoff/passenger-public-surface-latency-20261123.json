@@ -1,0 +1,159 @@
+{
+  "date": "2026-11-23",
+  "scope": "Normal HTTP application calls on the two local servers. An acknowledgment is receipt of the words. Elapsed time ends at a pin, a clarification, or an operational timeout. The different previously unseen tree phrasings exercise the shared visual stage; they are not a controlled speed ratio.",
+  "before_surface_reuse": {
+    "recording": "kartaview_4572137",
+    "frame": 14,
+    "words": "Could you let me out by the trees along the left-hand side?",
+    "runs": [
+      {
+        "repeat": 0,
+        "ack_ms": 5,
+        "total_ms": 15048,
+        "state": "error",
+        "message": null,
+        "has_pin": false,
+        "error": "timeout"
+      },
+      {
+        "repeat": 1,
+        "ack_ms": 25,
+        "total_ms": 7890,
+        "state": "needs_clarification",
+        "message": "I can’t place that request on a clear bay in this view. Could you mark the spot you mean, or name another visible landmark?",
+        "has_pin": false,
+        "error": null
+      }
+    ]
+  },
+  "after_staging": [
+    {
+      "recording": "kartaview_4572137",
+      "frame": 14,
+      "words": "Could you let me out by the palm trees along the left sidewalk?",
+      "ack_ms": 6,
+      "elapsed_ms": 5455,
+      "state": "needs_clarification",
+      "reason": "no_visible_parking_surface",
+      "error": null,
+      "point": null,
+      "method": "signed_public_place_empty_surface_v1",
+      "primary": null,
+      "reused_word_receipt": false,
+      "direct_place_evidence_records": 0
+    },
+    {
+      "recording": "kartaview_4572137",
+      "frame": 14,
+      "words": "Could you let me out by the palm trees along the left sidewalk?",
+      "ack_ms": 27,
+      "elapsed_ms": 152,
+      "state": "needs_clarification",
+      "reason": "no_visible_parking_surface",
+      "error": null,
+      "point": null,
+      "method": "signed_public_place_empty_surface_v1",
+      "primary": null,
+      "reused_word_receipt": false,
+      "direct_place_evidence_records": 0
+    },
+    {
+      "recording": "kartaview_7168777",
+      "frame": 1211,
+      "words": "Could you let me out in the open parking bay beside the garage on the right?",
+      "ack_ms": 6,
+      "elapsed_ms": 15053,
+      "state": "error",
+      "reason": null,
+      "error": "timeout",
+      "point": null,
+      "method": "passenger_interactive_deadline",
+      "primary": null,
+      "reused_word_receipt": false,
+      "direct_place_evidence_records": 0
+    }
+  ],
+  "staging_followups": [
+    {
+      "recording": "kartaview_7165449",
+      "frame": 33,
+      "words": "Let me out by those tall grey double doors on the right, please.",
+      "ack_ms": 5,
+      "elapsed_ms": 5548,
+      "state": "needs_clarification",
+      "reason": "location_blocked",
+      "error": null,
+      "point": null,
+      "method": "trained_qwen_place_with_parking_surface_v3",
+      "primary": null,
+      "reused_word_receipt": true,
+      "direct_place_evidence_records": 2
+    },
+    {
+      "recording": "kartaview_7168777",
+      "frame": 1211,
+      "words": "Could you let me out in the open parking bay beside the garage on the right?",
+      "ack_ms": 10,
+      "elapsed_ms": 7645,
+      "state": "needs_clarification",
+      "reason": "location_blocked",
+      "error": null,
+      "point": null,
+      "method": "trained_qwen_place_with_parking_surface_v3",
+      "primary": null,
+      "reused_word_receipt": false,
+      "direct_place_evidence_records": 2
+    }
+  ],
+  "after_canonical": [
+    {
+      "recording": "kartaview_4572137",
+      "frame": 14,
+      "words": "Please let me out beside the palm trees lining the left sidewalk.",
+      "ack_ms": 23,
+      "elapsed_ms": 5387,
+      "state": "needs_clarification",
+      "reason": "no_visible_parking_surface",
+      "error": null,
+      "point": null,
+      "method": "signed_public_place_empty_surface_v1",
+      "primary": null,
+      "reused_word_receipt": false,
+      "direct_place_evidence_records": 0
+    },
+    {
+      "recording": "kartaview_4572137",
+      "frame": 14,
+      "words": "Please let me out beside the palm trees lining the left sidewalk.",
+      "ack_ms": 21,
+      "elapsed_ms": 145,
+      "state": "needs_clarification",
+      "reason": "no_visible_parking_surface",
+      "error": null,
+      "point": null,
+      "method": "signed_public_place_empty_surface_v1",
+      "primary": null,
+      "reused_word_receipt": false,
+      "direct_place_evidence_records": 0
+    },
+    {
+      "recording": "kartaview_7165449",
+      "frame": 33,
+      "words": "Let me out by those tall grey double doors on the right, please.",
+      "ack_ms": 6,
+      "elapsed_ms": 1263,
+      "state": "proposed",
+      "reason": "verified_frontage_point",
+      "error": null,
+      "point": [
+        2119.68,
+        1350.0
+      ],
+      "method": "molmo2_frontage_confidence_v1",
+      "primary": "trained_qwen_place_with_parking_surface_v3",
+      "direct_place_evidence_records": 0,
+      "evidence_source": "Previously validated specialist and trained scene/crop evidence for exactly this photo, wording and observations."
+    }
+  ],
+  "interpretation": "The original signed parking-surface map on the tree photo supplies zero candidate regions after current vehicles are excluded. Its clarification is reproducible without a language call. A new positive-control garage request still required the trained model, timed out once, and subsequently got a blocked verdict from two genuine scene calls. The known double doors case asked for clarification on a staging server without prepared specialist evidence and recovered its previously verified pin on the canonical server. These tests check behavior and latency. The independent automatic-accuracy test remains the eight-photo frontage scorecard."
+}

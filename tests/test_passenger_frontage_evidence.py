@@ -101,6 +101,17 @@ def test_signed_frontage_replays_photograph_prior_and_current_words(tmp_path, mo
     assert not frontage.prior_eligible(req,unsigned)
 
 
+def test_specialist_can_still_offer_on_an_authentic_zero_candidate_primary(tmp_path, monkeypatch):
+    from tests.test_passenger_manual_offlane import provide_map
+    req,photo,_,combined,_ = trial(tmp_path,monkeypatch)
+    receipt = provide_map(monkeypatch, req["scene"], np.full((64,96),13,dtype=np.uint8))
+    primary = place_evidence.empty_surface_outcome(req,photo,receipt)
+    assert primary["result"]["status"] == "needs_clarification"
+    offered = frontage.build_outcome(req,photo,combined,primary)
+    assert offered["result"]["status"] == "proposed"
+    assert frontage.verify(req,offered)["language_calls"] == 4
+
+
 def test_slow_service_deduplicates_then_rebinds_to_each_request(tmp_path, monkeypatch):
     req,photo,prior,combined,service = trial(tmp_path,monkeypatch)
     entered,release = Event(), Event()

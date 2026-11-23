@@ -66,6 +66,9 @@ async function browserCase(browser,url) {
       s.view=view("proposed",{turns:s.view.turns,selected_by:"passenger",proposal_id:"mine",
         result:{destination_point_xy:[320,180],destination_box_xyxy:body.box}});
     }
+    if (action==="confirm") {
+      assert.equal(body.proposal_id,s.view.proposal_id); s.view.state="confirmed";
+    }
     return json(s);
   });
   mock.finish = () => {
@@ -113,7 +116,10 @@ async function main() {
       assert.deepEqual(s.requests.at(-1).body,{text:words,mode:"typed",background:true});
       await p.waitForTimeout(1200); assert(s.polls.length>=2 && s.polls.length<=4);
       assert(s.polls[1]-s.polls[0]>=400); s.finish(); await heading(p,"Is this your intended location?");
-      assert(await p.locator("#take-over-area").isHidden()); assert.deepEqual(s.errors,[]); await p.close();
+      assert(await p.locator("#take-over-area").isHidden());
+      assert.equal(await p.locator("#confirm").textContent(),"Save this location");await p.locator("#confirm").click();
+      await heading(p,"Location saved");assert.match(await p.locator("#status").textContent(),/yellow pin.*intended drop-off/);
+      assert(await p.locator("#stopping-note").isVisible());assert.deepEqual(s.errors,[]); await p.close();
     }
     // A snapshot already in flight cannot replace a passenger's deliberately marked location.
     for (const mode of ["typed","voice"]) {

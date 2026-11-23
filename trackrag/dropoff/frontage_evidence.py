@@ -181,11 +181,14 @@ class PublicFrontageGrounder:
         # Equal requests share a job. Limit the number of distinct photos held in memory.
         with self._pending_lock:
             pending=self._pending.get(key)
-            if pending is None:
-                if len(self._pending)>=2:
-                    return prior
-                pending=self._pending[key]=Future()
-                Thread(target=self._collect, args=(clean,photo,key,pending), daemon=True).start()
+            if pending is not None:
+                # The first caller already waited for this optional second opinion. A repeated turn
+                # can show its verified primary response while that same job finishes.
+                return prior
+            if len(self._pending)>=2:
+                return prior
+            pending=self._pending[key]=Future()
+            Thread(target=self._collect, args=(clean,photo,key,pending), daemon=True).start()
         try:
             packet=pending.result(timeout=INTERACTIVE_WAIT_SECONDS)
         except FutureTimeout:

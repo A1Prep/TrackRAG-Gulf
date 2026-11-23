@@ -1,0 +1,155 @@
+{
+  "date": "2026-11-23",
+  "scope": "Normal Edge browser on the canonical passenger application, with additional verification on staging. Results cover these photographs and requests.",
+  "automatic_photo": {
+    "url": "https://kartaview.org/details/4572137/14/",
+    "recording_id": "kartaview_4572137",
+    "frame_id": 14,
+    "original_sha256": "98dbfd42cf22eab79bff24cbf227cdefb7663b12c0d7d1014569642f067adfbd"
+  },
+  "normal_automatic_requests": [
+    {
+      "approved_words": "Drop me next to the trees on the left",
+      "mode": "typed",
+      "first_observation": {
+        "acknowledgment_ms": 146,
+        "visible_result_ms": 8461,
+        "state": "needs_clarification"
+      },
+      "repeat_while_optional_result_outstanding": {
+        "acknowledgment_ms": 60,
+        "visible_result_ms": 5176,
+        "state": "needs_clarification"
+      },
+      "repeat_after_both_verified_receipts": {
+        "acknowledgment_ms": 81,
+        "visible_result_ms": 600,
+        "state": "needs_clarification"
+      },
+      "visible_response": "I can’t place that request on a clear bay in this view. Could you mark the spot you mean, or name another visible landmark?"
+    },
+    {
+      "approved_words": "Could you drop me behind the black car?",
+      "mode": "reviewed voice",
+      "input": "An existing four-second local recording was played through the browser microphone input.",
+      "recognized_before_edit": "Could you drop me behind the black card?",
+      "first_observation": {
+        "acknowledgment_ms": 70,
+        "visible_result_ms": 582,
+        "state": "needs_clarification"
+      },
+      "repeat": {
+        "acknowledgment_ms": 67,
+        "visible_result_ms": 586,
+        "state": "needs_clarification"
+      },
+      "visible_response": "I can’t see a clear off-lane space immediately behind that vehicle. Could you mark a different spot or name another landmark?"
+    },
+    {
+      "approved_words": "Could you drop me next to the black car?",
+      "mode": "typed",
+      "first_observation": {
+        "acknowledgment_ms": 75,
+        "visible_result_ms": 595,
+        "state": "needs_clarification"
+      },
+      "repeat": {
+        "acknowledgment_ms": 75,
+        "visible_result_ms": 583,
+        "state": "needs_clarification"
+      },
+      "visible_response": "I can’t see a clear off-lane space beside that vehicle. Could you mark a different spot or name another landmark?"
+    }
+  ],
+  "pending_controls": {
+    "mark_and_cancel_and_scene_selector_enabled_on_every_automatic_acknowledgment": true,
+    "takeover_acknowledgment_ms": 74,
+    "takeover_heading": "Choose a spot on the photo",
+    "cancel_acknowledgment_ms": 98,
+    "cancel_remained_cancelled_after_ms": 15500,
+    "controlled_browser_regressions": "Eight delayed-response browser cases cover typed and approved-voice takeover, cancellation, stale results after navigation, and immediate manual and vehicle actions."
+  },
+  "manual_marks": [
+    {
+      "case": "T1",
+      "public_photo": "https://kartaview.org/details/4572137/14/",
+      "sha256": "98dbfd42cf22eab79bff24cbf227cdefb7663b12c0d7d1014569642f067adfbd",
+      "tap_in_original_pixels": [
+        1529.967917054986,
+        1279.9570847523933
+      ],
+      "submitted_mark_centre": [
+        1529.967917054986,
+        1279.9570847523933
+      ],
+      "offered_pin": null,
+      "save_action_visible": false,
+      "result_heading": "Choose another location",
+      "legend": "Cross = your last mark · no destination pin",
+      "result_text": "That point appears to be in a traffic lane. Could you mark a visible parking bay instead?",
+      "canonical_visible_ms": 187,
+      "staging_visible_ms": 193
+    },
+    {
+      "case": "B1",
+      "public_photo": "https://kartaview.org/details/7168777/1211/",
+      "sha256": "6c09f8965a7203ca86f42d18d4b7fc43fa38c700d827a3b92bf90189b394d273",
+      "tap_in_original_pixels": [
+        2529.9894377135756,
+        1574.951640740059
+      ],
+      "submitted_mark_centre": [
+        2529.9894377135756,
+        1574.951640740059
+      ],
+      "offered_pin": [
+        2529.9894377135756,
+        1574.951640740059
+      ],
+      "save_action_visible": true,
+      "result_heading": "Is this your intended location?",
+      "legend": "Blue pin at your mark",
+      "result_text": "The blue pin is at the centre of your mark, in the bottom centre of the photo. Save it if this is where you want to get out.",
+      "canonical_visible_ms": 174,
+      "staging_visible_ms": 228,
+      "saved_heading": "Location saved",
+      "saved_description": "You chose the blue pin in the bottom centre of the photo as your intended drop-off.",
+      "driver_note": "The driver must check traffic, clearance and stopping rules.",
+      "saved_session_readback_pin": [
+        2529.9894377135756,
+        1574.951640740059
+      ]
+    },
+    {
+      "case": "original-mark",
+      "public_photo": "https://kartaview.org/details/4572137/14/",
+      "sha256": "98dbfd42cf22eab79bff24cbf227cdefb7663b12c0d7d1014569642f067adfbd",
+      "tap_in_original_pixels": [
+        1862.9641969555762,
+        1059.9614034885863
+      ],
+      "submitted_mark_centre": [
+        1862.9641969555762,
+        1059.9614034885863
+      ],
+      "offered_pin": null,
+      "save_action_visible": false,
+      "result_heading": "Choose another location",
+      "legend": "Cross = your last mark · no destination pin",
+      "result_text": "That point appears to be in a traffic lane. Could you mark a visible parking bay instead?",
+      "canonical_visible_ms": 136,
+      "staging_visible_ms": 143,
+      "historical_requested_centre": [
+        1863,
+        1060
+      ],
+      "historical_offered_pin": [
+        1864.6875,
+        1061.4375
+      ],
+      "historical_displacement_original_pixels": 2.2168,
+      "new_replay_of_historical_box": "needs_clarification"
+    }
+  ],
+  "interpretation": "The passenger saves an intended location. The manual photo check withheld the two travel-lane marks and offered the exact selected point in a visible marked bay. The driver checks stopping conditions and rules."
+}

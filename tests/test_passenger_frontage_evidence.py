@@ -116,10 +116,13 @@ def test_slow_service_deduplicates_then_rebinds_to_each_request(tmp_path, monkey
         assert service.interpret(req)==prior(req)
         assert entered.wait(2)
         other = {**req, "request_id":"another-session"}
-        assert service.interpret(other)==prior(other)
-        assert len(calls)==1
         with service._pending_lock:
             job = next(iter(service._pending.values()))
+        # Fail if the repeat waits on the same optional job instead of returning the primary reply.
+        with monkeypatch.context() as patch:
+            patch.setattr(job, "result", lambda *args, **kwargs: pytest.fail("Repeated wait for the same public photo"))
+            assert service.interpret(other)==prior(other)
+        assert len(calls)==1
     finally:
         release.set()
     job.result(3)

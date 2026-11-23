@@ -19,6 +19,7 @@ def test_real_specialist_verifiers_reject_fabricated_pins_and_replay_a_withheld_
     req,photo,_,_ = case(tmp_path,monkeypatch)
     assert signed_place_verifier(frontage_evidence.METHOD) is frontage_evidence.verify
     assert signed_place_verifier(single_vehicle.METHOD) is single_vehicle.verify
+    assert signed_place_verifier(single_vehicle.METHOD,live=True) is single_vehicle.verify_current
     req["text"] = "Drop me behind the white sedan."
     missing = single_vehicle.outcome(req,photo)
     checked = bound_outcome(missing,req,dialogue_policy=True)
@@ -30,6 +31,30 @@ def test_real_specialist_verifiers_reject_fabricated_pins_and_replay_a_withheld_
         changed["result"]=proposed([70,45],[68,43,72,47])
         with pytest.raises((KeyError,ValueError)):
             bound_outcome(changed,req,dialogue_policy=True)
+
+
+def test_archived_vehicle_decision_can_be_replayed_but_live_offers_and_confirmation_require_current_policy(tmp_path,monkeypatch):
+    from tests.test_passenger_single_vehicle import make_receipt
+    from trackrag.dropoff import single_vehicle
+
+    req,photo,packet,_ = make_receipt(tmp_path,monkeypatch)
+    def old_policy(request):
+        return single_vehicle.outcome(request,photo,packet,policy=single_vehicle.PREVIOUS_POLICY)
+
+    historical = bound_outcome(old_policy(req),req,dialogue_policy=True)
+    assert historical["independent_model_proposal"]
+    old_session = PassengerSession(req["scene"],SimpleNamespace(interpret=old_policy),audit_dir=tmp_path/"old")
+    old_view = old_session.submit(req["text"])
+    assert old_view["state"] == "error" and old_view["proposal_id"] is None
+
+    session = PassengerSession(req["scene"],SimpleNamespace(interpret=lambda r:single_vehicle.outcome(r,photo,packet)),
+                               audit_dir=tmp_path/"current")
+    pending = session.submit(req["text"])
+    assert pending["state"] == "proposed"
+    monkeypatch.setattr(single_vehicle,"POLICY","newer-policy")
+    with pytest.raises(ValueError,match="evidence"):
+        session.confirm(pending["proposal_id"])
+    assert session.view()["proposal_id"] is None
 
 
 @pytest.mark.parametrize(("method","module"), [
@@ -60,6 +85,7 @@ def test_signed_model_dispatch_confirmation_and_role_replay(tmp_path, monkeypatc
     # and confirmation use production code. Separate feature tests exercise each model's evidence.
     software_module = ModuleType("trackrag.dropoff."+module)
     software_module.verify = verify
+    software_module.verify_current = verify
     monkeypatch.setitem(sys.modules,software_module.__name__,software_module)
     assert signed_place_verifier(method) is verify
     grounder = SimpleNamespace(interpret=issue, passenger_area=lambda *_:pytest.fail("Unexpected area inference"))

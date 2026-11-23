@@ -70,3 +70,7 @@ class PassengerViewpoint:
 
     def passenger_area(self, request, box):
         return self.model.passenger_area(request, box)
+
+    @property
+    def requires_verified_manual_surface(self):
+        return getattr(self.model, "requires_verified_manual_surface", False)

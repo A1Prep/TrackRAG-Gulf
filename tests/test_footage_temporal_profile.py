@@ -67,6 +67,25 @@ def test_spatial_clarification_requires_distinct_current_candidates_and_an_unqua
         assert spatial_reference_question(q, [first,alternative]) is None
 
 
+@pytest.mark.parametrize("second_box", [
+    [19, 5, 28, 16],  # Both are on the left, clearly separated from left to right.
+    [4, 30, 15, 49],  # Both are on the left, clearly separated vertically.
+])
+def test_current_distinct_trucks_on_one_side_require_a_distinguishing_detail(second_box):
+    from trackrag.answering import spatial_reference_question
+
+    matches = [{"interval":{"track_id":track_id}, "images":[{
+        "frame_id":38, "bbox_xyxy":box, "privacy":{"original_size_wh":[100,70]},
+        "observations":[{"track_id":track_id,"class_name":"Truck"}]}]}
+        for track_id,box in [(4,[3,7,15,18]), (6,second_box)]]
+    q = query("Is the truck near the building?")
+    answer = spatial_reference_question(q,matches)
+    assert "two possible matches on the left" in answer
+    assert "detail" in answer
+    matches[1]["images"][0]["frame_id"] = 44
+    assert spatial_reference_question(q,matches) is None
+
+
 @pytest.mark.parametrize("source", ["predicted", "annotated"])
 def test_late_object_uses_the_requested_frame_and_source(source):
     rows = [track(5, 6, "Car", 75, source=source), track(38, 7, "Car", 70, source=source),

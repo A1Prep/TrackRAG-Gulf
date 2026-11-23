@@ -5,6 +5,7 @@ import json
 import pytest
 
 from tests.test_passenger_between_road import roadside
+from tests.test_passenger_manual_offlane import provide_bay
 from tools.dropoff_passenger_handoff import bound_outcome
 from trackrag.dropoff import manual_mark
 from trackrag.dropoff.infrastructure import PassengerDialogueGrounder
@@ -58,24 +59,40 @@ def test_a_named_unmatched_pair_offers_a_direct_mark_without_fabricating_matched
     assert 'area_landmarks' not in state and state['proposal_id'] is None
 
 
-def test_mixed_mark_certifies_only_a_point_inside_it_and_outside_the_vehicle(roadside,tmp_path):
+def archived_road_mark(req,model,box):
+    """Produce the old road-only journal shape to keep historical exports verifiable."""
+    from trackrag.dropoff.data import inference_input_sha256
+    from trackrag.dropoff.landmarks import resolve_image
+    from trackrag.dropoff.passenger import digest,proposed,unresolved
+    image,binding=resolve_image(req,model.config)
+    center=[(box[0]+box[2])/2,(box[1]+box[3])/2]
+    with image:
+        support,road=model._evidence(image,req,binding["sha256"],center,box)
+    target=proposed(*support) if support else unresolved("The selected area has no visible road support. Can you outline a different patch?")
+    return {"ok":True,"request_id":req["request_id"],"result":target,"provenance":{
+        "method":"explicit_passenger_region","selected_box":box,"image":binding,"request_sha256":digest(req),
+        "inference_input_sha256":inference_input_sha256(req,binding["sha256"]),"road_evidence":road,
+        "independent_model_proposal":False}}
+
+
+def test_archived_road_only_mark_replays_the_position_it_originally_offered(roadside,tmp_path):
     req,model,raw,mask=roadside
     # The rectangle's middle is on an observed vehicle, while its right edge covers visible road.
-    box=[39,35,53,54];out=model.passenger_area(req,box)
+    box=[39,35,53,54];out=archived_road_mark(req,model,box)
     assert out['result']['status']=='proposed' and out['result']['destination_box_xyxy']==box
     point=out['result']['destination_point_xy'];assert 48<=point[0]<53 and 35<=point[1]<54
     cache=tmp_path/'mask';save_mask(cache,req['scene']['provenance']['image_sha256'],(320,180),mask)
     evidence=bound_outcome(out,req,passenger_selected=True,requested_box=box,road_cache=cache)['passenger_mark_verification']
     assert evidence['decision_reproduced'] and evidence['road_mask_replayed'] and evidence['independent_model_proposal'] is False
     assert not manual_mark.verify(req,out)['road_mask_replayed']
-    obstructed=[25,32,39,54];missing=model.passenger_area(req,obstructed)
+    obstructed=[25,32,39,54];missing=archived_road_mark(req,model,obstructed)
     assert missing['result']['status']=='needs_clarification' and manual_mark.verify(req,missing,requested_box=obstructed,road_cache=cache)['decision_reproduced']
 
 
 @pytest.mark.parametrize('change',['requested','point','road_hash','obstacles','role','outside','missing_cache'])
-def test_manual_export_refuses_changed_actions_surfaces_and_locations(roadside,tmp_path,change):
+def test_historical_manual_export_refuses_changed_actions_surfaces_and_locations(roadside,tmp_path,change):
     req,model,raw,mask=roadside
-    box=[47,70,81,79];out=model.passenger_area(req,box)
+    box=[47,70,81,79];out=archived_road_mark(req,model,box)
     cache=tmp_path/'mask';save_mask(cache,req['scene']['provenance']['image_sha256'],(320,180),mask)
     if change=='requested': box=[30,30,39,44]
     if change=='point': out['result']['destination_point_xy'][0]+=1.25
@@ -92,9 +109,10 @@ def test_manual_export_refuses_changed_actions_surfaces_and_locations(roadside,t
     ("Drop me between the two nearest SUVs on the right.", "invalid_model_output"),
     ("Drop me between the grey sedan and the blue van.", "invalid_input_or_output"),
 ])
-def test_malformed_vehicle_ids_retain_raw_errors_and_allow_source_bound_selection(roadside, tmp_path, words, code):
+def test_malformed_vehicle_ids_retain_raw_errors_and_allow_source_bound_selection(roadside, tmp_path, words, code, monkeypatch):
     from tools.dropoff_passenger_handoff import session as export
     req, model, raw, mask = roadside
+    provide_bay(monkeypatch,req["scene"],[42,66,88,84])
     resolve = model.resolver.resolve
     def resolver(request, image):
         raw[0] = "LANDMARK L2" if "Beside the blue van" in request["text"] else "LANDMARK L1"

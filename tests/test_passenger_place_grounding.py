@@ -78,6 +78,13 @@ def packet(request,photo,classes,key,answers=("1","MATCH")):
     ("Let me out At Noon.",[],False),
     ("Could you stop at 6 PM?",[],False),
     ("Drop me outside the one on the left.",[],False),
+    ("Could you drop me next to the trees on the left?",[],True),
+    ("Let me off near palm trees.",[],True),
+    ("Please stop alongside those tall hedges.",[],True),
+    ("Where the bushes are on the left.",[],True),
+    ("Just past that lamp post.",[],True),
+    ("Behind the van next to the trees.",[],False),
+    ("Between the two cars beside the shrubs.",[],False),
 ])
 def test_visual_referent_routing(words,history,active):
     req={"text":words,"dialogue":[{"role":"user","text":s} for s in history]}
@@ -104,6 +111,19 @@ def test_empty_surface_is_a_segmentation_abstention(tmp_path,monkeypatch):
     assert out["result"]["destination_point_xy"] is None
     audit=place_evidence.verify(req,out)
     assert audit["surface_model_calls"]==1 and audit["language_calls"]==0 and not audit["independent_model_proposal"]
+
+
+def test_tree_is_a_reference_and_only_parking_pixels_can_supply_the_destination(tmp_path, monkeypatch):
+    req,photo,classes,key=case(tmp_path,monkeypatch)
+    req["text"]="Beside those palm trees."
+    classes.fill(30)
+    blocked=place_evidence.build_outcome(req,photo,packet(req,photo,classes,key,()))
+    assert blocked["result"]["destination_point_xy"] is None
+    assert place_evidence.verify(req,blocked)["language_calls"] == 0
+    classes[40:60,65:91]=10
+    result=place_evidence.build_outcome(req,photo,packet(req,photo,classes,key))["result"]
+    x,y=result["destination_point_xy"]
+    assert classes[int(y),int(x)] == 10
 
 
 @pytest.mark.parametrize("verdict",["MATCH","WRONG","BLOCKED","UNCLEAR"])
@@ -190,6 +210,30 @@ def test_resource_failure_offers_manual_recovery_only_for_the_bound_original(tmp
     assert landmark_error_guidance(req,unbound) is None
     Image.new("RGB",(96,64),"red").save(original)
     assert landmark_error_guidance(req,failure) is None
+
+
+def test_repeated_public_place_request_replays_exact_signed_inputs_and_never_another_phrase(tmp_path,monkeypatch):
+    req,photo,classes,key=case(tmp_path,monkeypatch)
+    manifest=tmp_path/"photos.json"
+    manifest.write_text(json.dumps({"photos":[{"photo_url":"https://kartaview.org/details/42/2/",
+                                      "sha256":sha256(photo).hexdigest()}]}),encoding="utf8")
+    service=place_evidence.PublicPlaceBackend([manifest],python="unused",cache=tmp_path/"cache")
+    native=packet(req,photo,classes,key)
+    initial=service.remember(req,photo,native)
+    def unavailable(*args,**kwargs):
+        return SimpleNamespace(returncode=1,stdout=b"")
+    monkeypatch.setattr(place_evidence.subprocess,"run",unavailable)
+    repeat={**req,"request_id":"another-real-turn"}
+    observed=service.interpret(repeat)
+    assert initial["result"]==observed["result"] and place_evidence.verify(repeat,observed)["current_language_calls"]==0
+    assert observed["provenance"]["reused_source_request_id"]==req["request_id"]
+    assert observed["provenance"]["request_sha256"]==digest(repeat)
+    different={**repeat,"text":"By the bakery on the left"}
+    assert service.interpret(different)["ok"] is False
+    forged=deepcopy(observed)
+    forged["provenance"]["reused_source_request_id"]="unrelated"
+    with pytest.raises(ValueError):
+        place_evidence.verify(repeat,forged)
 
 
 @pytest.mark.parametrize("transport", ["unavailable", "timeout", "bad_receipt"])

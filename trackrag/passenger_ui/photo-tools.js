@@ -14,9 +14,18 @@ export function positionWords([x, y], width, height) {
 const regionSources = new Set(["passenger", "mark_preview", "parking_model", "passenger_landmarks", "road_qualified_pair"]);
 
 export function destinationLabel(view) {
-  if (view.selected_by === "passenger") return "Your marked area and pin";
+  if (view.selected_by === "passenger") return "Blue pin at your mark";
   if (view.selected_by === "passenger_landmarks") return "Spot from your vehicles";
   return regionSources.has(view.selected_by) ? "Suggested spot" : "Suggested pin";
+}
+
+export function boxCentre([left,top,right,bottom]) { return [(left+right)/2,(top+bottom)/2]; }
+
+export function drawCheckedMark(ctx,point,scale) {
+  ctx.save(); ctx.translate(...point); ctx.scale(scale,scale);
+  ctx.beginPath(); ctx.moveTo(-6,-6); ctx.lineTo(6,6); ctx.moveTo(-6,6); ctx.lineTo(6,-6);
+  ctx.lineCap="round"; ctx.lineWidth=4; ctx.strokeStyle="#202628"; ctx.stroke();
+  ctx.lineWidth=2; ctx.strokeStyle="#ffffff"; ctx.stroke(); ctx.restore();
 }
 
 export function drawDestination(ctx, point, box, source, scale) {
@@ -80,7 +89,7 @@ export class PhotoTools {
       viewport.addEventListener(name, () => { this.drag = null; });
   }
   reset() {
-    this.active = this.panning = false;
+    this.active = this.panning = this.dragged = false;
     this.start = this.box = this.cursor = this.drag = null;
     this.canvas.tabIndex = -1;
   }
@@ -128,19 +137,21 @@ export class PhotoTools {
     if (this.pairs.open) { e.preventDefault(); this.pairs.pickAt(this.point(e)); return; }
     if (!this.active || this.panning) return;
     e.preventDefault(); this.canvas.setPointerCapture(e.pointerId);
-    this.start = this.cursor = this.point(e); this.box = null; this.refresh();
+    this.start = this.cursor = this.point(e); this.box = null; this.dragged = false; this.refresh();
   }
   tapBox([x, y]) {
     const c = this.canvas;
-    // A tap requests the same patch of road on every screen and at every zoom.
+    // Preserve the tapped centre while checking a small patch in original-image pixels.
     const r = Math.max(1, c.width / 512);
-    return [Math.max(0, Math.floor(x-r)), Math.max(0, Math.floor(y-r)),
-      Math.min(c.width, Math.ceil(x+r)), Math.min(c.height, Math.ceil(y+r))];
+    const cx=clamp(x,.5,c.width-.5), cy=clamp(y,.5,c.height-.5);
+    const rx=Math.min(r,cx,c.width-cx), ry=Math.min(r,cy,c.height-cy);
+    return [cx-rx,cy-ry,cx+rx,cy+ry];
   }
   updateBox([x, y], final) {
     const [a,b] = this.start;
     this.cursor = [x, y];
-    this.box = final && Math.hypot(x-a, y-b) <= 3 * this.frameRatio() ? this.tapBox(this.cursor) :
+    this.dragged = Math.hypot(x-a, y-b) > 3 * this.frameRatio();
+    this.box = final && !this.dragged ? this.tapBox(this.cursor) :
       [Math.floor(Math.min(x,a)), Math.floor(Math.min(y,b)), Math.ceil(Math.max(x,a)), Math.ceil(Math.max(y,b))];
     if (this.box[2] <= this.box[0] || this.box[3] <= this.box[1]) this.box = null;
     this.refresh();
@@ -154,7 +165,7 @@ export class PhotoTools {
     if (e.key === "Escape") { e.preventDefault(); document.getElementById("discard-box").click(); return; }
     if (this.panning) return;
     if (["Enter", " "].includes(e.key)) {
-      e.preventDefault(); this.box = this.tapBox(this.cursor); this.refresh(); return;
+      e.preventDefault(); this.box = this.tapBox(this.cursor); this.dragged=false; this.refresh(); return;
     }
     const directions = {ArrowLeft:[-1,0], ArrowRight:[1,0], ArrowUp:[0,-1], ArrowDown:[0,1]};
     if (!directions[e.key]) return;
@@ -188,9 +199,10 @@ export class PhotoTools {
     get("use-box").disabled = busy || !ready || !this.box || this.panning;
     get("discard-box").disabled = busy;
     if (this.active && this.cursor) {
-      const where = positionWords(this.cursor, this.canvas.width, this.canvas.height);
-      const percent = this.cursor.map((p,i)=> Math.round(100*p/(i ? this.canvas.height : this.canvas.width)));
-      const message = this.box ? "Mark placed" : "Cursor";
+      const point = this.box ? boxCentre(this.box) : this.cursor;
+      const where = positionWords(point, this.canvas.width, this.canvas.height);
+      const percent = point.map((p,i)=> Math.round(100*p/(i ? this.canvas.height : this.canvas.width)));
+      const message = this.box ? "Point to check" : "Cursor";
       const position = message + " · " + where + " (" + percent[0] + "% across, " + percent[1] + "% down).";
       if (get("mark-position").textContent !== position) get("mark-position").textContent = position;
     }

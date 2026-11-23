@@ -187,6 +187,14 @@ def landmark_error_guidance(request, outcome):
     if not isinstance(outcome, dict) or outcome.get("ok") is not False or outcome.get("request_id") != request["request_id"]:
         return None
     source, error = outcome.get("provenance") or {}, outcome.get("error") or {}
+    if source.get("method") == "passenger_interactive_deadline":
+        from .passenger import interactive_timeout
+        try:
+            valid = (_inspect_image(request["scene"]["frame"])[1] == request["scene"]["provenance"]["image_sha256"]
+                     and outcome == interactive_timeout(request))
+        except (OSError, ValueError, KeyError):
+            return None
+        return outcome["error"]["message"] if valid else None
     from tools.passenger_place_call import UNAVAILABLE
     if source.get("method") == UNAVAILABLE:
         from .place_evidence import verify_unavailable
@@ -564,10 +572,11 @@ class PassengerSession(OriginalPassengerSession):
         from . import qualified_pair
         from . import passenger_parking
         from . import parking_clarification
+        from . import manual_offlane
         base = getattr(self.model, "model", self.model)
         if isinstance(outcome, dict) and outcome.get("ok") is True:
             method=outcome.get("provenance",{}).get("method")
-            source_actors={METHOD:"passenger_landmarks", "explicit_passenger_region":"passenger",
+            source_actors={METHOD:"passenger_landmarks", "explicit_passenger_region":"passenger", manual_offlane.METHOD:"passenger",
                            "passenger_requested_pointing":"passenger", qualified_pair.METHOD:qualified_pair.ACTOR,
                            passenger_parking.METHOD:passenger_parking.ACTOR,
                            parking_clarification.METHOD:parking_clarification.ACTOR}
@@ -581,7 +590,7 @@ class PassengerSession(OriginalPassengerSession):
                 raise ValueError("Passenger selection source and actual decision method disagree")
             if selected_by == qualified_pair.ACTOR:
                 qualified_pair.validate(base,self._request,outcome)
-            elif outcome.get("result", {}).get("status") == "proposed":
+            elif outcome.get("result", {}).get("status") == "proposed" and method != manual_offlane.METHOD:
                 # Two browser sessions can share the segmentation model and its selected original.
                 with getattr(base,"lock",None) or nullcontext():
                     between_road.validate_offer(base, self._request, outcome, selected_by)
@@ -606,11 +615,14 @@ class PassengerSession(OriginalPassengerSession):
     def _interpret_submission(self, request):
         if self._passenger_requested:
             return pointing_question(request), "passenger"
+        return self.interpret_automatic(request)
+
+    def interpret_automatic(self, request):
         from . import parking_clarification
         clarification = parking_clarification.clarify(request)
         if clarification is not None:
             return clarification, parking_clarification.ACTOR
-        outcome, actor = super()._interpret_submission(request)
+        outcome, actor = super().interpret_automatic(request)
         from . import qualified_pair
         if isinstance(outcome,dict) and outcome.get("provenance",{}).get("method") == qualified_pair.METHOD:
             actor = qualified_pair.ACTOR

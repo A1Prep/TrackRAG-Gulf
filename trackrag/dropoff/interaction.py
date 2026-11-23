@@ -355,12 +355,15 @@ class InteractionController:
         return path
 
 
-def signed_place_verifier(method):
-    """Use the evidence checker for the exact signed model recipe in the receipt."""
+def signed_place_verifier(method, *, live=False):
+    """Replay recorded decisions. A new offer or confirmation must also pass today's model policy."""
     if method == "molmo2_frontage_confidence_v1":
         from .frontage_evidence import verify
         return verify
     if method == "single_vehicle_behind_parking_v1":
+        if live:
+            from .single_vehicle import verify_current
+            return verify_current
         from .single_vehicle import verify
         return verify
     from .place_grounding import METHOD
@@ -394,6 +397,8 @@ class PassengerSession:
         self._state, self._proposal, self._result = "idle", None, None
         self._place_offer = None
         self._place_offer_sha256 = None
+        self._manual_submission_box = None
+        self._manual_offer = None
         self._requested_area = False
         self._error, self._selected_by, self._request = None, None, None
         self._save("opened", {"scene":clean})
@@ -439,12 +444,13 @@ class PassengerSession:
 
     def _accept(self, outcome, selected_by):
         from .passenger import digest
+        from . import manual_offlane
 
         req = self._request
         if not isinstance(outcome,dict) or outcome.get("request_id") != req["request_id"]:
             raise ValueError("Grounding outcome belongs to a different request")
         source = outcome.get("provenance")
-        verifier = signed_place_verifier(source.get("method")) if isinstance(source,dict) else None
+        verifier = signed_place_verifier(source.get("method"),live=True) if isinstance(source,dict) else None
         if verifier is not None and selected_by != "model":
             raise ValueError("Only an automatic passenger instruction can offer a place-model result")
         if outcome.get("ok") is False:
@@ -453,6 +459,15 @@ class PassengerSession:
         if outcome.get("ok") is not True:
             raise ValueError("Invalid grounding outcome")
         info, result = outcome["provenance"], outcome["result"]
+        method = info.get("method")
+        if (self._manual_submission_box is not None or method == "explicit_passenger_region") and getattr(
+                self.model, "requires_verified_manual_surface", False):
+            if method != manual_offlane.METHOD:
+                raise ValueError("The marked location requires parking evidence for this photo.")
+        if method == manual_offlane.METHOD:
+            if selected_by != "passenger" or self._manual_submission_box is None:
+                raise ValueError("This location must come from an explicit mark on the current photo.")
+            manual_offlane.verify(req, outcome, requested_box=self._manual_submission_box)
         if (info.get("image",{}).get("sha256") != self.scene["provenance"]["image_sha256"]
                 or info.get("request_sha256") != digest(req)):
             raise ValueError("Grounding outcome is not bound to this scene and instruction")
@@ -465,6 +480,8 @@ class PassengerSession:
             if result["status"] == "proposed":
                 self._place_offer = deepcopy(outcome)
                 self._place_offer_sha256 = digest(outcome)
+        if method == manual_offlane.METHOD and result["status"] == "proposed":
+            self._manual_offer = (deepcopy(self._manual_submission_box), deepcopy(outcome), digest(outcome))
         self._state, self._result, self._selected_by = result["status"],result,selected_by
         if self._state == "proposed":
             self._proposal = uuid4().hex
@@ -478,6 +495,8 @@ class PassengerSession:
         self._proposal, self._result, self._error, self._selected_by = None, None, None, None
         self._place_offer = None
         self._place_offer_sha256 = None
+        self._manual_offer = None
+        self._manual_submission_box = None
 
     def _save_turn(self, action, detail):
         try:
@@ -489,60 +508,99 @@ class PassengerSession:
             raise
 
     def _interpret_submission(self, request):
+        return self.interpret_automatic(request)
+
+    def interpret_automatic(self, request):
+        """Compute a model decision without mutating the session or holding its UI lock."""
         return self.model.interpret(request), "model"
+
+    def _accept_automatic(self, outcome, actor):
+        self._accept(outcome, actor)
 
     def _prepare_vehicle_choice(self, point_to_vehicles):
         if point_to_vehicles is not False:
             raise ValueError("Vehicle selection is unavailable for this scene.")
 
+    def _submission_input(self, text, original_transcript, replaces_request_id, request_id):
+        if replaces_request_id is not None and (not self._request or self._state in {"confirmed", "cancelled"}
+                or self._request["request_id"] != replaces_request_id):
+            raise ValueError("Only the current, unfinished description can be replaced.")
+        fresh = replaces_request_id is not None or self._state in {"confirmed", "cancelled"}
+        request = {"request_id":request_id, "scene":self.scene, "text":text,
+                   "input_mode":"typed" if original_transcript is None else "voice",
+                   "dialogue":[] if fresh else deepcopy(self._turns)}
+        if original_transcript is not None:
+            request["original_transcript"] = original_transcript
+        return request
+
+    def _check_input(self, request, speech):
+        clean = validate_request(request)
+        if len(clean["text"]) > 4096:
+            raise ValueError("Passenger turn exceeds the dialogue text limit")
+        transcript = clean.get("original_transcript")
+        if transcript is not None:
+            if not isinstance(speech,dict) or speech.get("transcript") != transcript or not transcript.strip():
+                raise ValueError("Voice requires its actual recognized transcript and speech receipt")
+            wave_hash = speech.get("audio_sha256")
+            if not isinstance(wave_hash,str) or len(wave_hash) != 64 or any(c not in "0123456789abcdef" for c in wave_hash):
+                raise ValueError("Invalid speech audio digest")
+            wav = self._audit/"audio"/(wave_hash+".wav")
+            if not wav.is_file() or sha256(wav.read_bytes()).hexdigest() != wave_hash:
+                raise ValueError("The original audio receipt does not match the saved WAV")
+        elif speech is not None:
+            raise ValueError("Speech receipt requires a voice transcript")
+        return clean
+
+    def prepare_automatic(self, text, *, speech=None, replaces_request_id=None):
+        with self._lock:
+            transcript = speech["transcript"] if speech else None
+            req = self._submission_input(text, transcript, replaces_request_id, uuid4().hex)
+            return self._check_input(req, speech)
+
+    def cancel_pending(self, request, speech, replaces_request_id):
+        with self._lock:
+            current = self._submission_input(request["text"],request.get("original_transcript"),replaces_request_id,request["request_id"])
+            if self._check_input(current, speech) != request:
+                raise ValueError("The pending description has changed.")
+            self._request = deepcopy(request)
+            self._turns = deepcopy(request["dialogue"]) + [self._turn("user",request["text"])]
+            self._clear()
+            self._state = "cancelled"
+            self._save_turn("cancelled",{"pending_request":request,"speech":speech})
+            return self.view()
+
     def submit(self, text, *, original_transcript=None, speech=None, point_to_vehicles=False,
-               mark_on_photo=False, replaces_request_id=None):
+               mark_on_photo=False, replaces_request_id=None, _completed=None):
         from .passenger import operational_code
 
         with self._lock:
-            prior = self._state
-            if replaces_request_id is not None and (not self._request or prior in {"confirmed", "cancelled"}
-                    or self._request["request_id"] != replaces_request_id):
-                raise ValueError("Only the current, unfinished description can be replaced.")
+            request_id = _completed[0]["request_id"] if _completed is not None else uuid4().hex
+            request = self._submission_input(text, original_transcript, replaces_request_id, request_id)
+            if _completed is not None and (point_to_vehicles or mark_on_photo or self._check_input(request,speech) != _completed[0]):
+                raise ValueError("The completed check belongs to a different passenger request.")
             if type(mark_on_photo) is not bool or (mark_on_photo and (point_to_vehicles or not self._supports_area())):
                 raise ValueError("Choose one available way to identify your spot.")
             self._prepare_vehicle_choice(point_to_vehicles)
             self._requested_area = mark_on_photo
             self._clear()
-            if replaces_request_id is not None or prior in ("cancelled","confirmed"):
-                self._turns = []
+            self._turns = deepcopy(request["dialogue"])
             self._state = "idle"
-            request_id = uuid4().hex
-            self._request = {"request_id":request_id,"scene":self.scene,"text":text,
-                             "input_mode":"typed" if original_transcript is None else "voice",
-                             "dialogue":deepcopy(self._turns)}
-            if original_transcript is not None:
-                self._request["original_transcript"] = original_transcript
+            self._request = request
             outcome = None
             try:
-                self._request = validate_request(self._request)
-                if len(text) > 4096:
-                    raise ValueError("Passenger turn exceeds the dialogue text limit")
-                if original_transcript is not None:
-                    if (not isinstance(speech,dict) or speech.get("transcript") != original_transcript
-                            or not original_transcript.strip()):
-                        raise ValueError("Voice requires its actual recognized transcript and speech receipt")
-                    wave_hash = speech.get("audio_sha256")
-                    if not isinstance(wave_hash,str) or len(wave_hash) != 64 or any(
-                            c not in "0123456789abcdef" for c in wave_hash):
-                        raise ValueError("Invalid speech audio digest")
-                    wav = self._audit/"audio"/(wave_hash+".wav")
-                    if not wav.is_file() or sha256(wav.read_bytes()).hexdigest() != wave_hash:
-                        raise ValueError("The original audio receipt does not match the saved WAV")
-                elif speech is not None:
-                    raise ValueError("Speech receipt requires a voice transcript")
+                self._request = self._check_input(request,speech)
                 self._turns.append(self._turn("user",text))
                 if mark_on_photo:
                     from .manual_mark import question
                     outcome, selected_by = question(self._request), "passenger"
+                elif _completed is not None:
+                    outcome, selected_by = _completed[1:]
                 else:
                     outcome, selected_by = self._interpret_submission(deepcopy(self._request))
-                self._accept(outcome, selected_by)
+                if mark_on_photo or point_to_vehicles:
+                    self._accept(outcome, selected_by)
+                else:
+                    self._accept_automatic(outcome, selected_by)
             except Exception as exc:
                 self._clear()
                 self._state = "error"
@@ -568,11 +626,15 @@ class PassengerSession:
             self._state = "idle"
             outcome = None
             try:
-                outcome = self.model.passenger_area(deepcopy(self._request),box)
+                self._manual_submission_box = deepcopy(box)
+                outcome = self.model.passenger_area(deepcopy(self._request),deepcopy(box))
                 self._accept(outcome,"passenger")
             except Exception as exc:
+                self._clear()
                 self._state = "error"
                 self._error = {"code":operational_code(exc),"message":str(exc)[:4000]}
+            finally:
+                self._manual_submission_box = None
             self._save_turn("passenger_marked",{"requested_box":box,"outcome":outcome})
             return self.view()
 
@@ -593,13 +655,30 @@ class PassengerSession:
                 self._save("confirmation_blocked",{})
                 raise ValueError(self._error["message"])
             detail = {"proposal_id":proposal_id,"selected_by":self._selected_by}
+            if self._manual_offer is not None or (self._selected_by == "passenger" and
+                    getattr(self.model, "requires_verified_manual_surface", False)):
+                from . import manual_offlane
+                try:
+                    box, receipt, expected = self._manual_offer
+                    if (self._selected_by != "passenger" or receipt["result"] != self._result
+                            or expected != digest(receipt)):
+                        raise ValueError("The marked location changed.")
+                    manual_offlane.verify(self._request, receipt, requested_box=box)
+                except (ValueError, TypeError, KeyError, OSError) as exc:
+                    self._clear()
+                    self._state = "error"
+                    self._error = {"code":"manual_confirmation_blocked",
+                                   "message":"The parking evidence for your marked location could not be verified."}
+                    self._save("confirmation_blocked", {})
+                    raise ValueError(self._error["message"]) from exc
+                detail["verified_manual_outcome_sha256"] = expected
             if self._place_offer is not None or self._place_offer_sha256 is not None:
                 try:
                     if (self._selected_by != "model" or not self._place_offer or
                             self._place_offer.get("result") != self._result or
                             self._place_offer_sha256 != digest(self._place_offer)):
                         raise ValueError("The displayed place proposal changed")
-                    verifier = signed_place_verifier(self._place_offer["provenance"]["method"])
+                    verifier = signed_place_verifier(self._place_offer["provenance"]["method"],live=True)
                     if verifier is None:
                         raise ValueError("Unknown place proposal source")
                     verifier(self._request, self._place_offer)

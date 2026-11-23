@@ -3,9 +3,11 @@ import base64
 from hashlib import sha256
 from io import BytesIO
 import json
+import os
 from pathlib import Path
 import re
 import subprocess
+from tempfile import NamedTemporaryFile
 from urllib.parse import urlsplit
 
 from PIL import Image
@@ -41,13 +43,19 @@ def verify_unavailable(request, outcome):
     return {"input_verified":True, "independent_model_proposal":False}
 
 
-def build_outcome(request, photo, packet):
+def build_outcome(request, photo, packet, *, recorded_request_id=None):
     request, image_sha, input_sha = source_input(request, photo)
     context = place.current_context(request)
     _authenticate(packet)
     body = packet["body"]
+    recorded_input = input_sha
+    if recorded_request_id is not None:
+        # A repeated browser turn gets a new ID. Every other inference input must still match the signed run.
+        from .data import inference_input_sha256
+        earlier = {**request,"request_id":recorded_request_id}
+        recorded_input = inference_input_sha256(earlier,image_sha)
     if (not context["words"] or body.get("recipe") != place.METHOD or body.get("models") != MODELS
-            or body.get("input_sha256") != input_sha or body.get("context_sha256") != digest(context)
+            or body.get("input_sha256") != recorded_input or body.get("context_sha256") != digest(context)
             or body.get("image_sha256") != image_sha):
         raise ValueError("Place model response does not match the current photograph, instruction and boxes")
     classes = _decode_map(body["class_map"], request["scene"]["frame"])
@@ -69,25 +77,30 @@ def build_outcome(request, photo, packet):
         result, reason = place.apply_steps(context, classes, source, replay)
     if index != len(calls):
         raise ValueError("Unused place model evidence")
+    replay = ({"reused_source_request_id":recorded_request_id,"recorded_inference_input_sha256":recorded_input}
+              if recorded_request_id is not None and recorded_request_id!=request["request_id"] else {})
     return {"ok":True, "request_id":request["request_id"], "result":result,
             "provenance":{"method":place.METHOD, "image":{"sha256":image_sha}, "request_sha256":digest(request),
                           "inference_input_sha256":input_sha,"place_evidence":packet,"reason":reason,
-                          "independent_model_proposal":result["status"] == "proposed"}}
+                          "independent_model_proposal":result["status"] == "proposed", **replay}}
 
 
 def verify(request, outcome):
     photo = Path(request["scene"]["frame"]["image_path"]).read_bytes()
     packet = outcome["provenance"]["place_evidence"]
-    if build_outcome(request, photo, packet) != outcome:
+    original_id=outcome["provenance"].get("reused_source_request_id")
+    if build_outcome(request, photo, packet, recorded_request_id=original_id) != outcome:
         raise ValueError("Place result differs from the signed current model calls")
     return {"input_verified":True, "decision_reproduced":True, "model_images_reproduced":True,
             "language_calls":len(packet["body"]["calls"]), "surface_model_calls":1,
-            "independent_model_proposal":outcome["provenance"]["independent_model_proposal"]}
+            "independent_model_proposal":outcome["provenance"]["independent_model_proposal"],
+            "reused_model_evidence":original_id is not None,"current_language_calls":0 if original_id else len(packet["body"]["calls"])}
 
 
 class PublicPlaceBackend(ModalParkingBackend):
-    def __init__(self, sources, python=None):
+    def __init__(self, sources, python=None, *, cache=None):
         super().__init__(python)
+        self.cache=Path(cache) if cache is not None else None
         self.allowed = set()
         for path in sources:
             for row in json.loads(Path(path).read_bytes())["photos"]:
@@ -105,6 +118,36 @@ class PublicPlaceBackend(ModalParkingBackend):
                 (scene["provenance"].get("image_sha256"), f["recording_id"], f["frame_id"]) in self.allowed and
                 bool(place.place_reference(request)))
 
+    def cache_path(self, request, image_sha):
+        from .data import inference_input_sha256
+        context = inference_input_sha256({**request,"request_id":"public-place-repeat"},image_sha)
+        return self.cache/(context+".json")
+
+    def remember(self, request, photo, packet):
+        """Cache only authenticated responses for an authorized public input."""
+        if not self.eligible(request):
+            raise ValueError("This photograph or instruction is outside the public place scope")
+        verified=build_outcome(request,photo,packet)
+        if self.cache is None:
+            return verified
+        path=self.cache_path(request,verified["provenance"]["image"]["sha256"])
+        temporary=None
+        try:
+            path.parent.mkdir(parents=True,exist_ok=True)
+            with NamedTemporaryFile(dir=path.parent,delete=False) as tmp:
+                temporary=Path(tmp.name)
+                tmp.write(signed_bytes({"request_id":request["request_id"],"packet":packet}))
+            os.replace(temporary,path)
+        except OSError:
+            pass  # A verified first response remains usable even on a read-only cache.
+        finally:
+            if temporary is not None:
+                try:
+                    temporary.unlink(missing_ok=True)
+                except OSError:
+                    pass
+        return verified
+
     def interpret(self, request):
         if not self.eligible(request):
             raise ValueError("Only the selected public photographs can use hosted place grounding")
@@ -113,6 +156,14 @@ class PublicPlaceBackend(ModalParkingBackend):
             raise ValueError("Photograph is too large")
         photo = path.read_bytes()
         request, image_sha, input_sha = source_input(request, photo)
+        if self.cache is not None:
+            try:
+                saved=self.cache_path(request,image_sha)
+                if saved.stat().st_size<=3_000_000:
+                    receipt=json.loads(saved.read_bytes())
+                    return build_outcome(request,photo,receipt["packet"],recorded_request_id=receipt["request_id"])
+            except (OSError,ValueError,TypeError,KeyError):
+                pass
         payload = {"context":place.current_context(request), "input_sha256":input_sha, "photo":base64.b64encode(photo).decode("ascii")}
         try:
             proc = subprocess.run([self.python,"-m","tools.passenger_place_call"],input=signed_bytes(payload),
@@ -122,7 +173,7 @@ class PublicPlaceBackend(ModalParkingBackend):
             return unavailable(request, image_sha, input_sha)
         if proc.returncode:
             return unavailable(request, image_sha, input_sha)
-        return build_outcome(request, photo, json.loads(proc.stdout))
+        return self.remember(request,photo,json.loads(proc.stdout))
 
 
 class PlaceDialogueGrounder:
@@ -135,6 +186,9 @@ class PlaceDialogueGrounder:
 
     def __getattr__(self, name):
         return getattr(self.dialogue, name)
+
+    def uses_public_service(self, request):
+        return (self.single_vehicle is not None and self.single_vehicle.eligible(request)) or self.backend.eligible(request)
 
     def interpret(self, request):
         if self.single_vehicle is not None and self.single_vehicle.eligible(request):

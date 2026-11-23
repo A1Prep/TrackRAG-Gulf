@@ -169,8 +169,10 @@ def test_only_real_accepted_parking_turns_get_a_confirmable_independent_actor(co
     assert signed["native_task1_condition"] is False and signed["actor_identity_verified"] is False
 
 
-def test_ask_manual_recovery_and_its_confirmation_keep_their_distinct_sources(configured):
+def test_ask_manual_recovery_and_its_confirmation_keep_their_distinct_sources(configured,monkeypatch):
     req, model, app, cloud = configured
+    from tests.test_passenger_manual_offlane import provide_bay
+    provide_bay(monkeypatch,req["scene"],[42,66,88,84])
     cloud.mode = "ask"
     ask = app.submit(WORDS)
     assert ask["state"] == "needs_clarification" and ask["proposal_id"] is None

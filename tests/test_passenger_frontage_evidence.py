@@ -16,6 +16,26 @@ from trackrag.dropoff import frontage_evidence as frontage, frontage_verifier, p
 from trackrag.dropoff.passenger import digest
 
 
+@pytest.mark.parametrize(("words","eligible"), [
+    ("Drop me at midnight.",False),
+    ("Drop me after sunset please.",False),
+    ("Drop me at five o’clock.",False),
+    ("Could you stop at 5 p.m.?",False),
+    ("Drop me in the morning.",False),
+    ("Drop me by the same place.",False),
+    ("Drop me near the one on the right.",False),
+    ("Drop me near Sunset Mall after dark.",True),
+    ("Drop me at Sunrise Terrace.",True),
+    ("Stop by the clock tower.",True),
+    ("Drop me next to the trees on the left.",True),
+    ("Drop me by the van near the hedge.",False),
+])
+def test_frontage_requires_a_visual_referent(words,eligible):
+    req={"text":words,"dialogue":[]}
+    assert frontage_verifier.describes_place(req) is eligible
+    assert bool(place_grounding.place_reference(req)) is eligible
+
+
 def signed(body, key):
     return {"body":body, "signature":key.sign(parking_evidence.signed_bytes(body)).hex()}
 
@@ -76,6 +96,9 @@ def test_signed_frontage_replays_photograph_prior_and_current_words(tmp_path, mo
         frontage.build_outcome(new,photo,combined,prior(new))
     with pytest.raises(ValueError):
         frontage.build_outcome(req,photo,combined,output)
+    unsigned = deepcopy(prior(req))
+    unsigned["provenance"]["method"]="qwen_landmark_region"
+    assert not frontage.prior_eligible(req,unsigned)
 
 
 def test_slow_service_deduplicates_then_rebinds_to_each_request(tmp_path, monkeypatch):

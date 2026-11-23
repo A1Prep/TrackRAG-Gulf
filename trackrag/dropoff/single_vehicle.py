@@ -10,7 +10,6 @@ import zlib
 
 from PIL import Image, ImageDraw
 
-from .contracts import validate_request
 from .parking_evidence import _authenticate, _decode_map, source_input
 from .passenger import digest, proposed, unresolved
 from .place_grounding import call_identity
@@ -19,7 +18,8 @@ from .single_vehicle_surface import behind_patch, beside_patches
 
 METHOD = "single_vehicle_behind_parking_v1"
 RECIPE = "single_vehicle_rear_observations_v1"
-POLICY = "single_vehicle_rear_and_side_v2"
+PREVIOUS_POLICY = "single_vehicle_rear_and_side_v2"
+POLICY = "single_vehicle_visible_rear_v3"
 RANKER = "d96a9a69e2e52ddbc21851d5ff6f79b344de6c8558600e54be5cb2712480a07d"
 MODELS = {"ranker_sha256": RANKER,"base":"10d842936325905934ea24e64325d774693f166e",
           "adapter_sha256":"76bfb3230b17a86248b52ca6a9f8d2ffca324aa80216d6b93845ccb12ad86743",
@@ -48,6 +48,7 @@ ASK = {
     "unsupported":"I can check a spot behind one vehicle. Could you name its colour and side, or mark the spot?",
     "no_supported_space":"I can’t see a clear off-lane space immediately behind that vehicle. Could you mark a different spot or name another landmark?",
     "unverified_vehicle":"I couldn’t match that vehicle and its rear to a clear off-lane space. Could you mark the spot or describe another vehicle?",
+    "rear_view_unclear":"I can’t tell exactly where the space behind that vehicle begins from this angle. Could you mark the area you mean?",
     "service_unavailable":"I couldn’t finish checking the vehicle and the space behind it. You can mark a spot on this photo or describe another landmark.",
     "side_service_unavailable":"I couldn’t finish checking the parking space beside that vehicle. Could you mark a spot on the photo?",
     "side_unsupported":"Which vehicle and which side do you mean? You can also mark the spot beside it on the photo.",
@@ -170,7 +171,18 @@ def _side(box,w,side):
     return not side or (c<.46 if side=="left" else c>.54)
 
 
-def decide(request,original,packet,*,legacy=False):
+def visible_vehicle_end(box, size):
+    """A cropped or strongly elongated silhouette cannot establish a camera-facing bumper."""
+    left, top, right, bottom = box
+    width, height = size
+    # Width here protects against an obvious broadside view misclassified by the crop reader.
+    # A tighter shape only permits further checks. It does not establish rear orientation.
+    return (min(left, width - right) > max(1, .002 * width)
+            and min(top, height - bottom) > max(1, .002 * height)
+            and right - left <= 2 * (bottom - top))
+
+
+def decide(request,original,packet,*,policy=POLICY):
     ref=request_reference(request);ctx=context(request)
     _authenticate(packet);body=packet["body"]
     if (not ref or body.get("recipe")!=RECIPE or body.get("models")!=MODELS or body.get("context_sha256")!=digest(ctx)
@@ -205,7 +217,7 @@ def decide(request,original,packet,*,legacy=False):
         occupied=[row[2] for row in ctx["tracks"]]
         described=[row for row in coarse if row[0] in observed]
         has_side=lambda vehicles:any(beside_patches(classes,box,occupied,ctx["size"]) for _,_,box in vehicles)
-        if legacy:
+        if policy is None:
             reason="side_unsupported" if ref["unsupported"] else "side_needs_mark" if has_side(coarse) else "no_supported_side_space"
         elif ref["unsupported"] or len(described)>1 or not ref["color"] and len(coarse)>1:
             reason="side_unsupported"
@@ -221,6 +233,8 @@ def decide(request,original,packet,*,legacy=False):
     elif len(options)>8 or len(matching)>1 or not ref["color"] and len(coarse)>1:reason="ambiguous"
     elif not options:reason="no_supported_space"
     elif len(matching)!=1:reason="unverified_vehicle"
+    elif policy==POLICY and not visible_vehicle_end(matching[0]["anchor_box"],ctx["size"]):
+        reason="rear_view_unclear"
     else:
         opt=matching[0];scores=[s for s in rank["alternatives"] if any(s["track_id"]==row[0] for row in coarse)]
         # The fitted referring-object model must independently rank the candidate in its leading two alternatives.
@@ -231,20 +245,22 @@ def decide(request,original,packet,*,legacy=False):
     return result,reason,chosen,rank["checkpoint_sha256"]
 
 
-def outcome(request,photo,packet=None,*,waiting=None,legacy=False):
+def outcome(request,photo,packet=None,*,waiting=None,policy=POLICY):
     req,key,input_sha=source_input(request,photo)
     ref=request_reference(req)
     if not ref:raise ValueError("A single-vehicle relation is required")
+    if policy not in (None,PREVIOUS_POLICY,POLICY):
+        raise ValueError("Unknown single-vehicle passenger policy")
     if waiting is not None and (packet is not None or waiting not in {"pending","busy"}):
         raise ValueError("Only a check without model evidence may be marked pending")
     if packet is None:
         reason=waiting or ("service_unavailable" if ref["relation"]=="behind" else "side_service_unavailable")
         result=unresolved(ASK[reason]);opt=None;rank_sha=None
     else:
-        with Image.open(BytesIO(photo)) as image:result,reason,opt,rank_sha=decide(req,image,packet,legacy=legacy)
+        with Image.open(BytesIO(photo)) as image:result,reason,opt,rank_sha=decide(req,image,packet,policy=policy)
     return {"ok":True,"request_id":req["request_id"],"result":result,"provenance":{
         "method":METHOD,"image":{"sha256":key},"request_sha256":digest(req),"inference_input_sha256":input_sha,
-        **({} if legacy else {"passenger_policy":POLICY}),
+        **({} if policy is None else {"passenger_policy":policy}),
         "reason":reason,"operational_status":waiting or ("unavailable" if packet is None else "complete"),"single_vehicle_evidence":packet,
         "selected_track_ids":[opt["track_id"]] if opt else [],"surface":opt,"ranker_sha256":rank_sha,
         "independent_model_proposal":opt is not None}}
@@ -255,9 +271,16 @@ def verify(request,out):
     packet=out["provenance"]["single_vehicle_evidence"]
     status=out["provenance"]["operational_status"]
     waiting=status if status in {"pending","busy"} else None
-    if outcome(request,photo,packet,waiting=waiting,legacy="passenger_policy" not in out["provenance"])!=out:
+    if outcome(request,photo,packet,waiting=waiting,policy=out["provenance"].get("passenger_policy"))!=out:
         raise ValueError("Single-vehicle result differs from original model and surface evidence")
     return {"input_verified":True,"decision_reproduced":True,"model_images_reproduced":packet is not None,
             "language_calls":len(packet["body"]["calls"]) if packet else 0,"surface_model_calls":int(packet is not None),
             "operational_status":out["provenance"]["operational_status"],
             "independent_model_proposal":out["provenance"]["independent_model_proposal"]}
+
+
+def verify_current(request, out):
+    """Require the current passenger policy before displaying or confirming a new outcome."""
+    if out.get("provenance", {}).get("passenger_policy") != POLICY:
+        raise ValueError("The single-vehicle decision uses a superseded passenger policy")
+    return verify(request, out)

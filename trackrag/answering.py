@@ -3,6 +3,7 @@
 import json
 import re
 from hashlib import sha256
+from itertools import combinations
 from pathlib import Path
 from typing import Protocol
 
@@ -69,15 +70,23 @@ def spatial_reference_question(question, evidence):
             if not any(row['track_id'] == track and matches_vehicle_class(subject[1].lower(), row['class_name'])
                        for row in view.get('observations', [])):
                 continue
-            left, _, right, _ = view['bbox_xyxy']
+            left, top, right, bottom = view['bbox_xyxy']
             width = view['privacy']['original_size_wh'][0]
             centre = (left + right) / (2 * width)
             position = "on the left" if centre < 1/3 else "on the right" if centre > 2/3 else "near the centre"
-            locations[track] = (position, left, right)
-    for first, (where, left, right) in locations.items():
-        for other, (second, other_left, other_right) in locations.items():
-            if first < other and where != second and (right < other_left or other_right < left):
-                return f"Which {subject[1].lower()} do you mean? There are possible matches {where} and {second} in the paused frame."
+            locations[track] = (position, left, top, right, bottom)
+    same_side = None
+    for first, second in combinations(locations.values(), 2):
+        where, left, top, right, bottom = first
+        other, other_left, other_top, other_right, other_bottom = second
+        if not (right < other_left or other_right < left or bottom < other_top or other_bottom < top):
+            continue
+        if where != other:
+            return f"Which {subject[1].lower()} do you mean? There are possible matches {where} and {other} in the paused frame."
+        same_side = where
+    if same_side:
+        return (f"Which {subject[1].lower()} do you mean? There are at least two possible matches {same_side} "
+                "in the paused frame. What detail distinguishes yours?")
     return None
 
 

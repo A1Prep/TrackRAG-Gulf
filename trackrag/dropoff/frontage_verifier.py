@@ -20,7 +20,7 @@ SURFACE = (
 
 
 def describes_place(request):
-    from .place_grounding import VEHICLE, place_reference
+    from .place_grounding import VEHICLE, has_landmark_terms, place_reference
     words=request["text"]
     if VEHICLE.search(words):
         return False
@@ -32,9 +32,7 @@ def describes_place(request):
                        r"(?:the |that |this |an? )?(.+)",words,re.I)
     if not relation:
         return False
-    from .place_grounding import UNSPECIFIC
-    terms=re.findall(r"[^\W\d_]+",relation[1].casefold())
-    return any(x not in UNSPECIFIC|{"it","them","there","here","that","previous","point","place","please"} for x in terms)
+    return has_landmark_terms(relation[1])
 
 
 def photo_view(photo, point=None):

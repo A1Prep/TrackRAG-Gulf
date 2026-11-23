@@ -39,13 +39,12 @@ def prior_eligible(request, prior):
             or request["scene"]["source"]!="predicted" or not frontage_verifier.describes_place(request)):
         return False
     source=prior.get("provenance",{})
-    if source.get("method") not in {place_grounding.METHOD,"qwen_landmark_region"}:
+    # Only a signed place response can prove the prior decision during journal replay.
+    if source.get("method") != place_grounding.METHOD:
         return False
     if (source.get("image",{}).get("sha256")!=request["scene"]["provenance"]["image_sha256"]
             or source.get("request_sha256")!=digest(request)):
         return False
-    if prior.get("ok") is False:
-        return prior.get("error",{}).get("code")=="resource_unavailable" and source.get("runtime_resource_failure") is True
     return prior.get("ok") is True and prior.get("result",{}).get("status") in {
         "insufficient_visual_evidence","needs_clarification"}
 
@@ -106,10 +105,10 @@ def build_outcome(request, photo, packet, prior):
     clean,source,request_input=source_input(request,photo)
     if not prior_eligible(clean,prior):
         raise ValueError("A frontage supplement requires the original eligible no-pin response")
-    if prior["provenance"]["method"]==place_grounding.METHOD:
-        original=place_evidence.build_outcome(clean,photo,prior["provenance"]["place_evidence"])
-        if original!=prior:
-            raise ValueError("Original place decision cannot be reproduced")
+    original=place_evidence.build_outcome(clean,photo,prior["provenance"]["place_evidence"],
+                                          recorded_request_id=prior["provenance"].get("reused_source_request_id"))
+    if original!=prior:
+        raise ValueError("Original place decision cannot be reproduced")
     decision,pt=_scored(clean,photo,packet)
     if not decision["accept"]:
         return prior

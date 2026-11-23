@@ -16,7 +16,9 @@ PLACE = re.compile(
     r"\b(?:bays?|parking (?:spots?|spaces?|stalls?)|(?:marked|painted|empty) (?:spaces?|stalls?)|"
     r"shopfronts?|storefronts?|shops?|stores?|caf[eé]s?|restaurants?|pharmac(?:y|ies)|hotels?|malls?|supermarkets?|"
     r"garages?|entrances?|doorways?|driveways?|forecourts?|villas?|gates?|buildings?|receptions?|lobb(?:y|ies)|kiosks?|"
-    r"mosques?|schools?|clinics?|hospitals?|offices?|terminals?|petrol (?:station|pump)s?)\b", re.I)
+    r"mosques?|schools?|clinics?|hospitals?|offices?|terminals?|petrol (?:station|pump)s?|"
+    r"trees?|palms?|bush(?:es)?|hedges?|shrubs?|flower[ -]?beds?|planters?|bench(?:es)?|fountains?|"
+    r"signposts?|lamp[ -]?posts?|streetlights?|bollards?)\b", re.I)
 VEHICLE = re.compile(r"\b(?:cars?|vehicles?|suvs?|sedans?|taxis?|trucks?|lorr(?:y|ies)|buses|bus|minivans?|vans?|motorcycles?|"
                      r"patrol|camry|land cruiser|corolla|tesla|jeep|lexus|toyota|nissan|honda|bmw|mercedes)\b", re.I)
 VEHICLE_COMPOUND = re.compile(r"\b(?:school bus|hotel (?:shuttle|bus|van)|delivery (?:van|truck))\b", re.I)
@@ -30,6 +32,17 @@ CLOCK_OR_GESTURE = frozenset("midnight noon sunrise sunset dawn dusk monday tues
 UNSPECIFIC = frozenset("one ones side other nearer closer nearest farthest far right left here there middle front "
                        "back ahead same next dark light red white black blue green spot part open empty of the on "
                        "at to this that and please just me us you can could would stop get out".split())
+NON_LANDMARK_TERMS = UNSPECIFIC | CLOCK_OR_GESTURE | frozenset(
+    "a an it them previous usual place point around exactly about today tonight tomorrow yesterday later "
+    "morning afternoon evening night time lunch lunchtime after before in hour hours minute minutes "
+    "one two three four five six seven eight nine ten eleven twelve fifteen twenty thirty forty fifty half past quarter".split())
+
+
+def has_landmark_terms(phrase):
+    """A clock reading or gesture alone cannot identify an object in the photograph."""
+    # Keep the noun in 'at the clock', while treating 'five o'clock' and '5 p.m.' as times.
+    phrase = re.sub(r"\bo\s*['’]?\s*clock\b|\b[ap]\.\s*m\b", " ", phrase.casefold())
+    return any(word not in NON_LANDMARK_TERMS for word in re.findall(r"[^\W\d_]+", phrase))
 
 
 def named_reference(words):
@@ -42,14 +55,13 @@ def named_reference(words):
         return True
     if not relation:
         business = NAMED_BUSINESS.search(words)
-        return bool(business and not vehicle and
-                    all(t.casefold() not in CLOCK_OR_GESTURE for t in business[1].split()))
+        return bool(business and not vehicle and has_landmark_terms(business[1]))
     # Let the image model interpret unfamiliar place nouns. Relationship words and
     # adjectives alone cannot convert an unpointed gesture into a visual target.
     scope = re.split(r"[,;.!?]|\b(?:just behind|just before|beside|next to)\b",words[relation.end():],maxsplit=1,flags=re.I)[0]
     if vehicle and (vehicle.start() < relation.end() or VEHICLE.search(scope)):
         return False
-    return any(x.casefold() not in UNSPECIFIC for x in re.findall(r"[^\W\d_]+",scope))
+    return has_landmark_terms(scope)
 CHOOSE = (
     "The numbered dots indicate the centres of different pieces of visible parking pavement. "
     "Read the passenger's words. Identify the named place or exact marked bay in the actual scene. "

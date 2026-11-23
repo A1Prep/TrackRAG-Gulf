@@ -15,6 +15,7 @@ from statistics import mean, median
 from tools.dropoff_predict import read_requests
 from trackrag.dropoff.contracts import FULL_FIELDS, validate_target
 from trackrag.dropoff.data import file_sha256, inference_input_sha256
+from trackrag.dropoff.manual_offlane import METHOD as OFFLANE_MARK
 from trackrag.vision.geometry import iou
 
 
@@ -150,7 +151,8 @@ def _row(ref, request, outputs):
         provenance = outcome["provenance"]
         if provenance.get("injected") is True:
             raise ValueError("Injected software-check output cannot score as an independent model")
-        if provenance.get("independent_model_proposal") is False or provenance.get("method") == "explicit_passenger_region":
+        if (provenance.get("independent_model_proposal") is False
+                or provenance.get("method") in {"explicit_passenger_region", OFFLANE_MARK}):
             raise ValueError("passenger marked or intervention-assisted output cannot score as model-only")
         digest = ref["image_sha256"]
         if provenance["image"]["sha256"] != digest:

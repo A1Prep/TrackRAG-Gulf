@@ -156,7 +156,15 @@ def operational_code(exc):
     return "grounding_failed"
 
 
+def interactive_timeout(request):
+    return error_outcome("timeout", "The automatic photo check took too long. You can mark your spot or try a different description.",
+                         request["request_id"], {"method":"passenger_interactive_deadline", "request_sha256":digest(request),
+                                                 "image":{"sha256":request["scene"]["provenance"]["image_sha256"]}})
+
+
 class PassengerGrounder:
+    requires_verified_manual_surface = True
+
     def __init__(self, config, geometry, road, *, verify_landmarks=False, referent_ranker=None, between_road_mode="edge"):
         from .between_policy import check_mode
         self.config, self.geometry, self.road = config, geometry, road
@@ -291,28 +299,13 @@ class PassengerGrounder:
         return {"ok":True, "request_id":request["request_id"], "result":result, "provenance":provenance}
 
     def passenger_area(self, request, box):
-        with self.lock:
-            try:
-                return self._passenger_area(request, box)
-            except Exception as exc:
-                return error_outcome(operational_code(exc), str(exc)[:4000] or type(exc).__name__,
-                                     request.get("request_id","") if isinstance(request,dict) else "",
-                                     {"method":"explicit_passenger_region"})
-
-    def _passenger_area(self, request, box):
-        request = validate_request(request)
-        image, binding = resolve_image(request,self.config)
-        with image:
-            region = validate_box(box,*image.size)
-            point = [(region[0]+region[2])/2,(region[1]+region[3])/2]
-            support, evidence = self._evidence(image,request,binding["sha256"],point,region)
-        result = proposed(*support) if support else unresolved(
-            "The selected area has no visible road support. Can you outline a different patch?")
-        return {"ok":True,"request_id":request["request_id"],"result":result,
-                "provenance":{"method":"explicit_passenger_region","image":binding,"selected_box":region,
-                              "road_evidence":evidence,"request_sha256":digest(request),
-                              "inference_input_sha256":inference_input_sha256(request,binding["sha256"]),
-                              "independent_model_proposal":False}}
+        from . import manual_offlane
+        try:
+            return manual_offlane.select(request, box)
+        except Exception as exc:
+            return error_outcome(operational_code(exc), str(exc)[:4000] or type(exc).__name__,
+                                 request.get("request_id","") if isinstance(request,dict) else "",
+                                 {"method":manual_offlane.METHOD})
 
     def close(self):
         with self.lock:

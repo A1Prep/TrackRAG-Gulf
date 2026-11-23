@@ -14,6 +14,7 @@ from trackrag.dropoff.contracts import error_outcome
 from trackrag.dropoff.passenger import PassengerGrounder, digest
 from trackrag.dropoff.road_cache import mask_shape
 from tests.test_passenger_projected_pair import fitted_head, obs
+from tests.test_passenger_manual_offlane import provide_bay
 
 
 COMMAND = "Leave me between the two black cars."
@@ -228,8 +229,9 @@ def test_passenger_can_point_without_rewriting_words_or_running_native_model(set
         export(journal)
 
 
-def test_mark_first_waits_for_passenger_and_checks_original_road_and_role(setup, tmp_path):
+def test_mark_first_waits_for_passenger_and_checks_original_parking_and_role(setup, tmp_path, monkeypatch):
     req, model = setup
+    provide_bay(monkeypatch,req["scene"],[42,110,73,135])
     original_lock = model.lock
 
     class UnavailableModelLock:
@@ -254,7 +256,7 @@ def test_mark_first_waits_for_passenger_and_checks_original_road_and_role(setup,
         sess.confirm("unoffered")
     assert sess.view() == asked
     model.lock = original_lock
-    # The first mark lies fully on an observed vehicle. The next mark is visible road.
+    # The first mark lies fully on an observed vehicle. The next is inside the test parking bay.
     refused = sess.select_area([136, 75, 159, 93])
     assert refused["state"] == "needs_clarification" and not refused["proposal_id"]
     offered = sess.select_area([48, 115, 67, 129])

@@ -1,0 +1,187 @@
+{
+  "scope": "Single independent visual review of four public UAE driver-view photographs. Coordinates are in each unmodified original from top left. Points were selected from the original pixels without model masks, outputs or thresholds. Clear marked vacant bays should be offered back to the passenger. Through lanes, parking access aisles, pedestrian pavement and visibly occupied locations should not be offered. This measures visible off-lane evidence, not legal or physical stopping clearance. The four photos are existing project photos and may have been seen by the system developers; the selected taps were withheld before this run.",
+  "criterion": "An offer must retain the indicated ground location within three original pixels, have a real proposal and require explicit passenger confirmation. A withheld case must show no pin and offer no confirmation; an unavailable service is reported separately. The same normal passenger interaction is used for every case.",
+  "photos": [
+    {
+      "recording_id": "kartaview_4572137",
+      "frame_id": 14,
+      "source_url": "https://kartaview.org/details/4572137/14/",
+      "sha256": "98dbfd42cf22eab79bff24cbf227cdefb7663b12c0d7d1014569642f067adfbd",
+      "width": 3264,
+      "height": 1836,
+      "cases": [
+        {
+          "id": "T1",
+          "xy": [
+            1530,
+            1280
+          ],
+          "visual_class": "through_lane",
+          "expected": "withhold",
+          "observation": "Unmarked residential through lane below the distant oncoming car."
+        },
+        {
+          "id": "T2",
+          "xy": [
+            510,
+            990
+          ],
+          "visual_class": "footway",
+          "expected": "withhold",
+          "observation": "Raised tree-side pavement above the left curb."
+        },
+        {
+          "id": "T3",
+          "xy": [
+            2300,
+            930
+          ],
+          "visual_class": "occupied",
+          "expected": "withhold",
+          "observation": "Body of the black SUV parked at the right."
+        }
+      ]
+    },
+    {
+      "recording_id": "kartaview_7168777",
+      "frame_id": 1211,
+      "source_url": "https://kartaview.org/details/7168777/1211/",
+      "sha256": "6c09f8965a7203ca86f42d18d4b7fc43fa38c700d827a3b92bf90189b394d273",
+      "width": 3840,
+      "height": 2160,
+      "cases": [
+        {
+          "id": "B1",
+          "xy": [
+            2530,
+            1575
+          ],
+          "visual_class": "empty_marked_bay",
+          "expected": "offer",
+          "observation": "Vacant marked angled bay between the blue sedan and the white van."
+        },
+        {
+          "id": "B2",
+          "xy": [
+            880,
+            1520
+          ],
+          "visual_class": "access_aisle",
+          "expected": "withhold",
+          "observation": "Unmarked central aisle between facing parking rows."
+        },
+        {
+          "id": "B3",
+          "xy": [
+            2090,
+            1260
+          ],
+          "visual_class": "occupied",
+          "expected": "withhold",
+          "observation": "Body of the blue sedan in the occupied bay."
+        }
+      ]
+    },
+    {
+      "recording_id": "kartaview_7168793",
+      "frame_id": 16,
+      "source_url": "https://kartaview.org/details/7168793/16/",
+      "sha256": "df3c7569cf08071fe7492af65e599d7132364496766bb9e1e4fa4c3966dccc04",
+      "width": 3840,
+      "height": 2160,
+      "cases": [
+        {
+          "id": "M1",
+          "xy": [
+            2300,
+            1530
+          ],
+          "visual_class": "empty_marked_bay",
+          "expected": "offer",
+          "observation": "Inside a vacant marked angled bay on the near side of the raised median."
+        },
+        {
+          "id": "M2",
+          "xy": [
+            710,
+            1535
+          ],
+          "visual_class": "access_aisle",
+          "expected": "withhold",
+          "observation": "Central driving aisle between the two parking rows."
+        },
+        {
+          "id": "M3",
+          "xy": [
+            3170,
+            1424
+          ],
+          "visual_class": "footway",
+          "expected": "withhold",
+          "observation": "Raised pink pedestrian median separating the two parking rows."
+        },
+        {
+          "id": "M4",
+          "xy": [
+            3340,
+            1170
+          ],
+          "visual_class": "occupied",
+          "expected": "withhold",
+          "observation": "Body of the white SUV parked across the median."
+        }
+      ]
+    },
+    {
+      "recording_id": "kartaview_7130313",
+      "frame_id": 1390,
+      "source_url": "https://kartaview.org/details/7130313/1390/",
+      "sha256": "4e305274bf98f5a5ef5bfbd4224af7bebddcde53657624c3901ed5b7c2b8c15e",
+      "width": 3840,
+      "height": 2160,
+      "cases": [
+        {
+          "id": "S1",
+          "xy": [
+            2800,
+            1390
+          ],
+          "visual_class": "empty_marked_bay",
+          "expected": "offer",
+          "observation": "Vacant marked bay near the right curb between the two parked sedans."
+        },
+        {
+          "id": "S2",
+          "xy": [
+            860,
+            1330
+          ],
+          "visual_class": "through_lane",
+          "expected": "withhold",
+          "observation": "Continuous asphalt driving lane left of the parking end marks."
+        },
+        {
+          "id": "S3",
+          "xy": [
+            2150,
+            1050
+          ],
+          "visual_class": "occupied",
+          "expected": "withhold",
+          "observation": "Body of the silver sedan beside the storefront."
+        },
+        {
+          "id": "S4",
+          "xy": [
+            3070,
+            1165
+          ],
+          "visual_class": "footway",
+          "expected": "withhold",
+          "observation": "Pedestrian pavement by the storefront behind the painted curb."
+        }
+      ]
+    }
+  ],
+  "sealed_at_utc": "2026-11-23T17:39:09.361866+00:00"
+}

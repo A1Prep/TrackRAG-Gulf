@@ -34,9 +34,9 @@
           <div class="zoom-tools" aria-label="Photo zoom"><button type="button" id="zoom-out" class="icon-button" aria-label="Zoom out" disabled>−</button><output id="zoom-level" aria-label="Zoom level">1×</output><button type="button" id="zoom-in" class="icon-button" aria-label="Zoom in" disabled>+</button></div>
         </div>
         <div id="draw-tools" class="draw-tools" hidden>
-          <h3>Mark your spot</h3><p id="mark-help">Tap the photo or drag an outline. With a keyboard, move with the arrow keys and press Enter to place the mark. Hold Shift for larger steps.</p>
+          <h3>Mark your spot</h3><p id="mark-help">Tap your intended location or drag an outline around it. The centre dot is the point checked. With a keyboard, move with the arrow keys and press Enter to place the mark.</p>
           <p id="mark-position" class="mark-position" aria-live="polite"></p>
-          <div class="button-row"><button type="button" id="use-box" class="primary" disabled>Check my spot</button><button type="button" id="pan" class="subtle" aria-pressed="false" hidden>Move zoomed photo</button><button type="button" id="discard-box" class="text-btn">Back</button></div>
+          <div class="button-row"><button type="button" id="use-box" class="primary" disabled>Check this point</button><button type="button" id="pan" class="subtle" aria-pressed="false" hidden>Move zoomed photo</button><button type="button" id="discard-box" class="text-btn">Back</button></div>
         </div>
         <section id="pair-tools" aria-label="Choose the two vehicles" hidden>
           <h3>Choose the vehicles</h3><p>Tap two numbered vehicles on the photo or select their numbers below.</p>
@@ -58,10 +58,12 @@
       <section id="destination-panel" class="card dialogue" aria-labelledby="destination-title">
         <div class="response-heading" aria-live="polite" aria-atomic="true"><span id="state-icon" aria-hidden="true"></span><h2 id="destination-title" tabindex="-1">Where would you like to get out?</h2></div>
         <div id="status" role="status" aria-live="polite"></div>
+        <p id="stopping-note" class="stopping-note" hidden>The driver must check traffic, clearance and stopping rules.</p>
         <p id="error" role="alert" hidden></p>
         <div id="last-request" class="last-request" hidden><span>Your words</span><p></p></div>
         <div class="decision-actions">
-          <button type="button" id="confirm" class="primary" hidden>Confirm this spot</button>
+          <button type="button" id="take-over-area" class="primary" hidden>Mark my spot now</button>
+          <button type="button" id="confirm" class="primary" hidden>Save this location</button>
           <button type="button" id="draw" class="subtle" hidden>Mark my spot on the photo</button>
           <button type="button" id="edit-words" class="subtle" hidden>Edit description</button>
           <button type="button" id="choose-pair" class="subtle" hidden>Choose two vehicles</button>
@@ -85,7 +87,6 @@
         <details id="history" class="history" hidden><summary>Conversation</summary><div id="messages" class="messages" aria-label="Conversation"></div></details>
       </section>
     </div>
-    <p class="footnote">Confirm the pin if it matches where you want to get out. The driver decides where it is safe and permitted to stop.</p>
   </main>
 </body>
 </html>

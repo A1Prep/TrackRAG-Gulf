@@ -20,9 +20,9 @@ class ParkingPassengerSession(PassengerSession):
         self._parking_offer = self._parking_check = None
         self._parking_recovery = False
 
-    def _interpret_submission(self, request):
-        if self._passenger_requested or not parking.parking_instruction(request):
-            return super()._interpret_submission(request)
+    def interpret_automatic(self, request):
+        if not parking.parking_instruction(request):
+            return super().interpret_automatic(request)
         try:
             response = self._parking_backend.interpret(deepcopy(request))
         except ValueError:
@@ -36,8 +36,12 @@ class ParkingPassengerSession(PassengerSession):
                 parking.verify_response(request, response, artifacts=self._parking_artifacts)
             except Exception:
                 response = parking.dispatch_failure(request, "parking_evidence_invalid", rejected=response)
-        self._parking_check = (digest(request), digest(response))
         return deepcopy(response), parking.ACTOR
+
+    def _accept_automatic(self, outcome, actor):
+        if actor == parking.ACTOR:
+            self._parking_check = (digest(self._request), digest(outcome))
+        super()._accept_automatic(outcome, actor)
 
     def _accept(self, outcome, selected_by):
         source = outcome.get("provenance") if isinstance(outcome, dict) else None

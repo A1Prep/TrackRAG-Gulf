@@ -16,6 +16,7 @@ from tools.dropoff_predict import read_requests
 from tools.dropoff_score_methods import point_hit
 from trackrag.dropoff.contracts import DESTINATION_FIELDS, FULL_FIELDS, validate_target
 from trackrag.dropoff.data import file_sha256, inference_input_sha256, load_cases
+from trackrag.dropoff.manual_offlane import METHOD as OFFLANE_MARK
 from trackrag.vision.geometry import iou
 
 
@@ -37,7 +38,7 @@ def score_outcome(case, request, outputs):
         provenance = outcome["provenance"]
         digest = case["source"]["image_sha256"]
         if (provenance.get("injected") is True or provenance.get("independent_model_proposal") is False
-                or provenance.get("method") == "explicit_passenger_region"):
+                or provenance.get("method") in {"explicit_passenger_region", OFFLANE_MARK}):
             raise ValueError("artificial or passenger-marked outputs cannot score as an independent model")
         if provenance["image"]["sha256"] != digest:
             raise ValueError("output belongs to different image bytes")

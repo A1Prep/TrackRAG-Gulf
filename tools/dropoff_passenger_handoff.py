@@ -27,7 +27,7 @@ def bound_outcome(outcome, request, *, passenger_selected=False, passenger_landm
     need(isinstance(outcome, dict) and outcome.get("request_id") == request["request_id"], "Mismatched outcome ID")
     source = outcome.get("provenance", {})
     need(isinstance(source, dict), "Missing outcome provenance")
-    from trackrag.dropoff import manual_mark
+    from trackrag.dropoff import manual_mark, manual_offlane
     if passenger_requested_area or source.get("method") == manual_mark.REQUEST_METHOD:
         need(passenger_requested_area and dialogue_policy and
              not (passenger_selected or passenger_landmarks or passenger_requested_pointing) and
@@ -36,6 +36,16 @@ def bound_outcome(outcome, request, *, passenger_selected=False, passenger_landm
                 "image_sha256":source["image"]["sha256"], "inference_input_sha256":source["inference_input_sha256"],
                 "saved_provenance":source, "result":outcome["result"], "independent_model_proposal":False,
                 "native_model_calls":0}
+    if source.get("method") == manual_offlane.METHOD:
+        need(passenger_selected and not (passenger_landmarks or dialogue_policy),
+             "An off-lane mark requires a passenger selection")
+        if outcome.get("ok") is True:
+            need(requested_box is not None, "An off-lane mark requires the passenger's submitted rectangle")
+            checked = manual_offlane.verify(request, outcome, requested_box=requested_box)
+            return {"ok":True, "request_id":request["request_id"], "method":manual_offlane.METHOD,
+                    "image_sha256":source["image"]["sha256"], "inference_input_sha256":source["inference_input_sha256"],
+                    "saved_provenance":source, "result":outcome["result"], "passenger_mark_verification":checked,
+                    "native_model_calls":0, "independent_model_proposal":False}
     from trackrag.dropoff import passenger_parking as parking
     from trackrag.dropoff import parking_clarification
     from trackrag.dropoff.interaction import signed_place_verifier
@@ -228,6 +238,7 @@ def session(journal_path, *, referent_path=None, pair_geometry=None, road_cache=
     offered_tokens = set()
     parking_offer_sha = None
     place_offer_sha = None
+    manual_offer_sha = None
     events = []
     for line_sha, event in raw:
         action, detail, view = event["action"], event["detail"], event["view"]
@@ -247,7 +258,7 @@ def session(journal_path, *, referent_path=None, pair_geometry=None, road_cache=
         else:
             need(token is None, "An inactive passenger interaction exposed a proposal token")
         if action in ("submitted", "passenger_marked", "passenger_selected_pair"):
-            parking_offer_sha = place_offer_sha = None
+            parking_offer_sha = place_offer_sha = manual_offer_sha = None
             manual = action == "passenger_marked"
             pair = action == "passenger_selected_pair"
             if not manual and not pair:
@@ -333,6 +344,9 @@ def session(journal_path, *, referent_path=None, pair_geometry=None, road_cache=
                 if (item["outcome"].get("place_verification") and item["outcome"]["ok"]
                         and item["outcome"]["result"]["status"] == "proposed"):
                     place_offer_sha = digest(detail["outcome"])
+                if (item["outcome"].get("passenger_mark_verification", {}).get("offlane_mask_replayed")
+                        and item["outcome"]["result"]["status"] == "proposed"):
+                    manual_offer_sha = digest(detail["outcome"])
                 if item["outcome"].get("method") == "deictic_pair_clarification" and item["outcome"]["ok"]:
                     item["phase"] = "automatic_pair_identification_question"
                 if item["outcome"].get("method") == parking_clarification.METHOD:
@@ -371,6 +385,10 @@ def session(journal_path, *, referent_path=None, pair_geometry=None, road_cache=
                  (view["proposal_id"], view["selected_by"]) == (detail["proposal_id"], detail["selected_by"]),
                  "Confirmation differs from the currently offered proposal")
             item["phase"] = "confirmed_previous_selection"
+            if manual_offer_sha or "verified_manual_outcome_sha256" in detail:
+                need(manual_offer_sha and detail.get("verified_manual_outcome_sha256") == manual_offer_sha,
+                     "Passenger confirmation differs from the verified parking evidence for their mark")
+                item["verified_manual_outcome_sha256"] = manual_offer_sha
             if place_offer_sha or "verified_place_outcome_sha256" in detail:
                 need(place_offer_sha and detail.get("verified_place_outcome_sha256") == place_offer_sha,
                      "Place confirmation differs from the signed decision for this proposal")

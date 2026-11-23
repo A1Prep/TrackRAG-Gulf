@@ -217,6 +217,7 @@ def start(args):
                       "data/uae-parking-local/passenger-requests.jsonl"):
             if (ROOT/extra).is_file():
                 banks.append(ROOT/extra)
+    banks = [*banks, *(getattr(args,"additional_requests",None) or ())]
     for path in banks:
         if not path.is_file():
             raise FileNotFoundError(f"Prepared scene bank unavailable: {path}")
@@ -235,6 +236,9 @@ def start(args):
             sources.extend(ROOT / "experiments/dropoff" / name for name in PUBLIC_PHOTO_LISTS)
         for path in dict.fromkeys(Path(source).resolve() for source in sources):
             argv.extend(["--place-public-sources",str(path)])
+        for option in ("local_surface_index", "local_observations"):
+            for path, expected in getattr(args,option,None) or ():
+                argv.extend(["--"+option.replace("_","-"),str(Path(path).resolve()),expected])
         if getattr(args, "low_memory", False):
             argv.append("--low-memory")
         for bank in banks:
@@ -279,6 +283,12 @@ def main():
         p.add_argument("--bundle",type=Path,default=ROOT/"models/passenger-feature")
         if cmd == "start":
             p.add_argument("--requests",type=Path,action="append")
+            p.add_argument("--additional-requests",type=Path,action="append",metavar="JSONL",
+                           help="Add a prepared scene bank while keeping the normal gallery and recordings")
+            p.add_argument("--local-surface-index",nargs=2,action="append",metavar=("JSON","SHA256"),
+                           help="Surface maps prepared offline for an additional photo bank")
+            p.add_argument("--local-observations",nargs=2,action="append",metavar=("JSON","SHA256"),
+                           help="Verified offline 8B observations for additional registered surfaces")
             p.add_argument("--base-dir",type=Path,default=ROOT/"models/qwen3-vl-8b-local-nf4")
             p.add_argument("--processor-cache",type=Path,default=ROOT/"models/dropoff-processor-cache/hub")
             p.add_argument("--vision-cache",type=Path)

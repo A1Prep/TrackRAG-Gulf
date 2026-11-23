@@ -105,3 +105,4 @@ experiments/dropoff/passenger-qwen35-*-20261123.json -text whitespace=cr-at-eol
 experiments/dropoff/passenger-whole-bay-*-20261123.json text eol=lf
 # Independent reviewers hashed these files before running the application.
 experiments/dropoff/passenger-*-20261124.json -text whitespace=cr-at-eol
+experiments/dropoff/passenger-additional-local-photos-20261124/*.json text eol=lf

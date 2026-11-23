@@ -30,7 +30,7 @@ def prepare(sources, checkpoint, out, device):
             with ZipFile(archive, "w", ZIP_DEFLATED) as bank:
                 for record in sorted(data, key=lambda row: row["sha256"]):
                     started = monotonic()
-                    path = Path(record["original_path"])
+                    path = Path(sources).resolve().parent / record["original_path"]
                     if not 0 < path.stat().st_size <= MAX_IMAGE_BYTES:
                         raise ValueError("Invalid original photo size.")
                     original = path.read_bytes()
@@ -59,6 +59,7 @@ def prepare(sources, checkpoint, out, device):
             index.write_bytes(signed_bytes({"version":1,"weights_sha256":SEG_WEIGHTS,"sources":rows})+b"\n")
             os.replace(archive, out/archive.name)
             os.replace(index, out/index.name)
+            print(f"Surface index SHA-256 {sha256((out/index.name).read_bytes()).hexdigest()}",flush=True)
     finally:
         model.close()
 

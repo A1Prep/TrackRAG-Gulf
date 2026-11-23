@@ -102,3 +102,37 @@ def test_unpinned_local_bank_is_ignored(tmp_path,monkeypatch):
         assert local.get_packet("key","points") is None
     finally:
         local._database.cache_clear()
+
+
+def test_additional_local_banks_require_explicit_distinct_verified_sources(tmp_path,monkeypatch):
+    surfaces=local.local_surfaces
+    index=surfaces.BANK.with_suffix(".json")
+    observations=local.BANK
+    key=next(iter(json.loads(index.read_bytes())["sources"]))
+    try:
+        with monkeypatch.context() as changes:
+            changes.setattr(surfaces,"BANK",tmp_path/"missing.zip")
+            changes.setattr(local,"BANK",tmp_path/"missing.json")
+            changes.setattr(surfaces,"_extra_sources",{})
+            changes.setattr(local,"_extra_sources",{})
+            surfaces._sources.cache_clear()
+            local._database.cache_clear()
+            with pytest.raises(ValueError,match="SHA-256"):
+                surfaces.register(index,"0"*64)
+            with pytest.raises(ValueError,match="registered original surfaces"):
+                local.register(observations,local.BANK_SHA)
+            assert surfaces.get_packet(key) is None
+            surfaces.register(index,surfaces.INDEX_SHA256)
+            assert surfaces.local_only({"provenance":{"image_sha256":key}})
+            assert surfaces.get_packet(key)["body"]["image_sha256"]==key
+            with pytest.raises(ValueError,match="duplicates"):
+                surfaces.register(index,surfaces.INDEX_SHA256)
+            with pytest.raises(ValueError,match="SHA-256"):
+                local.register(observations,"0"*64)
+            local.register(observations,local.BANK_SHA)
+            local.verify(local.get_packet(key,"landmarks"),key,"landmarks")
+            with pytest.raises(ValueError,match="distinct"):
+                local.register(observations,local.BANK_SHA)
+    finally:
+        surfaces._sources.cache_clear()
+        local._database.cache_clear()

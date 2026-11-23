@@ -411,5 +411,178 @@
         "sent_privacy_processed_frames": []
       }
     }
+  ],
+  "additional_after_explanation_repair": [
+    {
+      "recording": "video_054604",
+      "paused_at": 126,
+      "question": "How many buses are detected in frame 126?",
+      "answer_source": "local_tracks",
+      "answer": {
+        "answer_status": "answered",
+        "answer": "The tracker detected 1 bus in frame 126.",
+        "cited_evidence_ids": [
+          "E2"
+        ]
+      },
+      "cited_frames": [
+        126
+      ],
+      "returned_frames": [
+        126
+      ],
+      "scope": null,
+      "seconds": 0.862,
+      "meets_expectation": true,
+      "receipt": {
+        "result_file_sha256": "25d837734e735125a624690165729b57c3cead2acb948659035dd57ab51cb86a",
+        "saved_tracks_sha256": "5d99bb0d6ca678e376b6c933e8410b99770d190405650c64c1717d455313ca8a",
+        "sent_privacy_processed_frames": []
+      }
+    },
+    {
+      "recording": "video_054907",
+      "paused_at": 71,
+      "question": "How many cars are there?",
+      "answer_source": "local_tracks",
+      "answer": {
+        "answer_status": "answered",
+        "answer": "The tracker detected 9 cars in frame 71.",
+        "cited_evidence_ids": [
+          "E2"
+        ]
+      },
+      "cited_frames": [
+        71
+      ],
+      "returned_frames": [
+        71
+      ],
+      "scope": null,
+      "seconds": 1.29,
+      "meets_expectation": true,
+      "receipt": {
+        "result_file_sha256": "1668e42b74a13c7b40d877ed4867735c518d8c2c0dd10db7db350e2ea48438b5",
+        "saved_tracks_sha256": "95df6a0030009d4340869aa92b8bce6f8265116a9bf446274dc732966d127f3c",
+        "sent_privacy_processed_frames": []
+      }
+    },
+    {
+      "recording": "video_054604",
+      "paused_at": 126,
+      "question": "What type is track 999999?",
+      "answer_source": "local_tracks",
+      "answer": {
+        "answer_status": "insufficient_evidence",
+        "answer": "The saved tracks and the retrieved frames do not establish that detail at the requested moment.",
+        "cited_evidence_ids": []
+      },
+      "cited_frames": [],
+      "returned_frames": [
+        126
+      ],
+      "scope": null,
+      "seconds": 0.459,
+      "meets_expectation": true,
+      "receipt": {
+        "result_file_sha256": "3c02dcd9ba3fd0dd831727ff7c58e98a5bba905e0f86ed8420368962a411eece",
+        "saved_tracks_sha256": "5d99bb0d6ca678e376b6c933e8410b99770d190405650c64c1717d455313ca8a",
+        "sent_privacy_processed_frames": []
+      }
+    },
+    {
+      "recording": "video_054907",
+      "paused_at": 71,
+      "question": "What color is the car in front?",
+      "answer_source": "evidence_only",
+      "answer": {
+        "answer_status": "not_requested",
+        "answer": null,
+        "cited_evidence_ids": []
+      },
+      "cited_frames": [],
+      "returned_frames": [
+        1
+      ],
+      "scope": null,
+      "seconds": 1.311,
+      "meets_expectation": true,
+      "receipt": {
+        "result_file_sha256": "c2128b655352a17b63368d6918642d3f2cd3ef9b61861bbb6584599b819a2461",
+        "saved_tracks_sha256": "95df6a0030009d4340869aa92b8bce6f8265116a9bf446274dc732966d127f3c",
+        "sent_privacy_processed_frames": []
+      }
+    },
+    {
+      "recording": "video_054907",
+      "paused_at": 101,
+      "question": "At 0:07 (frame 81), what structure is over the roadway?",
+      "answer_source": "gemini",
+      "answer": {
+        "answer_status": "insufficient_evidence",
+        "answer": "The stated frame and time refer to different moments. Which one should I check?",
+        "cited_evidence_ids": []
+      },
+      "cited_frames": [],
+      "returned_frames": [],
+      "scope": {
+        "status": "conflicting_frame_and_time",
+        "paused_seconds": 10.0,
+        "moments": []
+      },
+      "seconds": 0.148,
+      "meets_expectation": true,
+      "receipt": {
+        "result_file_sha256": "0837de685850b28e3941bc7090d37c90f8872f74774a6908e7e977f04a0bccca",
+        "saved_tracks_sha256": "95df6a0030009d4340869aa92b8bce6f8265116a9bf446274dc732966d127f3c",
+        "sent_privacy_processed_frames": []
+      }
+    },
+    {
+      "recording": "video_054604",
+      "paused_at": 101,
+      "question": "Compare the bus at 7 and 14 seconds.",
+      "answer_source": "gemini",
+      "answer": {
+        "answer_status": "insufficient_evidence",
+        "answer": "That time is outside the footage available from the start through the paused frame.",
+        "cited_evidence_ids": []
+      },
+      "cited_frames": [],
+      "returned_frames": [],
+      "scope": {
+        "status": "outside_review_window",
+        "paused_seconds": 10.0,
+        "moments": []
+      },
+      "seconds": 0.114,
+      "meets_expectation": true,
+      "receipt": {
+        "result_file_sha256": "9fb4c1e04cfb0f7fdc7d7b60787476f3c15f99bd0e1d6ef903a0864c800801fa",
+        "saved_tracks_sha256": "5d99bb0d6ca678e376b6c933e8410b99770d190405650c64c1717d455313ca8a",
+        "sent_privacy_processed_frames": []
+      }
+    },
+    {
+      "recording": "video_054907",
+      "paused_at": 103,
+      "question": "What is the precise physical speed of the pickup truck in km/h?",
+      "answer_source": "gemini",
+      "answer": {
+        "answer_status": "insufficient_evidence",
+        "answer": "The footage and tracker give image positions. Measuring this road user’s physical speed requires calibrated distance over time.",
+        "cited_evidence_ids": []
+      },
+      "cited_frames": [],
+      "returned_frames": [],
+      "scope": null,
+      "seconds": 0.137,
+      "meets_expectation": true,
+      "receipt": {
+        "result_file_sha256": "b64049fd133e9ff2702895fc84307ecbe91c910436afd626428f88c62ca83cb7",
+        "saved_tracks_sha256": "95df6a0030009d4340869aa92b8bce6f8265116a9bf446274dc732966d127f3c",
+        "sent_privacy_processed_frames": []
+      }
+    }
   ]
 }

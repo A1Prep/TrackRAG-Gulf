@@ -713,6 +713,8 @@ def load_speech_recognizer(vosk_model, whisper_model=None):
 def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--requests", action="append", type=Path, required=True, help="Prepared JSONL scene bank; repeat for additional banks")
+    parser.add_argument("--local-surface-index",nargs=2,action="append",default=[],metavar=("JSON","SHA256"))
+    parser.add_argument("--local-observations",nargs=2,action="append",default=[],metavar=("JSON","SHA256"))
     parser.add_argument("--config", type=Path, required=True)
     parser.add_argument("--geometry", type=Path, required=True)
     parser.add_argument("--referent",type=Path,help="Use the learned candidate ranker for clarification")
@@ -746,8 +748,14 @@ def main(argv=None):
     from trackrag.dropoff.passenger_pair_choice import PassengerSession
     from trackrag.dropoff.passenger import load_passenger_model
 
+    from trackrag.dropoff.local_surfaces import matches_scene, register as register_surfaces
+    for path, expected in args.local_surface_index:
+        register_surfaces(path,expected)
+    if args.local_observations:
+        from trackrag.dropoff.local_8b_observations import register as register_observations
+        for path, expected in args.local_observations:
+            register_observations(path,expected)
     scenes = load_scenes(args.requests)
-    from trackrag.dropoff.local_surfaces import matches_scene
     prepared_photos = any(matches_scene(scene) for scene in scenes.values())
     if args.low_memory and (args.place_public_sources or prepared_photos):
         import cv2

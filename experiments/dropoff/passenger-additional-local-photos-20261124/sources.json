@@ -1,0 +1,141 @@
+{
+  "schema": "trackrag-local-public-photo-release-v1",
+  "scope": "Provider-blurred KartaView source photographs with locally computed Task 1 coordinates. Model processing stays local.",
+  "attribution": "© Grab and KartaView Contributors; derived Task 1 coordinates are shared under CC BY-SA 4.0.",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
+  "original_source_manifest_sha256": "6728fbc87ccab6f6429680941c4642da6c301bb4d9a54f846d2c3b7c15917fe5",
+  "model_identity_sha256": "acf21b53525d5729541aaedbf961a9c634399fa881fc7976909d48575c5e870d",
+  "checkpoint_sha256": "9ea96f1050f1d3375c5cf0f25a086cd5bb9c6a290fa5fdc009804d9a31181d95",
+  "archive": {
+    "file": "passenger-local-photo-predictions-20261124.zip",
+    "sha256": "0a5b541a39e732f34a28b1c75ffdbc4b03f6a8799e7f6e13ee773def4b899c9a",
+    "files": {
+      "passenger-requests.jsonl": {
+        "sha256": "f9cf551f5f667aba4a895c4fae6dda79208c8b18d781293d0685c9cecd7d24ee",
+        "size_bytes": 26573
+      },
+      "predictions/kartaview_1465182.detections.jsonl": {
+        "sha256": "d990980d361c359f3c8aafc9a25f73e91f2af016f9b8bee37486ec42fda3d916",
+        "size_bytes": 19056
+      },
+      "predictions/kartaview_1465182.provenance.json": {
+        "sha256": "3a916fc446a471d687fc790a32a9c8892c89251996ca5c99ac64b322b16d2c9c",
+        "size_bytes": 2828
+      },
+      "predictions/kartaview_1465182.tracks.jsonl": {
+        "sha256": "704da4306f6aa74c27caa9ddb794fd7876b0dce531a08225ddde42c1ea8f1108",
+        "size_bytes": 2676
+      },
+      "predictions/kartaview_5138697.detections.jsonl": {
+        "sha256": "b70d4cb5ce47f8baaf1ea92d7e5ed7067d2daf2372a22038c7c9ec41e6ae17e6",
+        "size_bytes": 21179
+      },
+      "predictions/kartaview_5138697.provenance.json": {
+        "sha256": "3c093d26aa5da7c466e4dcf8e5f56cc4a3715110e6c9ebce094e82779044932f",
+        "size_bytes": 2831
+      },
+      "predictions/kartaview_5138697.tracks.jsonl": {
+        "sha256": "13200ee15761e14a8a6a58e35e993851d7eae1ee962b3a30ccb6bb2d060f8f25",
+        "size_bytes": 206
+      },
+      "predictions/kartaview_6267177.detections.jsonl": {
+        "sha256": "c241494733d7d03eebf26c08b1bb39d36e0ab25d94d967524d19fb32d45535ad",
+        "size_bytes": 43114
+      },
+      "predictions/kartaview_6267177.provenance.json": {
+        "sha256": "aa2ad9308694f17f1cd5425a8274ba105f6db4bb17cfb7f3afe441cfd3f8550a",
+        "size_bytes": 2878
+      },
+      "predictions/kartaview_6267177.tracks.jsonl": {
+        "sha256": "af07c9c4f0863a96ca6185cb513a2a6d47e20d0cbe00dfbfdfeaccf27126ce00",
+        "size_bytes": 4402
+      },
+      "predictions/kartaview_994509.detections.jsonl": {
+        "sha256": "8b4968239bf562dc990ff8c77783981dee67390f83c417c35e2b5a52a2153559",
+        "size_bytes": 75672
+      },
+      "predictions/kartaview_994509.provenance.json": {
+        "sha256": "542e25e917ea99ae6ec4e392f3ff5efdf923cd647f41f1718492949a82ea3fb0",
+        "size_bytes": 2832
+      },
+      "predictions/kartaview_994509.tracks.jsonl": {
+        "sha256": "47a8e36b4db773ab01c70cd59d3594d1a4f8d2c86c082c21c0425eff050f5b53",
+        "size_bytes": 17036
+      },
+      "sources.json": {
+        "sha256": "0e88415ef7846fdb1276b4188d853ae6bdcf03b1d38c1bcaaea7975f8e75cdde",
+        "size_bytes": 6713
+      }
+    }
+  },
+  "sources": [
+    {
+      "recording_id": "kartaview_1465182",
+      "frame_id": 0,
+      "photo_id": 424434622,
+      "title": "KartaView drive 1465182, frame 0",
+      "width": 4032,
+      "height": 3024,
+      "sha256": "ae1831d72b844f5650f519fee363ca8627ac014db00aef1a3d19d655f2584ad2",
+      "source_url": "https://kartaview.org/details/1465182/0/",
+      "processed_original_url": "https://cdn.kartaview.org/pr:sharp/aHR0cHM6Ly9zdG9yYWdlMTEub3BlbnN0cmVldGNhbS5vcmcvZmlsZXMvcGhvdG8vMjAxOS82LzIvcHJvYy8xNDY1MTgyXzBfNGYyYmVfMS5qcGc",
+      "original_blur_status": "BLURRED",
+      "attribution": "© Grab and KartaView Contributors",
+      "license": "CC BY-SA 4.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
+      "source_terms": "https://kartaview.org/terms",
+      "original_path": "images/ae1831d72b844f5650f519fee363ca8627ac014db00aef1a3d19d655f2584ad2.jpg"
+    },
+    {
+      "recording_id": "kartaview_5138697",
+      "frame_id": 360,
+      "photo_id": 1480781961,
+      "title": "KartaView drive 5138697, frame 360",
+      "width": 3264,
+      "height": 1836,
+      "sha256": "ffc38d7f8d94ff8cf964ad65002031c558c86b4c14780aa6cd63381e8494de9f",
+      "source_url": "https://kartaview.org/details/5138697/360/",
+      "processed_original_url": "https://cdn.kartaview.org/pr:sharp/aHR0cHM6Ly9zdG9yYWdlMTMub3BlbnN0cmVldGNhbS5vcmcvZmlsZXMvcGhvdG8vMjAyMi80LzI4L3Byb2MvNTEzODY5N19hNGM5ZDVlNzJjZGM3MjEyNWZkYzFkNjllMmVjMmI5ZC5qcGc",
+      "original_blur_status": "BLURRED",
+      "attribution": "© Grab and KartaView Contributors",
+      "license": "CC BY-SA 4.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
+      "source_terms": "https://kartaview.org/terms",
+      "original_path": "images/ffc38d7f8d94ff8cf964ad65002031c558c86b4c14780aa6cd63381e8494de9f.jpg"
+    },
+    {
+      "recording_id": "kartaview_6267177",
+      "frame_id": 167,
+      "photo_id": 1636983225,
+      "title": "KartaView drive 6267177, frame 167",
+      "width": 3840,
+      "height": 2160,
+      "sha256": "1ce00bae5a7a65d2c2ca1feb6485ce4f6c4fbd0afd18829d3f86cc72d99ed6e6",
+      "source_url": "https://kartaview.org/details/6267177/167/",
+      "processed_original_url": "https://cdn.kartaview.org/pr:sharp/aHR0cHM6Ly9zdG9yYWdlMTMub3BlbnN0cmVldGNhbS5vcmcvZmlsZXMvcGhvdG8vMjAyMi8xMC8yNi9wcm9jLzYyNjcxNzdfNmQ2MjBmZWU0YTkzNGViOThhOWYzNTVlODBiNDFkMDUuanBn",
+      "original_blur_status": "BLURRED",
+      "attribution": "© Grab and KartaView Contributors",
+      "license": "CC BY-SA 4.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
+      "source_terms": "https://kartaview.org/terms",
+      "original_path": "images/1ce00bae5a7a65d2c2ca1feb6485ce4f6c4fbd0afd18829d3f86cc72d99ed6e6.jpg"
+    },
+    {
+      "recording_id": "kartaview_994509",
+      "frame_id": 281,
+      "photo_id": 186732911,
+      "title": "KartaView drive 994509, frame 281",
+      "width": 3840,
+      "height": 2160,
+      "sha256": "c7e0afd713582d0b3c19567fbf3e6ca537509333c612a1e5ae5e37ec9635f2c1",
+      "source_url": "https://kartaview.org/details/994509/281/",
+      "processed_original_url": "https://cdn.kartaview.org/pr:sharp/aHR0cHM6Ly9zdG9yYWdlNy5vcGVuc3RyZWV0Y2FtLm9yZy9maWxlcy9waG90by8yMDE4LzEvNi9wcm9jLzk5NDUwOV81MDQ0OF8yNi5qcGc",
+      "original_blur_status": "BLURRED",
+      "attribution": "© Grab and KartaView Contributors",
+      "license": "CC BY-SA 4.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
+      "source_terms": "https://kartaview.org/terms",
+      "original_path": "images/c7e0afd713582d0b3c19567fbf3e6ca537509333c612a1e5ae5e37ec9635f2c1.jpg"
+    }
+  ]
+}

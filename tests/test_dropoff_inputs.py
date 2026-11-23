@@ -2,6 +2,7 @@
 
 from copy import deepcopy
 from hashlib import sha256
+from io import BytesIO
 from pathlib import Path
 from unittest.mock import patch
 
@@ -175,6 +176,19 @@ def test_image_byte_and_pixel_budgets_are_enforced(scene):
     with patch("trackrag.dropoff.inputs.MAX_ORIGINAL_PIXELS", 100):
         with pytest.raises(ValueError, match="pixel budget"):
             build(scene)
+
+
+def test_small_original_reserves_only_its_own_bytes(scene):
+    original = Path(scene[1]["image_path"]).read_bytes()
+
+    class MeasuredRead(BytesIO):
+        def read(self, size=-1):
+            assert size == len(original) + 1
+            return super().read(size)
+
+    with patch.object(Path, "open", return_value=MeasuredRead(original)):
+        request = build(scene)
+    assert request["scene"]["provenance"]["image_sha256"] == sha256(original).hexdigest()
 
 
 def test_bounded_generator_cannot_supply_unlimited_observations(scene):

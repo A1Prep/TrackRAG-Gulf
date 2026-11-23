@@ -447,7 +447,7 @@ class PassengerSession:
                 bay["bay_outline"] = receipt["provenance"]["bay_outline"]
             if self._bay_menu is not None:
                 bay["bay_choices"] = self._bay_menu[0]["provenance"]["bay_choices"]
-                if self._bay_menu[0]["provenance"]["reason"]=="unverified_bay_reference":
+                if self._bay_menu[0]["provenance"]["reason"] in {"unverified_bay_reference", "passenger_choice_of_observed_alternative"}:
                     bay["bay_reference_uncertain"] = True
             return deepcopy({"state":self._state, "recording_id":frame["recording_id"], "frame_id":frame["frame_id"],
                              "image_sha256":self._scene["provenance"]["image_sha256"],

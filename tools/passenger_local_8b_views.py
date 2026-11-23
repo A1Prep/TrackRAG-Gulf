@@ -35,7 +35,7 @@ def call_input(model, key, stage, guide, words, view, limit):
             "view":sha(view),"photo":key,"limit":limit}
 
 
-def publish(bank, working):
+def publish(bank, working, destination=None):
     """Package only complete measured observations and require an exact source/hash match."""
     from trackrag.dropoff import local_8b_observations as local
 
@@ -95,26 +95,38 @@ def publish(bank, working):
     output={"version":1,"origin":local.ORIGIN,"scope":"Local 8B neutral visual observations on provider-blurred public KartaView photographs.",
             "attribution":"© Grab and KartaView Contributors. Derived observations shared under CC BY-SA 4.0.",
             "license_url":"https://creativecommons.org/licenses/by-sa/4.0/","sources":entries}
-    atomic_json(local.BANK,output)
-    print(f"Published {len(entries)} sources. Release SHA-256 {sha(local.BANK.read_bytes())}",flush=True)
+    destination=destination or local.BANK
+    atomic_json(destination,output)
+    print(f"Published {len(entries)} sources. Release SHA-256 {sha(destination.read_bytes())}",flush=True)
 
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--bank", type=Path, default=ROOT/"data/uae-parking-local/passenger-requests.jsonl")
     parser.add_argument("--working", type=Path, default=ROOT/"runs/submission-field-20261124/local-8b-views")
+    parser.add_argument("--local-surface-index",nargs=2,metavar=("JSON","SHA256"),
+                        help="Use another locally generated and source-verified surface bank")
+    parser.add_argument("--output",type=Path,help="Destination JSON for --release")
     mode=parser.add_mutually_exclusive_group()
     mode.add_argument("--smoke-only", action="store_true")
     mode.add_argument("--release", action="store_true",help="Package completed local measurements without starting the model.")
     parser.add_argument("--worker",action="store_true",help=argparse.SUPPRESS)
     args = parser.parse_args()
+    if args.output and not args.release:
+        parser.error("--output is used with --release.")
+    if args.local_surface_index:
+        local_surfaces.register(*args.local_surface_index)
+        if args.release and not args.output:
+            parser.error("An additional photo bank needs its own --output file.")
     if args.release:
-        return publish(args.bank,args.working)
+        return publish(args.bank,args.working,args.output)
     if not (args.worker or args.smoke_only):
         # On a 4 GB Windows display GPU, release the graphics context between small batches.
         # Every observation has an input-bound receipt before restarting a worker.
         flags=[sys.executable,"-u","-m","tools.passenger_local_8b_views","--bank",str(args.bank),
                "--working",str(args.working),"--worker"]
+        if args.local_surface_index:
+            flags.extend(["--local-surface-index",*args.local_surface_index])
         while True:
             before=len(list((args.working/"calls").glob("*.json")))
             result=subprocess.run(flags)

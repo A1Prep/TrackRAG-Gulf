@@ -1,0 +1,81 @@
+{
+  "scope": "Post-disclosure development check on two previously opened fourth-study photographs. These three outcomes are separate from the frozen 19-session first field result.",
+  "prior_reference": "passenger-placement-fourth-holdout-results-20261124.json",
+  "frozen_case_plan_sha256": "e3b14f93129781060779da0e46048ae013fb833f4516d4ca8c2345c746c711ea",
+  "tested_git": "d2117d6c583b580d32e0fad271f84884b3c0bd18",
+  "started_utc": "2026-11-23T22:58:21.806Z",
+  "ended_utc": "2026-11-23T22:58:28.343Z",
+  "observed_sha256": "8d87ae24b37c789564afd4d8ef801585921dc86d72c3e158f8285c0d03c22cf0",
+  "method": "Each trial began in a fresh Edge session on the normal local application. Original pixels, input and journal were matched by hash. The first two requests used the identical frozen sentences. The separate crossing mark used the original frozen coordinate. No inference was sent off-device.",
+  "rows": [
+    {
+      "case": "N02",
+      "action": "natural",
+      "recording_id": "kartaview_5520601",
+      "frame_id": 382,
+      "image_sha256": "6c75b87cf07d846faf4059d71c9dae7636e91d36a9a53531b29d93514e7caafd",
+      "original_words": "Drop me on the zebra stripes right by the traffic island.",
+      "submitted_tap_xy": null,
+      "old_first_message": "I couldn’t match that description to a visible drop-off area. Tap an off-lane spot to check the surface, or describe another landmark.",
+      "user_visible_title": "Which spot do you mean?",
+      "user_visible_message": "You asked to get out on a pedestrian crossing. Could you choose a pull-in before or after it?",
+      "first_reply_ms": 668,
+      "ack_ms": 138,
+      "actor": "reference_clarification",
+      "saved_or_offered": false,
+      "selectable_options": 0,
+      "receipt_reason": null,
+      "receipt_method": "passenger_vehicle_reference_clarification_v1",
+      "journal_sha256": "22009e66e3c2dde3a4d25c5be200aa2c57bb3b623280116f15d31036c599b103"
+    },
+    {
+      "case": "N05",
+      "action": "natural",
+      "recording_id": "kartaview_6031225",
+      "frame_id": 401,
+      "image_sha256": "4832889ce5ce64f7c373a1e5c615e1aef12efbdf466945dfc88482bd3000d9f7",
+      "original_words": "Can you let me out right behind that green-covered lorry, in its lane?",
+      "submitted_tap_xy": null,
+      "old_first_message": "I couldn’t match that description to a visible drop-off area. Tap an off-lane spot to check the surface, or describe another landmark.",
+      "user_visible_title": "Which spot do you mean?",
+      "user_visible_message": "You asked to get out in a travel lane. Is there a pull-in off the lane that you meant?",
+      "first_reply_ms": 587,
+      "ack_ms": 61,
+      "actor": "reference_clarification",
+      "saved_or_offered": false,
+      "selectable_options": 0,
+      "receipt_reason": null,
+      "receipt_method": "passenger_vehicle_reference_clarification_v1",
+      "journal_sha256": "847665e9e6bd04be00de6d6ae007e05796c18c6912b1fbdf8aa88015d04cd4f0"
+    },
+    {
+      "case": "N02",
+      "action": "forbidden",
+      "recording_id": "kartaview_5520601",
+      "frame_id": 382,
+      "image_sha256": "6c75b87cf07d846faf4059d71c9dae7636e91d36a9a53531b29d93514e7caafd",
+      "original_words": "Drop me on the zebra stripes right by the traffic island.",
+      "submitted_tap_xy": [
+        1121.2649086753606,
+        1526.929076894185
+      ],
+      "old_first_message": "I can’t verify an off-lane parking area at that point. Could you mark a different visible bay?",
+      "user_visible_title": "Choose another location",
+      "user_visible_message": "Your mark falls on pedestrian crossing markings. Could you mark a pull-in before or after the crossing?",
+      "first_reply_ms": 796,
+      "ack_ms": null,
+      "actor": "passenger",
+      "saved_or_offered": false,
+      "selectable_options": 0,
+      "receipt_reason": "pedestrian_crossing",
+      "receipt_method": "explicit_passenger_offlane_region_v1",
+      "journal_sha256": "d1cc47d665b3ac4548f8f826cc580c065e1754cabc98b0e2b093c3f8a238daaa"
+    }
+  ],
+  "result": {
+    "specific_negative_explanations": 2,
+    "natural_negative_requests": 2,
+    "specific_crossing_marks": 1,
+    "incorrect_placements": 0
+  }
+}

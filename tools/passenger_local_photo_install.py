@@ -136,11 +136,11 @@ def verify_install(folder, release):
     return folder / BANK
 
 
-def install(folder, originals=None, *, offline=False, manifest=PUBLIC_MANIFEST):
+def install(folder, originals=None, *, offline=False, manifest=PUBLIC_MANIFEST, expected_sha=None):
     folder = Path(folder).resolve()
     manifest = Path(manifest)
     raw = manifest.read_bytes().replace(b"\r\n", b"\n")
-    if sha256(raw).hexdigest() != MANIFEST_SHA:
+    if sha256(raw).hexdigest() != (expected_sha or MANIFEST_SHA).lower():
         raise ValueError("The published local photo manifest failed verification.")
     release = json.loads(raw)
     archive = manifest.parent / ARCHIVE_NAME
@@ -160,6 +160,8 @@ def install(folder, originals=None, *, offline=False, manifest=PUBLIC_MANIFEST):
             if len(members) != len(expected) or {m.filename for m in members} != set(expected):
                 raise ValueError("The Task 1 archive contains unexpected files.")
             for member in members:
+                if (not re.fullmatch(r"(?:sources\.json|passenger-requests\.jsonl|predictions/kartaview_[1-9]\d*\.(?:provenance\.json|tracks\.jsonl|detections\.jsonl))",member.filename)):
+                    raise ValueError("The saved prediction filename is outside the local photo format.")
                 spec = expected[member.filename]
                 if member.file_size != spec["size_bytes"]:
                     raise ValueError("The Task 1 archive contains an unexpected file size.")
@@ -203,6 +205,9 @@ def install_main(argv):
     parser.add_argument("--out", type=Path, default=ROOT / "data/uae-parking-local")
     parser.add_argument("--originals", type=Path, help="Directory with original KartaView JPEGs named by SHA-256.")
     parser.add_argument("--offline", action="store_true", help="Install from existing JPEG files without a network connection.")
+    parser.add_argument("--published-manifest",nargs=2,metavar=("JSON","SHA256"),
+                        help="Install a separately published local-only photo release after verifying its hash.")
     args = parser.parse_args(argv)
-    bank = install(args.out, args.originals, offline=args.offline)
+    manifest, expected = args.published_manifest or (PUBLIC_MANIFEST, MANIFEST_SHA)
+    bank = install(args.out, args.originals, offline=args.offline, manifest=manifest, expected_sha=expected)
     print(f"Verified local-only KartaView photographs and their Task 1 detections: {bank}")

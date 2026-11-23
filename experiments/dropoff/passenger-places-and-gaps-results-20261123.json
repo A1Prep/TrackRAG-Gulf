@@ -876,5 +876,57 @@
     "older_app_signed_recipe": "current-vehicle-pair-supported-parking-2",
     "state": "proposed",
     "original_sha256": "3ed141c2c0b33754e2ee822ec16e1c1ed1c713dbd29b16e94acde77b950c6af8"
-  }
+  },
+  "missed_target_diagnosis": [
+    {
+      "id": "uae-fresh-01",
+      "reason": "no_visible_parking_surface",
+      "reference_map_pixels": 16387,
+      "semantic_class_counts": {
+        "13": 16387
+      },
+      "offered_locations": 0,
+      "offered_locations_inside": 0,
+      "candidate_numbers_inside": []
+    },
+    {
+      "id": "uae-fresh-02",
+      "reason": "location_blocked",
+      "reference_map_pixels": 1901,
+      "semantic_class_counts": {
+        "10": 1685,
+        "15": 130,
+        "2": 81,
+        "13": 5
+      },
+      "offered_locations": 1,
+      "offered_locations_inside": 1,
+      "candidate_numbers_inside": [
+        1
+      ]
+    },
+    {
+      "id": "uae-fresh-05",
+      "reason": "no_visible_parking_surface",
+      "reference_map_pixels": 12240,
+      "semantic_class_counts": {
+        "13": 11602,
+        "36": 572,
+        "2": 66
+      },
+      "offered_locations": 0,
+      "offered_locations_inside": 0,
+      "candidate_numbers_inside": []
+    },
+    {
+      "id": "uae-fresh-07",
+      "reason": "no_supported_roadside_patch",
+      "reference_map_pixels": 1064,
+      "semantic_class_counts": {
+        "13": 944,
+        "24": 64,
+        "55": 56
+      }
+    }
+  ]
 }

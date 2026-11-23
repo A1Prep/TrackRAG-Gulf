@@ -1,4 +1,5 @@
 import {addFrame, openFrame} from "./frames.js";
+import {noSound, openMicrophone} from "./capture.js";
 import {VehiclePairPicker, drawChosenLandmarks} from "./pair-choices.js";
 import {PhotoTools, destinationLabel, drawDestination, positionWords} from "./photo-tools.js";
 
@@ -74,7 +75,7 @@ function response(v, stage) {
   if (busy && notice) return ["working", notice, ""];
   if (!session) return ["idle", "Where would you like to get out?", ""];
   if (staleEdit()) return ["error", "This request has changed", "Your draft is below. Go back to the current request to edit it again."];
-  if (capture) return ["listening", "Listening…", "Stop recording when you have finished speaking."];
+  if (capture) return ["listening", "Listening…", "The input level should move as you speak. Press Stop recording to review your words."];
   if (stage === "review") return ["review", "Did I hear you correctly?", "Edit any words below, then send the transcript."];
   if (stage === "failed" || stage === "recording") return ["clarify", "Try voice again or type", "Your description can also be sent as text."];
   if (photo.active) return ["mark", "Choose a spot on the photo", "Check your mark to see where the pin lands."];
@@ -136,6 +137,9 @@ function render() {
   text(el("retry-photo"), retired ? "Reopen scene" : "Reload photo");
   el("form").hidden = !formOpen;
   el("speech-controls").hidden = !catalog?.speech_available;
+  el("mic-choice").hidden = !catalog?.speech_available || el("mic-input").options.length < 2;
+  el("mic-input").disabled = locked || !opened;
+  el("mic-monitor").hidden = !micOn;
   el("mic").disabled = busy || !opened || !ready || marking || (staleEdit() && !micOn);
   el("upload").disabled = locked || !opened || !ready || marking || staleEdit();
   text(el("mic"), micOn ? "Stop recording" : "Record voice");
@@ -299,18 +303,6 @@ el("form").onsubmit = e => { e.preventDefault(); sendInstruction(false); };
 el("submit-pointing").onclick = () => sendInstruction(true);
 input.addEventListener("input", render);
 
-function encodeWav(chunks, rate) {
-  const n = chunks.reduce((v,a) => v + a.length, 0), buffer = new ArrayBuffer(44 + 2*n), d = new DataView(buffer);
-  function ascii(offset, word) { for (let i=0;i<word.length;i++) d.setUint8(offset+i, word.charCodeAt(i)); }
-  ascii(0,"RIFF"); d.setUint32(4,36+2*n,true); ascii(8,"WAVE"); ascii(12,"fmt ");
-  d.setUint32(16,16,true); d.setUint16(20,1,true); d.setUint16(22,1,true); d.setUint32(24,rate,true);
-  d.setUint32(28,2*rate,true); d.setUint16(32,2,true); d.setUint16(34,16,true); ascii(36,"data"); d.setUint32(40,2*n,true);
-  let offset=44;
-  for (const chunk of chunks) for (const sample of chunk) {
-    const v=Math.max(-1,Math.min(1,sample)); d.setInt16(offset,Math.round(v*(v<0 ? 32768 : 32767)),true); offset+=2;
-  }
-  return new Blob([buffer], {type:"audio/wav"});
-}
 function checkAudio(blob) {
   if (!blob.size || blob.size > 12*1024*1024) throw new Error("Choose a nonempty WAV up to 12 MiB.");
 }
@@ -330,42 +322,44 @@ el("file").onchange = () => {
   const file = el("file").files[0]; el("file").value="";
   if (file) perform(async () => { checkAudio(file); await beginAudio(); await sendAudio(file); }, "Transcribing the audio…", () => input.focus());
 };
+async function refreshMicrophones() {
+  if (!catalog?.speech_available || !navigator.mediaDevices?.enumerateDevices) return;
+  // The browser can hide device names until the passenger grants microphone access.
+  const devices = await navigator.mediaDevices.enumerateDevices().catch(() => []);
+  const select = el("mic-input"), chosen = select.value;
+  const inputs = devices.filter(d => d.kind === "audioinput" && d.label && d.deviceId && !["default", "communications"].includes(d.deviceId));
+  select.replaceChildren(new Option("System default", ""), ...inputs.map(d => new Option(d.label, d.deviceId)));
+  if (inputs.some(d => d.deviceId === chosen)) select.value = chosen;
+  el("mic-choice").hidden = !inputs.length;
+}
 async function startMic() {
-  if (!navigator.mediaDevices?.getUserMedia || !window.AudioWorkletNode)
-    throw new Error("The microphone is unavailable. You can type or upload a WAV file.");
-  let stream, context, expired=false, timer;
+  const meter = el("mic-level");
+  meter.value = 0;
+  const mic = await openMicrophone(el("mic-input").value, level => { meter.value = level; });
   try {
-    const permission = navigator.mediaDevices.getUserMedia({audio:{channelCount:1, echoCancellation:true}});
-    permission.then(s => { if (expired) s.getTracks().forEach(t => t.stop()); }, () => {});
-    stream = await Promise.race([permission,new Promise((_,reject) => {
-      timer=setTimeout(() => { expired=true; reject(new Error("Microphone permission timed out. You can type or upload a WAV file.")); }, 20000);
-    })]);
-    clearTimeout(timer);
-    context = new AudioContext({sampleRate:16000}); await context.audioWorklet.addModule("/capture.js");
-    const source = context.createMediaStreamSource(stream), node = new AudioWorkletNode(context,"passenger-capture");
-    const gain = context.createGain(); gain.gain.value=0;
-    const blocks=[]; node.port.onmessage = e => { blocks.push(e.data); };
-    source.connect(node); node.connect(gain); gain.connect(context.destination); await context.resume();
-    // Keep the draft and the active proposal until microphone setup has actually succeeded.
     await beginAudio();
-    capture={stream,context,source,node,blocks,rate:context.sampleRate,timer:setTimeout(stopMic,55000)};
-  } catch(error) {
-    if (stream) stream.getTracks().forEach(t => t.stop());
-    if (context) await context.close();
-    if (error.name === "NotAllowedError") throw new Error("Microphone access was denied. You can type or upload a WAV file.");
-    throw error;
-  } finally { clearTimeout(timer); }
+    capture = {mic, timer: setTimeout(stopMic, 55000)};
+    void refreshMicrophones();
+  } catch (error) { mic.close(); throw error; }
 }
 async function stopMic() {
   if (!capture || busy) return;
-  const c=capture; capture=null;
+  const {mic, timer} = capture;
+  capture = null; clearTimeout(timer);
   await perform(async () => {
-    clearTimeout(c.timer); c.stream.getTracks().forEach(t => t.stop()); c.source.disconnect(); c.node.disconnect();
-    await c.context.close(); await sendAudio(encodeWav(c.blocks,c.rate));
+    let recording;
+    try { recording = await mic.wav(); }
+    catch (error) { input.value = previousDraft?.text || ""; throw error; }
+    finally { mic.close(); }
+    await sendAudio(recording.wav);
+    if (session.speech_error?.code === "no_speech") {
+      failure = recording.silent ? noSound : "The microphone picked up sound, but no words were recognized. Check the input level and record again.";
+    }
   }, "Transcribing your voice…", () => input.focus());
 }
 el("mic").onclick = () => { if (capture) stopMic(); else perform(startMic,"Opening the microphone…"); };
-window.addEventListener("pagehide", () => { if (capture) capture.stream.getTracks().forEach(t => t.stop()); });
+navigator.mediaDevices?.addEventListener?.("devicechange", refreshMicrophones);
+window.addEventListener("pagehide", () => { if (capture) { clearTimeout(capture.timer); capture.mic.close(); capture=null; } });
 perform(async () => {
   catalog=await api("/api/scenes");
   const covered = new Set(catalog.footage_scenes);
@@ -375,4 +369,5 @@ perform(async () => {
   const requested = new URLSearchParams(window.location.search).get("scene");
   if (catalog.scenes.some(f => f.key === requested)) sceneSelect.value = requested;
   await chooseScene();
+  void refreshMicrophones();
 }, "Opening the photo…");

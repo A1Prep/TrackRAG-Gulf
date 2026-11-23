@@ -72,6 +72,10 @@
           <div class="compose-actions"><button id="submit" class="primary" type="submit">Find my spot</button>
             <div id="speech-controls" class="speech-controls"><button id="mic" type="button" class="subtle">Record voice</button>
               <button id="upload" type="button" class="text-btn">Upload WAV</button><input id="file" type="file" accept=".wav,audio/wav,audio/x-wav" hidden></div></div>
+          <div class="mic-settings">
+            <label id="mic-choice" hidden>Microphone <select id="mic-input"><option value="">System default</option></select></label>
+            <label id="mic-monitor" hidden>Input level <meter id="mic-level" min="0" max="1" value="0"></meter></label>
+          </div>
           <button id="submit-pointing" class="text-btn" type="button" hidden>Choose the two vehicles myself</button>
           <button id="edit-original" type="button" class="text-btn" hidden>Edit original description</button>
           <button id="discard-edit" type="button" class="text-btn" hidden>Back without changing</button>

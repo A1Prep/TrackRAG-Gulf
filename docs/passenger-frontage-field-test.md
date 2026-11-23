@@ -8,6 +8,8 @@ Open the villa scene and say or type **“Could you let me out on the driveway o
 
 ## Automatic first responses
 
+At launch, we also checked the existing two-vehicle specialist on five previously evaluated scenes. It placed correct first pins on three of four visible gaps and asked for clarification on the blocked case. On the fourth visible gap, an earlier shop-front example, two new attempts asked for clarification. The vehicle anchors matched the earlier successful run, but the segmenter assigned different parking pixels and the selector declined the spot. The regular demo opens the white SUV example that passed both evaluations. [Live launch checks](../experiments/dropoff/passenger-launch-check-20261123.json)
+
 | Eight previously unseen drives per comparison | Released app | Experimental approach |
 | --- | --- | --- |
 | First group, four visible targets | 0 correct, 1 wrong pin, 3 clarifications | 0 correct, 1 wrong pin, 3 clarifications |

@@ -11,13 +11,12 @@ On the prepared project laptop, run this from the repository root and leave the 
 ```
 
 - **Review footage.** Select recording 054604, frame 150. Ask “What colour is the bus visible on the left near the end?” Choose the Gemini answer mode and open a cited frame. Then ask for its speed in kilometres per hour. The camera supplies visible colour, but this clip provides no calibrated speed measurement. [Open footage search](http://127.0.0.1:8775/footage)
-- **Try a passenger request.** On the shop-front photo, enter “Please drop me off in the marked space between the dark blue sedan and the silver SUV outside the shops on the right.” Inspect the pin. If the proposed spot misses the intended patch, mark the patch, check it and confirm the updated proposal. English speech uses the same flow after the passenger reviews the transcript. [Open the Dubai example](http://127.0.0.1:8775/?scene=f4d997a6f22c942559a798dd)
+- **Try an automatic parking pin.** Enter “Please drop me between the white SUV with the red door logo and the white sedan parked farther ahead on the right.” Inspect the yellow pin, then confirm it or mark a correction. This request produced a pin inside the reference area in the latest live check and in the earlier evaluation. English speech uses the same flow after transcript review. [Open the two-vehicle example](http://127.0.0.1:8775/?scene=1fe93727aaa5b5651b8e13b6)
+- **Try a passenger-marked stop.** On the villa photo, say or type “Could you let me out on the driveway of the first arched villa on the left?” When the app asks for clarification, tap the photo, check the blue pin and confirm. [Open the villa driveway](http://127.0.0.1:8775/?scene=8e586163045c8dbc54ed00c1) · [Sixteen UAE street photos and measured results](docs/passenger-frontage-field-test.md)
 
 On a fresh machine, install Python 3.11, restore the private adapter and saved predictions, and prepare the two original EMT recordings. Install the UAE photo bank for the shop-front example. The general passenger model runs on a compatible NVIDIA GPU. English speech and local footage retrieval run on CPU. Hosted footage answers use a Gemini API key, and the automatic two-vehicle specialist uses a configured Modal account. The laptop flag releases the local 8B worker after each inference. [Fresh-machine installation](docs/passenger-release.md#start-on-another-windows-machine) · [UAE photos, cloud setup and attribution](docs/passenger-parking-feature.md)
 
 ## What the team built
-
-For the driveway example, speak or type “Could you let me out on the driveway of the first arched villa on the left?” When the app asks for clarification, you can tap the photo, check your mark and confirm it. [Open the villa photo](http://127.0.0.1:8775/?scene=8e586163045c8dbc54ed00c1) · [Sixteen UAE street photos and measured results](docs/passenger-frontage-field-test.md)
 
 | Component | Implementation and evidence |
 | --- | --- |

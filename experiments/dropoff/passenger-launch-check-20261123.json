@@ -1,0 +1,118 @@
+{
+  "date_dubai": "2026-11-23",
+  "app": "Regular local passenger and footage application",
+  "code_at_launch": "c3e5746fe09644042effbef0106865acaa99f717",
+  "prepared_scenes": 74,
+  "photos_reopened_with_matching_original_sha256": 16,
+  "speech_enabled": true,
+  "local_footage": {
+    "video_054604": {
+      "question": "Which detector classes appear near the end of this recording?",
+      "intervals": 1,
+      "evidence_photos_opened": 1,
+      "mode": "local retrieval"
+    },
+    "video_054907": {
+      "question": "Which detector classes are visible in the opening frame?",
+      "intervals": 1,
+      "evidence_photos_opened": 1,
+      "mode": "local retrieval"
+    }
+  },
+  "hosted_footage": {
+    "first_submit": "HTTP 503 from provider, two evidence images still opened",
+    "repeat": {
+      "status": "answered",
+      "answer": "The bus visible on the left is yellow.",
+      "images_opened": 2,
+      "intervals": 2,
+      "mode": "live hosted EMT"
+    }
+  },
+  "villa": {
+    "first": "needs_clarification",
+    "final": "confirmed",
+    "confirmed_by": "passenger",
+    "point": [
+      933.75,
+      1901.25
+    ]
+  },
+  "parking_controls": [
+    {
+      "case": "uae-new-02",
+      "scene": "b5af9cff8c857bab442ba850",
+      "state": "needs_clarification",
+      "point": null,
+      "inside": null,
+      "correct": true,
+      "actor": "parking_model",
+      "words": "Could you drop me off between the white bus and the flatbed truck ahead of us?"
+    },
+    {
+      "case": "uae-new-03",
+      "scene": "f4d997a6f22c942559a798dd",
+      "state": "needs_clarification",
+      "point": null,
+      "inside": false,
+      "correct": false,
+      "actor": "parking_model",
+      "words": "Please drop me off in the marked space between the dark blue sedan and the silver SUV outside the shops on the right."
+    },
+    {
+      "case": "verified-fresh-uae-02",
+      "scene": "1fe93727aaa5b5651b8e13b6",
+      "state": "proposed",
+      "point": [
+        1678.9333333333334,
+        1180.316205533597
+      ],
+      "inside": true,
+      "correct": true,
+      "actor": "parking_model",
+      "confirmed": true,
+      "words": "Please drop me between the white SUV with the red door logo and the white sedan parked farther ahead on the right."
+    },
+    {
+      "case": "verified-uae-new-01",
+      "scene": "d76c4ca006dc9332d37ec750",
+      "state": "proposed",
+      "point": [
+        1461.3333333333333,
+        1124.8221343873518
+      ],
+      "inside": true,
+      "correct": true,
+      "actor": "parking_model",
+      "confirmed": true,
+      "words": "Please let me out between the small black SUV with the spare wheel and the white sedan farther along the same row."
+    },
+    {
+      "case": "verified-word-07",
+      "scene": "8d597ba5b8399c05b8afbd95",
+      "state": "proposed",
+      "point": [
+        2626.133333333333,
+        1385.217391304348
+      ],
+      "inside": true,
+      "correct": true,
+      "actor": "parking_model",
+      "confirmed": true,
+      "words": "Drop me off between the white SUV and the white minivan parked by the medical center."
+    }
+  ],
+  "comparison": "These five previously reviewed scenes are separate from the 16 new frontage photographs. Count the repeated shop-front attempts as one unique scene.",
+  "shop_front_comparison": {
+    "earlier_state": "proposed",
+    "current_state": "needs_clarification",
+    "current_repetitions": 2,
+    "same_reported_anchors": true,
+    "earlier_signed_map_sha256": "8246fe5ef138bbeaf2d63fcf218c6ba4291d5462929c72215145d5a0701fd17f",
+    "recent_signed_map_sha256": "58766859e9f25135d5c2dffedde237a04bb9970edfff3a861deeca712dff82ee",
+    "earlier_parking_pixels": 3024,
+    "recent_parking_pixels": 3712,
+    "total_map_pixels": 455400,
+    "changed_parking_labels": 794
+  }
+}

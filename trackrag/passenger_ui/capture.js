@@ -162,6 +162,6 @@ export async function openMicrophone(deviceId, onLevel) {
       const rms = Math.sqrt(energy / samples.length);
       onLevel(Math.max(0, Math.min(1, (20 * Math.log10(rms) + 60) / 60)));
     }, 100);
-    return {wav: () => recorder.wav(), close};
+    return {label: stream.getAudioTracks?.()[0]?.label || "", wav: () => recorder.wav(), close};
   } catch (error) { close(); throw micError(error); }
 }

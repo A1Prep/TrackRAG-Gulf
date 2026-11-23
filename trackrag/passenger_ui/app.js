@@ -75,7 +75,10 @@ function response(v, stage) {
   if (busy && notice) return ["working", notice, ""];
   if (!session) return ["idle", "Where would you like to get out?", ""];
   if (staleEdit()) return ["error", "This request has changed", "Your draft is below. Go back to the current request to edit it again."];
-  if (capture) return ["listening", "Listening…", "The input level should move as you speak. Press Stop recording to review your words."];
+  if (capture) {
+    const source = capture.mic.label ? "Recording with " + capture.mic.label + ". " : "The input level should move as you speak. ";
+    return ["listening", "Listening…", source + "Press Stop recording to review your words."];
+  }
   if (stage === "review") return ["review", "Did I hear you correctly?", "Edit any words below, then send the transcript."];
   if (stage === "failed" || stage === "recording") return ["clarify", "Try voice again or type", "Your description can also be sent as text."];
   if (photo.active) return ["mark", "Choose a spot on the photo", "Check your mark to see where the pin lands."];
@@ -328,7 +331,8 @@ async function refreshMicrophones() {
   const devices = await navigator.mediaDevices.enumerateDevices().catch(() => []);
   const select = el("mic-input"), chosen = select.value;
   const inputs = devices.filter(d => d.kind === "audioinput" && d.label && d.deviceId && !["default", "communications"].includes(d.deviceId));
-  select.replaceChildren(new Option("System default", ""), ...inputs.map(d => new Option(d.label, d.deviceId)));
+  const systemInput = devices.find(d => d.kind === "audioinput" && d.deviceId === "default");
+  select.replaceChildren(new Option(systemInput?.label || "System default", ""), ...inputs.map(d => new Option(d.label, d.deviceId)));
   if (inputs.some(d => d.deviceId === chosen)) select.value = chosen;
   el("mic-choice").hidden = !inputs.length;
 }

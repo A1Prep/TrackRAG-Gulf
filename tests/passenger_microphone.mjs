@@ -18,7 +18,8 @@ assert.throws(() => encodeSpeechWav([], 16000), /No sound/);
 // Stub browser devices and the codec here. The full browser trial uses a file-fed Edge microphone.
 function browser({mode, getStream}) {
   let released = 0, nativeRecorders = 0, constraints, workletAttempts = 0;
-  const stream = {getTracks: () => [{stop() { released++; }}]};
+  const track = {label:"Chosen microphone", stop() { released++; }};
+  const stream = {getTracks: () => [track], getAudioTracks: () => [track]};
   const window = new EventTarget();
   const devices = {getUserMedia(audio) { constraints = audio; return getStream ? getStream(stream) : Promise.resolve(stream); }};
   const edge = {connect() {}, disconnect() {}};
@@ -55,6 +56,7 @@ for (const mode of ["no-worklet", "blocked-module", "high-rate"]) {
   const device = browser({mode});
   const mic = await openMicrophone("passenger-input", () => {});
   try {
+    assert.equal(mic.label, "Chosen microphone");
     assert.deepEqual(device.constraints().audio.deviceId, {exact:"passenger-input"});
     const recording = await mic.wav();
     const data = new DataView(await recording.wav.arrayBuffer());

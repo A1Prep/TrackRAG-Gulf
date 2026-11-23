@@ -17,9 +17,21 @@ AUTO = "public_painted_bay_landmark_v1"
 MARK = "passenger_marked_painted_bay_v1"
 CHOICE = "passenger_selected_painted_bay_v1"
 MANUAL_METHODS = {MARK, CHOICE, manual_offlane.METHOD}
-CLEARANCE_POLICY = "parking_clearance_with_current_vehicles_v2"
+VEHICLE_POLICY = "parking_clearance_with_current_vehicles_v2"
+CONNECTED_POLICY = "parking_clearance_and_connected_pavement_v3"
+CLEARANCE_POLICY = "parking_clearance_and_connected_pavement_v4"
 _cache, _lock = OrderedDict(), Lock()
 _index_cache = OrderedDict()
+
+
+def _road_for_policy(classes, policy):
+    from . import bay_clearance
+    if policy in (CLEARANCE_POLICY, CONNECTED_POLICY):
+        return bay_clearance.visible_road_component(classes, rectangular_seed=policy == CONNECTED_POLICY)
+    if policy in (None, VEHICLE_POLICY):
+        return None
+    raise ValueError("Unknown parking clearance checks.")
+
 
 def visible_stalls(original, classes, context, surface=None, stall_review=None):
     import cv2
@@ -75,15 +87,16 @@ def index_has_outline(scene, photo, indexed_shapes):
     review = surface_stalls.get_packet(key)
     frame_id = scene["frame"]["frame_id"]
     current = [t for t in scene["tracks"] if t["frame_id"] == frame_id]
-    stamp = digest([key, current, sorted(indexed_shapes), surface["signature"], review and review["signature"]])
+    stamp = digest([CLEARANCE_POLICY, key, current, sorted(indexed_shapes), surface["signature"], review and review["signature"]])
     with _lock:
         if stamp in _index_cache:
             _index_cache.move_to_end(stamp)
             return _index_cache[stamp]
     request = {"scene":scene, "text":"Find the marked parking bays.", "input_mode":"typed", "dialogue":[], "request_id":"catalog"}
-    _, _, _, options = _layout(request, photo, surface, review)
+    _, _, classes, options = _layout(request, photo, surface, review)
+    road = bay_clearance.visible_road_component(classes)
     matches = {digest(o["polygon"]) for o in options} == indexed_shapes and any(
-        bay_clearance.vehicle_sized(o, scene) for o in options)
+        bay_clearance.vehicle_sized(o, scene) and bay_clearance.on_visible_road(o,road,scene["frame"]) for o in options)
     with _lock:
         _index_cache[stamp] = matches
         if len(_index_cache) > 96:
@@ -124,7 +137,7 @@ def _make(clean, portable, options, surface, *, method, reason, question, tap=No
         "bay_outline":choices[0] if one else None, "bay_choices":[] if one else choices, **evidence}}
 
 
-def mark_outcome(request, photo, surface, box, stall_review=None, *, active_policy=True):
+def mark_outcome(request, photo, surface, box, stall_review=None, *, policy=CLEARANCE_POLICY):
     from . import bay_clearance, painted_bays
     clean, portable, classes, options = _layout(request, photo, surface, stall_review)
     clean, _, mark, center = manual_offlane.mark_input(clean,box)
@@ -133,14 +146,25 @@ def mark_outcome(request, photo, surface, box, stall_review=None, *, active_poli
     if reason in {"observed_object","broad_area"}:
         return None
     evidence = {"stall_review": stall_review} if stall_review else {}
-    if active_policy:
-        evidence["clearance_policy"] = CLEARANCE_POLICY
-        usable = [o for o in options if bay_clearance.vehicle_sized(o, clean["scene"])]
+    if policy:
+        evidence["clearance_policy"] = policy
+        road = _road_for_policy(classes, policy)
+        if road is not None and checked.get("center_class_id") == manual_offlane.PARKING:
+            ix, iy = checked["center_cell_xy"]
+            if not road[iy,ix]:
+                return _make(clean,portable,[],surface,method=MARK,reason="separated_parking_surface",
+                             question="I can’t see a connection from this road to the parking area you marked. Could you mark a spot on this side?",
+                             tap=center,selected_box=mark,**evidence)
+        sized = [o for o in options if bay_clearance.vehicle_sized(o, clean["scene"])]
+        usable = [o for o in sized if bay_clearance.on_visible_road(o,road,frame)]
         rejected = [o for o in options if o not in usable]
-        if (painted_bays.matching_options(rejected,mark,center,frame,classes,offer_visible_side=True)
-                and not painted_bays.matching_options(usable,mark,center,frame,classes,offer_visible_side=True)):
-            return _make(clean,portable,[],surface,method=MARK,reason="parking_fragment_at_vehicle",
-                         question="Only a narrow strip of pavement is visible beside the parked vehicle there. Could you mark a different open space?",
+        rejected_at_mark = painted_bays.matching_options(rejected,mark,center,frame,classes,offer_visible_side=True)
+        if rejected_at_mark and not painted_bays.matching_options(usable,mark,center,frame,classes,offer_visible_side=True):
+            separated = any(o in sized for o in rejected_at_mark)
+            why = "separated_parking_surface" if separated else "parking_fragment_at_vehicle"
+            message = ("I can’t see a connection from this road to the area you marked. Could you mark a spot on this side?" if separated else
+                       "Only a narrow strip of pavement is visible beside the parked vehicle there. Could you mark a different open space?")
+            return _make(clean,portable,[],surface,method=MARK,reason=why,question=message,
                          tap=center,selected_box=mark,**evidence)
         options = usable
     matches = painted_bays.matching_options(options,mark,center,frame,classes)
@@ -236,9 +260,9 @@ def language_candidates(request, options, labels):
     return found
 
 
-def automatic_outcome(request, photo, surface, landmarks, stall_review=None, *, active_policy=True, prefer_complete=True):
+def automatic_outcome(request, photo, surface, landmarks, stall_review=None, *, policy=CLEARANCE_POLICY, prefer_complete=True):
     from . import bay_clearance
-    clean, portable, _, options = _layout(request,photo,surface,stall_review)
+    clean, portable, classes, options = _layout(request,photo,surface,stall_review)
     if not options:
         return None
     f = clean["scene"]["frame"]
@@ -248,9 +272,16 @@ def automatic_outcome(request, photo, surface, landmarks, stall_review=None, *, 
     labels = bay_landmarks.verify(landmarks,photo,(f["width"],f["height"])) if landmarks is not None else None
     matches = language_candidates(clean,options,labels)
     evidence = {"stall_review":stall_review} if stall_review else {}
-    if active_policy:
-        evidence["clearance_policy"] = CLEARANCE_POLICY
+    if policy:
+        evidence["clearance_policy"] = policy
+        road = _road_for_policy(classes, policy)
         clear = [o for o in options if bay_clearance.vehicle_sized(o,clean["scene"])]
+        same_side = [o for o in clear if bay_clearance.on_visible_road(o,road,f)]
+        if (clear and not same_side) or (any(o in clear for o in matches) and not any(o in same_side for o in matches)):
+            return _make(clean,portable,[],surface,method=AUTO,reason="separated_parking_surface",
+                         question="I can’t trace a connection from this road to that parking area. Is there another visible spot on this side?",
+                         landmark_evidence=landmarks,**evidence)
+        clear = same_side
         if not clear or (matches and not any(o in clear for o in matches)):
             return _make(clean,portable,[],surface,method=AUTO,reason="parking_fragments_at_vehicles",
                          question="I can see parking pavement near the parked vehicles, but I can’t outline an empty bay there. Can you see another open space?",
@@ -292,20 +323,26 @@ def automatic(request, photo):
         return None
 
 
-def explicit_outcome(request, photo, surface, stall_review, anchors, *, active_policy=True):
+def explicit_outcome(request, photo, surface, stall_review, anchors, *, policy=CLEARANCE_POLICY):
     """Check a request whose destination is a bay, retaining its vehicle and frontage qualifiers."""
     from . import bay_anchors, bay_clearance, bay_intent
     if bay_intent.parse(request["text"]) is None:
         return None
-    clean,portable,_,options=_layout(request,photo,surface,stall_review)
+    clean,portable,classes,options=_layout(request,photo,surface,stall_review)
     with Image.open(BytesIO(photo)) as im:
         observations=bay_anchors.observations(im,options,clean["scene"],anchors)
     original_options = options
+    separated = False
     evidence = {"stall_review":stall_review} if stall_review else {}
-    if active_policy:
-        evidence["clearance_policy"] = CLEARANCE_POLICY
+    if policy:
+        evidence["clearance_policy"] = policy
         options = [o for o in options if bay_clearance.vehicle_sized(o, clean["scene"])]
-    supported,possible=bay_intent.match(clean["text"],options,clean["scene"],observations)
+        if options:
+            road = _road_for_policy(classes, policy)
+            options = [o for o in options if bay_clearance.on_visible_road(o,road,clean["scene"]["frame"])]
+            separated = not options
+    supported,possible=bay_intent.match(clean["text"],options,clean["scene"],observations,
+                                        require_observed_landmark=policy==CLEARANCE_POLICY)
     unresolved_reference=not supported
     shown=_prefer_measured(supported or possible)
     if supported:
@@ -316,6 +353,9 @@ def explicit_outcome(request, photo, surface, stall_review, anchors, *, active_p
         ask=("I can outline this bay, but I couldn’t match every detail you gave. Is this the bay you meant?"
              if len(possible)==1 else
              "I can outline these bays, but I couldn’t match every detail you gave. Which one did you mean?")
+    elif separated:
+        reason="separated_parking_surface"
+        ask="I can see a parking area, but I can’t trace a connection to it from this road. Is there a visible spot on this side?"
     elif original_options and not options:
         reason="parking_fragments_at_vehicles"
         ask="I can see strips of parking pavement beside the parked vehicles, but I can’t outline an empty bay there. Can you see another open space?"
@@ -402,7 +442,7 @@ def verify(request, outcome, *, requested_box=None):
     photo = Path(request["scene"]["frame"]["image_path"]).read_bytes()
     method = source["method"]
     policy = source.get("clearance_policy")
-    if policy not in (None,CLEARANCE_POLICY):
+    if policy not in (None,VEHICLE_POLICY,CONNECTED_POLICY,CLEARANCE_POLICY):
         raise ValueError("Unknown parking clearance checks.")
     if method==CHOICE:
         original = source["choice_source"]
@@ -412,17 +452,17 @@ def verify(request, outcome, *, requested_box=None):
     elif method==MARK:
         if requested_box is None:
             raise ValueError("The original passenger mark is required.")
-        expected = mark_outcome(request,photo,source["surface_evidence"],requested_box,source.get("stall_review"),active_policy=bool(policy))
+        expected = mark_outcome(request,photo,source["surface_evidence"],requested_box,source.get("stall_review"),policy=policy)
     elif method==AUTO and source.get("bay_instruction_checked") is True:
-        expected=explicit_outcome(request,photo,source["surface_evidence"],source.get("stall_review"),source["bay_anchor_evidence"],active_policy=bool(policy))
+        expected=explicit_outcome(request,photo,source["surface_evidence"],source.get("stall_review"),source["bay_anchor_evidence"],policy=policy)
     elif method==AUTO:
-        expected = automatic_outcome(request,photo,source["surface_evidence"],source["landmark_evidence"],source.get("stall_review"),active_policy=bool(policy))
+        expected = automatic_outcome(request,photo,source["surface_evidence"],source["landmark_evidence"],source.get("stall_review"),policy=policy)
     else:
         raise ValueError("Unknown painted parking result.")
     matched = _archive_display_matches(expected, outcome)
     if not matched and policy is None and method == AUTO and not source.get("bay_instruction_checked"):
         expected = automatic_outcome(request,photo,source["surface_evidence"],source["landmark_evidence"],
-                                     source.get("stall_review"),active_policy=False,prefer_complete=False)
+                                     source.get("stall_review"),policy=None,prefer_complete=False)
         matched = _archive_display_matches(expected, outcome)
     if not matched:
         raise ValueError("Highlighted bay differs from the original photo, surface, words or passenger choice.")

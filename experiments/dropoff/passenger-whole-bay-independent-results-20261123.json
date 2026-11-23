@@ -1,0 +1,4072 @@
+{
+  "recorded_utc": "2026-11-23T20:04:50.616293+00:00",
+  "plan": "passenger-whole-bay-independent-plan-20261123.json",
+  "plan_sha256": "cdeb3413e5753486e2297cb1c154ed1f77b61836237def555ea6c319c484ae88",
+  "current_version": "release-occupancy-8809",
+  "scope": "45 independently preregistered interactions over ten public UAE originals from ten different recordings. Each of five positive scenes shows one or more marked empty bays. Each scene has a travel-lane control. Four additional genuine previously accepted lane taps were rerun with the exact original photo and rectangle, using neutral typed text. A separate equivocal prior entrance is reported independently. One AI reviewer supplied photographic references. No driver, passenger or legal adjudication is part of this test.",
+  "independence": "The six primary recordings were outside earlier frontage, manual-mark, owner and fine-tap test batches. Four supplemental recordings appeared in earlier point/frontage work. All ten images already belonged to the project's public catalogue. The ten complete image/word/polygon/tap references were sealed before the first comparison. Geometry developers received the aggregate first-freeze failure, never individual held-out scenes or marks before this release assessment. Later revisions are repeated measurements on this fixed set. Source 66245/146 and its entire recording, later supplied directly by the user, do not occur among these ten drives.",
+  "measurement": "Original photo bytes and native dimensions were validated through the ordinary local web service. Automatic requests used the same nonblocking submission and interactive deadline as the public page. Marking used a fresh, explicitly passenger-selected session for each tap. Stable local automatic evidence and signed surface maps could be cached. Timings are elapsed web response times from submit, excluding image loading, passenger interaction and first-time preparation. In baseline W01 and possibly W02 an initial synchronous diagnostic could have warmed underlying model caches. Only the ordinary interactive run is graded.",
+  "grade_definition": "A correct automatic or guided whole bay requires an actual confirmable point in the desired original-pixel reference plus a visible outlined region with IoU at least 0.45, predicted-area precision at least 0.70 and reference coverage at least 0.50. Matching the point alone and asking for a generic retap on a shared line are reported separately. Provider error and timeout receive no abstention credit.",
+  "current_by_cohort": {
+    "primary": {
+      "automatic_positive": {
+        "tested": 3,
+        "grades": {
+          "missed_bay": 2,
+          "displayed_correct_choices_without_a_single_destination": 1
+        }
+      },
+      "automatic_controls": {
+        "tested": 3,
+        "grades": {
+          "correct_withhold": 3
+        }
+      },
+      "manual_negative": {
+        "tested": 14,
+        "grades": {
+          "correct_withhold": 14
+        }
+      },
+      "manual_shared_line": {
+        "tested": 2,
+        "grades": {
+          "one_visible_side_for_clarification": 1,
+          "no_specific_two_bay_choice": 1
+        }
+      },
+      "manual_unique_bay": {
+        "tested": 5,
+        "grades": {
+          "missed_bay": 2,
+          "correct_point_incomplete_bay": 2,
+          "correct_whole_bay": 1
+        }
+      }
+    },
+    "supplemental": {
+      "automatic_positive": {
+        "tested": 2,
+        "grades": {
+          "missed_bay": 2
+        }
+      },
+      "automatic_controls": {
+        "tested": 2,
+        "grades": {
+          "correct_withhold": 1,
+          "operational_error": 1
+        }
+      },
+      "manual_negative": {
+        "tested": 9,
+        "grades": {
+          "correct_withhold": 9
+        }
+      },
+      "manual_shared_line": {
+        "tested": 1,
+        "grades": {
+          "no_specific_two_bay_choice": 1
+        }
+      },
+      "manual_unique_bay": {
+        "tested": 4,
+        "grades": {
+          "correct_point_incomplete_bay": 1,
+          "missed_bay": 3
+        }
+      }
+    },
+    "all": {
+      "automatic_positive": {
+        "tested": 5,
+        "grades": {
+          "missed_bay": 4,
+          "displayed_correct_choices_without_a_single_destination": 1
+        }
+      },
+      "automatic_controls": {
+        "tested": 5,
+        "grades": {
+          "correct_withhold": 4,
+          "operational_error": 1
+        }
+      },
+      "manual_negative": {
+        "tested": 23,
+        "grades": {
+          "correct_withhold": 23
+        }
+      },
+      "manual_shared_line": {
+        "tested": 3,
+        "grades": {
+          "one_visible_side_for_clarification": 1,
+          "no_specific_two_bay_choice": 2
+        }
+      },
+      "manual_unique_bay": {
+        "tested": 9,
+        "grades": {
+          "missed_bay": 5,
+          "correct_point_incomplete_bay": 3,
+          "correct_whole_bay": 1
+        }
+      }
+    }
+  },
+  "version_totals": {
+    "baseline-ui": {
+      "primary_automatic": {
+        "n": 6,
+        "grades": {
+          "missed_bay": 1,
+          "operational_error": 2,
+          "correct_withhold": 3
+        },
+        "success": 3,
+        "median_seconds": 5.289,
+        "max_seconds": 15.234
+      },
+      "primary_manual": {
+        "n": 21,
+        "grades": {
+          "correct_point_incomplete_bay": 4,
+          "no_specific_two_bay_choice": 2,
+          "missed_bay": 1,
+          "correct_withhold": 14
+        },
+        "success": 14,
+        "median_seconds": 0.14,
+        "max_seconds": 0.157
+      },
+      "supplemental_automatic": {
+        "n": 4,
+        "grades": {
+          "missed_bay": 2,
+          "correct_withhold": 1,
+          "operational_error": 1
+        },
+        "success": 1,
+        "median_seconds": 2.281,
+        "max_seconds": 15.141
+      },
+      "supplemental_manual": {
+        "n": 14,
+        "grades": {
+          "correct_point_incomplete_bay": 1,
+          "missed_bay": 3,
+          "correct_withhold": 9,
+          "no_specific_two_bay_choice": 1
+        },
+        "success": 9,
+        "median_seconds": 0.141,
+        "max_seconds": 0.172
+      },
+      "all_automatic": {
+        "n": 10,
+        "grades": {
+          "missed_bay": 3,
+          "operational_error": 3,
+          "correct_withhold": 4
+        },
+        "success": 4,
+        "median_seconds": 4.774,
+        "max_seconds": 15.234
+      },
+      "all_manual": {
+        "n": 35,
+        "grades": {
+          "correct_point_incomplete_bay": 5,
+          "no_specific_two_bay_choice": 3,
+          "missed_bay": 4,
+          "correct_withhold": 23
+        },
+        "success": 23,
+        "median_seconds": 0.14,
+        "max_seconds": 0.172
+      }
+    },
+    "release-ui": {
+      "primary_automatic": {
+        "n": 6,
+        "grades": {
+          "missed_bay": 2,
+          "insufficient_outline": 1,
+          "correct_withhold": 3
+        },
+        "success": 3,
+        "median_seconds": 3.204,
+        "max_seconds": 12.359
+      },
+      "primary_manual": {
+        "n": 21,
+        "grades": {
+          "correct_point_incomplete_bay": 4,
+          "no_specific_two_bay_choice": 2,
+          "missed_bay": 1,
+          "correct_withhold": 14
+        },
+        "success": 14,
+        "median_seconds": 0.281,
+        "max_seconds": 0.5
+      },
+      "supplemental_automatic": {
+        "n": 4,
+        "grades": {
+          "missed_bay": 2,
+          "correct_withhold": 1,
+          "operational_error": 1
+        },
+        "success": 1,
+        "median_seconds": 5.304,
+        "max_seconds": 15.094
+      },
+      "supplemental_manual": {
+        "n": 14,
+        "grades": {
+          "correct_point_incomplete_bay": 1,
+          "missed_bay": 3,
+          "correct_withhold": 9,
+          "no_specific_two_bay_choice": 1
+        },
+        "success": 9,
+        "median_seconds": 0.258,
+        "max_seconds": 0.578
+      },
+      "all_automatic": {
+        "n": 10,
+        "grades": {
+          "missed_bay": 4,
+          "insufficient_outline": 1,
+          "correct_withhold": 4,
+          "operational_error": 1
+        },
+        "success": 4,
+        "median_seconds": 5.297,
+        "max_seconds": 15.094
+      },
+      "all_manual": {
+        "n": 35,
+        "grades": {
+          "correct_point_incomplete_bay": 5,
+          "no_specific_two_bay_choice": 3,
+          "missed_bay": 4,
+          "correct_withhold": 23
+        },
+        "success": 23,
+        "median_seconds": 0.266,
+        "max_seconds": 0.578
+      }
+    },
+    "release-v2": {
+      "primary_automatic": {
+        "n": 6,
+        "grades": {
+          "missed_bay": 1,
+          "operational_error": 2,
+          "correct_withhold": 3
+        },
+        "success": 3,
+        "median_seconds": 5.321,
+        "max_seconds": 15.265
+      },
+      "primary_manual": {
+        "n": 21,
+        "grades": {
+          "correct_point_incomplete_bay": 4,
+          "no_specific_two_bay_choice": 2,
+          "missed_bay": 1,
+          "correct_withhold": 14
+        },
+        "success": 14,
+        "median_seconds": 0.219,
+        "max_seconds": 0.86
+      },
+      "supplemental_automatic": {
+        "n": 4,
+        "grades": {
+          "missed_bay": 2,
+          "correct_withhold": 1,
+          "operational_error": 1
+        },
+        "success": 1,
+        "median_seconds": 0.367,
+        "max_seconds": 15.109
+      },
+      "supplemental_manual": {
+        "n": 14,
+        "grades": {
+          "correct_point_incomplete_bay": 1,
+          "missed_bay": 3,
+          "correct_withhold": 9,
+          "no_specific_two_bay_choice": 1
+        },
+        "success": 9,
+        "median_seconds": 0.203,
+        "max_seconds": 0.578
+      },
+      "all_automatic": {
+        "n": 10,
+        "grades": {
+          "missed_bay": 3,
+          "operational_error": 3,
+          "correct_withhold": 4
+        },
+        "success": 4,
+        "median_seconds": 3.43,
+        "max_seconds": 15.265
+      },
+      "all_manual": {
+        "n": 35,
+        "grades": {
+          "correct_point_incomplete_bay": 5,
+          "no_specific_two_bay_choice": 3,
+          "missed_bay": 4,
+          "correct_withhold": 23
+        },
+        "success": 23,
+        "median_seconds": 0.219,
+        "max_seconds": 0.86
+      }
+    },
+    "release-fused": {
+      "primary_automatic": {
+        "n": 6,
+        "grades": {
+          "missed_bay": 1,
+          "operational_error": 2,
+          "correct_withhold": 3
+        },
+        "success": 3,
+        "median_seconds": 3.499,
+        "max_seconds": 15.219
+      },
+      "primary_manual": {
+        "n": 21,
+        "grades": {
+          "insufficient_outline": 1,
+          "guessed_shared_stripe": 1,
+          "missed_bay": 1,
+          "correct_withhold": 14,
+          "correct_point_incomplete_bay": 2,
+          "no_specific_two_bay_choice": 1,
+          "correct_whole_bay": 1
+        },
+        "success": 15,
+        "median_seconds": 0.235,
+        "max_seconds": 1.015
+      },
+      "supplemental_automatic": {
+        "n": 4,
+        "grades": {
+          "missed_bay": 2,
+          "correct_withhold": 1,
+          "operational_error": 1
+        },
+        "success": 1,
+        "median_seconds": 0.39,
+        "max_seconds": 15.093
+      },
+      "supplemental_manual": {
+        "n": 14,
+        "grades": {
+          "correct_point_incomplete_bay": 1,
+          "missed_bay": 3,
+          "correct_withhold": 9,
+          "no_specific_two_bay_choice": 1
+        },
+        "success": 9,
+        "median_seconds": 0.234,
+        "max_seconds": 1.328
+      },
+      "all_automatic": {
+        "n": 10,
+        "grades": {
+          "missed_bay": 3,
+          "operational_error": 3,
+          "correct_withhold": 4
+        },
+        "success": 4,
+        "median_seconds": 1.109,
+        "max_seconds": 15.219
+      },
+      "all_manual": {
+        "n": 35,
+        "grades": {
+          "insufficient_outline": 1,
+          "guessed_shared_stripe": 1,
+          "missed_bay": 4,
+          "correct_withhold": 23,
+          "correct_point_incomplete_bay": 3,
+          "no_specific_two_bay_choice": 2,
+          "correct_whole_bay": 1
+        },
+        "success": 24,
+        "median_seconds": 0.235,
+        "max_seconds": 1.328
+      }
+    },
+    "release-final-8808": {
+      "primary_automatic": {
+        "n": 6,
+        "grades": {
+          "missed_bay": 2,
+          "included_unmatched_options": 1,
+          "correct_withhold": 3
+        },
+        "success": 3,
+        "median_seconds": 0.32,
+        "max_seconds": 5.234
+      },
+      "primary_manual": {
+        "n": 21,
+        "grades": {
+          "insufficient_outline": 1,
+          "one_visible_side_for_clarification": 1,
+          "missed_bay": 1,
+          "correct_withhold": 14,
+          "correct_point_incomplete_bay": 2,
+          "no_specific_two_bay_choice": 1,
+          "correct_whole_bay": 1
+        },
+        "success": 15,
+        "median_seconds": 0.219,
+        "max_seconds": 1.031
+      },
+      "supplemental_automatic": {
+        "n": 4,
+        "grades": {
+          "missed_bay": 2,
+          "correct_withhold": 1,
+          "operational_error": 1
+        },
+        "success": 1,
+        "median_seconds": 0.352,
+        "max_seconds": 15.078
+      },
+      "supplemental_manual": {
+        "n": 14,
+        "grades": {
+          "correct_point_incomplete_bay": 1,
+          "missed_bay": 3,
+          "correct_withhold": 9,
+          "no_specific_two_bay_choice": 1
+        },
+        "success": 9,
+        "median_seconds": 0.234,
+        "max_seconds": 1.047
+      },
+      "all_automatic": {
+        "n": 10,
+        "grades": {
+          "missed_bay": 4,
+          "included_unmatched_options": 1,
+          "correct_withhold": 4,
+          "operational_error": 1
+        },
+        "success": 4,
+        "median_seconds": 0.32,
+        "max_seconds": 15.078
+      },
+      "all_manual": {
+        "n": 35,
+        "grades": {
+          "insufficient_outline": 1,
+          "one_visible_side_for_clarification": 1,
+          "missed_bay": 4,
+          "correct_withhold": 23,
+          "correct_point_incomplete_bay": 3,
+          "no_specific_two_bay_choice": 2,
+          "correct_whole_bay": 1
+        },
+        "success": 24,
+        "median_seconds": 0.219,
+        "max_seconds": 1.047
+      }
+    },
+    "release-occupancy-8809": {
+      "primary_automatic": {
+        "n": 6,
+        "grades": {
+          "missed_bay": 2,
+          "displayed_correct_choices_without_a_single_destination": 1,
+          "correct_withhold": 3
+        },
+        "success": 3,
+        "median_seconds": 0.312,
+        "max_seconds": 5.047
+      },
+      "primary_manual": {
+        "n": 21,
+        "grades": {
+          "missed_bay": 2,
+          "one_visible_side_for_clarification": 1,
+          "correct_withhold": 14,
+          "correct_point_incomplete_bay": 2,
+          "no_specific_two_bay_choice": 1,
+          "correct_whole_bay": 1
+        },
+        "success": 15,
+        "median_seconds": 0.203,
+        "max_seconds": 0.844
+      },
+      "supplemental_automatic": {
+        "n": 4,
+        "grades": {
+          "missed_bay": 2,
+          "correct_withhold": 1,
+          "operational_error": 1
+        },
+        "success": 1,
+        "median_seconds": 0.367,
+        "max_seconds": 15.078
+      },
+      "supplemental_manual": {
+        "n": 14,
+        "grades": {
+          "correct_point_incomplete_bay": 1,
+          "missed_bay": 3,
+          "correct_withhold": 9,
+          "no_specific_two_bay_choice": 1
+        },
+        "success": 9,
+        "median_seconds": 0.227,
+        "max_seconds": 0.687
+      },
+      "all_automatic": {
+        "n": 10,
+        "grades": {
+          "missed_bay": 4,
+          "displayed_correct_choices_without_a_single_destination": 1,
+          "correct_withhold": 4,
+          "operational_error": 1
+        },
+        "success": 4,
+        "median_seconds": 0.312,
+        "max_seconds": 15.078
+      },
+      "all_manual": {
+        "n": 35,
+        "grades": {
+          "missed_bay": 5,
+          "one_visible_side_for_clarification": 1,
+          "correct_withhold": 23,
+          "correct_point_incomplete_bay": 3,
+          "no_specific_two_bay_choice": 2,
+          "correct_whole_bay": 1
+        },
+        "success": 24,
+        "median_seconds": 0.219,
+        "max_seconds": 0.844
+      }
+    }
+  },
+  "historical_replay": {
+    "previously_confirmed_through_lane": [
+      {
+        "reference": "through lane",
+        "offered": false,
+        "point": null,
+        "state": "needs_clarification",
+        "method": "explicit_passenger_offlane_region_v1",
+        "reason": "through_lane",
+        "original_replayed": true,
+        "signed_surface_checked": true,
+        "seconds": 0.266
+      },
+      {
+        "reference": "through lane",
+        "offered": false,
+        "point": null,
+        "state": "needs_clarification",
+        "method": "explicit_passenger_offlane_region_v1",
+        "reason": "through_lane",
+        "original_replayed": true,
+        "signed_surface_checked": true,
+        "seconds": 0.234
+      },
+      {
+        "reference": "through lane",
+        "offered": false,
+        "point": null,
+        "state": "needs_clarification",
+        "method": "explicit_passenger_offlane_region_v1",
+        "reason": "through_lane",
+        "original_replayed": true,
+        "signed_surface_checked": true,
+        "seconds": 0.343
+      },
+      {
+        "reference": "through lane",
+        "offered": false,
+        "point": null,
+        "state": "needs_clarification",
+        "method": "explicit_passenger_offlane_region_v1",
+        "reason": "through_lane",
+        "original_replayed": true,
+        "signed_surface_checked": true,
+        "seconds": 0.266
+      }
+    ],
+    "previously_confirmed_ambiguous_entrance": [
+      {
+        "reference": "ambiguous paved entrance",
+        "offered": false,
+        "point": null,
+        "state": "needs_clarification",
+        "method": "explicit_passenger_offlane_region_v1",
+        "reason": "through_lane",
+        "original_replayed": true,
+        "signed_surface_checked": true,
+        "seconds": 0.797
+      }
+    ]
+  },
+  "first_geometry_freeze_diagnostic": {
+    "sha256": "f8489c8da4af4f2acd6e13a0ab45c311a9376ae8be37ac46fbfbb8b985bc0d65",
+    "originals": 81,
+    "candidate_count_histogram": {
+      "0": 76,
+      "2": 3,
+      "1": 2
+    },
+    "release_runtime": {
+      "cv2": "4.11.0",
+      "Pillow": "11.1.0",
+      "numpy": "1.26.4"
+    },
+    "independent_runtime_candidate_counts_matched": true,
+    "hidden_photos_passing_full_geometry": 0,
+    "diagnosis": "On four of the five visually positive scenes, the primary reference covered 47\u201398% segmentation-class parking, and the image divider detector found 5\u20139 lines, but none of its geometric pairs survived. On the fifth, all five visual bay polygons had 0% segmentation-class parking. The 81-image catalogue histogram describes frequency of a proposed region; it has no denominator of independently confirmed valid bays and is not an accuracy score."
+  },
+  "replay": {
+    "recorded_sessions": 45,
+    "reproduced": 45,
+    "errors": [],
+    "roles": "All direct taps belonged to the passenger and were excluded from model-found totals. Automatic submissions were separate, used predicted tracks, and could never silently substitute a manual tap. The local release image libraries reproduced each available trained model render and signed contour packet for the applicable methods. Timed-out cases replay as an operational error.",
+    "time_scope": "Each direct mark and automatic request was bound to a single original photo and source dimensions. Feature inference selected tracks at that frame. Future observations are rejected when validating the input."
+  },
+  "additional_source_binding_controls": {
+    "genuine_direct_automatic_single_reproduced": true,
+    "genuine_manual_mark_reproduced": true,
+    "genuine_passenger_choice_reproduced": true,
+    "automatic_choices_then_passenger_selection_reproduced": true,
+    "correct_actor_credit": true,
+    "mutation_rejections": [
+      {
+        "check": "Changing one native outline vertex on a genuine automatic receipt",
+        "rejected": true,
+        "reason": "Highlighted bay differs from the original photo, surface, words or passenger choice."
+      },
+      {
+        "check": "Substituting a different original passenger rectangle for the same mark",
+        "rejected": true,
+        "reason": "Highlighted bay differs from the original photo, surface, words or passenger choice."
+      },
+      {
+        "check": "Appending a track observation beyond the passenger frame",
+        "rejected": true,
+        "reason": "future track observation is not permitted"
+      },
+      {
+        "check": "Using a different original-photo SHA with an unchanged receipt",
+        "rejected": true,
+        "reason": "Source photograph no longer matches its observations"
+      },
+      {
+        "check": "Crediting a genuine passenger-marked bay to the automatic branch",
+        "rejected": true,
+        "reason": "An off-lane mark requires a passenger selection"
+      },
+      {
+        "check": "Crediting a genuine automatic bay to a passenger-mark event",
+        "rejected": true,
+        "reason": "A place-model decision belongs to a normal submitted request"
+      },
+      {
+        "check": "Changing the selected bay identifier to an unoffered option",
+        "rejected": true,
+        "reason": "This bay is outside the current choices."
+      }
+    ]
+  },
+  "browser": [
+    {
+      "case": "W01",
+      "kind": "inside",
+      "screen": "desktop 1270px",
+      "state": "needs_clarification",
+      "actor": "passenger",
+      "native_xy": null,
+      "polygon": null,
+      "choices": [],
+      "can_confirm": false,
+      "heading": "Choose another location",
+      "message": "Only a narrow strip of pavement is visible beside the parked vehicle there. Could you mark a different open space?",
+      "time_to_render_ms": 201
+    },
+    {
+      "case": "W02",
+      "kind": "shared_line",
+      "screen": "mobile 390px",
+      "state": "needs_clarification",
+      "actor": "passenger",
+      "native_xy": null,
+      "polygon": null,
+      "choices": [],
+      "can_confirm": false,
+      "heading": "Choose another location",
+      "message": "I can\u2019t verify an off-lane parking area at that point. Could you mark a different visible bay?",
+      "time_to_render_ms": 246
+    },
+    {
+      "case": "W03",
+      "kind": "automatic",
+      "screen": "desktop 1270px",
+      "state": "needs_clarification",
+      "actor": "model",
+      "native_xy": null,
+      "polygon": null,
+      "choices": [
+        "Bay A"
+      ],
+      "can_confirm": false,
+      "heading": "Which outlined bay did you mean?",
+      "message": "I can outline this bay, but I couldn\u2019t match every detail you gave. Is this the bay you meant? You can also mark another spot.",
+      "time_to_render_ms": 583,
+      "chosen_requires_confirmation": true,
+      "chosen_description": "The gold ring is inside the visible parking area in the lower right. The photo leaves its full edges uncertain."
+    },
+    {
+      "case": "W05",
+      "kind": "automatic",
+      "screen": "mobile 390px",
+      "state": "needs_clarification",
+      "actor": "model",
+      "native_xy": null,
+      "polygon": null,
+      "choices": [],
+      "can_confirm": false,
+      "heading": "Which spot do you mean?",
+      "message": "I can\u2019t place that request on a clear bay in this view. Could you mark the spot you mean, or name another visible landmark?",
+      "time_to_render_ms": 5161
+    },
+    {
+      "case": "W07",
+      "kind": "occupied_adjacent_line",
+      "screen": "desktop 1270px",
+      "state": "needs_clarification",
+      "actor": "passenger",
+      "native_xy": null,
+      "polygon": null,
+      "choices": [],
+      "can_confirm": false,
+      "heading": "Choose another location",
+      "message": "The marked area includes ground I can\u2019t verify as parking. Could you tap a smaller spot inside the bay?",
+      "time_to_render_ms": 204
+    },
+    {
+      "case": "W10",
+      "kind": "dashed_lane_stripe",
+      "screen": "mobile 390px",
+      "state": "needs_clarification",
+      "actor": "passenger",
+      "native_xy": null,
+      "polygon": null,
+      "choices": [],
+      "can_confirm": false,
+      "heading": "Choose another location",
+      "message": "I can\u2019t verify an off-lane parking area at that point. Could you mark a different visible bay?",
+      "time_to_render_ms": 204
+    },
+    {
+      "case": "W01",
+      "kind": "shared_line",
+      "screen": "desktop 1270px",
+      "state": "needs_clarification",
+      "actor": "passenger",
+      "native_xy": null,
+      "polygon": null,
+      "choices": [
+        "Bay A"
+      ],
+      "can_confirm": false,
+      "heading": "Did you mean this side of the line?",
+      "message": "Bay A is the visible bay beside your mark. Choose it or mark a different spot.",
+      "time_to_render_ms": 196,
+      "chosen_requires_confirmation": true,
+      "chosen_description": "Your tap is the blue diamond. The gold ring marks the centre of the outlined parking bay in the bottom centre of the photo."
+    },
+    {
+      "case": "W03",
+      "kind": "inside",
+      "screen": "desktop 1270px",
+      "state": "proposed",
+      "actor": "passenger",
+      "native_xy": [
+        2720.382,
+        1380.649
+      ],
+      "polygon": [
+        [
+          2313.813,
+          1295.36
+        ],
+        [
+          2959.36,
+          1342.53
+        ],
+        [
+          2970.24,
+          1462.269
+        ],
+        [
+          2723.627,
+          1462.269
+        ]
+      ],
+      "choices": [],
+      "can_confirm": true,
+      "heading": "Is this the parking area you meant?",
+      "message": "Your tap is the blue diamond. The gold ring is inside the visible parking area in the lower right. The photo leaves its full edges uncertain.",
+      "time_to_render_ms": 210
+    },
+    {
+      "case": "W01",
+      "kind": "inside",
+      "screen": "mobile 390px",
+      "state": "needs_clarification",
+      "actor": "passenger",
+      "native_xy": null,
+      "polygon": null,
+      "choices": [],
+      "can_confirm": false,
+      "heading": "Choose another location",
+      "message": "Only a narrow strip of pavement is visible beside the parked vehicle there. Could you mark a different open space?",
+      "time_to_render_ms": 198
+    }
+  ],
+  "per_photo": [
+    {
+      "case": "W01",
+      "split": "primary",
+      "public_source": "https://kartaview.org/details/5139785/165/",
+      "source_sha256": "6ae04a49e1e911130e5786a75ed4b74e54aaaec98e873f57b1c2faf24bc82ae8",
+      "entries": [
+        {
+          "kind": "typed_request",
+          "expected": "whole_bay",
+          "actual_state": "needs_clarification",
+          "seconds": 0.375,
+          "method": "public_painted_bay_landmark_v1",
+          "actor": "model",
+          "reason": "no_supported_bay_for_instruction",
+          "pin": null,
+          "offer_requires_separate_confirmation": false,
+          "journal_replayed": true,
+          "independent_model_proposal": false,
+          "polygon": null,
+          "pin_in_any_reference": false,
+          "pin_in_requested_reference": false,
+          "choices": 0,
+          "grade": "missed_bay",
+          "earlier_results": {
+            "baseline-ui": {
+              "grade": "missed_bay",
+              "seconds": 0.422
+            },
+            "release-ui": {
+              "grade": "missed_bay",
+              "seconds": 1.11
+            },
+            "release-v2": {
+              "grade": "missed_bay",
+              "seconds": 1.563
+            },
+            "release-fused": {
+              "grade": "missed_bay",
+              "seconds": 1.734
+            },
+            "release-final-8808": {
+              "grade": "missed_bay",
+              "seconds": 0.375
+            }
+          }
+        },
+        {
+          "kind": "inside",
+          "expected": "A",
+          "actual_state": "needs_clarification",
+          "seconds": 0.172,
+          "method": "passenger_marked_painted_bay_v1",
+          "actor": "passenger",
+          "reason": "parking_fragment_at_vehicle",
+          "pin": null,
+          "offer_requires_separate_confirmation": false,
+          "journal_replayed": true,
+          "independent_model_proposal": false,
+          "polygon": null,
+          "pin_in_any_reference": false,
+          "pin_in_requested_reference": false,
+          "choices": 0,
+          "grade": "missed_bay",
+          "earlier_results": {
+            "baseline-ui": {
+              "grade": "correct_point_incomplete_bay",
+              "seconds": 0.157
+            },
+            "release-ui": {
+              "grade": "correct_point_incomplete_bay",
+              "seconds": 0.454
+            },
+            "release-v2": {
+              "grade": "correct_point_incomplete_bay",
+              "seconds": 0.86
+            },
+            "release-fused": {
+              "grade": "insufficient_outline",
+              "seconds": 1.0
+            },
+            "release-final-8808": {
+              "grade": "insufficient_outline",
+              "seconds": 1.0
+            }
+          }
+        },
+        {
+          "kind": "shared_line",
+          "expected": "A/B",
+          "actual_state": "needs_clarification",
+          "seconds": 0.172,
+          "method": "passenger_marked_painted_bay_v1",
+          "actor": "passenger",
+          "reason": "single_visible_bay_at_painted_edge",
+          "pin": null,
+          "offer_requires_separate_confirmation": false,
+          "journal_replayed": true,
+          "independent_model_proposal": false,
+          "polygon": null,
+          "pin_in_any_reference": false,
+          "pin_in_requested_reference": false,
+          "choices": 1,
+          "displayed_choices": [
+            {
+              "id": "bay-1",
+              "polygon": [
+                [
+                  1172.614,
+                  1355.326
+                ],
+                [
+                  1698.244,
+                  1339.542
+                ],
+                [
+                  1317.335,
+                  1423.883
+                ],
+                [
+                  1111.424,
+                  1442.166
+                ]
+              ],
+              "center": [
+                1336.538,
+                1383.327
+              ]
+            }
+          ],
+          "choice_matches": [
+            {
+              "first_iou": 0.0338,
+              "second_iou": 0.2785,
+              "first": false,
+              "second": false
+            }
+          ],
+          "clarification": "I can outline one bay beside this painted line. Did you mean this side, or would you like to mark another?",
+          "grade": "one_visible_side_for_clarification",
+          "earlier_results": {
+            "baseline-ui": {
+              "grade": "no_specific_two_bay_choice",
+              "seconds": 0.141
+            },
+            "release-ui": {
+              "grade": "no_specific_two_bay_choice",
+              "seconds": 0.204
+            },
+            "release-v2": {
+              "grade": "no_specific_two_bay_choice",
+              "seconds": 0.219
+            },
+            "release-fused": {
+              "grade": "guessed_shared_stripe",
+              "seconds": 0.172
+            },
+            "release-final-8808": {
+              "grade": "one_visible_side_for_clarification",
+              "seconds": 0.172
+            }
+          }
+        },
+        {
+          "kind": "mouth_edge",
+          "expected": "A",
+          "actual_state": "needs_clarification",
+          "seconds": 0.172,
+          "method": "explicit_passenger_offlane_region_v1",
+          "actor": "passenger",
+          "reason": "through_lane",
+          "pin": null,
+          "offer_requires_separate_confirmation": false,
+          "journal_replayed": true,
+          "independent_model_proposal": false,
+          "polygon": null,
+          "pin_in_any_reference": false,
+          "pin_in_requested_reference": false,
+          "choices": 0,
+          "grade": "missed_bay",
+          "earlier_results": {
+            "baseline-ui": {
+              "grade": "missed_bay",
+              "seconds": 0.125
+            },
+            "release-ui": {
+              "grade": "missed_bay",
+              "seconds": 0.203
+            },
+            "release-v2": {
+              "grade": "missed_bay",
+              "seconds": 0.187
+            },
+            "release-fused": {
+              "grade": "missed_bay",
+              "seconds": 0.203
+            },
+            "release-final-8808": {
+              "grade": "missed_bay",
+              "seconds": 0.188
+            }
+          }
+        },
+        {
+          "kind": "lane",
+          "expected": "withhold",
+          "actual_state": "needs_clarification",
+          "seconds": 0.203,
+          "method": "explicit_passenger_offlane_region_v1",
+          "actor": "passenger",
+          "reason": "through_lane",
+          "pin": null,
+          "offer_requires_separate_confirmation": false,
+          "journal_replayed": true,
+          "independent_model_proposal": false,
+          "polygon": null,
+          "pin_in_any_reference": false,
+          "pin_in_requested_reference": false,
+          "choices": 0,
+          "grade": "correct_withhold",
+          "earlier_results": {
+            "baseline-ui": {
+              "grade": "correct_withhold",
+              "seconds": 0.14
+            },
+            "release-ui": {
+              "grade": "correct_withhold",
+              "seconds": 0.187
+            },
+            "release-v2": {
+              "grade": "correct_withhold",
+              "seconds": 0.187
+            },
+            "release-fused": {
+              "grade": "correct_withhold",
+              "seconds": 0.235
+            },
+            "release-final-8808": {
+              "grade": "correct_withhold",
+              "seconds": 0.188
+            }
+          }
+        }
+      ]
+    },
+    {
+      "case": "W02",
+      "split": "primary",
+      "public_source": "https://kartaview.org/details/5124937/12/",
+      "source_sha256": "c4d59cba6fe27a9aa31b27decb3b5c5dd40945ef3e8a89865f325b307e577411",
+      "entries": [
+        {
+          "kind": "typed_request",
+          "expected": "whole_bay",
+          "actual_state": "needs_clarification",
+          "seconds": 0.281,
+          "method": "public_painted_bay_landmark_v1",
+          "actor": "model",
+          "reason": "no_visible_bay_for_instruction",
+          "pin": null,
+          "offer_requires_separate_confirmation": false,
+          "journal_replayed": true,
+          "independent_model_proposal": false,
+          "polygon": null,
+          "pin_in_any_reference": false,
+          "pin_in_requested_reference": false,
+          "choices": 0,
+          "grade": "missed_bay",
+          "earlier_results": {
+            "baseline-ui": {
+              "grade": "operational_error",
+              "seconds": 15.234
+            },
+            "release-ui": {
+              "grade": "missed_bay",
+              "seconds": 9.454
+            },
+            "release-v2": {
+              "grade": "operational_error",
+              "seconds": 15.265
+            },
+            "release-fused": {
+              "grade": "operational_error",
+              "seconds": 15.219
+            },
+            "release-final-8808": {
+              "grade": "missed_bay",
+              "seconds": 0.281
+            }
+          }
+        },
+        {
+          "kind": "inside",
+          "expected": "A",
+          "actual_state": "proposed",
+          "seconds": 0.844,
+          "method": "explicit_passenger_offlane_region_v1",
+          "actor": "passenger",
+          "reason": "parking",
+          "pin": [
+            2232.0,
+            1429.0
+          ],
+          "offer_requires_separate_confirmation": true,
+          "journal_replayed": true,
+          "independent_model_proposal": false,
+          "distance_from_tap_native_px": 0.0,
+          "polygon": null,
+          "pin_in_any_reference": true,
+          "pin_in_requested_reference": true,
+          "choices": 0,
+          "grade": "correct_point_incomplete_bay",
+          "earlier_results": {
+            "baseline-ui": {
+              "grade": "correct_point_incomplete_bay",
+              "seconds": 0.125
+            },
+            "release-ui": {
+              "grade": "correct_point_incomplete_bay",
+              "seconds": 0.39
+            },
+            "release-v2": {
+              "grade": "correct_point_incomplete_bay",
+              "seconds": 0.593
+            },
+            "release-fused": {
+              "grade": "correct_point_incomplete_bay",
+              "seconds": 0.625
+            },
+            "release-final-8808": {
+              "grade": "correct_point_incomplete_bay",
+              "seconds": 0.829
+            }
+          }
+        },
+        {
+          "kind": "shared_line",
+          "expected": "A/B",
+          "actual_state": "needs_clarification",
+          "seconds": 0.203,
+          "method": "explicit_passenger_offlane_region_v1",
+          "actor": "passenger",
+          "reason": "unverified_surface",
+          "pin": null,
+          "offer_requires_separate_confirmation": false,
+          "journal_replayed": true,
+          "independent_model_proposal": false,
+          "polygon": null,
+          "pin_in_any_reference": false,
+          "pin_in_requested_reference": false,
+          "choices": 0,
+          "choice_matches": [],
+          "clarification": "I can\u2019t verify an off-lane parking area at that point. Could you mark a different visible bay?",
+          "grade": "no_specific_two_bay_choice",
+          "earlier_results": {
+            "baseline-ui": {
+              "grade": "no_specific_two_bay_choice",
+              "seconds": 0.125
+            },
+            "release-ui": {
+              "grade": "no_specific_two_bay_choice",
+              "seconds": 0.266
+            },
+            "release-v2": {
+              "grade": "no_specific_two_bay_choice",
+              "seconds": 0.219
+            },
+            "release-fused": {
+              "grade": "no_specific_two_bay_choice",
+              "seconds": 0.188
+            },
+            "release-final-8808": {
+              "grade": "no_specific_two_bay_choice",
+              "seconds": 0.204
+            }
+          }
+        },
+        {
+          "kind": "lane",
+          "expected": "withhold",
+          "actual_state": "needs_clarification",
+          "seconds": 0.265,
+          "method": "explicit_passenger_offlane_region_v1",
+          "actor": "passenger",
+          "reason": "through_lane",
+          "pin": null,
+          "offer_requires_separate_confirmation": false,
+          "journal_replayed": true,
+          "independent_model_proposal": false,
+          "polygon": null,
+          "pin_in_any_reference": false,
+          "pin_in_requested_reference": false,
+          "choices": 0,
+          "grade": "correct_withhold",
+          "earlier_results": {
+            "baseline-ui": {
+              "grade": "correct_withhold",
+              "seconds": 0.125
+            },
+            "release-ui": {
+              "grade": "correct_withhold",
+              "seconds": 0.281
+            },
+            "release-v2": {
+              "grade": "correct_withhold",
+              "seconds": 0.203
+            },
+            "release-fused": {
+              "grade": "correct_withhold",
+              "seconds": 0.281
+            },
+            "release-final-8808": {
+              "grade": "correct_withhold",
+              "seconds": 0.188
+            }
+          }
+        },
+        {
+          "kind": "occupied",
+          "expected": "withhold",
+          "actual_state": "needs_clarification",
+          "seconds": 0.219,
+          "method": "explicit_passenger_offlane_region_v1",
+          "actor": "passenger",
+          "reason": "observed_object",
+          "pin": null,
+          "offer_requires_separate_confirmation": false,
+          "journal_replayed": true,
+          "independent_model_proposal": false,
+          "polygon": null,
+          "pin_in_any_reference": false,
+          "pin_in_requested_reference": false,
+          "choices": 0,
+          "grade": "correct_withhold",
+          "earlier_results": {
+            "baseline-ui": {
+              "grade": "correct_withhold",
+              "seconds": 0.125
+            },
+            "release-ui": {
+              "grade": "correct_withhold",
+              "seconds": 0.235
+            },
+            "release-v2": {
+              "grade": "correct_withhold",
+              "seconds": 0.218
+            },
+            "release-fused": {
+              "grade": "correct_withhold",
+              "seconds": 0.219
+            },
+            "release-final-8808": {
+              "grade": "correct_withhold",
+              "seconds": 0.203
+            }
+          }
+        }
+      ]
+    },
+    {
+      "case": "W03",
+      "split": "primary",
+      "public_source": "https://kartaview.org/details/5331945/29/",
+      "source_sha256": "cb01925b9b3beb0377212524b9c02680e777d1371536dc0c373b0a7809eb533a",
+      "entries": [
+        {
+          "kind": "typed_request",
+          "expected": "whole_bay",
+          "actual_state": "needs_clarification",
+          "seconds": 0.328,
+          "method": "public_painted_bay_landmark_v1",
+          "actor": "model",
+          "reason": "unverified_bay_reference",
+          "pin": null,
+          "offer_requires_separate_confirmation": false,
+          "journal_replayed": true,
+          "independent_model_proposal": false,
+          "polygon": null,
+          "pin_in_any_reference": false,
+          "pin_in_requested_reference": false,
+          "choices": 1,
+          "displayed_choices": [
+            {
+              "id": "bay-1",
+              "polygon": [
+                [
+                  2313.813,
+                  1295.36
+                ],
+                [
+                  2959.36,
+                  1342.53
+                ],
+                [
+                  2970.24,
+                  1462.269
+                ],
+                [
+                  2723.627,
+                  1462.269
+                ]
+              ],
+              "center": [
+                2720.382,
+                1380.649
+              ]
+            }
+          ],
+          "choices_overlapping_the_requested_bays": 1,
+          "grade": "displayed_correct_choices_without_a_single_destination",
+          "earlier_results": {
+            "baseline-ui": {
+              "grade": "operational_error",
+              "seconds": 15.078
+            },
+            "release-ui": {
+              "grade": "insufficient_outline",
+              "seconds": 12.359
+            },
+            "release-v2": {
+              "grade": "operational_error",
+              "seconds": 15.141
+            },
+            "release-fused": {
+              "grade": "operational_error",
+              "seconds": 15.063
+            },
+            "release-final-8808": {
+              "grade": "included_unmatched_options",
+              "seconds": 0.343
+            }
+          }
+        },
+        {
+          "kind": "inside",
+          "expected": "A",
+          "actual_state": "proposed",
+          "seconds": 0.188,
+          "method": "passenger_marked_painted_bay_v1",
+          "actor": "passenger",
+          "reason": "passenger_mark_on_painted_bay",
+          "pin": [
+            2720.382,
+            1380.649
+          ],
+          "offer_requires_separate_confirmation": true,
+          "journal_replayed": true,
+          "independent_model_proposal": false,
+          "distance_from_tap_native_px": 8.72,
+          "displayed_shape": "visible_parking_bay",
+          "polygon": [
+            [
+              2313.813,
+              1295.36
+            ],
+            [
+              2959.36,
+              1342.53
+            ],
+            [
+              2970.24,
+              1462.269
+            ],
+            [
+              2723.627,
+              1462.269
+            ]
+          ],
+          "pin_in_any_reference": true,
+          "pin_in_requested_reference": true,
+          "best_reference": "A",
+          "outline_metrics": {
+            "iou": 0.7386,
+            "precision": 1.0,
+            "coverage": 0.7386,
+            "pin_inside": true,
+            "pass": true
+          },
+          "choices": 0,
+          "grade": "correct_whole_bay",
+          "earlier_results": {
+            "baseline-ui": {
+              "grade": "correct_point_incomplete_bay",
+              "seconds": 0.11
+            },
+            "release-ui": {
+              "grade": "correct_point_incomplete_bay",
+              "seconds": 0.422
+            },
+            "release-v2": {
+              "grade": "correct_point_incomplete_bay",
+              "seconds": 0.672
+            },
+            "release-fused": {
+              "grade": "correct_whole_bay",
+              "seconds": 1.015
+            },
+            "release-final-8808": {
+              "grade": "correct_whole_bay",
+              "seconds": 1.031
+            }
+          }
+        },
+        {
+          "kind": "occupied_adjacent_line",
+          "expected": "A",
+          "actual_state": "proposed",
+          "seconds": 0.219,
+          "method": "explicit_passenger_offlane_region_v1",
+          "actor": "passenger",
+          "reason": "parking",
+          "pin": [
+            2490.0,
+            1289.0
+          ],
+          "offer_requires_separate_confirmation": true,
+          "journal_replayed": true,
+          "independent_model_proposal": false,
+          "distance_from_tap_native_px": 0.0,
+          "polygon": null,
+          "pin_in_any_reference": true,
+          "pin_in_requested_reference": true,
+          "choices": 0,
+          "grade": "correct_point_incomplete_bay",
+          "earlier_results": {
+            "baseline-ui": {
+              "grade": "correct_point_incomplete_bay",
+              "seconds": 0.125
+            },
+            "release-ui": {
+              "grade": "correct_point_incomplete_bay",
+              "seconds": 0.218
+            },
+            "release-v2": {
+              "grade": "correct_point_incomplete_bay",
+              "seconds": 0.219
+            },
+            "release-fused": {
+              "grade": "correct_point_incomplete_bay",
+              "seconds": 0.188
+            },
+            "release-final-8808": {
+              "grade": "correct_point_incomplete_bay",
+              "seconds": 0.203
+            }
+          }
+        },
+        {
+          "kind": "lane",
+          "expected": "withhold",
+          "actual_state": "needs_clarification",
+          "seconds": 0.187,
+          "method": "explicit_passenger_offlane_region_v1",
+          "actor": "passenger",
+          "reason": "through_lane",
+          "pin": null,
+          "offer_requires_separate_confirmation": false,
+          "journal_replayed": true,
+          "independent_model_proposal": false,
+          "polygon": null,
+          "pin_in_any_reference": false,
+          "pin_in_requested_reference": false,
+          "choices": 0,
+          "grade": "correct_withhold",
+          "earlier_results": {
+            "baseline-ui": {
+              "grade": "correct_withhold",
+              "seconds": 0.14
+            },
+            "release-ui": {
+              "grade": "correct_withhold",
+              "seconds": 0.204
+            },
+            "release-v2": {
+              "grade": "correct_withhold",
+              "seconds": 0.203
+            },
+            "release-fused": {
+              "grade": "correct_withhold",
+              "seconds": 0.188
+            },
+            "release-final-8808": {
+              "grade": "correct_withhold",
+              "seconds": 0.219
+            }
+          }
+        },
+        {
+          "kind": "divider",
+          "expected": "withhold",
+          "actual_state": "needs_clarification",
+          "seconds": 0.188,
+          "method": "explicit_passenger_offlane_region_v1",
+          "actor": "passenger",
+          "reason": "unverified_surface",
+          "pin": null,
+          "offer_requires_separate_confirmation": false,
+          "journal_replayed": true,
+          "independent_model_proposal": false,
+          "polygon": null,
+          "pin_in_any_reference": false,
+          "pin_in_requested_reference": false,
+          "choices": 0,
+          "grade": "correct_withhold",
+          "earlier_results": {
+            "baseline-ui": {
+              "grade": "correct_withhold",
+              "seconds": 0.156
+            },
+            "release-ui": {
+              "grade": "correct_withhold",
+              "seconds": 0.219
+            },
+            "release-v2": {
+              "grade": "correct_withhold",
+              "seconds": 0.219
+            },
+            "release-fused": {
+              "grade": "correct_withhold",
+              "seconds": 0.234
+            },
+            "release-final-8808": {
+              "grade": "correct_withhold",
+              "seconds": 0.188
+            }
+          }
+        }
+      ]
+    },
+    {
+      "case": "W04",
+      "split": "primary",
+      "public_source": "https://kartaview.org/details/7199273/176/",
+      "source_sha256": "53d8ce7e491f3c4fe6e96983eff8c1f15c0f4b26eff6e1dc1f6d860882bf9a0c",
+      "entries": [
+        {
+          "kind": "typed_request",
+          "expected": "withhold",
+          "actual_state": "needs_clarification",
+          "seconds": 5.047,
+          "method": "signed_public_place_empty_surface_v1",
+          "actor": "model",
+          "reason": "no_visible_parking_surface",
+          "pin": null,
+          "offer_requires_separate_confirmation": false,
+          "journal_replayed": true,
+          "independent_model_proposal": false,
+          "polygon": null,
+          "pin_in_any_reference": false,
+          "pin_in_requested_reference": false,
+          "choices": 0,
+          "grade": "correct_withhold",
+          "earlier_results": {
+            "baseline-ui": {
+              "grade": "correct_withhold",
+              "seconds": 5.297
+            },
+            "release-ui": {
+              "grade": "correct_withhold",
+              "seconds": 5.297
+            },
+            "release-v2": {
+              "grade": "correct_withhold",
+              "seconds": 5.344
+            },
+            "release-fused": {
+              "grade": "correct_withhold",
+              "seconds": 5.265
+            },
+            "release-final-8808": {
+              "grade": "correct_withhold",
+              "seconds": 5.234
+            }
+          }
+        },
+        {
+          "kind": "lane",
+          "expected": "withhold",
+          "actual_state": "needs_clarification",
+          "seconds": 0.578,
+          "method": "explicit_passenger_offlane_region_v1",
+          "actor": "passenger",
+          "reason": "through_lane",
+          "pin": null,
+          "offer_requires_separate_confirmation": false,
+          "journal_replayed": true,
+          "independent_model_proposal": false,
+          "polygon": null,
+          "pin_in_any_reference": false,
+          "pin_in_requested_reference": false,
+          "choices": 0,
+          "grade": "correct_withhold",
+          "earlier_results": {
+            "baseline-ui": {
+              "grade": "correct_withhold",
+              "seconds": 0.157
+            },
+            "release-ui": {
+              "grade": "correct_withhold",
+              "seconds": 0.328
+            },
+            "release-v2": {
+              "grade": "correct_withhold",
+              "seconds": 0.484
+            },
+            "release-fused": {
+              "grade": "correct_withhold",
+              "seconds": 0.593
+            },
+            "release-final-8808": {
+              "grade": "correct_withhold",
+              "seconds": 0.578
+            }
+          }
+        },
+        {
+          "kind": "barrier",
+          "expected": "withhold",
+          "actual_state": "needs_clarification",
+          "seconds": 0.187,
+          "method": "explicit_passenger_offlane_region_v1",
+          "actor": "passenger",
+          "reason": "unverified_surface",
+          "pin": null,
+          "offer_requires_separate_confirmation": false,
+          "journal_replayed": true,
+          "independent_model_proposal": false,
+          "polygon": null,
+          "pin_in_any_reference": false,
+          "pin_in_requested_reference": false,
+          "choices": 0,
+          "grade": "correct_withhold",
+          "earlier_results": {
+            "baseline-ui": {
+              "grade": "correct_withhold",
+              "seconds": 0.156
+            },
+            "release-ui": {
+              "grade": "correct_withhold",
+              "seconds": 0.313
+            },
+            "release-v2": {
+              "grade": "correct_withhold",
+              "seconds": 0.203
+            },
+            "release-fused": {
+              "grade": "correct_withhold",
+              "seconds": 0.218
+            },
+            "release-final-8808": {
+              "grade": "correct_withhold",
+              "seconds": 0.234
+            }
+          }
+        },
+        {
+          "kind": "occupied",
+          "expected": "withhold",
+          "actual_state": "needs_clarification",
+          "seconds": 0.219,
+          "method": "explicit_passenger_offlane_region_v1",
+          "actor": "passenger",
+          "reason": "observed_object",
+          "pin": null,
+          "offer_requires_separate_confirmation": false,
+          "journal_replayed": true,
+          "independent_model_proposal": false,
+          "polygon": null,
+          "pin_in_any_reference": false,
+          "pin_in_requested_reference": false,
+          "choices": 0,
+          "grade": "correct_withhold",
+          "earlier_results": {
+            "baseline-ui": {
+              "grade": "correct_withhold",
+              "seconds": 0.14
+            },
+            "release-ui": {
+              "grade": "correct_withhold",
+              "seconds": 0.281
+            },
+            "release-v2": {
+              "grade": "correct_withhold",
+              "seconds": 0.234
+            },
+            "release-fused": {
+              "grade": "correct_withhold",
+              "seconds": 0.203
+            },
+            "release-final-8808": {
+              "grade": "correct_withhold",
+              "seconds": 0.234
+            }
+          }
+        }
+      ]
+    },
+    {
+      "case": "W05",
+      "split": "primary",
+      "public_source": "https://kartaview.org/details/5092153/703/",
+      "source_sha256": "82822b8b140ca1aa39af2772815a3438d5f9ae65b8125c4558027e67877b5ec7",
+      "entries": [
+        {
+          "kind": "typed_request",
+          "expected": "withhold",
+          "actual_state": "needs_clarification",
+          "seconds": 0.266,
+          "method": "signed_public_place_empty_surface_v1",
+          "actor": "model",
+          "reason": "no_visible_parking_surface",
+          "pin": null,
+          "offer_requires_separate_confirmation": false,
+          "journal_replayed": true,
+          "independent_model_proposal": false,
+          "polygon": null,
+          "pin_in_any_reference": false,
+          "pin_in_requested_reference": false,
+          "choices": 0,
+          "grade": "correct_withhold",
+          "earlier_results": {
+            "baseline-ui": {
+              "grade": "correct_withhold",
+              "seconds": 5.281
+            },
+            "release-ui": {
+              "grade": "correct_withhold",
+              "seconds": 0.297
+            },
+            "release-v2": {
+              "grade": "correct_withhold",
+              "seconds": 5.297
+            },
+            "release-fused": {
+              "grade": "correct_withhold",
+              "seconds": 0.297
+            },
+            "release-final-8808": {
+              "grade": "correct_withhold",
+              "seconds": 0.281
+            }
+          }
+        },
+        {
+          "kind": "lane",
+          "expected": "withhold",
+          "actual_state": "needs_clarification",
+          "seconds": 0.547,
+          "method": "explicit_passenger_offlane_region_v1",
+          "actor": "passenger",
+          "reason": "through_lane",
+          "pin": null,
+          "offer_requires_separate_confirmation": false,
+          "journal_replayed": true,
+          "independent_model_proposal": false,
+          "polygon": null,
+          "pin_in_any_reference": false,
+          "pin_in_requested_reference": false,
+          "choices": 0,
+          "grade": "correct_withhold",
+          "earlier_results": {
+            "baseline-ui": {
+              "grade": "correct_withhold",
+              "seconds": 0.157
+            },
+            "release-ui": {
+              "grade": "correct_withhold",
+              "seconds": 0.281
+            },
+            "release-v2": {
+              "grade": "correct_withhold",
+              "seconds": 0.406
+            },
+            "release-fused": {
+              "grade": "correct_withhold",
+              "seconds": 0.578
+            },
+            "release-final-8808": {
+              "grade": "correct_withhold",
+              "seconds": 0.594
+            }
+          }
+        },
+        {
+          "kind": "white_gore_stripe",
+          "expected": "withhold",
+          "actual_state": "needs_clarification",
+          "seconds": 0.156,
+          "method": "explicit_passenger_offlane_region_v1",
+          "actor": "passenger",
+          "reason": "unverified_surface",
+          "pin": null,
+          "offer_requires_separate_confirmation": false,
+          "journal_replayed": true,
+          "independent_model_proposal": false,
+          "polygon": null,
+          "pin_in_any_reference": false,
+          "pin_in_requested_reference": false,
+          "choices": 0,
+          "grade": "correct_withhold",
+          "earlier_results": {
+            "baseline-ui": {
+              "grade": "correct_withhold",
+              "seconds": 0.125
+            },
+            "release-ui": {
+              "grade": "correct_withhold",
+              "seconds": 0.266
+            },
+            "release-v2": {
+              "grade": "correct_withhold",
+              "seconds": 0.187
+            },
+            "release-fused": {
+              "grade": "correct_withhold",
+              "seconds": 0.219
+            },
+            "release-final-8808": {
+              "grade": "correct_withhold",
+              "seconds": 0.171
+            }
+          }
+        },
+        {
+          "kind": "yellow_curve",
+          "expected": "withhold",
+          "actual_state": "needs_clarification",
+          "seconds": 0.218,
+          "method": "explicit_passenger_offlane_region_v1",
+          "actor": "passenger",
+          "reason": "unverified_surface",
+          "pin": null,
+          "offer_requires_separate_confirmation": false,
+          "journal_replayed": true,
+          "independent_model_proposal": false,
+          "polygon": null,
+          "pin_in_any_reference": false,
+          "pin_in_requested_reference": false,
+          "choices": 0,
+          "grade": "correct_withhold",
+          "earlier_results": {
+            "baseline-ui": {
+              "grade": "correct_withhold",
+              "seconds": 0.14
+            },
+            "release-ui": {
+              "grade": "correct_withhold",
+              "seconds": 0.234
+            },
+            "release-v2": {
+              "grade": "correct_withhold",
+              "seconds": 0.203
+            },
+            "release-fused": {
+              "grade": "correct_withhold",
+              "seconds": 0.343
+            },
+            "release-final-8808": {
+              "grade": "correct_withhold",
+              "seconds": 0.187
+            }
+          }
+        }
+      ]
+    },
+    {
+      "case": "W06",
+      "split": "primary",
+      "public_source": "https://kartaview.org/details/7343369/95/",
+      "source_sha256": "57fe9aef1fc88a095ea2b011467ad575499e44feedbbd8a5e5ca309c2e5c3128",
+      "entries": [
+        {
+          "kind": "typed_request",
+          "expected": "withhold",
+          "actual_state": "needs_clarification",
+          "seconds": 0.297,
+          "method": "signed_public_place_empty_surface_v1",
+          "actor": "model",
+          "reason": "no_visible_parking_surface",
+          "pin": null,
+          "offer_requires_separate_confirmation": false,
+          "journal_replayed": true,
+          "independent_model_proposal": false,
+          "polygon": null,
+          "pin_in_any_reference": false,
+          "pin_in_requested_reference": false,
+          "choices": 0,
+          "grade": "correct_withhold",
+          "earlier_results": {
+            "baseline-ui": {
+              "grade": "correct_withhold",
+              "seconds": 0.297
+            },
+            "release-ui": {
+              "grade": "correct_withhold",
+              "seconds": 0.282
+            },
+            "release-v2": {
+              "grade": "correct_withhold",
+              "seconds": 0.297
+            },
+            "release-fused": {
+              "grade": "correct_withhold",
+              "seconds": 0.266
+            },
+            "release-final-8808": {
+              "grade": "correct_withhold",
+              "seconds": 0.297
+            }
+          }
+        },
+        {
+          "kind": "lane",
+          "expected": "withhold",
+          "actual_state": "needs_clarification",
+          "seconds": 0.672,
+          "method": "explicit_passenger_offlane_region_v1",
+          "actor": "passenger",
+          "reason": "through_lane",
+          "pin": null,
+          "offer_requires_separate_confirmation": false,
+          "journal_replayed": true,
+          "independent_model_proposal": false,
+          "polygon": null,
+          "pin_in_any_reference": false,
+          "pin_in_requested_reference": false,
+          "choices": 0,
+          "grade": "correct_withhold",
+          "earlier_results": {
+            "baseline-ui": {
+              "grade": "correct_withhold",
+              "seconds": 0.157
+            },
+            "release-ui": {
+              "grade": "correct_withhold",
+              "seconds": 0.313
+            },
+            "release-v2": {
+              "grade": "correct_withhold",
+              "seconds": 0.453
+            },
+            "release-fused": {
+              "grade": "correct_withhold",
+              "seconds": 0.703
+            },
+            "release-final-8808": {
+              "grade": "correct_withhold",
+              "seconds": 0.625
+            }
+          }
+        },
+        {
+          "kind": "dashed_lane_stripe",
+          "expected": "withhold",
+          "actual_state": "needs_clarification",
+          "seconds": 0.187,
+          "method": "explicit_passenger_offlane_region_v1",
+          "actor": "passenger",
+          "reason": "unverified_surface",
+          "pin": null,
+          "offer_requires_separate_confirmation": false,
+          "journal_replayed": true,
+          "independent_model_proposal": false,
+          "polygon": null,
+          "pin_in_any_reference": false,
+          "pin_in_requested_reference": false,
+          "choices": 0,
+          "grade": "correct_withhold",
+          "earlier_results": {
+            "baseline-ui": {
+              "grade": "correct_withhold",
+              "seconds": 0.125
+            },
+            "release-ui": {
+              "grade": "correct_withhold",
+              "seconds": 0.281
+            },
+            "release-v2": {
+              "grade": "correct_withhold",
+              "seconds": 0.265
+            },
+            "release-fused": {
+              "grade": "correct_withhold",
+              "seconds": 0.328
+            },
+            "release-final-8808": {
+              "grade": "correct_withhold",
+              "seconds": 0.219
+            }
+          }
+        },
+        {
+          "kind": "barrier",
+          "expected": "withhold",
+          "actual_state": "needs_clarification",
+          "seconds": 0.203,
+          "method": "explicit_passenger_offlane_region_v1",
+          "actor": "passenger",
+          "reason": "unverified_surface",
+          "pin": null,
+          "offer_requires_separate_confirmation": false,
+          "journal_replayed": true,
+          "independent_model_proposal": false,
+          "polygon": null,
+          "pin_in_any_reference": false,
+          "pin_in_requested_reference": false,
+          "choices": 0,
+          "grade": "correct_withhold",
+          "earlier_results": {
+            "baseline-ui": {
+              "grade": "correct_withhold",
+              "seconds": 0.156
+            },
+            "release-ui": {
+              "grade": "correct_withhold",
+              "seconds": 0.5
+            },
+            "release-v2": {
+              "grade": "correct_withhold",
+              "seconds": 0.219
+            },
+            "release-fused": {
+              "grade": "correct_withhold",
+              "seconds": 0.297
+            },
+            "release-final-8808": {
+              "grade": "correct_withhold",
+              "seconds": 0.265
+            }
+          }
+        }
+      ]
+    },
+    {
+      "case": "W07",
+      "split": "supplemental",
+      "public_source": "https://kartaview.org/details/5546153/445/",
+      "source_sha256": "df4b13c0f17548cf0a1911efdbe0f94b00c1299c97a07a6c3783beab3ce2b416",
+      "entries": [
+        {
+          "kind": "typed_request",
+          "expected": "whole_bay",
+          "actual_state": "needs_clarification",
+          "seconds": 0.438,
+          "method": "public_painted_bay_landmark_v1",
+          "actor": "model",
+          "reason": "unverified_bay_reference",
+          "pin": null,
+          "offer_requires_separate_confirmation": false,
+          "journal_replayed": true,
+          "independent_model_proposal": false,
+          "polygon": null,
+          "pin_in_any_reference": false,
+          "pin_in_requested_reference": false,
+          "choices": 1,
+          "displayed_choices": [
+            {
+              "id": "bay-1",
+              "polygon": [
+                [
+                  3067.733,
+                  2014.862
+                ],
+                [
+                  3332.267,
+                  1720.316
+                ],
+                [
+                  3835.733,
+                  1771.542
+                ],
+                [
+                  3835.733,
+                  2108.775
+                ]
+              ],
+              "center": [
+                3515.193,
+                1915.262
+              ]
+            }
+          ],
+          "choices_overlapping_the_requested_bays": 0,
+          "grade": "missed_bay",
+          "earlier_results": {
+            "baseline-ui": {
+              "grade": "missed_bay",
+              "seconds": 4.266
+            },
+            "release-ui": {
+              "grade": "missed_bay",
+              "seconds": 0.5
+            },
+            "release-v2": {
+              "grade": "missed_bay",
+              "seconds": 0.453
+            },
+            "release-fused": {
+              "grade": "missed_bay",
+              "seconds": 0.484
+            },
+            "release-final-8808": {
+              "grade": "missed_bay",
+              "seconds": 0.422
+            }
+          }
+        },
+        {
+          "kind": "inside",
+          "expected": "A",
+          "actual_state": "proposed",
+          "seconds": 0.203,
+          "method": "explicit_passenger_offlane_region_v1",
+          "actor": "passenger",
+          "reason": "parking",
+          "pin": [
+            2794.0,
+            1831.0
+          ],
+          "offer_requires_separate_confirmation": true,
+          "journal_replayed": true,
+          "independent_model_proposal": false,
+          "distance_from_tap_native_px": 0.0,
+          "polygon": null,
+          "pin_in_any_reference": true,
+          "pin_in_requested_reference": true,
+          "choices": 0,
+          "grade": "correct_point_incomplete_bay",
+          "earlier_results": {
+            "baseline-ui": {
+              "grade": "correct_point_incomplete_bay",
+              "seconds": 0.157
+            },
+            "release-ui": {
+              "grade": "correct_point_incomplete_bay",
+              "seconds": 0.578
+            },
+            "release-v2": {
+              "grade": "correct_point_incomplete_bay",
+              "seconds": 0.578
+            },
+            "release-fused": {
+              "grade": "correct_point_incomplete_bay",
+              "seconds": 1.328
+            },
+            "release-final-8808": {
+              "grade": "correct_point_incomplete_bay",
+              "seconds": 1.047
+            }
+          }
+        },
+        {
+          "kind": "occupied_adjacent_line",
+          "expected": "A",
+          "actual_state": "needs_clarification",
+          "seconds": 0.203,
+          "method": "explicit_passenger_offlane_region_v1",
+          "actor": "passenger",
+          "reason": "mixed_area",
+          "pin": null,
+          "offer_requires_separate_confirmation": false,
+          "journal_replayed": true,
+          "independent_model_proposal": false,
+          "polygon": null,
+          "pin_in_any_reference": false,
+          "pin_in_requested_reference": false,
+          "choices": 0,
+          "grade": "missed_bay",
+          "earlier_results": {
+            "baseline-ui": {
+              "grade": "missed_bay",
+              "seconds": 0.156
+            },
+            "release-ui": {
+              "grade": "missed_bay",
+              "seconds": 0.25
+            },
+            "release-v2": {
+              "grade": "missed_bay",
+              "seconds": 0.234
+            },
+            "release-fused": {
+              "grade": "missed_bay",
+              "seconds": 0.281
+            },
+            "release-final-8808": {
+              "grade": "missed_bay",
+              "seconds": 0.187
+            }
+          }
+        },
+        {
+          "kind": "lane",
+          "expected": "withhold",
+          "actual_state": "needs_clarification",
+          "seconds": 0.172,
+          "method": "explicit_passenger_offlane_region_v1",
+          "actor": "passenger",
+          "reason": "through_lane",
+          "pin": null,
+          "offer_requires_separate_confirmation": false,
+          "journal_replayed": true,
+          "independent_model_proposal": false,
+          "polygon": null,
+          "pin_in_any_reference": false,
+          "pin_in_requested_reference": false,
+          "choices": 0,
+          "grade": "correct_withhold",
+          "earlier_results": {
+            "baseline-ui": {
+              "grade": "correct_withhold",
+              "seconds": 0.141
+            },
+            "release-ui": {
+              "grade": "correct_withhold",
+              "seconds": 0.219
+            },
+            "release-v2": {
+              "grade": "correct_withhold",
+              "seconds": 0.235
+            },
+            "release-fused": {
+              "grade": "correct_withhold",
+              "seconds": 0.235
+            },
+            "release-final-8808": {
+              "grade": "correct_withhold",
+              "seconds": 0.234
+            }
+          }
+        },
+        {
+          "kind": "occupied",
+          "expected": "withhold",
+          "actual_state": "needs_clarification",
+          "seconds": 0.219,
+          "method": "explicit_passenger_offlane_region_v1",
+          "actor": "passenger",
+          "reason": "observed_object",
+          "pin": null,
+          "offer_requires_separate_confirmation": false,
+          "journal_replayed": true,
+          "independent_model_proposal": false,
+          "polygon": null,
+          "pin_in_any_reference": false,
+          "pin_in_requested_reference": false,
+          "choices": 0,
+          "grade": "correct_withhold",
+          "earlier_results": {
+            "baseline-ui": {
+              "grade": "correct_withhold",
+              "seconds": 0.141
+            },
+            "release-ui": {
+              "grade": "correct_withhold",
+              "seconds": 0.36
+            },
+            "release-v2": {
+              "grade": "correct_withhold",
+              "seconds": 0.203
+            },
+            "release-fused": {
+              "grade": "correct_withhold",
+              "seconds": 0.203
+            },
+            "release-final-8808": {
+              "grade": "correct_withhold",
+              "seconds": 0.234
+            }
+          }
+        }
+      ]
+    },
+    {
+      "case": "W08",
+      "split": "supplemental",
+      "public_source": "https://kartaview.org/details/5236457/540/",
+      "source_sha256": "c7dac6799cf84dd6ba0f3a709205f23f481a336ae97547c60206a2ffc722e3ec",
+      "entries": [
+        {
+          "kind": "typed_request",
+          "expected": "whole_bay",
+          "actual_state": "needs_clarification",
+          "seconds": 0.281,
+          "method": "public_painted_bay_landmark_v1",
+          "actor": "model",
+          "reason": "no_visible_bay_for_instruction",
+          "pin": null,
+          "offer_requires_separate_confirmation": false,
+          "journal_replayed": true,
+          "independent_model_proposal": false,
+          "polygon": null,
+          "pin_in_any_reference": false,
+          "pin_in_requested_reference": false,
+          "choices": 0,
+          "grade": "missed_bay",
+          "earlier_results": {
+            "baseline-ui": {
+              "grade": "missed_bay",
+              "seconds": 0.296
+            },
+            "release-ui": {
+              "grade": "missed_bay",
+              "seconds": 5.297
+            },
+            "release-v2": {
+              "grade": "missed_bay",
+              "seconds": 0.282
+            },
+            "release-fused": {
+              "grade": "missed_bay",
+              "seconds": 0.296
+            },
+            "release-final-8808": {
+              "grade": "missed_bay",
+              "seconds": 0.281
+            }
+          }
+        },
+        {
+          "kind": "inside",
+          "expected": "A",
+          "actual_state": "needs_clarification",
+          "seconds": 0.625,
+          "method": "explicit_passenger_offlane_region_v1",
+          "actor": "passenger",
+          "reason": "unverified_surface",
+          "pin": null,
+          "offer_requires_separate_confirmation": false,
+          "journal_replayed": true,
+          "independent_model_proposal": false,
+          "polygon": null,
+          "pin_in_any_reference": false,
+          "pin_in_requested_reference": false,
+          "choices": 0,
+          "grade": "missed_bay",
+          "earlier_results": {
+            "baseline-ui": {
+              "grade": "missed_bay",
+              "seconds": 0.125
+            },
+            "release-ui": {
+              "grade": "missed_bay",
+              "seconds": 0.265
+            },
+            "release-v2": {
+              "grade": "missed_bay",
+              "seconds": 0.422
+            },
+            "release-fused": {
+              "grade": "missed_bay",
+              "seconds": 0.578
+            },
+            "release-final-8808": {
+              "grade": "missed_bay",
+              "seconds": 0.547
+            }
+          }
+        },
+        {
+          "kind": "shared_line",
+          "expected": "A/B",
+          "actual_state": "needs_clarification",
+          "seconds": 0.25,
+          "method": "explicit_passenger_offlane_region_v1",
+          "actor": "passenger",
+          "reason": "unverified_surface",
+          "pin": null,
+          "offer_requires_separate_confirmation": false,
+          "journal_replayed": true,
+          "independent_model_proposal": false,
+          "polygon": null,
+          "pin_in_any_reference": false,
+          "pin_in_requested_reference": false,
+          "choices": 0,
+          "choice_matches": [],
+          "clarification": "I can\u2019t verify an off-lane parking area at that point. Could you mark a different visible bay?",
+          "grade": "no_specific_two_bay_choice",
+          "earlier_results": {
+            "baseline-ui": {
+              "grade": "no_specific_two_bay_choice",
+              "seconds": 0.14
+            },
+            "release-ui": {
+              "grade": "no_specific_two_bay_choice",
+              "seconds": 0.234
+            },
+            "release-v2": {
+              "grade": "no_specific_two_bay_choice",
+              "seconds": 0.203
+            },
+            "release-fused": {
+              "grade": "no_specific_two_bay_choice",
+              "seconds": 0.203
+            },
+            "release-final-8808": {
+              "grade": "no_specific_two_bay_choice",
+              "seconds": 0.188
+            }
+          }
+        },
+        {
+          "kind": "mouth_edge",
+          "expected": "A",
+          "actual_state": "needs_clarification",
+          "seconds": 0.265,
+          "method": "explicit_passenger_offlane_region_v1",
+          "actor": "passenger",
+          "reason": "unverified_surface",
+          "pin": null,
+          "offer_requires_separate_confirmation": false,
+          "journal_replayed": true,
+          "independent_model_proposal": false,
+          "polygon": null,
+          "pin_in_any_reference": false,
+          "pin_in_requested_reference": false,
+          "choices": 0,
+          "grade": "missed_bay",
+          "earlier_results": {
+            "baseline-ui": {
+              "grade": "missed_bay",
+              "seconds": 0.14
+            },
+            "release-ui": {
+              "grade": "missed_bay",
+              "seconds": 0.234
+            },
+            "release-v2": {
+              "grade": "missed_bay",
+              "seconds": 0.203
+            },
+            "release-fused": {
+              "grade": "missed_bay",
+              "seconds": 0.235
+            },
+            "release-final-8808": {
+              "grade": "missed_bay",
+              "seconds": 0.188
+            }
+          }
+        },
+        {
+          "kind": "lane",
+          "expected": "withhold",
+          "actual_state": "needs_clarification",
+          "seconds": 0.235,
+          "method": "explicit_passenger_offlane_region_v1",
+          "actor": "passenger",
+          "reason": "through_lane",
+          "pin": null,
+          "offer_requires_separate_confirmation": false,
+          "journal_replayed": true,
+          "independent_model_proposal": false,
+          "polygon": null,
+          "pin_in_any_reference": false,
+          "pin_in_requested_reference": false,
+          "choices": 0,
+          "grade": "correct_withhold",
+          "earlier_results": {
+            "baseline-ui": {
+              "grade": "correct_withhold",
+              "seconds": 0.141
+            },
+            "release-ui": {
+              "grade": "correct_withhold",
+              "seconds": 0.344
+            },
+            "release-v2": {
+              "grade": "correct_withhold",
+              "seconds": 0.171
+            },
+            "release-fused": {
+              "grade": "correct_withhold",
+              "seconds": 0.203
+            },
+            "release-final-8808": {
+              "grade": "correct_withhold",
+              "seconds": 0.203
+            }
+          }
+        }
+      ]
+    },
+    {
+      "case": "W09",
+      "split": "supplemental",
+      "public_source": "https://kartaview.org/details/5053449/2/",
+      "source_sha256": "e8de171dafb0a692e499ea75275ca9662171324da732d6cc291fcf941cb250d2",
+      "entries": [
+        {
+          "kind": "typed_request",
+          "expected": "withhold",
+          "actual_state": "needs_clarification",
+          "seconds": 0.297,
+          "method": "signed_public_place_empty_surface_v1",
+          "actor": "model",
+          "reason": "no_visible_parking_surface",
+          "pin": null,
+          "offer_requires_separate_confirmation": false,
+          "journal_replayed": true,
+          "independent_model_proposal": false,
+          "polygon": null,
+          "pin_in_any_reference": false,
+          "pin_in_requested_reference": false,
+          "choices": 0,
+          "grade": "correct_withhold",
+          "earlier_results": {
+            "baseline-ui": {
+              "grade": "correct_withhold",
+              "seconds": 0.297
+            },
+            "release-ui": {
+              "grade": "correct_withhold",
+              "seconds": 5.312
+            },
+            "release-v2": {
+              "grade": "correct_withhold",
+              "seconds": 0.281
+            },
+            "release-fused": {
+              "grade": "correct_withhold",
+              "seconds": 0.281
+            },
+            "release-final-8808": {
+              "grade": "correct_withhold",
+              "seconds": 0.281
+            }
+          }
+        },
+        {
+          "kind": "lane",
+          "expected": "withhold",
+          "actual_state": "needs_clarification",
+          "seconds": 0.594,
+          "method": "explicit_passenger_offlane_region_v1",
+          "actor": "passenger",
+          "reason": "through_lane",
+          "pin": null,
+          "offer_requires_separate_confirmation": false,
+          "journal_replayed": true,
+          "independent_model_proposal": false,
+          "polygon": null,
+          "pin_in_any_reference": false,
+          "pin_in_requested_reference": false,
+          "choices": 0,
+          "grade": "correct_withhold",
+          "earlier_results": {
+            "baseline-ui": {
+              "grade": "correct_withhold",
+              "seconds": 0.14
+            },
+            "release-ui": {
+              "grade": "correct_withhold",
+              "seconds": 0.218
+            },
+            "release-v2": {
+              "grade": "correct_withhold",
+              "seconds": 0.391
+            },
+            "release-fused": {
+              "grade": "correct_withhold",
+              "seconds": 0.609
+            },
+            "release-final-8808": {
+              "grade": "correct_withhold",
+              "seconds": 0.562
+            }
+          }
+        },
+        {
+          "kind": "zebra_stripe",
+          "expected": "withhold",
+          "actual_state": "needs_clarification",
+          "seconds": 0.219,
+          "method": "explicit_passenger_offlane_region_v1",
+          "actor": "passenger",
+          "reason": "unverified_surface",
+          "pin": null,
+          "offer_requires_separate_confirmation": false,
+          "journal_replayed": true,
+          "independent_model_proposal": false,
+          "polygon": null,
+          "pin_in_any_reference": false,
+          "pin_in_requested_reference": false,
+          "choices": 0,
+          "grade": "correct_withhold",
+          "earlier_results": {
+            "baseline-ui": {
+              "grade": "correct_withhold",
+              "seconds": 0.109
+            },
+            "release-ui": {
+              "grade": "correct_withhold",
+              "seconds": 0.25
+            },
+            "release-v2": {
+              "grade": "correct_withhold",
+              "seconds": 0.172
+            },
+            "release-fused": {
+              "grade": "correct_withhold",
+              "seconds": 0.172
+            },
+            "release-final-8808": {
+              "grade": "correct_withhold",
+              "seconds": 0.156
+            }
+          }
+        },
+        {
+          "kind": "lane_arrow",
+          "expected": "withhold",
+          "actual_state": "needs_clarification",
+          "seconds": 0.203,
+          "method": "explicit_passenger_offlane_region_v1",
+          "actor": "passenger",
+          "reason": "unverified_surface",
+          "pin": null,
+          "offer_requires_separate_confirmation": false,
+          "journal_replayed": true,
+          "independent_model_proposal": false,
+          "polygon": null,
+          "pin_in_any_reference": false,
+          "pin_in_requested_reference": false,
+          "choices": 0,
+          "grade": "correct_withhold",
+          "earlier_results": {
+            "baseline-ui": {
+              "grade": "correct_withhold",
+              "seconds": 0.141
+            },
+            "release-ui": {
+              "grade": "correct_withhold",
+              "seconds": 0.265
+            },
+            "release-v2": {
+              "grade": "correct_withhold",
+              "seconds": 0.172
+            },
+            "release-fused": {
+              "grade": "correct_withhold",
+              "seconds": 0.188
+            },
+            "release-final-8808": {
+              "grade": "correct_withhold",
+              "seconds": 0.187
+            }
+          }
+        }
+      ]
+    },
+    {
+      "case": "W10",
+      "split": "supplemental",
+      "public_source": "https://kartaview.org/details/6267977/1221/",
+      "source_sha256": "a2f0e3c9a1649193592e0cea6d3107df01599bb7d0aefa5b19a76cc46bff4e55",
+      "entries": [
+        {
+          "kind": "typed_request",
+          "expected": "withhold",
+          "actual_state": "error",
+          "seconds": 15.078,
+          "method": "passenger_interactive_deadline",
+          "operational_error": "timeout",
+          "pin": null,
+          "offer_requires_separate_confirmation": false,
+          "journal_replayed": true,
+          "independent_model_proposal": false,
+          "polygon": null,
+          "pin_in_any_reference": false,
+          "pin_in_requested_reference": false,
+          "choices": 0,
+          "grade": "operational_error",
+          "earlier_results": {
+            "baseline-ui": {
+              "grade": "operational_error",
+              "seconds": 15.141
+            },
+            "release-ui": {
+              "grade": "operational_error",
+              "seconds": 15.094
+            },
+            "release-v2": {
+              "grade": "operational_error",
+              "seconds": 15.109
+            },
+            "release-fused": {
+              "grade": "operational_error",
+              "seconds": 15.093
+            },
+            "release-final-8808": {
+              "grade": "operational_error",
+              "seconds": 15.078
+            }
+          }
+        },
+        {
+          "kind": "lane",
+          "expected": "withhold",
+          "actual_state": "needs_clarification",
+          "seconds": 0.687,
+          "method": "explicit_passenger_offlane_region_v1",
+          "actor": "passenger",
+          "reason": "through_lane",
+          "pin": null,
+          "offer_requires_separate_confirmation": false,
+          "journal_replayed": true,
+          "independent_model_proposal": false,
+          "polygon": null,
+          "pin_in_any_reference": false,
+          "pin_in_requested_reference": false,
+          "choices": 0,
+          "grade": "correct_withhold",
+          "earlier_results": {
+            "baseline-ui": {
+              "grade": "correct_withhold",
+              "seconds": 0.141
+            },
+            "release-ui": {
+              "grade": "correct_withhold",
+              "seconds": 0.453
+            },
+            "release-v2": {
+              "grade": "correct_withhold",
+              "seconds": 0.438
+            },
+            "release-fused": {
+              "grade": "correct_withhold",
+              "seconds": 0.609
+            },
+            "release-final-8808": {
+              "grade": "correct_withhold",
+              "seconds": 0.657
+            }
+          }
+        },
+        {
+          "kind": "dashed_lane_stripe",
+          "expected": "withhold",
+          "actual_state": "needs_clarification",
+          "seconds": 0.234,
+          "method": "explicit_passenger_offlane_region_v1",
+          "actor": "passenger",
+          "reason": "unverified_surface",
+          "pin": null,
+          "offer_requires_separate_confirmation": false,
+          "journal_replayed": true,
+          "independent_model_proposal": false,
+          "polygon": null,
+          "pin_in_any_reference": false,
+          "pin_in_requested_reference": false,
+          "choices": 0,
+          "grade": "correct_withhold",
+          "earlier_results": {
+            "baseline-ui": {
+              "grade": "correct_withhold",
+              "seconds": 0.157
+            },
+            "release-ui": {
+              "grade": "correct_withhold",
+              "seconds": 0.235
+            },
+            "release-v2": {
+              "grade": "correct_withhold",
+              "seconds": 0.187
+            },
+            "release-fused": {
+              "grade": "correct_withhold",
+              "seconds": 0.234
+            },
+            "release-final-8808": {
+              "grade": "correct_withhold",
+              "seconds": 0.25
+            }
+          }
+        },
+        {
+          "kind": "occupied",
+          "expected": "withhold",
+          "actual_state": "needs_clarification",
+          "seconds": 0.219,
+          "method": "explicit_passenger_offlane_region_v1",
+          "actor": "passenger",
+          "reason": "observed_object",
+          "pin": null,
+          "offer_requires_separate_confirmation": false,
+          "journal_replayed": true,
+          "independent_model_proposal": false,
+          "polygon": null,
+          "pin_in_any_reference": false,
+          "pin_in_requested_reference": false,
+          "choices": 0,
+          "grade": "correct_withhold",
+          "earlier_results": {
+            "baseline-ui": {
+              "grade": "correct_withhold",
+              "seconds": 0.172
+            },
+            "release-ui": {
+              "grade": "correct_withhold",
+              "seconds": 0.312
+            },
+            "release-v2": {
+              "grade": "correct_withhold",
+              "seconds": 0.203
+            },
+            "release-fused": {
+              "grade": "correct_withhold",
+              "seconds": 0.234
+            },
+            "release-final-8808": {
+              "grade": "correct_withhold",
+              "seconds": 0.235
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "fused_8805_first_turn_diagnosis": {
+    "scope": "Replayed the first-turn routing and signed region candidates for each input on the 8805 version, distinguishing failure to form any matching region from failure to select one. Only the positive cases are listed.",
+    "rows": [
+      {
+        "case": "W01",
+        "candidate_count": 2,
+        "correct_candidates": 0,
+        "candidate_ious": [
+          0.1851,
+          0.2785
+        ],
+        "place_reference_recognized": true,
+        "matching_caption_bands": 0,
+        "whole_bay_language_matches": 0,
+        "normal_fallback_method": "trained_qwen_place_with_parking_surface_v3",
+        "normal_fallback_reason": "location_blocked"
+      },
+      {
+        "case": "W02",
+        "candidate_count": 0,
+        "correct_candidates": 0,
+        "candidate_ious": [],
+        "place_reference_recognized": false,
+        "matching_caption_bands": 0,
+        "whole_bay_language_matches": 0,
+        "normal_fallback_method": "passenger_interactive_deadline",
+        "normal_fallback_reason": "timeout"
+      },
+      {
+        "case": "W03",
+        "candidate_count": 2,
+        "correct_candidates": 1,
+        "candidate_ious": [
+          0.0,
+          0.7386
+        ],
+        "place_reference_recognized": false,
+        "matching_caption_bands": 0,
+        "whole_bay_language_matches": 0,
+        "normal_fallback_method": "passenger_interactive_deadline",
+        "normal_fallback_reason": "timeout"
+      },
+      {
+        "case": "W07",
+        "candidate_count": 2,
+        "correct_candidates": 0,
+        "candidate_ious": [
+          0.0,
+          0.0
+        ],
+        "place_reference_recognized": true,
+        "matching_caption_bands": 0,
+        "whole_bay_language_matches": 0,
+        "normal_fallback_method": "single_vehicle_behind_parking_v1",
+        "normal_fallback_reason": "side_unsupported"
+      },
+      {
+        "case": "W08",
+        "candidate_count": 0,
+        "correct_candidates": 0,
+        "candidate_ious": [],
+        "place_reference_recognized": true,
+        "matching_caption_bands": 0,
+        "whole_bay_language_matches": 0,
+        "normal_fallback_method": "signed_public_place_empty_surface_v1",
+        "normal_fallback_reason": "no_visible_parking_surface"
+      }
+    ]
+  },
+  "prospective": {
+    "plan": "passenger-whole-bay-prospective-plan-20261123.json",
+    "pre_run_image_only_coordinate_correction": "passenger-whole-bay-prospective-amendment-20261123.json",
+    "final_seal_sha256": "6237957a6ad68405ebc234ea88fd2f4f8d720b96a5d3ebe1f2942198b9f9f238",
+    "scope": "Five additional existing public UAE photographs, each from a different drive that did not appear among the first ten or the new user-supplied curbside drive. The model bank already had automatically prepared signed evidence for every photo. For this cohort the independent judge selected the photos and traced visible areas on the originals without consulting their model predictions or whole-bay annotations. These are newly labelled task cases inside a known photo bank, not five never-processed images.",
+    "counts": {
+      "prospective_automatic": {
+        "n": 5,
+        "grades": {
+          "missed_bay": 2,
+          "operational_error": 1,
+          "correct_withhold": 2
+        },
+        "success": 2,
+        "median_seconds": 0.687,
+        "max_seconds": 15.188
+      },
+      "prospective_manual": {
+        "n": 12,
+        "grades": {
+          "missed_bay": 1,
+          "correct_withhold": 8,
+          "no_specific_two_bay_choice": 1,
+          "correct_point_incomplete_bay": 2
+        },
+        "success": 8,
+        "median_seconds": 0.235,
+        "max_seconds": 0.906
+      },
+      "all_automatic": {
+        "n": 5,
+        "grades": {
+          "missed_bay": 2,
+          "operational_error": 1,
+          "correct_withhold": 2
+        },
+        "success": 2,
+        "median_seconds": 0.687,
+        "max_seconds": 15.188
+      },
+      "all_manual": {
+        "n": 12,
+        "grades": {
+          "missed_bay": 1,
+          "correct_withhold": 8,
+          "no_specific_two_bay_choice": 1,
+          "correct_point_incomplete_bay": 2
+        },
+        "success": 8,
+        "median_seconds": 0.235,
+        "max_seconds": 0.906
+      }
+    },
+    "per_photo": [
+      {
+        "case": "P01",
+        "source": "https://kartaview.org/details/5231529/132/",
+        "source_sha256": "78e265faad2f94bbfe80c56cb7f4b33723340268cfb9a4f5829145f69ee06c3a",
+        "entries": [
+          {
+            "kind": "typed_request",
+            "expected": "whole_bay",
+            "actual_state": "needs_clarification",
+            "seconds": 5.187,
+            "method": "signed_public_place_empty_surface_v1",
+            "actor": "model",
+            "reason": "no_visible_parking_surface",
+            "pin": null,
+            "offer_requires_separate_confirmation": false,
+            "journal_replayed": true,
+            "independent_model_proposal": false,
+            "polygon": null,
+            "pin_in_any_reference": false,
+            "pin_in_requested_reference": false,
+            "choices": 0,
+            "grade": "missed_bay"
+          },
+          {
+            "kind": "inside",
+            "expected": "A",
+            "actual_state": "needs_clarification",
+            "seconds": 0.844,
+            "method": "explicit_passenger_offlane_region_v1",
+            "actor": "passenger",
+            "reason": "through_lane",
+            "pin": null,
+            "offer_requires_separate_confirmation": false,
+            "journal_replayed": true,
+            "independent_model_proposal": false,
+            "polygon": null,
+            "pin_in_any_reference": false,
+            "pin_in_requested_reference": false,
+            "choices": 0,
+            "grade": "missed_bay"
+          },
+          {
+            "kind": "aisle",
+            "expected": "withhold",
+            "actual_state": "needs_clarification",
+            "seconds": 0.235,
+            "method": "explicit_passenger_offlane_region_v1",
+            "actor": "passenger",
+            "reason": "through_lane",
+            "pin": null,
+            "offer_requires_separate_confirmation": false,
+            "journal_replayed": true,
+            "independent_model_proposal": false,
+            "polygon": null,
+            "pin_in_any_reference": false,
+            "pin_in_requested_reference": false,
+            "choices": 0,
+            "grade": "correct_withhold"
+          },
+          {
+            "kind": "shared_line",
+            "expected": "A/B",
+            "actual_state": "needs_clarification",
+            "seconds": 0.235,
+            "method": "explicit_passenger_offlane_region_v1",
+            "actor": "passenger",
+            "reason": "through_lane",
+            "pin": null,
+            "offer_requires_separate_confirmation": false,
+            "journal_replayed": true,
+            "independent_model_proposal": false,
+            "polygon": null,
+            "pin_in_any_reference": false,
+            "pin_in_requested_reference": false,
+            "choices": 0,
+            "choice_matches": [],
+            "clarification": "That point appears to be in a traffic lane. Could you mark a visible parking bay instead?",
+            "grade": "no_specific_two_bay_choice"
+          }
+        ]
+      },
+      {
+        "case": "P02",
+        "source": "https://kartaview.org/details/3336817/14/",
+        "source_sha256": "e42cb766f40a42ac9ccd31bb27d446371bf7972f721883fb64c315713baa5f6f",
+        "entries": [
+          {
+            "kind": "typed_request",
+            "expected": "whole_bay",
+            "actual_state": "needs_clarification",
+            "seconds": 0.265,
+            "method": "public_painted_bay_landmark_v1",
+            "actor": "model",
+            "reason": "no_visible_bay_for_instruction",
+            "pin": null,
+            "offer_requires_separate_confirmation": false,
+            "journal_replayed": true,
+            "independent_model_proposal": false,
+            "polygon": null,
+            "pin_in_any_reference": false,
+            "pin_in_requested_reference": false,
+            "choices": 0,
+            "grade": "missed_bay"
+          },
+          {
+            "kind": "inside",
+            "expected": "A",
+            "actual_state": "proposed",
+            "seconds": 0.812,
+            "method": "explicit_passenger_offlane_region_v1",
+            "actor": "passenger",
+            "reason": "parking",
+            "pin": [
+              2537.0,
+              1137.0
+            ],
+            "offer_requires_separate_confirmation": true,
+            "journal_replayed": true,
+            "independent_model_proposal": false,
+            "distance_from_tap_native_px": 0.0,
+            "polygon": null,
+            "pin_in_any_reference": true,
+            "pin_in_requested_reference": true,
+            "choices": 0,
+            "grade": "correct_point_incomplete_bay"
+          },
+          {
+            "kind": "lane",
+            "expected": "withhold",
+            "actual_state": "needs_clarification",
+            "seconds": 0.235,
+            "method": "explicit_passenger_offlane_region_v1",
+            "actor": "passenger",
+            "reason": "through_lane",
+            "pin": null,
+            "offer_requires_separate_confirmation": false,
+            "journal_replayed": true,
+            "independent_model_proposal": false,
+            "polygon": null,
+            "pin_in_any_reference": false,
+            "pin_in_requested_reference": false,
+            "choices": 0,
+            "grade": "correct_withhold"
+          },
+          {
+            "kind": "occupied",
+            "expected": "withhold",
+            "actual_state": "needs_clarification",
+            "seconds": 0.188,
+            "method": "explicit_passenger_offlane_region_v1",
+            "actor": "passenger",
+            "reason": "observed_object",
+            "pin": null,
+            "offer_requires_separate_confirmation": false,
+            "journal_replayed": true,
+            "independent_model_proposal": false,
+            "polygon": null,
+            "pin_in_any_reference": false,
+            "pin_in_requested_reference": false,
+            "choices": 0,
+            "grade": "correct_withhold"
+          }
+        ]
+      },
+      {
+        "case": "P03",
+        "source": "https://kartaview.org/details/3333849/525/",
+        "source_sha256": "cd4e27b8077b24d36169170a847c9f5d382e9c315ad5bb670cb51ecf6ed40082",
+        "entries": [
+          {
+            "kind": "typed_request",
+            "expected": "whole_bay",
+            "actual_state": "error",
+            "seconds": 15.188,
+            "method": "passenger_interactive_deadline",
+            "operational_error": "timeout",
+            "pin": null,
+            "offer_requires_separate_confirmation": false,
+            "journal_replayed": true,
+            "independent_model_proposal": false,
+            "polygon": null,
+            "pin_in_any_reference": false,
+            "pin_in_requested_reference": false,
+            "choices": 0,
+            "grade": "operational_error"
+          },
+          {
+            "kind": "inside",
+            "expected": "A",
+            "actual_state": "proposed",
+            "seconds": 0.578,
+            "method": "explicit_passenger_offlane_region_v1",
+            "actor": "passenger",
+            "reason": "parking",
+            "pin": [
+              2571.0,
+              1445.0
+            ],
+            "offer_requires_separate_confirmation": true,
+            "journal_replayed": true,
+            "independent_model_proposal": false,
+            "distance_from_tap_native_px": 0.0,
+            "polygon": null,
+            "pin_in_any_reference": true,
+            "pin_in_requested_reference": true,
+            "choices": 0,
+            "grade": "correct_point_incomplete_bay"
+          },
+          {
+            "kind": "lane",
+            "expected": "withhold",
+            "actual_state": "needs_clarification",
+            "seconds": 0.187,
+            "method": "explicit_passenger_offlane_region_v1",
+            "actor": "passenger",
+            "reason": "through_lane",
+            "pin": null,
+            "offer_requires_separate_confirmation": false,
+            "journal_replayed": true,
+            "independent_model_proposal": false,
+            "polygon": null,
+            "pin_in_any_reference": false,
+            "pin_in_requested_reference": false,
+            "choices": 0,
+            "grade": "correct_withhold"
+          }
+        ]
+      },
+      {
+        "case": "P04",
+        "source": "https://kartaview.org/details/5105913/1982/",
+        "source_sha256": "e6a01b783361da5c8f854ef90c6fb4d9bc6b58f46284af27e51f41e9c4230e43",
+        "entries": [
+          {
+            "kind": "typed_request",
+            "expected": "withhold",
+            "actual_state": "needs_clarification",
+            "seconds": 0.687,
+            "method": "public_painted_bay_landmark_v1",
+            "actor": "model",
+            "reason": "parking_fragments_at_vehicles",
+            "pin": null,
+            "offer_requires_separate_confirmation": false,
+            "journal_replayed": true,
+            "independent_model_proposal": false,
+            "polygon": null,
+            "pin_in_any_reference": false,
+            "pin_in_requested_reference": false,
+            "choices": 0,
+            "grade": "correct_withhold"
+          },
+          {
+            "kind": "aisle",
+            "expected": "withhold",
+            "actual_state": "needs_clarification",
+            "seconds": 0.187,
+            "method": "explicit_passenger_offlane_region_v1",
+            "actor": "passenger",
+            "reason": "through_lane",
+            "pin": null,
+            "offer_requires_separate_confirmation": false,
+            "journal_replayed": true,
+            "independent_model_proposal": false,
+            "polygon": null,
+            "pin_in_any_reference": false,
+            "pin_in_requested_reference": false,
+            "choices": 0,
+            "grade": "correct_withhold"
+          },
+          {
+            "kind": "occupied",
+            "expected": "withhold",
+            "actual_state": "needs_clarification",
+            "seconds": 0.171,
+            "method": "explicit_passenger_offlane_region_v1",
+            "actor": "passenger",
+            "reason": "observed_object",
+            "pin": null,
+            "offer_requires_separate_confirmation": false,
+            "journal_replayed": true,
+            "independent_model_proposal": false,
+            "polygon": null,
+            "pin_in_any_reference": false,
+            "pin_in_requested_reference": false,
+            "choices": 0,
+            "grade": "correct_withhold"
+          }
+        ]
+      },
+      {
+        "case": "P05",
+        "source": "https://kartaview.org/details/4728505/60/",
+        "source_sha256": "b656dfe867d2d0d43d0b7d109e63e62ac84a0b441c10b8b93391be2f4ddbe60e",
+        "entries": [
+          {
+            "kind": "typed_request",
+            "expected": "withhold",
+            "actual_state": "needs_clarification",
+            "seconds": 0.266,
+            "method": "single_vehicle_behind_parking_v1",
+            "actor": "model",
+            "reason": "unsupported",
+            "pin": null,
+            "offer_requires_separate_confirmation": false,
+            "journal_replayed": true,
+            "independent_model_proposal": false,
+            "polygon": null,
+            "pin_in_any_reference": false,
+            "pin_in_requested_reference": false,
+            "choices": 0,
+            "grade": "correct_withhold"
+          },
+          {
+            "kind": "lane",
+            "expected": "withhold",
+            "actual_state": "needs_clarification",
+            "seconds": 0.906,
+            "method": "explicit_passenger_offlane_region_v1",
+            "actor": "passenger",
+            "reason": "unverified_surface",
+            "pin": null,
+            "offer_requires_separate_confirmation": false,
+            "journal_replayed": true,
+            "independent_model_proposal": false,
+            "polygon": null,
+            "pin_in_any_reference": false,
+            "pin_in_requested_reference": false,
+            "choices": 0,
+            "grade": "correct_withhold"
+          },
+          {
+            "kind": "dashed_lane_stripe",
+            "expected": "withhold",
+            "actual_state": "needs_clarification",
+            "seconds": 0.25,
+            "method": "explicit_passenger_offlane_region_v1",
+            "actor": "passenger",
+            "reason": "through_lane",
+            "pin": null,
+            "offer_requires_separate_confirmation": false,
+            "journal_replayed": true,
+            "independent_model_proposal": false,
+            "polygon": null,
+            "pin_in_any_reference": false,
+            "pin_in_requested_reference": false,
+            "choices": 0,
+            "grade": "correct_withhold"
+          }
+        ]
+      }
+    ],
+    "journal_replayed": 17,
+    "interpretation": "The first prospective assessment occurred on 8808 before any of the five results had been seen. The displayed current results on 8809 are a post-correction repeat. The occupied frontage was exposed to developers when its four incorrect initial choices were reported. These repeated observations do not provide a fresh estimate of generalization.",
+    "first_frozen_release": {
+      "version": "release-final-8808-prospective",
+      "counts": {
+        "prospective_automatic": {
+          "n": 5,
+          "grades": {
+            "missed_bay": 2,
+            "operational_error": 2,
+            "wrong_offer_or_options": 1
+          },
+          "success": 0,
+          "median_seconds": 4.281,
+          "max_seconds": 15.218
+        },
+        "prospective_manual": {
+          "n": 12,
+          "grades": {
+            "missed_bay": 1,
+            "correct_withhold": 8,
+            "no_specific_two_bay_choice": 1,
+            "correct_point_incomplete_bay": 2
+          },
+          "success": 8,
+          "median_seconds": 0.258,
+          "max_seconds": 1.157
+        },
+        "all_automatic": {
+          "n": 5,
+          "grades": {
+            "missed_bay": 2,
+            "operational_error": 2,
+            "wrong_offer_or_options": 1
+          },
+          "success": 0,
+          "median_seconds": 4.281,
+          "max_seconds": 15.218
+        },
+        "all_manual": {
+          "n": 12,
+          "grades": {
+            "missed_bay": 1,
+            "correct_withhold": 8,
+            "no_specific_two_bay_choice": 1,
+            "correct_point_incomplete_bay": 2
+          },
+          "success": 8,
+          "median_seconds": 0.258,
+          "max_seconds": 1.157
+        }
+      },
+      "per_photo": [
+        {
+          "case": "P01",
+          "entries": [
+            {
+              "kind": "typed_request",
+              "expected": "whole_bay",
+              "actual_state": "needs_clarification",
+              "seconds": 5.25,
+              "method": "signed_public_place_empty_surface_v1",
+              "actor": "model",
+              "reason": "no_visible_parking_surface",
+              "pin": null,
+              "offer_requires_separate_confirmation": false,
+              "journal_replayed": true,
+              "independent_model_proposal": false,
+              "polygon": null,
+              "pin_in_any_reference": false,
+              "pin_in_requested_reference": false,
+              "choices": 0,
+              "grade": "missed_bay"
+            },
+            {
+              "kind": "inside",
+              "expected": "A",
+              "actual_state": "needs_clarification",
+              "seconds": 0.844,
+              "method": "explicit_passenger_offlane_region_v1",
+              "actor": "passenger",
+              "reason": "through_lane",
+              "pin": null,
+              "offer_requires_separate_confirmation": false,
+              "journal_replayed": true,
+              "independent_model_proposal": false,
+              "polygon": null,
+              "pin_in_any_reference": false,
+              "pin_in_requested_reference": false,
+              "choices": 0,
+              "grade": "missed_bay"
+            },
+            {
+              "kind": "aisle",
+              "expected": "withhold",
+              "actual_state": "needs_clarification",
+              "seconds": 0.218,
+              "method": "explicit_passenger_offlane_region_v1",
+              "actor": "passenger",
+              "reason": "through_lane",
+              "pin": null,
+              "offer_requires_separate_confirmation": false,
+              "journal_replayed": true,
+              "independent_model_proposal": false,
+              "polygon": null,
+              "pin_in_any_reference": false,
+              "pin_in_requested_reference": false,
+              "choices": 0,
+              "grade": "correct_withhold"
+            },
+            {
+              "kind": "shared_line",
+              "expected": "A/B",
+              "actual_state": "needs_clarification",
+              "seconds": 0.25,
+              "method": "explicit_passenger_offlane_region_v1",
+              "actor": "passenger",
+              "reason": "through_lane",
+              "pin": null,
+              "offer_requires_separate_confirmation": false,
+              "journal_replayed": true,
+              "independent_model_proposal": false,
+              "polygon": null,
+              "pin_in_any_reference": false,
+              "pin_in_requested_reference": false,
+              "choices": 0,
+              "choice_matches": [],
+              "clarification": "That point appears to be in a traffic lane. Could you mark a visible parking bay instead?",
+              "grade": "no_specific_two_bay_choice"
+            }
+          ]
+        },
+        {
+          "case": "P02",
+          "entries": [
+            {
+              "kind": "typed_request",
+              "expected": "whole_bay",
+              "actual_state": "needs_clarification",
+              "seconds": 0.281,
+              "method": "public_painted_bay_landmark_v1",
+              "actor": "model",
+              "reason": "no_visible_bay_for_instruction",
+              "pin": null,
+              "offer_requires_separate_confirmation": false,
+              "journal_replayed": true,
+              "independent_model_proposal": false,
+              "polygon": null,
+              "pin_in_any_reference": false,
+              "pin_in_requested_reference": false,
+              "choices": 0,
+              "grade": "missed_bay"
+            },
+            {
+              "kind": "inside",
+              "expected": "A",
+              "actual_state": "proposed",
+              "seconds": 0.813,
+              "method": "explicit_passenger_offlane_region_v1",
+              "actor": "passenger",
+              "reason": "parking",
+              "pin": [
+                2537.0,
+                1137.0
+              ],
+              "offer_requires_separate_confirmation": true,
+              "journal_replayed": true,
+              "independent_model_proposal": false,
+              "distance_from_tap_native_px": 0.0,
+              "polygon": null,
+              "pin_in_any_reference": true,
+              "pin_in_requested_reference": true,
+              "choices": 0,
+              "grade": "correct_point_incomplete_bay"
+            },
+            {
+              "kind": "lane",
+              "expected": "withhold",
+              "actual_state": "needs_clarification",
+              "seconds": 0.266,
+              "method": "explicit_passenger_offlane_region_v1",
+              "actor": "passenger",
+              "reason": "through_lane",
+              "pin": null,
+              "offer_requires_separate_confirmation": false,
+              "journal_replayed": true,
+              "independent_model_proposal": false,
+              "polygon": null,
+              "pin_in_any_reference": false,
+              "pin_in_requested_reference": false,
+              "choices": 0,
+              "grade": "correct_withhold"
+            },
+            {
+              "kind": "occupied",
+              "expected": "withhold",
+              "actual_state": "needs_clarification",
+              "seconds": 0.25,
+              "method": "explicit_passenger_offlane_region_v1",
+              "actor": "passenger",
+              "reason": "observed_object",
+              "pin": null,
+              "offer_requires_separate_confirmation": false,
+              "journal_replayed": true,
+              "independent_model_proposal": false,
+              "polygon": null,
+              "pin_in_any_reference": false,
+              "pin_in_requested_reference": false,
+              "choices": 0,
+              "grade": "correct_withhold"
+            }
+          ]
+        },
+        {
+          "case": "P03",
+          "entries": [
+            {
+              "kind": "typed_request",
+              "expected": "whole_bay",
+              "actual_state": "error",
+              "seconds": 15.218,
+              "method": "passenger_interactive_deadline",
+              "operational_error": "timeout",
+              "pin": null,
+              "offer_requires_separate_confirmation": false,
+              "journal_replayed": true,
+              "independent_model_proposal": false,
+              "polygon": null,
+              "pin_in_any_reference": false,
+              "pin_in_requested_reference": false,
+              "choices": 0,
+              "grade": "operational_error"
+            },
+            {
+              "kind": "inside",
+              "expected": "A",
+              "actual_state": "proposed",
+              "seconds": 0.844,
+              "method": "explicit_passenger_offlane_region_v1",
+              "actor": "passenger",
+              "reason": "parking",
+              "pin": [
+                2571.0,
+                1445.0
+              ],
+              "offer_requires_separate_confirmation": true,
+              "journal_replayed": true,
+              "independent_model_proposal": false,
+              "distance_from_tap_native_px": 0.0,
+              "polygon": null,
+              "pin_in_any_reference": true,
+              "pin_in_requested_reference": true,
+              "choices": 0,
+              "grade": "correct_point_incomplete_bay"
+            },
+            {
+              "kind": "lane",
+              "expected": "withhold",
+              "actual_state": "needs_clarification",
+              "seconds": 0.25,
+              "method": "explicit_passenger_offlane_region_v1",
+              "actor": "passenger",
+              "reason": "through_lane",
+              "pin": null,
+              "offer_requires_separate_confirmation": false,
+              "journal_replayed": true,
+              "independent_model_proposal": false,
+              "polygon": null,
+              "pin_in_any_reference": false,
+              "pin_in_requested_reference": false,
+              "choices": 0,
+              "grade": "correct_withhold"
+            }
+          ]
+        },
+        {
+          "case": "P04",
+          "entries": [
+            {
+              "kind": "typed_request",
+              "expected": "withhold",
+              "actual_state": "needs_clarification",
+              "seconds": 0.719,
+              "method": "public_painted_bay_landmark_v1",
+              "actor": "model",
+              "reason": "unverified_bay_reference",
+              "pin": null,
+              "offer_requires_separate_confirmation": false,
+              "journal_replayed": true,
+              "independent_model_proposal": false,
+              "polygon": null,
+              "pin_in_any_reference": false,
+              "pin_in_requested_reference": false,
+              "choices": 4,
+              "displayed_choices": [
+                {
+                  "id": "bay-1",
+                  "polygon": [
+                    [
+                      456.96,
+                      1335.273
+                    ],
+                    [
+                      456.96,
+                      1386.071
+                    ],
+                    [
+                      333.653,
+                      1422.356
+                    ],
+                    [
+                      344.533,
+                      1342.53
+                    ]
+                  ],
+                  "center": [
+                    393.867,
+                    1372.716
+                  ]
+                },
+                {
+                  "id": "bay-2",
+                  "polygon": [
+                    [
+                      1642.88,
+                      1415.099
+                    ],
+                    [
+                      1233.067,
+                      1462.269
+                    ],
+                    [
+                      1156.907,
+                      1422.356
+                    ]
+                  ],
+                  "center": [
+                    1344.284,
+                    1433.241
+                  ]
+                },
+                {
+                  "id": "bay-3",
+                  "polygon": [
+                    [
+                      1766.187,
+                      1375.186
+                    ],
+                    [
+                      2371.84,
+                      1389.7
+                    ],
+                    [
+                      1965.653,
+                      1433.241
+                    ]
+                  ],
+                  "center": [
+                    2034.56,
+                    1399.375
+                  ]
+                },
+                {
+                  "id": "bay-4",
+                  "polygon": [
+                    [
+                      3260.373,
+                      1331.644
+                    ],
+                    [
+                      3260.373,
+                      1371.557
+                    ],
+                    [
+                      3111.68,
+                      1367.929
+                    ],
+                    [
+                      3111.68,
+                      1331.644
+                    ]
+                  ],
+                  "center": [
+                    3187.207,
+                    1350.708
+                  ]
+                }
+              ],
+              "grade": "wrong_offer_or_options"
+            },
+            {
+              "kind": "aisle",
+              "expected": "withhold",
+              "actual_state": "needs_clarification",
+              "seconds": 1.157,
+              "method": "explicit_passenger_offlane_region_v1",
+              "actor": "passenger",
+              "reason": "through_lane",
+              "pin": null,
+              "offer_requires_separate_confirmation": false,
+              "journal_replayed": true,
+              "independent_model_proposal": false,
+              "polygon": null,
+              "pin_in_any_reference": false,
+              "pin_in_requested_reference": false,
+              "choices": 0,
+              "grade": "correct_withhold"
+            },
+            {
+              "kind": "occupied",
+              "expected": "withhold",
+              "actual_state": "needs_clarification",
+              "seconds": 0.234,
+              "method": "explicit_passenger_offlane_region_v1",
+              "actor": "passenger",
+              "reason": "observed_object",
+              "pin": null,
+              "offer_requires_separate_confirmation": false,
+              "journal_replayed": true,
+              "independent_model_proposal": false,
+              "polygon": null,
+              "pin_in_any_reference": false,
+              "pin_in_requested_reference": false,
+              "choices": 0,
+              "grade": "correct_withhold"
+            }
+          ]
+        },
+        {
+          "case": "P05",
+          "entries": [
+            {
+              "kind": "typed_request",
+              "expected": "withhold",
+              "actual_state": "needs_clarification",
+              "seconds": 4.281,
+              "method": "single_vehicle_behind_parking_v1",
+              "actor": "model",
+              "reason": "pending",
+              "operational_error": "pending",
+              "pin": null,
+              "offer_requires_separate_confirmation": false,
+              "journal_replayed": true,
+              "independent_model_proposal": false,
+              "polygon": null,
+              "pin_in_any_reference": false,
+              "pin_in_requested_reference": false,
+              "choices": 0,
+              "grade": "operational_error"
+            },
+            {
+              "kind": "lane",
+              "expected": "withhold",
+              "actual_state": "needs_clarification",
+              "seconds": 0.937,
+              "method": "explicit_passenger_offlane_region_v1",
+              "actor": "passenger",
+              "reason": "unverified_surface",
+              "pin": null,
+              "offer_requires_separate_confirmation": false,
+              "journal_replayed": true,
+              "independent_model_proposal": false,
+              "polygon": null,
+              "pin_in_any_reference": false,
+              "pin_in_requested_reference": false,
+              "choices": 0,
+              "grade": "correct_withhold"
+            },
+            {
+              "kind": "dashed_lane_stripe",
+              "expected": "withhold",
+              "actual_state": "needs_clarification",
+              "seconds": 0.219,
+              "method": "explicit_passenger_offlane_region_v1",
+              "actor": "passenger",
+              "reason": "through_lane",
+              "pin": null,
+              "offer_requires_separate_confirmation": false,
+              "journal_replayed": true,
+              "independent_model_proposal": false,
+              "polygon": null,
+              "pin_in_any_reference": false,
+              "pin_in_requested_reference": false,
+              "choices": 0,
+              "grade": "correct_withhold"
+            }
+          ]
+        }
+      ],
+      "journal_replayed": 17
+    },
+    "post_correction_differences": [
+      {
+        "case": "P04",
+        "kind": "typed_request",
+        "before_grade": "wrong_offer_or_options",
+        "after_grade": "correct_withhold",
+        "before_choices": 4,
+        "after_choices": 0
+      },
+      {
+        "case": "P05",
+        "kind": "typed_request",
+        "before_grade": "operational_error",
+        "after_grade": "correct_withhold",
+        "before_choices": 0,
+        "after_choices": 0
+      }
+    ],
+    "chrome": [
+      {
+        "case": "P01",
+        "kind": "automatic",
+        "screen": "desktop 1270px",
+        "state": "proposed",
+        "actor": "model",
+        "native_xy": [
+          956.16,
+          1609.2
+        ],
+        "polygon": null,
+        "choices": [],
+        "can_confirm": true,
+        "heading": "Is this your intended location?",
+        "message": "Check the yellow pin in the lower left of the photo.",
+        "time_to_render_ms": 596
+      },
+      {
+        "case": "P02",
+        "kind": "inside",
+        "screen": "mobile 390px",
+        "state": "proposed",
+        "actor": "passenger",
+        "native_xy": [
+          2536.953087439904,
+          1136.9244398179944
+        ],
+        "polygon": null,
+        "choices": [],
+        "can_confirm": true,
+        "heading": "Is this your intended location?",
+        "message": "The blue pin is at the centre of your mark, in the middle right of the photo. Save it if this is where you want to get out.",
+        "time_to_render_ms": 187
+      },
+      {
+        "case": "P04",
+        "kind": "automatic",
+        "screen": "desktop 1270px",
+        "state": "needs_clarification",
+        "actor": "model",
+        "native_xy": null,
+        "polygon": null,
+        "choices": [],
+        "can_confirm": false,
+        "heading": "Which spot do you mean?",
+        "message": "I can see strips of parking pavement beside the parked vehicles, but I can\u2019t outline an empty bay there. Can you see another open space?",
+        "time_to_render_ms": 788
+      }
+    ],
+    "repeated_desktop_P01": {
+      "same_photo_and_words": true,
+      "first_http": "missed_bay",
+      "desktop_render_ms": 596,
+      "point": [
+        956.16,
+        1609.2
+      ],
+      "outline": null,
+      "inside_frozen_target": true,
+      "note": "The first normal HTTP submission used the empty-surface route and withheld. A later identical browser submission used the model frontage route and returned a point in reference bay A. That repeat displayed no whole-bay outline. It is recorded separately from the first submission."
+    }
+  },
+  "post_correction_15_drive_summary": {
+    "interpretation": "Ten fixed-regression and five previously prospective drives were both rerun after the occupied-frontage example had been disclosed. Each contributes one natural typed sentence. Multiple passenger-selected taps can come from one photo.",
+    "automatic_visible_vacant_bay": {
+      "tested": 8,
+      "grades": {
+        "missed_bay": 6,
+        "displayed_correct_choices_without_a_single_destination": 1,
+        "operational_error": 1
+      }
+    },
+    "automatic_negative_control": {
+      "tested": 7,
+      "grades": {
+        "correct_withhold": 6,
+        "operational_error": 1
+      }
+    },
+    "manual_excluded_spot": {
+      "tested": 31,
+      "grades": {
+        "correct_withhold": 31
+      }
+    },
+    "manual_clearly_intended_bay": {
+      "tested": 12,
+      "grades": {
+        "missed_bay": 6,
+        "correct_point_incomplete_bay": 5,
+        "correct_whole_bay": 1
+      }
+    },
+    "manual_shared_boundary": {
+      "tested": 4,
+      "grades": {
+        "one_visible_side_for_clarification": 1,
+        "no_specific_two_bay_choice": 3
+      }
+    },
+    "seconds": {
+      "automatic": {
+        "median": 0.328,
+        "maximum": 15.188
+      },
+      "manual": {
+        "median": 0.219,
+        "maximum": 0.906
+      }
+    },
+    "adverse_choices_on_positive_scenes": [
+      {
+        "case": "W07",
+        "offered": 1,
+        "matching": 0
+      }
+    ],
+    "scope": "A visible point or a surface patch can match the intended location while its true bay bounds remain unresolved. Access, legality, vehicle clearance and real passenger acceptance were not evaluated."
+  },
+  "additional_canonical_rerun": {
+    "case": "P03",
+    "reason": "After an additional parser update, the currently running application was retested separately from the frozen staged comparison.",
+    "state": "needs_clarification",
+    "seconds": 0.297,
+    "point": null,
+    "choices": 0,
+    "separate_confirmation_offered": false
+  },
+  "visible_road_connectivity_delta": {
+    "scope": "Post-exposure delta on the same 15 recordings. Forty-seven original photo hashes and tapped rectangles were matched exactly, with separate ordinary public sessions on each revision. Three earlier typed phrases were also repeated through the updated local page API. This is a targeted change check.",
+    "release": "8810, with scene-bound visible-road connectivity filtering",
+    "manual": {
+      "n": 47,
+      "recordings": 15,
+      "identical_observable_results": 47,
+      "changed": [],
+      "grades": {
+        "missed_bay": 6,
+        "one_visible_side_for_clarification": 1,
+        "correct_withhold": 31,
+        "correct_point_incomplete_bay": 5,
+        "no_specific_two_bay_choice": 3,
+        "correct_whole_bay": 1
+      },
+      "excluded_taps": 31,
+      "correct_exclusions": 31,
+      "median_seconds": 0.234,
+      "maximum_seconds": 1.203,
+      "journals_reproduced": 47
+    },
+    "automatic": [
+      {
+        "case": "W03",
+        "grade": "displayed_correct_choices_without_a_single_destination",
+        "method": "public_painted_bay_landmark_v1",
+        "reason": "unverified_bay_reference",
+        "seconds": 0.468,
+        "choices": 1,
+        "choices_overlapping_requested_bays": 1,
+        "initial_pin": null,
+        "journal_replayed": true
+      },
+      {
+        "case": "W07",
+        "grade": "missed_bay",
+        "method": "public_painted_bay_landmark_v1",
+        "reason": "unverified_bay_reference",
+        "seconds": 0.516,
+        "choices": 1,
+        "choices_overlapping_requested_bays": 0,
+        "initial_pin": null,
+        "journal_replayed": true
+      },
+      {
+        "case": "P03",
+        "grade": "missed_bay",
+        "method": "public_painted_bay_landmark_v1",
+        "reason": "no_visible_bay_for_instruction",
+        "seconds": 0.281,
+        "choices": 0,
+        "choices_overlapping_requested_bays": null,
+        "initial_pin": null,
+        "journal_replayed": true
+      }
+    ],
+    "selectable_options_with_additional_user_action": [
+      {
+        "case": "W03",
+        "choice_count": 1,
+        "initial_savable": false,
+        "chosen_requires_separate_confirmation": true,
+        "actor_after_choice": "passenger",
+        "replayed_against_current_photo": true,
+        "chosen_point": [
+          2720.382,
+          1380.649
+        ],
+        "best_iou": 0.7386,
+        "within_requested_bay": true,
+        "meets_whole_bay_grade": true
+      },
+      {
+        "case": "W07",
+        "choice_count": 1,
+        "initial_savable": false,
+        "chosen_requires_separate_confirmation": true,
+        "actor_after_choice": "passenger",
+        "replayed_against_current_photo": true,
+        "chosen_point": [
+          3515.193,
+          1915.262
+        ],
+        "best_iou": 0.0,
+        "within_requested_bay": false,
+        "meets_whole_bay_grade": false
+      }
+    ]
+  }
+}

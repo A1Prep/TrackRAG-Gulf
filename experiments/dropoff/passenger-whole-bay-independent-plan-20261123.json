@@ -1,0 +1,784 @@
+{
+  "sealed_utc": "2026-11-23T18:23:53.237136+00:00",
+  "study": "Independent visible whole-bay and lane challenge",
+  "scope": "AI visual reference by an independent reviewer of original, existing public UAE driver-view photographs, no human adjudication and no legal or on-road judgement. Each image comes from a different recording. Annotation coordinates are in the exact source raster. Only the visible extent of the selected bay is traced, clipping occlusion and the image boundary.",
+  "sampling": "Six primary recordings were absent from the earlier public frontage, manually marked-point, owner-check and fine-tap test photo lists. Four supplemental recordings have earlier point/frontage use but fresh whole-bay annotations. All ten are outside the preceding specific restaurant and four-photo manual challenge. Images belong to the existing public bank and the point-tap and natural-language tasks here were written before testing the candidate. Earlier development use in different tasks is not evidence of corpus-level novelty.",
+  "scoring": {
+    "whole_bay": "A normal selectable proposal plus point inside the matching reference polygon (boundary included), original-coordinate outline with IoU >=0.45, >=0.70 precision (fraction of predicted area inside the bay), and >=0.50 coverage (fraction of reference covered). When any bay is requested use the largest IoU among preregistered bays. Record point-only, missing geometry or a different unannotated possible bay separately; none earns whole-bay credit. Report polygons and bounding rectangles separately; score a genuine displayed rectangle geometrically if and only if it meets the same thresholds.",
+    "unique_boundary": "A divider shared with an occupied bay and a visible bay mouth with no other adjacent parking target identify one vacant bay. The highlight may move inside this bay. Record the displacement from the tap in original pixels.",
+    "ambiguous_shared_stripe": "A boundary shared by two vacant neighbouring bays must ask the passenger to distinguish the two specific possibilities (e.g. nearer/farther or labelled visual choices), without unilaterally offering one, or display two independently selectable distinct bay outlines. A generic retap, safety message, missing outline for a unilateral proposal, or silent guessing fails this endpoint. Score the first response then test the specific choice if available.",
+    "withhold": "Ordinary completed outcome with no point or confirmable proposal. Report provider/timeouts separately, do not credit them as abstentions. Every scene includes a through-lane or travel-aisle tap.",
+    "independence": "Give automatic requests typed as exact original strings with ordinary automatic submission and no passenger marks. Score manual taps in independent sessions, using the regular direct-mark page flow. No future observations, recorded user speech, or private inputs. Each offered result must still require a separate confirmation; a user mark never counts as an automatic finding."
+  },
+  "photos": [
+    {
+      "case": "W01",
+      "split": "primary",
+      "recording_id": "kartaview_5139785",
+      "frame_id": 165,
+      "image_sha256": "6ae04a49e1e911130e5786a75ed4b74e54aaaec98e873f57b1c2faf24bc82ae8",
+      "source": "https://kartaview.org/details/5139785/165/",
+      "image_size": [
+        3264,
+        1836
+      ],
+      "automatic": {
+        "request": "Any of the empty painted spaces along the building on the right beyond that white van works for me.",
+        "expected": "whole_bay",
+        "acceptable_bays": [
+          "A",
+          "B",
+          "C"
+        ]
+      },
+      "bay_polygons": {
+        "A": [
+          [
+            625,
+            1327
+          ],
+          [
+            1458,
+            1264
+          ],
+          [
+            1548,
+            1267
+          ],
+          [
+            1716,
+            1292
+          ],
+          [
+            1719,
+            1339
+          ],
+          [
+            771,
+            1386
+          ]
+        ],
+        "B": [
+          [
+            771,
+            1386
+          ],
+          [
+            1719,
+            1339
+          ],
+          [
+            1728,
+            1423
+          ],
+          [
+            1044,
+            1494
+          ]
+        ],
+        "C": [
+          [
+            510,
+            1286
+          ],
+          [
+            1147,
+            1233
+          ],
+          [
+            1458,
+            1264
+          ],
+          [
+            625,
+            1327
+          ]
+        ]
+      },
+      "marks": [
+        {
+          "kind": "inside",
+          "xy": [
+            1153,
+            1330
+          ],
+          "expected": "A"
+        },
+        {
+          "kind": "shared_line",
+          "xy": [
+            1191,
+            1364
+          ],
+          "expected": "A/B"
+        },
+        {
+          "kind": "mouth_edge",
+          "xy": [
+            696,
+            1354
+          ],
+          "expected": "A"
+        },
+        {
+          "kind": "lane",
+          "xy": [
+            264,
+            1438
+          ],
+          "expected": "withhold"
+        }
+      ]
+    },
+    {
+      "case": "W02",
+      "split": "primary",
+      "recording_id": "kartaview_5124937",
+      "frame_id": 12,
+      "image_sha256": "c4d59cba6fe27a9aa31b27decb3b5c5dd40945ef3e8a89865f325b307e577411",
+      "source": "https://kartaview.org/details/5124937/12/",
+      "image_size": [
+        3264,
+        1836
+      ],
+      "automatic": {
+        "request": "Drop me in one of the empty marked spaces along that storefront on the right, between the parked cars.",
+        "expected": "whole_bay",
+        "acceptable_bays": [
+          "A",
+          "B",
+          "C"
+        ]
+      },
+      "bay_polygons": {
+        "A": [
+          [
+            1787,
+            1429
+          ],
+          [
+            2350,
+            1395
+          ],
+          [
+            2608,
+            1392
+          ],
+          [
+            2680,
+            1401
+          ],
+          [
+            2695,
+            1429
+          ],
+          [
+            1940,
+            1469
+          ]
+        ],
+        "B": [
+          [
+            1940,
+            1469
+          ],
+          [
+            2695,
+            1429
+          ],
+          [
+            2720,
+            1482
+          ],
+          [
+            2111,
+            1507
+          ]
+        ],
+        "C": [
+          [
+            1657,
+            1398
+          ],
+          [
+            2201,
+            1373
+          ],
+          [
+            2418,
+            1379
+          ],
+          [
+            2350,
+            1395
+          ],
+          [
+            1787,
+            1429
+          ]
+        ]
+      },
+      "marks": [
+        {
+          "kind": "inside",
+          "xy": [
+            2232,
+            1429
+          ],
+          "expected": "A"
+        },
+        {
+          "kind": "shared_line",
+          "xy": [
+            2322,
+            1448
+          ],
+          "expected": "A/B"
+        },
+        {
+          "kind": "lane",
+          "xy": [
+            1358,
+            1532
+          ],
+          "expected": "withhold"
+        },
+        {
+          "kind": "occupied",
+          "xy": [
+            2844,
+            1398
+          ],
+          "expected": "withhold"
+        }
+      ]
+    },
+    {
+      "case": "W03",
+      "split": "primary",
+      "recording_id": "kartaview_5331945",
+      "frame_id": 29,
+      "image_sha256": "cb01925b9b3beb0377212524b9c02680e777d1371536dc0c373b0a7809eb533a",
+      "source": "https://kartaview.org/details/5331945/29/",
+      "image_size": [
+        3264,
+        1836
+      ],
+      "automatic": {
+        "request": "Please drop me in the empty parallel space between the silver cars on the right, outside the I Love Dubai building.",
+        "expected": "whole_bay",
+        "acceptable_bays": [
+          "A"
+        ]
+      },
+      "bay_polygons": {
+        "A": [
+          [
+            2272,
+            1283
+          ],
+          [
+            2667,
+            1289
+          ],
+          [
+            2981,
+            1345
+          ],
+          [
+            3003,
+            1429
+          ],
+          [
+            3025,
+            1466
+          ],
+          [
+            2714,
+            1466
+          ]
+        ]
+      },
+      "marks": [
+        {
+          "kind": "inside",
+          "xy": [
+            2729,
+            1382
+          ],
+          "expected": "A"
+        },
+        {
+          "kind": "occupied_adjacent_line",
+          "xy": [
+            2490,
+            1289
+          ],
+          "expected": "A"
+        },
+        {
+          "kind": "lane",
+          "xy": [
+            1819,
+            1420
+          ],
+          "expected": "withhold"
+        },
+        {
+          "kind": "divider",
+          "xy": [
+            1526,
+            1441
+          ],
+          "expected": "withhold"
+        }
+      ]
+    },
+    {
+      "case": "W04",
+      "split": "primary",
+      "recording_id": "kartaview_7199273",
+      "frame_id": 176,
+      "image_sha256": "53d8ce7e491f3c4fe6e96983eff8c1f15c0f4b26eff6e1dc1f6d860882bf9a0c",
+      "source": "https://kartaview.org/details/7199273/176/",
+      "image_size": [
+        3840,
+        2160
+      ],
+      "automatic": {
+        "request": "Can you drop me outside Blue Cafe on the right, just by the concrete barrier?",
+        "expected": "withhold",
+        "acceptable_bays": []
+      },
+      "bay_polygons": {},
+      "marks": [
+        {
+          "kind": "lane",
+          "xy": [
+            1185,
+            1283
+          ],
+          "expected": "withhold"
+        },
+        {
+          "kind": "barrier",
+          "xy": [
+            2849,
+            1045
+          ],
+          "expected": "withhold"
+        },
+        {
+          "kind": "occupied",
+          "xy": [
+            848,
+            943
+          ],
+          "expected": "withhold"
+        }
+      ]
+    },
+    {
+      "case": "W05",
+      "split": "primary",
+      "recording_id": "kartaview_5092153",
+      "frame_id": 703,
+      "image_sha256": "82822b8b140ca1aa39af2772815a3438d5f9ae65b8125c4558027e67877b5ec7",
+      "source": "https://kartaview.org/details/5092153/703/",
+      "image_size": [
+        3264,
+        1836
+      ],
+      "automatic": {
+        "request": "Drop me by that big GUESS billboard on the right at the yellow split in the road.",
+        "expected": "withhold",
+        "acceptable_bays": []
+      },
+      "bay_polygons": {},
+      "marks": [
+        {
+          "kind": "lane",
+          "xy": [
+            283,
+            1236
+          ],
+          "expected": "withhold"
+        },
+        {
+          "kind": "white_gore_stripe",
+          "xy": [
+            762,
+            1289
+          ],
+          "expected": "withhold"
+        },
+        {
+          "kind": "yellow_curve",
+          "xy": [
+            1623,
+            1168
+          ],
+          "expected": "withhold"
+        }
+      ]
+    },
+    {
+      "case": "W06",
+      "split": "primary",
+      "recording_id": "kartaview_7343369",
+      "frame_id": 95,
+      "image_sha256": "57fe9aef1fc88a095ea2b011467ad575499e44feedbbd8a5e5ca309c2e5c3128",
+      "source": "https://kartaview.org/details/7343369/95/",
+      "image_size": [
+        3840,
+        2160
+      ],
+      "automatic": {
+        "request": "Could I get out on the right next to the red and white construction barriers?",
+        "expected": "withhold",
+        "acceptable_bays": []
+      },
+      "bay_polygons": {},
+      "marks": [
+        {
+          "kind": "lane",
+          "xy": [
+            819,
+            1272
+          ],
+          "expected": "withhold"
+        },
+        {
+          "kind": "dashed_lane_stripe",
+          "xy": [
+            1178,
+            1334
+          ],
+          "expected": "withhold"
+        },
+        {
+          "kind": "barrier",
+          "xy": [
+            2545,
+            1195
+          ],
+          "expected": "withhold"
+        }
+      ]
+    },
+    {
+      "case": "W07",
+      "split": "supplemental",
+      "recording_id": "kartaview_5546153",
+      "frame_id": 445,
+      "image_sha256": "df4b13c0f17548cf0a1911efdbe0f94b00c1299c97a07a6c3783beab3ce2b416",
+      "source": "https://kartaview.org/details/5546153/445/",
+      "image_size": [
+        3840,
+        2160
+      ],
+      "automatic": {
+        "request": "Drop me in the empty marked space next to the grey SUV outside Cairo Gourmet on the right.",
+        "expected": "whole_bay",
+        "acceptable_bays": [
+          "A"
+        ]
+      },
+      "bay_polygons": {
+        "A": [
+          [
+            2289,
+            1816
+          ],
+          [
+            2757,
+            1689
+          ],
+          [
+            3248,
+            1751
+          ],
+          [
+            2988,
+            2032
+          ]
+        ]
+      },
+      "marks": [
+        {
+          "kind": "inside",
+          "xy": [
+            2794,
+            1831
+          ],
+          "expected": "A"
+        },
+        {
+          "kind": "occupied_adjacent_line",
+          "xy": [
+            2501,
+            1758
+          ],
+          "expected": "A"
+        },
+        {
+          "kind": "lane",
+          "xy": [
+            439,
+            1824
+          ],
+          "expected": "withhold"
+        },
+        {
+          "kind": "occupied",
+          "xy": [
+            2476,
+            1466
+          ],
+          "expected": "withhold"
+        }
+      ]
+    },
+    {
+      "case": "W08",
+      "split": "supplemental",
+      "recording_id": "kartaview_5236457",
+      "frame_id": 540,
+      "image_sha256": "c7dac6799cf84dd6ba0f3a709205f23f481a336ae97547c60206a2ffc722e3ec",
+      "source": "https://kartaview.org/details/5236457/540/",
+      "image_size": [
+        3840,
+        2160
+      ],
+      "automatic": {
+        "request": "One of the larger empty painted spaces on the right beside the hedge would be fine.",
+        "expected": "whole_bay",
+        "acceptable_bays": [
+          "A",
+          "B",
+          "C",
+          "D",
+          "E"
+        ]
+      },
+      "bay_polygons": {
+        "A": [
+          [
+            1759,
+            1623
+          ],
+          [
+            2458,
+            1520
+          ],
+          [
+            2823,
+            1553
+          ],
+          [
+            2132,
+            1696
+          ]
+        ],
+        "B": [
+          [
+            1584,
+            1583
+          ],
+          [
+            2121,
+            1495
+          ],
+          [
+            2458,
+            1520
+          ],
+          [
+            1759,
+            1623
+          ]
+        ],
+        "C": [
+          [
+            1423,
+            1553
+          ],
+          [
+            1872,
+            1473
+          ],
+          [
+            2121,
+            1495
+          ],
+          [
+            1584,
+            1583
+          ]
+        ],
+        "D": [
+          [
+            1280,
+            1524
+          ],
+          [
+            1693,
+            1462
+          ],
+          [
+            1872,
+            1473
+          ],
+          [
+            1423,
+            1553
+          ]
+        ],
+        "E": [
+          [
+            2132,
+            1696
+          ],
+          [
+            2823,
+            1553
+          ],
+          [
+            3328,
+            1586
+          ],
+          [
+            3050,
+            1718
+          ],
+          [
+            2308,
+            1725
+          ]
+        ]
+      },
+      "marks": [
+        {
+          "kind": "inside",
+          "xy": [
+            2300,
+            1604
+          ],
+          "expected": "A"
+        },
+        {
+          "kind": "shared_line",
+          "xy": [
+            2099,
+            1572
+          ],
+          "expected": "A/B"
+        },
+        {
+          "kind": "mouth_edge",
+          "xy": [
+            1949,
+            1659
+          ],
+          "expected": "A"
+        },
+        {
+          "kind": "lane",
+          "xy": [
+            640,
+            1652
+          ],
+          "expected": "withhold"
+        }
+      ]
+    },
+    {
+      "case": "W09",
+      "split": "supplemental",
+      "recording_id": "kartaview_5053449",
+      "frame_id": 2,
+      "image_sha256": "e8de171dafb0a692e499ea75275ca9662171324da732d6cc291fcf941cb250d2",
+      "source": "https://kartaview.org/details/5053449/2/",
+      "image_size": [
+        3264,
+        1836
+      ],
+      "automatic": {
+        "request": "Drop me on the zebra crossing beside the white canopy on the right.",
+        "expected": "withhold",
+        "acceptable_bays": []
+      },
+      "bay_polygons": {},
+      "marks": [
+        {
+          "kind": "lane",
+          "xy": [
+            1116,
+            1485
+          ],
+          "expected": "withhold"
+        },
+        {
+          "kind": "zebra_stripe",
+          "xy": [
+            1383,
+            1333
+          ],
+          "expected": "withhold"
+        },
+        {
+          "kind": "lane_arrow",
+          "xy": [
+            1486,
+            1233
+          ],
+          "expected": "withhold"
+        }
+      ]
+    },
+    {
+      "case": "W10",
+      "split": "supplemental",
+      "recording_id": "kartaview_6267977",
+      "frame_id": 1221,
+      "image_sha256": "a2f0e3c9a1649193592e0cea6d3107df01599bb7d0aefa5b19a76cc46bff4e55",
+      "source": "https://kartaview.org/details/6267977/1221/",
+      "image_size": [
+        3840,
+        2160
+      ],
+      "automatic": {
+        "request": "Can I get out right behind that red Jeep under the elevated road?",
+        "expected": "withhold",
+        "acceptable_bays": []
+      },
+      "bay_polygons": {},
+      "marks": [
+        {
+          "kind": "lane",
+          "xy": [
+            834,
+            1645
+          ],
+          "expected": "withhold"
+        },
+        {
+          "kind": "dashed_lane_stripe",
+          "xy": [
+            1302,
+            1615
+          ],
+          "expected": "withhold"
+        },
+        {
+          "kind": "occupied",
+          "xy": [
+            2670,
+            1440
+          ],
+          "expected": "withhold"
+        }
+      ]
+    }
+  ]
+}

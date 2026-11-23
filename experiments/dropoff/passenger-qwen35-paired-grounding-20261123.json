@@ -1,0 +1,767 @@
+{
+  "scope": "Direct point-or-abstain comparison. No outline produced. No measurement of the end-to-end passenger app.",
+  "summary": {
+    "previously_preregistered": {
+      "8B": {
+        "cases": 5,
+        "correct": 2,
+        "outside": 2,
+        "missed_abstention": 1,
+        "correct_abstention": 2
+      },
+      "35B": {
+        "cases": 5,
+        "correct": 2,
+        "missed_abstention": 3,
+        "correct_abstention": 2
+      }
+    },
+    "development": {
+      "8B": {
+        "cases": 2,
+        "correct": 0,
+        "missed_abstention": 1,
+        "outside": 1
+      },
+      "35B": {
+        "cases": 2,
+        "correct": 0,
+        "missed_abstention": 2
+      }
+    }
+  },
+  "models": {
+    "8B": {
+      "model": "Qwen/Qwen3-VL-8B-Instruct + released Task 5 adapter",
+      "base_revision": "10d842936325905934ea24e64325d774693f166e",
+      "processor_revision": "0c351dd01ed87e9c1b53cbc748cba10e6187ff3b",
+      "fingerprints": {
+        "base_files": "13917d7d3d9b5d7a44775a6744e756b552bc4065bf73d633aa14278a0ac66417",
+        "adapter_files": "6abadf2dd704566e2e1dcf24fb003ba1d7e044d88ee5d5aae9c279e9d573a3e7",
+        "processor_files": "3393482a8a7c6da1ca1fa7eafc95b18b5c5539d72f0fe38b3c8830a5a2a69128"
+      },
+      "quantization": "release base NF4 + LoRA adapter",
+      "transformers": "5.1.0",
+      "torch": "2.6.0+cu124",
+      "gpu": "NVIDIA A100-SXM4-40GB",
+      "model_load_seconds": 16.03,
+      "max_new_tokens": 32,
+      "temperature": 0,
+      "thinking": false,
+      "modal_app": "ap-XHuxwDJsODauwmOoazWnaC",
+      "warm_model_request_seconds": {
+        "first_request": 2.572,
+        "subsequent_median": 0.259,
+        "subsequent_range": [
+          0.254,
+          0.92
+        ],
+        "definition": "A100 direct Transformers generate timer: tokenizer/image processing completed before timer. Includes model decoding. No startup, network or web/UI time."
+      }
+    },
+    "35B": {
+      "model": "Qwen/Qwen3.6-35B-A3B-FP8",
+      "revision": "c653bba46dfa06e9658dcc0b0dc87fe4685f14a2",
+      "loader": "vllm",
+      "vllm": "0.19.1",
+      "image": "vllm/vllm-openai:v0.19.1@sha256:2622f38a0aa646c15ccc27bd5033911a58fd94ac69fd8f86aba0692d77cfe5b9",
+      "torch": "2.10.0+cu129",
+      "transformers": "5.5.4",
+      "quantization": "official fine-grained FP8",
+      "gpu": "NVIDIA H200",
+      "model_load_seconds": 108.24,
+      "max_new_tokens": 32,
+      "temperature": 0,
+      "thinking": false,
+      "modal_app": "ap-A6GpA0DKQKF86pHGNzkuPu",
+      "warm_model_request_seconds": {
+        "first_request": 22.672,
+        "subsequent_median": 0.439,
+        "subsequent_range": [
+          0.308,
+          11.296
+        ],
+        "definition": "NVIDIA H200 vLLM generate timer: includes internal image preprocessing, prompt processing and model decoding. No startup, network or web/UI time. Different hardware and timing boundaries prevent a like-for-like speed claim."
+      }
+    }
+  },
+  "hashes": {
+    "qwen35-raw.json": "c10841bef95b9cf28a04e75737de0ddd42e3a101386aa8442953a8cc5072fd45",
+    "qwen8-raw.json": "97f8c43df1ddd6b6979b9dd7a37c9e25eb5d4c265544703c07ae7081e0fac125",
+    "protocol-freeze.json": "0608472b8914b2e951daafbbd7e1901d01775f5b70ac9098407962855df52e97",
+    "runtime-amendment.json": "055cd34d4a6852102518c550d4bafeeeef6d74a1660e113f34c196a0fd50ad2d",
+    "frozen-reference.json": "ec3524d42d8ade4013de66e44a9106c9c142be4cf592e53368b5f96da41e479e"
+  },
+  "cases": [
+    {
+      "case": "P01",
+      "source": "https://kartaview.org/details/5231529/132/",
+      "request": "Can you drop me in an empty parking bay on the left?",
+      "native_size": [
+        3840,
+        2160
+      ],
+      "input_size": [
+        1280,
+        704
+      ],
+      "source_sha256": "78e265faad2f94bbfe80c56cb7f4b33723340268cfb9a4f5829145f69ee06c3a",
+      "common_view_sha256": "04386b3e316a439f6c6d59f303abe329e8d81b86cf8a38a2db6035aa7599f7d2",
+      "cohort": "previously_preregistered",
+      "reference": "whole_bay",
+      "reference_polygons": [
+        [
+          [
+            457,
+            1670
+          ],
+          [
+            1247,
+            1477
+          ],
+          [
+            1540,
+            1473
+          ],
+          [
+            709,
+            1718
+          ]
+        ],
+        [
+          [
+            278,
+            1645
+          ],
+          [
+            1024,
+            1480
+          ],
+          [
+            1247,
+            1477
+          ],
+          [
+            457,
+            1670
+          ]
+        ],
+        [
+          [
+            709,
+            1718
+          ],
+          [
+            1540,
+            1473
+          ],
+          [
+            1781,
+            1469
+          ],
+          [
+            1799,
+            1542
+          ],
+          [
+            1072,
+            1758
+          ]
+        ],
+        [
+          [
+            146,
+            1615
+          ],
+          [
+            878,
+            1484
+          ],
+          [
+            1024,
+            1480
+          ],
+          [
+            278,
+            1645
+          ]
+        ]
+      ],
+      "outputs": {
+        "8B": {
+          "raw_reply": "POINT 124 702",
+          "normalized_xy": [
+            124,
+            702
+          ],
+          "native_xy": [
+            476.16,
+            1516.32
+          ],
+          "score": "outside",
+          "correct": false,
+          "wall_seconds": 2.572,
+          "prompt_tokens": 1019,
+          "output_tokens": 10,
+          "image_grid_thw": [
+            [
+              1,
+              44,
+              80
+            ]
+          ]
+        },
+        "35B": {
+          "raw_reply": "NONE",
+          "normalized_xy": null,
+          "native_xy": null,
+          "score": "missed_abstention",
+          "correct": false,
+          "wall_seconds": 22.672,
+          "prompt_tokens": 1023,
+          "output_tokens": 2
+        }
+      }
+    },
+    {
+      "case": "P02",
+      "source": "https://kartaview.org/details/3336817/14/",
+      "request": "An empty marked parking space on the right would work for me.",
+      "native_size": [
+        3264,
+        1836
+      ],
+      "input_size": [
+        1280,
+        704
+      ],
+      "source_sha256": "e42cb766f40a42ac9ccd31bb27d446371bf7972f721883fb64c315713baa5f6f",
+      "common_view_sha256": "8faa7b677c9381a57fdd15b8227d1cc30fdafdb6ca7c4a728aed0d1b51df8373",
+      "cohort": "previously_preregistered",
+      "reference": "whole_bay",
+      "reference_polygons": [
+        [
+          [
+            2192,
+            1121
+          ],
+          [
+            2748,
+            1112
+          ],
+          [
+            2841,
+            1153
+          ],
+          [
+            2338,
+            1165
+          ]
+        ],
+        [
+          [
+            2338,
+            1165
+          ],
+          [
+            2841,
+            1153
+          ],
+          [
+            2919,
+            1224
+          ],
+          [
+            2605,
+            1236
+          ]
+        ],
+        [
+          [
+            2095,
+            1094
+          ],
+          [
+            2711,
+            1081
+          ],
+          [
+            2748,
+            1112
+          ],
+          [
+            2192,
+            1121
+          ]
+        ],
+        [
+          [
+            2005,
+            1072
+          ],
+          [
+            2664,
+            1059
+          ],
+          [
+            2711,
+            1081
+          ],
+          [
+            2095,
+            1094
+          ]
+        ]
+      ],
+      "outputs": {
+        "8B": {
+          "raw_reply": "NONE",
+          "normalized_xy": null,
+          "native_xy": null,
+          "score": "missed_abstention",
+          "correct": false,
+          "wall_seconds": 0.256,
+          "prompt_tokens": 1019,
+          "output_tokens": 2,
+          "image_grid_thw": [
+            [
+              1,
+              44,
+              80
+            ]
+          ]
+        },
+        "35B": {
+          "raw_reply": "NONE",
+          "normalized_xy": null,
+          "native_xy": null,
+          "score": "missed_abstention",
+          "correct": false,
+          "wall_seconds": 0.314,
+          "prompt_tokens": 1023,
+          "output_tokens": 2
+        }
+      }
+    },
+    {
+      "case": "P03",
+      "source": "https://kartaview.org/details/3333849/525/",
+      "request": "I'd like to get out in the space between the silver sedan and the dark SUV on the right.",
+      "native_size": [
+        3264,
+        1836
+      ],
+      "input_size": [
+        1280,
+        704
+      ],
+      "source_sha256": "cd4e27b8077b24d36169170a847c9f5d382e9c315ad5bb670cb51ecf6ed40082",
+      "common_view_sha256": "750714bfa25a275d78f56c72a9ad8d2662137c36c841d44ab0f92f2f8afb32a5",
+      "cohort": "previously_preregistered",
+      "reference": "whole_bay",
+      "reference_polygons": [
+        [
+          [
+            2263,
+            1429
+          ],
+          [
+            2823,
+            1426
+          ],
+          [
+            2888,
+            1457
+          ],
+          [
+            2378,
+            1463
+          ]
+        ],
+        [
+          [
+            2378,
+            1463
+          ],
+          [
+            2888,
+            1457
+          ],
+          [
+            2956,
+            1504
+          ],
+          [
+            2568,
+            1519
+          ]
+        ],
+        [
+          [
+            2188,
+            1407
+          ],
+          [
+            2729,
+            1401
+          ],
+          [
+            2823,
+            1426
+          ],
+          [
+            2263,
+            1429
+          ]
+        ]
+      ],
+      "outputs": {
+        "8B": {
+          "raw_reply": "POINT 873 745",
+          "normalized_xy": [
+            873,
+            745
+          ],
+          "native_xy": [
+            2849.472,
+            1367.82
+          ],
+          "score": "outside",
+          "correct": false,
+          "wall_seconds": 0.847,
+          "prompt_tokens": 1027,
+          "output_tokens": 10,
+          "image_grid_thw": [
+            [
+              1,
+              44,
+              80
+            ]
+          ]
+        },
+        "35B": {
+          "raw_reply": "NONE",
+          "normalized_xy": null,
+          "native_xy": null,
+          "score": "missed_abstention",
+          "correct": false,
+          "wall_seconds": 11.296,
+          "prompt_tokens": 1031,
+          "output_tokens": 2
+        }
+      }
+    },
+    {
+      "case": "P04",
+      "source": "https://kartaview.org/details/5105913/1982/",
+      "request": "Can I get out in a parking bay in front of Asian Cargo?",
+      "native_size": [
+        3264,
+        1836
+      ],
+      "input_size": [
+        1280,
+        704
+      ],
+      "source_sha256": "e6a01b783361da5c8f854ef90c6fb4d9bc6b58f46284af27e51f41e9c4230e43",
+      "common_view_sha256": "be228a5d180d08be9f2236c610f9b37fa61e85c9f786503e98fefe4ab4385d62",
+      "cohort": "previously_preregistered",
+      "reference": "withhold",
+      "reference_polygons": [],
+      "outputs": {
+        "8B": {
+          "raw_reply": "NONE",
+          "normalized_xy": null,
+          "native_xy": null,
+          "score": "correct_abstention",
+          "correct": true,
+          "wall_seconds": 0.254,
+          "prompt_tokens": 1020,
+          "output_tokens": 2,
+          "image_grid_thw": [
+            [
+              1,
+              44,
+              80
+            ]
+          ]
+        },
+        "35B": {
+          "raw_reply": "NONE",
+          "normalized_xy": null,
+          "native_xy": null,
+          "score": "correct_abstention",
+          "correct": true,
+          "wall_seconds": 1.718,
+          "prompt_tokens": 1024,
+          "output_tokens": 2
+        }
+      }
+    },
+    {
+      "case": "P05",
+      "source": "https://kartaview.org/details/4728505/60/",
+      "request": "Can I get out just behind the yellow school bus on the right?",
+      "native_size": [
+        3840,
+        2160
+      ],
+      "input_size": [
+        1280,
+        704
+      ],
+      "source_sha256": "b656dfe867d2d0d43d0b7d109e63e62ac84a0b441c10b8b93391be2f4ddbe60e",
+      "common_view_sha256": "f69588ef5436218460e0fa86afa70637aec7e1456b10eacd6378fb782881cbbd",
+      "cohort": "previously_preregistered",
+      "reference": "withhold",
+      "reference_polygons": [],
+      "outputs": {
+        "8B": {
+          "raw_reply": "NONE",
+          "normalized_xy": null,
+          "native_xy": null,
+          "score": "correct_abstention",
+          "correct": true,
+          "wall_seconds": 0.254,
+          "prompt_tokens": 1020,
+          "output_tokens": 2,
+          "image_grid_thw": [
+            [
+              1,
+              44,
+              80
+            ]
+          ]
+        },
+        "35B": {
+          "raw_reply": "NONE",
+          "normalized_xy": null,
+          "native_xy": null,
+          "score": "correct_abstention",
+          "correct": true,
+          "wall_seconds": 0.308,
+          "prompt_tokens": 1024,
+          "output_tokens": 2
+        }
+      }
+    },
+    {
+      "case": "D01",
+      "source": "https://kartaview.org/details/66245/146/",
+      "request": "Can you drop me next to the parking spot on the right?",
+      "native_size": [
+        2688,
+        1520
+      ],
+      "input_size": [
+        1280,
+        736
+      ],
+      "source_sha256": "534ff1819947cffe773874bc601925b76ad97e8a17048ec75ff76ba916b7a9e3",
+      "common_view_sha256": "29f238d15c1eab77436a18474ebf22e49095f68f72d288f1a3f56f8373043af5",
+      "cohort": "development",
+      "reference": "whole_bay",
+      "reference_polygons": [
+        [
+          [
+            1606.08,
+            1222.268
+          ],
+          [
+            1973.44,
+            1222.268
+          ],
+          [
+            2636.48,
+            1412.548
+          ],
+          [
+            1910.72,
+            1412.548
+          ]
+        ]
+      ],
+      "outputs": {
+        "8B": {
+          "raw_reply": "NONE",
+          "normalized_xy": null,
+          "native_xy": null,
+          "score": "missed_abstention",
+          "correct": false,
+          "wall_seconds": 0.261,
+          "prompt_tokens": 1059,
+          "output_tokens": 2,
+          "image_grid_thw": [
+            [
+              1,
+              46,
+              80
+            ]
+          ]
+        },
+        "35B": {
+          "raw_reply": "NONE",
+          "normalized_xy": null,
+          "native_xy": null,
+          "score": "missed_abstention",
+          "correct": false,
+          "wall_seconds": 0.563,
+          "prompt_tokens": 1063,
+          "output_tokens": 2
+        }
+      }
+    },
+    {
+      "case": "D02",
+      "source": "https://kartaview.org/details/7199241/48/",
+      "request": "Could you drop me next to the restaurant?",
+      "native_size": [
+        3840,
+        2160
+      ],
+      "input_size": [
+        1280,
+        704
+      ],
+      "source_sha256": "ed69e5e794d9618bd153a0ea0266dd0a9203b1526c279ec01a0c9c64b2b0124b",
+      "common_view_sha256": "e66ef3f2055bdf0a2ae35314b971c19ebfa1099be68ef9b806585c624eb18d86",
+      "cohort": "development",
+      "reference": "whole_bay",
+      "reference_polygons": [
+        [
+          [
+            1686.224,
+            1541.502
+          ],
+          [
+            2404.944,
+            1393.098
+          ],
+          [
+            2166.617,
+            1357.333
+          ],
+          [
+            1992.18,
+            1357.333
+          ],
+          [
+            1461.517,
+            1431.071
+          ]
+        ],
+        [
+          [
+            1686.224,
+            1541.502
+          ],
+          [
+            2404.944,
+            1393.098
+          ],
+          [
+            2517.656,
+            1607.36
+          ],
+          [
+            2517.656,
+            1633.025
+          ],
+          [
+            2283.371,
+            1738.299
+          ]
+        ]
+      ],
+      "outputs": {
+        "8B": {
+          "raw_reply": "POINT 727 635",
+          "normalized_xy": [
+            727,
+            635
+          ],
+          "native_xy": [
+            2791.68,
+            1371.6
+          ],
+          "score": "outside",
+          "correct": false,
+          "wall_seconds": 0.92,
+          "prompt_tokens": 1015,
+          "output_tokens": 10,
+          "image_grid_thw": [
+            [
+              1,
+              44,
+              80
+            ]
+          ]
+        },
+        "35B": {
+          "raw_reply": "NONE",
+          "normalized_xy": null,
+          "native_xy": null,
+          "score": "missed_abstention",
+          "correct": false,
+          "wall_seconds": 0.309,
+          "prompt_tokens": 1019,
+          "output_tokens": 2
+        }
+      }
+    }
+  ],
+  "study": "Qwen direct grounding in seven approved public UAE road photographs",
+  "date_utc": "2026-11-23T20:04:13.643357+00:00",
+  "weights": {
+    "published_repository": "https://huggingface.co/Qwen/Qwen3.6-35B-A3B-FP8",
+    "pinned_artifacts": "https://huggingface.co/Qwen/Qwen3.6-35B-A3B-FP8/tree/c653bba46dfa06e9658dcc0b0dc87fe4685f14a2",
+    "license": "apache-2.0",
+    "quantization": "publisher FP8 weights, fine-grained, block size 128. 35B total, 3B active in language decoder",
+    "weight_parts": 42,
+    "weight_bytes": 37463662160,
+    "total_files": 55,
+    "total_bytes": 37493007415,
+    "download_and_verify_seconds": 229.79,
+    "verified_download_manifest_sha256": "053127c5b18496b774ee51397842f1582478651e80e16be278246406e19fa9d6",
+    "cpu_download_modal_run": "ap-V5iw8qYHefJfeyxZc1Qsqc",
+    "persistent_volume": "trackrag-qwen36-35b-fp8",
+    "volume_subdirectory": "qwen36-35b-c653bba46dfa",
+    "qwen38_public_nearby_size": "https://huggingface.co/Qwen/Qwen3.8-27B"
+  },
+  "protocol": {
+    "system": "Use the driver-view photograph to identify where the passenger wants to get out. Choose the centre of one visibly unoccupied off-lane parking or stopping area that matches all the passenger's stated landmarks, side and spatial relationships. If the image does not show such an area clearly, answer NONE. Otherwise answer POINT x y using two integers between 0 and 1000, with x measured from the left and y from the top of the complete photograph. Put the point on the open ground within the area. Output only the requested point or NONE.",
+    "words": "exact passenger text field for each source, no expected answer supplied to either model",
+    "visual_input": "full-frame, RGB, Lanczos to common rounded multiple-of-32 canvas approximately 0.9 megapixel, PNG lossless, no overlay",
+    "max_generated_tokens": 32,
+    "greedy": true,
+    "thinking": false,
+    "metric": "One normalized point scales x by native width/1000, y by native height/1000. Correct if centre inside or on any accepted native polygon; negatives require explicit NONE. Missing/malformed response is an error on either type. Report each split separately; system-generated development contours are not independent reference.",
+    "references": {
+      "experiments\\dropoff\\passenger-whole-bay-prospective-plan-20261123.json": "a3fbdc7d8e579ae62605350dbdf58b4c1d49a593764bf1725ac804801a976776",
+      "experiments\\dropoff\\passenger-whole-bay-prospective-amendment-20261123.json": "6237957a6ad68405ebc234ea88fd2f4f8d720b96a5d3ebe1f2942198b9f9f238",
+      "runs\\painted-bays-20261123\\live-8808-final\\decisions.json": "68c2d22f034e61690627f878c9adef4be8b6361ed084914dedb470097899d2ec"
+    },
+    "runtime_changes": "Aborted vLLM full 1,845-bucket DeepGEMM prewarming after it projected >20 minutes. The identical native FP8 weights were confirmed loaded on the H100. Restart with VLLM_DEEP_GEMM_WARMUP=skip; only kernels for actual requests are needed. No changes to decoding or labels, and no large-model reply had yet been emitted.",
+    "deployment": "ephemeral isolated study; production was not switched",
+    "limitations": "Five previously preregistered AI-reviewed cases were reused for this matched test. The two development references are manually inspected system contours. No human reference study or road-safety certification. Normal passenger service also grounds its answers using other signed evidence and can raise questions; this direct generation test measures the two models in isolation."
+  },
+  "attribution": {
+    "source": "© Grab and KartaView contributors, per-photo source links in cases. Project input views are resized whole photos. Overlays in the local gallery were generated for this comparison.",
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
+    "terms": "https://kartaview.org/terms"
+  },
+  "evidence": {
+    "local_folder": "runs/qwen35-point-trial",
+    "raw_8b": "qwen8-raw.json",
+    "raw_35b": "qwen35-raw.json",
+    "frozen_inputs": "neutral-inputs.json",
+    "model_and_digest_receipt": "download.json",
+    "reference": "frozen-reference.json",
+    "visuals": [
+      "preregistered-side-by-side.jpg",
+      "development-side-by-side.jpg",
+      "all-side-by-side.jpg"
+    ]
+  }
+}

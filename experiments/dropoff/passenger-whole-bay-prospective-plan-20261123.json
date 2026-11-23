@@ -1,0 +1,431 @@
+{
+  "sealed_utc": "2026-11-23T19:26:33.324073+00:00",
+  "depends_on_plan": "passenger-whole-bay-independent-plan-20261123.json",
+  "prior_reference_sha256": "cdeb3413e5753486e2297cb1c154ed1f77b61836237def555ea6c319c484ae88",
+  "scope": "Five additional existing public UAE photographs, each from a different drive that did not appear among the first ten or the new user-supplied curbside drive. The model bank already had automatically prepared signed evidence for every photo. For this cohort the independent judge selected the photos and traced visible areas on the originals without consulting their model predictions or whole-bay annotations. These are newly labelled task cases inside a known photo bank, not five never-processed images.",
+  "selection": "Three positive streets show visible slots marked by paint or a series of white pavement studs. Two negatives show a fully occupied named frontage or a traffic lane behind a bus. No image IDs, answers, or labels were shared with the feature developer before selection. The same fixed geometry and correctness criteria as the first test apply.",
+  "scoring": {
+    "whole_bay": "A normal selectable proposal plus point inside the matching reference polygon (boundary included), original-coordinate outline with IoU >=0.45, >=0.70 precision (fraction of predicted area inside the bay), and >=0.50 coverage (fraction of reference covered). When any bay is requested use the largest IoU among preregistered bays. Record point-only, missing geometry or a different unannotated possible bay separately; none earns whole-bay credit. Report polygons and bounding rectangles separately; score a genuine displayed rectangle geometrically if and only if it meets the same thresholds.",
+    "unique_boundary": "A divider shared with an occupied bay and a visible bay mouth with no other adjacent parking target identify one vacant bay. The highlight may move inside this bay. Record the displacement from the tap in original pixels.",
+    "ambiguous_shared_stripe": "A boundary shared by two vacant neighbouring bays must ask the passenger to distinguish the two specific possibilities (e.g. nearer/farther or labelled visual choices), without unilaterally offering one, or display two independently selectable distinct bay outlines. A generic retap, safety message, missing outline for a unilateral proposal, or silent guessing fails this endpoint. Score the first response then test the specific choice if available.",
+    "withhold": "Ordinary completed outcome with no point or confirmable proposal. Report provider/timeouts separately, do not credit them as abstentions. Every scene includes a through-lane or travel-aisle tap.",
+    "independence": "Give automatic requests typed as exact original strings with ordinary automatic submission and no passenger marks. Score manual taps in independent sessions, using the regular direct-mark page flow. No future observations, recorded user speech, or private inputs. Each offered result must still require a separate confirmation; a user mark never counts as an automatic finding."
+  },
+  "photos": [
+    {
+      "case": "P01",
+      "split": "prospective",
+      "recording_id": "kartaview_5231529",
+      "frame_id": 132,
+      "source": "https://kartaview.org/details/5231529/132/",
+      "image_sha256": "78e265faad2f94bbfe80c56cb7f4b33723340268cfb9a4f5829145f69ee06c3a",
+      "image_size": [
+        3840,
+        2160
+      ],
+      "automatic": {
+        "request": "Can you drop me in an empty parking bay on the left?",
+        "expected": "whole_bay",
+        "acceptable_bays": [
+          "A",
+          "B",
+          "C",
+          "D"
+        ]
+      },
+      "bay_polygons": {
+        "A": [
+          [
+            457,
+            1670
+          ],
+          [
+            1247,
+            1477
+          ],
+          [
+            1540,
+            1473
+          ],
+          [
+            709,
+            1718
+          ]
+        ],
+        "B": [
+          [
+            278,
+            1645
+          ],
+          [
+            1024,
+            1480
+          ],
+          [
+            1247,
+            1477
+          ],
+          [
+            457,
+            1670
+          ]
+        ],
+        "C": [
+          [
+            709,
+            1718
+          ],
+          [
+            1540,
+            1473
+          ],
+          [
+            1781,
+            1469
+          ],
+          [
+            1799,
+            1542
+          ],
+          [
+            1072,
+            1758
+          ]
+        ],
+        "D": [
+          [
+            146,
+            1615
+          ],
+          [
+            878,
+            1484
+          ],
+          [
+            1024,
+            1480
+          ],
+          [
+            278,
+            1645
+          ]
+        ]
+      },
+      "marks": [
+        {
+          "kind": "inside",
+          "xy": [
+            1017,
+            1590
+          ],
+          "expected": "A"
+        },
+        {
+          "kind": "aisle",
+          "xy": [
+            183,
+            1754
+          ],
+          "expected": "withhold"
+        },
+        {
+          "kind": "shared_line",
+          "xy": [
+            1046,
+            1553
+          ],
+          "expected": "A/B"
+        }
+      ]
+    },
+    {
+      "case": "P02",
+      "split": "prospective",
+      "recording_id": "kartaview_3336817",
+      "frame_id": 14,
+      "source": "https://kartaview.org/details/3336817/14/",
+      "image_sha256": "e42cb766f40a42ac9ccd31bb27d446371bf7972f721883fb64c315713baa5f6f",
+      "image_size": [
+        3264,
+        1836
+      ],
+      "automatic": {
+        "request": "An empty marked parking space on the right would work for me.",
+        "expected": "whole_bay",
+        "acceptable_bays": [
+          "A",
+          "B",
+          "C",
+          "D"
+        ]
+      },
+      "bay_polygons": {
+        "A": [
+          [
+            2192,
+            1121
+          ],
+          [
+            2748,
+            1112
+          ],
+          [
+            2841,
+            1153
+          ],
+          [
+            2338,
+            1165
+          ]
+        ],
+        "B": [
+          [
+            2338,
+            1165
+          ],
+          [
+            2841,
+            1153
+          ],
+          [
+            2919,
+            1224
+          ],
+          [
+            2605,
+            1236
+          ]
+        ],
+        "C": [
+          [
+            2095,
+            1094
+          ],
+          [
+            2711,
+            1081
+          ],
+          [
+            2748,
+            1112
+          ],
+          [
+            2192,
+            1121
+          ]
+        ],
+        "D": [
+          [
+            2005,
+            1072
+          ],
+          [
+            2664,
+            1059
+          ],
+          [
+            2711,
+            1081
+          ],
+          [
+            2095,
+            1094
+          ]
+        ]
+      },
+      "marks": [
+        {
+          "kind": "inside",
+          "xy": [
+            2537,
+            1137
+          ],
+          "expected": "A"
+        },
+        {
+          "kind": "lane",
+          "xy": [
+            1393,
+            1311
+          ],
+          "expected": "withhold"
+        },
+        {
+          "kind": "occupied",
+          "xy": [
+            2384,
+            954
+          ],
+          "expected": "withhold"
+        }
+      ]
+    },
+    {
+      "case": "P03",
+      "split": "prospective",
+      "recording_id": "kartaview_3333849",
+      "frame_id": 525,
+      "source": "https://kartaview.org/details/3333849/525/",
+      "image_sha256": "cd4e27b8077b24d36169170a847c9f5d382e9c315ad5bb670cb51ecf6ed40082",
+      "image_size": [
+        3264,
+        1836
+      ],
+      "automatic": {
+        "request": "I'd like to get out in the space between the silver sedan and the dark SUV on the right.",
+        "expected": "whole_bay",
+        "acceptable_bays": [
+          "A",
+          "B",
+          "C"
+        ]
+      },
+      "bay_polygons": {
+        "A": [
+          [
+            2263,
+            1429
+          ],
+          [
+            2823,
+            1426
+          ],
+          [
+            2888,
+            1457
+          ],
+          [
+            2378,
+            1463
+          ]
+        ],
+        "B": [
+          [
+            2378,
+            1463
+          ],
+          [
+            2888,
+            1457
+          ],
+          [
+            2956,
+            1504
+          ],
+          [
+            2568,
+            1519
+          ]
+        ],
+        "C": [
+          [
+            2188,
+            1407
+          ],
+          [
+            2729,
+            1401
+          ],
+          [
+            2823,
+            1426
+          ],
+          [
+            2263,
+            1429
+          ]
+        ]
+      },
+      "marks": [
+        {
+          "kind": "inside",
+          "xy": [
+            2571,
+            1445
+          ],
+          "expected": "A"
+        },
+        {
+          "kind": "lane",
+          "xy": [
+            1489,
+            1547
+          ],
+          "expected": "withhold"
+        }
+      ]
+    },
+    {
+      "case": "P04",
+      "split": "prospective",
+      "recording_id": "kartaview_5105913",
+      "frame_id": 1982,
+      "source": "https://kartaview.org/details/5105913/1982/",
+      "image_sha256": "e6a01b783361da5c8f854ef90c6fb4d9bc6b58f46284af27e51f41e9c4230e43",
+      "image_size": [
+        3264,
+        1836
+      ],
+      "automatic": {
+        "request": "Can I get out in a parking bay in front of Asian Cargo?",
+        "expected": "withhold",
+        "acceptable_bays": []
+      },
+      "bay_polygons": {},
+      "marks": [
+        {
+          "kind": "aisle",
+          "xy": [
+            1657,
+            1653
+          ],
+          "expected": "withhold"
+        },
+        {
+          "kind": "occupied",
+          "xy": [
+            1296,
+            1233
+          ],
+          "expected": "withhold"
+        }
+      ]
+    },
+    {
+      "case": "P05",
+      "split": "prospective",
+      "recording_id": "kartaview_4728505",
+      "frame_id": 60,
+      "source": "https://kartaview.org/details/4728505/60/",
+      "image_sha256": "b656dfe867d2d0d43d0b7d109e63e62ac84a0b441c10b8b93391be2f4ddbe60e",
+      "image_size": [
+        3840,
+        2160
+      ],
+      "automatic": {
+        "request": "Can I get out just behind the yellow school bus on the right?",
+        "expected": "withhold",
+        "acceptable_bays": []
+      },
+      "bay_polygons": {},
+      "marks": [
+        {
+          "kind": "lane",
+          "xy": [
+            1430,
+            1403
+          ],
+          "expected": "withhold"
+        },
+        {
+          "kind": "dashed_lane_stripe",
+          "xy": [
+            1529,
+            1491
+          ],
+          "expected": "withhold"
+        }
+      ]
+    }
+  ]
+}

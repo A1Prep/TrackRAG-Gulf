@@ -324,7 +324,7 @@ def _rank(rank, options, frame):
     return ordered[0] if abs(key(ordered[0])-key(ordered[1]))>minimum else None
 
 
-def match(words, options, scene, observations):
+def match(words, options, scene, observations, *, require_observed_landmark=True):
     """Return fully supported options and separate alternatives that require passenger clarification."""
     from .curbside_bays import RECIPE as parallel_geometry
 
@@ -350,6 +350,11 @@ def match(words, options, scene, observations):
         frontage=False if False in states else None if None in states else True
         anchors=_vehicle_constraint(intent,option,scene,obs) if intent.vehicles else True
         if frontage is False or anchors is False:
+            continue
+        # A photo side and an unidentified nearby detection cannot locate a named frontage
+        # and its neighbouring vehicle. One identified landmark can justify asking about the other.
+        if (require_observed_landmark and intent.frontage and intent.vehicle_relation=="beside"
+                and len(intent.vehicles)==1 and anchors is None and not any(state is True for state in states)):
             continue
         if intent.frontage and frontage is None and not phrases and not intent.vehicles:
             continue

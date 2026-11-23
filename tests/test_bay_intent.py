@@ -77,6 +77,41 @@ def test_signed_single_vehicle_type_and_color_are_grounded_individually():
     assert match("the right bay between a silver sedan and a blue truck",opts,scene,obs)==([],[])
 
 
+def test_storefront_and_single_neighbour_need_evidence_beyond_photo_side():
+    opts,scene,obs=fixture()
+    right=opts[0]
+    row=obs[digest(right["polygon"])]
+    words="Use the bay on the right beside the blue SUV, outside Juniper Books shop."
+    for vehicle in row["pair"]:
+        vehicle["appearance"]="unknown"
+    for frontage in ("NONE","maybe Juniper Books shop","shop"):
+        row["frontage"]=frontage
+        assert match(words,opts,scene,obs)==([],[])
+        assert match(words,opts,scene,obs,require_observed_landmark=False)==([],[right])
+    row["frontage"]="Juniper Books shop"
+    assert match(words,opts,scene,obs)==([],[right])  # The actual named storefront is visible.
+    row["pair"][0]["appearance"]="blue SUV"
+    assert match(words,opts,scene,obs)==([right],[])
+    row["frontage"]="NONE"
+    assert match(words,opts,scene,obs)==([],[right])  # The described neighbouring vehicle is visible.
+    row["frontage"]="Birch Lane shop"
+    assert match(words,opts,scene,obs)==([],[])
+
+
+def test_observed_flanking_geometry_retains_an_honest_between_choice():
+    opts,scene,obs=fixture()
+    right=opts[0]
+    row=obs[digest(right["polygon"])]
+    row["frontage"]="NONE"
+    row["pair"][1]["appearance"]="SUV"
+    words="Use the bay on the right between the silver sedan and the black SUV, outside Juniper Books."
+    assert match(words,opts,scene,obs)==([],[right])
+    row["pair"][1]["appearance"]="black SUV"
+    assert match(words,opts,scene,obs)==([],[right])
+    row["frontage"]="Juniper Books"
+    assert match(words,opts,scene,obs)==([right],[])
+
+
 def test_frontage_placeholders_and_combinations_preserve_location_and_uncertainty():
     opts,scene,obs=fixture();right=opts[0];key=digest(right["polygon"])
     words="One of the empty painted spaces beside the hedge on the right."

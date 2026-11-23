@@ -1,0 +1,585 @@
+{
+  "repository": "allenai/MolmoPoint-8B",
+  "revision": "188130f961c8e0888a34e11121a1423c461a01ba",
+  "device": "NVIDIA A100-SXM4-40GB",
+  "dtype": "bfloat16",
+  "weights_load_s": 36.096,
+  "total_remote_s": 65.513,
+  "peak_allocated_gpu_gib": 18.486,
+  "local_elapsed_s": 88.016,
+  "plan_sha256": "de50aac891cb940902f3103caf8ab26e01097d2ccf3619a4236fabbf11018427",
+  "measurement": "One independent inference per original photograph/prompt on one finite private Modal A100 run; source images and model weights remain outside Git. Native outputs are in original pixel coordinates. Runtime is remote per-prompt inference, with setup and transfer measured separately. The previously recorded application used human-confirmed workflows; a selectable option is kept separate from an automatic pin.",
+  "results": {
+    "ground_negative": {
+      "false_point": 5
+    },
+    "ground_positive": {
+      "wrong_point": 6
+    },
+    "visible_object": {
+      "correct_point": 5
+    }
+  },
+  "median_inference_s": 1.784,
+  "observed_output_sha256": "8062bbf8a5ae4c0fc64f471869a94db5c7b347504882e8fbd7c27b3a88831d9e",
+  "recorded_application_source_sha256": {
+    "R": "10034aa110129ec1ed177a79cf67f7d9dfad7bd770a2169c40b2725a52af0502",
+    "T": "ff3ea59c5f3049077ec92b1ad1a1051763e9211b2c2581c35b775f5ca7329561"
+  },
+  "trials": [
+    {
+      "id": "R02-ground",
+      "photo_sha256": "ab05db00759062595063f27d3aff5b608c323d62872429ac596fd2fcf07ee8b3",
+      "size": [
+        3840,
+        2160
+      ],
+      "prompt_sha256": "031a341855050f073d00e7f1270dd209f8837e621554ac595cc4e27d415bc170",
+      "tokens": 17,
+      "text": "<points coords=\"<POINT_1804><POINT_2759><POINT_2765>1<POINT_2758>\">parking space</point><|im_end|>",
+      "points": [
+        {
+          "object_id": 1,
+          "image": 0,
+          "xy": [
+            1390.111475409836,
+            1358.357142857143
+          ]
+        }
+      ],
+      "inference_s": 3.203,
+      "expected": "point",
+      "task": "ground",
+      "grade": "wrong_point",
+      "point_in_target": [
+        []
+      ],
+      "signed_distance_to_reference_pixels": [
+        -330.27
+      ],
+      "points_on_separately_annotated_vehicle": [
+        false
+      ],
+      "recorded_application_grade": "choice_match",
+      "recorded_application_first_visible_ms": 3199
+    },
+    {
+      "id": "R03-ground",
+      "photo_sha256": "d0b190d43a9dcfe9a013ae71a0f776494db53901fd70beb8477a8dacdc1763d6",
+      "size": [
+        3840,
+        2160
+      ],
+      "prompt_sha256": "03f6e94d74855ad308a6efcd47b537360c6e6f787d0fc1e16182253e3857c39d",
+      "tokens": 22,
+      "text": "<points coords=\"<POINT_1727><POINT_2760><POINT_2765>1<POINT_2758>\">centre of the visible unoccupied ground space</point><|im_end|>",
+      "points": [
+        {
+          "object_id": 1,
+          "image": 0,
+          "xy": [
+            414.37377049180327,
+            1306.9285714285716
+          ]
+        }
+      ],
+      "inference_s": 1.833,
+      "expected": "point",
+      "task": "ground",
+      "grade": "wrong_point",
+      "point_in_target": [
+        []
+      ],
+      "signed_distance_to_reference_pixels": [
+        -722.31
+      ],
+      "points_on_separately_annotated_vehicle": [
+        false
+      ],
+      "recorded_application_grade": "withheld",
+      "recorded_application_first_visible_ms": 1105
+    },
+    {
+      "id": "R04-ground",
+      "photo_sha256": "976a275111769a8fbd066f25a3b6fd2b231dc7ddf5a42d6d6bfd2f74233b09a0",
+      "size": [
+        3840,
+        2160
+      ],
+      "prompt_sha256": "5f149c13e39e71da50220bf8c8eeaa48b313622d0f65f529a6478082ca83138f",
+      "tokens": 22,
+      "text": "<points coords=\"<POINT_2304><POINT_2759><POINT_2771>1<POINT_2758>\">centre of the visible unoccupied ground space</point><|im_end|>",
+      "points": [
+        {
+          "object_id": 1,
+          "image": 0,
+          "xy": [
+            2166.2950819672133,
+            1769.7857142857144
+          ]
+        }
+      ],
+      "inference_s": 1.916,
+      "expected": "point",
+      "task": "ground",
+      "grade": "wrong_point",
+      "point_in_target": [
+        []
+      ],
+      "signed_distance_to_reference_pixels": [
+        -772.11
+      ],
+      "points_on_separately_annotated_vehicle": null,
+      "recorded_application_grade": "withheld",
+      "recorded_application_first_visible_ms": 2640
+    },
+    {
+      "id": "R05-ground",
+      "photo_sha256": "a07e0ded72bad166579a87adea852f1a5eef11e83e43f11c914388370c5c1e9a",
+      "size": [
+        3840,
+        2160
+      ],
+      "prompt_sha256": "0848d705919c7877be39c253cdc44b5852ca3b78593c65fdf8d6c0c8f2e845a5",
+      "tokens": 20,
+      "text": "<points coords=\"<POINT_1745><POINT_2762><POINT_2763>1<POINT_2758>\">center of unoccupied parking space</point><|im_end|>",
+      "points": [
+        {
+          "object_id": 1,
+          "image": 0,
+          "xy": [
+            1547.488524590164,
+            1315.6714285714286
+          ]
+        }
+      ],
+      "inference_s": 1.737,
+      "expected": "withhold",
+      "task": "ground",
+      "grade": "false_point",
+      "point_in_target": [
+        []
+      ],
+      "signed_distance_to_reference_pixels": null,
+      "points_on_separately_annotated_vehicle": null,
+      "recorded_application_grade": "correct_withholding",
+      "recorded_application_first_visible_ms": 5413
+    },
+    {
+      "id": "R06-ground",
+      "photo_sha256": "7cc82c9152e1c0bada060789698e19b695cba6a92d6dd67efa982eddb1c97965",
+      "size": [
+        3264,
+        1836
+      ],
+      "prompt_sha256": "ddb18a86dfbb289a1a8ccf18137812c009f638cefcb19cd09a63fbf96a05c57c",
+      "tokens": 17,
+      "text": "<points coords=\"<POINT_1877><POINT_2760><POINT_2769>1<POINT_2758>\">drop-off point</point><|im_end|>",
+      "points": [
+        {
+          "object_id": 1,
+          "image": 0,
+          "xy": [
+            1868.1049180327868,
+            1183.8921428571427
+          ]
+        }
+      ],
+      "inference_s": 1.523,
+      "expected": "withhold",
+      "task": "ground",
+      "grade": "false_point",
+      "point_in_target": [
+        []
+      ],
+      "signed_distance_to_reference_pixels": null,
+      "points_on_separately_annotated_vehicle": null,
+      "recorded_application_grade": "correct_withholding",
+      "recorded_application_first_visible_ms": 1102
+    },
+    {
+      "id": "R07-ground",
+      "photo_sha256": "918e3e64b7e104fa7e25758e853e712d435ac234349aa802c183f7940c34ea6e",
+      "size": [
+        3840,
+        2160
+      ],
+      "prompt_sha256": "88b87600cd70ac05ce281118d593fce960151e8b9c0a4ffaa470c821d7f340fe",
+      "tokens": 22,
+      "text": "<points coords=\"<POINT_1868><POINT_2760><POINT_2771>1<POINT_2758>\">centre of the visible unoccupied ground space</point><|im_end|>",
+      "points": [
+        {
+          "object_id": 1,
+          "image": 0,
+          "xy": [
+            1631.2131147540986,
+            1409.7857142857142
+          ]
+        }
+      ],
+      "inference_s": 1.789,
+      "expected": "withhold",
+      "task": "ground",
+      "grade": "false_point",
+      "point_in_target": [
+        []
+      ],
+      "signed_distance_to_reference_pixels": null,
+      "points_on_separately_annotated_vehicle": null,
+      "recorded_application_grade": "correct_withholding",
+      "recorded_application_first_visible_ms": 1709
+    },
+    {
+      "id": "T01-ground",
+      "photo_sha256": "1002226173c113c3ead9370fd6e8aa2dbabc6b650ca983198adff0778138b657",
+      "size": [
+        2688,
+        1520
+      ],
+      "prompt_sha256": "1a2789139f8cb20685e31a216ae5228d042e2e7836cd97f4acc5a6fe9b2dff3c",
+      "tokens": 17,
+      "text": "<points coords=\"<POINT_2186><POINT_2762><POINT_2765>1<POINT_2758>\">pull-off area</point><|im_end|>",
+      "points": [
+        {
+          "object_id": 1,
+          "image": 0,
+          "xy": [
+            1700.16,
+            1191.1190476190477
+          ]
+        }
+      ],
+      "inference_s": 1.457,
+      "expected": "point",
+      "task": "ground",
+      "grade": "wrong_point",
+      "point_in_target": [
+        []
+      ],
+      "signed_distance_to_reference_pixels": [
+        -95.37
+      ],
+      "points_on_separately_annotated_vehicle": [
+        false
+      ],
+      "recorded_application_grade": "withheld",
+      "recorded_application_first_visible_ms": 1671
+    },
+    {
+      "id": "T02-ground",
+      "photo_sha256": "129e43a4f8482d50707f75d002c0e8dc809d2ae0fea3da57a1e4d030527c080a",
+      "size": [
+        3840,
+        2160
+      ],
+      "prompt_sha256": "6c517fdd056555fd7b6e31135d577d60350054d615cc58afe47a0fd9e05461c2",
+      "tokens": 17,
+      "text": "<points coords=\"<POINT_1201><POINT_2762><POINT_2765>1<POINT_2758>\">drop-off point</point><|im_end|>",
+      "points": [
+        {
+          "object_id": 1,
+          "image": 0,
+          "xy": [
+            1862.2426229508196,
+            869.7857142857143
+          ]
+        }
+      ],
+      "inference_s": 1.517,
+      "expected": "point",
+      "task": "ground",
+      "grade": "wrong_point",
+      "point_in_target": [
+        []
+      ],
+      "signed_distance_to_reference_pixels": [
+        -74.16
+      ],
+      "points_on_separately_annotated_vehicle": null,
+      "recorded_application_grade": "withheld",
+      "recorded_application_first_visible_ms": 5382
+    },
+    {
+      "id": "T03-ground",
+      "photo_sha256": "bae3d01037cdc79d690fe49f11cf8603abec303643967805ffdbb72abff23b36",
+      "size": [
+        3840,
+        2160
+      ],
+      "prompt_sha256": "5a901ae166de2686b0d2a968affbb689c498ba5599f0ff597d8a4c45c51ba64b",
+      "tokens": 17,
+      "text": "<points coords=\"<POINT_2299><POINT_2762><POINT_2769>1<POINT_2758>\">drop-off point</point><|im_end|>",
+      "points": [
+        {
+          "object_id": 1,
+          "image": 0,
+          "xy": [
+            1883.016393442623,
+            1778.5285714285717
+          ]
+        }
+      ],
+      "inference_s": 1.546,
+      "expected": "point",
+      "task": "ground",
+      "grade": "wrong_point",
+      "point_in_target": [
+        []
+      ],
+      "signed_distance_to_reference_pixels": [
+        -212.61
+      ],
+      "points_on_separately_annotated_vehicle": [
+        true
+      ],
+      "recorded_application_grade": "withheld",
+      "recorded_application_first_visible_ms": 1108
+    },
+    {
+      "id": "T04-ground",
+      "photo_sha256": "a2b23025bda4791dd7a53822937eeb69f2b9655011b6b8be537d9cde4f8158c0",
+      "size": [
+        3264,
+        1836
+      ],
+      "prompt_sha256": "1d998bf9ae1dbb614103b8d6de9cd1fe2afe134894324e5ed38af84a2a58d078",
+      "tokens": 22,
+      "text": "<points coords=\"<POINT_1826><POINT_2760><POINT_2763>1<POINT_2758>\">space by blue car outside Cibo Diet</point><|im_end|>",
+      "points": [
+        {
+          "object_id": 1,
+          "image": 0,
+          "xy": [
+            2385.529180327869,
+            1140.177857142857
+          ]
+        }
+      ],
+      "inference_s": 1.779,
+      "expected": "withhold",
+      "task": "ground",
+      "grade": "false_point",
+      "point_in_target": [
+        []
+      ],
+      "signed_distance_to_reference_pixels": null,
+      "points_on_separately_annotated_vehicle": null,
+      "recorded_application_grade": "timeout",
+      "recorded_application_first_visible_ms": 15428
+    },
+    {
+      "id": "T05-ground",
+      "photo_sha256": "4b839f186c8365013c4db4087373e1b3fa26dba12777e34b32e4fd34d7c87d27",
+      "size": [
+        3840,
+        2160
+      ],
+      "prompt_sha256": "ff16b7be59aee7a30177c7b874f6d560b2972fc4e5839e6e7ed1e8ac15bd0395",
+      "tokens": 22,
+      "text": "<points coords=\"<POINT_1691><POINT_2761><POINT_2769>1<POINT_2758>\">centre of the visible unoccupied ground space</point><|im_end|>",
+      "points": [
+        {
+          "object_id": 1,
+          "image": 0,
+          "xy": [
+            1977.44262295082,
+            1264.242857142857
+          ]
+        }
+      ],
+      "inference_s": 1.761,
+      "expected": "withhold",
+      "task": "ground",
+      "grade": "false_point",
+      "point_in_target": [
+        []
+      ],
+      "signed_distance_to_reference_pixels": null,
+      "points_on_separately_annotated_vehicle": [
+        false
+      ],
+      "recorded_application_grade": "correct_withholding",
+      "recorded_application_first_visible_ms": 2134
+    },
+    {
+      "id": "R02-object",
+      "photo_sha256": "ab05db00759062595063f27d3aff5b608c323d62872429ac596fd2fcf07ee8b3",
+      "size": [
+        3840,
+        2160
+      ],
+      "prompt_sha256": "c67a949d4ab1019fd6fc574132081c45cce78e3d6a9c70b2fcbe685a755fe96d",
+      "tokens": 23,
+      "text": "<points coords=\"<POINT_1888><POINT_2762><POINT_2769>1<POINT_2758>\">centre of the blue sedan parked outside the exchange</point><|im_end|>",
+      "points": [
+        {
+          "object_id": 1,
+          "image": 0,
+          "xy": [
+            2890.229508196722,
+            1418.5285714285715
+          ]
+        }
+      ],
+      "inference_s": 1.823,
+      "expected": "point",
+      "task": "object",
+      "grade": "correct_point",
+      "point_in_target": [
+        [
+          "object"
+        ]
+      ],
+      "signed_distance_to_reference_pixels": [
+        187.23
+      ],
+      "points_on_separately_annotated_vehicle": null,
+      "recorded_application_grade": null,
+      "recorded_application_first_visible_ms": null
+    },
+    {
+      "id": "R03-object",
+      "photo_sha256": "d0b190d43a9dcfe9a013ae71a0f776494db53901fd70beb8477a8dacdc1763d6",
+      "size": [
+        3840,
+        2160
+      ],
+      "prompt_sha256": "d2ca8d4dfc8b32a466d7e252ff008ada9edc3f4802dc5b178cc9b8b2e39676fb",
+      "tokens": 21,
+      "text": "<points coords=\"<POINT_1937><POINT_2759><POINT_2771>1<POINT_2758>\">centre of the bright blue advertising pickup.</point><|im_end|>",
+      "points": [
+        {
+          "object_id": 1,
+          "image": 0,
+          "xy": [
+            2103.3442622950824,
+            1461.2142857142858
+          ]
+        }
+      ],
+      "inference_s": 1.748,
+      "expected": "point",
+      "task": "object",
+      "grade": "correct_point",
+      "point_in_target": [
+        [
+          "object"
+        ]
+      ],
+      "signed_distance_to_reference_pixels": [
+        222.74
+      ],
+      "points_on_separately_annotated_vehicle": null,
+      "recorded_application_grade": null,
+      "recorded_application_first_visible_ms": null
+    },
+    {
+      "id": "T01-object",
+      "photo_sha256": "1002226173c113c3ead9370fd6e8aa2dbabc6b650ca983198adff0778138b657",
+      "size": [
+        2688,
+        1520
+      ],
+      "prompt_sha256": "b3beb7e0d6bc067d6241f2d3d05a0c9b3bf0cb69de595c97251f0d722aa53173",
+      "tokens": 28,
+      "text": "<points coords=\"<POINT_2292><POINT_2761><POINT_2765>1<POINT_2758>\">dark SUV immediately in front of the camera with its two rear lamps visible.</point><|im_end|>",
+      "points": [
+        {
+          "object_id": 1,
+          "image": 0,
+          "xy": [
+            973.0780327868852,
+            1263.5
+          ]
+        }
+      ],
+      "inference_s": 2.015,
+      "expected": "point",
+      "task": "object",
+      "grade": "correct_point",
+      "point_in_target": [
+        [
+          "object"
+        ]
+      ],
+      "signed_distance_to_reference_pixels": [
+        253.67
+      ],
+      "points_on_separately_annotated_vehicle": null,
+      "recorded_application_grade": null,
+      "recorded_application_first_visible_ms": null
+    },
+    {
+      "id": "T03-object",
+      "photo_sha256": "bae3d01037cdc79d690fe49f11cf8603abec303643967805ffdbb72abff23b36",
+      "size": [
+        3840,
+        2160
+      ],
+      "prompt_sha256": "71a76b4c3580010728e0ecb4663f9f129563fb91400ca6bb63f618f393c5bc5a",
+      "tokens": 26,
+      "text": "<points coords=\"<POINT_2299><POINT_2762><POINT_2766>1<POINT_2758>\">white sedan parked on the right shoulder near the large rubbish skip</point><|im_end|>",
+      "points": [
+        {
+          "object_id": 1,
+          "image": 0,
+          "xy": [
+            1872.6295081967212,
+            1778.5285714285717
+          ]
+        }
+      ],
+      "inference_s": 1.932,
+      "expected": "point",
+      "task": "object",
+      "grade": "correct_point",
+      "point_in_target": [
+        [
+          "object"
+        ]
+      ],
+      "signed_distance_to_reference_pixels": [
+        95.83
+      ],
+      "points_on_separately_annotated_vehicle": null,
+      "recorded_application_grade": null,
+      "recorded_application_first_visible_ms": null
+    },
+    {
+      "id": "T05-object",
+      "photo_sha256": "4b839f186c8365013c4db4087373e1b3fa26dba12777e34b32e4fd34d7c87d27",
+      "size": [
+        3840,
+        2160
+      ],
+      "prompt_sha256": "74a30e6f770bc6fdfcc07de10d019ddff1e08d224c7b5598b5ff3e1d5a9c33b3",
+      "tokens": 24,
+      "text": "<points coords=\"<POINT_1712><POINT_2759><POINT_2764>1<POINT_2758>\">bright blue sedan parked on the right in the garage</point><|im_end|>",
+      "points": [
+        {
+          "object_id": 1,
+          "image": 0,
+          "xy": [
+            3278.636065573771,
+            1247.0142857142857
+          ]
+        }
+      ],
+      "inference_s": 1.835,
+      "expected": "point",
+      "task": "object",
+      "grade": "correct_point",
+      "point_in_target": [
+        [
+          "object"
+        ]
+      ],
+      "signed_distance_to_reference_pixels": [
+        118.23
+      ],
+      "points_on_separately_annotated_vehicle": null,
+      "recorded_application_grade": null,
+      "recorded_application_first_visible_ms": null
+    }
+  ]
+}

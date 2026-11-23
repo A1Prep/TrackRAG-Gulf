@@ -1,7 +1,7 @@
 {
   "plan": "passenger-placement-holdout-plan-20261124.json",
   "plan_sha256": "c7b59143eeb0fbb1226e5d0989db92fa7d49d474a2e9faff52114027a7c1a277",
-  "scope": "Eight different, previously held-out UAE drives and 27 real Microsoft Edge sessions per build. Every submitted photo was hashed in the browser against the original file. All five potential positives were chosen from photo pixels before either run: one marked whole-space reference with two accepted neighbouring bays and four unmarked off-lane point references. One independent AI judge; no passenger study, site visit or legal clearance.",
+  "scope": "Eight different, UAE drives prospectively reserved for this revision and 27 real Microsoft Edge sessions per build. Every submitted photo was hashed in the browser against the original file. All five potential positives were chosen from photo pixels before either run: one marked whole-space reference with two accepted neighbouring bays and four unmarked off-lane point references. One independent AI judge; no passenger study, site visit or legal clearance.",
   "builds": {
     "baseline": "Canonical 8775 prior to the 20:49 UTC service restart; connected-pavement/observed-landmark policy v4.",
     "candidate": "Canonical 8775 after /api/footage-catalog became available; parking-row and observed-landmark policy v5, with the four newly signed photo-level observations already installed."
@@ -2246,5 +2246,9 @@
       "full_screenshot_sha256": "97c62c4dc28cc2c104a7241000d44d8c9269d9e41e83c6b2300d9d511ea62657",
       "public_screenshot": "passenger-placement-lost-response-20261124.jpg"
     }
+  },
+  "historical_source_correction": {
+    "file": "passenger-placement-source-history-20261124.json",
+    "summary": "Every original in this cohort appeared in earlier project studies, sometimes with related landmarks or intents. The new exact wording, regions and version comparison were prospectively frozen. Photo-level novelty is not claimed."
   }
 }

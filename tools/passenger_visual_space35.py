@@ -65,13 +65,15 @@ def inspect(requests):
 
 
 @app.local_entrypoint()
-def main(reuse:bool=False, paved:bool=False):
+def main(reuse:bool=False, paved:bool=False, extension:bool=False):
     from io import BytesIO
     from PIL import Image
     from trackrag.dropoff import manual_surfaces,visual_space
     from trackrag.dropoff.passenger import digest
     from tools.passenger_release import PUBLIC_PHOTO_LISTS,ROOT
     bank=ROOT/"data/uae-parking-study"
+    if paved and extension:
+        raise ValueError("Choose one source geometry recipe.")
     allowed={p["sha256"] for f in PUBLIC_PHOTO_LISTS for p in json.loads((ROOT/"experiments/dropoff"/f).read_bytes())["photos"]}
     sources={}; jobs=[]
     for line in (bank/"passenger-requests.jsonl").read_bytes().splitlines():
@@ -87,11 +89,17 @@ def main(reuse:bool=False, paved:bool=False):
             raise ValueError("Original file changed.")
         classes=manual_surfaces.decode(surface,scene["frame"],key)
         with Image.open(BytesIO(photo)) as original:
-            points=visual_space.paved_samples(scene,classes,original) if paved else visual_space.samples(scene,classes)
+            points=(visual_space.extension_samples(scene,classes,original) if extension else
+                    visual_space.paved_samples(scene,classes,original) if paved else visual_space.samples(scene,classes))
         if points:
             sources[key]=(scene,photo,surface)
-            jobs.append({"photo":photo,"sides":points,"context":digest(visual_space.context(scene))})
+            # Native geometry can contain NumPy float scalars. Send only JSON numbers
+            # so the image-rendering process can read them with its minimal dependencies.
+            jobs.append({"photo":photo,"sides":json.loads(json.dumps(points,allow_nan=False)),
+                         "context":digest(visual_space.context(scene))})
     destination=visual_space.PAVED_BANK if paved else visual_space.BANK
+    if extension:
+        destination=visual_space.EXTENSION_BANK
     cache=ROOT/"runs/model-cache"/destination.stem
     cache.mkdir(parents=True,exist_ok=True)
     print(f"Reviewing {len(jobs)} allowlisted originals, {sum(len(j['sides']) for j in jobs)} photo sides.",flush=True)
@@ -107,7 +115,7 @@ def main(reuse:bool=False, paved:bool=False):
     count=0
     with ZipFile(pending,"w",ZIP_DEFLATED) as archive:
         for key in sorted(packets):
-            count+=len(visual_space.verified(*sources[key],packets[key],paved=paved))
+            count+=len(visual_space.verified(*sources[key],packets[key],paved=paved,extension=extension))
             archive.writestr(key+".json",json.dumps(packets[key]).encode())
     pending.replace(destination)
     print(f"Verified {len(packets)} original photo receipts with {count} visually agreed points before physical checks.",flush=True)

@@ -87,6 +87,14 @@ With the default directories shown above, subsequent launches can use `python -m
 
 A fresh GitHub clone on the project laptop generated a proposal behind the white SUV and accepted confirmation of that precise proposal. A second install in that checkout downloaded both model and detector archives from the private release. All 300 original photographs passed validation and all ten prepared inputs matched the originals byte for byte. Both rehearsals shared the laptop’s installed Python environment and pinned base model. [Fresh-checkout evidence](../experiments/dropoff/passenger-fresh-checkout-20261122.json)
 
+### Six UAE photographs processed locally
+
+Run `python -m tools.passenger_local_photos install` to add six further public UAE scenes to the standard passenger catalogue. The installer retrieves the provider-blurred KartaView originals, checks their SHA-256 hashes and dimensions, and restores 131 observations from the project's fine-tuned RF-DETR Large and BoT-SORT run. Each photograph is a single frame from a different drive, so the saved identities describe road users visible in that photograph. The app keeps model processing local for these scenes. Another checkout can use these saved observations without installing the detector. [Photo, licence and source manifest](../experiments/dropoff/passenger-local-photos-20261124.json) · [Saved detector outputs](../experiments/dropoff/passenger-local-photo-predictions-20261124.zip)
+
+To install offline, copy the six original JPEGs into one directory, retaining their SHA-256 filenames, and run `python -m tools.passenger_local_photos install --offline --originals <jpeg-directory>`. To rerun the detector with the Task 1 environment and original checkpoint, use `python -m tools.passenger_local_photos --manifest experiments/dropoff/passenger-local-photos-20261124.json --originals <jpeg-directory> --out <new-run-directory> --device cpu`.
+
+Photographs © Grab and KartaView Contributors. The project derived the pixel-coordinate detections and per-image tracks and shares them under CC BY-SA 4.0. [KartaView terms](https://kartaview.org/terms) · [Licence](https://creativecommons.org/licenses/by-sa/4.0/)
+
 The launcher selects Whisper when its runtime and local model are installed. To explicitly choose a recognizer, supply `--whisper-model <folder>` or `--asr-model <Vosk-folder>`. A Vosk-only installation also supports editable voice input. Use `--text-only` to start with typing.
 
 ## Evaluation and review

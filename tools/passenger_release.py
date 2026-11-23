@@ -213,7 +213,8 @@ def start(args):
                cache_dir=str(args.processor_cache.resolve()))
     banks = args.requests or [ROOT/"runs/passenger-inputs/requests.jsonl"]
     if args.requests is None:
-        for extra in ("runs/passenger-pair-scene/requests.jsonl", "data/uae-parking-study/passenger-requests.jsonl"):
+        for extra in ("runs/passenger-pair-scene/requests.jsonl", "data/uae-parking-study/passenger-requests.jsonl",
+                      "data/uae-parking-local/passenger-requests.jsonl"):
             if (ROOT/extra).is_file():
                 banks.append(ROOT/extra)
     for path in banks:

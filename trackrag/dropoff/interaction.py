@@ -406,6 +406,7 @@ class PassengerSession:
         self._manual_submission_box = None
         self._manual_offer = None
         self._bay_menu = self._bay_selection = None
+        self._references_only = False
         self._waiting_place = False
         self._requested_area = False
         self._error, self._selected_by, self._request = None, None, None
@@ -438,6 +439,8 @@ class PassengerSession:
             frame = self._scene["frame"]
             receipt = self._manual_offer[1] if self._manual_offer else self._place_offer
             bay = {}
+            if self._references_only and self._state=="needs_clarification":
+                bay["references_only"]=True
             if receipt is not None and receipt["provenance"].get("bay_outline"):
                 bay["bay_outline"] = receipt["provenance"]["bay_outline"]
             if self._bay_menu is not None:
@@ -500,6 +503,8 @@ class PassengerSession:
             raise ValueError("Only the passenger can request to mark the photo.")
         if verifier is not None:
             verifier(req, outcome)
+            self._references_only = (info.get("reason")=="vehicle_seen_space_withheld" and
+                                     result["status"]=="needs_clarification" and bool(result.get("anchor_boxes_xyxy")))
             if result["status"] == "proposed":
                 self._place_offer = deepcopy(outcome)
                 self._place_offer_sha256 = digest(outcome)
@@ -528,6 +533,7 @@ class PassengerSession:
         self._manual_offer = None
         self._manual_submission_box = None
         self._bay_menu = self._bay_selection = None
+        self._references_only = False
         self._waiting_place = False
 
     def _save_turn(self, action, detail):

@@ -21,7 +21,8 @@ class ParkingPassengerSession(PassengerSession):
         self._parking_recovery = False
 
     def interpret_automatic(self, request):
-        if not parking.parking_instruction(request):
+        from .local_surfaces import local_only
+        if local_only(request["scene"]) or not parking.parking_instruction(request):
             return super().interpret_automatic(request)
         # A named stall can also be described by two vehicles. Check its actual footprint first.
         inspect=getattr(self.model,"inspect_requested_bay",None)

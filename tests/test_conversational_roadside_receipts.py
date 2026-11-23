@@ -7,7 +7,7 @@ from PIL import Image
 
 from test_passenger_manual_offlane import provide_map
 from test_passenger_roadside_evidence import reviewed
-from trackrag.dropoff import roadside_context,whole_bay
+from trackrag.dropoff import curb_point_language,roadside_context,whole_bay
 
 
 def bind_gravel(monkeypatch, packet):
@@ -76,3 +76,39 @@ def test_absent_geometry_is_replayed_from_the_authentic_recorded_surface(tmp_pat
     changed["provenance"]["surface_evidence"]["signature"]="00"*64
     with pytest.raises(ValueError):
         whole_bay.verify(request,changed)
+
+
+def test_fragment_requires_two_vehicle_heads_and_checks_all_modifiers_against_the_source(reviewed,monkeypatch):
+    request,photo,surface,pairs,packet,_=reviewed
+    # Feed this independently signed fixture board through the usual roadside reader.
+    monkeypatch.setattr(roadside_context,"get_packet",lambda key,gravel_only=False:None if gravel_only else packet)
+    monkeypatch.setattr(roadside_context,"candidates",lambda *a,**kw:pairs)
+    request["text"]="Between the red minivan and the black hatchback just here, please."
+    out=whole_bay.explicit_request(request)
+    assert out["provenance"]["language_policy"]==whole_bay.ABBREVIATED_PAIR_POLICY
+    assert out["result"]["status"]=="needs_clarification" and len(out["provenance"]["bay_choices"])==1
+    assert not out["provenance"]["independent_model_proposal"]
+    assert whole_bay.verify_current(request,out)["archived_roadside_context_records"]==1
+    changed={**request,"text":request["text"].replace("red","blue")}
+    with pytest.raises(ValueError):
+        whole_bay.verify(changed,out)
+    withheld=whole_bay.explicit_request(changed)
+    assert not withheld["provenance"]["bay_choices"]
+    assert withheld["provenance"]["reason"]=="pictured_pair_fragment_unmatched"
+    assert whole_bay.verify_current(changed,withheld)["decision_reproduced"]
+    forged=deepcopy(out)
+    forged["provenance"]["roadside_evidence"]["signature"]="00"*64
+    with pytest.raises(ValueError):
+        whole_bay.verify_current(request,forged)
+
+
+@pytest.mark.parametrize("words",[
+    "Between the white sedan and the blue van, which is moving?",
+    "Between the car and the minivan on the left or on the right, please.",
+    "Between the blue car and a child on the right.",
+    "Between the trucks in the active travel lane.",
+    "Before the blue van and after the red bus, please.",
+    "I don't want to stop between the blue minivan and the red car.",
+])
+def test_abbreviated_pair_cannot_convert_a_question_or_partial_clause_into_a_location(words):
+    assert curb_point_language.abbreviated_pair(words) is None

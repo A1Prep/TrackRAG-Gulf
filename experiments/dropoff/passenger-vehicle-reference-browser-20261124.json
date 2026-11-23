@@ -1,0 +1,140 @@
+{
+  "scope": "Previously evaluated photographs and request wording on the normal Edge passenger screen. These first submissions and repeats verify the displayed reference vehicles, location offers and explicit saving. They are separate from independent location field accuracy. A visual review and canvas measurements checked what actually appeared.",
+  "source_attribution": "© Grab and KartaView Contributors",
+  "source_license": "https://creativecommons.org/licenses/by-sa/4.0/",
+  "browser": "Microsoft Edge, 1380 × 920",
+  "application_asset_sha256": "a66a5636fd5c79cd472559f59607a97aaa1620ea3eec58a8740f6d2697e8c5ca",
+  "timing": "Milliseconds from pressing Find to a visible terminal response, including client polling. Repeat used a new session on the same local staging instance after prior processing.",
+  "observations": [
+    {
+      "case": "R03",
+      "source_url": "https://kartaview.org/details/7120073/499/",
+      "source_sha256": "d0b190d43a9dcfe9a013ae71a0f776494db53901fd70beb8477a8dacdc1763d6",
+      "words": "Just behind that bright blue advertising pickup on the right would be great.",
+      "initial_visible_ms": 1107,
+      "repeat_visible_ms": 618,
+      "state": "needs_clarification",
+      "title": "I found the vehicle you described",
+      "legend": "Blue outline shows the vehicle you described · Drop-off point unverified",
+      "actual_blue_reference_box_count": 1,
+      "blue_pixels_measured_along_each_reported_anchor": [
+        27
+      ],
+      "gold_pixels_on_overlay": 0,
+      "point_xy": null,
+      "choice_centres": [],
+      "save_offered_before_selection": false,
+      "review": "The single box encloses the blue advertising pickup. The passenger can mark a different spot or answer in words. This request still has no direct or guided drop-off recommendation.",
+      "verified_screenshot_sha256": "a39c48ff20450415ecc19f5e0f8eafdfb275f730fbb13ad9b26e3b38b1dddfdf"
+    },
+    {
+      "case": "R04",
+      "source_url": "https://kartaview.org/details/1258531/39/",
+      "source_sha256": "976a275111769a8fbd066f25a3b6fd2b231dc7ddf5a42d6d6bfd2f74233b09a0",
+      "words": "Could you let me out in the paved gap between the two white vehicles on the right?",
+      "initial_visible_ms": 2154,
+      "repeat_visible_ms": 578,
+      "state": "needs_clarification",
+      "title": "I found the vehicles you described",
+      "legend": "Blue outlines show the vehicles you described · Drop-off point unverified",
+      "actual_blue_reference_box_count": 2,
+      "blue_pixels_measured_along_each_reported_anchor": [
+        26,
+        20
+      ],
+      "gold_pixels_on_overlay": 0,
+      "point_xy": null,
+      "choice_centres": [],
+      "save_offered_before_selection": false,
+      "review": "Two separate numbered outlines enclose the two parked right-side vehicles, including the partly cropped nearer vehicle. The intervening gap receives no pin, bay choice or save control.",
+      "verified_screenshot_sha256": "2df8c9dbc182f027212a36b856b3875ffeb4b1d8363b7c7b8f5db13062758d4d"
+    },
+    {
+      "case": "R03-wrong-colour",
+      "source_url": "https://kartaview.org/details/7120073/499/",
+      "source_sha256": "d0b190d43a9dcfe9a013ae71a0f776494db53901fd70beb8477a8dacdc1763d6",
+      "words": "Just behind that bright pink advertising pickup on the right would be great.",
+      "initial_visible_ms": 577,
+      "repeat_visible_ms": 588,
+      "state": "needs_clarification",
+      "title": "Which spot do you mean?",
+      "legend": "Tap the photo to mark your spot",
+      "actual_blue_reference_box_count": 0,
+      "blue_pixels_measured_along_each_reported_anchor": [],
+      "gold_pixels_on_overlay": 0,
+      "point_xy": null,
+      "choice_centres": [],
+      "save_offered_before_selection": false,
+      "review": "Changing only blue to pink removed the outline. The app asks for colour and side even though both were stated; classed as an imprecise clarification, with no false location or vehicle.",
+      "verified_screenshot_sha256": "c3cf675eb561d940dfce213db3d9df99923c5a23c91006ee289b6637b50ade0d"
+    },
+    {
+      "case": "restaurant",
+      "source_url": "https://kartaview.org/details/7199241/48/",
+      "source_sha256": "ed69e5e794d9618bd153a0ea0266dd0a9203b1526c279ec01a0c9c64b2b0124b",
+      "words": "Could you drop me next to the restaurant?",
+      "initial_visible_ms": 3194,
+      "repeat_visible_ms": 593,
+      "state": "needs_clarification",
+      "title": "Which parking bay do you mean?",
+      "legend": "Bay A / Bay B",
+      "actual_blue_reference_box_count": 0,
+      "blue_pixels_measured_along_each_reported_anchor": [],
+      "gold_pixels_on_overlay": 40245,
+      "point_xy": null,
+      "choice_centres": [
+        [
+          1893.315,
+          1434.021
+        ],
+        [
+          2190.935,
+          1564.406
+        ]
+      ],
+      "save_offered_before_selection": false,
+      "review": "The two choices match the previously documented painted spaces. Selecting Bay A reveals the centre and Save this bay. Pressing Save separately reproduced the same centre on read-back.",
+      "verified_screenshot_sha256": "0a7e95bb67908ae3b449ad79f798ff50ea7c72ad03e8c3036ff7f197e8d8e297",
+      "selected_ms": 85,
+      "save_ms": 105,
+      "saved_xy": [
+        1893.315,
+        1434.021
+      ],
+      "saved_title": "Location saved"
+    },
+    {
+      "case": "white-car",
+      "source_url": "https://kartaview.org/details/3329429/213/",
+      "source_sha256": "5b635a7c2e4f7eebd4ae50b91b725fd9054bf7b41bda28248e36e5bfa0de7e5b",
+      "words": "Could you drop me off behind the white car?",
+      "initial_visible_ms": 587,
+      "repeat_visible_ms": 587,
+      "state": "proposed",
+      "title": "Is this your intended location?",
+      "legend": "Suggested pin",
+      "actual_blue_reference_box_count": 0,
+      "blue_pixels_measured_along_each_reported_anchor": [
+        0
+      ],
+      "gold_pixels_on_overlay": 1791,
+      "point_xy": [
+        2243.0933333333332,
+        1369.7430830039527
+      ],
+      "choice_centres": [],
+      "save_offered_before_selection": true,
+      "review": "The point lies at the previously reviewed curbside location beside the rear of the parked white sedan. An explicit Save action reproduced the point on read-back.",
+      "verified_screenshot_sha256": "e1c353e86187915fa47eaebe9cb3ce9d9c61e672db93b725d3aed8b69f107319",
+      "selected_ms": null,
+      "save_ms": 175,
+      "saved_xy": [
+        2243.0933333333332,
+        1369.7430830039527
+      ],
+      "saved_title": "Location saved"
+    }
+  ],
+  "initial_observation_sha256": "ed0d1eb5638ea3bef10fa097875430c71b0b1a28482a7795a68117aab4ff8193",
+  "repeat_observation_sha256": "2e8458870fdfb035e25a34a5e5cb1a4f42788e92257089c662297a390c05eaea"
+}

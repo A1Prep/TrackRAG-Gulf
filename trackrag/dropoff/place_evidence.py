@@ -182,9 +182,10 @@ class PublicPlaceBackend(ModalParkingBackend):
                 self.allowed.add((row["sha256"],"kartaview_"+photo[1],int(photo[2])))
 
     def allows_photo(self, request):
+        from .local_surfaces import local_only
         scene = request["scene"]
         f = scene["frame"]
-        return (scene["source"] == "predicted" and
+        return (not local_only(scene) and scene["source"] == "predicted" and
                 (scene["provenance"].get("image_sha256"), f["recording_id"], f["frame_id"]) in self.allowed)
 
     def eligible(self, request):
@@ -294,22 +295,45 @@ class PlaceDialogueGrounder:
         return getattr(self.dialogue, name)
 
     def uses_public_service(self, request):
-        from . import bay_intent,curb_point_language,visual_space
+        from . import bay_intent,curb_point_language,local_surfaces,native_destination,roadside_context,visual_space
+        if local_surfaces.local_only(request["scene"]):
+            return False
         return ((isinstance(self.backend,PublicPlaceBackend) and self.backend.allows_photo(request) and
                  (bay_intent.parse(request["text"]) is not None or
                   curb_point_language.indexed_reference(request["text"],expanded=True) or
+                  (curb_point_language.abbreviated_pair(request["text"]) is not None and
+                   roadside_context.get_packet(request["scene"]["provenance"]["image_sha256"]) is not None and
+                   manual_surfaces.get_packet(request["scene"]["provenance"]["image_sha256"]) is not None) or
+                  (native_destination._parts(request["text"]) is not None and
+                   visual_space.get_extension_packet(request["scene"]["provenance"]["image_sha256"]) is not None) or
                   (re.search(r"\b(?:behind|(?:left|right) of)\b",request["text"],re.I) and
                    visual_space.get_packet(request["scene"]["provenance"]["image_sha256"],paved=True) is not None))) or
                 (self.single_vehicle is not None and self.single_vehicle.eligible(request)) or self.backend.eligible(request))
 
     def inspect_requested_bay(self, request):
-        from . import observed_pullin,whole_bay
-        if isinstance(self.backend,PublicPlaceBackend) and self.backend.allows_photo(request):
-            return observed_pullin.supplement(request,whole_bay.explicit_request(request))
+        from . import observed_pullin,photo_clarification,whole_bay
+        from .local_surfaces import matches_scene
+        local=matches_scene(request["scene"])
+        if local or (isinstance(self.backend,PublicPlaceBackend) and self.backend.allows_photo(request)):
+            prior=observed_pullin.supplement(request,whole_bay.explicit_request(request))
+            if local or (prior is not None and prior["provenance"].get("reason") in
+                         {"indexed_reference_unmatched","indexed_no_open_location","parking_fragments_at_vehicles"}):
+                try:
+                    return photo_clarification.explain(request,prior,local=local)
+                except (ValueError,TypeError,KeyError,OSError):
+                    pass
+            return prior
         return None
 
     def interpret(self, request):
         from . import bay_intent, single_vehicle
+        from .local_surfaces import local_only
+        if local_only(request["scene"]):
+            bay = self.inspect_requested_bay(request)
+            if bay is not None:
+                return bay
+            with _native_guard.get()():
+                return self.dialogue.interpret(request)
         # A direct request behind one identified vehicle already has its own signed
         # rear-view and parking check. Do not scan unrelated storefronts first.
         if self.single_vehicle is not None and self.single_vehicle.eligible(request):

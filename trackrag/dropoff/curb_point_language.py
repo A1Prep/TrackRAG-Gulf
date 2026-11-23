@@ -282,6 +282,21 @@ def references_individual_sides(text):
     return _spoken_form(text,True)[1] is not None
 
 
+def abbreviated_pair(text):
+    """Recover a complete pair-only reply in the passenger input field, preserving all modifiers."""
+    if not isinstance(text,str) or not bay_intent.permitted_destination(text):
+        return None
+    text = _normal(text).strip()
+    if not re.fullmatch(r"between [^,;.!?]+? and [^,;.!?]+?,?\s*[.!]?",text):
+        return None
+    text = re.sub(r"\b(?:just |right )?here(?=\s+on (?:the |our |my )?(?:left|right)\b|[, .!]*$)","",text)
+    words = "drop me in the gap "+text.strip(" ,.! ")
+    requested = _requirements(words)
+    if requested is None or len(requested[1])!=2 or requested[2] or UNSUPPORTED.search(words):
+        return None
+    return words
+
+
 def indexed_reference(text, *, expanded=False):
     """Whether the complete utterance asks for a vehicle gap or a specifically anchored open pull-in."""
     if not isinstance(text,str) or not bay_intent.permitted_destination(text):

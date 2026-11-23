@@ -17,7 +17,11 @@ MAX_PACKET = 1_500_000
 
 
 def decode(packet, frame, photo_sha):
-    _authenticate(packet)
+    if packet.get("origin") == "local_release_v1":
+        from . import local_surfaces
+        local_surfaces.verify(packet,frame,photo_sha)
+    else:
+        _authenticate(packet)
     body=packet["body"]
     size=[frame["width"],frame["height"]]
     if (body.get("recipe")!=RECIPE or body.get("model_revision")!=REVISION
@@ -47,7 +51,8 @@ def get_packet(photo_sha):
                 return json.loads(bank.read(name))
     except (BadZipFile,OSError,ValueError,KeyError):
         pass
-    return None
+    from . import local_surfaces
+    return local_surfaces.get_packet(photo_sha)
 
 
 def save(packet):

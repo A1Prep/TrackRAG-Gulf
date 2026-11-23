@@ -208,9 +208,10 @@ def start(args):
     cfg.update(adapter_dir=str(folder/"adapter"),model_dir=str(args.base_dir.resolve()),
                cache_dir=str(args.processor_cache.resolve()))
     banks = args.requests or [ROOT/"runs/passenger-inputs/requests.jsonl"]
-    optional_still = ROOT/"runs/passenger-pair-scene/requests.jsonl"
-    if args.requests is None and optional_still.is_file():
-        banks.append(optional_still)
+    if args.requests is None:
+        for extra in ("runs/passenger-pair-scene/requests.jsonl", "data/uae-parking-study/passenger-requests.jsonl"):
+            if (ROOT/extra).is_file():
+                banks.append(ROOT/extra)
     for path in banks:
         if not path.is_file():
             raise FileNotFoundError(f"Prepared scene bank unavailable: {path}")
@@ -224,6 +225,8 @@ def start(args):
         argv.extend(["--between-road-mode", getattr(args, "between_road_mode", "edge")])
         if getattr(args, "parking_backend", None):
             argv.extend(["--parking-backend", args.parking_backend])
+        if getattr(args, "low_memory", False):
+            argv.append("--low-memory")
         for bank in banks:
             argv.extend(["--requests",str(bank)])
         if manifest.get("verify_landmarks"):
@@ -246,6 +249,9 @@ def start(args):
         if qa_data is not None:
             argv.extend(["--qa-data-root",str(qa_data),"--qa-predictions",str(qa_predictions),
                          "--qa-vision-config",str(args.qa_vision_config)])
+        minimum = getattr(args, "require_footage", 0)
+        if minimum:
+            argv.extend(["--require-footage", str(minimum)])
         return serve(argv)
 
 
@@ -276,6 +282,9 @@ def main():
             p.add_argument("--qa-data-root",type=Path)
             p.add_argument("--qa-predictions",type=Path)
             p.add_argument("--qa-frame-rate",type=float)
+            p.add_argument("--require-footage", type=int, metavar="RECORDINGS", default=0,
+                           help="Start only if at least this many distinct recordings have verified, searchable footage")
+            p.add_argument("--low-memory", action="store_true", help="Unload the 8B worker between requests")
             p.add_argument("--qa-model",default=os.environ.get("GEMINI_MODEL","gemini-3.5-flash-lite"),
                            help="Hosted answerer for the separate footage search")
             p.add_argument("--qa-vision-config",type=Path,default=ROOT/"configs/vision/finetuned.json")

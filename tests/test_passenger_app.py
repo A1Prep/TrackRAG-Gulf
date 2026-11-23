@@ -69,6 +69,32 @@ def site(tmp_path):
     return PassengerSite(load_scenes([bank]), StubGrounder(), StubASR(), tmp_path / "sessions", PassengerSession)
 
 
+def test_preflight_counts_distinct_recordings_with_verified_footage(site):
+    first, second = site.scenes
+    assert site.check_footage_coverage(0) == []
+    with pytest.raises(ValueError, match="0 distinct recording"):
+        site.check_footage_coverage(1)
+    site.scenes["another-bookmark"] = site.scenes[first]
+    site.footage_scenes.update([first, "another-bookmark"])
+    with pytest.raises(ValueError, match="1 distinct recording"):
+        site.check_footage_coverage(2)
+    site.footage_scenes.add(second)
+    assert site.check_footage_coverage(2) == ["clip1", "clip2"]
+
+
+def test_small_laptop_releases_worker_and_preserves_dialogue_on_each_turn(site):
+    released = []
+    site.release_after_request = lambda: released.append(True)
+    first = site.open(next(iter(site.scenes)))
+    second = site.change(first["session"], 0, "submit", {"text": "here", "mode": "typed"})
+    assert second["view"]["state"] == "needs_clarification"
+    with pytest.raises(RuntimeError):
+        with site.model_request():
+            raise RuntimeError("worker failed")
+    assert released == [True, True]
+    assert site.lookup(first["session"]).snapshot() == second
+
+
 def test_catalog_only_supplies_frames_and_no_sample_text_or_reference(site):
     public = site.catalog()
     assert len(public["scenes"]) == 2

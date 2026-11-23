@@ -15,11 +15,13 @@ from trackrag.local_speech import LocalSpeechRecognizer, SpeechInputError, Speec
 
 
 def transcribe_file(audio_path: str | Path) -> str:
-    """Transcribe an audio file using Gemini's speech-to-text capability.
+    """Transcribe an audio file and return its initial machine text."""
+    transcript, _ = transcribe_file_with_backend(audio_path)
+    return transcript
 
-    Falls back to SpeechRecognition + Google Web Speech API when
-    GEMINI_API_KEY is unavailable.
-    """
+
+def transcribe_file_with_backend(audio_path: str | Path) -> tuple[str, str]:
+    """Return the unedited text and the backend that produced it."""
     audio_path = Path(audio_path)
 
     if not audio_path.is_file():
@@ -28,9 +30,13 @@ def transcribe_file(audio_path: str | Path) -> str:
     api_key = os.getenv("GEMINI_API_KEY")
 
     if api_key:
-        return _transcribe_with_gemini(audio_path, api_key)
+        transcript = _transcribe_with_gemini(audio_path, api_key)
+        return transcript, "gemini:" + os.getenv("GEMINI_MODEL", "gemini-2.0-flash")
 
-    return _transcribe_with_speech_recognition(audio_path)
+    try:
+        return _transcribe_with_whisper(audio_path), "openai-whisper:base"
+    except ImportError:
+        return _transcribe_with_speech_recognition(audio_path), "google-web-speech"
 
 
 def _transcribe_with_gemini(audio_path: Path, api_key: str) -> str:
@@ -65,6 +71,35 @@ def _transcribe_with_gemini(audio_path: Path, api_key: str) -> str:
     )
 
     return (response.text or "").strip()
+
+
+def _transcribe_with_whisper(audio_path: Path) -> str:
+    try:
+        import whisper
+        import numpy as np
+        import wave
+    except ImportError as exc:
+        raise ImportError(
+            "Install whisper: pip install openai-whisper"
+        ) from exc
+
+    with wave.open(str(audio_path), "rb") as wf:
+        frames = wf.readframes(wf.getnframes())
+        rate = wf.getframerate()
+        sampwidth = wf.getsampwidth()
+
+    audio_np = np.frombuffer(frames, dtype=np.int16).astype(np.float32) / 32768.0
+
+    if rate != 16000:
+        import math
+        ratio = 16000 / rate
+        new_len = int(len(audio_np) * ratio)
+        indices = np.linspace(0, len(audio_np) - 1, new_len)
+        audio_np = np.interp(indices, np.arange(len(audio_np)), audio_np)
+
+    model = whisper.load_model("base")
+    result = model.transcribe(audio_np)
+    return result["text"].strip()
 
 
 def _transcribe_with_speech_recognition(audio_path: Path) -> str:

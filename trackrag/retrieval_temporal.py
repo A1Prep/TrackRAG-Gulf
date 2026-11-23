@@ -28,7 +28,8 @@ def question_scope(text):
     entering = _matches(r"\b(?:enter(?:s|ed|ing)?|came in(?:to)?|comes? into (?:view|frame))\b", words)
     exiting = _matches(r"\b(?:exit(?:s|ed|ing)?(?!\s+(?:sign|ramp|lane|road))|(?:mov(?:e[ds]?|ing)|went|goes?) out|leaves? the (?:frame|scene))\b", words)
     opening = _matches(r"\b(?:opening|initial(?:ly)?|beginning|at the start|first (?:image|frame|second)|early)\b", words)
-    latest = _matches(r"\b(?:current(?:ly)?|now|latest|recent(?:ly)?|last (?:frame|image)|(?:towards?|near|by|at) the end)\b", words)
+    latest = _matches(r"\b(?:current(?:ly)?|now|latest|recent(?:ly)?|last (?:frame|image)|"
+                      r"(?:this|the (?:selected|displayed|paused)) (?:frame|image)|(?:towards?|near|by|at) the end)\b", words)
     history = _matches(r"\b(?:earlier observations?|recent observations?|as (?:the )?(?:clip|recording|video) progresses|over time|"
                        r"(?:larger|smaller|bigger|closer|further) (?:than|as|over)|emerges?|still visible|during|across the image)\b", words)
     scene = _matches(r"\b(?:overpass|bridge|sky|lighting|daylight|night(?:time)?|street name|road name|(?:road|exit|traffic) sign)\b", words)

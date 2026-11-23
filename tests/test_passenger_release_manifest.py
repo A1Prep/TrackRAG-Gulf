@@ -124,8 +124,15 @@ def test_standard_launch_adds_installed_still_and_honors_explicit_banks(bundle, 
     still.parent.mkdir(parents=True)
     still.touch()
     assert release.start(args) == [str(normal), str(still)]
+    photos = tmp_path/"data/uae-parking-study/passenger-requests.jsonl"
+    photos.parent.mkdir(parents=True)
+    photos.touch()
+    assert release.start(args) == [str(normal), str(still), str(photos)]
     args.requests = [still]
     assert release.start(args) == [str(still)]
+    args.require_footage = 2
+    monkeypatch.setattr(passenger_app, "main", lambda argv: argv[argv.index("--require-footage") + 1])
+    assert release.start(args) == "2"
     monkeypatch.setattr(passenger_app, "main", lambda argv: argv[argv.index("--between-road-mode") + 1])
     assert release.start(args) == "edge"
     args.between_road_mode = "edge-or-bay"

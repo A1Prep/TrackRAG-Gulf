@@ -6,6 +6,8 @@ These are continuations of the original five tasks, identified by their **previo
 
 All five issues stay open until their completion checks pass. This document assigns work; it does not claim that the work or any new model training is already complete.
 
+The dated release record lists the delivered work, measured outcomes and remaining participant evidence. [23 November acceptance record](project-release.md)
+
 ## What the finished application must do
 
 1. **Existing route:** recording and question -> genuine predicted tracks -> retrieval -> original-frame evidence -> answer with citations, or a distinguishable insufficient-evidence/provider-error outcome.

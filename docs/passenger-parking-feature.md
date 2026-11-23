@@ -8,10 +8,10 @@ From the project root on the prepared Windows laptop, use the local grounding en
 
 ~~~powershell
 .\.venv-grounding-local\Scripts\python.exe -m tools.passenger_parking_photos
-.\.venv-grounding-local\Scripts\python.exe -m tools.passenger_release start --parking-backend modal --port 8775 --requests runs/passenger-inputs/requests.jsonl --requests data/uae-parking-study/passenger-requests.jsonl --vision-cache runs/model-cache/airport-segformer-b0
+.\.venv-grounding-local\Scripts\python.exe -m tools.passenger_release start --parking-backend modal --require-footage 2 --low-memory --port 8775 --vision-cache runs/model-cache/airport-segformer-b0
 ~~~
 
-The prepared laptop also has the original airport photograph. To open it in the same session, include `--requests runs/passenger-pair-scene/requests.jsonl` at startup. On a new machine, install the local passenger bundle, speech model and road model first. The documented standard support location works without the machine-specific `--vision-cache` option. [Passenger setup](passenger-release.md)
+The launcher includes the installed UAE photo bank and the optional two-vehicle bank. Explicit `--requests` options select exactly the listed banks. On a new machine, install the local passenger bundle, speech model and road model first. The standard support location works without the machine-specific `--vision-cache` option. [Passenger setup](passenger-release.md)
 
 - Open the Dubai shop-front photo and type **“Please drop me off in the marked space between the dark blue sedan and the silver SUV outside the shops on the right.”** Choose **Find my spot**. On the measured run the yellow pin landed in the requested bay. Choose **Confirm this spot** if it matches your intent. [Open the shop-front photo](http://127.0.0.1:8775/?scene=f4d997a6f22c942559a798dd)
 - To try voice, open the truck-and-van photo, press **Record voice** and say **“Drop me off between the white box truck and the white van, please.”** Stop, edit any incorrectly recognized words and press **Send reviewed transcript**. [Open the truck and van](http://127.0.0.1:8775/?scene=0c150fa36349744dbd66653b)

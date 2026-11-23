@@ -99,7 +99,7 @@ class PassengerPlaces:
         return self.processor.batch_decode(result[:,tokens:],skip_special_tokens=True)[0].strip().upper()
 
     @modal.method()
-    def interpret(self, context, input_sha, photo):
+    def interpret(self, context, input_sha, photo, *, recipe=None):
         from PIL import Image
         from trackrag.dropoff import place_grounding as place
         from trackrag.dropoff.parking_evidence import MAX_IMAGE_BYTES, MAX_IMAGE_PIXELS, map_shape, signed_bytes
@@ -107,7 +107,8 @@ class PassengerPlaces:
         from trackrag.dropoff.place_evidence import MODELS
         from trackrag.dropoff.contracts import validate_box
 
-        if (not isinstance(photo,bytes) or len(photo)>MAX_IMAGE_BYTES or not re.fullmatch("[a-f0-9]{64}", input_sha)
+        recipe = place.METHOD if recipe is None else recipe
+        if (recipe not in place.METHODS or not isinstance(photo,bytes) or len(photo)>MAX_IMAGE_BYTES or not re.fullmatch("[a-f0-9]{64}", input_sha)
                 or set(context) != {"words","size","current_boxes","image_sha256"}
                 or sha256(photo).hexdigest() != context["image_sha256"]
                 or not isinstance(context["words"],str) or not 1 <= len(context["words"]) <= 1600
@@ -127,11 +128,11 @@ class PassengerPlaces:
             calls.append({**place.call_identity(kind, guide, context["words"], pixels),"response":response})
             return response
 
-        place.apply_steps(context, classes, original, infer)
+        place.apply_steps(context, classes, original, infer, recipe)
         memory = BytesIO()
         Image.fromarray(classes).save(memory, format="PNG")
         packed = memory.getvalue()
-        body = {"recipe":place.METHOD,"models":MODELS,"input_sha256":input_sha,"context_sha256":digest(context),
+        body = {"recipe":recipe,"models":MODELS,"input_sha256":input_sha,"context_sha256":digest(context),
                 "image_sha256":context["image_sha256"],"calls":calls,
                 "class_map":{"sha256":sha256(packed).hexdigest(),"png":base64.b64encode(packed).decode("ascii")}}
         return {"body":body,"signature":self.key.sign(signed_bytes(body)).hex()}

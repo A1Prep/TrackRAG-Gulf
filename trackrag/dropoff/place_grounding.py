@@ -10,6 +10,9 @@ from tools.passenger_place_call import PROCESSOR_REVISION as PROCESSOR
 from .passenger import instruction_context, proposed, unresolved
 
 METHOD = "trained_qwen_place_with_parking_surface_v3"
+CURB_METHOD = "trained_qwen_place_with_curb_frontage_v1"
+LANDMARK_METHOD = "trained_qwen_place_landmark_then_frontage_v1"
+METHODS = (METHOD, CURB_METHOD, LANDMARK_METHOD)
 BASE = "10d842936325905934ea24e64325d774693f166e"
 ADAPTER = "76bfb3230b17a86248b52ca6a9f8d2ffca324aa80216d6b93845ccb12ad86743"
 PLACE = re.compile(
@@ -188,8 +191,21 @@ def steps(context, classes, original):
     return proposed(candidate["point"],candidate["box"]), "visible_parking_point"
 
 
-def apply_steps(context, classes, original, answer):
-    machine = steps(context, classes, original)
+def _place_steps(context, classes, original, recipe):
+    result, reason = yield from steps(context, classes, original)
+    if recipe == LANDMARK_METHOD and result["status"] != "proposed":
+        from . import landmark_place
+        return (yield from landmark_place.steps(context, classes, original))
+    if recipe == CURB_METHOD and reason in {"no_visible_parking_surface", "no_matching_place"}:
+        from . import curb_place
+        return (yield from curb_place.steps(context, classes, original))
+    return result, reason
+
+
+def apply_steps(context, classes, original, answer, recipe=METHOD):
+    if recipe not in METHODS:
+        raise ValueError("Unknown public place method")
+    machine = _place_steps(context, classes, original, recipe)
     try:
         step = next(machine)
         while True:

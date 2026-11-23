@@ -14,7 +14,8 @@ def main():
         raise ValueError("Place request exceeds transport limit")
     data = json.loads(raw)
     worker = modal.Cls.from_name(APP,"PassengerPlaces")()
-    result = worker.interpret.remote(data["context"],data["input_sha256"],base64.b64decode(data["photo"],validate=True))
+    options = {"recipe": data["recipe"]} if "recipe" in data else {}
+    result = worker.interpret.remote(data["context"],data["input_sha256"],base64.b64decode(data["photo"],validate=True), **options)
     sys.stdout.buffer.write(json.dumps(result,allow_nan=False).encode("utf8"))
 
 

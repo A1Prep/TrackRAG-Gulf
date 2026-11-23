@@ -33,7 +33,7 @@ def case(tmp_path, monkeypatch):
     return request,photo,classes,key
 
 
-def packet(request,photo,classes,key,answers=("1","MATCH")):
+def packet(request,photo,classes,key,answers=("1","MATCH"),recipe=place.METHOD):
     _,image_sha,input_sha = parking_evidence.source_input(request, photo)
     ctx = place.current_context(request)
     encoded = BytesIO()
@@ -46,8 +46,8 @@ def packet(request,photo,classes,key,answers=("1","MATCH")):
         calls.append({**place.call_identity(kind,guide,ctx["words"],pixels),"response":answer})
         return answer
     with Image.open(BytesIO(photo)) as im:
-        place.apply_steps(ctx,classes,im,reply)
-    body={"recipe":place.METHOD,"models":place_evidence.MODELS,"context_sha256":digest(ctx),"image_sha256":image_sha,
+        place.apply_steps(ctx,classes,im,reply,recipe)
+    body={"recipe":recipe,"models":place_evidence.MODELS,"context_sha256":digest(ctx),"image_sha256":image_sha,
           "input_sha256":input_sha,"calls":calls,"class_map":{"sha256":sha256(data).hexdigest(),"png":base64.b64encode(data).decode()}}
     return {"body":body,"signature":key.sign(parking_evidence.signed_bytes(body)).hex()}
 
@@ -93,6 +93,64 @@ def test_empty_surface_is_a_segmentation_abstention(tmp_path,monkeypatch):
     assert out["result"]["destination_point_xy"] is None
     audit=place_evidence.verify(req,out)
     assert audit["surface_model_calls"]==1 and audit["language_calls"]==0 and not audit["independent_model_proposal"]
+
+
+@pytest.mark.parametrize("obstruction", ["ordinary road", "landscaped median", "traffic beyond curb", "parked vehicle"])
+def test_curb_frontage_requires_a_visible_connection_to_the_landmark(tmp_path, monkeypatch, obstruction):
+    from trackrag.dropoff import curb_place
+    _,_,classes,_=case(tmp_path,monkeypatch)
+    classes[:]=13
+    if obstruction!="ordinary road":
+        classes[:24]=17
+        classes[24:29]=15
+        classes[29:32]=2
+        if obstruction=="landscaped median":
+            classes[14:26]=30
+        elif obstruction=="traffic beyond curb":
+            classes[14:26]=13
+    boxes=[[0,22,96,63]] if obstruction=="parked vehicle" else []
+    assert curb_place.options(classes,[96,64],boxes)==[]
+
+
+def test_verified_curb_pin_survives_confirmation_and_old_receipts_replay(tmp_path, monkeypatch):
+    req,photo,classes,key=case(tmp_path,monkeypatch)
+    classes[:]=13
+    classes[:24]=17
+    classes[24:29]=15
+    classes[29:32]=2
+    prior=packet(req,photo,classes,key,())
+    assert place_evidence.build_outcome(req,photo,prior)["result"]["status"]=="needs_clarification"
+    signed=packet(req,photo,classes,key,("BAY","1","APRON"),place.CURB_METHOD)
+    outcome=place_evidence.build_outcome(req,photo,signed)
+    assert [c["stage"] for c in signed["body"]["calls"]]==["curb_layout","curb_choose","curb_check"]
+    x,y=outcome["result"]["destination_point_xy"]
+    assert classes[int(y),int(x)]==13 and place_evidence.verify(req,outcome)["language_calls"]==3
+    session=PassengerSession(req["scene"],object(),audit_dir=tmp_path/"logs")
+    session._request=deepcopy(req)
+    session._accept(outcome,"model")
+    proposal=session.view()["proposal_id"]
+    assert proposal and session.confirm(proposal)["state"]=="confirmed"
+    switched=deepcopy(outcome)
+    switched["provenance"]["method"]="different_model"
+    with pytest.raises(ValueError,match="differs"):
+        session._accept(switched,"model")
+
+
+@pytest.mark.parametrize("replies,reason", [
+    (("LANE",),"curb_layout_lane"),
+    (("BAY","NONE"),"no_matching_curb_place"),
+    (("APRON","1","DIVIDED"),"curb_point_divided"),
+])
+def test_rejected_curb_evidence_has_no_point(tmp_path,monkeypatch,replies,reason):
+    req,photo,classes,key=case(tmp_path,monkeypatch)
+    classes[:]=13
+    classes[:24]=17
+    classes[24:29]=15
+    classes[29:32]=2
+    signed=packet(req,photo,classes,key,replies,place.CURB_METHOD)
+    outcome=place_evidence.build_outcome(req,photo,signed)
+    assert outcome["result"]["status"]=="needs_clarification"
+    assert outcome["result"]["destination_point_xy"] is None and outcome["provenance"]["reason"]==reason
 
 
 @pytest.mark.parametrize("verdict",["MATCH","WRONG","BLOCKED","UNCLEAR"])

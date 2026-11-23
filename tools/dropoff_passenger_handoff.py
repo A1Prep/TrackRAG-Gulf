@@ -29,7 +29,7 @@ def bound_outcome(outcome, request, *, passenger_selected=False, passenger_landm
     from trackrag.dropoff import passenger_parking as parking
     from trackrag.dropoff import parking_clarification
     from trackrag.dropoff import place_grounding
-    if outcome.get("ok") and source.get("method") == place_grounding.METHOD:
+    if outcome.get("ok") and (source.get("method") in place_grounding.METHODS or "place_evidence" in source):
         from trackrag.dropoff.place_evidence import verify
         need(dialogue_policy and not (passenger_selected or passenger_landmarks or passenger_requested_pointing),
              "A place-model decision belongs to a normal submitted request")

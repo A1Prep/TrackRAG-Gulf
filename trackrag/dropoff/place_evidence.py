@@ -28,13 +28,15 @@ def build_outcome(request, photo, packet):
     context = place.current_context(request)
     _authenticate(packet)
     body = packet["body"]
-    if (not context["words"] or body.get("recipe") != place.METHOD or body.get("models") != MODELS
+    recipe = body.get("recipe")
+    if (not context["words"] or recipe not in place.METHODS or body.get("models") != MODELS
             or body.get("input_sha256") != input_sha or body.get("context_sha256") != digest(context)
             or body.get("image_sha256") != image_sha):
         raise ValueError("Place model response does not match the current photograph, instruction and boxes")
     classes = _decode_map(body["class_map"], request["scene"]["frame"])
     calls = body["calls"]
-    if not isinstance(calls, list) or len(calls) > 2:
+    call_limits = {place.METHOD: 2, place.CURB_METHOD: 4, place.LANDMARK_METHOD: 5}
+    if not isinstance(calls, list) or len(calls) > call_limits[recipe]:
         raise ValueError("Invalid number of place model responses")
     index = 0
 
@@ -48,11 +50,11 @@ def build_outcome(request, photo, packet):
         return answer
 
     with Image.open(BytesIO(photo)) as source:
-        result, reason = place.apply_steps(context, classes, source, replay)
+        result, reason = place.apply_steps(context, classes, source, replay, recipe)
     if index != len(calls):
         raise ValueError("Unused place model evidence")
     return {"ok":True, "request_id":request["request_id"], "result":result,
-            "provenance":{"method":place.METHOD, "image":{"sha256":image_sha}, "request_sha256":digest(request),
+            "provenance":{"method":recipe, "image":{"sha256":image_sha}, "request_sha256":digest(request),
                           "inference_input_sha256":input_sha,"place_evidence":packet,"reason":reason,
                           "independent_model_proposal":result["status"] == "proposed"}}
 
@@ -68,8 +70,11 @@ def verify(request, outcome):
 
 
 class PublicPlaceBackend(ModalParkingBackend):
-    def __init__(self, sources, python=None):
+    def __init__(self, sources, python=None, *, recipe=place.METHOD):
         super().__init__(python)
+        if recipe not in place.METHODS:
+            raise ValueError("Unknown public place method")
+        self.recipe = recipe
         self.allowed = set()
         for path in sources:
             for row in json.loads(Path(path).read_bytes())["photos"]:
@@ -96,12 +101,17 @@ class PublicPlaceBackend(ModalParkingBackend):
         photo = path.read_bytes()
         request, _, input_sha = source_input(request, photo)
         payload = {"context":place.current_context(request), "input_sha256":input_sha, "photo":base64.b64encode(photo).decode("ascii")}
+        if self.recipe != place.METHOD:
+            payload["recipe"] = self.recipe
         proc = subprocess.run([self.python,"-m","tools.passenger_place_call"],input=signed_bytes(payload),
                               cwd=self.root,capture_output=True,timeout=240,
                               creationflags=getattr(subprocess,"CREATE_NO_WINDOW",0))
         if proc.returncode:
             raise RuntimeError("The hosted place model is unavailable. Please retry your request.")
-        return build_outcome(request, photo, json.loads(proc.stdout))
+        outcome = build_outcome(request, photo, json.loads(proc.stdout))
+        if outcome["provenance"]["method"] != self.recipe:
+            raise ValueError("The place service returned a different grounding method")
+        return outcome
 
 
 class PlaceDialogueGrounder:

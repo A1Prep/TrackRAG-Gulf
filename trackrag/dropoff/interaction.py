@@ -432,8 +432,8 @@ class PassengerSession:
                 or info.get("request_sha256") != digest(req)):
             raise ValueError("Grounding outcome is not bound to this scene and instruction")
         result = validate_target(result,list(result),self.scene["frame"])
-        from .place_grounding import METHOD as place_method
-        if info.get("method") == place_method:
+        from .place_grounding import METHODS as place_methods
+        if info.get("method") in place_methods or "place_evidence" in info:
             if selected_by != "model":
                 raise ValueError("Only an automatic passenger instruction can offer a place-model result")
             from .place_evidence import verify

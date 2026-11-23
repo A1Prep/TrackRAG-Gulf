@@ -1,0 +1,280 @@
+{
+  "schema": 1,
+  "sealed_utc": "2026-11-23T20:54:04.870703+00:00",
+  "purpose": "Second prospectively frozen curb and pull-in field challenge. Four visible point references, three targeted obstructions, seven independent KartaView UAE drives. Original photo bytes, layperson question and conservative point reference chosen before any evaluation of a new method. No one developing the method receives the identities before the recipe/version lock.",
+  "credit": "Grab and KartaView contributors",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
+  "source_scope": "Seven previously authorized source originals, separate drives from the first independent field and ten-plus-five older whole-bay sets, known original-user manual cases and earlier checked frontage/point cohorts. Existing general bank projection of all public originals predates this protocol. No newly collected passenger speech; a single independent AI reviewer annotated the visible scene.",
+  "protocol": {
+    "positive": "A first-turn, confirmable point must be inside its frozen conservative polygon. An overlapping selectable option is a separate guided result. Record all unmatched offered options. The rendered result must require a separate save. All four positives are point-only, complete bay footprint is unadjudicated and cannot gain whole-bay credit.",
+    "negative": "No confirmable pin or selectable option. Withholding/targeted completed clarification can pass. Service-pending, overloaded, provider error, missing response and >15s timeout are operational outcomes and earn zero semantic credit.",
+    "tasks": "Each case starts from a fresh ordinary browser session and uses its exact frozen wording. Automatic first-turn and all seven lane controls are separate; run the four positive interior marks independently. Initial visible actionable window 15s with observation to 45s. Capture exact photo SHA, actor, session state, pin/outline/options, visible timing and scorer. If diagnostic model-only results are requested, grade separately from end-to-end browser input. No visual/legal safety assertion.",
+    "classification": "Track direct point, matching choices, unrelated points/choices, full vs partial or unverified footprint, semantic no-location, service waits/errors/timeouts and initial/explicitly saved separately."
+  },
+  "cases": [
+    {
+      "id": "R01",
+      "recording_id": "kartaview_7120169",
+      "frame_id": 165,
+      "source_url": "https://kartaview.org/details/7120169/165/",
+      "sha256": "71df6d0a6a705be760e5be20937a2442f9cfaedeed71f3c093d894049bd84724",
+      "size": [
+        3840,
+        2160
+      ],
+      "words": "Could we stop on the sandy patch between the black car and the delivery bikes?",
+      "expected": "point",
+      "regions": {
+        "target": [
+          [
+            1684.9,
+            1411.25
+          ],
+          [
+            2390.2,
+            1395.57
+          ],
+          [
+            2586.12,
+            1528.86
+          ],
+          [
+            2617.47,
+            1650.38
+          ],
+          [
+            1692.73,
+            1666.06
+          ]
+        ]
+      },
+      "interior": [
+        2135.51,
+        1548.46
+      ],
+      "lane": [
+        666.12,
+        1873.83
+      ],
+      "painted_edge": null,
+      "visual_reference": "A visibly vacant, car-width gravel patch lies between the parked black Nissan and the delivery motorcycles, backed by flowers. The slim reddish paved band and the foreground are outside the conservative target. The photo cannot establish permission to stop."
+    },
+    {
+      "id": "R02",
+      "recording_id": "kartaview_5231497",
+      "frame_id": 102,
+      "source_url": "https://kartaview.org/details/5231497/102/",
+      "sha256": "ab05db00759062595063f27d3aff5b608c323d62872429ac596fd2fcf07ee8b3",
+      "size": [
+        3840,
+        2160
+      ],
+      "words": "Pull into the empty space just to the left of the blue sedan outside the exchange, please.",
+      "expected": "point",
+      "regions": {
+        "target": [
+          [
+            1712.33,
+            1430.85
+          ],
+          [
+            1998.37,
+            1426.93
+          ],
+          [
+            2245.22,
+            1450.45
+          ],
+          [
+            2256.98,
+            1509.26
+          ],
+          [
+            1931.76,
+            1517.1
+          ],
+          [
+            1790.69,
+            1497.5
+          ]
+        ]
+      },
+      "interior": [
+        2025.8,
+        1473.97
+      ],
+      "lane": [
+        1010.94,
+        1489.66
+      ],
+      "painted_edge": null,
+      "visual_reference": "Visible empty paved part of the parking row between the silver SUV and blue sedan in front of Federal Exchange, with parking markings and the adjacent wheel stops. Occlusion and perspective prevent a defensible full footprint."
+    },
+    {
+      "id": "R03",
+      "recording_id": "kartaview_7120073",
+      "frame_id": 499,
+      "source_url": "https://kartaview.org/details/7120073/499/",
+      "sha256": "d0b190d43a9dcfe9a013ae71a0f776494db53901fd70beb8477a8dacdc1763d6",
+      "size": [
+        3840,
+        2160
+      ],
+      "words": "Just behind that bright blue advertising pickup on the right would be great.",
+      "expected": "point",
+      "regions": {
+        "target": [
+          [
+            1108.9,
+            1505.34
+          ],
+          [
+            1265.63,
+            1485.74
+          ],
+          [
+            1453.71,
+            1501.42
+          ],
+          [
+            1528.16,
+            1603.34
+          ],
+          [
+            1524.24,
+            1669.98
+          ],
+          [
+            1347.92,
+            1681.74
+          ]
+        ]
+      },
+      "interior": [
+        1363.59,
+        1583.74
+      ],
+      "lane": [
+        579.92,
+        1603.34
+      ],
+      "painted_edge": null,
+      "visual_reference": "The blue advertising pickup faces the camera, so its rear is toward the charcoal sedan farther along the street. Clear light paving is on the parking side of the continuous edge line between them."
+    },
+    {
+      "id": "R04",
+      "recording_id": "kartaview_1258531",
+      "frame_id": 39,
+      "source_url": "https://kartaview.org/details/1258531/39/",
+      "sha256": "976a275111769a8fbd066f25a3b6fd2b231dc7ddf5a42d6d6bfd2f74233b09a0",
+      "size": [
+        3840,
+        2160
+      ],
+      "words": "Could you let me out in the paved gap between the two white vehicles on the right?",
+      "expected": "point",
+      "regions": {
+        "target": [
+          [
+            2981.88,
+            1940.47
+          ],
+          [
+            3201.31,
+            1971.83
+          ],
+          [
+            3236.57,
+            2042.4
+          ],
+          [
+            3240.49,
+            2132.56
+          ],
+          [
+            3044.57,
+            2128.64
+          ],
+          [
+            2903.51,
+            1999.27
+          ]
+        ]
+      },
+      "interior": [
+        3072.0,
+        2042.4
+      ],
+      "lane": [
+        1880.82,
+        1940.47
+      ],
+      "painted_edge": null,
+      "visual_reference": "The right curb row has lighter brick-textured pavement and two white parked vehicles, a boxy one ahead and the partially visible vehicle at the right edge. The conservative region is the open paving between their footprints, away from the straight through lane."
+    },
+    {
+      "id": "R05",
+      "recording_id": "kartaview_7271097",
+      "frame_id": 62,
+      "source_url": "https://kartaview.org/details/7271097/62/",
+      "sha256": "a07e0ded72bad166579a87adea852f1a5eef11e83e43f11c914388370c5c1e9a",
+      "size": [
+        3840,
+        2160
+      ],
+      "words": "Can we pull straight into the empty area behind those black-and-white posts outside the medical centre?",
+      "expected": "withhold",
+      "regions": {},
+      "interior": null,
+      "lane": [
+        658.29,
+        1513.18
+      ],
+      "painted_edge": null,
+      "visual_reference": "A raised kerb, a pedestrian band, and chains on black-and-white posts segregate the apparently open medical-center frontage from the current carriageway."
+    },
+    {
+      "id": "R06",
+      "recording_id": "kartaview_5053433",
+      "frame_id": 0,
+      "source_url": "https://kartaview.org/details/5053433/0/",
+      "sha256": "7cc82c9152e1c0bada060789698e19b695cba6a92d6dd67efa982eddb1c97965",
+      "size": [
+        3264,
+        1836
+      ],
+      "words": "Drop me beside the white SUV while we're lined up at the lights, please.",
+      "expected": "withhold",
+      "regions": {},
+      "interior": null,
+      "lane": [
+        1831.84,
+        1519.45
+      ],
+      "painted_edge": null,
+      "visual_reference": "Traffic fills the carriageway at the light. The adjacent space beside the white SUV is a marked active motor-traffic lane."
+    },
+    {
+      "id": "R07",
+      "recording_id": "kartaview_7271081",
+      "frame_id": 72,
+      "source_url": "https://kartaview.org/details/7271081/72/",
+      "sha256": "918e3e64b7e104fa7e25758e853e712d435ac234349aa802c183f7940c34ea6e",
+      "size": [
+        3840,
+        2160
+      ],
+      "words": "I'd like the marked spot with the white G-Wagen on the right.",
+      "expected": "withhold",
+      "regions": {},
+      "interior": null,
+      "lane": [
+        1485.06,
+        1517.1
+      ],
+      "painted_edge": null,
+      "visual_reference": "A boxy white Mercedes occupies the specifically requested marked position. Asphalt in the foreground or an adjacent space cannot satisfy this occupied target."
+    }
+  ]
+}

@@ -19,6 +19,7 @@ class FootageReview:
     out: Path
     frame_rate: float | None = None
     _clips: dict = field(default_factory=dict, init=False, repr=False)
+    _subjects: dict = field(default_factory=dict, init=False, repr=False)
     _clip_lock: Lock = field(default_factory=Lock, init=False, repr=False)
 
     def _clip(self, scene):
@@ -54,7 +55,21 @@ class FootageReview:
         clock, paths = self._clip(scene)
         if scene["frame"]["frame_id"] not in paths:
             raise ValueError("The selected frame is unavailable for this recording.")
-        return {"recording_id": scene["frame"]["recording_id"], "frames": clock}
+        key = (scene["frame"]["recording_id"], scene["provenance"]["tracks_sha256"],
+               scene["provenance"]["prediction_provenance_sha256"])
+        with self._clip_lock:
+            if key not in self._subjects:
+                _, tracks, _ = self._source(scene, clock[-1]["id"])
+                largest = {}
+                for track in tracks:
+                    left, top, right, bottom = track["bbox_xyxy"]
+                    area = (right-left)*(bottom-top)
+                    fid = track["frame_id"]
+                    if fid not in largest or area > largest[fid][0]:
+                        largest[fid] = (area, track["track_id"], track["class_name"])
+                self._subjects[key] = {fid: {"id": tid, "class_name": label} for fid, (_,tid,label) in largest.items()}
+            subjects = self._subjects[key]
+        return {"recording_id": key[0], "frames": clock, "subjects": subjects}
 
     def preview_frame(self, scene, frame_id, if_none_match=None):
         _, paths = self._clip(scene)
@@ -126,8 +141,11 @@ class FootageReview:
             return False
         return True
 
-    def ask(self, scene, text, *, hosted=False):
+    def ask(self, scene, text, *, hosted=False, image_guard=None):
         from trackrag.answering import answer_question
+        from trackrag.footage_facts import answer_from_tracks, supports_track_question
+        from trackrag.playback_time import playback_scope
+        from trackrag.evidence_time import requested_frame_ids
         from trackrag.retrieval_temporal import build_index, rank_evidence
         from trackrag.review import review_recording
 
@@ -139,12 +157,26 @@ class FootageReview:
         folder = self.out/key
         question = {"question_id":key,"recording_id":prefix.recording_id,
                     "query_frame":original["frame_id"],"question":text.strip()}
+        clock = playback_scope(text, prefix, original["frame_id"])
+        def local_answer(q, evidence, _folder):
+            exact = requested_frame_ids(text)
+            moments = clock.get("moments", []) if clock else []
+            fid = moments[0]["frame_id"] if moments else exact[0] if len(exact) == 1 else original["frame_id"]
+            target = prefix.get_frame(fid) if 0 <= fid <= original["frame_id"] and fid in prefix.frame_ids else original
+            factual = answer_from_tracks(q, evidence, tracks, playback_scope=clock, frame_size=(target["width"], target["height"]))
+            return factual or {"answer_status":"insufficient_evidence",
+                              "answer":"The saved tracks and the retrieved frames do not establish that detail at the requested moment.",
+                              "cited_evidence_ids":[]}
+
+        local = not hosted and supports_track_question(text)
+        answerer = "gemini" if hosted else "local_tracks" if local else "evidence_only"
         result = review_recording(prefix,[question],source="predicted",load_tracks=lambda _: tracks,
                                   build_index=build_index,rank_evidence=rank_evidence,
-                                  answer_question=answer_question if hosted else None,output_dir=folder,
+                                  answer_question=answer_question if hosted else local_answer if local else None,output_dir=folder,
+                                  image_guard=image_guard,
                                   run_metadata={"vision":"validated_saved_predictions","prediction_receipt":receipt,
                                                 "retrieval":"trackrag.retrieval_temporal","boundary_answer":"visual-candidate-v1",
-                                                "answerer":"gemini" if hosted else "none"})
+                                                "answerer":answerer})
         row = json.loads(result.read_bytes())
         evidence = []
         for number, item in enumerate(row["evidence"]):
@@ -152,6 +184,7 @@ class FootageReview:
                       for i,im in enumerate(item["images"])]
             evidence.append({"id":item["evidence_id"],"interval":item["interval"],"images":images})
         return {"question":question,"answer":row["answer"],"evidence":evidence,"hosted_requested":hosted,
+                "answer_source":answerer,"playback_scope":clock,
                 "vision":"validated_saved_predictions"}
 
     def evidence_image(self,key,rank,index):

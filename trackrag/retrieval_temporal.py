@@ -11,6 +11,8 @@ from functools import lru_cache
 import re
 
 from .evidence_time import referenced_track_ids, requested_frame_ids
+from .footage_facts import supports_track_question
+from .playback_time import available_frame_ids, playback_scope, requested_playback_times
 from .retrieval import _tokens, _validate_question, build_index, rank_evidence as rank_windows
 
 
@@ -29,7 +31,8 @@ def question_scope(text, *, current_if_untimed=False):
     exiting = _matches(r"\b(?:exit(?:s|ed|ing)?(?!\s+(?:sign|ramp|lane|road))|(?:mov(?:e[ds]?|ing)|went|goes?) out|leaves? the (?:frame|scene))\b", words)
     opening = _matches(r"\b(?:opening|initial(?:ly)?|beginning|at the start|first (?:image|frame|second)|early)\b", words)
     latest = _matches(r"\b(?:current(?:ly)?|now|latest|recent(?:ly)?|last (?:frame|image)|"
-                      r"(?:this|the (?:selected|displayed|paused)) (?:frame|image)|(?:towards?|near|by|at) the end)\b", words)
+                      r"(?:this|the (?:selected|displayed|paused)) (?:frame|image)|(?:towards?|near|by|at) the end)\b",
+                      re.sub(r"\bbefore (?:now|this frame|the pause)\b", "earlier", words))
     history = _matches(r"\b(?:earlier observations?|recent observations?|as (?:the )?(?:clip|recording|video) progresses|over time|"
                        r"(?:larger|smaller|bigger|closer|further) (?:than|as|over)|emerges?|still visible|during|across the image)\b", words)
     if opening and _matches(r"\b(?:mov(?:e[ds]?|ing)|motion|movement|shift(?:s|ed|ing)?|direction)\b", words):
@@ -43,26 +46,12 @@ def question_scope(text, *, current_if_untimed=False):
         seconds = int(value) if value.isdigit() else _SMALL_NUMBERS[value]
         opening = history = True
     if not (entering or exiting or opening or latest or history or scene or exact):
-        if not current_if_untimed:
+        if not current_if_untimed and (not supports_track_question(text) or requested_playback_times(text)):
             return None
         latest = True
     return {"opening": opening, "latest": latest, "history": history, "opening_seconds": seconds,
             "boundary": "enter" if entering else "exit" if exiting else None,
             "scene": scene, "exact": exact}
-
-
-def _available(recording, cutoff):
-    known = getattr(recording, "frame_ids", None)
-    if known is not None:
-        return known[:bisect_right(known, cutoff)]
-    ids = []
-    for frame in recording.iter_frames():
-        if frame["frame_id"] > cutoff:
-            break
-        ids.append(frame["frame_id"])
-        if frame["frame_id"] == cutoff:
-            break
-    return ids
 
 
 _CLASSES = {
@@ -95,6 +84,52 @@ def current_spatial_relation(text):
         r"(?:[\w'-]+\s+){0,3}(?:buildings?|shops?|bridges?|overpasses?|gates?|kerbs?|curbs?|"
         r"sidewalks?|junctions?|signs?|barriers?|trees?|houses?|walls?|entrances?|"
         r"cars?|trucks?|vans?|buses|bus|pickups?|lanes?|pedestrians?)\b", text)
+
+
+_SCENE_FEATURE = re.compile(
+    r"\b(?:road(?:way)?s?|streets?|highways?|lanes?|junctions?|carriageways?|ramps?|roundabouts?|"
+    r"pavement|asphalt|tarmac|shoulders?|verges?|medians?|curbs?|kerbs?|sidewalks?|crossings?|"
+    r"barriers?|guardrails?|dividers?|railings?|fences?|walls?|edges?|"
+    r"buildings?|towers?|construction|cranes?|structures?|flyovers?|overpasses?|underpasses?|"
+    r"bridges?|viaducts?|columns?|pillars?|gantr(?:y|ies)|signs?|signboards?|boards?|traffic lights?|"
+    r"poles?|trees?|palms?|hedges?|vegetation|sand(?:y)?|grass|sky|sun|horizon|shadows?|"
+    r"brightest (?:spot|part)|(?:the|this) (?:picture|image|view|photograph))\b", re.I)
+_SCENE_LAYOUT = re.compile(
+    r"\b(?:left|right|sides?|above|below|overhead|underneath|beneath|over|under|beside|alongside|"
+    r"where|relative to|in relation to|behind|between|beyond|near|across|toward|ahead|background|foreground|middle|cent(?:er|re)|"
+    r"top|bottom|horizon|bend(?:s|ing)?|curv(?:e|es|ing)|cross(?:es|ing)?|span(?:s|ning)?|"
+    r"straight|next to|in front of|in the open|on top of|at the edge)\b", re.I)
+_OTHER_MOMENT_OR_FACT = re.compile(
+    r"\b(?:why|when|will|would|did|was|were|early|earlier|later|first|last|opening|initial|start|beginning|outset|before|after|"
+    r"previous(?:ly)?|recent(?:ly)?|(?:near|at|towards?) the end|next(?!\s+to\b)|future|ago|yesterday|tomorrow|"
+    r"compare|changes?|changed|mov(?:e|es|ed|ing)|enters?|entered|exits?|exited|"
+    r"seconds?|minutes?|hours?|frames?\s*(?:#|\d)|intent\w*|planned?|expect\w*|caus\w*|"
+    r"weigh\w*|mass|speed|velocity|fast|distance|how (?:far|wide|long|tall|high|deep)|"
+    r"exact(?:ly)?|precisely|met(?:er|re)s?|kilomet(?:er|re)s?|miles?|feet|mph|kmh|coordinates|"
+    r"annotat\w*|ground[ -]truth|tracks?|tracker|detector|predicted)\b", re.I)
+
+
+def unmeasured_scene_quantity(text):
+    """Original images lack a physical scale for road or structure dimensions."""
+    if not _SCENE_FEATURE.search(text) or _matches(r"\b(?:pixels?|printed|written|displayed|readout|scale bar|sign says)\b", text):
+        return False
+    if _matches(r"\b(?:exact|precise|actual)\s+(?:physical\s+)?(?:width|length|height|depth|distance)\b|"
+                r"\b(?:how many|in)\s+(?:met(?:er|re)s?|kilomet(?:er|re)s?|miles?|feet)\b", text):
+        return True
+    return (_matches(r"\bhow (?:far|wide|long|tall|high|deep)\b", text)
+            and not _matches(r"\b(?:how far (?:left|right|up|down)|relative to|compared (?:to|with)|image[ -]plane)\b", text))
+
+
+def current_scene_layout(text):
+    """A present visual relationship in the road scene, independent of any assigned track."""
+    vehicle_detail = _current_object_detail(text) and _matches(
+        r"\b(?:mounted|attachments?|attached|carrying|hauling|cargo|load|beds?|bumpers?|roofs?|"
+        r"colou?rs?|shapes?|patterns?|markings?|lettering|logos?|stripes?)\b", text)
+    return bool(_SCENE_FEATURE.search(text) and _SCENE_LAYOUT.search(text)
+                and not _OTHER_MOMENT_OR_FACT.search(text) and not requested_frame_ids(text)
+                and not requested_playback_times(text) and not referenced_track_ids(text)
+                and not current_spatial_relation(text) and not vehicle_detail
+                and not supports_track_question(text))
 
 
 def matches_vehicle_class(noun, label):
@@ -149,12 +184,38 @@ def _object_score(rows, text, dimensions, frame, direction):
     return min(score, 1.0) * (support if not named else 1.0)
 
 
-def rank_evidence(question, index, k=3):
+def rank_evidence(question, index, k=3, *, observation_source=None):
     if type(k) is not int or not 0 <= k <= 3:
         raise ValueError("k must be an integer from 0 through 3")
     cutoff = _validate_question(question, index)
+    if k == 0:
+        return []
     text = question["question"]
     scope = question_scope(text)
+    clock = playback_scope(text, index.recording, cutoff)
+    if unmeasured_scene_quantity(text):
+        return []
+    if not clock and current_scene_layout(text) and not (scope and (scope["opening"] or scope["history"] or scope["boundary"])):
+        # A track on the right in an earlier image cannot answer where the road bends now.
+        # The runner can attest its source even when the detector saw nothing in the prefix.
+        if observation_source is not None and observation_source not in {"predicted", "annotated"}:
+            raise ValueError("Unknown observation source for the current scene.")
+        source = observation_source
+        if any(rows[0]["frame_id"] <= cutoff for rows in index.histories.values()):
+            if source is not None and source != index.source:
+                raise ValueError("The current scene and its observations have different sources.")
+            source = index.source
+        if source is None or cutoff not in available_frame_ids(index.recording, cutoff):
+            return []
+        return [{"recording_id": question["recording_id"], "source": source, "track_id": None,
+                 "start_frame": cutoff, "end_frame": cutoff, "rank": 1, "score": 1.0}]
+    if clock:
+        if clock["status"] != "available":
+            return []
+        if scope is None:
+            scope = question_scope(text, current_if_untimed=True)
+            scope["latest"] = False
+        scope["exact"] = sorted(set(scope["exact"]) | {m["frame_id"] for m in clock["moments"]})
     cargo = _untimed_visible_object(text) and _matches(r"\b(?:carrying|hauling|cargo|load on)\b", text)
     if scope is None and (current_spatial_relation(text) or cargo):
         # A load or an untracked landmark needs the visible scene at the paused frame.
@@ -166,14 +227,16 @@ def rank_evidence(question, index, k=3):
         scope = question_scope(text, current_if_untimed=True)
     # The observation source must be established by this cutoff. A detector
     # result that first appears later cannot make an earlier scene retrievable.
-    if not k or index.source is None or not any(rows[0]["frame_id"] <= cutoff for rows in index.histories.values()):
+    if index.source is None or not any(rows[0]["frame_id"] <= cutoff for rows in index.histories.values()):
         return []
-    allowed = _available(index.recording, cutoff)
+    allowed = available_frame_ids(index.recording, cutoff)
     if (not allowed or cutoff not in allowed or scope["opening_seconds"] == 0
             or any(f not in allowed for f in scope["exact"])):
         return []
     first = allowed[0]
     horizon = cutoff
+    if clock and not scope["latest"]:
+        horizon = max(scope["exact"])
     opening_middle = None
     if scope["opening_seconds"] is not None:
         start_time = index.recording.get_frame(first)["timestamp_s"]

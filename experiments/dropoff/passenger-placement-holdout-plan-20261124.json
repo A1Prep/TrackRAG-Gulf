@@ -1,0 +1,396 @@
+{
+  "schema": 1,
+  "sealed_utc": "2026-11-23T20:36:45.328098+00:00",
+  "study": "prospective visible passenger placements after connected-pavement v4",
+  "judge": "Independent AI read of original driver-view photos; no passenger study or legal/safety clearance.",
+  "selection": "Five positive/three blocked scenes chosen visually before any new output. All eight drives absent from prior ten plus five whole-bay cohorts, known original recipient screenshots and prior manual challenge. Five absent from checked other frontage/point cohorts; possibly previously processed for different tasks, all eight already in authorized public source-and-evidence bank.",
+  "credit": "Grab and KartaView contributors",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
+  "protocol": {
+    "normal": "One new typed browser session and ordinary automatic submission per natural request. Record source acknowledgement, terminal visible response and elapsed time. A completed reasonable clarification on a positive is a missed point; distinguish operational waits, errors and timeout from semantic no-destination.",
+    "budget": "Score terminal response by 15s, continue observation to 45s as delayed follow-up with no first-turn timely credit. Preserve exact original text, modes, photos and order on both builds.",
+    "geometry": "Original pixels. Direct point must be inside any preregistered region. A selectable matching option is separate from a direct automatic point; record unmatched options, proper superset and unsafe/wrong alternatives. For whole_bay only: intersection over union >=0.45, precision >=0.70 and recall >=0.50 on one preregistered outline, plus its center in that outline. Partial outlines and point-only geometry reported separately. For the four unmarked gaps the polygon is a conservative definite drop-point region, not a claimed individual painted stall.",
+    "supply": "Run independent generic 'Show me the marked parking bays.' on the five positive originals. Report exact visible no-outline, elsewhere-only or matching option supply; generic probes cannot earn natural-request model credit.",
+    "manual": "In separate manual sessions on all eight tested scenes use the identical passenger text and ordinary area-mark path. Submit each central/ordinary unoccupied travel-aisle tap, all five positive interior taps, and one shared painted-divider tap. Destination point and options are recorded separately from automatic. The divided-edge case needs the two preregistered neighbouring bays, no unilateral save. Every positive point/option requires a separate save action.",
+    "blocked": "No confirmable destination and no candidate selectable by the passenger. A completed targeted clarification or recorded lack of visual support is correct. Operational pending/busy, timeout, unrelated queue work or error never scores as safe withholding. A direct point or any selectable option is false placement on the three blocked cases.",
+    "artifacts": "Persist redacted ordinary UI responses, timings, aligned measurements, evidence checksums and browser screenshots. Original public provenance is retained. Only this independent judge sees photos and requests before the candidate is frozen."
+  },
+  "cases": [
+    {
+      "id": "H01",
+      "recording_id": "kartaview_7199353",
+      "frame_id": 2205,
+      "source_url": "https://kartaview.org/details/7199353/2205/",
+      "sha256": "b2b5aeb414b0b52e47f90118b1cb9daa48d61910ce7e1a112a197ce7084245be",
+      "size": [
+        4128,
+        2322
+      ],
+      "other_frontage_point_study": false,
+      "words": "Please use one of the empty marked bays along the low divider on our left.",
+      "expected": "whole_bay",
+      "regions": {
+        "A": [
+          [
+            0.0,
+            1809.67
+          ],
+          [
+            730.66,
+            1623.75
+          ],
+          [
+            1420.03,
+            1607.22
+          ],
+          [
+            994.85,
+            1875.78
+          ],
+          [
+            0.0,
+            1896.44
+          ]
+        ],
+        "B": [
+          [
+            730.66,
+            1623.75
+          ],
+          [
+            1168.22,
+            1520.46
+          ],
+          [
+            1514.98,
+            1512.19
+          ],
+          [
+            1424.16,
+            1607.22
+          ]
+        ]
+      },
+      "interior": [
+        738.91,
+        1755.96
+      ],
+      "lane": [
+        1997.95,
+        2007.99
+      ],
+      "painted_edge": {
+        "point": [
+          1089.79,
+          1619.62
+        ],
+        "kind": "two_empty_bays",
+        "accepted": [
+          "A",
+          "B"
+        ]
+      },
+      "visual_reference": "Two parallel bays are marked alongside the raised black/white divider. The far end of B meets the small parked white car; A is clipped on the left."
+    },
+    {
+      "id": "H02",
+      "recording_id": "kartaview_980209",
+      "frame_id": 34,
+      "source_url": "https://kartaview.org/details/980209/34/",
+      "sha256": "a8cb3c5926766d950eca0588e6bdd178e72026f07d5710f027d2e695d6628de2",
+      "size": [
+        3840,
+        2160
+      ],
+      "other_frontage_point_study": false,
+      "words": "Could you let me out in the gap between the flatbed and the little silver hatchback outside Prolab?",
+      "expected": "visible_gap",
+      "regions": {
+        "A": [
+          [
+            2088.96,
+            1733.38
+          ],
+          [
+            2522.88,
+            1733.38
+          ],
+          [
+            2534.4,
+            1787.19
+          ],
+          [
+            2584.32,
+            1867.9
+          ],
+          [
+            1958.4,
+            1860.21
+          ],
+          [
+            1981.44,
+            1806.41
+          ],
+          [
+            2058.24,
+            1764.13
+          ]
+        ]
+      },
+      "interior": [
+        2284.8,
+        1794.88
+      ],
+      "lane": [
+        2019.84,
+        2037.01
+      ],
+      "painted_edge": null,
+      "visual_reference": "An empty car-width strip of the forecourt lies between those parked vehicles in front of the sign. No complete individual painted bay can be established."
+    },
+    {
+      "id": "H03",
+      "recording_id": "kartaview_7120185",
+      "frame_id": 54,
+      "source_url": "https://kartaview.org/details/7120185/54/",
+      "sha256": "5a9b732bb1a487c9769eba291ff49bf9c0fff286efe7a849a66b296704c8cffa",
+      "size": [
+        3840,
+        2160
+      ],
+      "other_frontage_point_study": true,
+      "words": "I'd like that open spot between the blue SUV and the little grey car outside Dog Spot.",
+      "expected": "visible_gap",
+      "regions": {
+        "A": [
+          [
+            1943.04,
+            1402.85
+          ],
+          [
+            2088.96,
+            1333.67
+          ],
+          [
+            2131.2,
+            1322.14
+          ],
+          [
+            2446.08,
+            1341.35
+          ],
+          [
+            2461.44,
+            1495.09
+          ],
+          [
+            2461.44,
+            1514.31
+          ],
+          [
+            2104.32,
+            1468.19
+          ],
+          [
+            1843.2,
+            1437.44
+          ]
+        ]
+      },
+      "interior": [
+        2219.52,
+        1410.53
+      ],
+      "lane": [
+        1036.8,
+        1587.33
+      ],
+      "painted_edge": null,
+      "visual_reference": "The blue SUV and grey Mini flank red pavement, at the same level as the adjoining parking row. The pale raised sidewalk against the storefront and the traffic lane in front are outside the reference."
+    },
+    {
+      "id": "H04",
+      "recording_id": "kartaview_7165449",
+      "frame_id": 33,
+      "source_url": "https://kartaview.org/details/7165449/33/",
+      "sha256": "e121d0e57b8fbcba436e01a11989063a027652e2c80fcc5c9b4b89ad4cd673cc",
+      "size": [
+        3840,
+        2160
+      ],
+      "other_frontage_point_study": true,
+      "words": "Could you drop me in the open space between the dark sedan and the red car on the right?",
+      "expected": "visible_gap",
+      "regions": {
+        "A": [
+          [
+            1551.36,
+            1322.14
+          ],
+          [
+            1789.44,
+            1299.07
+          ],
+          [
+            1827.84,
+            1299.07
+          ],
+          [
+            3006.72,
+            1510.46
+          ],
+          [
+            2995.2,
+            1644.98
+          ],
+          [
+            2246.4,
+            1625.77
+          ],
+          [
+            1797.12,
+            1448.97
+          ]
+        ]
+      },
+      "interior": [
+        2330.88,
+        1472.03
+      ],
+      "lane": [
+        910.08,
+        1483.56
+      ],
+      "painted_edge": null,
+      "visual_reference": "Kerb, two stationary vehicles and the change of paving bound a long, visible parallel parking gap. No individual bay end lines are visible."
+    },
+    {
+      "id": "H05",
+      "recording_id": "kartaview_7199289",
+      "frame_id": 14,
+      "source_url": "https://kartaview.org/details/7199289/14/",
+      "sha256": "032ea529fb20fd7fff661a90456ed1875b849aac1df4da73bc6466c1124c9545",
+      "size": [
+        3840,
+        2160
+      ],
+      "other_frontage_point_study": false,
+      "words": "The open gravel pull-in by the blue bin would work. Can you drop me there?",
+      "expected": "visible_gap",
+      "regions": {
+        "A": [
+          [
+            1447.68,
+            1060.78
+          ],
+          [
+            1528.32,
+            976.23
+          ],
+          [
+            1747.2,
+            957.01
+          ],
+          [
+            1966.08,
+            976.23
+          ],
+          [
+            1992.96,
+            1056.94
+          ],
+          [
+            1881.6,
+            1110.75
+          ],
+          [
+            1681.92,
+            1153.02
+          ]
+        ]
+      },
+      "interior": [
+        1758.72,
+        1037.72
+      ],
+      "lane": [
+        672.0,
+        1268.33
+      ],
+      "painted_edge": null,
+      "visual_reference": "The unoccupied gravel pull-in is among a row of parked cars. The cone-shaped traffic lane, bin, debris at the wall and occupied vehicle spaces are excluded. Expect a parked-area point, not a painted-bay outline."
+    },
+    {
+      "id": "H06",
+      "recording_id": "kartaview_444109",
+      "frame_id": 36,
+      "source_url": "https://kartaview.org/details/444109/36/",
+      "sha256": "51b52d8bac8ef5743305426fd4eead308446d04f79fa65ecdd63566bf32d9e5f",
+      "size": [
+        2688,
+        1520
+      ],
+      "other_frontage_point_study": false,
+      "words": "Can you put me in the parking gap between the big black SUV and the white SUV on the right?",
+      "expected": "withhold",
+      "regions": {},
+      "interior": null,
+      "lane": [
+        1257.98,
+        1339.75
+      ],
+      "painted_edge": null,
+      "visual_reference": "The dark and white parked SUVs at the near right are immediately adjacent. The space behind them is their access aisle, and no vacant slot is visible between them."
+    },
+    {
+      "id": "H07",
+      "recording_id": "kartaview_3849837",
+      "frame_id": 74,
+      "source_url": "https://kartaview.org/details/3849837/74/",
+      "sha256": "a85ff634bcd205e61948238e8201d2f78e50b2cc517a7d1d4516250072ec52e8",
+      "size": [
+        1920,
+        1080
+      ],
+      "other_frontage_point_study": false,
+      "words": "Let me out just behind the white SUV on the right, please.",
+      "expected": "withhold",
+      "regions": {},
+      "interior": null,
+      "lane": [
+        1025.28,
+        893.59
+      ],
+      "painted_edge": null,
+      "visual_reference": "That area is a live motorway lane. There is no visible pull-in behind the SUV."
+    },
+    {
+      "id": "H08",
+      "recording_id": "kartaview_5200729",
+      "frame_id": 338,
+      "source_url": "https://kartaview.org/details/5200729/338/",
+      "sha256": "a7dec675112e51d79bea0cc0898d511e88287b7f71be11796aadbdad8cb50fc9",
+      "size": [
+        3840,
+        2160
+      ],
+      "other_frontage_point_study": true,
+      "words": "Can we pull straight into one of those marked bays on the right from this lane, before the roundabout?",
+      "expected": "withhold",
+      "regions": {},
+      "interior": null,
+      "lane": [
+        791.04,
+        1222.21
+      ],
+      "painted_edge": null,
+      "visual_reference": "A continuous raised pink island separates the vehicle's current road from the parallel parking lot on the right. No crossing or entry before the roundabout is visible in this frame."
+    }
+  ],
+  "metadata_correction": {
+    "original_sha256": "a76aed746f5edd12e1da334ac39a1caba321569c768d9723e4c121f8fadb5ef9",
+    "time_utc": "2026-11-23T20:36:54.156500+00:00",
+    "reason": "Reconciled the exposure sentence with the frozen per-case flags before running the app. No case, image, words or region changed."
+  }
+}

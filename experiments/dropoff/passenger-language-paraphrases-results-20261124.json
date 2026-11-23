@@ -1,0 +1,576 @@
+{
+  "scope": "The four photos, previous misses and the independent first-cohort reference regions were already known. These twelve utterances are fixed before the 35B release or any run of them. This tests wording conditional on known photographs and does not measure new-scene generalisation. Nothing from the separate seven-scene cohort is used.",
+  "plan_sha256": "734a9e26313fb0767b910b0a36d2aec0892f91029a053f509a4ae7abac52da68",
+  "started_utc": "2026-11-23T21:26:04.872Z",
+  "finished_utc": "2026-11-23T21:28:06.416Z",
+  "client": "Normal local Microsoft Edge session, fresh photo/typed request per trial",
+  "geometry_and_wording_diagnostic": {
+    "H02": {
+      "roadside_35b": {
+        "model": "Qwen/Qwen3.6-35B-A3B-FP8",
+        "revision": "c653bba46dfa06e9658dcc0b0dc87fe4685f14a2",
+        "verified_open_candidates": 5,
+        "centres_inside_reference": 2
+      },
+      "unpaved_35b": {
+        "model": null,
+        "revision": null,
+        "verified_open_candidates": 0,
+        "centres_inside_reference": 0
+      },
+      "existing_curb_board": {
+        "model": {
+          "adapter": "76bfb3230b17a86248b52ca6a9f8d2ffca324aa80216d6b93845ccb12ad86743",
+          "base": "10d842936325905934ea24e64325d774693f166e",
+          "processor": "0c351dd01ed87e9c1b53cbc748cba10e6187ff3b"
+        },
+        "revision": null,
+        "verified_open_candidates": 4,
+        "centres_inside_reference": 1
+      },
+      "A": {
+        "strict": false,
+        "returned": 1,
+        "inside_reference": 1
+      },
+      "B": {
+        "strict": false,
+        "returned": 0,
+        "inside_reference": 0
+      },
+      "C": {
+        "strict": false,
+        "returned": 0,
+        "inside_reference": 0
+      }
+    },
+    "H03": {
+      "roadside_35b": {
+        "model": "Qwen/Qwen3.6-35B-A3B-FP8",
+        "revision": "c653bba46dfa06e9658dcc0b0dc87fe4685f14a2",
+        "verified_open_candidates": 4,
+        "centres_inside_reference": 2
+      },
+      "unpaved_35b": {
+        "model": null,
+        "revision": null,
+        "verified_open_candidates": 0,
+        "centres_inside_reference": 0
+      },
+      "existing_curb_board": {
+        "model": {
+          "adapter": "76bfb3230b17a86248b52ca6a9f8d2ffca324aa80216d6b93845ccb12ad86743",
+          "base": "10d842936325905934ea24e64325d774693f166e",
+          "processor": "0c351dd01ed87e9c1b53cbc748cba10e6187ff3b"
+        },
+        "revision": null,
+        "verified_open_candidates": 4,
+        "centres_inside_reference": 1
+      },
+      "A": {
+        "strict": false,
+        "returned": 1,
+        "inside_reference": 1
+      },
+      "B": {
+        "strict": false,
+        "returned": 0,
+        "inside_reference": 0
+      },
+      "C": {
+        "strict": false,
+        "returned": 0,
+        "inside_reference": 0
+      }
+    },
+    "H04": {
+      "roadside_35b": {
+        "model": "Qwen/Qwen3.6-35B-A3B-FP8",
+        "revision": "c653bba46dfa06e9658dcc0b0dc87fe4685f14a2",
+        "verified_open_candidates": 2,
+        "centres_inside_reference": 2
+      },
+      "unpaved_35b": {
+        "model": null,
+        "revision": null,
+        "verified_open_candidates": 0,
+        "centres_inside_reference": 0
+      },
+      "existing_curb_board": {
+        "model": {
+          "adapter": "76bfb3230b17a86248b52ca6a9f8d2ffca324aa80216d6b93845ccb12ad86743",
+          "base": "10d842936325905934ea24e64325d774693f166e",
+          "processor": "0c351dd01ed87e9c1b53cbc748cba10e6187ff3b"
+        },
+        "revision": null,
+        "verified_open_candidates": 2,
+        "centres_inside_reference": 2
+      },
+      "A": {
+        "strict": true,
+        "returned": 1,
+        "inside_reference": 1
+      },
+      "B": {
+        "strict": false,
+        "returned": 0,
+        "inside_reference": 0
+      },
+      "C": {
+        "strict": false,
+        "returned": 0,
+        "inside_reference": 0
+      }
+    },
+    "H05": {
+      "roadside_35b": {
+        "model": null,
+        "revision": null,
+        "verified_open_candidates": 0,
+        "centres_inside_reference": 0
+      },
+      "unpaved_35b": {
+        "model": "Qwen/Qwen3.6-35B-A3B-FP8",
+        "revision": "c653bba46dfa06e9658dcc0b0dc87fe4685f14a2",
+        "verified_open_candidates": 0,
+        "centres_inside_reference": 0
+      },
+      "existing_curb_board": {
+        "model": null,
+        "revision": null,
+        "verified_open_candidates": 0,
+        "centres_inside_reference": 0
+      },
+      "A": {
+        "strict": false,
+        "returned": 0,
+        "inside_reference": 0
+      },
+      "B": {
+        "strict": false,
+        "returned": 0,
+        "inside_reference": 0
+      },
+      "C": {
+        "strict": false,
+        "returned": 0,
+        "inside_reference": 0
+      }
+    }
+  },
+  "trials": [
+    {
+      "id": "H02-A",
+      "started_utc": "2026-11-23T21:26:05.878Z",
+      "source_sha256": "a8cb3c5926766d950eca0588e6bdd178e72026f07d5710f027d2e695d6628de2",
+      "ack_ms": 115,
+      "visible_ms": 4812,
+      "state": "needs_clarification",
+      "actor": "model",
+      "confirmed": false,
+      "has_proposal": false,
+      "save_visible": false,
+      "visible_options": 1,
+      "clarification": "I can show an open area near some of your landmarks. Could you check the highlight and confirm which place you meant?",
+      "title": "Does a highlighted area match?",
+      "point": null,
+      "choices": [
+        {
+          "xy": [
+            2335.5,
+            1811.595
+          ],
+          "inside_target": true,
+          "extent": "visible_parking_surface"
+        }
+      ],
+      "ui_error": null,
+      "receipt": {
+        "journal_sha256": "de1ea3ad2c53a6238a42bd69bcf8c2dbbfee96aa082fced10296104b5b9bf406",
+        "source_journal_frame": 34,
+        "method": "public_painted_bay_landmark_v1",
+        "reason": "unverified_bay_reference",
+        "source_bound": true,
+        "action": "submitted",
+        "actor": "model",
+        "error_code": null,
+        "evidence": [
+          {
+            "kind": "roadside_evidence",
+            "repo": "Qwen/Qwen3.6-35B-A3B-FP8",
+            "revision": "c653bba46dfa06e9658dcc0b0dc87fe4685f14a2",
+            "numbered_rows": 5
+          }
+        ],
+        "result_status": "needs_clarification"
+      },
+      "grade": "correct_choices_only",
+      "page_errors": []
+    },
+    {
+      "id": "H04-B",
+      "started_utc": "2026-11-23T21:26:11.515Z",
+      "source_sha256": "e121d0e57b8fbcba436e01a11989063a027652e2c80fcc5c9b4b89ad4cd673cc",
+      "ack_ms": 92,
+      "visible_ms": 15225,
+      "state": "error",
+      "actor": null,
+      "confirmed": false,
+      "has_proposal": false,
+      "save_visible": false,
+      "visible_options": 0,
+      "clarification": null,
+      "title": "The request couldn’t finish",
+      "point": null,
+      "choices": [],
+      "ui_error": "timeout",
+      "receipt": {
+        "journal_sha256": "04c32ebfe6e97e516ffa3d017445a73e4cbcca22807d6d5912b47bb2075c3e1d",
+        "source_journal_frame": 33,
+        "method": "passenger_interactive_deadline",
+        "reason": null,
+        "source_bound": true,
+        "action": "submitted",
+        "actor": null,
+        "error_code": "timeout",
+        "evidence": [],
+        "result_status": null
+      },
+      "grade": "operational_failure",
+      "page_errors": []
+    },
+    {
+      "id": "H05-C",
+      "started_utc": "2026-11-23T21:26:27.582Z",
+      "source_sha256": "032ea529fb20fd7fff661a90456ed1875b849aac1df4da73bc6466c1124c9545",
+      "ack_ms": 77,
+      "visible_ms": 5268,
+      "state": "needs_clarification",
+      "actor": "model",
+      "confirmed": false,
+      "has_proposal": false,
+      "save_visible": false,
+      "visible_options": 0,
+      "clarification": "I can’t place that request on a clear bay in this view. Could you mark the spot you mean, or name another visible landmark?",
+      "title": "Which spot do you mean?",
+      "point": null,
+      "choices": [],
+      "ui_error": null,
+      "receipt": {
+        "journal_sha256": "bd07d09c46eb53622d3e6b5a0fcfa0ca3da2c14490ac9f547d06c53ea4d758cf",
+        "source_journal_frame": 14,
+        "method": "signed_public_place_empty_surface_v1",
+        "reason": "no_visible_parking_surface",
+        "source_bound": true,
+        "action": "submitted",
+        "actor": "model",
+        "error_code": null,
+        "evidence": [],
+        "result_status": "needs_clarification"
+      },
+      "grade": "withheld_counterfactual",
+      "page_errors": []
+    },
+    {
+      "id": "H03-A",
+      "started_utc": "2026-11-23T21:26:33.605Z",
+      "source_sha256": "5a9b732bb1a487c9769eba291ff49bf9c0fff286efe7a849a66b296704c8cffa",
+      "ack_ms": 72,
+      "visible_ms": 15182,
+      "state": "error",
+      "actor": null,
+      "confirmed": false,
+      "has_proposal": false,
+      "save_visible": false,
+      "visible_options": 0,
+      "clarification": null,
+      "title": "The request couldn’t finish",
+      "point": null,
+      "choices": [],
+      "ui_error": "timeout",
+      "receipt": {
+        "journal_sha256": "8a4cd1c0583a74d586fbc796b36878e11ffa78cc3b2a392a5764f68d0512f838",
+        "source_journal_frame": 54,
+        "method": "passenger_interactive_deadline",
+        "reason": null,
+        "source_bound": true,
+        "action": "submitted",
+        "actor": null,
+        "error_code": "timeout",
+        "evidence": [],
+        "result_status": null
+      },
+      "grade": "operational_failure",
+      "page_errors": []
+    },
+    {
+      "id": "H04-C",
+      "started_utc": "2026-11-23T21:26:49.455Z",
+      "source_sha256": "e121d0e57b8fbcba436e01a11989063a027652e2c80fcc5c9b4b89ad4cd673cc",
+      "ack_ms": 80,
+      "visible_ms": 630,
+      "state": "needs_clarification",
+      "actor": "model",
+      "confirmed": false,
+      "has_proposal": false,
+      "save_visible": false,
+      "visible_options": 0,
+      "clarification": "I couldn’t trace an empty bay in this view. Could you tap inside the space you mean or describe another landmark?",
+      "title": "Which spot do you mean?",
+      "point": null,
+      "choices": [],
+      "ui_error": null,
+      "receipt": {
+        "journal_sha256": "b3f7e9d0be963ce764caa612d4c73e090b235c62ff9fafea0b99b515a27fafbc",
+        "source_journal_frame": 33,
+        "method": "public_painted_bay_landmark_v1",
+        "reason": "no_visible_bay_for_instruction",
+        "source_bound": true,
+        "action": "submitted",
+        "actor": "model",
+        "error_code": null,
+        "evidence": [],
+        "result_status": "needs_clarification"
+      },
+      "grade": "withheld_counterfactual",
+      "page_errors": []
+    },
+    {
+      "id": "H05-B",
+      "started_utc": "2026-11-23T21:26:50.857Z",
+      "source_sha256": "032ea529fb20fd7fff661a90456ed1875b849aac1df4da73bc6466c1124c9545",
+      "ack_ms": 75,
+      "visible_ms": 15297,
+      "state": "error",
+      "actor": null,
+      "confirmed": false,
+      "has_proposal": false,
+      "save_visible": false,
+      "visible_options": 0,
+      "clarification": null,
+      "title": "The request couldn’t finish",
+      "point": null,
+      "choices": [],
+      "ui_error": "timeout",
+      "receipt": {
+        "journal_sha256": "1dcff2d2bb3fbeddb451f98641ece3470c32b8c1011aeb5fee72f9214d2d9085",
+        "source_journal_frame": 14,
+        "method": "passenger_interactive_deadline",
+        "reason": null,
+        "source_bound": true,
+        "action": "submitted",
+        "actor": null,
+        "error_code": "timeout",
+        "evidence": [],
+        "result_status": null
+      },
+      "grade": "operational_failure",
+      "page_errors": []
+    },
+    {
+      "id": "H02-C",
+      "started_utc": "2026-11-23T21:27:06.886Z",
+      "source_sha256": "a8cb3c5926766d950eca0588e6bdd178e72026f07d5710f027d2e695d6628de2",
+      "ack_ms": 115,
+      "visible_ms": 2245,
+      "state": "needs_clarification",
+      "actor": "model",
+      "confirmed": false,
+      "has_proposal": false,
+      "save_visible": false,
+      "visible_options": 0,
+      "clarification": "I couldn’t trace an empty bay in this view. Could you tap inside the space you mean or describe another landmark?",
+      "title": "Which spot do you mean?",
+      "point": null,
+      "choices": [],
+      "ui_error": null,
+      "receipt": {
+        "journal_sha256": "f4978d090266e3b2f927ffd29fc88c3d7654a868af44526b17ad845c2de4e1f5",
+        "source_journal_frame": 34,
+        "method": "public_painted_bay_landmark_v1",
+        "reason": "no_visible_bay_for_instruction",
+        "source_bound": true,
+        "action": "submitted",
+        "actor": "model",
+        "error_code": null,
+        "evidence": [],
+        "result_status": "needs_clarification"
+      },
+      "grade": "withheld_counterfactual",
+      "page_errors": []
+    },
+    {
+      "id": "H03-B",
+      "started_utc": "2026-11-23T21:27:09.912Z",
+      "source_sha256": "5a9b732bb1a487c9769eba291ff49bf9c0fff286efe7a849a66b296704c8cffa",
+      "ack_ms": 156,
+      "visible_ms": 15337,
+      "state": "error",
+      "actor": null,
+      "confirmed": false,
+      "has_proposal": false,
+      "save_visible": false,
+      "visible_options": 0,
+      "clarification": null,
+      "title": "The request couldn’t finish",
+      "point": null,
+      "choices": [],
+      "ui_error": "timeout",
+      "receipt": {
+        "journal_sha256": "1e665aae9336027c8e310ff4639ce5043d88bac78dfde99eb3fa3e6db5fabc26",
+        "source_journal_frame": 54,
+        "method": "passenger_interactive_deadline",
+        "reason": null,
+        "source_bound": true,
+        "action": "submitted",
+        "actor": null,
+        "error_code": "timeout",
+        "evidence": [],
+        "result_status": null
+      },
+      "grade": "operational_failure",
+      "page_errors": []
+    },
+    {
+      "id": "H05-A",
+      "started_utc": "2026-11-23T21:27:26.456Z",
+      "source_sha256": "032ea529fb20fd7fff661a90456ed1875b849aac1df4da73bc6466c1124c9545",
+      "ack_ms": 103,
+      "visible_ms": 5325,
+      "state": "needs_clarification",
+      "actor": "model",
+      "confirmed": false,
+      "has_proposal": false,
+      "save_visible": false,
+      "visible_options": 0,
+      "clarification": "I can’t place that request on a clear bay in this view. Could you mark the spot you mean, or name another visible landmark?",
+      "title": "Which spot do you mean?",
+      "point": null,
+      "choices": [],
+      "ui_error": null,
+      "receipt": {
+        "journal_sha256": "0967c77d1b0b688a7c16383dc687076548626bfadd1422371a79b97226bd4208",
+        "source_journal_frame": 14,
+        "method": "signed_public_place_empty_surface_v1",
+        "reason": "no_visible_parking_surface",
+        "source_bound": true,
+        "action": "submitted",
+        "actor": "model",
+        "error_code": null,
+        "evidence": [],
+        "result_status": "needs_clarification"
+      },
+      "grade": "clarified_without_location",
+      "page_errors": []
+    },
+    {
+      "id": "H04-A",
+      "started_utc": "2026-11-23T21:27:32.579Z",
+      "source_sha256": "e121d0e57b8fbcba436e01a11989063a027652e2c80fcc5c9b4b89ad4cd673cc",
+      "ack_ms": 101,
+      "visible_ms": 639,
+      "state": "proposed",
+      "actor": "model",
+      "confirmed": false,
+      "has_proposal": true,
+      "save_visible": true,
+      "visible_options": 0,
+      "clarification": null,
+      "title": "Is this the parking area you meant?",
+      "point": {
+        "xy": [
+          2199.4666666666667,
+          1496.205533596838
+        ],
+        "inside_target": true
+      },
+      "choices": [],
+      "ui_error": null,
+      "receipt": {
+        "journal_sha256": "e9f09767f2451e63a5d7a458337851a7110cd564edb81f1ab64e52ec4ef0dc28",
+        "source_journal_frame": 33,
+        "method": "public_painted_bay_landmark_v1",
+        "reason": "matched_roadside_observations",
+        "source_bound": true,
+        "action": "submitted",
+        "actor": "model",
+        "error_code": null,
+        "evidence": [
+          {
+            "kind": "roadside_evidence",
+            "repo": "Qwen/Qwen3.6-35B-A3B-FP8",
+            "revision": "c653bba46dfa06e9658dcc0b0dc87fe4685f14a2",
+            "numbered_rows": 3
+          }
+        ],
+        "result_status": "proposed"
+      },
+      "grade": "correct_first_pin",
+      "page_errors": []
+    },
+    {
+      "id": "H03-C",
+      "started_utc": "2026-11-23T21:27:33.957Z",
+      "source_sha256": "5a9b732bb1a487c9769eba291ff49bf9c0fff286efe7a849a66b296704c8cffa",
+      "ack_ms": 109,
+      "visible_ms": 15571,
+      "state": "error",
+      "actor": null,
+      "confirmed": false,
+      "has_proposal": false,
+      "save_visible": false,
+      "visible_options": 0,
+      "clarification": null,
+      "title": "The request couldn’t finish",
+      "point": null,
+      "choices": [],
+      "ui_error": "timeout",
+      "receipt": {
+        "journal_sha256": "b9189cc6513a2515875472bc1310a15be42751e193684517f75badeb9f605f0a",
+        "source_journal_frame": 54,
+        "method": "passenger_interactive_deadline",
+        "reason": null,
+        "source_bound": true,
+        "action": "submitted",
+        "actor": null,
+        "error_code": "timeout",
+        "evidence": [],
+        "result_status": null
+      },
+      "grade": "operational_failure",
+      "page_errors": []
+    },
+    {
+      "id": "H02-B",
+      "started_utc": "2026-11-23T21:27:50.091Z",
+      "source_sha256": "a8cb3c5926766d950eca0588e6bdd178e72026f07d5710f027d2e695d6628de2",
+      "ack_ms": 82,
+      "visible_ms": 15526,
+      "state": "error",
+      "actor": null,
+      "confirmed": false,
+      "has_proposal": false,
+      "save_visible": false,
+      "visible_options": 0,
+      "clarification": null,
+      "title": "The request couldn’t finish",
+      "point": null,
+      "choices": [],
+      "ui_error": "timeout",
+      "receipt": {
+        "journal_sha256": "d520176c0607097023c9bba9e658c93b35ceab2fd27cf2fe6b69c95ff14e2dee",
+        "source_journal_frame": 34,
+        "method": "passenger_interactive_deadline",
+        "reason": null,
+        "source_bound": true,
+        "action": "submitted",
+        "actor": null,
+        "error_code": "timeout",
+        "evidence": [],
+        "result_status": null
+      },
+      "grade": "operational_failure",
+      "page_errors": []
+    }
+  ]
+}

@@ -79,14 +79,16 @@ def _has_parking_index(scene, backend):
     key = scene["provenance"]["image_sha256"]
     try:
         packet = bay_anchors.get_packet(key)
-        if packet is None:
+        if packet is None and bay_anchors.get_row_packet(key) is None:
             return False
         size = (frame["width"], frame["height"])
-        body, _ = bay_anchors.checked_context(packet, scene, size)
-        shapes = {row["shape"] for row in body["rows"] if re.fullmatch("[a-f0-9]{64}",row["shape"])
-                  and re.fullmatch("[a-f0-9]{64}",row["view"])}
-        if len(shapes) != len(body["rows"]):
-            return False
+        shapes = None
+        if packet is not None:
+            body, _ = bay_anchors.checked_context(packet, scene, size)
+            shapes = {row["shape"] for row in body["rows"] if re.fullmatch("[a-f0-9]{64}",row["shape"])
+                      and re.fullmatch("[a-f0-9]{64}",row["view"])}
+            if len(shapes) != len(body["rows"]):
+                return False
         path = Path(frame["image_path"])
         if not 0 < path.stat().st_size <= MAX_IMAGE_BYTES:
             return False
@@ -97,7 +99,7 @@ def _has_parking_index(scene, backend):
             if picture.size != size:
                 return False
         return whole_bay.index_has_outline(scene, photo, shapes)
-    except (OSError,TypeError,ValueError,KeyError):
+    except (OSError,TypeError,ValueError,KeyError,MemoryError):
         return False
 
 
@@ -197,6 +199,7 @@ class BrowserSession:
         self.directory = directory
         self.lock = threading.Lock()
         self.revision = 0
+        self.last_action_id = None
         self.voice_stage = None
         self.receipt = None
         self.speech_error = None
@@ -218,7 +221,7 @@ class BrowserSession:
                         {"role":"user","text":req["text"],"recording_id":view["recording_id"],"frame_id":view["frame_id"]}])
         if self.background_error:
             view.update(state="error", result=None, proposal_id=None, selected_by=None, error=self.background_error)
-        return {"session": self.identity, "scene": self.scene_key, "revision": self.revision,
+        return {"session": self.identity, "scene": self.scene_key, "revision": self.revision,"last_action_id":self.last_action_id,
                 "view": view, "voice_stage": self.voice_stage, "speech_error": self.speech_error,
                 "pending_grounding":self.pending.public() if self.pending else None,
                 "audio_sha256": self.receipt["audio_sha256"] if self.receipt else None,
@@ -243,7 +246,9 @@ class PassengerSite:
         self.model_lock = threading.Lock()
         self.release_after_request = release_after_request
         self.scene_lock = threading.Lock()
+        self.catalog_lock = threading.Lock()
         self.grounding_pool = ThreadPoolExecutor(max_workers=4,thread_name_prefix="passenger-photo")
+        self.public_grounding_pool = ThreadPoolExecutor(max_workers=2,thread_name_prefix="passenger-public-photo")
 
     @contextmanager
     def model_request(self):
@@ -254,17 +259,29 @@ class PassengerSite:
                 if self.release_after_request is not None:
                     self.release_after_request()
 
-    def catalog(self):
+    def catalog(self, *, include_parking=True):
         with self.scene_lock:
             scenes = list(self.scenes.items())
             covered = sorted(self.footage_scenes)
-        frames = [self._catalog_frame(key,scene) for key,scene in scenes]
+        if include_parking:
+            # Concurrent first visits share the measured photo index. A missing index
+            # must not run a full computer-vision scan in every open browser tab.
+            with self.catalog_lock:
+                frames = [self._catalog_frame(key,scene) for key,scene in scenes]
+        else:
+            frames = [public_frame(key,scene) for key,scene in scenes]
         return {"scenes": sorted(frames, key=lambda f: (f["recording_id"], f["frame_id"])),
                 "speech_available": self.recognizer is not None, "footage_available": bool(covered),
                 "footage_scenes": covered}
 
     def _catalog_frame(self, key, scene):
         return public_frame(key, scene, parking_areas_indexed=_has_parking_index(scene,self.parking_discovery_backend))
+
+    def footage_catalog(self):
+        with self.scene_lock:
+            covered = sorted(self.footage_scenes)
+            frames = [public_frame(key, self.scenes[key]) for key in covered]
+        return {"scenes": frames, "footage_available": bool(covered), "footage_scenes": covered}
 
     def check_footage_coverage(self, minimum):
         covered = {self.scenes[key]["frame"]["recording_id"] for key in self.footage_scenes}
@@ -367,13 +384,12 @@ class PassengerSite:
         with s.lock:
             self._finish_grounding(s,job,interactive_timeout(job.request),"model")
 
-    def _run_grounding(self, s, job):
+    def _run_grounding(self, s, job, public):
         from trackrag.dropoff.contracts import error_outcome
         from trackrag.dropoff.passenger import operational_code
+        from trackrag.dropoff.place_evidence import guard_public_fallback
         try:
-            remote = getattr(self.model,"uses_public_service",None)
-            # A private cloud request does not reserve the laptop GPU or block speech/road checks.
-            with nullcontext() if callable(remote) and remote(job.request) else self.model_request():
+            with guard_public_fallback(self.model_request) if public else self.model_request():
                 with s.lock:
                     if s.retired or s.pending is not job:
                         return
@@ -391,14 +407,21 @@ class PassengerSite:
         timer.daemon = True
         s.pending = job
         try:
-            job.future = self.grounding_pool.submit(self._run_grounding,s,job)
+            public_route = getattr(self.model,"uses_public_service",None)
+            public = callable(public_route) and bool(public_route(req))
+            # A queue of slow laptop inferences must not delay a different passenger's
+            # signed photo lookup or cloud request before it gets to run at all.
+            pool = self.public_grounding_pool if public else self.grounding_pool
+            job.future = pool.submit(self._run_grounding,s,job,public)
             timer.start()
         except RuntimeError:
             s.pending = None
             job.stop_waiting()
             raise PassengerRequestError(503,"The photo check could not start. You can mark your spot on the photo.")
 
-    def change(self, sid, revision, action, payload):
+    def change(self, sid, revision, action, payload, *, action_id=None):
+        if action_id is not None and (not isinstance(action_id,str) or not re.fullmatch(r"[a-f0-9-]{36}",action_id)):
+            raise PassengerRequestError(400,"Invalid action receipt.")
         s = self.lookup(sid)
         with s.lock:
             pending_action = action in {"take-over-area","cancel"} and isinstance(payload,dict) and payload.get("request_id")
@@ -425,6 +448,7 @@ class PassengerSite:
                 s.pending = s.last_background = None
                 s.background_error = None
                 s.clear_audio()
+                s.last_action_id = action_id
                 s.revision += 1
                 return s.snapshot()
             s.last_background = None
@@ -540,6 +564,7 @@ class PassengerSite:
                 s.clear_audio()
             else:
                 raise PassengerRequestError(404, "Unknown passenger action.")
+            s.last_action_id = action_id
             s.revision += 1
             return s.snapshot()
 
@@ -583,7 +608,9 @@ def handler(site):
                     filename, mime = STATIC[path]
                     return self.send_data(200, mime, (ASSETS / filename).read_bytes())
                 if path == "/api/scenes":
-                    return self.respond(site.catalog())
+                    return self.respond(site.catalog(include_parking=urlsplit(self.path).query != "preview=1"))
+                if path == "/api/footage-catalog":
+                    return self.respond(site.footage_catalog())
                 dropoff = re.fullmatch(r"/api/footage-preview/([a-f0-9]{24})/dropoff/(\d{1,10})", path)
                 if dropoff and dropoff[1] in site.footage_scenes:
                     bound = site.open_recording_frame(dropoff[1], int(dropoff[2]), for_footage=True)
@@ -641,14 +668,14 @@ def handler(site):
                         raise PassengerRequestError(503,"Start the app with recording and prediction folders to enable footage search.")
                     if payload.get("scene") not in site.footage_scenes:
                         raise PassengerRequestError(400,"Choose a frame in the attached footage recording.")
-                    # Full-resolution retrieval and the local 8B worker share host memory.
-                    with site.model_lock:
-                        result = site.footage.ask(site.scenes[payload["scene"]], payload.get("question"),
-                                                  hosted=payload.get("hosted", False))
+                    # Share the memory guard only while decoding original images. A remote provider
+                    # can take seconds or retry, during which other passengers can use local models.
+                    result = site.footage.ask(site.scenes[payload["scene"]], payload.get("question"),
+                                              hosted=payload.get("hosted", False), image_guard=site.model_lock)
                     return self.respond(result)
                 if m:
                     revision = int(self.headers.get("X-Session-Revision", "-1"))
-                    return self.respond(site.change(m[1], revision, m[2], payload))
+                    return self.respond(site.change(m[1], revision, m[2], payload, action_id=self.headers.get("X-Action-ID")))
             raise PassengerRequestError(404, "Page not found.")
 
         def dispatch(self):
@@ -708,6 +735,9 @@ def main(argv=None):
     parser.add_argument("--out", type=Path, required=True, help="Local session receipts and source WAVs")
     parser.add_argument("--port", type=int, default=8765)
     args = parser.parse_args(argv)
+    if args.low_memory and args.place_public_sources:
+        import cv2
+        cv2.setNumThreads(2)
     if args.require_footage < 0:
         parser.error("--require-footage must be nonnegative.")
     if bool(args.qa_data_root) != bool(args.qa_predictions):
@@ -747,8 +777,6 @@ def main(argv=None):
                          release_after_request=model.close if args.low_memory else None)
     try:
         recordings = site.check_footage_coverage(args.require_footage)
-        if site.parking_discovery_backend is not None:
-            site.catalog()  # Warm verified street-photo geometry before accepting interactive requests.
         with ThreadingHTTPServer(("127.0.0.1", args.port), handler(site)) as server:
             print(f"Open http://127.0.0.1:{server.server_port}/  ({len(scenes)} prepared frames, "
                   f"{len(recordings)} searchable recordings, speech {'enabled' if asr else 'disabled'})", flush=True)
@@ -758,6 +786,7 @@ def main(argv=None):
                 pass
     finally:
         site.grounding_pool.shutdown(wait=True,cancel_futures=True)
+        site.public_grounding_pool.shutdown(wait=True,cancel_futures=True)
         model.close()
 
 

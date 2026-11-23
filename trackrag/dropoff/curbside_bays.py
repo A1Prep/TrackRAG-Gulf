@@ -27,11 +27,20 @@ def _ends(gray, classes):
         cv2.GaussianBlur(contrast[y0:],(3,3),0))[0]
     if segments is None:
         return []
-    intensity = gray.astype(np.float32)
+    # All differences of uint8 intensities fit exactly in a signed 16-bit
+    # integer. Keep at most one pair of neighbouring rows and one accumulator.
+    intensity = gray.astype(np.int16)
     # At this perspective a distant stripe can be one pixel thick. Test its light ridge against
     # both flanks at two scales; an asphalt/sidewalk edge alone does not supply a painted stripe.
-    ridge = np.maximum.reduce([intensity - np.maximum(np.roll(intensity,gap,0),np.roll(intensity,-gap,0))
-                               for gap in (3,6)])
+    ridge = None
+    for gap in (3,6):
+        flanks = np.roll(intensity,gap,0)
+        np.maximum(flanks,np.roll(intensity,-gap,0),out=flanks)
+        np.subtract(intensity,flanks,out=flanks)
+        if ridge is None:
+            ridge = flanks
+        else:
+            np.maximum(ridge,flanks,out=ridge)
     cap_list = []
     for segment in segments.reshape(-1,2,2):
         a,b = sorted(segment + [0,y0],key=lambda p:p[0])

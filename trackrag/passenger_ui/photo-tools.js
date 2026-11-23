@@ -43,7 +43,8 @@ export function bayChoices(view, width, height) {
   return choices;
 }
 
-export const bayName = index => "Bay " + (index < 26 ? String.fromCharCode(65+index) : index+1);
+export const bayName = (index,bay) => (bay?.extent==="interior_point_only" ? "Spot " : bay?.extent==="visible_parking_surface" ? "Area " : "Bay ") +
+  (index < 26 ? String.fromCharCode(65+index) : index+1);
 
 // A shared painted boundary belongs to neither button. Let the passenger choose a side.
 export function bayAtPoint(choices, [x,y], margin) {
@@ -99,13 +100,15 @@ export function drawBays(ctx, bays, scale, choosing, tapLabel = "Your tap") {
   ctx.save(); ctx.lineJoin = "round";
   const labels = [];
   for (const [index,bay] of bays.entries()) {
-    ctx.beginPath(); ctx.moveTo(...bay.polygon_xy[0]);
-    for (const vertex of bay.polygon_xy.slice(1)) ctx.lineTo(...vertex);
-    ctx.closePath(); ctx.fillStyle = "rgba(255,211,79,.16)"; ctx.fill();
-    ctx.lineWidth = 4.5*scale; ctx.strokeStyle = markerDark; ctx.stroke();
-    ctx.lineWidth = 2.5*scale; ctx.strokeStyle = bayGold; ctx.stroke();
-    const label = bay.extent === "visible_parking_surface" ? "Parking area" : "Bay centre";
-    labels.push({id:bay.id,point:bay.center_xy,text:choosing ? bayName(index) : label,color:bayGold});
+    if (bay.extent !== "interior_point_only") {
+      ctx.beginPath(); ctx.moveTo(...bay.polygon_xy[0]);
+      for (const vertex of bay.polygon_xy.slice(1)) ctx.lineTo(...vertex);
+      ctx.closePath(); ctx.fillStyle = "rgba(255,211,79,.16)"; ctx.fill();
+      ctx.lineWidth = 4.5*scale; ctx.strokeStyle = markerDark; ctx.stroke();
+      ctx.lineWidth = 2.5*scale; ctx.strokeStyle = bayGold; ctx.stroke();
+    }
+    const label = bay.extent === "interior_point_only" ? "Selected spot" : bay.extent === "visible_parking_surface" ? "Parking area" : "Bay centre";
+    labels.push({id:bay.id,point:bay.center_xy,text:choosing ? bayName(index,bay) : label,color:bayGold});
   }
   const tap = bays.find(bay => bay.passenger_tap_xy)?.passenger_tap_xy;
   if (tap) labels.push({point:tap,text:tapLabel,color:tapBlue});

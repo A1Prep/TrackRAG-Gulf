@@ -103,3 +103,5 @@ experiments/dropoff/passenger-manual-point-challenge-20261123.json text eol=lf
 # Preserve the bytes signed for the paired trial and independent photo references.
 experiments/dropoff/passenger-qwen35-*-20261123.json -text whitespace=cr-at-eol
 experiments/dropoff/passenger-whole-bay-*-20261123.json text eol=lf
+# Independent reviewers hashed these files before running the application.
+experiments/dropoff/passenger-*-20261124.json -text whitespace=cr-at-eol

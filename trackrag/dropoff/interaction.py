@@ -363,6 +363,9 @@ def signed_place_verifier(method, *, live=False):
     if method == "molmo2_frontage_confidence_v1":
         from .frontage_evidence import verify
         return verify
+    if method == "single_vehicle_visible_space_check_v1":
+        from .single_vehicle import verify_empty
+        return verify_empty
     if method == "single_vehicle_behind_parking_v1":
         if live:
             from .single_vehicle import verify_current
@@ -508,7 +511,8 @@ class PassengerSession:
         if self._state == "proposed":
             self._proposal = uuid4().hex
             outline = info.get("bay_outline") or {}
-            prompt = ("Is this visible parking area where you want to get out?" if outline.get("extent") == "visible_parking_surface" else
+            prompt = ("Is the highlighted point where you mean to get out?" if outline.get("extent")=="interior_point_only" else
+                      "Is this visible parking area where you want to get out?" if outline.get("extent") == "visible_parking_surface" else
                       "Is the outlined bay where you want to get out?" if outline else
                       "Please check the pin on the photo. Is this where you want to get out?")
             self._turns.append(self._turn("assistant",prompt))

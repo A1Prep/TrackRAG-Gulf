@@ -1,0 +1,536 @@
+{
+  "purpose": "Independent wording-only assessment over the four named, previously exposed point-positive originals. No new-source generalization claim. Freeze predates new matcher outputs. No second seven-drive holdout inputs or words are used.",
+  "method": "Prospectively held-out wording on four earlier exposed photograph/point targets. This offline comparison exercises the two versions of the matching function over source-authenticated current photo and measured options. The outputs are direct-eligible matches or choices returned by the matcher; they are not normal-browser responses. One independent AI judge. No human participant or stopping clearance.",
+  "sealed_utc": "2026-11-23T21:29:50.012755+00:00",
+  "plan_sha256": "5f48fb4f908b5c015634fa832b4f5b0c8d53d864849b2595fb9809d233502f57",
+  "photo_roi_plan": "passenger-placement-holdout-plan-20261124.json",
+  "photo_roi_plan_sha256": "c7b59143eeb0fbb1226e5d0989db92fa7d49d474a2e9faff52114027a7c1a277",
+  "preregistered_protocol": "Each approved phrase must produce a genuine direct point in its previously fixed original-pixel region, or a separately reported passenger-selectable point in it. The two contradictory-colour queries should offer no selectable target; semantic withholding is distinguished from service timeout/busy or wrong offered options. No claim of whole extent, legality or human review. Original public KartaView sources and licence are in the parent plan.",
+  "prior_policy": "scoped_landmark_observations_v1",
+  "candidate_lock_received": "d0c5cd4590650b9e95212465663df2611258f2d6fc5fcd8889c48c0838416ce2",
+  "measured_language_file_sha256": {
+    "trackrag.dropoff.curb_utterance": "f97bd7f8e1ca1edf4097b5a2b662538ab9583434c56933ae275cd1f3b457d887",
+    "trackrag.dropoff.curb_point_language": "f57f4019ddda0787470bfd0cf224c507c70a2b2d24e48cfa3b05379f5b9c0eec",
+    "trackrag.dropoff.roadside_context": "9fcfe9c82baef839e029c3522f83e92a1281130876b84f86bd9865619d558102"
+  },
+  "signed_bank_sha256": {
+    "passenger-manual-parking-surfaces-20261123.zip": "08b88f5b5aff58c4b2f88cf5a80f60b5a2ac3f10565f3d0bad68fbab205bd5d1",
+    "passenger-stall-reviews-v1.zip": "fe790b661dcab78da550e71ebf42b820ff81b2561d541d432e40490b692096ac",
+    "passenger-roadside-observations-v1.zip": "041bb4549db0035222e596ab515ff3c5b018293767c29ff4f34f0e75a3b4c451",
+    "passenger-gravel-observations-v1.zip": "a684d68dbb48708d6427f4e7e787e7812bd6c6adacb537a6de115f25039e54c7",
+    "passenger-curb-points-v1.zip": "78f3cc84a095b0c81fb5c1f6f5b349004f245eed50e2471ed306afc6613c44a5"
+  },
+  "local_raw_output_sha256": "1e4736b90d35609fa680109e91a399a78d32ac4f5e5b5a22efbf481ffae02a9d",
+  "findings": "Both policies matched 2/6 positive phrases to a single correct point, offered zero wrong points and withheld both contradictory-colour controls. Of four positive phrases with at least one matching OPEN model-reviewed point, two matched the language under each policy. Both gravel/bin wordings had a true measured point that the signed model vetoed. These are phrasing-only results on exposed photographs.",
+  "rows": [
+    {
+      "id": "P01",
+      "source_case": "H02",
+      "source_url": "https://kartaview.org/details/980209/34/",
+      "words": "Could I get out between the flatbed truck and the silver hatchback in front of Prolab?",
+      "expected": "point",
+      "original_sha256": "a8cb3c5926766d950eca0588e6bdd178e72026f07d5710f027d2e695d6628de2",
+      "direct_raw_points_in_reference": [
+        {
+          "kind": "recess",
+          "point": [
+            2335.5,
+            1811.595
+          ],
+          "extent": "visible_portion",
+          "candidate_recipe": "measured_vehicle_flanked_parking_recess_v1",
+          "matching_frozen_regions": [
+            "A"
+          ],
+          "reviewed_status": "OPEN"
+        },
+        {
+          "kind": "parking_point",
+          "point": [
+            2361.6,
+            1812.094861660079
+          ],
+          "extent": "visible_portion",
+          "candidate_recipe": "visible_unmarked_parking_points_v1",
+          "matching_frozen_regions": [
+            "A"
+          ],
+          "reviewed_status": "OPEN"
+        }
+      ],
+      "before_language": {
+        "fully_grounded": true,
+        "grade": "direct_correct",
+        "options": [
+          {
+            "kind": "recess",
+            "point": [
+              2335.5,
+              1811.595
+            ],
+            "extent": "visible_portion",
+            "candidate_recipe": "measured_vehicle_flanked_parking_recess_v1",
+            "matching_frozen_regions": [
+              "A"
+            ]
+          }
+        ]
+      },
+      "after_language": {
+        "fully_grounded": true,
+        "grade": "direct_correct",
+        "options": [
+          {
+            "kind": "recess",
+            "point": [
+              2335.5,
+              1811.595
+            ],
+            "extent": "visible_portion",
+            "candidate_recipe": "measured_vehicle_flanked_parking_recess_v1",
+            "matching_frozen_regions": [
+              "A"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "P02",
+      "source_case": "H02",
+      "source_url": "https://kartaview.org/details/980209/34/",
+      "words": "At Prolab, leave me in the opening to the right of the flatbed and left of the little silver car.",
+      "expected": "point",
+      "original_sha256": "a8cb3c5926766d950eca0588e6bdd178e72026f07d5710f027d2e695d6628de2",
+      "direct_raw_points_in_reference": [
+        {
+          "kind": "recess",
+          "point": [
+            2335.5,
+            1811.595
+          ],
+          "extent": "visible_portion",
+          "candidate_recipe": "measured_vehicle_flanked_parking_recess_v1",
+          "matching_frozen_regions": [
+            "A"
+          ],
+          "reviewed_status": "OPEN"
+        },
+        {
+          "kind": "parking_point",
+          "point": [
+            2361.6,
+            1812.094861660079
+          ],
+          "extent": "visible_portion",
+          "candidate_recipe": "visible_unmarked_parking_points_v1",
+          "matching_frozen_regions": [
+            "A"
+          ],
+          "reviewed_status": "OPEN"
+        }
+      ],
+      "before_language": {
+        "fully_grounded": false,
+        "grade": "missed",
+        "options": []
+      },
+      "after_language": {
+        "fully_grounded": false,
+        "grade": "missed",
+        "options": []
+      }
+    },
+    {
+      "id": "P03",
+      "source_case": "H03",
+      "source_url": "https://kartaview.org/details/7120185/54/",
+      "words": "There’s room outside Dog Spot between that grey hatchback and the blue SUV. Could you let me out there?",
+      "expected": "point",
+      "original_sha256": "5a9b732bb1a487c9769eba291ff49bf9c0fff286efe7a849a66b296704c8cffa",
+      "direct_raw_points_in_reference": [
+        {
+          "kind": "recess",
+          "point": [
+            2284.3,
+            1435.943
+          ],
+          "extent": "visible_portion",
+          "candidate_recipe": "measured_vehicle_flanked_parking_recess_v1",
+          "matching_frozen_regions": [
+            "A"
+          ],
+          "reviewed_status": "OPEN"
+        },
+        {
+          "kind": "parking_point",
+          "point": [
+            2259.2,
+            1436.4426877470355
+          ],
+          "extent": "visible_portion",
+          "candidate_recipe": "visible_unmarked_parking_points_v1",
+          "matching_frozen_regions": [
+            "A"
+          ],
+          "reviewed_status": "OPEN"
+        }
+      ],
+      "before_language": {
+        "fully_grounded": false,
+        "grade": "missed",
+        "options": []
+      },
+      "after_language": {
+        "fully_grounded": false,
+        "grade": "missed",
+        "options": []
+      }
+    },
+    {
+      "id": "P04",
+      "source_case": "H03",
+      "source_url": "https://kartaview.org/details/7120185/54/",
+      "words": "Could I get out in the gap outside Dog Spot between the yellow SUV and the grey hatchback?",
+      "expected": "withhold",
+      "original_sha256": "5a9b732bb1a487c9769eba291ff49bf9c0fff286efe7a849a66b296704c8cffa",
+      "direct_raw_points_in_reference": [],
+      "before_language": {
+        "fully_grounded": false,
+        "grade": "correct_withholding",
+        "options": []
+      },
+      "after_language": {
+        "fully_grounded": false,
+        "grade": "correct_withholding",
+        "options": []
+      }
+    },
+    {
+      "id": "P05",
+      "source_case": "H04",
+      "source_url": "https://kartaview.org/details/7165449/33/",
+      "words": "Could you leave me on the right, between that red car and the dark sedan?",
+      "expected": "point",
+      "original_sha256": "e121d0e57b8fbcba436e01a11989063a027652e2c80fcc5c9b4b89ad4cd673cc",
+      "direct_raw_points_in_reference": [
+        {
+          "kind": "recess",
+          "point": [
+            2318.433,
+            1512.781
+          ],
+          "extent": "visible_portion",
+          "candidate_recipe": "measured_vehicle_flanked_parking_recess_v1",
+          "matching_frozen_regions": [
+            "A"
+          ],
+          "reviewed_status": "BLOCKED"
+        },
+        {
+          "kind": "parking_point",
+          "point": [
+            2003.2,
+            1436.4426877470355
+          ],
+          "extent": "visible_portion",
+          "candidate_recipe": "visible_unmarked_parking_points_v1",
+          "matching_frozen_regions": [
+            "A"
+          ],
+          "reviewed_status": "OPEN"
+        },
+        {
+          "kind": "parking_point",
+          "point": [
+            2199.4666666666667,
+            1496.205533596838
+          ],
+          "extent": "visible_portion",
+          "candidate_recipe": "visible_unmarked_parking_points_v1",
+          "matching_frozen_regions": [
+            "A"
+          ],
+          "reviewed_status": "OPEN"
+        }
+      ],
+      "before_language": {
+        "fully_grounded": true,
+        "grade": "direct_correct",
+        "options": [
+          {
+            "kind": "parking_point",
+            "point": [
+              2199.4666666666667,
+              1496.205533596838
+            ],
+            "extent": "visible_portion",
+            "candidate_recipe": "visible_unmarked_parking_points_v1",
+            "matching_frozen_regions": [
+              "A"
+            ]
+          }
+        ]
+      },
+      "after_language": {
+        "fully_grounded": true,
+        "grade": "direct_correct",
+        "options": [
+          {
+            "kind": "parking_point",
+            "point": [
+              2199.4666666666667,
+              1496.205533596838
+            ],
+            "extent": "visible_portion",
+            "candidate_recipe": "visible_unmarked_parking_points_v1",
+            "matching_frozen_regions": [
+              "A"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "P06",
+      "source_case": "H04",
+      "source_url": "https://kartaview.org/details/7165449/33/",
+      "words": "Between the dark sedan and the blue car just here on the right, please.",
+      "expected": "withhold",
+      "original_sha256": "e121d0e57b8fbcba436e01a11989063a027652e2c80fcc5c9b4b89ad4cd673cc",
+      "direct_raw_points_in_reference": [],
+      "before_language": {
+        "fully_grounded": false,
+        "grade": "correct_withholding",
+        "options": []
+      },
+      "after_language": {
+        "fully_grounded": false,
+        "grade": "correct_withholding",
+        "options": []
+      }
+    },
+    {
+      "id": "P07",
+      "source_case": "H05",
+      "source_url": "https://kartaview.org/details/7199289/14/",
+      "words": "I’ll get out on the gravel beside the blue waste bin.",
+      "expected": "point",
+      "original_sha256": "032ea529fb20fd7fff661a90456ed1875b849aac1df4da73bc6466c1124c9545",
+      "direct_raw_points_in_reference": [
+        {
+          "kind": "unpaved_pullin",
+          "point": [
+            1780.833,
+            1043.215
+          ],
+          "extent": "visible_portion",
+          "candidate_recipe": "observed_unpaved_frontage_parking_row_v1",
+          "matching_frozen_regions": [
+            "A"
+          ],
+          "reviewed_status": "BLOCKED"
+        }
+      ],
+      "before_language": {
+        "fully_grounded": false,
+        "grade": "missed",
+        "options": []
+      },
+      "after_language": {
+        "fully_grounded": false,
+        "grade": "missed",
+        "options": []
+      }
+    },
+    {
+      "id": "P08",
+      "source_case": "H05",
+      "source_url": "https://kartaview.org/details/7199289/14/",
+      "words": "Can you stop on the bare gravel next to that blue rubbish container?",
+      "expected": "point",
+      "original_sha256": "032ea529fb20fd7fff661a90456ed1875b849aac1df4da73bc6466c1124c9545",
+      "direct_raw_points_in_reference": [
+        {
+          "kind": "unpaved_pullin",
+          "point": [
+            1780.833,
+            1043.215
+          ],
+          "extent": "visible_portion",
+          "candidate_recipe": "observed_unpaved_frontage_parking_row_v1",
+          "matching_frozen_regions": [
+            "A"
+          ],
+          "reviewed_status": "BLOCKED"
+        }
+      ],
+      "before_language": {
+        "fully_grounded": false,
+        "grade": "missed",
+        "options": []
+      },
+      "after_language": {
+        "fully_grounded": false,
+        "grade": "missed",
+        "options": []
+      }
+    }
+  ],
+  "source": "Grab and KartaView contributors, CC BY-SA 4.0; original URLs are recorded per case.",
+  "frozen_v2_ordinary_browser": {
+    "method": "Eight separate first-turn Edge browser sessions on staging 8812 using identical source-bound words from the sealed wording plan. Initial load and separate retry retained. Timings run from clicking Find my spot to a visible response.",
+    "first_turn_findings": "One of six positive phrases produced a correct pin on its first attempt; two positives timed out, two received completed clarifications and one browser failed to load its photo controls before input. Both contradictory-colour requests timed out; neither yielded a false proposal. One new session for the failed initial load produced the other correct direct pin in 0.641 seconds.",
+    "build": "Frozen conversational implementation d0c5cd4590650b9e95212465663df2611258f2d6fc5fcd8889c48c0838416ce2",
+    "runs": [
+      {
+        "instrument": "wording-stage-v2",
+        "source_observations_sha256": "3f897c29c329c3f104f398a9d8d20008e923ee42659442ba397a35233733f0b9",
+        "started_utc": "2026-11-23T21:44:01.903Z",
+        "finished_utc": "2026-11-23T21:45:39.672Z",
+        "cases": [
+          {
+            "id": "P01",
+            "grade": "correct_direct_point",
+            "point": [
+              2335.5,
+              1811.595
+            ],
+            "choices": [],
+            "visible_ms": 626,
+            "ack_ms": 124,
+            "actor": "model",
+            "state": "proposed",
+            "heading": "Is this the parking area you meant?",
+            "message": "The gold ring is inside the visible parking area in the bottom centre. The photo leaves its full edges uncertain.",
+            "problem": null,
+            "initially_saved": false
+          },
+          {
+            "id": "P02",
+            "grade": "operational_timeout",
+            "point": null,
+            "choices": [],
+            "visible_ms": 15527,
+            "ack_ms": 74,
+            "actor": null,
+            "state": "error",
+            "heading": "The request couldn’t finish",
+            "message": "The automatic photo check took too long. You can mark your spot or try a different description.",
+            "problem": null,
+            "initially_saved": false
+          },
+          {
+            "id": "P03",
+            "grade": "operational_timeout",
+            "point": null,
+            "choices": [],
+            "visible_ms": 15540,
+            "ack_ms": 118,
+            "actor": null,
+            "state": "error",
+            "heading": "The request couldn’t finish",
+            "message": "The automatic photo check took too long. You can mark your spot or try a different description.",
+            "problem": null,
+            "initially_saved": false
+          },
+          {
+            "id": "P04",
+            "grade": "operational_timeout",
+            "point": null,
+            "choices": [],
+            "visible_ms": 15617,
+            "ack_ms": 108,
+            "actor": null,
+            "state": "error",
+            "heading": "The request couldn’t finish",
+            "message": "The automatic photo check took too long. You can mark your spot or try a different description.",
+            "problem": null,
+            "initially_saved": false
+          },
+          {
+            "id": "P05",
+            "grade": "interaction_error",
+            "point": null,
+            "choices": [],
+            "visible_ms": null,
+            "ack_ms": null,
+            "actor": null,
+            "state": null,
+            "heading": null,
+            "message": null,
+            "problem": "page.waitForFunction: Timeout 15000ms exceeded.",
+            "initially_saved": null
+          },
+          {
+            "id": "P06",
+            "grade": "operational_timeout",
+            "point": null,
+            "choices": [],
+            "visible_ms": 15451,
+            "ack_ms": 72,
+            "actor": null,
+            "state": "error",
+            "heading": "The request couldn’t finish",
+            "message": "The automatic photo check took too long. You can mark your spot or try a different description.",
+            "problem": null,
+            "initially_saved": false
+          },
+          {
+            "id": "P07",
+            "grade": "withheld_positive",
+            "point": null,
+            "choices": [],
+            "visible_ms": 601,
+            "ack_ms": 86,
+            "actor": "model",
+            "state": "needs_clarification",
+            "heading": "Which spot do you mean?",
+            "message": "I couldn’t verify an open pull-in for this request in the photo. Could you mark another area or describe a different landmark?",
+            "problem": null,
+            "initially_saved": false
+          },
+          {
+            "id": "P08",
+            "grade": "withheld_positive",
+            "point": null,
+            "choices": [],
+            "visible_ms": 5211,
+            "ack_ms": 52,
+            "actor": "model",
+            "state": "needs_clarification",
+            "heading": "Which spot do you mean?",
+            "message": "I can’t place that request on a clear bay in this view. Could you mark the spot you mean, or name another visible landmark?",
+            "problem": null,
+            "initially_saved": false
+          }
+        ]
+      },
+      {
+        "instrument": "wording-stage-v2-retry",
+        "source_observations_sha256": "16aec998070c99bbe714a2531557206de2e1b646f46b6abdd38afae130ad2350",
+        "started_utc": "2026-11-23T21:47:33.162Z",
+        "finished_utc": "2026-11-23T21:47:36.955Z",
+        "cases": [
+          {
+            "id": "P05",
+            "grade": "correct_direct_point",
+            "point": [
+              2199.4666666666667,
+              1496.205533596838
+            ],
+            "choices": [],
+            "visible_ms": 641,
+            "ack_ms": 127,
+            "actor": "model",
+            "state": "proposed",
+            "heading": "Is this the parking area you meant?",
+            "message": "The gold ring is inside the visible parking area in the bottom centre. The photo leaves its full edges uncertain.",
+            "problem": null,
+            "initially_saved": false
+          }
+        ]
+      }
+    ]
+  }
+}

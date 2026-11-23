@@ -1,5 +1,7 @@
 """Private GPU transport and locally replayable evidence for visible parking places."""
 import base64
+from contextlib import contextmanager, nullcontext
+from contextvars import ContextVar
 from hashlib import sha256
 from io import BytesIO
 import json
@@ -28,6 +30,7 @@ FINGERPRINTS = {"base_files":"13917d7d3d9b5d7a44775a6744e756b552bc4065bf73d633aa
                 "adapter_files":"6abadf2dd704566e2e1dcf24fb003ba1d7e044d88ee5d5aae9c279e9d573a3e7",
                 "processor_files":"3393482a8a7c6da1ca1fa7eafc95b18b5c5539d72f0fe38b3c8830a5a2a69128"}
 WAIT_METHOD = "public_place_lookup_wait_v1"
+_native_guard = ContextVar("public_photo_native_fallback",default=nullcontext)
 INTERACTIVE_WAIT_SECONDS = 4.0
 WAIT_MESSAGES = {
     "pending":"I’m still checking this photo. You can mark your spot now or send the same description again in a moment.",
@@ -37,6 +40,16 @@ WAIT_MESSAGES = {
 
 class PlaceTransportUnavailable(RuntimeError):
     pass
+
+
+@contextmanager
+def guard_public_fallback(guard):
+    """A public worker can read cached evidence freely, but an actual laptop fallback shares the model lock."""
+    token = _native_guard.set(guard)
+    try:
+        yield
+    finally:
+        _native_guard.reset(token)
 
 
 def waiting_outcome(request, image_sha, input_sha, status):
@@ -281,18 +294,32 @@ class PlaceDialogueGrounder:
         return getattr(self.dialogue, name)
 
     def uses_public_service(self, request):
-        from . import bay_intent
+        from . import bay_intent,curb_point_language,visual_space
         return ((isinstance(self.backend,PublicPlaceBackend) and self.backend.allows_photo(request) and
-                 bay_intent.parse(request["text"]) is not None) or
+                 (bay_intent.parse(request["text"]) is not None or
+                  curb_point_language.indexed_reference(request["text"],expanded=True) or
+                  (re.search(r"\b(?:behind|(?:left|right) of)\b",request["text"],re.I) and
+                   visual_space.get_packet(request["scene"]["provenance"]["image_sha256"],paved=True) is not None))) or
                 (self.single_vehicle is not None and self.single_vehicle.eligible(request)) or self.backend.eligible(request))
 
     def inspect_requested_bay(self, request):
-        from . import whole_bay
+        from . import observed_pullin,whole_bay
         if isinstance(self.backend,PublicPlaceBackend) and self.backend.allows_photo(request):
-            return whole_bay.explicit_request(request)
+            return observed_pullin.supplement(request,whole_bay.explicit_request(request))
         return None
 
     def interpret(self, request):
+        from . import bay_intent, single_vehicle
+        # A direct request behind one identified vehicle already has its own signed
+        # rear-view and parking check. Do not scan unrelated storefronts first.
+        if self.single_vehicle is not None and self.single_vehicle.eligible(request):
+            ref = single_vehicle.request_reference(request)
+            prefix = re.split(r"\bbehind\b",request["text"].casefold(),maxsplit=1)[0]
+            simple = (ref and not ref["unsupported"] and ref["relation"] == "behind" and
+                      set(re.findall(r"[a-z]+",prefix)) <= bay_intent.FILLER | {"off","offload","get","there"} and
+                      bay_intent.permitted_destination(request["text"]) and not bay_intent.PARKING.search(request["text"]))
+            if simple:
+                return self.single_vehicle.interpret(request)
         bay=self.inspect_requested_bay(request)
         if bay is not None:
             return bay
@@ -300,4 +327,5 @@ class PlaceDialogueGrounder:
             return self.single_vehicle.interpret(request)
         if self.backend.eligible(request):
             return self.backend.interpret(request)
-        return self.dialogue.interpret(request)
+        with _native_guard.get()():
+            return self.dialogue.interpret(request)

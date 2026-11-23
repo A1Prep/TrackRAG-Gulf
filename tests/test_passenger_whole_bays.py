@@ -39,7 +39,8 @@ def test_unsupported_anchor_packet_preserves_independent_region_review(monkeypat
     monkeypatch.setattr(bay_anchors, "get_packet", lambda key: "another vehicle set")
     seen = []
 
-    def result(request, photo, surface, region, anchors):
+    def result(request, photo, surface, region, anchors, *, strict_words):
+        assert strict_words
         seen.append((region, anchors))
         if anchors is not None:
             raise ValueError("Changed vehicles")

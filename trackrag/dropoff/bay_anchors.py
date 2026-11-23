@@ -27,6 +27,7 @@ FRONT_WORDS="Describe this bay's frontage."
 PAIR_WORDS="Give the two box numbers, or NONE."
 APPEARANCE_WORDS="Describe this cropped vehicle."
 BANK=Path(__file__).resolve().parents[2]/"experiments/dropoff/passenger-bay-anchors-v1.zip"
+ROW_BANK = BANK.with_name("passenger-row-anchors-v1.zip")
 
 
 def vehicles(scene):
@@ -76,6 +77,10 @@ def pair_indices(text, n):
 
 def get_packet(key):
     return read_photo_packet(BANK, key, 30000)
+
+
+def get_row_packet(key):
+    return read_photo_packet(ROW_BANK, key, 30000)
 
 
 def prompt_digest(recipe=RECIPE):

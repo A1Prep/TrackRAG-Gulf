@@ -1,0 +1,772 @@
+{
+  "date_utc": "2026-11-23T21:48:13.759107+00:00",
+  "study": "Development replay of native parking-surface corroboration on seven previously evaluated public UAE road scenes.",
+  "scope": "The original independent AI reviewer sealed target areas before development. These scenes were then examined to build this method. The results measure source geometry and exact passenger-tap replay. A generated coordinate still requires trained language and visual verification, as well as a separate passenger confirmation, before a driver sees a saved destination. No physical fit, legality or passenger usability was assessed.",
+  "inputs": "Original image bytes checked against their source SHA-256, authenticated Mapillary model mask and source-current vision tracks. No frozen references, utterance text or file names are provided to the geometry method.",
+  "method_file": "trackrag/dropoff/paver_pullin.py",
+  "method_sha256": "d82237c8b5564f7091b767ece49a0f1a7a2161627b5a1a183656e6f27bcf336a",
+  "reference_sha256": "30e002a24af1ab47db4b384a6ff7ea45c16d4917a26f86a5898e24f2ee011ad8",
+  "previous_browser_observations_sha256": "2e262dd2e65b4b89d01b640f8e4b3ff42cc1bbbf61948f5fd9dc0513f7e3fed8",
+  "mark_replay": "Previously observed original-pixel Edge taps are converted back into the recorded version’s precise native-size click rectangle using the app’s actual radius of original width divided by 512. Both prior-state and source-only replay results are recorded.",
+  "source_credit": "Grab and KartaView contributors",
+  "source_license": "CC BY-SA 4.0",
+  "source_license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
+  "aggregate": {
+    "automatic_points_inside_reference": 3,
+    "positive_references": 4,
+    "all_points": 3,
+    "negative_photos_with_no_candidate": 3,
+    "negative_photos": 3,
+    "actual_initial_interior_taps_accepted": 3,
+    "actual_initial_interior_taps": 4,
+    "through_lane_taps_withheld": 7,
+    "through_lane_taps": 7,
+    "accepted_click_centre_max_displacement_px": 0,
+    "complete_stall_polygons": 0
+  },
+  "bank_inventory": {
+    "photos_scanned": 81,
+    "photos_with_candidates": 4,
+    "interior_points": 4,
+    "p50_geometry_ms": 10.7,
+    "p95_geometry_ms": 37.1,
+    "inventory_sha256": "da9dfac16c4a3bd76328e528bdc22c2b24bedbf8f136468ccaa94a442d19a282",
+    "scope": "Coverage over the bank, which is not annotated in full and does not measure the precision of every point."
+  },
+  "independent_counterfactual_checks": {
+    "reviewer": "A second AI reviewer supplied counterfactual tests on open sources. Altered images are synthetic regression controls.",
+    "barriers": {
+      "source_sha256": "43b7e172c734f13ec20e394226a0d80bee48cc36bbfec47e78698d8e00a4a14b",
+      "open_native_positive_controls": 3,
+      "blocked_variants": 9,
+      "manual_and_automatic_withheld_on_blocked": 9,
+      "scenarios": [
+        "closed-wall",
+        "narrow-slot",
+        "native-open",
+        "slightly-wider-slot"
+      ]
+    },
+    "planting": {
+      "source_sha256": "d0c0dc369ccae2f16eb33207cd1755dfbd01b0e68b9cbea947d46c0665b524b9",
+      "unchanged_native_correct": 1,
+      "synthetic_planted_variants_withheld_on_both_routes": 3,
+      "scenarios": [
+        "unaltered-blue-pickup-scene",
+        "green-plant-grid-old-road-label",
+        "same-green-grid-vegetation-label",
+        "green-optical-control-both-sides"
+      ]
+    }
+  },
+  "regressions": {
+    "runtime": "Python 3.11, OpenCV 4.11.0, Pillow 11.1.0 and NumPy 1.26.4, release environment.",
+    "native_surface_tests_passed": 19,
+    "related_tests_including_native_surface_passed": 71
+  },
+  "cases": [
+    {
+      "case": "R01",
+      "source_url": "https://kartaview.org/details/7120169/165/",
+      "source_image_sha256": "71df6d0a6a705be760e5be20937a2442f9cfaedeed71f3c093d894049bd84724",
+      "source_size": [
+        3840,
+        2160
+      ],
+      "recording_id": "kartaview_7120169",
+      "frame_id": 165,
+      "words": "Could we stop on the sandy patch between the black car and the delivery bikes?",
+      "reference": "point",
+      "native_reference_polygon": [
+        [
+          1684.9,
+          1411.25
+        ],
+        [
+          2390.2,
+          1395.57
+        ],
+        [
+          2586.12,
+          1528.86
+        ],
+        [
+          2617.47,
+          1650.38
+        ],
+        [
+          1692.73,
+          1666.06
+        ]
+      ],
+      "actual_interior_map_class": 26,
+      "actual_lane_map_class": 13,
+      "reference_map_class_fractions_over_0_004": {
+        "26": 0.996
+      },
+      "automatic_patch_points": [],
+      "source_current_vehicle_boxes": {},
+      "geometry_candidates_ms": 17.0,
+      "tap_replay": {
+        "interior": {
+          "browser_original_xy": [
+            2135.466802389229,
+            1548.4530999248814
+          ],
+          "browser_box_xyxy": [
+            2127.966802389229,
+            1540.9530999248814,
+            2142.966802389229,
+            1555.9530999248814
+          ],
+          "previous_app_result": "needs_clarification",
+          "geometry_proposed_xy": null,
+          "displacement_px": null,
+          "geometry_surface_type": null,
+          "elapsed_ms": 15.57
+        },
+        "lane": {
+          "browser_original_xy": [
+            666.1083795878387,
+            1873.8152806706048
+          ],
+          "browser_box_xyxy": [
+            658.6083795878387,
+            1866.3152806706048,
+            673.6083795878387,
+            1881.3152806706048
+          ],
+          "previous_app_result": "needs_clarification",
+          "geometry_proposed_xy": null,
+          "displacement_px": null,
+          "geometry_surface_type": null,
+          "elapsed_ms": 7.82
+        }
+      },
+      "interpretation": "The sand is identifiable, but a continuous pedestrian strip lies between the patch and the visible carriageway. There is no corroborated vehicle entry."
+    },
+    {
+      "case": "R02",
+      "source_url": "https://kartaview.org/details/5231497/102/",
+      "source_image_sha256": "ab05db00759062595063f27d3aff5b608c323d62872429ac596fd2fcf07ee8b3",
+      "source_size": [
+        3840,
+        2160
+      ],
+      "recording_id": "kartaview_5231497",
+      "frame_id": 102,
+      "words": "Pull into the empty space just to the left of the blue sedan outside the exchange, please.",
+      "reference": "point",
+      "native_reference_polygon": [
+        [
+          1712.33,
+          1430.85
+        ],
+        [
+          1998.37,
+          1426.93
+        ],
+        [
+          2245.22,
+          1450.45
+        ],
+        [
+          2256.98,
+          1509.26
+        ],
+        [
+          1931.76,
+          1517.1
+        ],
+        [
+          1790.69,
+          1497.5
+        ]
+      ],
+      "actual_interior_map_class": 10,
+      "actual_lane_map_class": 13,
+      "reference_map_class_fractions_over_0_004": {
+        "2": 0.004,
+        "10": 0.922,
+        "24": 0.074
+      },
+      "automatic_patch_points": [
+        {
+          "point": [
+            1998.433,
+            1482.899
+          ],
+          "inside_reference": true,
+          "supporting_pixels_box": [
+            1985.633,
+            1470.093,
+            2011.233,
+            1495.706
+          ],
+          "geometry_evidence": {
+            "recipe": "native_surface_and_parking_row_contacts_v1",
+            "extent": "interior_point_only",
+            "surface_type": "painted_side_entry",
+            "flanking_track_ids": [
+              2,
+              1
+            ],
+            "signed_center_class": 10,
+            "parking_component_pixels": 3196,
+            "optically_corroborated_paint_cells": 224,
+            "observed_entrance_rows": [
+              335,
+              359
+            ],
+            "required_entrance_rows": 17,
+            "lateral_road_contacts_grid": [
+              [
+                399,
+                344
+              ],
+              [
+                404,
+                347
+              ],
+              [
+                410,
+                350
+              ]
+            ],
+            "near_and_far_kerb_grid": [
+              [
+                468,
+                334
+              ],
+              [
+                468,
+                360
+              ]
+            ]
+          }
+        }
+      ],
+      "source_current_vehicle_boxes": {
+        "2": {
+          "class_name": "Car",
+          "box": [
+            1657.9572143554688,
+            1150.6950988769531,
+            2274.0509033203125,
+            1403.9057922363281
+          ]
+        },
+        "1": {
+          "class_name": "Car",
+          "box": [
+            2270.4232177734375,
+            1162.6214904785156,
+            3754.3916015625,
+            1669.0045166015625
+          ]
+        }
+      },
+      "geometry_candidates_ms": 42.0,
+      "tap_replay": {
+        "interior": {
+          "browser_original_xy": [
+            2025.7723702152996,
+            1473.9684736401816
+          ],
+          "browser_box_xyxy": [
+            2018.2723702152996,
+            1466.4684736401816,
+            2033.2723702152996,
+            1481.4684736401816
+          ],
+          "previous_app_result": "needs_clarification",
+          "geometry_proposed_xy": [
+            2025.7723702152996,
+            1473.9684736401816
+          ],
+          "displacement_px": 0.0,
+          "geometry_surface_type": "painted_side_entry",
+          "elapsed_ms": 12.89
+        },
+        "lane": {
+          "browser_original_xy": [
+            1010.9095972496975,
+            1489.6395158261344
+          ],
+          "browser_box_xyxy": [
+            1003.4095972496975,
+            1482.1395158261344,
+            1018.4095972496975,
+            1497.1395158261344
+          ],
+          "previous_app_result": "needs_clarification",
+          "geometry_proposed_xy": null,
+          "displacement_px": null,
+          "geometry_surface_type": null,
+          "elapsed_ms": 8.21
+        }
+      },
+      "interpretation": "The shallow signed parking component has optically supported painted stripes, kerbs at its front and rear, two current parked vehicles and a lateral opening to the aisle."
+    },
+    {
+      "case": "R03",
+      "source_url": "https://kartaview.org/details/7120073/499/",
+      "source_image_sha256": "d0b190d43a9dcfe9a013ae71a0f776494db53901fd70beb8477a8dacdc1763d6",
+      "source_size": [
+        3840,
+        2160
+      ],
+      "recording_id": "kartaview_7120073",
+      "frame_id": 499,
+      "words": "Just behind that bright blue advertising pickup on the right would be great.",
+      "reference": "point",
+      "native_reference_polygon": [
+        [
+          1108.9,
+          1505.34
+        ],
+        [
+          1265.63,
+          1485.74
+        ],
+        [
+          1453.71,
+          1501.42
+        ],
+        [
+          1528.16,
+          1603.34
+        ],
+        [
+          1524.24,
+          1669.98
+        ],
+        [
+          1347.92,
+          1681.74
+        ]
+      ],
+      "actual_interior_map_class": 13,
+      "actual_lane_map_class": 13,
+      "reference_map_class_fractions_over_0_004": {
+        "2": 0.005,
+        "10": 0.069,
+        "13": 0.926
+      },
+      "automatic_patch_points": [
+        {
+          "point": [
+            1358.433,
+            1593.887
+          ],
+          "inside_reference": true,
+          "supporting_pixels_box": [
+            1341.367,
+            1576.812,
+            1375.5,
+            1610.962
+          ],
+          "geometry_evidence": {
+            "recipe": "native_surface_and_parking_row_contacts_v1",
+            "extent": "interior_point_only",
+            "surface_type": "kerbside_block_paving",
+            "flanking_track_ids": [
+              1,
+              2
+            ],
+            "signed_center_class": 13,
+            "joint_repeat_strength": 0.2182,
+            "neighbouring_road_repeat_strength": 0.1243,
+            "native_texture_rms": [
+              3.263,
+              1.137
+            ],
+            "observed_entrance_rows": [
+              353,
+              393
+            ],
+            "required_entrance_rows": 20,
+            "aisle_mark_grid": [
+              [
+                217,
+                369
+              ],
+              [
+                224,
+                373
+              ],
+              [
+                230,
+                377
+              ]
+            ],
+            "kerb_grid": [
+              [
+                314,
+                348
+              ],
+              [
+                318,
+                348
+              ],
+              [
+                322,
+                349
+              ]
+            ]
+          }
+        }
+      ],
+      "source_current_vehicle_boxes": {
+        "1": {
+          "class_name": "Car",
+          "box": [
+            796.9838562011719,
+            1191.573486328125,
+            1242.7379150390625,
+            1492.4014892578125
+          ]
+        },
+        "2": {
+          "class_name": "Medium_vehicle",
+          "box": [
+            1465.1133728027344,
+            937.4483642578125,
+            3810.232177734375,
+            1896.542724609375
+          ]
+        }
+      },
+      "geometry_candidates_ms": 20.0,
+      "tap_replay": {
+        "interior": {
+          "browser_original_xy": [
+            1363.5462961184628,
+            1583.7127287704443
+          ],
+          "browser_box_xyxy": [
+            1356.0462961184628,
+            1576.2127287704443,
+            1371.0462961184628,
+            1591.2127287704443
+          ],
+          "previous_app_result": "needs_clarification",
+          "geometry_proposed_xy": [
+            1363.5462961184628,
+            1583.7127287704443
+          ],
+          "displacement_px": 0.0,
+          "geometry_surface_type": "kerbside_block_paving",
+          "elapsed_ms": 12.86
+        },
+        "lane": {
+          "browser_original_xy": [
+            579.9198868765245,
+            1603.3016035271621
+          ],
+          "browser_box_xyxy": [
+            572.4198868765245,
+            1595.8016035271621,
+            587.4198868765245,
+            1610.8016035271621
+          ],
+          "previous_app_result": "needs_clarification",
+          "geometry_proposed_xy": null,
+          "displacement_px": null,
+          "geometry_surface_type": null,
+          "elapsed_ms": 8.97
+        }
+      },
+      "interpretation": "Two native directions of paving joints differ from adjacent smooth asphalt. The continuous aisle marking, kerb, two parked vehicles and an open entrance support a point on the parking side."
+    },
+    {
+      "case": "R04",
+      "source_url": "https://kartaview.org/details/1258531/39/",
+      "source_image_sha256": "976a275111769a8fbd066f25a3b6fd2b231dc7ddf5a42d6d6bfd2f74233b09a0",
+      "source_size": [
+        3840,
+        2160
+      ],
+      "recording_id": "kartaview_1258531",
+      "frame_id": 39,
+      "words": "Could you let me out in the paved gap between the two white vehicles on the right?",
+      "reference": "point",
+      "native_reference_polygon": [
+        [
+          2981.88,
+          1940.47
+        ],
+        [
+          3201.31,
+          1971.83
+        ],
+        [
+          3236.57,
+          2042.4
+        ],
+        [
+          3240.49,
+          2132.56
+        ],
+        [
+          3044.57,
+          2128.64
+        ],
+        [
+          2903.51,
+          1999.27
+        ]
+      ],
+      "actual_interior_map_class": 13,
+      "actual_lane_map_class": 13,
+      "reference_map_class_fractions_over_0_004": {
+        "13": 1.0
+      },
+      "automatic_patch_points": [
+        {
+          "point": [
+            3112.033,
+            2050.646
+          ],
+          "inside_reference": true,
+          "supporting_pixels_box": [
+            3094.967,
+            2033.571,
+            3129.1,
+            2067.721
+          ],
+          "geometry_evidence": {
+            "recipe": "native_surface_and_parking_row_contacts_v1",
+            "extent": "interior_point_only",
+            "surface_type": "kerbside_block_paving",
+            "flanking_track_ids": [
+              4,
+              9
+            ],
+            "signed_center_class": 13,
+            "joint_repeat_strength": 0.2868,
+            "neighbouring_road_repeat_strength": 0.0621,
+            "native_texture_rms": [
+              7.895,
+              2.321
+            ],
+            "observed_entrance_rows": [
+              459,
+              501
+            ],
+            "required_entrance_rows": 21,
+            "aisle_mark_grid": [
+              [
+                648,
+                476
+              ],
+              [
+                655,
+                480
+              ],
+              [
+                661,
+                484
+              ]
+            ],
+            "kerb_grid": [
+              [
+                725,
+                452
+              ],
+              [
+                729,
+                453
+              ],
+              [
+                733,
+                454
+              ]
+            ]
+          }
+        }
+      ],
+      "source_current_vehicle_boxes": {
+        "4": {
+          "class_name": "Car",
+          "box": [
+            2582.823486328125,
+            1610.1771240234375,
+            2972.4063720703125,
+            1936.96435546875
+          ]
+        },
+        "9": {
+          "class_name": "Car",
+          "box": [
+            3243.2083740234375,
+            1457.5939636230469,
+            3840.0,
+            2154.9882202148438
+          ]
+        }
+      },
+      "geometry_candidates_ms": 27.0,
+      "tap_replay": {
+        "interior": {
+          "browser_original_xy": [
+            3071.9764918278374,
+            2042.3731198996143
+          ],
+          "browser_box_xyxy": [
+            3064.4764918278374,
+            2034.8731198996143,
+            3079.4764918278374,
+            2049.8731198996143
+          ],
+          "previous_app_result": "needs_clarification",
+          "geometry_proposed_xy": [
+            3071.9764918278374,
+            2042.3731198996143
+          ],
+          "displacement_px": 0.0,
+          "geometry_surface_type": "kerbside_block_paving",
+          "elapsed_ms": 17.51
+        },
+        "lane": {
+          "browser_original_xy": [
+            1880.8189928361535,
+            1940.464241813774
+          ],
+          "browser_box_xyxy": [
+            1873.3189928361535,
+            1932.964241813774,
+            1888.3189928361535,
+            1947.964241813774
+          ],
+          "previous_app_result": "needs_clarification",
+          "geometry_proposed_xy": null,
+          "displacement_px": null,
+          "geometry_surface_type": null,
+          "elapsed_ms": 11.61
+        }
+      },
+      "interpretation": "The learned map labels the entire adjudicated patch as road. Native paving texture differs across the aisle marking, and the kerb and parked row corroborate a separate open patch."
+    },
+    {
+      "case": "R05",
+      "source_url": "https://kartaview.org/details/7271097/62/",
+      "source_image_sha256": "a07e0ded72bad166579a87adea852f1a5eef11e83e43f11c914388370c5c1e9a",
+      "source_size": [
+        3840,
+        2160
+      ],
+      "recording_id": "kartaview_7271097",
+      "frame_id": 62,
+      "words": "Can we pull straight into the empty area behind those black-and-white posts outside the medical centre?",
+      "reference": "withhold",
+      "native_reference_polygon": null,
+      "actual_interior_map_class": null,
+      "actual_lane_map_class": 13,
+      "reference_map_class_fractions_over_0_004": null,
+      "automatic_patch_points": [],
+      "source_current_vehicle_boxes": {},
+      "geometry_candidates_ms": 15.0,
+      "tap_replay": {
+        "lane": {
+          "browser_original_xy": [
+            658.2730424261048,
+            1513.1462231536177
+          ],
+          "browser_box_xyxy": [
+            650.7730424261048,
+            1505.6462231536177,
+            665.7730424261048,
+            1520.6462231536177
+          ],
+          "previous_app_result": "needs_clarification",
+          "geometry_proposed_xy": null,
+          "displacement_px": null,
+          "geometry_surface_type": null,
+          "elapsed_ms": 8.87
+        }
+      },
+      "interpretation": "Chains, posts, a raised kerb and pedestrian paving interrupt the apparent route from the lane."
+    },
+    {
+      "case": "R06",
+      "source_url": "https://kartaview.org/details/5053433/0/",
+      "source_image_sha256": "7cc82c9152e1c0bada060789698e19b695cba6a92d6dd67efa982eddb1c97965",
+      "source_size": [
+        3264,
+        1836
+      ],
+      "recording_id": "kartaview_5053433",
+      "frame_id": 0,
+      "words": "Drop me beside the white SUV while we're lined up at the lights, please.",
+      "reference": "withhold",
+      "native_reference_polygon": null,
+      "actual_interior_map_class": null,
+      "actual_lane_map_class": 13,
+      "reference_map_class_fractions_over_0_004": null,
+      "automatic_patch_points": [],
+      "source_current_vehicle_boxes": {},
+      "geometry_candidates_ms": 9.0,
+      "tap_replay": {
+        "lane": {
+          "browser_original_xy": [
+            1831.8370945128393,
+            1519.4408280551097
+          ],
+          "browser_box_xyxy": [
+            1825.4620945128393,
+            1513.0658280551097,
+            1838.2120945128393,
+            1525.8158280551097
+          ],
+          "previous_app_result": "needs_clarification",
+          "geometry_proposed_xy": null,
+          "displacement_px": null,
+          "geometry_surface_type": null,
+          "elapsed_ms": 6.14
+        }
+      },
+      "interpretation": "The apparent space beside the SUV is part of a through lane approaching a signal."
+    },
+    {
+      "case": "R07",
+      "source_url": "https://kartaview.org/details/7271081/72/",
+      "source_image_sha256": "918e3e64b7e104fa7e25758e853e712d435ac234349aa802c183f7940c34ea6e",
+      "source_size": [
+        3840,
+        2160
+      ],
+      "recording_id": "kartaview_7271081",
+      "frame_id": 72,
+      "words": "I'd like the marked spot with the white G-Wagen on the right.",
+      "reference": "withhold",
+      "native_reference_polygon": null,
+      "actual_interior_map_class": null,
+      "actual_lane_map_class": 13,
+      "reference_map_class_fractions_over_0_004": null,
+      "automatic_patch_points": [],
+      "source_current_vehicle_boxes": {},
+      "geometry_candidates_ms": 8.0,
+      "tap_replay": {
+        "lane": {
+          "browser_original_xy": [
+            1485.0409088290087,
+            1517.063767627275
+          ],
+          "browser_box_xyxy": [
+            1477.5409088290087,
+            1509.563767627275,
+            1492.5409088290087,
+            1524.563767627275
+          ],
+          "previous_app_result": "needs_clarification",
+          "geometry_proposed_xy": null,
+          "displacement_px": null,
+          "geometry_surface_type": null,
+          "elapsed_ms": 4.75
+        }
+      },
+      "interpretation": "The named white vehicle already occupies the stall. An empty patch elsewhere would answer a different request."
+    }
+  ]
+}

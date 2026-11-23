@@ -266,6 +266,40 @@ def outcome(request,photo,packet=None,*,waiting=None,policy=POLICY):
         "independent_model_proposal":opt is not None}}
 
 
+SURFACE_METHOD="single_vehicle_visible_space_check_v1"
+
+
+def empty_visible_space(request,photo,packet):
+    from . import manual_surfaces
+    req,key,input_sha=source_input(request,photo)
+    ref=request_reference(req)
+    if not ref or ref["unsupported"]:
+        return None
+    ctx=context(req)
+    classes=manual_surfaces.decode(packet,req["scene"]["frame"],key)
+    seen=[row for row in motor_rows(ctx) if _coarse(ref["kind"],row[1]) and _side(row[2],ctx["size"][0],ref["side"])]
+    occupied=[row[2] for row in ctx["tracks"]]
+    if ref["relation"]=="beside":
+        has_space=any(beside_patches(classes,box,occupied,ctx["size"]) for _,_,box in seen)
+    else:
+        has_space=any(behind_patch(classes,box,occupied,ctx["size"]) is not None for _,_,box in seen)
+    if has_space:
+        return None
+    words=("I can’t see an open off-lane area "+("behind" if ref["relation"]=="behind" else "beside")+
+           " a vehicle matching that description here. Is there another visible space you meant?")
+    return {"ok":True,"request_id":req["request_id"],"result":unresolved(words),
+            "provenance":{"method":SURFACE_METHOD,"request_sha256":digest(req),"image":{"sha256":key},
+                          "inference_input_sha256":input_sha,"selected_track_ids":[],"independent_model_proposal":False,
+                          "surface_evidence":packet,"reason":"no_visible_vehicle_space"}}
+
+
+def verify_empty(request,out):
+    photo=Path(request["scene"]["frame"]["image_path"]).read_bytes()
+    if empty_visible_space(request,photo,out["provenance"]["surface_evidence"])!=out:
+        raise ValueError("The visible roadside evidence differs from the selected vehicle and photograph.")
+    return {"input_verified":True,"decision_reproduced":True,"language_calls":0,"independent_model_proposal":False}
+
+
 def verify(request,out):
     photo=Path(request["scene"]["frame"]["image_path"]).read_bytes()
     packet=out["provenance"]["single_vehicle_evidence"]

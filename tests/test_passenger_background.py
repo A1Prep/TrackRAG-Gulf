@@ -127,3 +127,41 @@ def test_cloud_grounding_does_not_hold_the_laptop_model_lock(site,monkeypatch):
         release.set()
         job.future.result(3)
     assert wait_for_result(site,sid)["view"]["state"]=="proposed"
+
+
+def test_public_photo_can_answer_when_every_laptop_worker_is_occupied(site,monkeypatch):
+    release=Event()
+    waiters=[site.grounding_pool.submit(release.wait,4) for _ in range(4)]
+    try:
+        monkeypatch.setattr(site.model,"uses_public_service",lambda req:True,raising=False)
+        sid,_,finish=start(site,monkeypatch)
+        finish.set()
+        assert wait_for_result(site,sid)["view"]["state"]=="proposed"
+        assert all(not w.done() for w in waiters)
+    finally:
+        release.set()
+
+
+def test_public_worker_takes_shared_laptop_guard_if_computation_falls_back():
+    from contextlib import contextmanager
+    from trackrag.dropoff.place_evidence import PlaceDialogueGrounder, guard_public_fallback
+    calls=[]
+    @contextmanager
+    def guard():
+        calls.append("enter")
+        try:
+            yield
+        finally:
+            calls.append("exit")
+    class Native:
+        def interpret(self,request):
+            calls.append("native")
+            return "local response"
+    class NoPublicResult:
+        def eligible(self,request):
+            return False
+    grounder=PlaceDialogueGrounder(Native(),NoPublicResult())
+    with guard_public_fallback(guard):
+        assert grounder.interpret({"text":"unknown surface"})=="local response"
+    assert grounder.interpret({"text":"new request"})=="local response"
+    assert calls==["enter","native","exit","native"]

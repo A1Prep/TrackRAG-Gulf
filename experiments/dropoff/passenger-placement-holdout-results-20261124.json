@@ -1,0 +1,2250 @@
+{
+  "plan": "passenger-placement-holdout-plan-20261124.json",
+  "plan_sha256": "c7b59143eeb0fbb1226e5d0989db92fa7d49d474a2e9faff52114027a7c1a277",
+  "scope": "Eight different, previously held-out UAE drives and 27 real Microsoft Edge sessions per build. Every submitted photo was hashed in the browser against the original file. All five potential positives were chosen from photo pixels before either run: one marked whole-space reference with two accepted neighbouring bays and four unmarked off-lane point references. One independent AI judge; no passenger study, site visit or legal clearance.",
+  "builds": {
+    "baseline": "Canonical 8775 prior to the 20:49 UTC service restart; connected-pavement/observed-landmark policy v4.",
+    "candidate": "Canonical 8775 after /api/footage-catalog became available; parking-row and observed-landmark policy v5, with the four newly signed photo-level observations already installed."
+  },
+  "measurement": "Each natural request used a fresh normal typed browser session. Time runs from clicking Find my spot to a visible result, excluding loading and typing. The first-response deadline is 15 seconds with continued observation to 45; provider latency and reuse of already verified public model responses can differ between runs. An actionable waiting message, browser failure or provider timeout is not scored as an evidence-based withholding. A location can only be confirmed after a second user action.",
+  "findings": [
+    "No natural positive produced a matching point, a choice or a whole outline with either build. One previously pending positive now received an evidence-based clarification. Both builds avoided an incorrect selectable destination on all three blocked requests. V5 resolved two of those three with evidence; the remaining occupied pair timed out.",
+    "An authenticated, pre-language source replay found exactly one eligible raw shape across the five positive images under both v4 and v5. It is a location and measured outline match to H01 bay A. The evidence bank supplies no geometry at all for H02 through H05 even before size/access filtering. Conversely H01 has a true underlying match that its low-divider description fails to select. Its generic gallery button produces just A. The shared divider represents two genuine alternatives but the app supplies one.",
+    "Passengers' travel-aisle taps were withheld on all eight images in both runs. H01's marked-space offer met the whole-bay coverage threshold; the other accepted interior points have no adjudicated complete footprint. On V5 the H03 server journal records a correct passenger-marked proposal while the real browser shows 'Failed to fetch' and stale marking controls. A fresh same-photograph retry displayed the correct point in 341 ms. The first-attempt visible score preserves the original transport/UI failure; server-side geometric success was four of five.",
+    "H08 supplied two raw shapes in both versions, both outside the connection to the ego road. No eligible shape survived and both ordinary requests correctly asked for a location on the near side."
+  ],
+  "outputs": {
+    "baseline": {
+      "started_utc": "2026-11-23T20:38:35.073Z",
+      "finished_utc": "2026-11-23T20:39:39.457Z",
+      "observed_sha256": "15ef0e20df7e538038e1139e7b9c69d14186bd374402be7c1f57ac2c5f827864",
+      "first_turn_positive": {
+        "withheld": 4,
+        "operational_wait": 1
+      },
+      "first_turn_blocks": {
+        "timeout": 1,
+        "operational_wait": 1,
+        "correct_withholding": 1
+      },
+      "all_actions": {
+        "natural": {
+          "withheld": 4,
+          "operational_wait": 2,
+          "timeout": 1,
+          "correct_withholding": 1
+        },
+        "supply": {
+          "withheld": 5
+        },
+        "lane": {
+          "correct_withholding": 8
+        },
+        "interior": {
+          "matching_whole_offer": 1,
+          "point_match": 3,
+          "withheld": 1
+        },
+        "edge": {
+          "missed_edge": 1
+        }
+      },
+      "initial_response_ms": {
+        "ack_ms": {
+          "min": 49,
+          "median": 60.0,
+          "max": 101
+        },
+        "visible_ms": {
+          "min": 582,
+          "median": 2380.0,
+          "max": 15430
+        }
+      },
+      "rows": [
+        {
+          "case_id": "H01",
+          "task": "natural",
+          "terminal": "completed",
+          "ack_state": "processing",
+          "ack_ms": 101,
+          "visible_ms": 599,
+          "state": "needs_clarification",
+          "actor": "model",
+          "heading": "Which spot do you mean?",
+          "message": "I couldn’t match an outlined bay to those details. Could you tap inside the bay you mean?",
+          "has_proposal_token": false,
+          "save_button_visible": false,
+          "selectable_buttons": 0,
+          "grade": "withheld",
+          "status": "withheld",
+          "direct_point": null,
+          "outline": null,
+          "choices": [],
+          "direct_geometry": {
+            "hits": [],
+            "whole": false
+          },
+          "choices_geometry": []
+        },
+        {
+          "case_id": "H02",
+          "task": "natural",
+          "terminal": "completed",
+          "ack_state": "processing",
+          "ack_ms": 72,
+          "visible_ms": 4193,
+          "state": "needs_clarification",
+          "actor": "model",
+          "heading": "Which spot do you mean?",
+          "message": "I’m still checking this photo. You can mark your spot now or send the same description again in a moment.",
+          "has_proposal_token": false,
+          "save_button_visible": false,
+          "selectable_buttons": 0,
+          "grade": "operational_wait",
+          "status": "operational_wait",
+          "direct_point": null,
+          "outline": null,
+          "choices": [],
+          "direct_geometry": {
+            "hits": [],
+            "whole": false
+          },
+          "choices_geometry": []
+        },
+        {
+          "case_id": "H03",
+          "task": "natural",
+          "terminal": "completed",
+          "ack_state": "processing",
+          "ack_ms": 55,
+          "visible_ms": 582,
+          "state": "needs_clarification",
+          "actor": "model",
+          "heading": "Which spot do you mean?",
+          "message": "I couldn’t trace an empty bay in this view. Could you tap inside the space you mean or describe another landmark?",
+          "has_proposal_token": false,
+          "save_button_visible": false,
+          "selectable_buttons": 0,
+          "grade": "withheld",
+          "status": "withheld",
+          "direct_point": null,
+          "outline": null,
+          "choices": [],
+          "direct_geometry": {
+            "hits": [],
+            "whole": false
+          },
+          "choices_geometry": []
+        },
+        {
+          "case_id": "H04",
+          "task": "natural",
+          "terminal": "completed",
+          "ack_state": "processing",
+          "ack_ms": 61,
+          "visible_ms": 585,
+          "state": "needs_clarification",
+          "actor": "model",
+          "heading": "Which spot do you mean?",
+          "message": "I couldn’t trace an empty bay in this view. Could you tap inside the space you mean or describe another landmark?",
+          "has_proposal_token": false,
+          "save_button_visible": false,
+          "selectable_buttons": 0,
+          "grade": "withheld",
+          "status": "withheld",
+          "direct_point": null,
+          "outline": null,
+          "choices": [],
+          "direct_geometry": {
+            "hits": [],
+            "whole": false
+          },
+          "choices_geometry": []
+        },
+        {
+          "case_id": "H05",
+          "task": "natural",
+          "terminal": "completed",
+          "ack_state": "processing",
+          "ack_ms": 59,
+          "visible_ms": 5203,
+          "state": "needs_clarification",
+          "actor": "model",
+          "heading": "Which spot do you mean?",
+          "message": "I can’t place that request on a clear bay in this view. Could you mark the spot you mean, or name another visible landmark?",
+          "has_proposal_token": false,
+          "save_button_visible": false,
+          "selectable_buttons": 0,
+          "grade": "withheld",
+          "status": "withheld",
+          "direct_point": null,
+          "outline": null,
+          "choices": [],
+          "direct_geometry": {
+            "hits": [],
+            "whole": false
+          },
+          "choices_geometry": []
+        },
+        {
+          "case_id": "H06",
+          "task": "natural",
+          "terminal": "completed",
+          "ack_state": "processing",
+          "ack_ms": 50,
+          "visible_ms": 15430,
+          "state": "error",
+          "heading": "The request couldn’t finish",
+          "message": "The automatic photo check took too long. You can mark your spot or try a different description.",
+          "has_proposal_token": false,
+          "save_button_visible": false,
+          "selectable_buttons": 0,
+          "grade": "timeout",
+          "status": "timeout",
+          "direct_point": null,
+          "outline": null,
+          "choices": [],
+          "direct_geometry": {
+            "hits": [],
+            "whole": false
+          },
+          "choices_geometry": []
+        },
+        {
+          "case_id": "H07",
+          "task": "natural",
+          "terminal": "completed",
+          "ack_state": "processing",
+          "ack_ms": 49,
+          "visible_ms": 4161,
+          "state": "needs_clarification",
+          "actor": "model",
+          "heading": "Which spot do you mean?",
+          "message": "I’m checking this photo. You can mark the spot now, or try your request again in a moment.",
+          "has_proposal_token": false,
+          "save_button_visible": false,
+          "selectable_buttons": 0,
+          "grade": "operational_wait",
+          "status": "operational_wait",
+          "direct_point": null,
+          "outline": null,
+          "choices": [],
+          "direct_geometry": {
+            "hits": [],
+            "whole": false
+          },
+          "choices_geometry": []
+        },
+        {
+          "case_id": "H08",
+          "task": "natural",
+          "terminal": "completed",
+          "ack_state": "processing",
+          "ack_ms": 67,
+          "visible_ms": 593,
+          "state": "needs_clarification",
+          "actor": "model",
+          "heading": "Which spot do you mean?",
+          "message": "I can see a parking area, but I can’t trace a connection to it from this road. Is there a visible spot on this side?",
+          "has_proposal_token": false,
+          "save_button_visible": false,
+          "selectable_buttons": 0,
+          "grade": "correct_withholding",
+          "status": "withheld",
+          "direct_point": null,
+          "outline": null,
+          "choices": [],
+          "direct_geometry": {
+            "hits": [],
+            "whole": false
+          },
+          "choices_geometry": []
+        },
+        {
+          "case_id": "H01",
+          "task": "supply",
+          "terminal": "completed",
+          "ack_state": "processing",
+          "ack_ms": 100,
+          "visible_ms": 609,
+          "state": "needs_clarification",
+          "actor": "model",
+          "heading": "Which spot do you mean?",
+          "message": "I couldn’t match an outlined bay to those details. Could you tap inside the bay you mean?",
+          "has_proposal_token": false,
+          "save_button_visible": false,
+          "selectable_buttons": 0,
+          "grade": "withheld",
+          "status": "withheld",
+          "direct_point": null,
+          "outline": null,
+          "choices": [],
+          "direct_geometry": {
+            "hits": [],
+            "whole": false
+          },
+          "choices_geometry": []
+        },
+        {
+          "case_id": "H02",
+          "task": "supply",
+          "terminal": "completed",
+          "ack_state": "processing",
+          "ack_ms": 64,
+          "visible_ms": 591,
+          "state": "needs_clarification",
+          "actor": "model",
+          "heading": "Which spot do you mean?",
+          "message": "I couldn’t trace an empty bay in this view. Could you tap inside the space you mean or describe another landmark?",
+          "has_proposal_token": false,
+          "save_button_visible": false,
+          "selectable_buttons": 0,
+          "grade": "withheld",
+          "status": "withheld",
+          "direct_point": null,
+          "outline": null,
+          "choices": [],
+          "direct_geometry": {
+            "hits": [],
+            "whole": false
+          },
+          "choices_geometry": []
+        },
+        {
+          "case_id": "H03",
+          "task": "supply",
+          "terminal": "completed",
+          "ack_state": "processing",
+          "ack_ms": 67,
+          "visible_ms": 594,
+          "state": "needs_clarification",
+          "actor": "model",
+          "heading": "Which spot do you mean?",
+          "message": "I couldn’t trace an empty bay in this view. Could you tap inside the space you mean or describe another landmark?",
+          "has_proposal_token": false,
+          "save_button_visible": false,
+          "selectable_buttons": 0,
+          "grade": "withheld",
+          "status": "withheld",
+          "direct_point": null,
+          "outline": null,
+          "choices": [],
+          "direct_geometry": {
+            "hits": [],
+            "whole": false
+          },
+          "choices_geometry": []
+        },
+        {
+          "case_id": "H04",
+          "task": "supply",
+          "terminal": "completed",
+          "ack_state": "processing",
+          "ack_ms": 67,
+          "visible_ms": 594,
+          "state": "needs_clarification",
+          "actor": "model",
+          "heading": "Which spot do you mean?",
+          "message": "I couldn’t trace an empty bay in this view. Could you tap inside the space you mean or describe another landmark?",
+          "has_proposal_token": false,
+          "save_button_visible": false,
+          "selectable_buttons": 0,
+          "grade": "withheld",
+          "status": "withheld",
+          "direct_point": null,
+          "outline": null,
+          "choices": [],
+          "direct_geometry": {
+            "hits": [],
+            "whole": false
+          },
+          "choices_geometry": []
+        },
+        {
+          "case_id": "H05",
+          "task": "supply",
+          "terminal": "completed",
+          "ack_state": "processing",
+          "ack_ms": 55,
+          "visible_ms": 581,
+          "state": "needs_clarification",
+          "actor": "model",
+          "heading": "Which spot do you mean?",
+          "message": "I couldn’t trace an empty bay in this view. Could you tap inside the space you mean or describe another landmark?",
+          "has_proposal_token": false,
+          "save_button_visible": false,
+          "selectable_buttons": 0,
+          "grade": "withheld",
+          "status": "withheld",
+          "direct_point": null,
+          "outline": null,
+          "choices": [],
+          "direct_geometry": {
+            "hits": [],
+            "whole": false
+          },
+          "choices_geometry": []
+        },
+        {
+          "case_id": "H01",
+          "task": "lane",
+          "terminal": "completed",
+          "visible_ms": 312,
+          "state": "needs_clarification",
+          "actor": "passenger",
+          "heading": "Choose another location",
+          "message": "That point appears to be in a traffic lane. Could you mark a visible parking bay instead?",
+          "has_proposal_token": false,
+          "save_button_visible": false,
+          "selectable_buttons": 0,
+          "actual_tap": [
+            1997.930764687806,
+            2007.9578892725442
+          ],
+          "grade": "correct_withholding",
+          "status": "withheld",
+          "direct_point": null,
+          "outline": null,
+          "choices": [],
+          "direct_geometry": {
+            "hits": [],
+            "whole": false
+          },
+          "choices_geometry": []
+        },
+        {
+          "case_id": "H02",
+          "task": "lane",
+          "terminal": "completed",
+          "visible_ms": 281,
+          "state": "needs_clarification",
+          "actor": "passenger",
+          "heading": "Choose another location",
+          "message": "That point appears to be in a traffic lane. Could you mark a visible parking bay instead?",
+          "has_proposal_token": false,
+          "save_button_visible": false,
+          "selectable_buttons": 0,
+          "actual_tap": [
+            2019.8250331303898,
+            2036.9920421176632
+          ],
+          "grade": "correct_withholding",
+          "status": "withheld",
+          "direct_point": null,
+          "outline": null,
+          "choices": [],
+          "direct_geometry": {
+            "hits": [],
+            "whole": false
+          },
+          "choices_geometry": []
+        },
+        {
+          "case_id": "H03",
+          "task": "lane",
+          "terminal": "completed",
+          "visible_ms": 354,
+          "state": "needs_clarification",
+          "actor": "passenger",
+          "heading": "Choose another location",
+          "message": "That point appears to be in a traffic lane. Could you mark a visible parking bay instead?",
+          "has_proposal_token": false,
+          "save_button_visible": false,
+          "selectable_buttons": 0,
+          "actual_tap": [
+            1036.7756448422226,
+            1587.3001139584117
+          ],
+          "grade": "correct_withholding",
+          "status": "withheld",
+          "direct_point": null,
+          "outline": null,
+          "choices": [],
+          "direct_geometry": {
+            "hits": [],
+            "whole": false
+          },
+          "choices_geometry": []
+        },
+        {
+          "case_id": "H04",
+          "task": "lane",
+          "terminal": "completed",
+          "visible_ms": 264,
+          "state": "needs_clarification",
+          "actor": "passenger",
+          "heading": "Choose another location",
+          "message": "That point appears to be in a traffic lane. Could you mark a visible parking bay instead?",
+          "has_proposal_token": false,
+          "save_button_visible": false,
+          "selectable_buttons": 0,
+          "actual_tap": [
+            910.0417490925154,
+            1483.550583449995
+          ],
+          "grade": "correct_withholding",
+          "status": "withheld",
+          "direct_point": null,
+          "outline": null,
+          "choices": [],
+          "direct_geometry": {
+            "hits": [],
+            "whole": false
+          },
+          "choices_geometry": []
+        },
+        {
+          "case_id": "H05",
+          "task": "lane",
+          "terminal": "completed",
+          "visible_ms": 249,
+          "state": "needs_clarification",
+          "actor": "passenger",
+          "heading": "Choose another location",
+          "message": "That point appears to be in a traffic lane. Could you mark a visible parking bay instead?",
+          "has_proposal_token": false,
+          "save_button_visible": false,
+          "selectable_buttons": 0,
+          "actual_tap": [
+            671.9612950621315,
+            1268.3103531430327
+          ],
+          "grade": "correct_withholding",
+          "status": "withheld",
+          "direct_point": null,
+          "outline": null,
+          "choices": [],
+          "direct_geometry": {
+            "hits": [],
+            "whole": false
+          },
+          "choices_geometry": []
+        },
+        {
+          "case_id": "H06",
+          "task": "lane",
+          "terminal": "completed",
+          "visible_ms": 504,
+          "state": "needs_clarification",
+          "actor": "passenger",
+          "heading": "Choose another location",
+          "message": "That point appears to be in a traffic lane. Could you mark a visible parking bay instead?",
+          "has_proposal_token": false,
+          "save_button_visible": false,
+          "selectable_buttons": 0,
+          "actual_tap": [
+            1257.9594704899457,
+            1339.720785782216
+          ],
+          "grade": "correct_withholding",
+          "status": "withheld",
+          "direct_point": null,
+          "outline": null,
+          "choices": [],
+          "direct_geometry": {
+            "hits": [],
+            "whole": false
+          },
+          "choices_geometry": []
+        },
+        {
+          "case_id": "H07",
+          "task": "lane",
+          "terminal": "completed",
+          "visible_ms": 931,
+          "state": "needs_clarification",
+          "actor": "passenger",
+          "heading": "Choose another location",
+          "message": "That point appears to be in a traffic lane. Could you mark a visible parking bay instead?",
+          "has_proposal_token": false,
+          "save_button_visible": false,
+          "selectable_buttons": 0,
+          "actual_tap": [
+            1025.2763746710968,
+            893.5763948168129
+          ],
+          "grade": "correct_withholding",
+          "status": "withheld",
+          "direct_point": null,
+          "outline": null,
+          "choices": [],
+          "direct_geometry": {
+            "hits": [],
+            "whole": false
+          },
+          "choices_geometry": []
+        },
+        {
+          "case_id": "H08",
+          "task": "lane",
+          "terminal": "completed",
+          "visible_ms": 263,
+          "state": "needs_clarification",
+          "actor": "passenger",
+          "heading": "Choose another location",
+          "message": "That point appears to be in a traffic lane. Could you mark a visible parking bay instead?",
+          "has_proposal_token": false,
+          "save_button_visible": false,
+          "selectable_buttons": 0,
+          "actual_tap": [
+            791.0015220773234,
+            1222.1940728821662
+          ],
+          "grade": "correct_withholding",
+          "status": "withheld",
+          "direct_point": null,
+          "outline": null,
+          "choices": [],
+          "direct_geometry": {
+            "hits": [],
+            "whole": false
+          },
+          "choices_geometry": []
+        },
+        {
+          "case_id": "H01",
+          "task": "interior",
+          "terminal": "completed",
+          "visible_ms": 333,
+          "state": "proposed",
+          "actor": "passenger",
+          "heading": "Is this your intended bay?",
+          "message": "Your tap is the blue diamond. The gold ring marks the centre of the outlined parking bay in the lower left of the photo.",
+          "has_proposal_token": true,
+          "save_button_visible": true,
+          "selectable_buttons": 0,
+          "actual_tap": [
+            738.8998573952791,
+            1755.922623785724
+          ],
+          "grade": "matching_whole_offer",
+          "status": "point_match",
+          "direct_point": [
+            850.019,
+            1766.928
+          ],
+          "outline": {
+            "id": "bay-1",
+            "polygon_xy": [
+              [
+                1037.083,
+                1870.82
+              ],
+              [
+                69.477,
+                1889.513
+              ],
+              [
+                1064.28,
+                1617.338
+              ],
+              [
+                1435.769,
+                1612.498
+              ]
+            ],
+            "center_xy": [
+              850.019,
+              1766.928
+            ],
+            "passenger_tap_xy": [
+              738.8998573952791,
+              1755.922623785724
+            ]
+          },
+          "choices": [],
+          "direct_geometry": {
+            "hits": [
+              "A"
+            ],
+            "whole": true,
+            "overlap": [
+              {
+                "id": "A",
+                "iou": 0.6286,
+                "precision": 0.9519,
+                "coverage": 0.6492,
+                "whole": true
+              }
+            ]
+          },
+          "choices_geometry": []
+        },
+        {
+          "case_id": "H02",
+          "task": "interior",
+          "terminal": "completed",
+          "visible_ms": 249,
+          "state": "proposed",
+          "actor": "passenger",
+          "heading": "Is this your intended location?",
+          "message": "The blue pin is at the centre of your mark, in the bottom centre of the photo. Save it if this is where you want to get out.",
+          "has_proposal_token": true,
+          "save_button_visible": true,
+          "selectable_buttons": 0,
+          "actual_tap": [
+            2284.762709585726,
+            1794.8467109980538
+          ],
+          "grade": "point_match",
+          "status": "point_match",
+          "direct_point": [
+            2284.762709585726,
+            1794.8467109980538
+          ],
+          "outline": null,
+          "choices": [],
+          "direct_geometry": {
+            "hits": [
+              "A"
+            ],
+            "whole": false
+          },
+          "choices_geometry": []
+        },
+        {
+          "case_id": "H03",
+          "task": "interior",
+          "terminal": "completed",
+          "visible_ms": 369,
+          "state": "proposed",
+          "actor": "passenger",
+          "heading": "Is this your intended location?",
+          "message": "The blue pin is at the centre of your mark, in the centre of the photo. Save it if this is where you want to get out.",
+          "has_proposal_token": true,
+          "save_button_visible": true,
+          "selectable_buttons": 0,
+          "actual_tap": [
+            2219.484030191868,
+            1410.529202376481
+          ],
+          "grade": "point_match",
+          "status": "point_match",
+          "direct_point": [
+            2219.484030191868,
+            1410.529202376481
+          ],
+          "outline": null,
+          "choices": [],
+          "direct_geometry": {
+            "hits": [
+              "A"
+            ],
+            "whole": false
+          },
+          "choices_geometry": []
+        },
+        {
+          "case_id": "H04",
+          "task": "interior",
+          "terminal": "completed",
+          "visible_ms": 275,
+          "state": "proposed",
+          "actor": "passenger",
+          "heading": "Is this your intended location?",
+          "message": "The blue pin is at the centre of your mark, in the bottom centre of the photo. Save it if this is where you want to get out.",
+          "has_proposal_token": true,
+          "save_button_visible": true,
+          "selectable_buttons": 0,
+          "actual_tap": [
+            2330.877907311733,
+            1471.9860774405026
+          ],
+          "grade": "point_match",
+          "status": "point_match",
+          "direct_point": [
+            2330.877907311733,
+            1471.9860774405026
+          ],
+          "outline": null,
+          "choices": [],
+          "direct_geometry": {
+            "hits": [
+              "A"
+            ],
+            "whole": false
+          },
+          "choices_geometry": []
+        },
+        {
+          "case_id": "H05",
+          "task": "interior",
+          "terminal": "completed",
+          "visible_ms": 313,
+          "state": "needs_clarification",
+          "actor": "passenger",
+          "heading": "Choose another location",
+          "message": "I can’t verify an off-lane parking area at that point. Could you mark a different visible bay?",
+          "has_proposal_token": false,
+          "save_button_visible": false,
+          "selectable_buttons": 0,
+          "actual_tap": [
+            1758.7107476904757,
+            1037.682136058661
+          ],
+          "grade": "withheld",
+          "status": "withheld",
+          "direct_point": null,
+          "outline": null,
+          "choices": [],
+          "direct_geometry": {
+            "hits": [],
+            "whole": false
+          },
+          "choices_geometry": []
+        },
+        {
+          "case_id": "H01",
+          "task": "edge",
+          "terminal": "completed",
+          "visible_ms": 284,
+          "state": "needs_clarification",
+          "actor": "passenger",
+          "heading": "Did you mean this side of the line?",
+          "message": "Bay A is the visible bay beside your mark. Choose it or mark a different spot.",
+          "has_proposal_token": false,
+          "save_button_visible": false,
+          "selectable_buttons": 1,
+          "actual_tap": [
+            1089.772294591584,
+            1619.578982088896
+          ],
+          "grade": "missed_edge",
+          "status": "choice_match",
+          "direct_point": null,
+          "outline": null,
+          "choices": [
+            {
+              "id": "bay-1",
+              "polygon_xy": [
+                [
+                  1037.083,
+                  1870.82
+                ],
+                [
+                  69.477,
+                  1889.513
+                ],
+                [
+                  1064.28,
+                  1617.338
+                ],
+                [
+                  1435.769,
+                  1612.498
+                ]
+              ],
+              "center_xy": [
+                850.019,
+                1766.928
+              ],
+              "passenger_tap_xy": [
+                1089.772294591584,
+                1619.578982088896
+              ]
+            }
+          ],
+          "direct_geometry": {
+            "hits": [],
+            "whole": false
+          },
+          "choices_geometry": [
+            {
+              "hits": [
+                "A"
+              ],
+              "whole": true,
+              "overlap": [
+                {
+                  "id": "A",
+                  "iou": 0.6286,
+                  "precision": 0.9519,
+                  "coverage": 0.6492,
+                  "whole": true
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "candidate": {
+      "started_utc": "2026-11-23T20:49:48.450Z",
+      "finished_utc": "2026-11-23T20:51:13.632Z",
+      "observed_sha256": "fa091944c5893210f5b2a5ff5155cbe3ca5e880e6ef697c56edf625f66f5990c",
+      "first_turn_positive": {
+        "withheld": 5
+      },
+      "first_turn_blocks": {
+        "timeout": 1,
+        "correct_withholding": 2
+      },
+      "all_actions": {
+        "natural": {
+          "withheld": 5,
+          "timeout": 1,
+          "correct_withholding": 2
+        },
+        "supply": {
+          "withheld": 5
+        },
+        "lane": {
+          "correct_withholding": 8
+        },
+        "interior": {
+          "matching_whole_offer": 1,
+          "point_match": 2,
+          "interaction_error": 1,
+          "withheld": 1
+        },
+        "edge": {
+          "missed_edge": 1
+        }
+      },
+      "initial_response_ms": {
+        "ack_ms": {
+          "min": 53,
+          "median": 68.0,
+          "max": 106
+        },
+        "visible_ms": {
+          "min": 576,
+          "median": 1612.5,
+          "max": 15491
+        }
+      },
+      "rows": [
+        {
+          "case_id": "H01",
+          "task": "natural",
+          "terminal": "completed",
+          "ack_state": "processing",
+          "ack_ms": 87,
+          "visible_ms": 2138,
+          "state": "needs_clarification",
+          "actor": "model",
+          "heading": "Which spot do you mean?",
+          "message": "I couldn’t match an outlined bay to those details. Could you tap inside the bay you mean?",
+          "has_proposal_token": false,
+          "save_button_visible": false,
+          "selectable_buttons": 0,
+          "grade": "withheld",
+          "status": "withheld",
+          "direct_point": null,
+          "outline": null,
+          "choices": [],
+          "direct_geometry": {
+            "hits": [],
+            "whole": false
+          },
+          "choices_geometry": []
+        },
+        {
+          "case_id": "H02",
+          "task": "natural",
+          "terminal": "completed",
+          "ack_state": "processing",
+          "ack_ms": 84,
+          "visible_ms": 5330,
+          "state": "needs_clarification",
+          "actor": "model",
+          "heading": "Which spot do you mean?",
+          "message": "I can’t place that request on a clear bay in this view. Could you mark the spot you mean, or name another visible landmark?",
+          "has_proposal_token": false,
+          "save_button_visible": false,
+          "selectable_buttons": 0,
+          "grade": "withheld",
+          "status": "withheld",
+          "direct_point": null,
+          "outline": null,
+          "choices": [],
+          "direct_geometry": {
+            "hits": [],
+            "whole": false
+          },
+          "choices_geometry": []
+        },
+        {
+          "case_id": "H03",
+          "task": "natural",
+          "terminal": "completed",
+          "ack_state": "processing",
+          "ack_ms": 67,
+          "visible_ms": 579,
+          "state": "needs_clarification",
+          "actor": "model",
+          "heading": "Which spot do you mean?",
+          "message": "I couldn’t trace an empty bay in this view. Could you tap inside the space you mean or describe another landmark?",
+          "has_proposal_token": false,
+          "save_button_visible": false,
+          "selectable_buttons": 0,
+          "grade": "withheld",
+          "status": "withheld",
+          "direct_point": null,
+          "outline": null,
+          "choices": [],
+          "direct_geometry": {
+            "hits": [],
+            "whole": false
+          },
+          "choices_geometry": []
+        },
+        {
+          "case_id": "H04",
+          "task": "natural",
+          "terminal": "completed",
+          "ack_state": "processing",
+          "ack_ms": 67,
+          "visible_ms": 576,
+          "state": "needs_clarification",
+          "actor": "model",
+          "heading": "Which spot do you mean?",
+          "message": "I couldn’t trace an empty bay in this view. Could you tap inside the space you mean or describe another landmark?",
+          "has_proposal_token": false,
+          "save_button_visible": false,
+          "selectable_buttons": 0,
+          "grade": "withheld",
+          "status": "withheld",
+          "direct_point": null,
+          "outline": null,
+          "choices": [],
+          "direct_geometry": {
+            "hits": [],
+            "whole": false
+          },
+          "choices_geometry": []
+        },
+        {
+          "case_id": "H05",
+          "task": "natural",
+          "terminal": "completed",
+          "ack_state": "processing",
+          "ack_ms": 69,
+          "visible_ms": 1613,
+          "state": "needs_clarification",
+          "actor": "model",
+          "heading": "Which spot do you mean?",
+          "message": "I can’t place that request on a clear bay in this view. Could you mark the spot you mean, or name another visible landmark?",
+          "has_proposal_token": false,
+          "save_button_visible": false,
+          "selectable_buttons": 0,
+          "grade": "withheld",
+          "status": "withheld",
+          "direct_point": null,
+          "outline": null,
+          "choices": [],
+          "direct_geometry": {
+            "hits": [],
+            "whole": false
+          },
+          "choices_geometry": []
+        },
+        {
+          "case_id": "H06",
+          "task": "natural",
+          "terminal": "completed",
+          "ack_state": "processing",
+          "ack_ms": 60,
+          "visible_ms": 15491,
+          "state": "error",
+          "heading": "The request couldn’t finish",
+          "message": "The automatic photo check took too long. You can mark your spot or try a different description.",
+          "has_proposal_token": false,
+          "save_button_visible": false,
+          "selectable_buttons": 0,
+          "grade": "timeout",
+          "status": "timeout",
+          "direct_point": null,
+          "outline": null,
+          "choices": [],
+          "direct_geometry": {
+            "hits": [],
+            "whole": false
+          },
+          "choices_geometry": []
+        },
+        {
+          "case_id": "H07",
+          "task": "natural",
+          "terminal": "completed",
+          "ack_state": "processing",
+          "ack_ms": 53,
+          "visible_ms": 1612,
+          "state": "needs_clarification",
+          "actor": "model",
+          "heading": "Which spot do you mean?",
+          "message": "I can’t see a clear off-lane space immediately behind that vehicle. Could you mark a different spot or name another landmark?",
+          "has_proposal_token": false,
+          "save_button_visible": false,
+          "selectable_buttons": 0,
+          "grade": "correct_withholding",
+          "status": "withheld",
+          "direct_point": null,
+          "outline": null,
+          "choices": [],
+          "direct_geometry": {
+            "hits": [],
+            "whole": false
+          },
+          "choices_geometry": []
+        },
+        {
+          "case_id": "H08",
+          "task": "natural",
+          "terminal": "completed",
+          "ack_state": "processing",
+          "ack_ms": 106,
+          "visible_ms": 702,
+          "state": "needs_clarification",
+          "actor": "model",
+          "heading": "Which spot do you mean?",
+          "message": "I can see a parking area, but I can’t trace a connection to it from this road. Is there a visible spot on this side?",
+          "has_proposal_token": false,
+          "save_button_visible": false,
+          "selectable_buttons": 0,
+          "grade": "correct_withholding",
+          "status": "withheld",
+          "direct_point": null,
+          "outline": null,
+          "choices": [],
+          "direct_geometry": {
+            "hits": [],
+            "whole": false
+          },
+          "choices_geometry": []
+        },
+        {
+          "case_id": "H01",
+          "task": "supply",
+          "terminal": "completed",
+          "ack_state": "processing",
+          "ack_ms": 135,
+          "visible_ms": 670,
+          "state": "needs_clarification",
+          "actor": "model",
+          "heading": "Which spot do you mean?",
+          "message": "I couldn’t match an outlined bay to those details. Could you tap inside the bay you mean?",
+          "has_proposal_token": false,
+          "save_button_visible": false,
+          "selectable_buttons": 0,
+          "grade": "withheld",
+          "status": "withheld",
+          "direct_point": null,
+          "outline": null,
+          "choices": [],
+          "direct_geometry": {
+            "hits": [],
+            "whole": false
+          },
+          "choices_geometry": []
+        },
+        {
+          "case_id": "H02",
+          "task": "supply",
+          "terminal": "completed",
+          "ack_state": "processing",
+          "ack_ms": 124,
+          "visible_ms": 633,
+          "state": "needs_clarification",
+          "actor": "model",
+          "heading": "Which spot do you mean?",
+          "message": "I couldn’t trace an empty bay in this view. Could you tap inside the space you mean or describe another landmark?",
+          "has_proposal_token": false,
+          "save_button_visible": false,
+          "selectable_buttons": 0,
+          "grade": "withheld",
+          "status": "withheld",
+          "direct_point": null,
+          "outline": null,
+          "choices": [],
+          "direct_geometry": {
+            "hits": [],
+            "whole": false
+          },
+          "choices_geometry": []
+        },
+        {
+          "case_id": "H03",
+          "task": "supply",
+          "terminal": "completed",
+          "ack_state": "processing",
+          "ack_ms": 84,
+          "visible_ms": 626,
+          "state": "needs_clarification",
+          "actor": "model",
+          "heading": "Which spot do you mean?",
+          "message": "I couldn’t trace an empty bay in this view. Could you tap inside the space you mean or describe another landmark?",
+          "has_proposal_token": false,
+          "save_button_visible": false,
+          "selectable_buttons": 0,
+          "grade": "withheld",
+          "status": "withheld",
+          "direct_point": null,
+          "outline": null,
+          "choices": [],
+          "direct_geometry": {
+            "hits": [],
+            "whole": false
+          },
+          "choices_geometry": []
+        },
+        {
+          "case_id": "H04",
+          "task": "supply",
+          "terminal": "completed",
+          "ack_state": "processing",
+          "ack_ms": 103,
+          "visible_ms": 606,
+          "state": "needs_clarification",
+          "actor": "model",
+          "heading": "Which spot do you mean?",
+          "message": "I couldn’t trace an empty bay in this view. Could you tap inside the space you mean or describe another landmark?",
+          "has_proposal_token": false,
+          "save_button_visible": false,
+          "selectable_buttons": 0,
+          "grade": "withheld",
+          "status": "withheld",
+          "direct_point": null,
+          "outline": null,
+          "choices": [],
+          "direct_geometry": {
+            "hits": [],
+            "whole": false
+          },
+          "choices_geometry": []
+        },
+        {
+          "case_id": "H05",
+          "task": "supply",
+          "terminal": "completed",
+          "ack_state": "processing",
+          "ack_ms": 87,
+          "visible_ms": 595,
+          "state": "needs_clarification",
+          "actor": "model",
+          "heading": "Which spot do you mean?",
+          "message": "I couldn’t trace an empty bay in this view. Could you tap inside the space you mean or describe another landmark?",
+          "has_proposal_token": false,
+          "save_button_visible": false,
+          "selectable_buttons": 0,
+          "grade": "withheld",
+          "status": "withheld",
+          "direct_point": null,
+          "outline": null,
+          "choices": [],
+          "direct_geometry": {
+            "hits": [],
+            "whole": false
+          },
+          "choices_geometry": []
+        },
+        {
+          "case_id": "H01",
+          "task": "lane",
+          "terminal": "completed",
+          "visible_ms": 290,
+          "state": "needs_clarification",
+          "actor": "passenger",
+          "heading": "Choose another location",
+          "message": "That point appears to be in a traffic lane. Could you mark a visible parking bay instead?",
+          "has_proposal_token": false,
+          "save_button_visible": false,
+          "selectable_buttons": 0,
+          "actual_tap": [
+            1997.930764687806,
+            2007.9578892725442
+          ],
+          "grade": "correct_withholding",
+          "status": "withheld",
+          "direct_point": null,
+          "outline": null,
+          "choices": [],
+          "direct_geometry": {
+            "hits": [],
+            "whole": false
+          },
+          "choices_geometry": []
+        },
+        {
+          "case_id": "H02",
+          "task": "lane",
+          "terminal": "completed",
+          "visible_ms": 253,
+          "state": "needs_clarification",
+          "actor": "passenger",
+          "heading": "Choose another location",
+          "message": "That point appears to be in a traffic lane. Could you mark a visible parking bay instead?",
+          "has_proposal_token": false,
+          "save_button_visible": false,
+          "selectable_buttons": 0,
+          "actual_tap": [
+            2019.8250331303898,
+            2036.9920421176632
+          ],
+          "grade": "correct_withholding",
+          "status": "withheld",
+          "direct_point": null,
+          "outline": null,
+          "choices": [],
+          "direct_geometry": {
+            "hits": [],
+            "whole": false
+          },
+          "choices_geometry": []
+        },
+        {
+          "case_id": "H03",
+          "task": "lane",
+          "terminal": "completed",
+          "visible_ms": 252,
+          "state": "needs_clarification",
+          "actor": "passenger",
+          "heading": "Choose another location",
+          "message": "That point appears to be in a traffic lane. Could you mark a visible parking bay instead?",
+          "has_proposal_token": false,
+          "save_button_visible": false,
+          "selectable_buttons": 0,
+          "actual_tap": [
+            1036.7756448422226,
+            1587.3001139584117
+          ],
+          "grade": "correct_withholding",
+          "status": "withheld",
+          "direct_point": null,
+          "outline": null,
+          "choices": [],
+          "direct_geometry": {
+            "hits": [],
+            "whole": false
+          },
+          "choices_geometry": []
+        },
+        {
+          "case_id": "H04",
+          "task": "lane",
+          "terminal": "completed",
+          "visible_ms": 257,
+          "state": "needs_clarification",
+          "actor": "passenger",
+          "heading": "Choose another location",
+          "message": "That point appears to be in a traffic lane. Could you mark a visible parking bay instead?",
+          "has_proposal_token": false,
+          "save_button_visible": false,
+          "selectable_buttons": 0,
+          "actual_tap": [
+            910.0417490925154,
+            1483.550583449995
+          ],
+          "grade": "correct_withholding",
+          "status": "withheld",
+          "direct_point": null,
+          "outline": null,
+          "choices": [],
+          "direct_geometry": {
+            "hits": [],
+            "whole": false
+          },
+          "choices_geometry": []
+        },
+        {
+          "case_id": "H05",
+          "task": "lane",
+          "terminal": "completed",
+          "visible_ms": 333,
+          "state": "needs_clarification",
+          "actor": "passenger",
+          "heading": "Choose another location",
+          "message": "That point appears to be in a traffic lane. Could you mark a visible parking bay instead?",
+          "has_proposal_token": false,
+          "save_button_visible": false,
+          "selectable_buttons": 0,
+          "actual_tap": [
+            671.9612950621315,
+            1268.3103531430327
+          ],
+          "grade": "correct_withholding",
+          "status": "withheld",
+          "direct_point": null,
+          "outline": null,
+          "choices": [],
+          "direct_geometry": {
+            "hits": [],
+            "whole": false
+          },
+          "choices_geometry": []
+        },
+        {
+          "case_id": "H06",
+          "task": "lane",
+          "terminal": "completed",
+          "visible_ms": 1216,
+          "state": "needs_clarification",
+          "actor": "passenger",
+          "heading": "Choose another location",
+          "message": "That point appears to be in a traffic lane. Could you mark a visible parking bay instead?",
+          "has_proposal_token": false,
+          "save_button_visible": false,
+          "selectable_buttons": 0,
+          "actual_tap": [
+            1257.9594704899457,
+            1339.720785782216
+          ],
+          "grade": "correct_withholding",
+          "status": "withheld",
+          "direct_point": null,
+          "outline": null,
+          "choices": [],
+          "direct_geometry": {
+            "hits": [],
+            "whole": false
+          },
+          "choices_geometry": []
+        },
+        {
+          "case_id": "H07",
+          "task": "lane",
+          "terminal": "completed",
+          "visible_ms": 184,
+          "state": "needs_clarification",
+          "actor": "passenger",
+          "heading": "Choose another location",
+          "message": "That point appears to be in a traffic lane. Could you mark a visible parking bay instead?",
+          "has_proposal_token": false,
+          "save_button_visible": false,
+          "selectable_buttons": 0,
+          "actual_tap": [
+            1025.2763746710968,
+            893.5763948168129
+          ],
+          "grade": "correct_withholding",
+          "status": "withheld",
+          "direct_point": null,
+          "outline": null,
+          "choices": [],
+          "direct_geometry": {
+            "hits": [],
+            "whole": false
+          },
+          "choices_geometry": []
+        },
+        {
+          "case_id": "H08",
+          "task": "lane",
+          "terminal": "completed",
+          "visible_ms": 250,
+          "state": "needs_clarification",
+          "actor": "passenger",
+          "heading": "Choose another location",
+          "message": "That point appears to be in a traffic lane. Could you mark a visible parking bay instead?",
+          "has_proposal_token": false,
+          "save_button_visible": false,
+          "selectable_buttons": 0,
+          "actual_tap": [
+            791.0015220773234,
+            1222.1940728821662
+          ],
+          "grade": "correct_withholding",
+          "status": "withheld",
+          "direct_point": null,
+          "outline": null,
+          "choices": [],
+          "direct_geometry": {
+            "hits": [],
+            "whole": false
+          },
+          "choices_geometry": []
+        },
+        {
+          "case_id": "H01",
+          "task": "interior",
+          "terminal": "completed",
+          "visible_ms": 338,
+          "state": "proposed",
+          "actor": "passenger",
+          "heading": "Is this your intended bay?",
+          "message": "Your tap is the blue diamond. The gold ring marks the centre of the outlined parking bay in the lower left of the photo.",
+          "has_proposal_token": true,
+          "save_button_visible": true,
+          "selectable_buttons": 0,
+          "actual_tap": [
+            738.8998573952791,
+            1755.922623785724
+          ],
+          "grade": "matching_whole_offer",
+          "status": "point_match",
+          "direct_point": [
+            850.019,
+            1766.928
+          ],
+          "outline": {
+            "id": "bay-1",
+            "polygon_xy": [
+              [
+                1037.083,
+                1870.82
+              ],
+              [
+                69.477,
+                1889.513
+              ],
+              [
+                1064.28,
+                1617.338
+              ],
+              [
+                1435.769,
+                1612.498
+              ]
+            ],
+            "center_xy": [
+              850.019,
+              1766.928
+            ],
+            "passenger_tap_xy": [
+              738.8998573952791,
+              1755.922623785724
+            ]
+          },
+          "choices": [],
+          "direct_geometry": {
+            "hits": [
+              "A"
+            ],
+            "whole": true,
+            "overlap": [
+              {
+                "id": "A",
+                "iou": 0.6286,
+                "precision": 0.9519,
+                "coverage": 0.6492,
+                "whole": true
+              }
+            ]
+          },
+          "choices_geometry": []
+        },
+        {
+          "case_id": "H02",
+          "task": "interior",
+          "terminal": "completed",
+          "visible_ms": 409,
+          "state": "proposed",
+          "actor": "passenger",
+          "heading": "Is this your intended location?",
+          "message": "The blue pin is at the centre of your mark, in the bottom centre of the photo. Save it if this is where you want to get out.",
+          "has_proposal_token": true,
+          "save_button_visible": true,
+          "selectable_buttons": 0,
+          "actual_tap": [
+            2284.762709585726,
+            1794.8467109980538
+          ],
+          "grade": "point_match",
+          "status": "point_match",
+          "direct_point": [
+            2284.762709585726,
+            1794.8467109980538
+          ],
+          "outline": null,
+          "choices": [],
+          "direct_geometry": {
+            "hits": [
+              "A"
+            ],
+            "whole": false
+          },
+          "choices_geometry": []
+        },
+        {
+          "case_id": "H03",
+          "task": "interior",
+          "terminal": "interaction_error",
+          "elapsed_ms": 15003,
+          "failure": "The browser received no response to the mark request within 15 seconds.",
+          "grade": "interaction_error",
+          "status": "interaction_error",
+          "direct_point": null,
+          "outline": null,
+          "choices": [],
+          "direct_geometry": {
+            "hits": [],
+            "whole": false
+          },
+          "choices_geometry": []
+        },
+        {
+          "case_id": "H04",
+          "task": "interior",
+          "terminal": "completed",
+          "visible_ms": 275,
+          "state": "proposed",
+          "actor": "passenger",
+          "heading": "Is this your intended location?",
+          "message": "The blue pin is at the centre of your mark, in the bottom centre of the photo. Save it if this is where you want to get out.",
+          "has_proposal_token": true,
+          "save_button_visible": true,
+          "selectable_buttons": 0,
+          "actual_tap": [
+            2330.877907311733,
+            1471.9860774405026
+          ],
+          "grade": "point_match",
+          "status": "point_match",
+          "direct_point": [
+            2330.877907311733,
+            1471.9860774405026
+          ],
+          "outline": null,
+          "choices": [],
+          "direct_geometry": {
+            "hits": [
+              "A"
+            ],
+            "whole": false
+          },
+          "choices_geometry": []
+        },
+        {
+          "case_id": "H05",
+          "task": "interior",
+          "terminal": "completed",
+          "visible_ms": 285,
+          "state": "needs_clarification",
+          "actor": "passenger",
+          "heading": "Choose another location",
+          "message": "I can’t verify an off-lane parking area at that point. Could you mark a different visible bay?",
+          "has_proposal_token": false,
+          "save_button_visible": false,
+          "selectable_buttons": 0,
+          "actual_tap": [
+            1758.7107476904757,
+            1037.682136058661
+          ],
+          "grade": "withheld",
+          "status": "withheld",
+          "direct_point": null,
+          "outline": null,
+          "choices": [],
+          "direct_geometry": {
+            "hits": [],
+            "whole": false
+          },
+          "choices_geometry": []
+        },
+        {
+          "case_id": "H01",
+          "task": "edge",
+          "terminal": "completed",
+          "visible_ms": 298,
+          "state": "needs_clarification",
+          "actor": "passenger",
+          "heading": "Did you mean this side of the line?",
+          "message": "Bay A is the visible bay beside your mark. Choose it or mark a different spot.",
+          "has_proposal_token": false,
+          "save_button_visible": false,
+          "selectable_buttons": 1,
+          "actual_tap": [
+            1089.772294591584,
+            1619.578982088896
+          ],
+          "grade": "missed_edge",
+          "status": "choice_match",
+          "direct_point": null,
+          "outline": null,
+          "choices": [
+            {
+              "id": "bay-1",
+              "polygon_xy": [
+                [
+                  1037.083,
+                  1870.82
+                ],
+                [
+                  69.477,
+                  1889.513
+                ],
+                [
+                  1064.28,
+                  1617.338
+                ],
+                [
+                  1435.769,
+                  1612.498
+                ]
+              ],
+              "center_xy": [
+                850.019,
+                1766.928
+              ],
+              "passenger_tap_xy": [
+                1089.772294591584,
+                1619.578982088896
+              ]
+            }
+          ],
+          "direct_geometry": {
+            "hits": [],
+            "whole": false
+          },
+          "choices_geometry": [
+            {
+              "hits": [
+                "A"
+              ],
+              "whole": true,
+              "overlap": [
+                {
+                  "id": "A",
+                  "iou": 0.6286,
+                  "precision": 0.9519,
+                  "coverage": 0.6492,
+                  "whole": true
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "supplemental_geometry": {
+    "scope": "Offline, original photograph and detector context bound to cryptographically verified segmentation/visual packets. Same original request and regions. V4 is replayed under its supported archive policy, while v5 uses its active policy. This source inspection is independent from the browser and does not add credit to any observed request.",
+    "procedural_source_hashes": {
+      "trackrag.dropoff.whole_bay": "34cf0e35249dc8a299834740f078e0b5c4ba50e6a44f99f5ee9a8081bda00e53",
+      "trackrag.dropoff.bay_anchors": "298a7087299c8ca4ee62a9143eb9711a8a0f78185511d0b2a369d8ff106d1b2c",
+      "trackrag.dropoff.bay_clearance": "7455ed3065015dd46d118969ead6ccf726ed62839946078cf036000f8c7aae90",
+      "trackrag.dropoff.bay_intent": "b6817946d72728165392d95f9ac002ac33bcc0121e9476d744a924a79db33fed",
+      "trackrag.dropoff.surface_stalls": "b617290481fe796194bbcb17739dd2d24552c1f65b5f57888779a183e2962aa1"
+    },
+    "cases": {
+      "H01": {
+        "parking_clearance_and_connected_pavement_v4": {
+          "raw": 1,
+          "eligible": 1,
+          "matching_points": 1,
+          "eligible_extents": [
+            {
+              "recipe": "paired_painted_stall_dividers_v1",
+              "declared_extent": null,
+              "point": [
+                850.019,
+                1766.928
+              ],
+              "geometry": {
+                "hits": [
+                  "A"
+                ],
+                "whole": true,
+                "overlap": [
+                  {
+                    "id": "A",
+                    "iou": 0.6286,
+                    "precision": 0.9519,
+                    "coverage": 0.6492,
+                    "whole": true
+                  }
+                ]
+              }
+            }
+          ],
+          "natural": {
+            "status": "needs_clarification",
+            "reason": "no_supported_bay_for_instruction",
+            "count": 0,
+            "options": []
+          },
+          "frozen_generic": {
+            "status": "needs_clarification",
+            "reason": "no_supported_bay_for_instruction",
+            "count": 0,
+            "options": []
+          },
+          "gallery_wording": {
+            "status": "proposed",
+            "reason": "visible_bay_matches_stated_anchors",
+            "count": 1,
+            "options": [
+              {
+                "hits": [
+                  "A"
+                ],
+                "whole": true,
+                "overlap": [
+                  {
+                    "id": "A",
+                    "iou": 0.6286,
+                    "precision": 0.9519,
+                    "coverage": 0.6492,
+                    "whole": true
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "parking_rows_and_observed_landmarks_v5": {
+          "raw": 1,
+          "eligible": 1,
+          "matching_points": 1,
+          "eligible_extents": [
+            {
+              "recipe": "paired_painted_stall_dividers_v1",
+              "declared_extent": null,
+              "point": [
+                850.019,
+                1766.928
+              ],
+              "geometry": {
+                "hits": [
+                  "A"
+                ],
+                "whole": true,
+                "overlap": [
+                  {
+                    "id": "A",
+                    "iou": 0.6286,
+                    "precision": 0.9519,
+                    "coverage": 0.6492,
+                    "whole": true
+                  }
+                ]
+              }
+            }
+          ],
+          "natural": {
+            "status": "needs_clarification",
+            "reason": "no_supported_bay_for_instruction",
+            "count": 0,
+            "options": []
+          },
+          "frozen_generic": {
+            "status": "needs_clarification",
+            "reason": "no_supported_bay_for_instruction",
+            "count": 0,
+            "options": []
+          },
+          "gallery_wording": {
+            "status": "proposed",
+            "reason": "visible_bay_matches_stated_anchors",
+            "count": 1,
+            "options": [
+              {
+                "hits": [
+                  "A"
+                ],
+                "whole": true,
+                "overlap": [
+                  {
+                    "id": "A",
+                    "iou": 0.6286,
+                    "precision": 0.9519,
+                    "coverage": 0.6492,
+                    "whole": true
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      },
+      "H02": {
+        "parking_clearance_and_connected_pavement_v4": {
+          "raw": 0,
+          "eligible": 0,
+          "matching_points": 0,
+          "eligible_extents": [],
+          "natural": {
+            "status": "defer_to_other_grounder"
+          },
+          "frozen_generic": {
+            "status": "needs_clarification",
+            "reason": "no_visible_bay_for_instruction",
+            "count": 0,
+            "options": []
+          },
+          "gallery_wording": {
+            "status": "needs_clarification",
+            "reason": "no_visible_bay_for_instruction",
+            "count": 0,
+            "options": []
+          }
+        },
+        "parking_rows_and_observed_landmarks_v5": {
+          "raw": 0,
+          "eligible": 0,
+          "matching_points": 0,
+          "eligible_extents": [],
+          "natural": {
+            "status": "defer_to_other_grounder"
+          },
+          "frozen_generic": {
+            "status": "needs_clarification",
+            "reason": "no_visible_bay_for_instruction",
+            "count": 0,
+            "options": []
+          },
+          "gallery_wording": {
+            "status": "needs_clarification",
+            "reason": "no_visible_bay_for_instruction",
+            "count": 0,
+            "options": []
+          }
+        }
+      },
+      "H03": {
+        "parking_clearance_and_connected_pavement_v4": {
+          "raw": 0,
+          "eligible": 0,
+          "matching_points": 0,
+          "eligible_extents": [],
+          "natural": {
+            "status": "needs_clarification",
+            "reason": "no_visible_bay_for_instruction",
+            "count": 0,
+            "options": []
+          },
+          "frozen_generic": {
+            "status": "needs_clarification",
+            "reason": "no_visible_bay_for_instruction",
+            "count": 0,
+            "options": []
+          },
+          "gallery_wording": {
+            "status": "needs_clarification",
+            "reason": "no_visible_bay_for_instruction",
+            "count": 0,
+            "options": []
+          }
+        },
+        "parking_rows_and_observed_landmarks_v5": {
+          "raw": 0,
+          "eligible": 0,
+          "matching_points": 0,
+          "eligible_extents": [],
+          "natural": {
+            "status": "needs_clarification",
+            "reason": "no_visible_bay_for_instruction",
+            "count": 0,
+            "options": []
+          },
+          "frozen_generic": {
+            "status": "needs_clarification",
+            "reason": "no_visible_bay_for_instruction",
+            "count": 0,
+            "options": []
+          },
+          "gallery_wording": {
+            "status": "needs_clarification",
+            "reason": "no_visible_bay_for_instruction",
+            "count": 0,
+            "options": []
+          }
+        }
+      },
+      "H04": {
+        "parking_clearance_and_connected_pavement_v4": {
+          "raw": 0,
+          "eligible": 0,
+          "matching_points": 0,
+          "eligible_extents": [],
+          "natural": {
+            "status": "needs_clarification",
+            "reason": "no_visible_bay_for_instruction",
+            "count": 0,
+            "options": []
+          },
+          "frozen_generic": {
+            "status": "needs_clarification",
+            "reason": "no_visible_bay_for_instruction",
+            "count": 0,
+            "options": []
+          },
+          "gallery_wording": {
+            "status": "needs_clarification",
+            "reason": "no_visible_bay_for_instruction",
+            "count": 0,
+            "options": []
+          }
+        },
+        "parking_rows_and_observed_landmarks_v5": {
+          "raw": 0,
+          "eligible": 0,
+          "matching_points": 0,
+          "eligible_extents": [],
+          "natural": {
+            "status": "needs_clarification",
+            "reason": "no_visible_bay_for_instruction",
+            "count": 0,
+            "options": []
+          },
+          "frozen_generic": {
+            "status": "needs_clarification",
+            "reason": "no_visible_bay_for_instruction",
+            "count": 0,
+            "options": []
+          },
+          "gallery_wording": {
+            "status": "needs_clarification",
+            "reason": "no_visible_bay_for_instruction",
+            "count": 0,
+            "options": []
+          }
+        }
+      },
+      "H05": {
+        "parking_clearance_and_connected_pavement_v4": {
+          "raw": 0,
+          "eligible": 0,
+          "matching_points": 0,
+          "eligible_extents": [],
+          "natural": {
+            "status": "defer_to_other_grounder"
+          },
+          "frozen_generic": {
+            "status": "needs_clarification",
+            "reason": "no_visible_bay_for_instruction",
+            "count": 0,
+            "options": []
+          },
+          "gallery_wording": {
+            "status": "needs_clarification",
+            "reason": "no_visible_bay_for_instruction",
+            "count": 0,
+            "options": []
+          }
+        },
+        "parking_rows_and_observed_landmarks_v5": {
+          "raw": 0,
+          "eligible": 0,
+          "matching_points": 0,
+          "eligible_extents": [],
+          "natural": {
+            "status": "defer_to_other_grounder"
+          },
+          "frozen_generic": {
+            "status": "needs_clarification",
+            "reason": "no_visible_bay_for_instruction",
+            "count": 0,
+            "options": []
+          },
+          "gallery_wording": {
+            "status": "needs_clarification",
+            "reason": "no_visible_bay_for_instruction",
+            "count": 0,
+            "options": []
+          }
+        }
+      },
+      "H06": {
+        "parking_clearance_and_connected_pavement_v4": {
+          "raw": 0,
+          "eligible": 0,
+          "matching_points": 0,
+          "eligible_extents": [],
+          "natural": {
+            "status": "defer_to_other_grounder"
+          },
+          "frozen_generic": {
+            "status": "needs_clarification",
+            "reason": "no_visible_bay_for_instruction",
+            "count": 0,
+            "options": []
+          },
+          "gallery_wording": {
+            "status": "needs_clarification",
+            "reason": "no_visible_bay_for_instruction",
+            "count": 0,
+            "options": []
+          }
+        },
+        "parking_rows_and_observed_landmarks_v5": {
+          "raw": 0,
+          "eligible": 0,
+          "matching_points": 0,
+          "eligible_extents": [],
+          "natural": {
+            "status": "defer_to_other_grounder"
+          },
+          "frozen_generic": {
+            "status": "needs_clarification",
+            "reason": "no_visible_bay_for_instruction",
+            "count": 0,
+            "options": []
+          },
+          "gallery_wording": {
+            "status": "needs_clarification",
+            "reason": "no_visible_bay_for_instruction",
+            "count": 0,
+            "options": []
+          }
+        }
+      },
+      "H07": {
+        "parking_clearance_and_connected_pavement_v4": {
+          "raw": 0,
+          "eligible": 0,
+          "matching_points": 0,
+          "eligible_extents": [],
+          "natural": {
+            "status": "defer_to_other_grounder"
+          },
+          "frozen_generic": {
+            "status": "needs_clarification",
+            "reason": "no_visible_bay_for_instruction",
+            "count": 0,
+            "options": []
+          },
+          "gallery_wording": {
+            "status": "needs_clarification",
+            "reason": "no_visible_bay_for_instruction",
+            "count": 0,
+            "options": []
+          }
+        },
+        "parking_rows_and_observed_landmarks_v5": {
+          "raw": 0,
+          "eligible": 0,
+          "matching_points": 0,
+          "eligible_extents": [],
+          "natural": {
+            "status": "defer_to_other_grounder"
+          },
+          "frozen_generic": {
+            "status": "needs_clarification",
+            "reason": "no_visible_bay_for_instruction",
+            "count": 0,
+            "options": []
+          },
+          "gallery_wording": {
+            "status": "needs_clarification",
+            "reason": "no_visible_bay_for_instruction",
+            "count": 0,
+            "options": []
+          }
+        }
+      },
+      "H08": {
+        "parking_clearance_and_connected_pavement_v4": {
+          "raw": 2,
+          "eligible": 0,
+          "matching_points": 0,
+          "eligible_extents": [],
+          "natural": {
+            "status": "needs_clarification",
+            "reason": "separated_parking_surface",
+            "count": 0,
+            "options": []
+          },
+          "frozen_generic": {
+            "status": "needs_clarification",
+            "reason": "separated_parking_surface",
+            "count": 0,
+            "options": []
+          },
+          "gallery_wording": {
+            "status": "needs_clarification",
+            "reason": "separated_parking_surface",
+            "count": 0,
+            "options": []
+          }
+        },
+        "parking_rows_and_observed_landmarks_v5": {
+          "raw": 2,
+          "eligible": 0,
+          "matching_points": 0,
+          "eligible_extents": [],
+          "natural": {
+            "status": "needs_clarification",
+            "reason": "separated_parking_surface",
+            "count": 0,
+            "options": []
+          },
+          "frozen_generic": {
+            "status": "needs_clarification",
+            "reason": "separated_parking_surface",
+            "count": 0,
+            "options": []
+          },
+          "gallery_wording": {
+            "status": "needs_clarification",
+            "reason": "separated_parking_surface",
+            "count": 0,
+            "options": []
+          }
+        }
+      }
+    }
+  },
+  "source_and_evidence": "Every original is linked from the plan. Grab and KartaView contributors, CC BY-SA 4.0. The local audit directory runs/passenger-placement-field-20261124 contains the original rendered PNG for each action plus the source-bound numerical grade. No authentication tokens or audio are included.",
+  "supplemental_browser_gallery": {
+    "plan_sha256": "66ffb2230e7b4fb4abc55522751fa8f215b0efb9cba9bd88e7539cdb6b842ede",
+    "note": "The official gallery sends 'Find the marked parking bays.'; the independent frozen generic probe uses 'Show me the marked parking bays.' and returned no results on either build. The separate, later-prespecified official gallery run produced the correct A outline on H01 in 586 ms on the old server and 664 ms on the new server. The old server restarted during the remainder, so only the complete candidate supplemental gallery is tabulated. The authenticated archive-policy replay supplies the other old-version geometry figures.",
+    "candidate": {
+      "H01": {
+        "gallery_button_visible": true,
+        "state": "proposed",
+        "choice_count": 0,
+        "direct_point": [
+          850.019,
+          1766.928
+        ],
+        "visible_ms": 664
+      },
+      "H02": {
+        "gallery_button_visible": false,
+        "state": "needs_clarification",
+        "choice_count": 0,
+        "direct_point": null,
+        "visible_ms": 584
+      },
+      "H03": {
+        "gallery_button_visible": false,
+        "state": "needs_clarification",
+        "choice_count": 0,
+        "direct_point": null,
+        "visible_ms": 640
+      },
+      "H04": {
+        "gallery_button_visible": false,
+        "state": "needs_clarification",
+        "choice_count": 0,
+        "direct_point": null,
+        "visible_ms": 608
+      },
+      "H05": {
+        "gallery_button_visible": false,
+        "state": "needs_clarification",
+        "choice_count": 0,
+        "direct_point": null,
+        "visible_ms": 638
+      }
+    }
+  },
+  "manual_recheck": {
+    "case": "H03",
+    "task": "interior",
+    "elapsed_ms": 341,
+    "state": "proposed",
+    "actor": "passenger",
+    "point": [
+      2219.484030191868,
+      1410.529202376481
+    ],
+    "grade": "point_match",
+    "original_split_outcome": {
+      "browser": "Failed to fetch; still in mark mode with no proposed pin/save button after the 15 s HTTP wait.",
+      "manual_mode_utc": "2026-11-23T20:50:52.340472+00:00",
+      "server_proposed_utc": "2026-11-23T20:50:52.739180+00:00",
+      "server_actor": "passenger",
+      "server_point": [
+        2219.484030191868,
+        1410.529202376481
+      ],
+      "inside_frozen_roi": true,
+      "server_journal_sha256": "a902957a2b9cf5cf6ecb7c8b0d76e28c8300674cb765976e6c68acddc7bd0cc7",
+      "full_screenshot_sha256": "97c62c4dc28cc2c104a7241000d44d8c9269d9e41e83c6b2300d9d511ea62657",
+      "public_screenshot": "passenger-placement-lost-response-20261124.jpg"
+    }
+  }
+}

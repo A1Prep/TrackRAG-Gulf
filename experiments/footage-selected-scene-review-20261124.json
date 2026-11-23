@@ -1,0 +1,540 @@
+{
+  "plan_sha256": "362a268089d306922b053c799195aa456e8fd1bf94517bf9f1577c77ba9a6b2e",
+  "scope": "Single independent original-pixel review of the previously authorized two EMT recordings. Seven untimed strings chosen before normal retrieval; the same string + in this frame is a diagnostic control. Local mode retrieves evidence only for scene appearance, and must not improvise a track fact. Hosted mode, if used, goes through the normal privacy-filtered footage answerer.",
+  "recordings": [
+    "video_054604",
+    "video_054907"
+  ],
+  "cases": [
+    {
+      "id": "bend",
+      "recording": "video_054604",
+      "paused_frame": 51,
+      "words": "Does the lane ahead bend to the left or to the right?",
+      "visual_reference": "Curves right.",
+      "baseline": {
+        "answer_source": "evidence_only",
+        "elapsed_s": 3.962,
+        "evidence": [
+          {
+            "id": "E1",
+            "track": 7,
+            "source": "predicted",
+            "frames": [
+              1
+            ]
+          },
+          {
+            "id": "E2",
+            "track": 13,
+            "source": "predicted",
+            "frames": [
+              1
+            ]
+          },
+          {
+            "id": "E3",
+            "track": 16,
+            "source": "predicted",
+            "frames": [
+              1
+            ]
+          }
+        ]
+      },
+      "explicit_selected_frame_control": {
+        "baseline": [
+          {
+            "id": "E1",
+            "track": null,
+            "source": "predicted",
+            "frames": [
+              51
+            ]
+          }
+        ],
+        "updated": [
+          {
+            "id": "E1",
+            "track": null,
+            "source": "predicted",
+            "frames": [
+              51
+            ]
+          }
+        ]
+      },
+      "updated": {
+        "answer_source": "evidence_only",
+        "elapsed_s": 2.421,
+        "evidence": [
+          {
+            "id": "E1",
+            "track": null,
+            "source": "predicted",
+            "frames": [
+              51
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "tower-sand",
+      "recording": "video_054604",
+      "paused_frame": 126,
+      "words": "Is the sandy shoulder on the same side as the tall pointed tower?",
+      "visual_reference": "Yes. Sandy shoulder and tower are on the right of the paused image.",
+      "baseline": {
+        "answer_source": "evidence_only",
+        "elapsed_s": 5.848,
+        "evidence": []
+      },
+      "explicit_selected_frame_control": {
+        "baseline": [
+          {
+            "id": "E1",
+            "track": null,
+            "source": "predicted",
+            "frames": [
+              126
+            ]
+          }
+        ],
+        "updated": [
+          {
+            "id": "E1",
+            "track": null,
+            "source": "predicted",
+            "frames": [
+              126
+            ]
+          }
+        ]
+      },
+      "updated": {
+        "answer_source": "evidence_only",
+        "elapsed_s": 4.624,
+        "evidence": [
+          {
+            "id": "E1",
+            "track": null,
+            "source": "predicted",
+            "frames": [
+              126
+            ]
+          }
+        ]
+      },
+      "hosted": {
+        "answer": {
+          "answer_status": "answered",
+          "answer": "Yes, the sandy shoulder is on the right side of the road, which is the same side where the tall pointed tower is located.",
+          "cited_evidence_ids": [
+            "E1"
+          ]
+        },
+        "elapsed_s": 10.052,
+        "evidence": [
+          {
+            "id": "E1",
+            "track": null,
+            "source": "predicted",
+            "frames": [
+              126
+            ]
+          }
+        ],
+        "receipt": {
+          "receipt_sha256": "bf02b077be9db687ecd8728da05e0f8dc6c12ebeb9ec9fe574c7b34a2bc8cb71",
+          "model": "gemini-3.5-flash-lite",
+          "provider": "google Gemini Interactions",
+          "store": false,
+          "attempts": [
+            {
+              "attempt": 1,
+              "request_status": "completed",
+              "provider_status": "completed"
+            }
+          ],
+          "request_arguments_sha256": "26fdf421d50e40a6c9a86d800f1567d63c903176f2073471c5acf5a29f8116eb",
+          "sent_image_sha256": "516c88e128adb364f09ef39da2b1a8d48d85c22099353e6375bfb52286446e52",
+          "frame": 126,
+          "privacy": {
+            "people_regions_masked": 0,
+            "lower_vehicle_regions_masked": 11,
+            "original_size_wh": [
+              2560,
+              1440
+            ],
+            "processed_size_wh": [
+              1024,
+              576
+            ],
+            "policy": "opaque observed people/riders and lower40percent vehicles; resize after masking",
+            "faces_blurred": 0,
+            "plate_candidates_blurred": 0
+          },
+          "evidence_id": "E1"
+        }
+      }
+    },
+    {
+      "id": "sun",
+      "recording": "video_054604",
+      "paused_frame": 31,
+      "words": "Is the brightest spot above the horizon or down on the pavement?",
+      "visual_reference": "The sun is high above the horizon, near the upper left.",
+      "baseline": {
+        "answer_source": "evidence_only",
+        "elapsed_s": 3.068,
+        "evidence": [
+          {
+            "id": "E1",
+            "track": 1,
+            "source": "predicted",
+            "frames": [
+              1,
+              5,
+              10
+            ]
+          }
+        ]
+      },
+      "explicit_selected_frame_control": {
+        "baseline": [
+          {
+            "id": "E1",
+            "track": null,
+            "source": "predicted",
+            "frames": [
+              31
+            ]
+          }
+        ],
+        "updated": [
+          {
+            "id": "E1",
+            "track": null,
+            "source": "predicted",
+            "frames": [
+              31
+            ]
+          }
+        ]
+      },
+      "updated": {
+        "answer_source": "evidence_only",
+        "elapsed_s": 1.735,
+        "evidence": [
+          {
+            "id": "E1",
+            "track": null,
+            "source": "predicted",
+            "frames": [
+              31
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "gantry",
+      "recording": "video_054907",
+      "paused_frame": 150,
+      "words": "Which side of the picture has the group of blue overhead direction boards?",
+      "visual_reference": "Right half above the roadway.",
+      "baseline": {
+        "answer_source": "evidence_only",
+        "elapsed_s": 30.347,
+        "evidence": []
+      },
+      "explicit_selected_frame_control": {
+        "baseline": [
+          {
+            "id": "E1",
+            "track": null,
+            "source": "predicted",
+            "frames": [
+              150
+            ]
+          }
+        ],
+        "updated": [
+          {
+            "id": "E1",
+            "track": null,
+            "source": "predicted",
+            "frames": [
+              150
+            ]
+          }
+        ]
+      },
+      "updated": {
+        "answer_source": "evidence_only",
+        "elapsed_s": 6.471,
+        "evidence": [
+          {
+            "id": "E1",
+            "track": null,
+            "source": "predicted",
+            "frames": [
+              150
+            ]
+          }
+        ]
+      },
+      "hosted": {
+        "answer": {
+          "answer_status": "answered",
+          "answer": "The group of blue overhead direction boards is located on the right side of the picture.",
+          "cited_evidence_ids": [
+            "E1"
+          ]
+        },
+        "elapsed_s": 14.261,
+        "evidence": [
+          {
+            "id": "E1",
+            "track": null,
+            "source": "predicted",
+            "frames": [
+              150
+            ]
+          }
+        ],
+        "receipt": {
+          "receipt_sha256": "321e71e8c21330d562871ef0dfbb57603c9bf10c151013d206fb537abc7c5882",
+          "model": "gemini-3.5-flash-lite",
+          "provider": "google Gemini Interactions",
+          "store": false,
+          "attempts": [
+            {
+              "attempt": 1,
+              "request_status": "error",
+              "error_type": "InternalServerError",
+              "http_status": 503,
+              "retry_delay_seconds": 1
+            },
+            {
+              "attempt": 2,
+              "request_status": "completed",
+              "provider_status": "completed"
+            }
+          ],
+          "request_arguments_sha256": "cccb64834c4ceaea73dff85d4ffc801809d2009eea8864dc8b8e8e3b744947e9",
+          "sent_image_sha256": "9e99848c7abf55eda05313f455fb996e70b6cd3900e69571f6ab371f46a4f2a5",
+          "frame": 150,
+          "privacy": {
+            "people_regions_masked": 0,
+            "lower_vehicle_regions_masked": 11,
+            "original_size_wh": [
+              2560,
+              1440
+            ],
+            "processed_size_wh": [
+              1024,
+              576
+            ],
+            "policy": "opaque observed people/riders and lower40percent vehicles; resize after masking",
+            "faces_blurred": 0,
+            "plate_candidates_blurred": 0
+          },
+          "evidence_id": "E1"
+        }
+      }
+    },
+    {
+      "id": "under",
+      "recording": "video_054907",
+      "paused_frame": 71,
+      "words": "Have the cars reached the elevated concrete structure, or are they still entirely out in the open?",
+      "visual_reference": "The road users are at or directly under the spanning structure.",
+      "baseline": {
+        "answer_source": "evidence_only",
+        "elapsed_s": 8.764,
+        "evidence": [
+          {
+            "id": "E1",
+            "track": 19,
+            "source": "predicted",
+            "frames": [
+              1,
+              2
+            ]
+          },
+          {
+            "id": "E2",
+            "track": 21,
+            "source": "predicted",
+            "frames": [
+              1,
+              2
+            ]
+          },
+          {
+            "id": "E3",
+            "track": 25,
+            "source": "predicted",
+            "frames": [
+              1,
+              2
+            ]
+          }
+        ]
+      },
+      "explicit_selected_frame_control": {
+        "baseline": [
+          {
+            "id": "E1",
+            "track": 1539,
+            "source": "predicted",
+            "frames": [
+              71
+            ]
+          },
+          {
+            "id": "E2",
+            "track": null,
+            "source": "predicted",
+            "frames": [
+              71
+            ]
+          },
+          {
+            "id": "E3",
+            "track": 5,
+            "source": "predicted",
+            "frames": [
+              71
+            ]
+          }
+        ],
+        "updated": [
+          {
+            "id": "E1",
+            "track": null,
+            "source": "predicted",
+            "frames": [
+              71
+            ]
+          }
+        ]
+      },
+      "updated": {
+        "answer_source": "evidence_only",
+        "elapsed_s": 3.39,
+        "evidence": [
+          {
+            "id": "E1",
+            "track": null,
+            "source": "predicted",
+            "frames": [
+              71
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "unobservable",
+      "recording": "video_054907",
+      "paused_frame": 71,
+      "words": "What did the architects intend people to feel on this stretch?",
+      "visual_reference": "Intention is unobservable.",
+      "baseline": {
+        "answer_source": "evidence_only",
+        "elapsed_s": 4.58,
+        "evidence": []
+      },
+      "updated": {
+        "answer_source": "evidence_only",
+        "elapsed_s": 4.987,
+        "evidence": []
+      }
+    },
+    {
+      "id": "future",
+      "recording": "video_054604",
+      "paused_frame": 51,
+      "words": "What will the driver see around the next bend?",
+      "visual_reference": "Outside the paused prefix.",
+      "baseline": {
+        "answer_source": "evidence_only",
+        "elapsed_s": 2.094,
+        "evidence": []
+      },
+      "updated": {
+        "answer_source": "evidence_only",
+        "elapsed_s": 2.2,
+        "evidence": []
+      }
+    }
+  ],
+  "comparison": "Before is the canonical released browser API with the lexical fallback; after is a separate ephemeral instance of the same normal PassengerSite/FootageReview HTTP handlers pointed at the same two original EMT recordings, same validated fine-tuned detector predictions and full saved review pipeline. All 12 local requests were repeated. These local scene appearance questions return saved evidence for visual review. The separate Gemini calls below provide cited answers.",
+  "limits": "Single AI visual reference, five positive layout questions, two controls, and two hosted positive calls. No legal, calibrated physical-distance or world-coordinate inference is tested.",
+  "archived_temporal_ranking": {
+    "before": "bcbdbd9:trackrag/retrieval_temporal.py",
+    "tested": 36,
+    "identical_including_interval_scores": 36,
+    "changes": []
+  },
+  "summary": {
+    "timely_local_source_original": "0/5 before and 5/5 after, one exact full scene each; both negative controls have zero retrieved views on both builds.",
+    "hosted_correct": "2/2 first questions with correct source citations. One recorded HTTP 503 recovered on its bounded second attempt. Both sent exactly one privacy-processed image.",
+    "new_sources_sha256": {
+      "retrieval_temporal.py": "523080c5e64b1e7d315ff1554de50b90800f0e196df482c2ad461410d5ddbdc9",
+      "review.py": "fffdf93e49c576502b5b60e6cafc075e8f87a7bdd02ee198762487abe6368342"
+    }
+  },
+  "additional_local_track_examples": {
+    "method": "Two separate ordinary local footage questions on live 8775. Both queries used the trained detector outputs, opened their cited image through the normal application and hashed the returned pixels. These are additional usability examples outside the five scene-layout questions.",
+    "examples": [
+      {
+        "recording": "video_054604",
+        "frame": 126,
+        "question": "Which types of road users are detected in this frame?",
+        "vision": "validated_saved_predictions",
+        "hosted_requested": false,
+        "answer": {
+          "answer_status": "answered",
+          "answer": "In frame 126, the tracker reported bus (1), car (7), large vehicle (3).",
+          "cited_evidence_ids": [
+            "E1"
+          ]
+        },
+        "source_citation_images": {
+          "E1": [
+            {
+              "frame_id": 126,
+              "sha256": "4900f18f1a8da73707e3178432da6fb324553883a95be4eb5a30caf313b25667"
+            }
+          ]
+        }
+      },
+      {
+        "recording": "video_054907",
+        "frame": 150,
+        "question": "How many vehicles are detected in this frame?",
+        "vision": "validated_saved_predictions",
+        "hosted_requested": false,
+        "answer": {
+          "answer_status": "answered",
+          "answer": "The tracker detected 11 vehicles in frame 150.",
+          "cited_evidence_ids": [
+            "E2"
+          ]
+        },
+        "source_citation_images": {
+          "E2": [
+            {
+              "frame_id": 150,
+              "sha256": "7f34a3262c82cfb98e298a8014c3028bbd6807681a563e5a9d15f20e25c89296"
+            }
+          ]
+        }
+      }
+    ]
+  }
+}

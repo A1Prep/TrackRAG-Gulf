@@ -32,9 +32,27 @@ function post(path, body, extra = {}, signal) {
 function endpoint(action) {
   return "/api/sessions/" + session.session + (action ? "/" + action : "");
 }
-async function action(name, body = {}) {
-  session = await post(endpoint(name), body, {"X-Session-Revision":String(session.revision)});
+async function postAction(name, body, signal) {
+  const sid=session.session, revision=session.revision, actionId=crypto.randomUUID();
+  try {
+    return await post(endpoint(name),body,{"X-Session-Revision":String(revision),"X-Action-ID":actionId},signal);
+  } catch(error) {
+    if(signal?.aborted || (error.status && error.status<500)) throw error;
+    // A reply can be lost after the server applied the tap or confirmation. Read the
+    // receipt for that exact action; submitting a second tap could change the choice.
+    for(const delay of [0,350,900]) {
+      if(delay) await new Promise(resolve=>setTimeout(resolve,delay));
+      if(session?.session!==sid || signal?.aborted) throw error;
+      let saved;
+      try {saved=await api("/api/sessions/"+sid,{signal:signal || AbortSignal.timeout(3500)});}
+      catch(_) {continue;}
+      if(saved.last_action_id===actionId && saved.revision>revision) return saved;
+      if(saved.revision>revision) break;
+    }
+    throw error;
+  }
 }
+async function action(name, body = {}) {session=await postAction(name,body);}
 function stopPolling() {
   if (!groundingPoll) return;
   clearTimeout(groundingPoll.timer);
@@ -103,6 +121,8 @@ function suggestion(v, bay) {
   const point = v.result?.destination_point_xy;
   if (!point) return "Choose a location on the photo.";
   const where = positionWords(point, canvas.width, canvas.height);
+  if (bay?.extent === "interior_point_only") return (bay.passenger_tap_xy ? "The blue diamond marks your tap. " : "")
+    + "The gold ring shows the spot in the " + where + " of the photo. Check that it is where you meant.";
   if (bay?.extent === "visible_parking_surface") return (bay.passenger_tap_xy ? tapName(v) + " is the blue diamond. " : "")
     + "The gold ring is inside the visible parking area in the " + where + ". The photo leaves its full edges uncertain.";
   if (bay) return (bay.passenger_tap_xy ? tapName(v) + " is the blue diamond. " : "")
@@ -131,15 +151,19 @@ function response(v, stage, bay, choices) {
   if (editing === "reply") return ["clarify", "Tell me more", v.result?.clarification_question || v.turns?.filter(t=>t.role==="assistant").at(-1)?.text || ""];
   if (editing) return ["idle", editing === "new" ? "Where would you like to get out?" : "Edit your description", ""];
   if (choices.length) {
-    if (v.bay_reference_uncertain) return ["clarify", "Which outlined bay did you mean?",
+    if (v.bay_reference_uncertain) return ["clarify", choices.some(c=>c.extent==="interior_point_only") ? "Is this the spot you meant?" : choices.some(c=>c.extent==="visible_parking_surface") ? "Does a highlighted area match?" : "Which outlined bay did you mean?",
       v.result.clarification_question + " You can also mark another spot."];
+    if (choices.some(c=>c.extent==="interior_point_only")) return ["clarify","Which spot did you mean?",v.result.clarification_question];
+    if (choices.some(c=>c.extent==="visible_parking_surface")) return ["clarify","Which highlighted area do you mean?",
+      "Choose a label to review its pin, or mark a different spot on the photo."];
     if (choices.length === 1) return ["clarify", "Did you mean this side of the line?",
       "Bay A is the visible bay beside your mark. Choose it or mark a different spot."];
     const why = choices.some(choice => choice.passenger_tap_xy) ? "More than one bay is near your mark." : "More than one bay matches your description.";
     return ["clarify", "Which parking bay do you mean?", why + (choices.length === 2 ? " Choose bay A or bay B." : " Choose the labelled bay you mean.")];
   }
-  if (v.state === "proposed") return ["proposed", bay?.extent === "visible_parking_surface" ? "Is this the parking area you meant?" : bay ? "Is this your intended bay?" : "Is this your intended location?", suggestion(v,bay)];
+  if (v.state === "proposed") return ["proposed", bay?.extent === "interior_point_only" ? "Is this the spot you meant?" : bay?.extent === "visible_parking_surface" ? "Is this the parking area you meant?" : bay ? "Is this your intended bay?" : "Is this your intended location?", suggestion(v,bay)];
   if (v.state === "confirmed") {
+    if (bay?.extent === "interior_point_only") return ["confirmed","Location saved","You chose the spot at the gold ring as your intended drop-off."];
     if (bay?.extent === "visible_parking_surface") return ["confirmed", "Location saved", "You chose the gold ring inside the outlined parking area as your intended drop-off."];
     if (bay) return ["confirmed", "Location saved", "You chose the outlined parking bay as your intended drop-off. The gold ring marks its centre."];
     const point = v.result?.destination_point_xy;
@@ -164,13 +188,13 @@ function legend(v, offerMark, bay, choices) {
   else if (pairs.open) label = "Numbers mark selectable vehicles";
   else if (photo.active) label = "Centre dot · your point to check";
   else if (choices.length) {
-    label = choices.map((_,i) => bayName(i)).join(" / ");
+    label = choices.map((choice,i) => bayName(i,choice)).join(" / ");
     if (choices.some(choice => choice.passenger_tap_xy)) label += " · Blue diamond at " + tapName(v).toLowerCase();
   }
   else if (pin) {
     if (bay) {
       node.dataset.kind = "bay";
-      label = bay.extent === "visible_parking_surface" ? "Visible parking area · Gold ring at selected location" : "Gold ring at bay centre";
+      label = bay.extent === "interior_point_only" ? "Gold ring at the selected spot" : bay.extent === "visible_parking_surface" ? "Visible parking area · Gold ring at selected location" : "Gold ring at bay centre";
       if (bay.passenger_tap_xy) label += " · Blue diamond at " + tapName(v).toLowerCase();
     } else label = destinationLabel(v);
     if (v.state === "confirmed") label += " · saved location";
@@ -192,6 +216,9 @@ function render() {
   const [kind, heading, status] = response(v, stage, bay, choices);
   el("destination-panel").dataset.state = kind;
   text(el("destination-title"), heading); text(el("status"), status);
+  const observed=bay?.observed_landmarks || (choices.length===1 ? choices[0].observed_landmarks : null);
+  el("pictured-landmarks").hidden=!observed?.length || Boolean(marking || formOpen);
+  if(observed?.length) text(el("pictured-landmarks"),"Visible landmarks near the highlight include "+observed.join(", ")+".");
   el("stopping-note").hidden = !["proposed","confirmed"].includes(kind);
   const err = failure || session?.speech_error?.message || "";
   text(el("error"), err); el("error").hidden = !err;
@@ -206,6 +233,7 @@ function render() {
   sceneSelect.disabled = busy || micOn || !opened;
   el("prev-scene").disabled = sceneSelect.disabled || sceneSelect.selectedIndex <= 0;
   el("next-scene").disabled = sceneSelect.disabled || sceneSelect.selectedIndex >= sceneSelect.options.length-1;
+  el("next-outlined").disabled=sceneSelect.disabled;
   el("frame-picker").hidden = !current || !catalog.footageRecordings.has(current.recording_id);
   el("open-frame").disabled = sceneSelect.disabled;
   el("photo-unavailable").hidden = photoState !== "failed";
@@ -238,7 +266,7 @@ function render() {
 
   el("confirm").hidden = !(decision && v.state === "proposed" && v.proposal_id);
   el("confirm").disabled = locked || !ready;
-  text(el("confirm"),bay && bay.extent !== "visible_parking_surface" ? "Save this bay" : "Save this location");
+  text(el("confirm"),bay && !bay.extent ? "Save this bay" : "Save this location");
   el("draw").hidden = !(decision && canMark(v));
   el("draw").disabled = locked || !ready;
   el("take-over-area").hidden = !pending;
@@ -263,7 +291,8 @@ function render() {
     buttons.dataset.choices = choiceKey;
     buttons.replaceChildren(...choices.map((choice,index) => {
       const button = document.createElement("button"); button.type = "button"; button.dataset.bayId = choice.id;
-      text(button,bayName(index)); button.setAttribute("aria-label",bayName(index).replace("Bay ","Choose bay "));
+      const name=bayName(index,choice);
+      text(button,name); button.setAttribute("aria-label","Choose "+name[0].toLowerCase()+name.slice(1));
       const [across,down] = choice.center_xy.map((value,i) => Math.round(100*value/(i ? canvas.height : canvas.width)));
       button.setAttribute("aria-description","Centre at " + across + "% across and " + down + "% down the photo.");
       return button;
@@ -312,6 +341,16 @@ function stepScene(amount) {
 }
 el("prev-scene").onclick = () => stepScene(-1);
 el("next-scene").onclick = () => stepScene(1);
+el("next-outlined").onclick=()=>{
+  if(sceneSelect.disabled || !catalog) return;
+  const start=catalog.scenes.findIndex(f=>f.key===sceneSelect.value);
+  for(let i=1;i<=catalog.scenes.length;i++) {
+    const next=catalog.scenes[(start+i)%catalog.scenes.length];
+    if(next.parking_areas_indexed && next.key!==sceneSelect.value) {
+      sceneSelect.value=next.key; perform(chooseScene,"Opening the photo…"); return;
+    }
+  }
+};
 sceneSelect.onchange = () => perform(chooseScene, "Opening the photo…");
 el("open-frame").onclick = () => perform(async () => {
   const f = await openFrame(sceneSelect,el("frame-id"));
@@ -439,11 +478,11 @@ el("discard-edit").onclick = () => {
   } else { input.value=""; editing=false; previousDraft=editTarget=null; render(); focusResult(); }
 };
 async function sendAutomatic(payload) {
-  const controller = new AbortController(), sid = session.session, revision = session.revision;
+  const controller = new AbortController(), sid = session.session;
   submitting = controller; failure=""; render();
   let accepted = false;
   try {
-    const next = await post(endpoint("submit"),{...payload,background:true},{"X-Session-Revision":String(revision)},controller.signal);
+    const next = await postAction("submit",{...payload,background:true},controller.signal);
     if (submitting !== controller || next.session !== sid) return;
     session = next; accepted = true;
   } catch (error) {
@@ -555,7 +594,7 @@ window.addEventListener("pagehide", () => {
 });
 window.addEventListener("pageshow", () => { if (session) render(); });
 perform(async () => {
-  catalog=await api("/api/scenes");
+  catalog=await api("/api/scenes?preview=1");
   const covered = new Set(catalog.footage_scenes);
   catalog.searchableScenes = covered;
   catalog.footageRecordings = new Set(catalog.scenes.filter(f => covered.has(f.key)).map(f => f.recording_id));
@@ -564,5 +603,15 @@ perform(async () => {
   const requested = new URLSearchParams(window.location.search).get("scene");
   if (catalog.scenes.some(f => f.key === requested)) sceneSelect.value = requested;
   await chooseScene();
+  // The original gallery can be used while individual parking outlines are verified.
+  void api("/api/scenes").then(full=>{
+    const byKey=new Map(catalog.scenes.map(f=>[f.key,f]));
+    for(const frame of full.scenes) {
+      const current=byKey.get(frame.key);
+      if(current) {current.parking_areas_indexed=frame.parking_areas_indexed; addFrame(sceneSelect,current);}
+    }
+    el("next-outlined").hidden=!full.scenes.some(f=>f.parking_areas_indexed);
+    render();
+  }).catch(()=>{});
   void refreshMicrophones();
 }, "Opening the photo…");

@@ -376,6 +376,27 @@ def test_missing_requested_frame_cannot_receive_an_answered_result(sample_questi
     model.generate.assert_called_once()
 
 
+def test_absent_tracker_id_returns_no_identity_or_hosted_call(sample_question,sample_evidence,tmp_path):
+    model=Mock()
+    sample_question["question"]="Is track ID 9876 the pedestrian at frame 205?"
+    result=answer_question(sample_question,sample_evidence,tmp_path,model)
+    assert result["answer_status"]=="insufficient_evidence"
+    assert "9876" in result["answer"] and result["cited_evidence_ids"]==[]
+    model.generate.assert_not_called()
+
+
+def test_requested_exact_target_speed_is_unmeasured_but_visible_speed_displays_can_be_read(sample_question,sample_evidence,tmp_path):
+    from trackrag.answering import asks_for_unmeasured_speed
+    model=Mock()
+    sample_question["question"]="Can you tell the exact speed of the other white SUV?"
+    result=answer_question(sample_question,sample_evidence,tmp_path,model)
+    assert result["answer_status"]=="insufficient_evidence" and result["cited_evidence_ids"]==[]
+    model.generate.assert_not_called()
+    for visible in ("What speed limit is written on the sign?", "What speed is displayed on the dashboard?",
+                    "What is the exact speed of the car in pixels per second?"):
+        assert not asks_for_unmeasured_speed(visible)
+
+
 def test_other_identity_cannot_donate_endpoint_but_scene_backed_absence_can():
     question={'question_id':'q','recording_id':'r','query_frame':10,'question':'Is track 7 visible in frame 10?'}
     first={'evidence_id':'E1','interval':{'track_id':7},'images':[{'frame_id':1,'observations':[{'track_id':7}]}]}

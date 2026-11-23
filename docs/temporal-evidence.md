@@ -1,12 +1,22 @@
 # Temporal evidence investigation
 
+## Try the current footage reviewer
+
+Choose **Answer from recorded tracks** to query the saved Task 1 detections in a particular original frame. In recording 054604 at frame 126, “Which types of road users are detected in this frame?” returned one bus, seven cars and three large vehicles. Its citation E1 opens frame 126. In recording 054907 at frame 150, “How many vehicles are detected in this frame?” returned 11 vehicles and cited E2 from frame 150. These counts describe the detector output. [Open recording 054604 at frame 126](http://127.0.0.1:8775/footage?recording=video_054604&frame=126) · [Open recording 054907 at frame 150](http://127.0.0.1:8775/footage?recording=video_054907&frame=150)
+
+Choose **Ask Gemini about the privacy-processed frames** for visual questions. At 054604 frame 126, “Is the sandy shoulder on the same side as the tall pointed tower?” returned yes, both on the right. At 054907 frame 150, “Which side of the picture has the group of blue overhead direction boards?” returned the right-hand side. Each answer cited a single privacy-processed view of the requested original. The two responses took 10.1 and 14.3 seconds on the prepared laptop. The latter included one retry after an HTTP 503. [Questions, answers, source frames and request receipts](../experiments/footage-selected-scene-review-20261124.json)
+
+An independent check compared five present-scene layout questions on these two recordings. Previously, all five either retrieved earlier track images or found no image. All five now retrieve the full paused frame, including scenes where the detector offers no matching track for a landmark. Requests about a future bend and the architect’s intent returned no evidence. The archived 36 development questions retained their interval ranks and scores. The five-question check measures retrieval, with hosted answer content checked on two of the five questions. [Independent footage comparison](../experiments/footage-selected-scene-review-20261124.json)
+
+## Earlier bus-entry investigation
+
 The bus-entry failure involved both evidence selection and an ambiguous premise. The first TF-IDF run ranked opening bus 2 first and gave the later bus only short windows, missing its clearest final view. Bus 2 is already visible at frame 1. Yellow bus 46 is first annotated at frame 70, already inside the image and partly hidden by vegetation. It has later annotation gaps. Those labels do not establish a clean first boundary crossing or a physical road-entry maneuver.
 
 A useful response identifies the later yellow school bus and explains that its exact entry cannot be established. The system must preserve that distinction even when the question presupposes an entry event.
 
 ## Development adapter
 
-Select `tools.temporal_trial_adapters` explicitly. It supplies annotated observations and uses the same configured Gemini model for evidence selection, drafting and a separate grounding review. This is a reference experiment while Tasks 1, 3 and 4 develop their trained components.
+Select `tools.temporal_trial_adapters` explicitly to reproduce the earlier reference experiment. It supplies annotated observations and uses the same configured Gemini model for evidence selection, drafting and a separate grounding review.
 
 1. Arjun's EMT reader loads original frames and labeled observations.
 2. Candidate construction removes observations after the query before computing track histories, gaps, boxes, sizes or windows. It offers full histories, overlapping local windows, and initial/current scene snapshots.
@@ -74,4 +84,4 @@ The final first-pass cohort contains 35 usable model responses and one provider 
 
 All 99 local automated tests passed, including 31 subtests. Windows and Linux CI also passed on the same code. These checks verify adapter boundaries, exact scene evidence, temporal cutoffs, image coordinates, scoring and recovery behavior. They do not certify language-model correctness. The independent grades are AI-assisted and require student verification.
 
-The remaining assessment integration needs genuine detector predictions, the teammates' retrieval/answering adapters, the selected fine-tuned model and independently reviewed held-out questions. These annotated-data experiments do not establish the performance of those future components.
+This original trial used human-annotated observations. The later application evaluation used saved predictions from the team's fine-tuned detector and checked the footage pipeline on both recordings. The release report records each answer, abstention, citation and source check. [Integrated release evaluation](project-release.md)

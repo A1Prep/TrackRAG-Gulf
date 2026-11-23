@@ -5,7 +5,9 @@ import math
 import tempfile
 import time
 from collections.abc import Callable, Iterable, Sequence
+from contextlib import nullcontext
 from copy import deepcopy
+from functools import partial
 from pathlib import Path
 from typing import Any
 
@@ -155,7 +157,17 @@ def _answer(
     if answer_question is None:
         return {"answer_status": "not_requested", "answer": None, "cited_evidence_ids": []}
     if not evidence:
-        return {"answer_status": "insufficient_evidence", "answer": None, "cited_evidence_ids": []}
+        explanation = None
+        record = run_dir / "run.json"
+        if record.is_file():
+            clock = json.loads(record.read_bytes()).get("playback_scope", {}).get(question["question_id"])
+            if clock and clock["status"] == "outside_review_window":
+                explanation = "That time is outside the footage available from the start through the paused frame."
+            elif clock and clock["status"] == "unavailable":
+                explanation = "There is no original frame at that exact time in the available recording."
+            elif clock and clock["status"] == "conflicting_frame_and_time":
+                explanation = "The stated frame and time refer to different moments. Which one should I check?"
+        return {"answer_status": "insufficient_evidence", "answer": explanation, "cited_evidence_ids": []}
     valid_ids = {item["evidence_id"] for item in evidence}
     try:
         answer = answer_question(deepcopy(question), deepcopy(evidence), run_dir)
@@ -192,6 +204,7 @@ def review_recording(
     output_dir: Path,
     answer_question: Callable[[Question, list[Evidence], Path], Answer] | None = None,
     run_metadata: dict | None = None,
+    image_guard=None,
 ) -> Path:
     """Publish one run after all evidence files and JSON records have been written.
 
@@ -221,6 +234,19 @@ def review_recording(
             "question_count": len(questions), "observation_count": len(observations),
             "configuration": run_metadata or {},
         }
+        if "trackrag.retrieval_temporal" in (metadata["configuration"].get("retrieval"),
+                                            metadata["configuration"].get("retrieval_adapter")):
+            from trackrag.playback_time import playback_scope
+            from trackrag.retrieval_temporal import rank_evidence as rank_temporal
+            if rank_evidence is rank_temporal:
+                rank_evidence = partial(rank_evidence, observation_source=source)
+            clocks = {}
+            for q in questions:
+                clock = playback_scope(q["question"], recording, q["query_frame"])
+                if clock:
+                    clocks[q["question_id"]] = clock
+            if clocks:
+                metadata["playback_scope"] = clocks
         (run_dir / "run.json").write_text(json.dumps(metadata, indent=2, allow_nan=False) + "\n", encoding="utf-8")
         with (run_dir / "tracks.jsonl").open("w", encoding="utf-8", newline="\n") as exported:
             for observation in observations:
@@ -228,9 +254,10 @@ def review_recording(
         with (run_dir / "results.jsonl").open("w", encoding="utf-8", newline="\n") as results:
             for question in questions:
                 intervals = deepcopy(list(rank_evidence(deepcopy(question), index, k=3)))
-                evidence = _resolve_evidence(
-                    recording, intervals, question, source, by_track, run_dir,
-                )
+                with image_guard if image_guard is not None else nullcontext():
+                    evidence = _resolve_evidence(
+                        recording, intervals, question, source, by_track, run_dir,
+                    )
                 result: ReviewResult = {
                     "question": dict(question), "source": source, "evidence": evidence,
                     "answer": _answer(question, evidence, run_dir, answer_question),

@@ -1,0 +1,227 @@
+{
+  "schema": 1,
+  "frozen_utc": "2026-11-23T21:13:56.425937+00:00",
+  "study": "Free-text paraphrases and one-detail counterfactuals on four released UAE street scenes",
+  "scope": "The four photos, previous misses and the independent first-cohort reference regions were already known. These twelve utterances are fixed before the 35B release or any run of them. This tests wording conditional on known photographs and does not measure new-scene generalisation. Nothing from the separate seven-scene cohort is used.",
+  "reference_sha256": "c7b59143eeb0fbb1226e5d0989db92fa7d49d474a2e9faff52114027a7c1a277",
+  "source_credit": "Grab and KartaView contributors, CC BY-SA 4.0",
+  "license": "https://creativecommons.org/licenses/by-sa/4.0/",
+  "comparison": "Two meaning-equivalent requests for the original point per scene. C changes only one colour word in A and must not present the original point as a match. A factual clarification asking about the different referent is reported separately from a source-supported direct answer.",
+  "procedure": "Use a fresh normal typed session on canonical 8775 for every utterance in locked mixed order, selected public recording and frame with original hash verified. No manual marking, choice or confirmation. Score point-in-original-reference and distinguish single direct proposal, matching-only options, wrong options, no-pin clarification, operational error and delayed response. Mixed matching and wrong options are never a direct correct proposal. For a contradiction, a pin or selectable unsupported point is a false offer. A completed refusal or clarification with no options is a pass, and an operational timeout is unscored separately. Record time to terminal response at 15 s and observe to 45 s. Derive source/actor and candidate counts from the ordinary journal, and distinguish absence of a geometrically valid proposal from wording/evidence rejection when the records support it.",
+  "run_order": [
+    "H02-A",
+    "H04-B",
+    "H05-C",
+    "H03-A",
+    "H04-C",
+    "H05-B",
+    "H02-C",
+    "H03-B",
+    "H05-A",
+    "H04-A",
+    "H03-C",
+    "H02-B"
+  ],
+  "scenes": [
+    {
+      "case": "H02",
+      "source_url": "https://kartaview.org/details/980209/34/",
+      "recording_id": "kartaview_980209",
+      "frame_id": 34,
+      "sha256": "a8cb3c5926766d950eca0588e6bdd178e72026f07d5710f027d2e695d6628de2",
+      "size": [
+        3840,
+        2160
+      ],
+      "regions": {
+        "A": [
+          [
+            2088.96,
+            1733.38
+          ],
+          [
+            2522.88,
+            1733.38
+          ],
+          [
+            2534.4,
+            1787.19
+          ],
+          [
+            2584.32,
+            1867.9
+          ],
+          [
+            1958.4,
+            1860.21
+          ],
+          [
+            1981.44,
+            1806.41
+          ],
+          [
+            2058.24,
+            1764.13
+          ]
+        ]
+      },
+      "wording": {
+        "A": "Could you pull over outside Prolab, in the opening between the small silver hatchback and the flatbed truck?",
+        "B": "Prolab is my stop. I'll get out between that flatbed truck and the little silver hatch.",
+        "C": "Could you pull over outside Prolab, in the opening between the small yellow hatchback and the flatbed truck?"
+      },
+      "changed_detail": "hatchback colour: silver to yellow"
+    },
+    {
+      "case": "H03",
+      "source_url": "https://kartaview.org/details/7120185/54/",
+      "recording_id": "kartaview_7120185",
+      "frame_id": 54,
+      "sha256": "5a9b732bb1a487c9769eba291ff49bf9c0fff286efe7a849a66b296704c8cffa",
+      "size": [
+        3840,
+        2160
+      ],
+      "regions": {
+        "A": [
+          [
+            1943.04,
+            1402.85
+          ],
+          [
+            2088.96,
+            1333.67
+          ],
+          [
+            2131.2,
+            1322.14
+          ],
+          [
+            2446.08,
+            1341.35
+          ],
+          [
+            2461.44,
+            1495.09
+          ],
+          [
+            2461.44,
+            1514.31
+          ],
+          [
+            2104.32,
+            1468.19
+          ],
+          [
+            1843.2,
+            1437.44
+          ]
+        ]
+      },
+      "wording": {
+        "A": "Please let me out outside Dog Spot, in the gap between the little grey car and the blue SUV.",
+        "B": "See Dog Spot? I'd like to get out between the blue sport utility vehicle and the small grey car there.",
+        "C": "Please let me out outside Dog Spot, in the gap between the little grey car and the orange SUV."
+      },
+      "changed_detail": "SUV colour: blue to orange"
+    },
+    {
+      "case": "H04",
+      "source_url": "https://kartaview.org/details/7165449/33/",
+      "recording_id": "kartaview_7165449",
+      "frame_id": 33,
+      "sha256": "e121d0e57b8fbcba436e01a11989063a027652e2c80fcc5c9b4b89ad4cd673cc",
+      "size": [
+        3840,
+        2160
+      ],
+      "regions": {
+        "A": [
+          [
+            1551.36,
+            1322.14
+          ],
+          [
+            1789.44,
+            1299.07
+          ],
+          [
+            1827.84,
+            1299.07
+          ],
+          [
+            3006.72,
+            1510.46
+          ],
+          [
+            2995.2,
+            1644.98
+          ],
+          [
+            2246.4,
+            1625.77
+          ],
+          [
+            1797.12,
+            1448.97
+          ]
+        ]
+      },
+      "wording": {
+        "A": "On the right, please drop me in the gap between the red car and the dark saloon.",
+        "B": "The dark sedan and the red car to our right have some space between them. That's where I'd like to get out.",
+        "C": "On the right, please drop me in the gap between the blue car and the dark saloon."
+      },
+      "changed_detail": "second car colour: red to blue"
+    },
+    {
+      "case": "H05",
+      "source_url": "https://kartaview.org/details/7199289/14/",
+      "recording_id": "kartaview_7199289",
+      "frame_id": 14,
+      "sha256": "032ea529fb20fd7fff661a90456ed1875b849aac1df4da73bc6466c1124c9545",
+      "size": [
+        3840,
+        2160
+      ],
+      "regions": {
+        "A": [
+          [
+            1447.68,
+            1060.78
+          ],
+          [
+            1528.32,
+            976.23
+          ],
+          [
+            1747.2,
+            957.01
+          ],
+          [
+            1966.08,
+            976.23
+          ],
+          [
+            1992.96,
+            1056.94
+          ],
+          [
+            1881.6,
+            1110.75
+          ],
+          [
+            1681.92,
+            1153.02
+          ]
+        ]
+      },
+      "wording": {
+        "A": "Could you pull into that gravel area beside the blue rubbish bin and let me out there?",
+        "B": "See the blue waste bin? That open patch of gravel beside it is where I'd like to get out.",
+        "C": "Could you pull into that gravel area beside the yellow rubbish bin and let me out there?"
+      },
+      "changed_detail": "bin colour: blue to yellow"
+    }
+  ]
+}

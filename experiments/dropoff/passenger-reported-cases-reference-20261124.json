@@ -1,0 +1,197 @@
+{
+  "frozen_utc": "2026-11-23T21:22:21.162311+00:00",
+  "purpose": "Reproduction on seven previously reported requests across six public driver-view originals. These were historical development photos with prior model exposure. A separate AI reviewer inspected the original and native-resolution details and froze the rubric and coordinates before this current paired HTTP replay. They are not a new holdout or human review.",
+  "criteria": "For point cases, single proposed destination centre on the stipulated open area, separate passenger confirmation, no vehicle or travel-lane pin. For restaurant, either qualifying pin or genuine independent choices with at least one qualifying centre and no outside/occupied choices. For clarify, no auto pin or incorrect candidate; a relevant actionable question counts, system errors/timeouts do not. Save direct vs choices vs abstention separately. The criteria address pictured intent only.",
+  "credit": "Grab and KartaView contributors, CC BY-SA 4.0",
+  "license": "https://creativecommons.org/licenses/by-sa/4.0/",
+  "cases": [
+    {
+      "case": "white-rear",
+      "source": "https://kartaview.org/details/3329429/213/",
+      "recording_id": "kartaview_3329429",
+      "frame_id": 213,
+      "original_size": [
+        3264,
+        1836
+      ],
+      "source_sha256": "5b635a7c2e4f7eebd4ae50b91b725fd9054bf7b41bda28248e36e5bfa0de7e5b",
+      "words": "Could you drop me off behind the white car?",
+      "expectation": "point",
+      "native_acceptable_interiors": [
+        [
+          [
+            1977.05,
+            1307.88
+          ],
+          [
+            2172.89,
+            1298.56
+          ],
+          [
+            2797.71,
+            1397.97
+          ],
+          [
+            2235.06,
+            1438.36
+          ]
+        ]
+      ],
+      "independent_visual_reading": "The right white sedan faces away. There is open marked off-lane pavement just behind its rear bumper between the kerb and the outside lane marking. The white vehicles ahead or across the street are weaker references."
+    },
+    {
+      "case": "gate-truck",
+      "source": "https://kartaview.org/details/986839/1/",
+      "recording_id": "kartaview_986839",
+      "frame_id": 1,
+      "original_size": [
+        3840,
+        2160
+      ],
+      "source_sha256": "528de6137375fa351d4d85d5f25d3eca7b0034c2542983e75c32ad6b1013d2ac",
+      "words": "can u drop me behind the truck",
+      "expectation": "clarify",
+      "native_acceptable_interiors": [],
+      "independent_visual_reading": "The blue delivery lorry is standing in the gated access lane. A lowered barrier and checkpoint equipment sit at its rear. No separate open stopping space there is visible."
+    },
+    {
+      "case": "side-pickup",
+      "source": "https://kartaview.org/details/5124809/287/",
+      "recording_id": "kartaview_5124809",
+      "frame_id": 287,
+      "original_size": [
+        3264,
+        1836
+      ],
+      "source_sha256": "37249c17aea5689c7f6d059e5fb99ed405a9d95a414f444571d44906033b6626",
+      "words": "Could you drop me next to that black pickup truck?",
+      "expectation": "clarify",
+      "native_acceptable_interiors": [],
+      "independent_visual_reading": "The black pickup is at the far end of a perpendicular row. A raised planted kerb separates that row from the camera lane; the visible side is occupied or hidden. An adjacent free and accessible area cannot be identified."
+    },
+    {
+      "case": "black-rear",
+      "source": "https://kartaview.org/details/4572137/14/",
+      "recording_id": "kartaview_4572137",
+      "frame_id": 14,
+      "original_size": [
+        3264,
+        1836
+      ],
+      "source_sha256": "98dbfd42cf22eab79bff24cbf227cdefb7663b12c0d7d1014569642f067adfbd",
+      "words": "Could you drop me behind the black car?",
+      "expectation": "clarify",
+      "native_acceptable_interiors": [],
+      "independent_visual_reading": "The black SUV on the right is broadside, nose toward the right. The narrow paved wedge behind the tail tapers into the intersection; a passenger-area patch of adequate visible extent cannot be delineated. There is also a much farther black car in the travel lane."
+    },
+    {
+      "case": "left-trees",
+      "source": "https://kartaview.org/details/4572137/14/",
+      "recording_id": "kartaview_4572137",
+      "frame_id": 14,
+      "original_size": [
+        3264,
+        1836
+      ],
+      "source_sha256": "98dbfd42cf22eab79bff24cbf227cdefb7663b12c0d7d1014569642f067adfbd",
+      "words": "Could you drop me next to the trees on the left?",
+      "expectation": "clarify",
+      "native_acceptable_interiors": [],
+      "independent_visual_reading": "The trees are visible, immediately behind a raised continuous sidewalk. Between the carriageway and that sidewalk there is no credible recessed parking or drop-off footprint; marking the traffic lane would be a false location."
+    },
+    {
+      "case": "restaurant",
+      "source": "https://kartaview.org/details/7199241/48/",
+      "recording_id": "kartaview_7199241",
+      "frame_id": 48,
+      "original_size": [
+        3840,
+        2160
+      ],
+      "source_sha256": "ed69e5e794d9618bd153a0ea0266dd0a9203b1526c279ec01a0c9c64b2b0124b",
+      "words": "Could you drop me next to the restaurant?",
+      "expectation": "either_bay_or_two_choices",
+      "native_acceptable_interiors": [
+        [
+          [
+            1459.2,
+            1414.42
+          ],
+          [
+            2077.26,
+            1344.97
+          ],
+          [
+            2384.46,
+            1388.83
+          ],
+          [
+            1689.6,
+            1531.37
+          ]
+        ],
+        [
+          [
+            1711.54,
+            1535.03
+          ],
+          [
+            2399.09,
+            1396.14
+          ],
+          [
+            2512.46,
+            1410.76
+          ],
+          [
+            2512.46,
+            1611.78
+          ],
+          [
+            2293.03,
+            1714.11
+          ],
+          [
+            1828.57,
+            1703.15
+          ]
+        ]
+      ],
+      "independent_visual_reading": "Piquant Pick is the readable business on the right. Two visibly separated empty painted stalls lie between the beige sedan and red sedan in front of it. Either stall or choices allowing the passenger to pick either are useful."
+    },
+    {
+      "case": "right-bay",
+      "source": "https://kartaview.org/details/66245/146/",
+      "recording_id": "kartaview_66245",
+      "frame_id": 146,
+      "original_size": [
+        2688,
+        1520
+      ],
+      "source_sha256": "534ff1819947cffe773874bc601925b76ad97e8a17048ec75ff76ba916b7a9e3",
+      "words": "Can you drop me next to the parking spot on the right?",
+      "expectation": "point",
+      "native_acceptable_interiors": [
+        [
+          [
+            1628.16,
+            1228.28
+          ],
+          [
+            1932.8,
+            1225.72
+          ],
+          [
+            2583.04,
+            1389.49
+          ],
+          [
+            1925.12,
+            1404.85
+          ]
+        ]
+      ],
+      "independent_visual_reading": "There is a delineated parallel bay in the near-right foreground alongside the construction wall, behind the grey parked sedan and ahead of the bonnet. Keep the point within the lateral paint/kerb interval and off the through lane."
+    }
+  ]
+}

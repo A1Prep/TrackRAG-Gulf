@@ -1,0 +1,127 @@
+{
+  "generated_utc": "2026-11-23T21:19:00.848035+00:00",
+  "scope": "One previously missed, now-opened development photo. This is source geometry tested against an earlier independently selected visual region, not a new prospective end-to-end success. The model is not asked to identify the bin in this geometric test. The learned verifier must separately check the actual edited words and current image before a passenger is offered this point.",
+  "source": "https://kartaview.org/details/7199289/14/",
+  "original_sha256": "032ea529fb20fd7fff661a90456ed1875b849aac1df4da73bc6466c1124c9545",
+  "original_size": [
+    3840,
+    2160
+  ],
+  "source_credit": "Grab and KartaView contributors",
+  "license": "CC BY-SA 4.0",
+  "module_sha256": "d29122d64acd0ca649301e244de78ae7ebbb7075a01d43d5a36a0e79bc72695b",
+  "opened_reference_sha256": "c7b59143eeb0fbb1226e5d0989db92fa7d49d474a2e9faff52114027a7c1a277",
+  "approved_reference_region": [
+    [
+      1447.68,
+      1060.78
+    ],
+    [
+      1528.32,
+      976.23
+    ],
+    [
+      1747.2,
+      957.01
+    ],
+    [
+      1966.08,
+      976.23
+    ],
+    [
+      1992.96,
+      1056.94
+    ],
+    [
+      1881.6,
+      1110.75
+    ],
+    [
+      1681.92,
+      1153.02
+    ]
+  ],
+  "region_kind": "visible_gap",
+  "detector_result": {
+    "point": [
+      1780.833,
+      1043.215
+    ],
+    "box": [
+      1750.967,
+      1013.334,
+      1810.7,
+      1073.097
+    ],
+    "support_patch": [
+      [
+        1750.967,
+        1013.334
+      ],
+      [
+        1810.7,
+        1013.334
+      ],
+      [
+        1810.7,
+        1073.097
+      ],
+      [
+        1750.967,
+        1073.097
+      ]
+    ],
+    "evidence": {
+      "recipe": "observed_unpaved_frontage_parking_row_v1",
+      "extent": "interior_point_only",
+      "flanking_track_ids": [
+        4,
+        3
+      ],
+      "additional_row_track_id": 7,
+      "terrain_class": 26,
+      "observed_road_sections": 27,
+      "observed_frontage_sections": 47,
+      "observed_row_sections": 47,
+      "visible_nonvegetated_texture": true,
+      "terrain_to_road_color_distance": 35.61,
+      "road_contacts": [
+        [
+          1584.567,
+          1286.536
+        ],
+        [
+          1618.7,
+          1303.611
+        ],
+        [
+          1652.833,
+          1316.417
+        ],
+        [
+          1695.5,
+          1333.492
+        ],
+        [
+          1729.633,
+          1342.03
+        ],
+        [
+          1763.767,
+          1350.567
+        ],
+        [
+          1806.433,
+          1376.18
+        ]
+      ],
+      "distance_to_nonterrain_or_detections_cells": 26.0
+    },
+    "inside_opened_reference": [
+      "A"
+    ]
+  },
+  "source_geometry_seconds": 0.0614,
+  "validation": "Synthetic regression cases include a connected gravel road opening, a gravel-coloured desert highway with no built frontage, grass, homogeneous smooth soil, same-colour highway pavement, isolation by median, paint, kerb or occluded lane, duplicated detections, and occupied parking or entrance. An independent reviewer found a false large-window tyre contact across a kerb. An immediate tyre-edge contact test corrected that example while keeping the genuine source result.",
+  "interpretation": "The small support patch marks visibly open ground. True physical clearance, ground stability and permission to stop remain unestablished by a still image."
+}

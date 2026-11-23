@@ -50,6 +50,15 @@ def unavailable_observation_source(question_text, evidence):
     return None
 
 
+def asks_for_unmeasured_speed(text):
+    """The evidence contains image positions, without calibrated target-vehicle speeds."""
+    if re.search(r'\b(?:pixels?|image[ -]plane|screen|speedometer|dashboard|overlay|telemetry|radar|'
+                 r'limit|sign|printed|displayed|written|readout|reads?)\b', text, re.I):
+        return False
+    target = r'(?:cars?|trucks?|lorr(?:y|ies)|pickups?|vans?|buses|bus|suvs?|sedans?|motorcyclists?|cyclists?|pedestrians?)'
+    return bool(re.search(rf"\b(?:exact|precise|actual)\s+(?:physical\s+)?speed\s+of\s+(?:[\w'-]+\s+){{0,4}}{target}\b",text,re.I))
+
+
 def spatial_reference_question(question, evidence):
     """Ask which unqualified vehicle the reviewer means when retrieval found distinct current matches."""
     from trackrag.retrieval_temporal import current_spatial_relation, matches_vehicle_class
@@ -90,6 +99,27 @@ def spatial_reference_question(question, evidence):
     return None
 
 
+def _describes_observed_absence(text, track, frame, requested_tracks, required_frames, clock):
+    """A cited full scene can support absence; it cannot supply a missing positive track identity."""
+    from .playback_time import requested_playback_times
+    frame_at = {m['requested_seconds']:m['frame_id'] for m in clock.get('moments', [])}
+    for clause in re.split(r'(?<=[.!?])\s+|\b(?:but|whereas|while)\b|;', text, flags=re.I):
+        if not re.search(r"\b(?:absent|not (?:seen|visible|present|observed|detected|tracked|in (?:the )?frame)|"
+                         r"no (?:matching )?(?:observation|detection)|out of (?:view|frame))\b", clause, re.I):
+            continue
+        named = set(referenced_track_ids(clause))
+        if (named and track not in named) or (not named and len(requested_tracks)>1):
+            continue
+        anchors = set(requested_frame_ids(clause))
+        for relative, seconds in requested_playback_times(clause):
+            instant = clock.get('paused_seconds',0) + seconds if relative else seconds
+            if round(instant,6) in frame_at:
+                anchors.add(frame_at[round(instant,6)])
+        if frame in anchors or (not anchors and len(required_frames)==1):
+            return True
+    return False
+
+
 def validate_answer(result, evidence, question=None) -> Answer:
     """Keep a supported abstention distinct from provider/validation failure."""
     if not isinstance(result, dict) or set(result) != set(ANSWER_SCHEMA['required']):
@@ -121,6 +151,8 @@ def validate_answer(result, evidence, question=None) -> Answer:
                 return make_answer('insufficient_evidence', unsupported)
         available={image['frame_id'] for item in evidence if item['evidence_id'] in citations for image in item['images']}
         required=set(requested_frame_ids(question['question']))|set(requested_frame_ids(text))
+        clock = (context or {}).get('playback_scope', {})
+        required.update(moment['frame_id'] for moment in clock.get('moments', []))
         if not required.issubset(available):
             raise ValueError('Answered frame claims require their exact cited image frames')
         per_track={}
@@ -138,6 +170,9 @@ def validate_answer(result, evidence, question=None) -> Answer:
             raise ValueError('Assigned track IDs require cited source-labeled observations')
         if stated and any(not required.issubset(per_track[track]|scene_frames) for track in stated):
             raise ValueError('Requested temporal endpoints must support the same stated track')
+        if clock and any(not _describes_observed_absence(text, track, frame, stated, required, clock)
+                         for track in stated for frame in required - per_track[track]):
+            return make_answer('insufficient_evidence', 'The cited observations do not establish that track identity at the requested playback time.')
         if (not stated and len(required)>1 and not required.issubset(scene_frames)
                 and not any(required.issubset(frames|scene_frames) for frames in per_track.values())):
             raise ValueError('Unrelated identities cannot donate temporal comparison endpoints')
@@ -153,18 +188,28 @@ def _temporal_context(run_path, question):
     if 'trackrag.retrieval_temporal' not in (configuration.get('retrieval'), configuration.get('retrieval_adapter')):
         return None
     from .retrieval_temporal import question_scope
+    from .playback_time import requested_playback_times
     scope = question_scope(question['question'])
-    if scope is None:
+    clock = metadata.get('playback_scope', {}).get(question.get('question_id'))
+    timed = bool(clock or requested_playback_times(question['question']))
+    if scope is None and not timed:
         return None
+    if scope is None:
+        scope = question_scope(question['question'], current_if_untimed=True)
+        scope['latest'] = False
     first = metadata['first_frame_id']
     required = set(scope['exact'])
+    moments = clock.get('moments', []) if clock else []
+    required.update(m['frame_id'] for m in moments)
     if scope['opening'] and not scope['boundary']:
         required.add(first)
-    if (scope['latest'] or (scope['scene'] and not scope['opening'])) and not scope['exact'] and not scope['boundary']:
+    if (scope['latest'] or (scope['scene'] and not scope['opening'] and not timed)) and not scope['exact'] and not scope['boundary']:
         required.add(question['query_frame'])
     context = {'recording_opening_frame': first, 'latest_allowed_frame': question['query_frame'],
             'required_cited_frames': sorted(required), 'boundary': scope['boundary'], 'tracked_extents': {},
             'edge_directions': sorted(set(re.findall(r'\b(?:left|right|top|bottom)\b', question['question'].casefold())))}
+    if timed:
+        context['playback_scope'] = clock or {'status': 'unavailable', 'moments': []}
     if (scope['boundary'] and configuration.get('boundary_answer') == 'visual-candidate-v1'
             and re.search(r'\b(?:which|what (?:object|vehicle|car|person|type)|who)\b', question['question'], re.I)):
         context['identification_only'] = True
@@ -190,8 +235,14 @@ def _bracketed_track(item, span, context, scene_frames):
 
 
 def _temporal_support(text, citations, evidence, context):
+    from .playback_time import inconsistent_frame_time
     cited = [e for e in evidence if e['evidence_id'] in citations]
     frames = {im['frame_id'] for e in cited for im in e['images']}
+    playback = context.get('playback_scope', {})
+    if playback.get('status', 'available') != 'available':
+        return 'The requested playback time cannot be verified from the available recording.'
+    if inconsistent_frame_time(text, playback):
+        return 'The stated frame does not match the requested time on the recording clock.'
     if not set(context['required_cited_frames']) <= frames:
         return 'The citations do not show the requested part of the recording.'
     if context['boundary'] is None:
@@ -334,11 +385,25 @@ def answer_question(question: Question, evidence: list[Evidence], run_dir: str |
                    'query_frame': question['query_frame'], 'role': 'task3 grounded answer',
                    'request_status': 'not_requested', 'cached': False, 'sent': []}
         unavailable = unavailable_observation_source(question['question'], evidence)
+        if not unavailable and asks_for_unmeasured_speed(question['question']):
+            receipt['reason'] = 'external_speed_not_measured'
+            receipt['public_question'] = dict(question)
+            return make_answer('insufficient_evidence', 'The footage and tracker give image positions. They do not measure that road user’s exact physical speed.')
         if unavailable:
             receipt['reason'] = 'requested_observation_source_unavailable'
             receipt['public_question'] = dict(question)
             return make_answer('insufficient_evidence', unavailable)
         prepared = prepare_evidence(evidence, run_path, question)
+        requested_tracks = set(referenced_track_ids(question['question']))
+        if requested_tracks:
+            visible = {row['track_id'] for item in prepared for image in item['images']
+                       for row in image.get('observations', ())}
+            missing = sorted(requested_tracks - visible)
+            if missing:
+                receipt['reason'] = 'requested_track_missing_from_evidence'
+                receipt['public_question'] = dict(question)
+                ids = ', '.join(map(str, missing))
+                return make_answer('insufficient_evidence', f'The retrieved observations contain no matching track ID for {ids}.')
         clarification = spatial_reference_question(question, prepared)
         if clarification:
             receipt['reason'] = 'ambiguous_current_vehicle'

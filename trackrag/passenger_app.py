@@ -64,15 +64,19 @@ def load_scenes(banks):
                     image_path = Path(bank).resolve().parent / image_path
                 frame["image_path"] = str(image_path.resolve())
                 key = (frame["recording_id"], frame["frame_id"])
-                if key in seen:
-                    if seen[key] != scene:
-                        raise ValueError(f"Conflicting scene inputs supplied for {key}.")
+                if key in seen and seen[key] == scene:
                     continue
                 path, digest = _inspect_image(frame)
                 if scene.get("provenance", {}).get("image_sha256") != digest:
                     raise ValueError(f"Prepared image hash is missing or does not match {key}.")
                 # Keep a stable, resolved path for the model and later image requests.
                 frame["image_path"] = str(path)
+                if key in seen:
+                    # Two installations may hold the same verified photo at different paths.
+                    frame["image_path"] = seen[key]["frame"]["image_path"]
+                    if seen[key] != scene:
+                        raise ValueError(f"Conflicting scene inputs supplied for {key}.")
+                    continue
                 catalog[scene_key(*key)] = scene
                 seen[key] = scene
     if not catalog:

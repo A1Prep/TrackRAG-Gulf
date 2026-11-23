@@ -3,68 +3,100 @@
   "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
   "photos": [
     {
+      "id": "fresh-uae-01",
       "sha256": "6c09f8965a7203ca86f42d18d4b7fc43fa38c700d827a3b92bf90189b394d273",
-      "photo_url": "https://kartaview.org/details/7168777/1211/"
+      "photo_url": "https://kartaview.org/details/7168777/1211/",
+      "image_url": "https://cdn.kartaview.org/pr:sharp/aHR0cHM6Ly9zdG9yYWdlMTMub3BlbnN0cmVldGNhbS5vcmcvZmlsZXMvcGhvdG8vMjAyMy81LzEvcHJvYy83MTY4Nzc3XzhhNzM3ZjZiM2ZmMmFjMDU4YTM1ODU5MjI2YzNkODM4LmpwZw"
     },
     {
+      "id": "fresh-uae-02",
       "sha256": "02743df87088fa38698cf3093947cbb3085c14755dd49fa16cadc8fb24b2e080",
-      "photo_url": "https://kartaview.org/details/7173145/1173/"
+      "photo_url": "https://kartaview.org/details/7173145/1173/",
+      "image_url": "https://cdn.kartaview.org/pr:sharp/aHR0cHM6Ly9zdG9yYWdlMTMub3BlbnN0cmVldGNhbS5vcmcvZmlsZXMvcGhvdG8vMjAyMy81LzIvcHJvYy83MTczMTQ1X2YyNTE4NGIwNjBmMzFhZDYzMmJlOGMxMGEwNmJlZGY3LmpwZw"
     },
     {
+      "id": "fresh-uae-03",
       "sha256": "cd4e27b8077b24d36169170a847c9f5d382e9c315ad5bb670cb51ecf6ed40082",
-      "photo_url": "https://kartaview.org/details/3333849/525/"
+      "photo_url": "https://kartaview.org/details/3333849/525/",
+      "image_url": "https://cdn.kartaview.org/pr:sharp/aHR0cHM6Ly9zdG9yYWdlMTMub3BlbnN0cmVldGNhbS5vcmcvZmlsZXMvcGhvdG8vMjAyMC8xMi8yMy9wcm9jLzMzMzM4NDlfZjJmZWNhZjdkYmZjZTNmY2U2NmIyMDYxZDQwNWI2OWIuanBn"
     },
     {
+      "id": "fresh-uae-04",
       "sha256": "df3c7569cf08071fe7492af65e599d7132364496766bb9e1e4fa4c3966dccc04",
-      "photo_url": "https://kartaview.org/details/7168793/16/"
+      "photo_url": "https://kartaview.org/details/7168793/16/",
+      "image_url": "https://cdn.kartaview.org/pr:sharp/aHR0cHM6Ly9zdG9yYWdlMTMub3BlbnN0cmVldGNhbS5vcmcvZmlsZXMvcGhvdG8vMjAyMy81LzEvcHJvYy83MTY4NzkzXzM4NjA4YWJiNTJiZDBlYjEwYjQ2ZjE0MzAzMGE5YWRjLmpwZw"
     },
     {
+      "id": "fresh-uae-05",
       "sha256": "e6a01b783361da5c8f854ef90c6fb4d9bc6b58f46284af27e51f41e9c4230e43",
-      "photo_url": "https://kartaview.org/details/5105913/1982/"
+      "photo_url": "https://kartaview.org/details/5105913/1982/",
+      "image_url": "https://cdn.kartaview.org/pr:sharp/aHR0cHM6Ly9zdG9yYWdlMTMub3BlbnN0cmVldGNhbS5vcmcvZmlsZXMvcGhvdG8vMjAyMi80LzI0L3Byb2MvNTEwNTkxM184NzY1YzM3ZTQzNWMwZmJkZDY3MmJkMWI4Nzg0MWY2Mi5qcGc"
     },
     {
+      "id": "fresh-uae-06",
       "sha256": "f573cd9c81bd5cad617c7f9e979ba736140925426632e84cce0569a3e877ceee",
-      "photo_url": "https://kartaview.org/details/5662233/314/"
+      "photo_url": "https://kartaview.org/details/5662233/314/",
+      "image_url": "https://cdn.kartaview.org/pr:sharp/aHR0cHM6Ly9zdG9yYWdlMTMub3BlbnN0cmVldGNhbS5vcmcvZmlsZXMvcGhvdG8vMjAyMi83LzIwL3Byb2MvNTY2MjIzM18xMDlmOGI2ZWIxMTU3MWE3MTE1YmUyM2M0NTRhZGM2My5qcGc"
     },
     {
+      "id": "fresh-uae-07",
       "sha256": "53d8ce7e491f3c4fe6e96983eff8c1f15c0f4b26eff6e1dc1f6d860882bf9a0c",
-      "photo_url": "https://kartaview.org/details/7199273/176/"
+      "photo_url": "https://kartaview.org/details/7199273/176/",
+      "image_url": "https://cdn.kartaview.org/pr:sharp/aHR0cHM6Ly9zdG9yYWdlMTMub3BlbnN0cmVldGNhbS5vcmcvZmlsZXMvcGhvdG8vMjAyMy81LzcvcHJvYy83MTk5MjczX2ZmOGQzNTQzZmIzYzhjYzMyNzQyNGI5ZTQwOTQ4YWQ2LmpwZw"
     },
     {
+      "id": "fresh-uae-08",
       "sha256": "1fb0ced74b073b01aa01707e27e120266a4e53629afea0adabfe44adfd0e842a",
-      "photo_url": "https://kartaview.org/details/6693449/1144/"
+      "photo_url": "https://kartaview.org/details/6693449/1144/",
+      "image_url": "https://cdn.kartaview.org/pr:sharp/aHR0cHM6Ly9zdG9yYWdlMTMub3BlbnN0cmVldGNhbS5vcmcvZmlsZXMvcGhvdG8vMjAyMy8xLzMwL3Byb2MvNjY5MzQ0OV8xYjMzOWNlN2Q0YmRkY2M2NDFhMDBlYjQxMWViZTEzMi5qcGc"
     },
     {
+      "id": "uae-fresh-01",
       "sha256": "cd54579e2c76ee57708918e3d91c1b1304e6c034977eefa23e815d65977052f9",
-      "photo_url": "https://kartaview.org/details/4574809/203/"
+      "photo_url": "https://kartaview.org/details/4574809/203/",
+      "image_url": "https://cdn.kartaview.org/pr:sharp/aHR0cHM6Ly9zdG9yYWdlMTMub3BlbnN0cmVldGNhbS5vcmcvZmlsZXMvcGhvdG8vMjAyMi8yLzI0L3Byb2MvNDU3NDgwOV9hNGM5NDVmYmI5OGVmYzk1YmY4M2FlYzRjY2RmMDUxZC5qcGc"
     },
     {
+      "id": "uae-fresh-02",
       "sha256": "b5f7f2a659e8f7815ff0d2ed09969a0908f68d56d2ca942a756b8926357f33a8",
-      "photo_url": "https://kartaview.org/details/8081545/14/"
+      "photo_url": "https://kartaview.org/details/8081545/14/",
+      "image_url": "https://cdn.kartaview.org/pr:sharp/aHR0cHM6Ly9zdG9yYWdlMTMub3BlbnN0cmVldGNhbS5vcmcvZmlsZXMvcGhvdG8vMjAyMy8xMC8yNy9wcm9jLzgwODE1NDVfMDA5YWE0ZjNmZDhiZmU2Y2YxMzQ0OTkyZDQ5MjA4ZGEuanBn"
     },
     {
+      "id": "uae-fresh-03",
       "sha256": "a2b23025bda4791dd7a53822937eeb69f2b9655011b6b8be537d9cde4f8158c0",
-      "photo_url": "https://kartaview.org/details/5139769/64/"
+      "photo_url": "https://kartaview.org/details/5139769/64/",
+      "image_url": "https://cdn.kartaview.org/pr:sharp/aHR0cHM6Ly9zdG9yYWdlMTMub3BlbnN0cmVldGNhbS5vcmcvZmlsZXMvcGhvdG8vMjAyMi80LzI4L3Byb2MvNTEzOTc2OV8wMGFhNDIwNWNmNzVkZWI0NmM5ZGQ4YzJkM2YyM2U3ZS5qcGc"
     },
     {
+      "id": "uae-fresh-04",
       "sha256": "82822b8b140ca1aa39af2772815a3438d5f9ae65b8125c4558027e67877b5ec7",
-      "photo_url": "https://kartaview.org/details/5092153/703/"
+      "photo_url": "https://kartaview.org/details/5092153/703/",
+      "image_url": "https://cdn.kartaview.org/pr:sharp/aHR0cHM6Ly9zdG9yYWdlMTMub3BlbnN0cmVldGNhbS5vcmcvZmlsZXMvcGhvdG8vMjAyMi80LzIyL3Byb2MvNTA5MjE1M19jZDI0ODQ3ODJhYWVlM2E2OTZlZGZjMTQxOTg4ZGQyYi5qcGc"
     },
     {
+      "id": "uae-fresh-05",
       "sha256": "534ff1819947cffe773874bc601925b76ad97e8a17048ec75ff76ba916b7a9e3",
-      "photo_url": "https://kartaview.org/details/66245/146/"
+      "photo_url": "https://kartaview.org/details/66245/146/",
+      "image_url": "https://cdn.kartaview.org/pr:sharp/aHR0cHM6Ly9zdG9yYWdlMy5vcGVuc3RyZWV0Y2FtLm9yZy9maWxlcy9waG90by8yMDE3LzQvMS9wcm9jLzY2MjQ1XzExMGMwXzU4ZGVkOTc5MGE5ZTMuanBn"
     },
     {
+      "id": "uae-fresh-06",
       "sha256": "57fe9aef1fc88a095ea2b011467ad575499e44feedbbd8a5e5ca309c2e5c3128",
-      "photo_url": "https://kartaview.org/details/7343369/95/"
+      "photo_url": "https://kartaview.org/details/7343369/95/",
+      "image_url": "https://cdn.kartaview.org/pr:sharp/aHR0cHM6Ly9zdG9yYWdlMTMub3BlbnN0cmVldGNhbS5vcmcvZmlsZXMvcGhvdG8vMjAyMy82LzMvcHJvYy83MzQzMzY5X2QzNTQxYzczYzY2NzM5MTcxYzQ5NzIyZjIzMmZmYTBmLmpwZw"
     },
     {
+      "id": "uae-fresh-07",
       "sha256": "766f78cb42fe0d16ac0f682aa9c21227b6417a7b2b9a42e917e88721d5aaf4ef",
-      "photo_url": "https://kartaview.org/details/66245/185/"
+      "photo_url": "https://kartaview.org/details/66245/185/",
+      "image_url": "https://cdn.kartaview.org/pr:sharp/aHR0cHM6Ly9zdG9yYWdlMy5vcGVuc3RyZWV0Y2FtLm9yZy9maWxlcy9waG90by8yMDE3LzQvMS9wcm9jLzY2MjQ1XzkyYjk1XzU4ZGVkYTM5ZDk1YjIuanBn"
     },
     {
+      "id": "uae-fresh-08",
       "sha256": "37249c17aea5689c7f6d059e5fb99ed405a9d95a414f444571d44906033b6626",
-      "photo_url": "https://kartaview.org/details/5124809/287/"
+      "photo_url": "https://kartaview.org/details/5124809/287/",
+      "image_url": "https://cdn.kartaview.org/pr:sharp/aHR0cHM6Ly9zdG9yYWdlMTMub3BlbnN0cmVldGNhbS5vcmcvZmlsZXMvcGhvdG8vMjAyMi80LzI2L3Byb2MvNTEyNDgwOV85NWJkNGE1ZDU0MDdmNjA0MTg0NTBhOGQ3YTdhZTlkYS5qcGc"
     }
   ]
 }

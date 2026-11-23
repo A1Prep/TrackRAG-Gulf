@@ -6,12 +6,58 @@ import os
 import re
 from hashlib import sha256
 from pathlib import Path
+from time import sleep
 
 from trackrag.answering import ANSWER_SCHEMA
+from trackrag.evidence_motion import asks_horizontal_motion, horizontal_motion
 
 
 def _reject_constant(value):
     raise ValueError('Nonfinite JSON constants are not supported: '+value)
+
+
+def _http_status(error):
+    response = getattr(error, 'response', None)
+    for value in (getattr(response, 'status_code', None), getattr(error, 'status_code', None), getattr(error, 'code', None)):
+        if type(value) is int:
+            return value
+    return None
+
+
+def _interaction_service_unavailable(error):
+    if getattr(getattr(error, 'response', None), 'status_code', None) != 503:
+        return False
+    # Interactions uses a distinct status-exception family in the pinned SDK.
+    # A local error or a status number embedded in a message cannot trigger a second send.
+    try:
+        from google.genai._interactions import InternalServerError
+    except ImportError:
+        return False
+    return isinstance(error, InternalServerError)
+
+
+def evidence_inventory(question, evidence):
+    """Describe only the processed images and source observations supplied to this call."""
+    inventory = []
+    compare_positions = asks_horizontal_motion(question['question'])
+    for item in evidence:
+        track = item['interval'].get('track_id')
+        images = []
+        for image in item['images']:
+            view = {key: image[key] for key in ('frame_id', 'bbox_xyxy', 'observations', 'privacy')}
+            size = image['privacy'].get('original_size_wh')
+            if track is not None and image['bbox_xyxy'] is not None and size:
+                width, height = size
+                view['selected_box_fraction_xyxy'] = [round(value / scale, 5)
+                    for value, scale in zip(image['bbox_xyxy'], (width, height, width, height))]
+            images.append(view)
+        entry = {'evidence_id': item['evidence_id'], 'interval': item['interval'], 'images': images}
+        if compare_positions and track is not None:
+            motion = horizontal_motion([item], track)
+            if motion:
+                entry['observed_horizontal_motion'] = motion
+        inventory.append(entry)
+    return inventory
 
 
 class GeminiAnswerModel:
@@ -28,26 +74,55 @@ class GeminiAnswerModel:
             api_key = os.environ.get('GEMINI_API_KEY')
             if not api_key:
                 raise ValueError('GEMINI_API_KEY is missing from the environment')
-            # A bounded transport timeout; no unbounded SDK retry cycle.
-            client = genai.Client(api_key=api_key,http_options={'timeout':90000,
-                'retry_options':{'attempts':1,'http_status_codes':[500,502,503,504]}})
+            client = genai.Client(api_key=api_key, http_options={'timeout': 90000})
+        # The pinned SDK coerces HttpRetryOptions(attempts=0) to one, which its
+        # Interactions adapter then treats as one extra send. Disable that resource's
+        # retry policy directly so every actual attempt appears in the receipt.
+        interactions_config = getattr(client.interactions, 'sdk_configuration', None)
+        if interactions_config is not None:
+            interactions_config.retry_config = None
         self.model_name = model_name or os.environ.get('GEMINI_MODEL', 'gemini-3.8-flash')
         if not isinstance(self.model_name, str) or not self.model_name.strip():
             raise ValueError('A nonempty Gemini model name is required')
         self.client = client
         self.last_receipt = {}
 
+    def _create_interaction(self, request):
+        attempts = self.last_receipt['interaction_attempts'] = []
+        for number in (1, 2):
+            attempt = {'attempt': number}
+            attempts.append(attempt)
+            try:
+                interaction = self.client.interactions.create(**request, automatic_continuation=False, timeout=90.0)
+            except Exception as error:
+                attempt.update(request_status='error', error_type=type(error).__name__)
+                code = _http_status(error)
+                if code is not None:
+                    attempt['http_status'] = code
+                if number == 1 and _interaction_service_unavailable(error):
+                    attempt['retry_delay_seconds'] = 1
+                    sleep(1)
+                    continue
+                raise
+            attempt['request_status'] = 'completed'
+            status = getattr(interaction, 'status', None)
+            if isinstance(status, str):
+                attempt['provider_status'] = status
+            return interaction
+
     def generate(self, question, evidence):
-        inventory = []
-        for item in evidence:
-            inventory.append({'evidence_id': item['evidence_id'], 'interval': item['interval'],
-                'images': [{key: image[key] for key in ('frame_id', 'bbox_xyxy', 'observations', 'privacy')}
-                           for image in item['images']]})
+        self.last_receipt = {}
+        inventory = evidence_inventory(question, evidence)
+        compare_positions = asks_horizontal_motion(question['question'])
         prompt = (
             'Answer the public question using only the supplied processed images and observed metadata. '
             'The query frame is the latest allowed evidence. Image coordinates and annotation IDs refer '
             'to the original recording; the images may be resized and privacy-masked. '
             'A tracked evidence ID supports its selected identity; a full-scene ID has track_id null. '
+            'Use selected_box_fraction_xyxy to find the selected object, measured from the top left of the full frame. '
+            'Detector classes are broad. A Car box can contain an SUV or a sedan. Identify appearance from visible '
+            'pixels, including unmasked parts of cropped foreground objects. If you cannot identify an object, '
+            'describe that uncertainty without declaring it absent. '
             'Only assign track IDs supplied in the metadata. Human annotations and detector predictions '
             'are distinct sources, and their independently assigned IDs must not be silently mapped. '
             'For questions about annotation counts/classes/IDs, use the supplied source-labeled observations '
@@ -64,6 +139,10 @@ class GeminiAnswerModel:
             f'Question: {json.dumps(question)}\nEvidence inventory: {json.dumps(inventory)}'
         )
         context = next((item['temporal_scope'] for item in evidence if 'temporal_scope' in item), None)
+        if compare_positions:
+            prompt += ('\nIdentify the requested object visually. For its direction across the image, compare its '
+                       'own original-image box centres in frame order. Increasing x means right, decreasing x means '
+                       'left. Use observed_horizontal_motion only for the matching track and time interval.')
         if context is not None:
             prompt += ('\nTemporal evidence: ' + json.dumps(context)
                        + '\nUse the actual pixels at the requested times. Cite the evidence IDs that '
@@ -98,9 +177,9 @@ class GeminiAnswerModel:
         self.last_receipt = {'model': self.model_name, 'provider': 'google Gemini Interactions',
             'request_status': 'pending', 'cached': False, 'store': False,
             'request_arguments_sha256': sha256(json.dumps(request, sort_keys=True).encode()).hexdigest(),
-            'public_question': question, 'evidence_inventory': inventory, 'prompt': prompt}
+            'public_question': question, 'evidence_inventory_version': 2, 'evidence_inventory': inventory, 'prompt': prompt}
         try:
-            interaction = self.client.interactions.create(**request,automatic_continuation=False,timeout=90.0)
+            interaction = self._create_interaction(request)
             text = (interaction.output_text or '').strip()
             self.last_receipt.update(request_status='completed', raw_text=text)
             status=getattr(interaction,'status',None)
@@ -129,7 +208,7 @@ class GeminiAnswerModel:
             if self.last_receipt['request_status'] != 'completed':
                 self.last_receipt['request_status'] = 'error'
             self.last_receipt['error_type'] = type(error).__name__
-            code = getattr(error, 'code', getattr(error,'status_code',None))
-            if type(code) is int:
+            code = _http_status(error)
+            if code is not None:
                 self.last_receipt['http_status'] = code
             raise

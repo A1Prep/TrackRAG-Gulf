@@ -110,6 +110,14 @@ def test_browser_footage_search_opens_only_the_saved_prefix_and_selected_sources
     with pytest.raises(ValueError):
         review.ask(wrong,"Which car is visible?")
 
+    changed = deepcopy(scene)
+    changed["tracks"][0]["class_name"] = "different road user"
+    assert not review.covers(changed)
+    with pytest.raises(ValueError, match="observations differ"):
+        review.ask(changed, "Which car is visible?")
+    changed["tracks"] = []
+    assert not review.covers(changed)
+
 
 def test_open_unbookmarked_frame_uses_the_same_provenance_and_current_predictions(scene_fixture):
     from trackrag.footage_app import FootageReview

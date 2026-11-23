@@ -137,3 +137,29 @@ def test_standard_launch_adds_installed_still_and_honors_explicit_banks(bundle, 
     assert release.start(args) == "edge"
     args.between_road_mode = "edge-or-bay"
     assert release.start(args) == "edge-or-bay"
+    monkeypatch.setattr(passenger_app, "main", lambda argv: [value for option, value in zip(argv, argv[1:]) if option == "--place-public-sources"])
+    assert release.start(args) == []
+    pinned = [tmp_path / "experiments/dropoff" / name for name in release.PUBLIC_PHOTO_LISTS]
+    args.public_places = True
+    args.place_public_sources = [pinned[0]]
+    assert release.start(args) == [str(path.resolve()) for path in pinned]
+
+
+def test_portable_installer_binds_all_public_photos_to_their_original_frames(tmp_path):
+    from tools import passenger_parking_photos as photos
+
+    entries = [row for name in release.PUBLIC_PHOTO_LISTS
+               for row in json.loads((release.ROOT / "experiments/dropoff" / name).read_bytes())["photos"]]
+    banks = photos.CORE_BANKS + photos.PLACE_BANKS
+    target = photos.write_request_bank(tmp_path, {"photos": entries}, banks)
+    records = [json.loads(line) for line in target.read_bytes().splitlines()]
+    assert len(entries) == len(records) == 47
+    assert [record["request_id"] for record in records] == [row["id"] for row in entries]
+    for record, row in zip(records, entries):
+        assert record["scene"]["frame"]["image_path"] == row["sha256"] + ".jpg"
+    original = target.read_bytes()
+    mismatched = [dict(row) for row in entries]
+    mismatched[-1]["photo_url"] = mismatched[0]["photo_url"]
+    with pytest.raises(ValueError, match="does not match"):
+        photos.write_request_bank(tmp_path, {"photos": mismatched}, banks)
+    assert target.read_bytes() == original

@@ -53,6 +53,12 @@ class FootageReview:
         if (image_hash != scene["provenance"].get("image_sha256")
                 or not math.isclose(current["timestamp_s"], original["timestamp_s"], abs_tol=1e-6)):
             raise ValueError("The selected photo differs from the review recording.")
+        def observations(rows):
+            return sorted((row["recording_id"], row["frame_id"], row["track_id"], row["source"],
+                           row["class_name"], tuple(row["bbox_xyxy"])) for row in rows)
+        selected = (row for row in tracks if row["frame_id"] == original["frame_id"])
+        if observations(scene["tracks"]) != observations(selected):
+            raise ValueError("The selected scene's observations differ from the saved predictions at this frame.")
         return prefix, tracks, receipt
 
     def covers(self, scene):

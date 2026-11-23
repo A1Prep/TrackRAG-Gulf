@@ -22,7 +22,7 @@ _SMALL_NUMBERS = {word: value for value, word in enumerate(
     ("one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten"), 1)}
 
 
-def question_scope(text):
+def question_scope(text, *, current_if_untimed=False):
     """Identify evidence coverage, without assigning an answer or an object ID."""
     words = text.casefold()
     entering = _matches(r"\b(?:enter(?:s|ed|ing)?|came in(?:to)?|comes? into (?:view|frame))\b", words)
@@ -32,6 +32,8 @@ def question_scope(text):
                       r"(?:this|the (?:selected|displayed|paused)) (?:frame|image)|(?:towards?|near|by|at) the end)\b", words)
     history = _matches(r"\b(?:earlier observations?|recent observations?|as (?:the )?(?:clip|recording|video) progresses|over time|"
                        r"(?:larger|smaller|bigger|closer|further) (?:than|as|over)|emerges?|still visible|during|across the image)\b", words)
+    if opening and _matches(r"\b(?:mov(?:e[ds]?|ing)|motion|movement|shift(?:s|ed|ing)?|direction)\b", words):
+        history = True
     scene = _matches(r"\b(?:overpass|bridge|sky|lighting|daylight|night(?:time)?|street name|road name|(?:road|exit|traffic) sign)\b", words)
     exact = requested_frame_ids(words)
     duration = re.search(r"\b(?:opening|first|initial)\s+(?:(\d{1,3}|one|two|three|four|five|six|seven|eight|nine|ten)\s+)?seconds?\b", words)
@@ -41,7 +43,9 @@ def question_scope(text):
         seconds = int(value) if value.isdigit() else _SMALL_NUMBERS[value]
         opening = history = True
     if not (entering or exiting or opening or latest or history or scene or exact):
-        return None
+        if not current_if_untimed:
+            return None
+        latest = True
     return {"opening": opening, "latest": latest, "history": history, "opening_seconds": seconds,
             "boundary": "enter" if entering else "exit" if exiting else None,
             "scene": scene, "exact": exact}
@@ -67,6 +71,17 @@ _CLASSES = {
     "van": {"medium_vehicle", "car", "van"}, "coach": {"bus"}, "motorcycle": {"motorbike", "motorcycle"},
     "bicycle": {"bicycle", "cyclist"}, "person": {"pedestrian", "person"},
 }
+
+
+def _current_object_detail(text):
+    """An observable appearance or attachment can be seen even if its name has no lexical hit."""
+    objects = set(_tokens(text)) & (_CLASSES.keys() | {"bus", "car", "vehicle", "cyclist", "pedestrian"})
+    if not objects or _matches(r"\b(?:why|will|would|later|next|future|tomorrow|yesterday|earlier|previous(?:ly)?|"
+                               r"before|after|frames?|seconds?|minutes?|timestamps?|prefer(?:s|red)?|favou?rite|"
+                               r"think(?:s|ing)?|imagined?)\b|\d+:\d{2}|\d\s*(?:ms|s|secs?)\b", text):
+        return False
+    return _matches(r"\b(?:colou?rs?|shape|appearance|patterns?|markings?|lettering|logos?|stripes?|"
+                    r"attachments?|mounted|attached|structures?|looks? like)\b", text)
 
 
 def _object_score(rows, text, dimensions, frame, direction):
@@ -121,8 +136,13 @@ def rank_evidence(question, index, k=3):
     text = question["question"]
     scope = question_scope(text)
     if scope is None:
-        return rank_windows(question, index, k=k)
-    if not k or index.source is None:
+        windows = rank_windows(question, index, k=k)
+        if windows or not _current_object_detail(text):
+            return windows
+        scope = question_scope(text, current_if_untimed=True)
+    # The observation source must be established by this cutoff. A detector
+    # result that first appears later cannot make an earlier scene retrievable.
+    if not k or index.source is None or not any(rows[0]["frame_id"] <= cutoff for rows in index.histories.values()):
         return []
     allowed = _available(index.recording, cutoff)
     if (not allowed or cutoff not in allowed or scope["opening_seconds"] == 0
@@ -130,6 +150,7 @@ def rank_evidence(question, index, k=3):
         return []
     first = allowed[0]
     horizon = cutoff
+    opening_middle = None
     if scope["opening_seconds"] is not None:
         start_time = index.recording.get_frame(first)["timestamp_s"]
         # Use real timestamps and a half-open time interval, even with skipped
@@ -137,10 +158,16 @@ def rank_evidence(question, index, k=3):
         stop = start_time + scope["opening_seconds"]
         end_index = bisect_left(allowed, stop, key=lambda f: index.recording.get_frame(f)["timestamp_s"])
         horizon = allowed[max(0, end_index-1)]
+    elif scope["opening"] and scope["history"] and not (scope["exact"] or scope["latest"] or scope["boundary"]):
+        # A vague opening motion request uses the normal window of original
+        # frame IDs. Keep real snapshots even when the detector missed its subject.
+        end_index = bisect_right(allowed, first + index.config.window_frames - 1) - 1
+        horizon = allowed[end_index]
+        opening_middle = allowed[end_index // 2]
     endpoints = set(scope["exact"])
     if scope["opening"]:
         endpoints.add(first)
-    if scope["latest"] or not endpoints or scope["opening_seconds"] is not None:
+    if scope["latest"] or not endpoints or scope["opening_seconds"] is not None or opening_middle is not None:
         endpoints.add(horizon)
     if any(fid > horizon for fid in endpoints):
         return []
@@ -202,6 +229,8 @@ def rank_evidence(question, index, k=3):
         context = first if scope["boundary"] == "enter" else horizon
         add(None, context, context, 1.0)
     else:
+        if opening_middle is not None and not candidates and k >= 3:
+            ordered = sorted(set(ordered) | {opening_middle})
         for f in ordered:
             add(None, f, f, 1.0)
         for score, _, track, start, end in candidates:

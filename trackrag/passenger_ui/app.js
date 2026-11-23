@@ -199,6 +199,7 @@ async function chooseScene() {
   session = newSession; input.value = ""; editing = false; previousDraft = editTarget = null; retired = false; retry = 0;
   resetSelection(); photo.fit(); el("frame-picker").open = el("history").open = false;
   const f = activeScene();
+  el("footage-link").href = catalog.searchableScenes.has(f.key) ? "/footage?scene=" + encodeURIComponent(f.key) : "/footage";
   canvas.width = f.width; canvas.height = f.height;
   image.parentElement.style.aspectRatio = el("photo-viewport").style.aspectRatio = f.width + " / " + f.height;
   image.alt = "Road scene from " + sceneSelect.selectedOptions[0].textContent;
@@ -214,7 +215,11 @@ el("next-scene").onclick = () => stepScene(1);
 sceneSelect.onchange = () => perform(chooseScene, "Opening the photo…");
 el("open-frame").onclick = () => perform(async () => {
   const f = await openFrame(sceneSelect,el("frame-id"));
-  if (!catalog.scenes.some(s => s.key === f.key)) catalog.scenes.push(f);
+  if (!catalog.scenes.some(s => s.key === f.key)) {
+    catalog.scenes.push(f);
+    // Additional frames come from the attached recording and its verified predictions.
+    catalog.searchableScenes.add(f.key);
+  }
   await chooseScene();
 }, "Opening the frame…");
 function currentImage() { return session && image.currentSrc && new URL(image.currentSrc).pathname === endpoint("image"); }
@@ -367,6 +372,7 @@ window.addEventListener("pagehide", () => { if (capture) { clearTimeout(capture.
 perform(async () => {
   catalog=await api("/api/scenes");
   const covered = new Set(catalog.footage_scenes);
+  catalog.searchableScenes = covered;
   catalog.footageRecordings = new Set(catalog.scenes.filter(f => covered.has(f.key)).map(f => f.recording_id));
   el("footage-link").hidden=!catalog.footage_available;
   for (const f of catalog.scenes) addFrame(sceneSelect,f);

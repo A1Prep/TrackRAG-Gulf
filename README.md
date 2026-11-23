@@ -7,7 +7,7 @@ TrackRAG-Gulf connects two questions about a recorded UAE road scene. A reviewer
 On the prepared project laptop, run this from the repository root and leave the terminal open.
 
 ```powershell
-.\.venv-grounding-local\Scripts\python.exe -m tools.passenger_release start --port 8775 --require-footage 2 --low-memory --parking-backend modal --vision-cache runs/model-cache/airport-segformer-b0
+.\.venv-grounding-local\Scripts\python.exe -m tools.passenger_release start --port 8775 --require-footage 2 --low-memory --parking-backend modal --public-places --vision-cache runs/model-cache/airport-segformer-b0
 ```
 
 - **Review footage.** Select recording 054604, frame 150. Ask “What colour is the bus visible on the left near the end?” Choose the Gemini answer mode and open a cited frame. Then ask for its speed in kilometres per hour. The camera supplies visible colour, but this clip provides no calibrated speed measurement. [Open footage search](http://127.0.0.1:8775/footage)
@@ -31,4 +31,4 @@ Run the automated suite in the development environment with `python -m pytest te
 python -m tools.footage_acceptance --questions experiments/temporal-development-questions.jsonl experiments/temporal-second-questions.jsonl --hosted --out runs/footage-replay
 ```
 
-The release record distinguishes technical checks, location accuracy and the remaining participant work. [Final acceptance and remaining work](docs/project-release.md) · [Assessment criteria](docs/assessment-alignment.md) · [Five task owners and handoffs](docs/final-completion-part2.md)
+The release record includes the 36-question footage replay, the passenger microphone and WAV checks, location accuracy on unseen photos and the remaining participant work. [End-to-end results and remaining work](docs/project-release.md) · [Assessment criteria](docs/assessment-alignment.md) · [Five task owners and handoffs](docs/final-completion-part2.md)

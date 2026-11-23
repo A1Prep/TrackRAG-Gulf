@@ -55,29 +55,36 @@ async function main() {
     }
     return current;
   });
-  async function clickAction(action, title) {
-    return response("/"+action,()=>page.getByRole("button",{name:title,exact:true}).click());
+  async function clickAction(action, control) {
+    return response("/"+action,()=>page.locator("#"+control).click());
   }
   async function selectScene(label) {
     const select = page.getByRole("combobox",{name:"Road scene"});
-    await response("/api/sessions",()=>select.selectOption({label}));
+    const selected = await select.locator("option:checked").textContent();
+    if (selected !== label) await response("/api/sessions",()=>select.selectOption({label}));
     await page.waitForFunction(()=>!document.querySelector("#scene").disabled && document.querySelector("#frame").complete && document.querySelector("#frame").naturalWidth>0);
   }
   async function draw(box) {
-    await page.getByRole("button",{name:"Mark an area myself"}).click();
-    const canvas=page.locator("#overlay"), b=await canvas.boundingBox();
+    await page.locator("#draw").click();
+    const canvas=page.locator("#overlay");
+    await canvas.scrollIntoViewIfNeeded();
+    const b=await canvas.boundingBox();
     const dim=await canvas.evaluate(n=>[n.width,n.height]);
     const X=x=>b.x+b.width*x/dim[0], Y=y=>b.y+b.height*y/dim[1];
     await page.mouse.move(X(box[0]),Y(box[1])); await page.mouse.down();
     await page.mouse.move(X(box[2]),Y(box[3]),{steps:8}); await page.mouse.up();
-    return clickAction("area","Use my marked area");
+    return clickAction("area","use-box");
   }
   async function canvasEvidence() {
     await page.waitForFunction(()=>!document.querySelector("#scene").disabled && document.querySelector("#frame").complete);
-    return page.locator("#overlay").evaluate(n=>({width:n.width,height:n.height,
-      original_width:document.querySelector("#frame").naturalWidth, original_height:document.querySelector("#frame").naturalHeight,
-      legend:document.querySelector("#legend").textContent,
-      painted_pixels:n.getContext("2d").getImageData(0,0,n.width,n.height).data.filter((v,i)=>i%4===3 && v>0).length}));
+    return page.locator("#overlay").evaluate(n=>{
+      const data=n.getContext("2d").getImageData(0,0,n.width,n.height).data;
+      let painted=0;
+      for (let alpha=3; alpha<data.length; alpha+=4) if (data[alpha]) painted++;
+      const photo=document.querySelector("#frame");
+      return {width:n.width,height:n.height,original_width:photo.naturalWidth,original_height:photo.naturalHeight,
+        legend:document.querySelector("#legend").textContent,painted_pixels:painted};
+    });
   }
   async function rejectStale(current, token) {
     const result = await page.request.post(plan.base_url+"/api/sessions/"+current.session+"/confirm",
@@ -96,6 +103,7 @@ async function main() {
       }
       try {
         if (c.open_scene) await selectScene(c.open_scene);
+        if (await page.locator("#new-request").isVisible()) await page.locator("#new-request").click();
         const audio = path.resolve(sourceDir,c.audio); const hash=sha(fs.readFileSync(audio));
         if (hash!==c.audio_sha256) throw new Error("Audio hash mismatch.");
         let transcribed;
@@ -105,7 +113,7 @@ async function main() {
           await page.getByRole("button",{name:"Record voice",exact:true}).click();
           await page.getByRole("button",{name:"Stop recording",exact:true}).waitFor();
           await sleep(c.capture_ms);
-          transcribed=await clickAction("audio","Stop recording");
+          transcribed=await clickAction("audio","mic");
         } else {
           transcribed=await response("/audio",()=>page.locator("#file").setInputFiles(audio));
           if (transcribed.uploaded_audio_sha256!==hash) throw new Error("Uploaded source bytes differ from the frozen WAV.");
@@ -117,7 +125,7 @@ async function main() {
         await page.waitForFunction(()=>document.querySelector("#instruction").value.length>0 && !document.querySelector("#instruction").disabled);
         if (c.passenger_edit) await box.fill(c.passenger_edit);
         r.sent_text=await box.inputValue();
-        const submitted=await clickAction("submit","Send reviewed transcript");
+        const submitted=await clickAction("submit","submit");
         r.initial=submitted.view; r.source_session=submitted.session; r.initial_utc=new Date().toISOString(); save();
         await page.waitForFunction(()=>!document.querySelector("#scene").disabled);
         r.overlay=await canvasEvidence();
@@ -132,10 +140,10 @@ async function main() {
         }
         if (c.after==="confirm_if_proposed" && current.view.state==="proposed") {
           lastKnownToken=current.view.proposal_id;
-          current=await clickAction("confirm","Confirm this area"); r.after=current.view;
+          current=await clickAction("confirm","confirm"); r.after=current.view;
         } else if (c.after==="cancel" || (c.after==="confirm_if_proposed" && current.view.state!=="proposed")) {
           if (await page.getByRole("button",{name:"Cancel request"}).isVisible()) {
-            current=await clickAction("cancel","Cancel request"); r.after=current.view;
+            current=await clickAction("cancel","cancel"); r.after=current.view;
           }
         } else { r.after=current.view; }
         if (c.stale_after_cancel && submitted.view.proposal_id && current.view.state==="cancelled") {

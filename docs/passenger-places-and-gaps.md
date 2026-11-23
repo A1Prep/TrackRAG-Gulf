@@ -35,10 +35,11 @@ In a local HTTP test on the same furniture photo, the first request after Modal 
 
 ## Running the public-photo route
 
-In the existing passenger environment, use the release command with the public source list for the photos being served. A source list authorizes matching original bytes, recording and frame. Scene banks still supply the photographs and Task 1 predictions. For the eight-photo check we also supplied its prepared bank through a further `--requests` argument. [Passenger installation and model bundle](passenger-release.md)
+In the existing passenger environment, use the release command with the public source list for the photos being served. A source list authorizes matching original bytes, recording and frame. Scene banks still supply the photographs and Task 1 predictions. The standard installer now restores all 47 public photos and their detector inputs, including the eight photos used in the independent check. [Passenger installation and model bundle](passenger-release.md)
 
 ```text
-python -m tools.passenger_release start --parking-backend modal --place-public-sources experiments/dropoff/passenger-uae-parking-photos-20261123.json --place-public-sources experiments/dropoff/passenger-place-public-photos-20261123.json --require-footage 2 --low-memory
+python -m tools.passenger_parking_photos
+python -m tools.passenger_release start --parking-backend modal --public-places --require-footage 2 --low-memory
 ```
 
 The two private Modal classes scale to zero. The place service receives the listed public photograph, dimensions, current detection boxes, the necessary passenger words and an opaque request digest. Audio and local paths stay on the passenger machine. Unlisted images keep the existing local place route. Original photographs, personal sessions, signing keys and trained checkpoints stay outside Git. The held-out images and gallery overlays are credited to Grab and KartaView Contributors under CC BY-SA 4.0. [KartaView licensing](https://kartaview.org/terms)

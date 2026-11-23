@@ -511,6 +511,11 @@ def _above_threshold(value: float, threshold: float) -> bool:
     return value > threshold and not math.isclose(value, threshold, rel_tol=0, abs_tol=1e-12)
 
 
+def significant_image_displacement(delta: float) -> bool:
+    """Use the same image-fraction tolerance for retrieval and cited motion evidence."""
+    return _above_threshold(abs(delta), _MOVEMENT_THRESHOLD)
+
+
 def _describe_window(
     window: TrackWindow, recording: Recording, dimensions: dict[int, tuple[int, int]],
 ) -> _TextFeatures:
@@ -546,7 +551,7 @@ def _describe_window(
             movements.add("stationary")
         for delta, negative, positive in ((dx, "leftward", "rightward"),
                                           (dy, "upward", "downward")):
-            if _above_threshold(abs(delta), _MOVEMENT_THRESHOLD):
+            if significant_image_displacement(delta):
                 movements.add(positive if delta > 0 else negative)
         first, last = boxes[0], boxes[-1]
         first_edges = (first[0], first[1], 1 - first[2], 1 - first[3])

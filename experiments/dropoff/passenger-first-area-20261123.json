@@ -1,0 +1,57 @@
+{
+  "date": "2026-11-23",
+  "scope": "Passenger-selected location. The two examples exercise interface, road checking and audit replay.",
+  "entry_point": "Normal release passenger application, Google Chrome, prepared public UAE scenes, cached road masks.",
+  "timing_scope": "Measured browser button click through HTTP response in one local run, excluding typing, speech recognition and user confirmation.",
+  "voice_source": "Existing synthetic WAV uploaded through the regular passenger page, transcribed locally and edited before submission. No live-human microphone recording.",
+  "road_recipe_sha256": "5732b0a6858e98b44ba410ff29605b0b8305486b48a94c74c2ad60c6fd74adf3",
+  "cases": [
+    {
+      "mode": "typed",
+      "recording_id": "kartaview_7168777",
+      "frame": 1211,
+      "photo_source": "https://kartaview.org/details/7168777/1211/",
+      "words": "Drop me by the shop on the right.",
+      "original_transcript": null,
+      "first_mark_open_ms": 122,
+      "rejected_sky_ms": 104,
+      "road_check_ms": 102,
+      "confirmed": true,
+      "point": [
+        2508.75,
+        1548.75
+      ],
+      "auto_language_or_grounding_calls_to_open": 0,
+      "sky_mark_asked_again": true,
+      "road_and_sky_reproduced_from_original_mask": true,
+      "proposal_token_confirmed": true,
+      "original_image_sha256": "6c09f8965a7203ca86f42d18d4b7fc43fa38c700d827a3b92bf90189b394d273",
+      "road_mask_sha256": "b84fcc51437eab4eb1c0ed6f4d0b2f8a74d11c252b8dd49e24d7aafd98d6b4e1",
+      "journal_sha256": "8d20cc7042713f64e068a7209e4bfe3914b65d25a8213d508a119ac195789e8f"
+    },
+    {
+      "mode": "voice",
+      "recording_id": "kartaview_7173145",
+      "frame": 1173,
+      "photo_source": "https://kartaview.org/details/7173145/1173/",
+      "words": "Could you let me out beside the hotel entrance?",
+      "original_transcript": "Could you let me out in the empty bay between the dark blue sedan and the white van on the right?",
+      "first_mark_open_ms": 112,
+      "rejected_sky_ms": 114,
+      "road_check_ms": 97,
+      "confirmed": true,
+      "point": [
+        1631.25,
+        1151.25
+      ],
+      "auto_language_or_grounding_calls_to_open": 0,
+      "sky_mark_asked_again": true,
+      "road_and_sky_reproduced_from_original_mask": true,
+      "proposal_token_confirmed": true,
+      "original_image_sha256": "02743df87088fa38698cf3093947cbb3085c14755dd49fa16cadc8fb24b2e080",
+      "road_mask_sha256": "84276d2a48bfdd1a404b69b9c245f4c387bd4e15afd7a9ecfb08380629fb44c8",
+      "journal_sha256": "20523fbf98144d7731d5157c65ea29f08d3ea117ace7b558610379dfb7ffbfa4",
+      "verified_synthetic_wav_sha256": "e86d30e2dd9fe9b0f304694a29e1f966e737651c3a4e3c7bb86cb04b1196a2d7"
+    }
+  ]
+}

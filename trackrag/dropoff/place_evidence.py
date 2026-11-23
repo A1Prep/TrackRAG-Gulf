@@ -14,13 +14,31 @@ from . import place_grounding as place
 from .parking_evidence import (MAX_IMAGE_BYTES, ModalParkingBackend, _authenticate, _decode_map,
                                signed_bytes, source_input)
 from .passenger import digest
+from .contracts import error_outcome
 from tools.passenger_parking_study import SEG_REVISION
+from tools.passenger_place_call import UNAVAILABLE
 
 MODELS = {"base":place.BASE,"processor":place.PROCESSOR,"adapter_sha256":place.ADAPTER,
           "parking_segmenter":SEG_REVISION}
 FINGERPRINTS = {"base_files":"13917d7d3d9b5d7a44775a6744e756b552bc4065bf73d633aa14278a0ac66417",
                 "adapter_files":"6abadf2dd704566e2e1dcf24fb003ba1d7e044d88ee5d5aae9c279e9d573a3e7",
                 "processor_files":"3393482a8a7c6da1ca1fa7eafc95b18b5c5539d72f0fe38b3c8830a5a2a69128"}
+
+def unavailable(request, image_sha, input_sha):
+    return error_outcome("place_service_unavailable", "The place model could not finish this request.",
+                         request["request_id"], {"method":UNAVAILABLE, "request_sha256":digest(request),
+                         "inference_input_sha256":input_sha, "image":{"sha256":image_sha}})
+
+
+def verify_unavailable(request, outcome):
+    """Verify the request and original that may receive a separate passenger mark."""
+    path = Path(request["scene"]["frame"]["image_path"])
+    if path.stat().st_size > MAX_IMAGE_BYTES:
+        raise ValueError("Photograph is too large")
+    clean, sha, input_sha = source_input(request, path.read_bytes())
+    if not place.place_reference(clean) or outcome != unavailable(clean, sha, input_sha):
+        raise ValueError("Place service failure does not belong to this instruction and original")
+    return {"input_verified":True, "independent_model_proposal":False}
 
 
 def build_outcome(request, photo, packet):
@@ -94,13 +112,16 @@ class PublicPlaceBackend(ModalParkingBackend):
         if path.stat().st_size > MAX_IMAGE_BYTES:
             raise ValueError("Photograph is too large")
         photo = path.read_bytes()
-        request, _, input_sha = source_input(request, photo)
+        request, image_sha, input_sha = source_input(request, photo)
         payload = {"context":place.current_context(request), "input_sha256":input_sha, "photo":base64.b64encode(photo).decode("ascii")}
-        proc = subprocess.run([self.python,"-m","tools.passenger_place_call"],input=signed_bytes(payload),
-                              cwd=self.root,capture_output=True,timeout=240,
-                              creationflags=getattr(subprocess,"CREATE_NO_WINDOW",0))
+        try:
+            proc = subprocess.run([self.python,"-m","tools.passenger_place_call"],input=signed_bytes(payload),
+                                  cwd=self.root,capture_output=True,timeout=240,
+                                  creationflags=getattr(subprocess,"CREATE_NO_WINDOW",0))
+        except (subprocess.TimeoutExpired, OSError):
+            return unavailable(request, image_sha, input_sha)
         if proc.returncode:
-            raise RuntimeError("The hosted place model is unavailable. Please retry your request.")
+            return unavailable(request, image_sha, input_sha)
         return build_outcome(request, photo, json.loads(proc.stdout))
 
 

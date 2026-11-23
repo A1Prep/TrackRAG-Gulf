@@ -303,9 +303,18 @@ class PassengerSite:
                 pointing = payload.get("point_to_vehicles", False)
                 if type(pointing) is not bool:
                     raise PassengerRequestError(400, "Invalid vehicle selection mode.")
+                area = payload.get("mark_on_photo", False)
+                if type(area) is not bool or (area and pointing):
+                    raise PassengerRequestError(400, "Choose one way to identify your spot.")
                 if pointing and not s.dialogue.view().get("can_request_pointing"):
                     raise PassengerRequestError(409, "Vehicle selection is unavailable for this scene.")
+                if area and s.voice_stage and mode != "voice":
+                    raise PassengerRequestError(409, "Review or discard your recording before marking the photo.")
+                if area and not s.dialogue.view().get("can_request_area"):
+                    raise PassengerRequestError(409, "Marking is unavailable for this scene.")
                 kwargs = {"point_to_vehicles":True} if pointing else {}
+                if area:
+                    kwargs["mark_on_photo"] = True
                 if "replaces_request_id" in payload:
                     previous_id = payload["replaces_request_id"]
                     current = s.dialogue.view()
@@ -314,7 +323,8 @@ class PassengerSite:
                         raise PassengerRequestError(409, "Only the current, unfinished description can be replaced.")
                     kwargs["replaces_request_id"] = previous_id
                 receipt = s.receipt if mode == "voice" else None
-                with self.model_request():
+                # Opening a passenger mark checks the current photograph and never invokes a model.
+                with nullcontext() if area else self.model_request():
                     s.dialogue.submit(text, original_transcript=receipt["transcript"] if receipt else None, speech=receipt, **kwargs)
                 s.clear_audio()
             elif action == "area":

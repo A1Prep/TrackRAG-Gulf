@@ -22,10 +22,20 @@ def records(path):
 
 
 def bound_outcome(outcome, request, *, passenger_selected=False, passenger_landmarks=False, dialogue_policy=False, requested_box=None,
-                  referent_path=None, pair_geometry=None, road_cache=None, passenger_requested_pointing=False, parking_artifacts=None):
+                  referent_path=None, pair_geometry=None, road_cache=None, passenger_requested_pointing=False,
+                  passenger_requested_area=False, parking_artifacts=None):
     need(isinstance(outcome, dict) and outcome.get("request_id") == request["request_id"], "Mismatched outcome ID")
     source = outcome.get("provenance", {})
     need(isinstance(source, dict), "Missing outcome provenance")
+    from trackrag.dropoff import manual_mark
+    if passenger_requested_area or source.get("method") == manual_mark.REQUEST_METHOD:
+        need(passenger_requested_area and dialogue_policy and
+             not (passenger_selected or passenger_landmarks or passenger_requested_pointing) and
+             outcome == manual_mark.question(request), "Area-mark request differs from the passenger action or original frame")
+        return {"ok":True, "request_id":request["request_id"], "method":manual_mark.REQUEST_METHOD,
+                "image_sha256":source["image"]["sha256"], "inference_input_sha256":source["inference_input_sha256"],
+                "saved_provenance":source, "result":outcome["result"], "independent_model_proposal":False,
+                "native_model_calls":0}
     from trackrag.dropoff import passenger_parking as parking
     from trackrag.dropoff import parking_clarification
     from trackrag.dropoff import place_grounding
@@ -57,6 +67,14 @@ def bound_outcome(outcome, request, *, passenger_selected=False, passenger_landm
         field = "result" if outcome["ok"] else "error"
         return {**data, field:outcome[field]}
     if outcome.get("ok") is False:
+        from tools.passenger_place_call import UNAVAILABLE
+        if source.get("method") == UNAVAILABLE:
+            from trackrag.dropoff.place_evidence import verify_unavailable
+            need(dialogue_policy and not (passenger_selected or passenger_landmarks or passenger_requested_pointing),
+                 "A place service failure belongs to the automatic submission")
+            return {"ok":False, "error":outcome["error"], "request_id":request["request_id"], "method":UNAVAILABLE,
+                    "saved_provenance":source, "place_verification":verify_unavailable(request, outcome),
+                    "independent_model_proposal":False}
         if source.get("method") in {"explicit_passenger_landmark_pair", "explicit_passenger_region"}:
             need((source["method"] == "explicit_passenger_landmark_pair" and passenger_landmarks) or
                  (source["method"] == "explicit_passenger_region" and passenger_selected),
@@ -205,7 +223,7 @@ def session(journal_path, *, referent_path=None, pair_geometry=None, road_cache=
     need(raw and raw[0][1]["action"] == "opened", "Session lacks its opening record")
     scene = raw[0][1]["detail"]["scene"]
     request, previous, original_submission, native = None, {}, None, None
-    passenger_requested_pointing = False
+    passenger_requested_pointing = passenger_requested_area = False
     offered_tokens = set()
     parking_offer_sha = None
     place_offer_sha = None
@@ -247,13 +265,17 @@ def session(journal_path, *, referent_path=None, pair_geometry=None, road_cache=
                     expected_dialogue = [] if previous.get("state") in {"confirmed","cancelled"} else previous.get("turns", [])
                     need(request["dialogue"] == expected_dialogue, "Submitted history differs from the active passenger conversation")
                 passenger_requested_pointing = detail.get("passenger_requested_pointing", False)
-                need(type(passenger_requested_pointing) is bool, "Invalid passenger pointing action")
+                passenger_requested_area = detail.get("passenger_requested_area", False)
+                need(type(passenger_requested_pointing) is bool and type(passenger_requested_area) is bool
+                     and not (passenger_requested_pointing and passenger_requested_area), "Invalid passenger pointing action")
                 native = detail["outcome"]
-                origin_state = "original_pointing_state" if passenger_requested_pointing else "original_automatic_state"
+                origin_state = ("original_area_request_state" if passenger_requested_area else
+                                "original_pointing_state" if passenger_requested_pointing else "original_automatic_state")
                 original_submission = {"request_id":request["request_id"],"request_sha256":digest(request),
                     "original_outcome_sha256":digest(native) if native else None, origin_state:view["state"]}
             need(request is not None and request["request_id"] == view["request_id"], "Mismatched interaction request")
             if pair or manual:
+                need(not (pair and passenger_requested_area), "A vehicle pair requires its own passenger action")
                 from trackrag.dropoff.passenger_pair_choice import RECOVERABLE, landmark_error_guidance
                 active = previous.get("state") in {"proposed", "needs_clarification", "insufficient_visual_evidence"}
                 if previous.get("state") == "error" and events:
@@ -267,6 +289,7 @@ def session(journal_path, *, referent_path=None, pair_geometry=None, road_cache=
                 need(active and previous.get("request_id") == request["request_id"] and original_submission,
                      "Assisted selection followed an inactive or different passenger request")
             item["phase"] = ("passenger_selected_landmarks" if pair else "passenger_marked" if manual else
+                             "explicit_passenger_area_request" if passenger_requested_area else
                              "model_after_prior_dialogue" if request["dialogue"] else "initial_model")
             item["submitted_text"] = request["text"]
             item["input_mode"] = request["input_mode"]
@@ -297,6 +320,7 @@ def session(journal_path, *, referent_path=None, pair_geometry=None, road_cache=
                                                 pair_geometry=pair_geometry,road_cache=road_cache,
                                                 requested_box=detail.get("requested_box") if manual else None,
                                                 passenger_requested_pointing=passenger_requested_pointing,
+                                                passenger_requested_area=passenger_requested_area and not (manual or pair),
                                                 parking_artifacts=parking_artifacts)
                 if item["outcome"].get("method") in {parking.METHOD, parking.FAILURE_METHOD}:
                     item["phase"] = "parking_operational_error"
@@ -323,7 +347,8 @@ def session(journal_path, *, referent_path=None, pair_geometry=None, road_cache=
                     need(receipt.get(origin)==original_submission and other not in receipt and
                          (receipt["passenger_selection"]["track_ids"],receipt["passenger_selection"]["placement"])==
                          (item["track_ids"],item["placement"]), "Assisted choice differs from the original automatic turn or passenger action")
-                selected_by = "passenger_landmarks" if pair else "passenger" if manual or passenger_requested_pointing else "model"
+                selected_by = ("passenger_landmarks" if pair else "passenger"
+                               if manual or passenger_requested_pointing or passenger_requested_area else "model")
                 if item["phase"] == "automatic_road_qualified_pair":
                     selected_by = "road_qualified_pair"
                 if item["phase"] in {"automatic_parking_proposal", "automatic_parking_response"}:

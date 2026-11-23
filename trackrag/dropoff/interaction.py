@@ -378,6 +378,7 @@ class PassengerSession:
         self._turns = []
         self._state, self._proposal, self._result = "idle", None, None
         self._place_offer = None
+        self._requested_area = False
         self._error, self._selected_by, self._request = None, None, None
         self._save("opened", {"scene":clean})
 
@@ -410,7 +411,11 @@ class PassengerSession:
                              "image_sha256":self._scene["provenance"]["image_sha256"],
                              "request_id":self._request.get("request_id") if self._request else None,
                              "proposal_id":self._proposal, "result":self._result, "error":self._error,
-                             "selected_by":self._selected_by, "turns":self._turns})
+                             "selected_by":self._selected_by, "turns":self._turns,
+                             "can_request_area":self._supports_area()})
+
+    def _supports_area(self):
+        return self._scene["source"] == "predicted" and callable(getattr(self.model, "passenger_area", None))
 
     def _turn(self, role, text):
         frame = self._scene["frame"]
@@ -432,6 +437,9 @@ class PassengerSession:
                 or info.get("request_sha256") != digest(req)):
             raise ValueError("Grounding outcome is not bound to this scene and instruction")
         result = validate_target(result,list(result),self.scene["frame"])
+        from .manual_mark import REQUEST_METHOD
+        if info.get("method") == REQUEST_METHOD and (not self._requested_area or selected_by != "passenger"):
+            raise ValueError("Only the passenger can request to mark the photo.")
         from .place_grounding import METHOD as place_method
         if info.get("method") == place_method:
             if selected_by != "model":
@@ -469,7 +477,8 @@ class PassengerSession:
         if point_to_vehicles is not False:
             raise ValueError("Vehicle selection is unavailable for this scene.")
 
-    def submit(self, text, *, original_transcript=None, speech=None, point_to_vehicles=False, replaces_request_id=None):
+    def submit(self, text, *, original_transcript=None, speech=None, point_to_vehicles=False,
+               mark_on_photo=False, replaces_request_id=None):
         from .passenger import operational_code
 
         with self._lock:
@@ -477,7 +486,10 @@ class PassengerSession:
             if replaces_request_id is not None and (not self._request or prior in {"confirmed", "cancelled"}
                     or self._request["request_id"] != replaces_request_id):
                 raise ValueError("Only the current, unfinished description can be replaced.")
+            if type(mark_on_photo) is not bool or (mark_on_photo and (point_to_vehicles or not self._supports_area())):
+                raise ValueError("Choose one available way to identify your spot.")
             self._prepare_vehicle_choice(point_to_vehicles)
+            self._requested_area = mark_on_photo
             self._clear()
             if replaces_request_id is not None or prior in ("cancelled","confirmed"):
                 self._turns = []
@@ -507,13 +519,19 @@ class PassengerSession:
                 elif speech is not None:
                     raise ValueError("Speech receipt requires a voice transcript")
                 self._turns.append(self._turn("user",text))
-                outcome, selected_by = self._interpret_submission(deepcopy(self._request))
+                if mark_on_photo:
+                    from .manual_mark import question
+                    outcome, selected_by = question(self._request), "passenger"
+                else:
+                    outcome, selected_by = self._interpret_submission(deepcopy(self._request))
                 self._accept(outcome, selected_by)
             except Exception as exc:
                 self._clear()
                 self._state = "error"
                 self._error = error_outcome(operational_code(exc),str(exc)[:4000] or type(exc).__name__,request_id)["error"]
             detail = {"request":self._request,"outcome":outcome,"speech":speech}
+            if mark_on_photo:
+                detail["passenger_requested_area"] = True
             if replaces_request_id is not None:
                 detail["replaces_request_id"] = replaces_request_id
             self._save_turn("submitted", detail)

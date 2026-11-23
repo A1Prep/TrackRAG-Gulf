@@ -155,6 +155,8 @@ function render() {
   el("edit-original").disabled = locked;
   el("submit-pointing").hidden = !formOpen || !v.can_request_pointing || !input.value.trim() || Boolean(stage && stage !== "review");
   el("submit-pointing").disabled = input.disabled || !ready || staleEdit();
+  el("submit-area").hidden = !formOpen || !v.can_request_area || !input.value.trim() || Boolean(stage && stage !== "review");
+  el("submit-area").disabled = input.disabled || !ready || staleEdit();
   el("discard-edit").hidden = !formOpen || (!editing && !stage) || micOn;
   el("discard-edit").disabled = locked;
   text(el("discard-edit"), staleEdit() ? "Back to current request" : stage ? "Discard recording" : "Back without changing");
@@ -299,18 +301,22 @@ el("discard-edit").onclick = () => {
     }, "Discarding the recording…", () => el("form").hidden ? focusResult() : input.focus());
   } else { input.value=""; editing=false; previousDraft=editTarget=null; render(); focusResult(); }
 };
-function sendInstruction(pointing) {
+function sendInstruction(choice = "automatic") {
   if (!input.value.trim() || photoState !== "ready" || staleEdit()) return;
   const payload = {text:input.value.trim(), mode:session.voice_stage === "review" ? "voice" : "typed"};
   if (editing === "replace") payload.replaces_request_id = editTarget;
-  if (pointing) payload.point_to_vehicles = true;
+  if (choice === "vehicles") payload.point_to_vehicles = true;
+  if (choice === "area") payload.mark_on_photo = true;
   perform(async () => {
     await action("submit",payload); input.value=""; editing=false; previousDraft=null; resetSelection();
-    if (pointing && session.view.pair_choices?.length >= 2) pairs.begin(session.view.pair_choices);
-  }, pointing ? "Opening the vehicle choices…" : "Finding your spot…", () => pairs.open ? el("pair-first").focus() : focusResult());
+    if (choice === "vehicles" && session.view.pair_choices?.length >= 2) pairs.begin(session.view.pair_choices);
+    if (choice === "area" && session.view.state === "needs_clarification" && session.view.selected_by === "passenger") photo.begin();
+  }, choice === "area" ? "Opening the photo to mark…" : choice === "vehicles" ? "Opening the vehicle choices…" : "Finding your spot…",
+  () => photo.active ? photo.focusPhoto() : pairs.open ? el("pair-first").focus() : focusResult());
 }
-el("form").onsubmit = e => { e.preventDefault(); sendInstruction(false); };
-el("submit-pointing").onclick = () => sendInstruction(true);
+el("form").onsubmit = e => { e.preventDefault(); sendInstruction(); };
+el("submit-pointing").onclick = () => sendInstruction("vehicles");
+el("submit-area").onclick = () => sendInstruction("area");
 input.addEventListener("input", render);
 
 function checkAudio(blob) {

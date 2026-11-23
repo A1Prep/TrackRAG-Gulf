@@ -71,6 +71,13 @@ def packet(request,photo,classes,key,answers=("1","MATCH")):
     ("Actually right here.",["At the library."],False),
     ("Drop me near the one on the left.",[],False),
     ("Right here.",[],False),
+    ("Let me out at Al Noor on the right.",[],True),
+    ("Drop me off outside the blue repair workshop.",[],True),
+    ("Pull in to the left of that blue sign.",[],True),
+    ("Drop me off by the lorry in front of the café.",[],False),
+    ("Let me out At Noon.",[],False),
+    ("Could you stop at 6 PM?",[],False),
+    ("Drop me outside the one on the left.",[],False),
 ])
 def test_visual_referent_routing(words,history,active):
     req={"text":words,"dialogue":[{"role":"user","text":s} for s in history]}
@@ -180,3 +187,36 @@ def test_resource_failure_offers_manual_recovery_only_for_the_bound_original(tmp
     assert landmark_error_guidance(req,unbound) is None
     Image.new("RGB",(96,64),"red").save(original)
     assert landmark_error_guidance(req,failure) is None
+
+
+@pytest.mark.parametrize("transport", ["unavailable", "timeout", "bad_receipt"])
+def test_place_outage_preserves_manual_selection_only_for_the_verified_photo(tmp_path, monkeypatch, transport):
+    import subprocess
+    from trackrag.dropoff.passenger_pair_choice import PassengerSession as DialogueSession, landmark_error_guidance
+
+    request, photo, _, _ = case(tmp_path, monkeypatch)
+    manifest = tmp_path/"public.json"
+    manifest.write_text(json.dumps({"photos":[{"photo_url":"https://kartaview.org/details/42/2/",
+                        "sha256":sha256(photo).hexdigest()}]}), encoding="utf8")
+    backend = place_evidence.PublicPlaceBackend([manifest],python="unused")
+    def bridge(*args, **kwargs):
+        if transport=="timeout":
+            raise subprocess.TimeoutExpired("place", 240)
+        return SimpleNamespace(returncode=1 if transport=="unavailable" else 0,stdout=b"{}")
+    monkeypatch.setattr(subprocess,"run",bridge)
+    if transport=="bad_receipt":
+        with pytest.raises((KeyError,ValueError)):
+            backend.interpret(request)
+        return
+    session = DialogueSession(request["scene"], SimpleNamespace(interpret=backend.interpret,
+                              passenger_area=lambda *_:None),audit_dir=tmp_path/"audit")
+    view = session.submit(request["text"])
+    assert view["state"]=="error" and view["error"]["code"]=="place_service_unavailable"
+    assert view["can_request_pointing"] is False
+    assert view["proposal_id"] is None and "mark the spot" in view["landmark_error_guidance"]
+    outcome = backend.interpret(request)
+    assert place_evidence.verify_unavailable(request,outcome)["input_verified"]
+    changed=deepcopy(request);changed["text"]="At the other shop."
+    assert landmark_error_guidance(changed,outcome) is None
+    Image.new("RGB",(96,64),"red").save(request["scene"]["frame"]["image_path"])
+    assert landmark_error_guidance(request,outcome) is None

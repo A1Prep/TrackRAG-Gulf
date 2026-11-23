@@ -187,6 +187,14 @@ def landmark_error_guidance(request, outcome):
     if not isinstance(outcome, dict) or outcome.get("ok") is not False or outcome.get("request_id") != request["request_id"]:
         return None
     source, error = outcome.get("provenance") or {}, outcome.get("error") or {}
+    from tools.passenger_place_call import UNAVAILABLE
+    if source.get("method") == UNAVAILABLE:
+        from .place_evidence import verify_unavailable
+        try:
+            verify_unavailable(request, outcome)
+        except (OSError, ValueError):
+            return None
+        return "The place model could not finish. You can mark the spot you mean on the original photo."
     if source.get("method") != "qwen_landmark_region" or request["scene"]["source"] != "predicted":
         return None
     original = request["scene"]["provenance"]["image_sha256"]
@@ -571,12 +579,13 @@ class PassengerSession(OriginalPassengerSession):
                 raise ValueError("Passenger selection source and actual decision method disagree")
             if selected_by == qualified_pair.ACTOR:
                 qualified_pair.validate(base,self._request,outcome)
-            else:
+            elif outcome.get("result", {}).get("status") == "proposed":
                 # Two browser sessions can share the segmentation model and its selected original.
                 with getattr(base,"lock",None) or nullcontext():
                     between_road.validate_offer(base, self._request, outcome, selected_by)
         state=super()._accept(outcome, selected_by)
-        if self._state == "error" and selected_by == "model" and self._supports_pointing():
+        if (self._state == "error" and selected_by == "model" and
+                (callable(getattr(self.model, "passenger_area", None)) or self._supports_pointing())):
             self._landmark_error_guidance = landmark_error_guidance(self._request, outcome)
         if self._state=="needs_clarification" and selected_by in {"passenger_landmarks","model"}:
             self._area_landmarks=self._landmarks_awaiting_area(base,outcome,selected_by)
@@ -615,7 +624,8 @@ class PassengerSession(OriginalPassengerSession):
                 "request_id": detail["request"].get("request_id"),
                 "request_sha256": digest(detail["request"]),
                 "original_outcome_sha256": digest(raw) if raw else None,
-                ("original_pointing_state" if self._passenger_requested else "original_automatic_state"): self._state,
+                ("original_area_request_state" if self._requested_area else
+                 "original_pointing_state" if self._passenger_requested else "original_automatic_state"): self._state,
             }
 
     def _supports_pointing(self):
@@ -625,6 +635,7 @@ class PassengerSession(OriginalPassengerSession):
     def _active(self):
         return (
             self._supports_pointing()
+            and not self._requested_area
             and self._request is not None
             and (
                 self._state in {"proposed", "needs_clarification", "insufficient_visual_evidence"}

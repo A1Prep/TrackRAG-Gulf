@@ -17,10 +17,16 @@ PLACE = re.compile(
     r"shopfronts?|storefronts?|shops?|stores?|caf[eé]s?|restaurants?|pharmac(?:y|ies)|hotels?|malls?|supermarkets?|"
     r"garages?|entrances?|doorways?|driveways?|forecourts?|villas?|gates?|buildings?|receptions?|lobb(?:y|ies)|kiosks?|"
     r"mosques?|schools?|clinics?|hospitals?|offices?|terminals?|petrol (?:station|pump)s?)\b", re.I)
-VEHICLE = re.compile(r"\b(?:cars?|vehicles?|suvs?|sedans?|taxis?|trucks?|buses|bus|minivans?|vans?|motorcycles?|"
+VEHICLE = re.compile(r"\b(?:cars?|vehicles?|suvs?|sedans?|taxis?|trucks?|lorr(?:y|ies)|buses|bus|minivans?|vans?|motorcycles?|"
                      r"patrol|camry|land cruiser|corolla|tesla|jeep|lexus|toyota|nissan|honda|bmw|mercedes)\b", re.I)
 VEHICLE_COMPOUND = re.compile(r"\b(?:school bus|hotel (?:shuttle|bus|van)|delivery (?:van|truck))\b", re.I)
-LANDMARK_PHRASE = re.compile(r"\b(?:near|beside|by|at|in front of|next to|behind|in)\s+(?:the|that|this|a|an)\s+", re.I)
+LANDMARK_PHRASE = re.compile(r"\b(?:near|beside|by|at|in front of|next to|behind|outside|opposite|"
+                             r"(?:left|right) of|in)\s+(?:the|that|those|this|a|an)\s+", re.I)
+# A business name may have no article, as in "at Al Noor". Preserve case for the name.
+NAMED_BUSINESS = re.compile(r"\b(?i:near|beside|by|at|outside|opposite|in front of|next to)\s+"
+                            r"([A-Z][\w’'-]+(?:[ \t]+[A-Z][\w’'-]+){0,4})\b")
+CLOCK_OR_GESTURE = frozenset("midnight noon sunrise sunset dawn dusk monday tuesday wednesday thursday friday "
+                             "saturday sunday am pm here there it this that those them the same left right one".split())
 UNSPECIFIC = frozenset("one ones side other nearer closer nearest farthest far right left here there middle front "
                        "back ahead same next dark light red white black blue green spot part open empty of the on "
                        "at to this that and please just me us you can could would stop get out".split())
@@ -35,7 +41,9 @@ def named_reference(words):
     if fixed and not VEHICLE.search(words[:fixed.start()]):
         return True
     if not relation:
-        return False
+        business = NAMED_BUSINESS.search(words)
+        return bool(business and not vehicle and
+                    all(t.casefold() not in CLOCK_OR_GESTURE for t in business[1].split()))
     # Let the image model interpret unfamiliar place nouns. Relationship words and
     # adjectives alone cannot convert an unpointed gesture into a visual target.
     scope = re.split(r"[,;.!?]|\b(?:just behind|just before|beside|next to)\b",words[relation.end():],maxsplit=1,flags=re.I)[0]

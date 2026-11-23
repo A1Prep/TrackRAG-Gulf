@@ -141,6 +141,41 @@ def test_clarification_correction_and_exact_confirm_preserve_source(site):
     assert final["view"]["state"] == "confirmed"
 
 
+def test_first_mark_preserves_reviewed_voice_and_never_runs_automatic_model(site, monkeypatch):
+    sid = site.open(next(iter(site.scenes)))["session"]
+    text = "Near the red bus on the right"
+    typed = {"mode":"typed", "text":text, "mark_on_photo":True}
+    spoken = {**typed, "mode":"voice"}
+    with pytest.raises(PassengerRequestError):
+        site.change(sid, 0, "submit", spoken)
+    with pytest.raises(PassengerRequestError):
+        site.change(sid, 0, "submit", {**typed, "mark_on_photo":"true"})
+    with pytest.raises(PassengerRequestError, match="one way"):
+        site.change(sid, 0, "submit", {**typed, "point_to_vehicles":True})
+    site.change(sid, 0, "begin-audio", {})
+    site.change(sid, 1, "audio", b"recorded words")
+    with pytest.raises(PassengerRequestError):
+        site.change(sid, 2, "submit", typed)
+    assert not site.model.calls
+    with monkeypatch.context() as patch:
+        patch.setattr(site,"model_request",lambda: pytest.fail("Opening the mark entered the inference queue"))
+        opened = site.change(sid, 2, "submit", spoken)
+    assert opened["voice_stage"] is None and opened["view"]["selected_by"] == "passenger"
+    assert opened["view"]["turns"][0]["text"] == text and opened["view"]["proposal_id"] is None
+    assert not site.model.calls
+    with pytest.raises(PassengerRequestError):
+        site.change(sid, 2, "area", {"box":[12, 20, 22, 30]})
+    marked = site.change(sid, 3, "area", {"box":[12, 20, 22, 30]})["view"]
+    assert marked["state"] == "proposed" and marked["selected_by"] == "passenger"
+    assert site.change(sid, 4, "confirm", {"proposal_id":marked["proposal_id"]})["view"]["state"] == "confirmed"
+    journal, = site.lookup(sid).directory.glob("*.jsonl")
+    submitted = next(row for row in map(json.loads,journal.read_text().splitlines()) if row["action"] == "submitted")
+    assert submitted["detail"]["request"]["original_transcript"] == "near the read bus"
+    assert submitted["detail"]["request"]["input_mode"] == "voice" and submitted["detail"]["passenger_requested_area"]
+    assert not site.model.calls
+    assert site.change(sid, 5, "submit", {"text":"New request", "mode":"typed"})["view"]["selected_by"] == "model"
+
+
 def test_new_failed_audio_invalidates_confirmation_and_previous_transcript(site):
     sid = site.open(next(iter(site.scenes)))["session"]
     token = site.change(sid, 0, "submit", {"mode":"typed","text":"next to the truck"})["view"]["proposal_id"]

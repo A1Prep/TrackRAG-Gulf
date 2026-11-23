@@ -6,6 +6,24 @@ from .data import file_sha256, inference_input_sha256
 from .passenger import digest, proposed, supported_region, unresolved
 from .road_cache import ROAD_RECIPE_SHA256, mask_sha256, mask_shape, read_mask
 
+REQUEST_METHOD = "passenger_requested_area"
+
+
+def question(request):
+    """Open marking on the exact requested photo, before any automatic interpretation."""
+    from .inputs import _inspect_image
+
+    request = validate_request(request)
+    scene = request["scene"]
+    _, image_sha = _inspect_image(scene["frame"])
+    if image_sha != scene["provenance"].get("image_sha256"):
+        raise ValueError("The original photograph changed before marking.")
+    return {"ok": True, "request_id": request["request_id"],
+            "result": unresolved("Which spot do you mean? Mark it on the photo and I’ll check the visible road."),
+            "provenance": {"method": REQUEST_METHOD, "independent_model_proposal": False, "native_model_calls": 0,
+                           "image": {"sha256": image_sha}, "request_sha256": digest(request),
+                           "inference_input_sha256": inference_input_sha256(request, image_sha)}}
+
 
 def verify(request, outcome, *, requested_box=None, road_cache=None):
     request = validate_request(request)

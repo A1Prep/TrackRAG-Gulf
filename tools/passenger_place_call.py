@@ -4,6 +4,7 @@ import json
 import sys
 
 APP = "trackrag-passenger-places"
+UNAVAILABLE = "public_place_service_unavailable"
 PROCESSOR_REVISION = "0c351dd01ed87e9c1b53cbc748cba10e6187ff3b"
 
 

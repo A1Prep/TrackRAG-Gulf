@@ -23,6 +23,8 @@ from .parking_steps import steps
 
 RECIPE = "current-vehicle-pair-supported-parking-1"
 REVIEWED_RECIPE = "current-vehicle-pair-supported-parking-2"
+INSPECTED_RECIPE = "current-vehicle-pair-supported-parking-3"
+CALL_LIMITS = {RECIPE: 4, REVIEWED_RECIPE: 5, INSPECTED_RECIPE: 5}
 PUBLIC_KEY = "03e686ae61db1b9c6e1b25d8b7efa7d9b42d8628d3e1abfaf7e247db69204607"
 MAX_IMAGE_BYTES = 40 * 1024 * 1024
 MAX_IMAGE_PIXELS = 42_000_000
@@ -95,9 +97,9 @@ def view_digest(view):
 
 
 def replay_decision(request, classes, calls, photo, recipe=RECIPE):
-    if recipe not in (RECIPE, REVIEWED_RECIPE):
+    if recipe not in tuple(CALL_LIMITS):
         raise ValueError("Unknown parking decision recipe")
-    if not isinstance(calls, list) or len(calls) > (5 if recipe == REVIEWED_RECIPE else 4):
+    if not isinstance(calls, list) or len(calls) > CALL_LIMITS[recipe]:
         raise ValueError("Invalid number of parking model responses")
     with TemporaryDirectory(prefix="parking-verify-") as folder:
         original = Path(folder)/"original.frame"
@@ -108,7 +110,8 @@ def replay_decision(request, classes, calls, photo, recipe=RECIPE):
 def _replay(request, classes, calls, original, recipe):
     from .parking_views import render
     from .parking_reference_board import steps as reviewed_steps
-    algorithm = reviewed_steps if recipe == REVIEWED_RECIPE else steps
+    from .parking_gap_review import steps as inspected_steps
+    algorithm = {RECIPE: steps, REVIEWED_RECIPE: reviewed_steps, INSPECTED_RECIPE: inspected_steps}[recipe]
     machine = algorithm(current_only(portable_request(request)), classes)
     index = 0
     try:
@@ -152,7 +155,7 @@ def build_outcome(request, photo, packet):
     _authenticate(packet)
     body = packet["body"]
     words = parking_instruction(request)
-    if (not words or body.get("recipe") not in (RECIPE, REVIEWED_RECIPE) or body.get("models") != [QWEN_REVISION, SEG_REVISION]
+    if (not words or body.get("recipe") not in tuple(CALL_LIMITS) or body.get("models") != [QWEN_REVISION, SEG_REVISION]
             or body.get("input_sha256") != input_hash or body.get("image_sha256") != image_sha
             or body.get("words") != words):
         raise ValueError("Parking decision uses different models, frame or passenger request")
@@ -201,7 +204,8 @@ class ModalParkingBackend:
             raise ValueError("Photograph exceeds the parking service input size")
         photo = path.read_bytes()
         request, _, _ = source_input(request, photo)
-        payload = {"request":portable_request(request), "image":base64.b64encode(photo).decode("ascii")}
+        payload = {"request":portable_request(request), "image":base64.b64encode(photo).decode("ascii"),
+                   "recipe":INSPECTED_RECIPE}
         proc = subprocess.run([self.python, "-m", "tools.passenger_parking_call"],
                               input=signed_bytes(payload), capture_output=True, cwd=self.root, timeout=240,
                               creationflags=getattr(subprocess, "CREATE_NO_WINDOW", 0))
@@ -209,7 +213,7 @@ class ModalParkingBackend:
             raise RuntimeError("Parking GPU unavailable or the request could not be processed")
         packet = json.loads(proc.stdout)
         outcome = build_outcome(request, photo, packet)
-        if packet["body"]["recipe"] != REVIEWED_RECIPE:
+        if packet["body"]["recipe"] != INSPECTED_RECIPE:
             raise ValueError("The deployed parking model is running a different live recipe")
         return outcome
 

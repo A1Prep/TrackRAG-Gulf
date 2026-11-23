@@ -1,6 +1,6 @@
 import {addFrame, openFrame} from "./frames.js";
 import {VehiclePairPicker, drawChosenLandmarks} from "./pair-choices.js";
-import {PhotoTools, positionWords} from "./photo-tools.js";
+import {PhotoTools, destinationLabel, drawDestination, positionWords} from "./photo-tools.js";
 
 const el = id => document.getElementById(id);
 const sceneSelect = el("scene"), image = el("frame"), canvas = el("overlay"), input = el("instruction");
@@ -62,7 +62,7 @@ function canMark(v) {
 }
 function suggestion(v) {
   const point = v.result?.destination_point_xy;
-  if (!point) return "Check the outlined area on the photo.";
+  if (!point) return "Choose a location on the photo.";
   const where = positionWords(point, canvas.width, canvas.height);
   if (v.selected_by === "passenger") return "The road check placed the blue pin in the " + where + " of the photo, inside your mark.";
   if (v.selected_by === "passenger_landmarks") return "The yellow pin in the " + where + " uses the two vehicles you chose.";
@@ -96,19 +96,20 @@ function response(v, stage) {
 }
 function legend(v) {
   const node = el("legend");
-  const area = Boolean(v.result?.destination_box_xyxy) && photoState === "ready" && !editing && !session?.voice_stage;
-  node.dataset.kind = !photo.active && area && !pairs.open ? (v.selected_by === "passenger" ? "manual" : "auto") : "none";
+  const pin = v.result?.destination_point_xy && photoState === "ready" && !editing && !session?.voice_stage;
+  node.dataset.kind = !photo.active && pin && !pairs.open ? (v.selected_by === "passenger" ? "manual" : "auto") : "none";
   let label = "Original photo";
   if (photoState === "loading") label = "Opening photo…";
   else if (photoState === "failed") label = "Photo unavailable";
   else if (pairs.open) label = "Numbers mark selectable vehicles";
   else if (photo.active) label = "Your mark · preview";
-  else if (area) {
-    label = v.selected_by === "passenger" ? "Your marked spot" : v.selected_by === "passenger_landmarks" ? "Spot from your vehicles" : "Suggested spot";
+  else if (pin) {
+    label = destinationLabel(v);
     if (v.state === "confirmed") label += " · confirmed";
     if (v.result.anchor_boxes_xyxy?.length === 2 && ["parking_model","passenger_landmarks"].includes(v.selected_by)) label += " · A and B mark the vehicles";
   } else if (!editing && !session?.voice_stage && v.area_landmarks) label = "A and B mark the vehicles";
   text(node, label);
+  return label;
 }
 function render() {
   const v = session?.view || {}, stage = session?.voice_stage, current = activeScene();
@@ -166,8 +167,8 @@ function render() {
   el("cancel").hidden = !opened || (!stage && (!v.state || v.state === "idle" || terminal(v.state))) || marking;
   el("cancel").disabled = locked;
   pairs.controls(locked || !ready);
-  photo.controls(ready, locked);
-  legend(v); paint();
+  photo.controls(ready, locked, legend(v));
+  paint();
 }
 async function perform(work, message = "", after) {
   if (busy) return;
@@ -230,30 +231,15 @@ function paint() {
   if (editing || session.voice_stage) return;
   if (pairs.open) { pairs.paint(ctx,scale); return; }
   if (v.area_landmarks) drawChosenLandmarks(ctx, v.area_landmarks.boxes_xyxy, scale);
-  const box = photo.active ? photo.box : v.result?.destination_box_xyxy;
-  if (!box) { photo.drawCursor(ctx,scale); return; }
-  if (!photo.active && ["passenger_landmarks","parking_model"].includes(v.selected_by))
-    drawChosenLandmarks(ctx, v.result.anchor_boxes_xyxy, scale);
-  const [x1,y1,x2,y2] = box, passenger = photo.active || v.selected_by === "passenger";
-  const color = passenger ? "#66eff1" : "#ffd34f";
-  ctx.save();
-  ctx.fillStyle = passenger ? "rgba(61,220,226,.15)" : "rgba(255,211,79,.10)";
-  ctx.fillRect(x1,y1,x2-x1,y2-y1);
-  if (!passenger || photo.active) ctx.setLineDash([7*scale,4*scale]);
-  for (const [stroke,width] of [["#142a25",4.5],[color,2.5]]) {
-    ctx.lineWidth=width*scale; ctx.strokeStyle=stroke; ctx.strokeRect(x1,y1,x2-x1,y2-y1);
+  if (photo.active) {
+    if (!photo.box) { photo.drawCursor(ctx,scale); return; }
+    const [x1,y1,x2,y2] = photo.box;
+    drawDestination(ctx, [(x1+x2)/2,(y1+y2)/2], photo.box, "mark_preview", scale);
+    return;
   }
-  const point = photo.active ? [(x1+x2)/2,(y1+y2)/2] : v.result.destination_point_xy;
-  if (point) {
-    ctx.setLineDash([]); ctx.translate(point[0],point[1]); ctx.scale(scale,scale);
-    // The centre stays on the exact model or passenger point at every zoom.
-    ctx.beginPath(); ctx.arc(0,0,10.5,0,2*Math.PI);
-    ctx.lineWidth=3.6; ctx.strokeStyle="#16352d"; ctx.stroke();
-    ctx.lineWidth=1.8; ctx.strokeStyle="#ffffff"; ctx.stroke();
-    ctx.beginPath(); ctx.arc(0,0,6,0,2*Math.PI);
-    ctx.fillStyle=color; ctx.fill(); ctx.lineWidth=1.8; ctx.strokeStyle="#16352d"; ctx.stroke();
-  }
-  ctx.restore();
+  if (!v.result?.destination_point_xy) return;
+  if (["passenger_landmarks","parking_model"].includes(v.selected_by)) drawChosenLandmarks(ctx, v.result.anchor_boxes_xyxy, scale);
+  drawDestination(ctx, v.result.destination_point_xy, v.result.destination_box_xyxy, v.selected_by, scale);
 }
 el("zoom-in").onclick = () => photo.setZoom(1, photo.active ? photo.cursor : session?.view.result?.destination_point_xy);
 el("zoom-out").onclick = () => photo.setZoom(-1, photo.active ? photo.cursor : session?.view.result?.destination_point_xy);

@@ -9,6 +9,40 @@ export function positionWords([x, y], width, height) {
   return horizontal === "centre" ? "centre" : "middle " + horizontal;
 }
 
+// The general grounder checks one pixel. Its larger search box can include parked vehicles.
+// Show a region only when the passenger marked it or the pair route checked a road patch.
+const regionSources = new Set(["passenger", "mark_preview", "parking_model", "passenger_landmarks", "road_qualified_pair"]);
+
+export function destinationLabel(view) {
+  if (view.selected_by === "passenger") return "Your marked area and pin";
+  if (view.selected_by === "passenger_landmarks") return "Spot from your vehicles";
+  return regionSources.has(view.selected_by) ? "Suggested spot" : "Suggested pin";
+}
+
+export function drawDestination(ctx, point, box, source, scale) {
+  if (!point) return;
+  const manual = source === "passenger" || source === "mark_preview";
+  const showRegion = box && regionSources.has(source);
+  const color = manual ? "#66eff1" : "#ffd34f";
+  ctx.save();
+  if (showRegion) {
+    const [x1,y1,x2,y2] = box;
+    ctx.fillStyle = manual ? "rgba(61,220,226,.15)" : "rgba(255,211,79,.10)";
+    ctx.fillRect(x1, y1, x2-x1, y2-y1);
+    if (source !== "passenger") ctx.setLineDash([7*scale, 4*scale]);
+    for (const [stroke,width] of [["#142a25",4.5],[color,2.5]]) {
+      ctx.lineWidth = width*scale; ctx.strokeStyle = stroke; ctx.strokeRect(x1, y1, x2-x1, y2-y1);
+    }
+  }
+  ctx.setLineDash([]); ctx.translate(point[0],point[1]); ctx.scale(scale,scale);
+  ctx.beginPath(); ctx.arc(0,0,10.5,0,2*Math.PI);
+  ctx.lineWidth=3.6; ctx.strokeStyle="#16352d"; ctx.stroke();
+  ctx.lineWidth=1.8; ctx.strokeStyle=showRegion ? "#ffffff" : color; ctx.stroke();
+  ctx.beginPath(); ctx.arc(0,0,showRegion ? 6 : 2,0,2*Math.PI);
+  ctx.fillStyle=color; ctx.fill(); ctx.lineWidth=1.8; ctx.strokeStyle="#16352d"; ctx.stroke();
+  ctx.restore();
+}
+
 export class PhotoTools {
   constructor(canvas, viewport, refresh, locked, pairPicker) {
     this.canvas = canvas; this.viewport = viewport; this.refresh = refresh;
@@ -122,7 +156,7 @@ export class PhotoTools {
     if (this.zoom) this.centerOn(this.cursor);
     this.refresh();
   }
-  controls(ready, busy) {
+  controls(ready, busy, overlayLabel) {
     const get = id => document.getElementById(id);
     get("zoom-in").disabled = !ready || this.zoom === steps.length-1;
     get("zoom-out").disabled = !ready || this.zoom === 0;
@@ -135,7 +169,8 @@ export class PhotoTools {
     this.canvas.classList.toggle("drawing", this.active && !this.panning);
     this.canvas.classList.toggle("choosing-pair", this.pairs.open);
     this.canvas.setAttribute("role", this.active ? "application" : "img");
-    this.canvas.setAttribute("aria-label", this.active ? "Mark your spot on the road photo" : "Destination overlay");
+    this.canvas.setAttribute("aria-label", this.active ? "Mark your spot on the road photo" : overlayLabel);
+    this.canvas.setAttribute("aria-describedby", this.active ? "mark-help mark-position" : "legend status");
     get("draw-tools").hidden = !this.active;
     get("use-box").disabled = busy || !ready || !this.box || this.panning;
     get("discard-box").disabled = busy;

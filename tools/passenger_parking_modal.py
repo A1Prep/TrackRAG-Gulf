@@ -32,5 +32,5 @@ class PassengerParking:
         self.models=ParkingModels("/parking/"+SEG_REVISION,"/qwen/"+QWEN_REVISION,os.environ.pop("PARKING_SIGNING_KEY"))
 
     @modal.method()
-    def interpret(self, request, image):
-        return self.models.run(request, image)
+    def interpret(self, request, image, recipe=None):
+        return self.models.run(request, image, recipe)

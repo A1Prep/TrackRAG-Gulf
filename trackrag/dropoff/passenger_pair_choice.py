@@ -180,18 +180,22 @@ def options(request, *, passenger_requested=False):
 
 
 def landmark_error_guidance(request, outcome):
-    """Allow a passenger to locate two vehicles after the model returned unusable detector IDs."""
+    """Offer a new passenger selection after a bound model failure on an intact photograph."""
     from .inputs import _inspect_image
     from .landmarks import InvalidLandmarkIDs
 
     if not isinstance(outcome, dict) or outcome.get("ok") is not False or outcome.get("request_id") != request["request_id"]:
         return None
     source, error = outcome.get("provenance") or {}, outcome.get("error") or {}
-    if (source.get("method") != "qwen_landmark_region" or error.get("message") != InvalidLandmarkIDs.message
-            or error.get("code") not in {"invalid_model_output", "invalid_input_or_output"}
-            or request["scene"]["source"] != "predicted" or not between_road.requested(request)):
+    if source.get("method") != "qwen_landmark_region" or request["scene"]["source"] != "predicted":
         return None
     original = request["scene"]["provenance"]["image_sha256"]
+    memory_failure = (source.get("runtime_resource_failure") is True and error.get("code") == "resource_unavailable"
+                      and source.get("request_sha256") == digest(request) and source.get("image", {}).get("sha256") == original)
+    invalid_pair = (error.get("message") == InvalidLandmarkIDs.message
+                    and error.get("code") in {"invalid_model_output", "invalid_input_or_output"} and between_road.requested(request))
+    if not (memory_failure or invalid_pair):
+        return None
     if (source.get("request_sha256", digest(request)) != digest(request)
             or source.get("image", {}).get("sha256", original) != original):
         return None
@@ -200,6 +204,8 @@ def landmark_error_guidance(request, outcome):
             return None
     except (ValueError, OSError):
         return None
+    if memory_failure:
+        return "The local model ran out of resources. You can still mark the spot you mean on this photo."
     if options(request):
         return "I couldn’t match both vehicles. Which two do you mean? Select their outlines or mark the intended road area."
     return "I couldn’t match both vehicles, and this photo has fewer than two vehicle outlines. Could you mark the road area or describe another landmark?"

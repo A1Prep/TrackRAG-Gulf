@@ -8,8 +8,9 @@ from tempfile import TemporaryDirectory
 from PIL import Image
 
 from tools.passenger_parking_study import ParkingSegmenter, QwenChooser, QWEN_REVISION, SEG_REVISION
-from .parking_evidence import REVIEWED_RECIPE, current_only, map_shape, portable_request, signed_bytes, source_input, view_digest
-from .parking_reference_board import steps
+from .parking_evidence import INSPECTED_RECIPE, REVIEWED_RECIPE, current_only, map_shape, portable_request, signed_bytes, source_input, view_digest
+from .parking_gap_review import steps as inspected_steps
+from .parking_reference_board import steps as reviewed_steps
 from .parking_views import render
 from .passenger_parking import parking_instruction
 
@@ -21,7 +22,10 @@ class ParkingModels:
         self.segmenter = ParkingSegmenter(parking_path)
         self.chooser = QwenChooser(qwen_path)
 
-    def run(self, wire_request, photo):
+    def run(self, wire_request, photo, recipe=None):
+        recipe = REVIEWED_RECIPE if recipe is None else recipe
+        if recipe not in (REVIEWED_RECIPE, INSPECTED_RECIPE):
+            raise ValueError("Unsupported live parking recipe")
         request, image_sha, input_sha = source_input(wire_request, photo)
         request = current_only(portable_request(request))
         frame = request["scene"]["frame"]
@@ -38,7 +42,7 @@ class ParkingModels:
             root=Path(directory)
             original=root/"original.frame"
             original.write_bytes(photo)
-            machine=steps(request,classes)
+            machine=(inspected_steps if recipe == INSPECTED_RECIPE else reviewed_steps)(request,classes)
             try:
                 step=next(machine)
                 while True:
@@ -64,7 +68,7 @@ class ParkingModels:
                     step=machine.send(answer)
             except StopIteration:
                 pass
-        body={"recipe":REVIEWED_RECIPE,"models":[QWEN_REVISION,SEG_REVISION],"input_sha256":input_sha,"image_sha256":image_sha,
+        body={"recipe":recipe,"models":[QWEN_REVISION,SEG_REVISION],"input_sha256":input_sha,"image_sha256":image_sha,
               "words":words,"class_map":{"sha256":sha256(data).hexdigest(),"png":base64.b64encode(data).decode("ascii")},
               "calls":records}
         return {"body":body,"signature":self.key.sign(signed_bytes(body)).hex()}

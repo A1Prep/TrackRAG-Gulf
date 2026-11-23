@@ -377,6 +377,7 @@ class PassengerSession:
         self._lock = RLock()
         self._turns = []
         self._state, self._proposal, self._result = "idle", None, None
+        self._place_offer = None
         self._error, self._selected_by, self._request = None, None, None
         self._save("opened", {"scene":clean})
 
@@ -431,10 +432,18 @@ class PassengerSession:
                 or info.get("request_sha256") != digest(req)):
             raise ValueError("Grounding outcome is not bound to this scene and instruction")
         result = validate_target(result,list(result),self.scene["frame"])
+        from .place_grounding import METHOD as place_method
+        if info.get("method") == place_method:
+            if selected_by != "model":
+                raise ValueError("Only an automatic passenger instruction can offer a place-model result")
+            from .place_evidence import verify
+            verify(req, outcome)
+            if result["status"] == "proposed":
+                self._place_offer = deepcopy(outcome)
         self._state, self._result, self._selected_by = result["status"],result,selected_by
         if self._state == "proposed":
             self._proposal = uuid4().hex
-            self._turns.append(self._turn("assistant","Please check the highlighted area. Is this where you want to get out?"))
+            self._turns.append(self._turn("assistant","Please check the pin on the photo. Is this where you want to get out?"))
         elif self._state == "needs_clarification":
             self._turns.append(self._turn("assistant",result["clarification_question"]))
         else:
@@ -442,6 +451,7 @@ class PassengerSession:
 
     def _clear(self):
         self._proposal, self._result, self._error, self._selected_by = None, None, None, None
+        self._place_offer = None
 
     def _save_turn(self, action, detail):
         try:
@@ -546,9 +556,24 @@ class PassengerSession:
                 self._error = {"code":"image_changed","message":"The original frame changed before confirmation"}
                 self._save("confirmation_blocked",{})
                 raise ValueError(self._error["message"])
+            detail = {"proposal_id":proposal_id,"selected_by":self._selected_by}
+            if self._place_offer is not None:
+                from .place_evidence import verify
+                try:
+                    if self._selected_by != "model" or self._place_offer["result"] != self._result:
+                        raise ValueError("The displayed place proposal changed")
+                    verify(self._request, self._place_offer)
+                except Exception as exc:
+                    self._clear()
+                    self._state = "error"
+                    self._error = {"code":"place_confirmation_blocked",
+                                   "message":"The evidence for this pin changed before confirmation."}
+                    self._save("confirmation_blocked", {})
+                    raise ValueError(self._error["message"]) from exc
+                detail["verified_place_outcome_sha256"] = digest(self._place_offer)
             self._state = "confirmed"
             try:
-                self._save("confirmed",{"proposal_id":proposal_id,"selected_by":self._selected_by})
+                self._save("confirmed",detail)
             except OSError:
                 self._state = "proposed"
                 raise

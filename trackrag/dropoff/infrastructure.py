@@ -73,6 +73,17 @@ def _could_name_something_else(text):
                for word in _WORDS.finditer(remaining))
 
 
+def _fixed_place_quotes(request):
+    """A named business or empty bay cannot be identified solely by a detected road user."""
+    from .place_grounding import PLACE, place_reference
+    text = request["text"]
+    words = place_reference(request)
+    if not words or _ROAD_USER.search(words) or re.search(r"\b(?:not|except|ignore|avoid)\b", words, re.I):
+        return []
+    return [{"text":m.group(), "start":m.start(), "end":m.end()} for m in PLACE.finditer(text)
+            if not _STRUCTURE.fullmatch(m.group())]
+
+
 def _active_structures(request):
     """Return exact quotes from the current turn only, when its explicit scope is unambiguous."""
     text = request["text"]
@@ -142,7 +153,7 @@ def review(request, outcome):
             or outcome["provenance"].get("method") != "qwen_landmark_region"):
         return outcome
     try:
-        quotes = _active_structures(request)
+        quotes = _active_structures(request) or _fixed_place_quotes(request)
         track = _bound_track(request, outcome) if quotes else None
     except (KeyError, AttributeError, TypeError, ValueError):
         # A missing/malformed source is for the grounder/session contract to validate.

@@ -145,7 +145,7 @@ def operational_code(exc):
         return "dependency_unavailable"
     if isinstance(exc, FileNotFoundError):
         return "checkpoint_or_image_unavailable"
-    if isinstance(exc, ResourceError) or "out of memory" in str(exc).lower():
+    if isinstance(exc, (ResourceError, MemoryError)) or "out of memory" in str(exc).lower():
         return "resource_unavailable"
     if isinstance(exc, ValueError):
         return "invalid_input_or_output"
@@ -174,6 +174,7 @@ class PassengerGrounder:
 
     def interpret(self, request):
         with self.lock:
+            binding = None
             try:
                 request = validate_request(request)
                 image, binding = resolve_image(request, self.config)
@@ -184,9 +185,14 @@ class PassengerGrounder:
                         decision["pair_resolution"] = pair
                     return self.from_decision(request,image,binding,decision)
             except Exception as exc:
-                return error_outcome(operational_code(exc), str(exc)[:4000] or type(exc).__name__,
+                code = operational_code(exc)
+                provenance = {"method":"qwen_landmark_region"}
+                if code == "resource_unavailable" and binding:
+                    provenance.update(runtime_resource_failure=True, request_sha256=digest(request),
+                                      image={"sha256":binding["sha256"]})
+                return error_outcome(code, str(exc)[:4000] or type(exc).__name__,
                                      request.get("request_id","") if isinstance(request,dict) else "",
-                                     {"method":"qwen_landmark_region"})
+                                     provenance)
 
     def from_decision(self, request, image, binding, record):
         """Shared decision-to-proposal path. The application always calls interpret() live."""

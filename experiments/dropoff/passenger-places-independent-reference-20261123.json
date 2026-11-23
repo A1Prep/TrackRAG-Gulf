@@ -1,0 +1,378 @@
+{
+  "purpose": "Exploratory UAE passenger target-grounding diagnostic on full driver-view originals.",
+  "reviewer": "Independent AI visual reviewer. No model outputs were consulted, and these are not human passenger or safety annotations.",
+  "sampling": "Purposive coverage of positive and negative geometry. The cases do not estimate population performance.",
+  "reference": "Coordinates are in [0,1000] in the original image, measuring x from the left and y from the top. A positive requires the first displayed proposal's pin inside its polygon. Withheld/clarified positives are misses for automatic localization. A negative passes only if it receives no pin and clarification/abstention. Score any optional tap-assisted flow separately: supply only the listed tap on positives, then score the resulting pin against the same polygon. Do not provide reference regions or taps during the automatic pass. Model-generated taps do not count as user confirmations. No case concerns legality, vehicle control, or authorization to stop.",
+  "correlation": "uae-fresh-05 and uae-fresh-07 are distinct frames on KartaView drive 66245 (frames 146 and 185). The other six cases have different drives. Eight photographs represent seven distinct drives; the two pair requests are on different drives. Several drives may come from the same contributor or city.",
+  "repository_commit": "c9e987b9f02f600ac00e900cec33d4bf5e3f680a",
+  "cases": [
+    {
+      "id": "uae-fresh-01",
+      "route": "single_landmark",
+      "expected": "propose",
+      "request": "Could you let me out just in front of the glass lobby doors, by the silver bollards?",
+      "reference_polygon_1000": [
+        [
+          355,
+          745
+        ],
+        [
+          440,
+          748
+        ],
+        [
+          575,
+          765
+        ],
+        [
+          685,
+          800
+        ],
+        [
+          678,
+          879
+        ],
+        [
+          331,
+          853
+        ]
+      ],
+      "scripted_tap_1000": [
+        506,
+        810
+      ],
+      "visual_rationale": "The covered forecourt has empty asphalt directly in front of the glass doors. The silver bollards line the near edge of the lobby. Exclude pavement above the black and yellow curb, and the distant left exit.",
+      "source": {
+        "n": 7704,
+        "id": "1439231209",
+        "sequence": "4574809",
+        "index": 203,
+        "size": [
+          3264,
+          1836
+        ],
+        "sha256": "cd54579e2c76ee57708918e3d91c1b1304e6c034977eefa23e815d65977052f9",
+        "sequence_country_code": "AE",
+        "source_address": "Addax Tower, City Of Lights, Abu Dhabi, Abu Dhabi, United Arab Emirates",
+        "area_hint": "Abu Dhabi Al Zahiyah",
+        "lat": 24.495476,
+        "lon": 54.383242,
+        "published_shot_date": "2022-02-24 07:10:34.000",
+        "contributor_id": "10951",
+        "source_url": "https://kartaview.org/details/4574809/203/",
+        "metadata_url": "https://api.kartaview.org/2.0/photo/1439231209",
+        "processed_url": "https://cdn.kartaview.org/pr:sharp/aHR0cHM6Ly9zdG9yYWdlMTMub3BlbnN0cmVldGNhbS5vcmcvZmlsZXMvcGhvdG8vMjAyMi8yLzI0L3Byb2MvNDU3NDgwOV9hNGM5NDVmYmI5OGVmYzk1YmY4M2FlYzRjY2RmMDUxZC5qcGc",
+        "processing": "BLURRED"
+      }
+    },
+    {
+      "id": "uae-fresh-02",
+      "route": "single_landmark",
+      "expected": "propose",
+      "request": "Could you drop me in the open part of the pull-in on our right, just behind the dark parked car?",
+      "reference_polygon_1000": [
+        [
+          657,
+          568
+        ],
+        [
+          728,
+          573
+        ],
+        [
+          773,
+          583
+        ],
+        [
+          785,
+          597
+        ],
+        [
+          711,
+          612
+        ],
+        [
+          669,
+          617
+        ]
+      ],
+      "scripted_tap_1000": [
+        711,
+        593
+      ],
+      "visual_rationale": "A dark parked car sits ahead on our right in a recessed curb. The visible road surface behind its rear and before the curb bends back toward us is the requested pocket. Exclude the sidewalk, car body and through lane. Soft focus makes the edge imprecise.",
+      "source": {
+        "n": 175,
+        "id": "1832631225",
+        "sequence": "8081545",
+        "index": 14,
+        "size": [
+          1920,
+          1080
+        ],
+        "sha256": "b5f7f2a659e8f7815ff0d2ed09969a0908f68d56d2ca942a756b8926357f33a8",
+        "sequence_country_code": "AE",
+        "source_address": "ذا فيوز, Dubai, Dubai, United Arab Emirates",
+        "area_hint": "Dubai",
+        "lat": 25.093739,
+        "lon": 55.168892,
+        "published_shot_date": "2023-10-21 06:55:58.000",
+        "contributor_id": "18918",
+        "source_url": "https://kartaview.org/details/8081545/14/",
+        "metadata_url": "https://api.kartaview.org/2.0/photo/1832631225",
+        "processed_url": "https://cdn.kartaview.org/pr:sharp/aHR0cHM6Ly9zdG9yYWdlMTMub3BlbnN0cmVldGNhbS5vcmcvZmlsZXMvcGhvdG8vMjAyMy8xMC8yNy9wcm9jLzgwODE1NDVfMDA5YWE0ZjNmZDhiZmU2Y2YxMzQ0OTkyZDQ5MjA4ZGEuanBn",
+        "processing": "BLURRED"
+      }
+    },
+    {
+      "id": "uae-fresh-03",
+      "route": "single_landmark",
+      "expected": "withhold",
+      "request": "Let me out right at the entrance to the Cibo Diet shop on our right.",
+      "reference_polygon_1000": [],
+      "scripted_tap_1000": null,
+      "visual_rationale": "The storefront is across a continuous raised planted divider. Cars occupy the storefront parking. No visible turn-in or clear requested curb adjoins this vehicle's lane.",
+      "source": {
+        "n": 5004,
+        "id": "1480814473",
+        "sequence": "5139769",
+        "index": 64,
+        "size": [
+          3264,
+          1836
+        ],
+        "sha256": "a2b23025bda4791dd7a53822937eeb69f2b9655011b6b8be537d9cde4f8158c0",
+        "sequence_country_code": "AE",
+        "source_address": "Golden Tower Store, Electra Street, Abu Dhabi, Abu Dhabi, United Arab Emirates",
+        "area_hint": "Abu Dhabi Al Zahiyah",
+        "lat": 24.495974,
+        "lon": 54.380416,
+        "published_shot_date": "2022-04-28 10:15:42.000",
+        "contributor_id": "10951",
+        "source_url": "https://kartaview.org/details/5139769/64/",
+        "metadata_url": "https://api.kartaview.org/2.0/photo/1480814473",
+        "processed_url": "https://cdn.kartaview.org/pr:sharp/aHR0cHM6Ly9zdG9yYWdlMTMub3BlbnN0cmVldGNhbS5vcmcvZmlsZXMvcGhvdG8vMjAyMi80LzI4L3Byb2MvNTEzOTc2OV8wMGFhNDIwNWNmNzVkZWI0NmM5ZGQ4YzJkM2YyM2U3ZS5qcGc",
+        "processing": "BLURRED"
+      }
+    },
+    {
+      "id": "uae-fresh-04",
+      "route": "single_landmark",
+      "expected": "withhold",
+      "request": "Please drop me at the entrance to the Guess store on the right.",
+      "reference_polygon_1000": [],
+      "scripted_tap_1000": null,
+      "visual_rationale": "GUESS appears on an advertisement on a construction site. There is no visible shop entrance or nearby accessible bay. The road forks around an island and barriers.",
+      "source": {
+        "n": 81,
+        "id": "1476878969",
+        "sequence": "5092153",
+        "index": 703,
+        "size": [
+          3264,
+          1836
+        ],
+        "sha256": "82822b8b140ca1aa39af2772815a3438d5f9ae65b8125c4558027e67877b5ec7",
+        "sequence_country_code": "AE",
+        "source_address": "Ba7ar '9a7i, Jumeira 3, Dubai, Dubai, United Arab Emirates",
+        "area_hint": "Dubai",
+        "lat": 25.109823,
+        "lon": 55.182557,
+        "published_shot_date": "2022-04-22 06:26:24.000",
+        "contributor_id": "47873",
+        "source_url": "https://kartaview.org/details/5092153/703/",
+        "metadata_url": "https://api.kartaview.org/2.0/photo/1476878969",
+        "processed_url": "https://cdn.kartaview.org/pr:sharp/aHR0cHM6Ly9zdG9yYWdlMTMub3BlbnN0cmVldGNhbS5vcmcvZmlsZXMvcGhvdG8vMjAyMi80LzIyL3Byb2MvNTA5MjE1M19jZDI0ODQ3ODJhYWVlM2E2OTZlZGZjMTQxOTg4ZGQyYi5qcGc",
+        "processing": "BLURRED"
+      }
+    },
+    {
+      "id": "uae-fresh-05",
+      "route": "single_landmark",
+      "expected": "propose",
+      "request": "Can you drop me in the empty bay on the right beside the white construction fence?",
+      "reference_polygon_1000": [
+        [
+          738,
+          822
+        ],
+        [
+          775,
+          834
+        ],
+        [
+          874,
+          878
+        ],
+        [
+          978,
+          927
+        ],
+        [
+          978,
+          979
+        ],
+        [
+          769,
+          979
+        ],
+        [
+          711,
+          894
+        ]
+      ],
+      "scripted_tap_1000": [
+        835,
+        925
+      ],
+      "visual_rationale": "The paved foreground pocket beside the temporary white fence is empty. The sidewalk protrudes beside the silver parked car farther up. The target falls on the near side of this protrusion, inside the broken white parking edge, away from the wall and the middle of the street.",
+      "source": {
+        "n": 33601,
+        "id": "24205229",
+        "sequence": "66245",
+        "index": 146,
+        "size": [
+          2688,
+          1520
+        ],
+        "sha256": "534ff1819947cffe773874bc601925b76ad97e8a17048ec75ff76ba916b7a9e3",
+        "sequence_country_code": "AE",
+        "source_address": "6 Street, United Arab Emirates, AE",
+        "area_hint": "Dubai Al Barsha",
+        "lat": 25.111525,
+        "lon": 55.19226,
+        "published_shot_date": "2017-03-31 09:17:49.000",
+        "contributor_id": "2569",
+        "source_url": "https://kartaview.org/details/66245/146/",
+        "metadata_url": "https://api.kartaview.org/2.0/photo/24205229",
+        "processed_url": "https://cdn.kartaview.org/pr:sharp/aHR0cHM6Ly9zdG9yYWdlMy5vcGVuc3RyZWV0Y2FtLm9yZy9maWxlcy9waG90by8yMDE3LzQvMS9wcm9jLzY2MjQ1XzExMGMwXzU4ZGVkOTc5MGE5ZTMuanBn",
+        "processing": "BLURRED"
+      }
+    },
+    {
+      "id": "uae-fresh-06",
+      "route": "single_landmark",
+      "expected": "withhold",
+      "request": "Could you let me out right by the stack of grey paving blocks on the right?",
+      "reference_polygon_1000": [],
+      "scripted_tap_1000": null,
+      "visual_rationale": "The stacks are inside a work site behind a continuous red and white barrier. No curbside area giving direct access to this landmark can be identified.",
+      "source": {
+        "n": 20,
+        "id": "1737070857",
+        "sequence": "7343369",
+        "index": 95,
+        "size": [
+          3840,
+          2160
+        ],
+        "sha256": "57fe9aef1fc88a095ea2b011467ad575499e44feedbbd8a5e5ca309c2e5c3128",
+        "sequence_country_code": "AE",
+        "source_address": "بانثيون بوليفارد, Dubai, Dubai, United Arab Emirates",
+        "area_hint": "Dubai JVC",
+        "lat": 25.057993,
+        "lon": 55.208839,
+        "published_shot_date": "2023-06-03 09:06:17.000",
+        "contributor_id": "47873",
+        "source_url": "https://kartaview.org/details/7343369/95/",
+        "metadata_url": "https://api.kartaview.org/2.0/photo/1737070857",
+        "processed_url": "https://cdn.kartaview.org/pr:sharp/aHR0cHM6Ly9zdG9yYWdlMTMub3BlbnN0cmVldGNhbS5vcmcvZmlsZXMvcGhvdG8vMjAyMy82LzMvcHJvYy83MzQzMzY5X2QzNTQxYzczYzY2NzM5MTcxYzQ5NzIyZjIzMmZmYTBmLmpwZw",
+        "processing": "BLURRED"
+      }
+    },
+    {
+      "id": "uae-fresh-07",
+      "route": "two_vehicle",
+      "expected": "propose",
+      "request": "Please let me out in the curbside gap between the two white sedans parked ahead on our right.",
+      "reference_polygon_1000": [
+        [
+          558,
+          766
+        ],
+        [
+          611,
+          767
+        ],
+        [
+          633,
+          771
+        ],
+        [
+          624,
+          798
+        ],
+        [
+          621,
+          832
+        ],
+        [
+          607,
+          811
+        ],
+        [
+          584,
+          791
+        ]
+      ],
+      "scripted_tap_1000": [
+        605,
+        786
+      ],
+      "visual_rationale": "The Lexus in the near right foreground partly occludes a vacant stretch leading to the rear of the farther white sedan. Accept only the visible wedge of asphalt on the parking side of the dashed boundary; the identifiable wedge is small. Exclude both car bodies, through lane and the left-hand row. Extent behind the near Lexus cannot be inferred.",
+      "source": {
+        "n": 4606,
+        "id": "24206007",
+        "sequence": "66245",
+        "index": 185,
+        "size": [
+          2688,
+          1520
+        ],
+        "sha256": "766f78cb42fe0d16ac0f682aa9c21227b6417a7b2b9a42e917e88721d5aaf4ef",
+        "sequence_country_code": "AE",
+        "source_address": "6 Street, United Arab Emirates, AE",
+        "area_hint": "Dubai Al Barsha",
+        "lat": 25.108792,
+        "lon": 55.196784,
+        "published_shot_date": "2017-03-31 09:19:15.000",
+        "contributor_id": "2569",
+        "source_url": "https://kartaview.org/details/66245/185/",
+        "metadata_url": "https://api.kartaview.org/2.0/photo/24206007",
+        "processed_url": "https://cdn.kartaview.org/pr:sharp/aHR0cHM6Ly9zdG9yYWdlMy5vcGVuc3RyZWV0Y2FtLm9yZy9maWxlcy9waG90by8yMDE3LzQvMS9wcm9jLzY2MjQ1XzkyYjk1XzU4ZGVkYTM5ZDk1YjIuanBn",
+        "processing": "BLURRED"
+      }
+    },
+    {
+      "id": "uae-fresh-08",
+      "route": "two_vehicle",
+      "expected": "withhold",
+      "request": "I'd like to get out in the space between the white delivery van and the dark SUV closest to us on the right.",
+      "reference_polygon_1000": [],
+      "scripted_tap_1000": null,
+      "visual_rationale": "These vehicles are nose-in in adjacent occupied spaces, across a planted strip and raised curb. The only area between the body outlines is a thin parking stripe. There is no visible vehicle-sized vacant bay or direct lane access.",
+      "source": {
+        "n": 42005,
+        "id": "1480052281",
+        "sequence": "5124809",
+        "index": 287,
+        "size": [
+          3264,
+          1836
+        ],
+        "sha256": "37249c17aea5689c7f6d059e5fb99ed405a9d95a414f444571d44906033b6626",
+        "sequence_country_code": "AE",
+        "source_address": "Katia Internet Cafe, Building 114, Abu Dhabi, Abu Dhabi, United Arab Emirates",
+        "area_hint": "Abu Dhabi",
+        "lat": 24.471703,
+        "lon": 54.34225,
+        "published_shot_date": "2022-04-25 08:38:22.000",
+        "contributor_id": "10951",
+        "source_url": "https://kartaview.org/details/5124809/287/",
+        "metadata_url": "https://api.kartaview.org/2.0/photo/1480052281",
+        "processed_url": "https://cdn.kartaview.org/pr:sharp/aHR0cHM6Ly9zdG9yYWdlMTMub3BlbnN0cmVldGNhbS5vcmcvZmlsZXMvcGhvdG8vMjAyMi80LzI2L3Byb2MvNTEyNDgwOV85NWJkNGE1ZDU0MDdmNjA0MTg0NTBhOGQ3YTdhZTlkYS5qcGc",
+        "processing": "BLURRED"
+      }
+    }
+  ]
+}

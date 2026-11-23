@@ -28,6 +28,16 @@ def bound_outcome(outcome, request, *, passenger_selected=False, passenger_landm
     need(isinstance(source, dict), "Missing outcome provenance")
     from trackrag.dropoff import passenger_parking as parking
     from trackrag.dropoff import parking_clarification
+    from trackrag.dropoff import place_grounding
+    if outcome.get("ok") and source.get("method") == place_grounding.METHOD:
+        from trackrag.dropoff.place_evidence import verify
+        need(dialogue_policy and not (passenger_selected or passenger_landmarks or passenger_requested_pointing),
+             "A place-model decision belongs to a normal submitted request")
+        checked = verify(request, outcome)
+        return {"ok":True,"method":source["method"],"request_id":request["request_id"],"result":outcome["result"],
+                "image_sha256":source["image"]["sha256"], "inference_input_sha256":source["inference_input_sha256"],
+                "saved_provenance":source, "place_verification":checked, "native_model_calls":checked["language_calls"],
+                "independent_model_proposal":checked["independent_model_proposal"]}
     if source.get("method") == parking_clarification.METHOD:
         need(dialogue_policy and not (passenger_selected or passenger_landmarks or passenger_requested_pointing),
              "A reference clarification belongs to a normal submitted passenger request")
@@ -198,6 +208,7 @@ def session(journal_path, *, referent_path=None, pair_geometry=None, road_cache=
     passenger_requested_pointing = False
     offered_tokens = set()
     parking_offer_sha = None
+    place_offer_sha = None
     events = []
     for line_sha, event in raw:
         action, detail, view = event["action"], event["detail"], event["view"]
@@ -217,7 +228,7 @@ def session(journal_path, *, referent_path=None, pair_geometry=None, road_cache=
         else:
             need(token is None, "An inactive passenger interaction exposed a proposal token")
         if action in ("submitted", "passenger_marked", "passenger_selected_pair"):
-            parking_offer_sha = None
+            parking_offer_sha = place_offer_sha = None
             manual = action == "passenger_marked"
             pair = action == "passenger_selected_pair"
             if not manual and not pair:
@@ -294,6 +305,8 @@ def session(journal_path, *, referent_path=None, pair_geometry=None, road_cache=
                         if item["outcome"]["result"]["status"] == "proposed":
                             item["phase"] = "automatic_parking_proposal"
                             parking_offer_sha = digest(detail["outcome"])
+                if item["outcome"].get("place_verification", {}).get("independent_model_proposal"):
+                    place_offer_sha = digest(detail["outcome"])
                 if item["outcome"].get("method") == "deictic_pair_clarification" and item["outcome"]["ok"]:
                     item["phase"] = "automatic_pair_identification_question"
                 if item["outcome"].get("method") == parking_clarification.METHOD:
@@ -331,6 +344,10 @@ def session(journal_path, *, referent_path=None, pair_geometry=None, road_cache=
                  (view["proposal_id"], view["selected_by"]) == (detail["proposal_id"], detail["selected_by"]),
                  "Confirmation differs from the currently offered proposal")
             item["phase"] = "confirmed_previous_selection"
+            if place_offer_sha or "verified_place_outcome_sha256" in detail:
+                need(place_offer_sha and detail.get("verified_place_outcome_sha256") == place_offer_sha,
+                     "Place confirmation differs from the signed decision for this proposal")
+                item["verified_place_outcome_sha256"] = place_offer_sha
             if view["selected_by"] == parking.ACTOR:
                 need(parking_offer_sha and detail.get("verified_parking_outcome_sha256") == parking_offer_sha,
                      "Parking confirmation differs from the verified decision for this proposal")

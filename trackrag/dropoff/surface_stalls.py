@@ -1,16 +1,14 @@
 """Partition the learned parking surface into visible individual spaces for visual review."""
 from io import BytesIO
-from functools import lru_cache
 from hashlib import sha256
-import json
 from pathlib import Path
-from zipfile import ZipFile, BadZipFile
 
 import cv2
 import numpy as np
 from PIL import Image, ImageDraw
 
 from . import painted_bays
+from .bay_packets import read_photo_packet
 
 RECIPE = "visually_checked_parking_components_v1"
 CHECK = ("Only assess the single outlined region in this driver-view photo. Does the outline follow "
@@ -22,24 +20,8 @@ WORDS = "Does the outlined shape correspond to one visible, empty parking space?
 BANK = Path(__file__).resolve().parents[2]/"experiments/dropoff/passenger-stall-reviews-v1.zip"
 
 
-@lru_cache(maxsize=96)
-def _read_bank(path, modified, photo_sha):
-    with ZipFile(path) as bank:
-        name=photo_sha+".json"
-        if bank.namelist().count(name)!=1:
-            raise ValueError("Missing or duplicate parking review packet")
-        if bank.getinfo(name).file_size>20000:
-            raise ValueError("Oversize signed parking review.")
-        return bank.read(name)
-
-
 def get_packet(photo_sha):
-    if not isinstance(photo_sha,str) or len(photo_sha)!=64 or any(c not in "0123456789abcdef" for c in photo_sha):
-        return None
-    try:
-        return json.loads(_read_bank(str(BANK),BANK.stat().st_mtime_ns,photo_sha))
-    except (OSError,KeyError,ValueError,BadZipFile):
-        return None
+    return read_photo_packet(BANK, photo_sha, 20000)
 
 
 def proposals(original, classes, context):

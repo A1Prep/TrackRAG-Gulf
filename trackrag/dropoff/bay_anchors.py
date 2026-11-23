@@ -1,15 +1,13 @@
 """Bind each verified bay to the parked vehicles and frontage actually visible around it."""
-from functools import lru_cache
 from hashlib import sha256
 from io import BytesIO
-import json
 from pathlib import Path
 import re
-from zipfile import ZipFile,BadZipFile
 
 from PIL import Image,ImageDraw,ImageFont
 
 from . import bay_landmarks
+from .bay_packets import read_photo_packet
 from .parking_evidence import _authenticate
 from .passenger import digest
 
@@ -76,20 +74,8 @@ def pair_indices(text, n):
     return [a-1,b-1] if a!=b and 1<=a<=n and 1<=b<=n else []
 
 
-@lru_cache(maxsize=96)
-def _read(path,modified,key):
-    with ZipFile(path) as bank:
-        name=key+".json"
-        if bank.namelist().count(name)!=1:raise ValueError("Missing or duplicate bay observation packet")
-        if bank.getinfo(name).file_size>30000:raise ValueError("Large bay context packet")
-        return bank.read(name)
-
-
 def get_packet(key):
-    if not isinstance(key,str) or not re.fullmatch("[a-f0-9]{64}",key):
-        return None
-    try:return json.loads(_read(str(BANK),BANK.stat().st_mtime_ns,key))
-    except (OSError,ValueError,KeyError,BadZipFile):return None
+    return read_photo_packet(BANK, key, 30000)
 
 
 def prompt_digest(recipe=RECIPE):

@@ -1,14 +1,12 @@
 """Image-bound observations of visible public landmarks from the trained Qwen model."""
-from functools import lru_cache
 from hashlib import sha256
 from io import BytesIO
-import json
 from pathlib import Path
 import re
-from zipfile import BadZipFile, ZipFile
 
 from PIL import Image
 
+from .bay_packets import read_photo_packet
 from .parking_evidence import _authenticate
 from .place_grounding import ADAPTER, BASE, PROCESSOR
 
@@ -59,19 +57,5 @@ def verify(packet, photo, size):
     return [row["places"] for row in rows]
 
 
-@lru_cache(maxsize=96)
-def _read(bank_path, modified, photo_sha):
-    with ZipFile(bank_path) as bank:
-        name = photo_sha+".json"
-        if bank.getinfo(name).file_size > 12000:
-            raise ValueError("Oversize public landmark record.")
-        return json.loads(bank.read(name))
-
-
 def get_packet(photo_sha):
-    if not isinstance(photo_sha, str) or not re.fullmatch("[0-9a-f]{64}",photo_sha):
-        return None
-    try:
-        return _read(str(BANK), BANK.stat().st_mtime_ns, photo_sha)
-    except (OSError, BadZipFile, KeyError, ValueError):
-        return None
+    return read_photo_packet(BANK, photo_sha, 12000)

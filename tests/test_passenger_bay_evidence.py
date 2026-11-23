@@ -2,6 +2,7 @@
 from copy import deepcopy
 from hashlib import sha256
 import json
+import os
 from types import SimpleNamespace
 from zipfile import ZipFile
 
@@ -163,19 +164,21 @@ def test_stall_reviews_bind_every_positive_and_negative_model_view(bank, changed
         reviewed(f, packet if changed == "unsigned" else seal(body, f.key))
 
 
-@pytest.mark.parametrize("module,field", [(bay_anchors,"anchors"), (surface_stalls,"stalls")])
-def test_zip_cache_returns_isolated_evidence_and_rejects_duplicate_members(bank, tmp_path, monkeypatch, module, field):
+@pytest.mark.parametrize("module,field", [(bay_anchors,"anchors"), (surface_stalls,"stalls"), (bay_landmarks,"stalls")])
+def test_current_archive_returns_isolated_evidence_and_rejects_duplicate_members(bank, tmp_path, monkeypatch, module, field):
     sha = bank.context["image_sha256"]
     packet = getattr(bank, field)
     archive = tmp_path/"release.zip"
     with ZipFile(archive, "w") as zipped:
         zipped.writestr(sha+".json", json.dumps(packet))
     monkeypatch.setattr(module, "BANK", archive)
+    original_stat = archive.stat()
     module.get_packet(sha)["body"].clear()
     assert module.get_packet(sha) == packet
     assert module.get_packet("../"+sha) is None
     with ZipFile(archive, "a") as zipped, pytest.warns(UserWarning, match="Duplicate"):
         zipped.writestr(sha+".json", json.dumps(packet))
+    os.utime(archive, ns=(original_stat.st_atime_ns, original_stat.st_mtime_ns))
     assert module.get_packet(sha) is None
 
 

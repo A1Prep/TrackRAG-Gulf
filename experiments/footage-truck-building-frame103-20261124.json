@@ -583,6 +583,182 @@
         ],
         "receipt_sha256": "44d69e3fd2153290141fc6d4034664ac94670c72307c7228774f3458c507d39e"
       }
+    },
+    {
+      "id": "exact",
+      "mode": "local",
+      "words": "is the truck near the building",
+      "source": "local_tracks",
+      "time_ms": 1973,
+      "heading": "Insufficient evidence",
+      "answer": {
+        "answer_status": "insufficient_evidence",
+        "answer": "Which truck do you mean? There are possible matches on the left and near the centre in the paused frame.",
+        "cited_evidence_ids": []
+      },
+      "http_status": 200,
+      "citation_link_frames": [],
+      "trial": "updated-canonical-local",
+      "saved_result_sha256": "734a2b2cbf4078ed69a0aa09c7643179ea6e02a15f204bf2d6e20842d4aa2d17",
+      "displayed_evidence": [
+        {
+          "id": "E1",
+          "source": "predicted",
+          "track_id": 6,
+          "frame": 103,
+          "cited": false,
+          "image_sha256": [
+            "d2191f599e5665204accb9b9798a3a1828448d2050537fd835d7aab812c36f92"
+          ]
+        },
+        {
+          "id": "E2",
+          "source": "predicted",
+          "track_id": null,
+          "frame": 103,
+          "cited": false,
+          "image_sha256": [
+            "9acaa1e61485f24bc1dd99049204b66d72854e39529ed148bf870b35486a14bc"
+          ]
+        },
+        {
+          "id": "E3",
+          "source": "predicted",
+          "track_id": 1397,
+          "frame": 103,
+          "cited": false,
+          "image_sha256": [
+            "55f7dd0190d42c244197180b875a4e4b2c2421c47eea5cab44813798e64ce108"
+          ]
+        }
+      ],
+      "provider": {
+        "calls_attempted": 0,
+        "images_sent": []
+      }
+    },
+    {
+      "id": "side",
+      "mode": "gemini",
+      "words": "Which side of the image is the white pickup carrying the metal rack on?",
+      "source": "gemini",
+      "time_ms": 18398,
+      "heading": "Gemini answer",
+      "answer": {
+        "answer_status": "answered",
+        "answer": "The white pickup carrying the metal rack is on the left side of the image.",
+        "cited_evidence_ids": [
+          "E1",
+          "E2"
+        ]
+      },
+      "http_status": 200,
+      "citation_link_frames": [
+        103,
+        103
+      ],
+      "trial": "updated-canonical-local",
+      "saved_result_sha256": "33e394d539ca9f51e952319af4eed04642bf8c54c5a918d6c94e2832d06f90fd",
+      "displayed_evidence": [
+        {
+          "id": "E1",
+          "source": "predicted",
+          "track_id": 6,
+          "frame": 103,
+          "cited": true,
+          "image_sha256": [
+            "d2191f599e5665204accb9b9798a3a1828448d2050537fd835d7aab812c36f92"
+          ]
+        },
+        {
+          "id": "E2",
+          "source": "predicted",
+          "track_id": null,
+          "frame": 103,
+          "cited": true,
+          "image_sha256": [
+            "9acaa1e61485f24bc1dd99049204b66d72854e39529ed148bf870b35486a14bc"
+          ]
+        },
+        {
+          "id": "E3",
+          "source": "predicted",
+          "track_id": 5,
+          "frame": 103,
+          "cited": false,
+          "image_sha256": [
+            "5ebe0b41101f5844b8ac3d07c8dee25328bf5cd33fecef36ec0ed4be9aa62d06"
+          ]
+        }
+      ],
+      "provider": {
+        "calls_attempted": 1,
+        "images_sent": [
+          {
+            "id": "E1",
+            "frame": 103,
+            "sha256": "f5c959bf79464960cc741cfbeb4fe8f01cf084fcb7f417b5e3aeeb4f307d6f38",
+            "size": [
+              1024,
+              576
+            ],
+            "lower_vehicle_regions_masked": 12
+          },
+          {
+            "id": "E2",
+            "frame": 103,
+            "sha256": "efd22d3f4027a80dd122a05e7972fbb98ada3c922c2dc19f8d2e2d8734424010",
+            "size": [
+              1024,
+              576
+            ],
+            "lower_vehicle_regions_masked": 12
+          },
+          {
+            "id": "E3",
+            "frame": 103,
+            "sha256": "8ae82227847abba1e5e191b7ec521a240b21a2cc0a86f03a4c33d0ac577bce63",
+            "size": [
+              1024,
+              576
+            ],
+            "lower_vehicle_regions_masked": 12
+          }
+        ],
+        "request_status": "completed",
+        "reason": null,
+        "model": "gemini-3.5-flash-lite",
+        "attempts": [
+          {
+            "attempt": 1,
+            "request_status": "completed",
+            "provider_status": "completed"
+          }
+        ],
+        "receipt_sha256": "d9640af448d79645b081c56a4b0c1d64fbf156622a0701bfc920dc23ec5ca094"
+      }
+    },
+    {
+      "id": "unmeasured",
+      "mode": "gemini",
+      "words": "Can you tell how fast that pickup is moving and how far it is from the building in metres?",
+      "source": "gemini",
+      "time_ms": 219,
+      "heading": "Insufficient evidence",
+      "answer": {
+        "answer_status": "insufficient_evidence",
+        "answer": null,
+        "cited_evidence_ids": []
+      },
+      "http_status": 200,
+      "citation_link_frames": [],
+      "trial": "updated-canonical-local",
+      "saved_result_sha256": "e02476095fb995c114027d3851a0cbde75332e1dcde3d5d20e923f52239cfdea",
+      "displayed_evidence": [],
+      "provider": {
+        "calls_attempted": 0,
+        "images_sent": []
+      }
     }
   ],
   "class_counts": {
@@ -640,6 +816,35 @@
     "local_cited_frames": [
       103
     ]
+  },
+  "canonical_revision_after_memory_fix": "dc2fe9c0a962b8cb2cd0988ce58e6dad0775aa3a",
+  "canonical_hosted_failure_recovery_after_memory_fix": {
+    "method": "The browser replayed the earlier genuine two-attempt provider 503 locally; the fallback flag was computed by the updated normal FootageReview.ask on the same original. Clicking the offered control sent one ordinary local request to the live server.",
+    "prior_error_title": "The search couldn’t finish",
+    "retry_was_visible": true,
+    "local_button_was_visible": true,
+    "initial_provider_attempts": [
+      503,
+      503
+    ],
+    "distinct_query_ids": true,
+    "same_original_frame": true,
+    "local_ms": 1659,
+    "local_heading": "Answer from recorded tracks",
+    "local_answer": {
+      "answer_status": "answered",
+      "answer": "The tracker detected 10 cars in frame 103.",
+      "cited_evidence_ids": [
+        "E2"
+      ]
+    },
+    "local_cited_frames": [
+      103
+    ]
+  },
+  "canonical_clarification_screenshot": {
+    "sha256": "3989a5a0d41a390a4ca83fe174b29678b9e891d079b4e80e60a4b70cf6eb4592",
+    "separate_browser_trial_ms": 1353
   },
   "memory_rehearsal": {
     "observation": "The running review server logged two OpenCV out-of-memory errors, each while decoding a 2560 by 1440 original to obtain its dimensions. One occurred during scene indexing and one during prediction-receipt validation. The first unsuccessful browser request did not retain its HTTP response details.",

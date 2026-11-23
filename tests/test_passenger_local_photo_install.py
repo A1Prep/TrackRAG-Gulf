@@ -101,6 +101,27 @@ def test_offline_scene_installs_and_revalidates_with_actual_app_reader(tmp_path,
     with pytest.raises(ValueError, match="Original source list differs"):
         release.pack_release(other, run, public)
     assert release.file_hash(public.with_name(release.ARCHIVE_NAME)) == archive_digest and release.file_hash(public) == digest
+    # An OS error during the final swap must also retain the prior complete release.
+    recorded = provenance.read_bytes()
+    source_receipt = (run / "sources.json").read_bytes()
+    changed = json.loads(recorded)
+    changed["seconds"] = 5
+    provenance.write_bytes(release.json_bytes(changed))
+    info = json.loads(source_receipt)
+    info["sources"][0]["vision_provenance_sha256"] = release.file_hash(provenance)
+    (run / "sources.json").write_bytes(release.json_bytes(info))
+    replace = release.os.replace
+    def fail_final(src, dst):
+        if Path(dst) == public:
+            raise OSError("simulated manifest publication failure")
+        return replace(src, dst)
+    with monkeypatch.context() as m:
+        m.setattr(release.os, "replace", fail_final)
+        with pytest.raises(OSError, match="simulated manifest"):
+            release.pack_release(inputs, run, public)
+    assert release.file_hash(public.with_name(release.ARCHIVE_NAME)) == archive_digest and release.file_hash(public) == digest
+    provenance.write_bytes(recorded)
+    (run / "sources.json").write_bytes(source_receipt)
     monkeypatch.setattr(release, "MANIFEST_SHA", digest)
     monkeypatch.setattr(release, "download", lambda *args: pytest.fail("Offline install contacted the network."))
     fresh = tmp_path / "fresh"

@@ -82,11 +82,20 @@ def view(original, point, *, close):
 
 
 def get_packet(key):
-    return read_photo_packet(BANK,key,60000)
+    packet=read_photo_packet(BANK,key,60000)
+    if packet is not None:
+        return packet
+    from . import local_8b_observations
+    return local_8b_observations.get_packet(key,"points")
 
 
 def observations(original, scene, options, packet):
-    _authenticate(packet)
+    from . import local_8b_observations
+    local=isinstance(packet,dict) and packet.get("origin")==local_8b_observations.ORIGIN
+    if local:
+        local_8b_observations.verify(packet,scene["provenance"]["image_sha256"],"points",scene=scene)
+    else:
+        _authenticate(packet)
     body = packet["body"]
     if (body.get("recipe")!=RECIPE or body.get("model")!=bay_landmarks.MODELS or
             body.get("guides")!=digest([GUIDES,WORDS]) or body.get("image_sha256")!=scene["provenance"]["image_sha256"] or
@@ -105,6 +114,8 @@ def observations(original, scene, options, packet):
             raise ValueError("A verified curb point or its visual observations changed.")
         if replies[0].strip().upper().strip(".") != "OPEN":
             continue
+        if local and (row.get("crop_verdict") or "").strip().upper().strip(".")!="OPEN":
+            continue
         ends = replies[1].split("|")
         first,second = [part.strip() for part in ends] if len(ends)==2 else ("NONE","NONE")
         result.append({**option, "descriptions":{"nearer_vehicle": first, "farther_vehicle":second,
@@ -120,6 +131,10 @@ def verified_options(scene, photo, surface, packet):
     key = scene["provenance"]["image_sha256"]
     if sha256(photo).hexdigest()!=key:
         raise ValueError("The original used for curb observations changed.")
+    # The optical cache also serves public photos; rebind local-only identity before every cache hit.
+    from . import local_8b_observations
+    if isinstance(packet,dict) and packet.get("origin")==local_8b_observations.ORIGIN:
+        local_8b_observations.verify(packet,key,"points",scene=scene)
     stamp = digest([key,source_context(scene),surface,packet])
     with _lock:
         if stamp in _cache:

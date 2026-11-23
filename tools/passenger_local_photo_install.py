@@ -100,8 +100,19 @@ def pack_release(source_manifest, folder, destination):
                              "files": public["archive"]["files"]}
         staged_manifest = Path(temporary) / destination.name
         staged_manifest.write_bytes(json_bytes(public))
+        previous = None
+        if archive.is_file():
+            previous = Path(temporary) / "previous.zip"
+            shutil.copyfile(archive, previous)
         os.replace(staged_archive, archive)
-        os.replace(staged_manifest, destination)
+        try:
+            os.replace(staged_manifest, destination)
+        except OSError:
+            if previous is not None:
+                os.replace(previous, archive)
+            else:
+                archive.unlink()
+            raise
     return sha256(destination.read_bytes()).hexdigest()
 
 

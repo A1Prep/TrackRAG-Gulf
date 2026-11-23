@@ -38,7 +38,11 @@ def public_phrase(raw):
 
 
 def verify(packet, photo, size):
-    _authenticate(packet)
+    from . import local_8b_observations
+    if isinstance(packet,dict) and packet.get("origin")==local_8b_observations.ORIGIN:
+        local_8b_observations.verify(packet,sha256(photo).hexdigest(),"landmarks")
+    else:
+        _authenticate(packet)
     body = packet["body"]
     if (body.get("recipe") != RECIPE or body.get("models") != MODELS or body.get("size") != list(size)
             or body.get("image_sha256") != sha256(photo).hexdigest()
@@ -58,4 +62,8 @@ def verify(packet, photo, size):
 
 
 def get_packet(photo_sha):
-    return read_photo_packet(BANK, photo_sha, 12000)
+    packet=read_photo_packet(BANK, photo_sha, 12000)
+    if packet is not None:
+        return packet
+    from . import local_8b_observations
+    return local_8b_observations.get_packet(photo_sha,"landmarks")

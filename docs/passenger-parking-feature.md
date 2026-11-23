@@ -31,6 +31,8 @@ On a 390 × 844 phone viewport, the entire **Find my spot** button was visible o
 
 ## Further tests of the automatic suggestion
 
+A later test on eight previously unseen UAE drives found one of four visible targets and withheld three of four blocked requests. It includes a voice replay, a missed café entrance behind a concrete wall, and a timed comparison of the laptop and cloud GPUs on the same furniture-store question. [Eight photos with the actual first pins and timings](passenger-fresh-uae.md)
+
 | Trial | Visible gaps correctly marked | Blocked requests correctly withheld | Correct first replies |
 |---|---:|---:|---:|
 | Four previously unscored UAE photos | 1 of 2 | 2 of 2 | 3 of 4 |

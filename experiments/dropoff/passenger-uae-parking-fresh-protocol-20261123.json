@@ -1,0 +1,297 @@
+{
+  "phase": "Reference-only protocol, frozen before any detector, segmenter or passenger model was run on these photos.",
+  "utc": "2026-11-23T08:41:00.722113+00:00",
+  "release_commit": "f133153bcc7af722980591f0e7ae5977f75f99cd",
+  "selection": "Eight purpose-selected, provider-processed UAE windscreen photographs from eight separate drives absent from prior project studies. Photographs selected visually from a larger screened pool. The evaluator is an AI reviewer, without independent rider labels. Some similar roads and contributors recur.",
+  "scoring": "One ordinary typed first turn per image. A proposal must put its point inside or on the premarked polygon. On a negative, the system must withhold coordinates and ask or declare insufficient visual evidence. A transport or model error never passes. A passenger confirmation or a manually placed pin never increases first-turn accuracy. For each missed positive, independently score a single scripted tap in the frozen region. This checks visible intent only. No available photograph establishes a safe or legal stop.",
+  "records": [
+    {
+      "id": "fresh-uae-01",
+      "photo_number": 1205,
+      "area": "Dubai",
+      "title": "Blue sedan and white van",
+      "image_sha256": "6c09f8965a7203ca86f42d18d4b7fc43fa38c700d827a3b92bf90189b394d273",
+      "size": [
+        3840,
+        2160
+      ],
+      "source": "https://kartaview.org/details/7168777/1211/",
+      "metadata_url": "https://api.kartaview.org/2.0/photo/1722458857",
+      "contributor_id": "47873",
+      "latitude": 25.114027,
+      "longitude": 55.191869,
+      "sequence": "7168777",
+      "frame_index": 1211,
+      "utterance": "Could you let me out in the empty bay between the dark blue sedan and the white van on the right?",
+      "expected": "propose",
+      "reference_polygon_1000": [
+        [
+          473,
+          722
+        ],
+        [
+          651,
+          648
+        ],
+        [
+          739,
+          658
+        ],
+        [
+          739,
+          750
+        ],
+        [
+          704,
+          779
+        ],
+        [
+          557,
+          774
+        ]
+      ],
+      "scripted_tap_1000": [
+        653,
+        716
+      ],
+      "reason": "One marked bay is visibly empty on the right. Its near edge ends at the bonnet."
+    },
+    {
+      "id": "fresh-uae-02",
+      "photo_number": 27,
+      "area": "Dubai",
+      "title": "Two white vehicles beside the hotel",
+      "image_sha256": "02743df87088fa38698cf3093947cbb3085c14755dd49fa16cadc8fb24b2e080",
+      "size": [
+        3840,
+        2160
+      ],
+      "source": "https://kartaview.org/details/7173145/1173/",
+      "metadata_url": "https://api.kartaview.org/2.0/photo/1723165849",
+      "contributor_id": "47873",
+      "latitude": 25.115891,
+      "longitude": 55.19479,
+      "sequence": "7173145",
+      "frame_index": 1173,
+      "utterance": "Please drop me between the white SUV with the red door logo and the white sedan parked farther ahead on the right.",
+      "expected": "propose",
+      "reference_polygon_1000": [
+        [
+          341,
+          515
+        ],
+        [
+          390,
+          507
+        ],
+        [
+          452,
+          508
+        ],
+        [
+          455,
+          554
+        ],
+        [
+          409,
+          555
+        ]
+      ],
+      "scripted_tap_1000": [
+        425,
+        534
+      ],
+      "reason": "A pale paved parking strip is visible between these vehicles. The street on the left and the sidewalk along the wall are outside it."
+    },
+    {
+      "id": "fresh-uae-03",
+      "photo_number": 143,
+      "area": "Dubai",
+      "title": "Open bays in the shaded row",
+      "image_sha256": "cd4e27b8077b24d36169170a847c9f5d382e9c315ad5bb670cb51ecf6ed40082",
+      "size": [
+        3264,
+        1836
+      ],
+      "source": "https://kartaview.org/details/3333849/525/",
+      "metadata_url": "https://api.kartaview.org/2.0/photo/1209527621",
+      "contributor_id": "43737",
+      "latitude": 25.28758,
+      "longitude": 55.365598,
+      "sequence": "3333849",
+      "frame_index": 525,
+      "utterance": "Let me out in an empty bay between the silver sedan and the dark SUV on the right.",
+      "expected": "propose",
+      "reference_polygon_1000": [
+        [
+          660,
+          774
+        ],
+        [
+          843,
+          774
+        ],
+        [
+          849,
+          800
+        ],
+        [
+          886,
+          844
+        ],
+        [
+          750,
+          844
+        ],
+        [
+          698,
+          812
+        ]
+      ],
+      "scripted_tap_1000": [
+        790,
+        812
+      ],
+      "reason": "Raised white reflectors outline unoccupied parking surface between two angled vehicles; more than one point on this surface is acceptable."
+    },
+    {
+      "id": "fresh-uae-04",
+      "photo_number": 168,
+      "area": "Dubai",
+      "title": "The closest empty bay",
+      "image_sha256": "df3c7569cf08071fe7492af65e599d7132364496766bb9e1e4fa4c3966dccc04",
+      "size": [
+        3840,
+        2160
+      ],
+      "source": "https://kartaview.org/details/7168793/16/",
+      "metadata_url": "https://api.kartaview.org/2.0/photo/1722459177",
+      "contributor_id": "47873",
+      "latitude": 25.113845,
+      "longitude": 55.19191,
+      "sequence": "7168793",
+      "frame_index": 16,
+      "utterance": "Could you drop me in the closest empty marked bay on the right, just beside our bonnet and the pink curb?",
+      "expected": "propose",
+      "reference_polygon_1000": [
+        [
+          620,
+          781
+        ],
+        [
+          715,
+          674
+        ],
+        [
+          910,
+          731
+        ],
+        [
+          937,
+          799
+        ],
+        [
+          739,
+          797
+        ]
+      ],
+      "scripted_tap_1000": [
+        784,
+        754
+      ],
+      "reason": "The nearest visible empty bay sits between the two long white lines, the pink curb and the bonnet. The adjacent bay farther up the row is a different place."
+    },
+    {
+      "id": "fresh-uae-05",
+      "photo_number": 60,
+      "area": "Abu Dhabi",
+      "title": "Full row at Asian Cargo",
+      "image_sha256": "e6a01b783361da5c8f854ef90c6fb4d9bc6b58f46284af27e51f41e9c4230e43",
+      "size": [
+        3264,
+        1836
+      ],
+      "source": "https://kartaview.org/details/5105913/1982/",
+      "metadata_url": "https://api.kartaview.org/2.0/photo/1479008505",
+      "contributor_id": "10951",
+      "latitude": 24.490252,
+      "longitude": 54.36713,
+      "sequence": "5105913",
+      "frame_index": 1982,
+      "utterance": "Drop me between the black Toyota sedan and the white minivan in front of Asian Cargo.",
+      "expected": "withhold",
+      "reference_polygon_1000": [],
+      "scripted_tap_1000": null,
+      "reason": "These vehicles are parked in adjoining bays. There is a painted boundary between them and no empty bay."
+    },
+    {
+      "id": "fresh-uae-06",
+      "photo_number": 136,
+      "area": "Dubai",
+      "title": "Fuel pump between the cars",
+      "image_sha256": "f573cd9c81bd5cad617c7f9e979ba736140925426632e84cce0569a3e877ceee",
+      "size": [
+        3840,
+        2160
+      ],
+      "source": "https://kartaview.org/details/5662233/314/",
+      "metadata_url": "https://api.kartaview.org/2.0/photo/1545560057",
+      "contributor_id": "47873",
+      "latitude": 25.028246,
+      "longitude": 55.237032,
+      "sequence": "5662233",
+      "frame_index": 314,
+      "utterance": "Please let me out between the white Mercedes and the black Jeep.",
+      "expected": "withhold",
+      "reference_polygon_1000": [],
+      "scripted_tap_1000": null,
+      "reason": "The petrol pump, hoses and island physically occupy the space between these two vehicles."
+    },
+    {
+      "id": "fresh-uae-07",
+      "photo_number": 126,
+      "area": "Ajman / Sharjah area",
+      "title": "Cafe behind a concrete wall",
+      "image_sha256": "53d8ce7e491f3c4fe6e96983eff8c1f15c0f4b26eff6e1dc1f6d860882bf9a0c",
+      "size": [
+        3840,
+        2160
+      ],
+      "source": "https://kartaview.org/details/7199273/176/",
+      "metadata_url": "https://api.kartaview.org/2.0/photo/1724405353",
+      "contributor_id": "47873",
+      "latitude": 25.382852,
+      "longitude": 55.464493,
+      "sequence": "7199273",
+      "frame_index": 176,
+      "utterance": "Could you drop me right by the entrance to the cafe on the right?",
+      "expected": "withhold",
+      "reference_polygon_1000": [],
+      "scripted_tap_1000": null,
+      "reason": "The cafe frontage is behind a continuous concrete construction barrier. There is no visible opening to the entrance from this lane."
+    },
+    {
+      "id": "fresh-uae-08",
+      "photo_number": 21,
+      "area": "Dubai",
+      "title": "Cars at the tram crossing",
+      "image_sha256": "1fb0ced74b073b01aa01707e27e120266a4e53629afea0adabfe44adfd0e842a",
+      "size": [
+        3840,
+        2160
+      ],
+      "source": "https://kartaview.org/details/6693449/1144/",
+      "metadata_url": "https://api.kartaview.org/2.0/photo/1689523913",
+      "contributor_id": "47873",
+      "latitude": 25.077618,
+      "longitude": 55.142975,
+      "sequence": "6693449",
+      "frame_index": 1144,
+      "utterance": "Let me out between the burgundy sedan ahead and the dark blue SUV on the right.",
+      "expected": "withhold",
+      "reference_polygon_1000": [],
+      "scripted_tap_1000": null,
+      "reason": "Both cars occupy traffic lanes on the approach to a signed tram crossing. The painted strip between them is not an identifiable curbside spot."
+    }
+  ]
+}

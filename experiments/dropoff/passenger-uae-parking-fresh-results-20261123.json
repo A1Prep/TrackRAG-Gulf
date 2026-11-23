@@ -1,0 +1,621 @@
+{
+  "release_commit": "f133153bcc7af722980591f0e7ae5977f75f99cd",
+  "protocol_sha256": "8b4cb5e4ea42ea0628687f5bf2306913b8b11cf08ade91bf13368688530d19f0",
+  "first_turns": [
+    {
+      "id": "fresh-uae-01",
+      "scene_key": "ba838168eb20eae7e2ca891f",
+      "image_sha256": "6c09f8965a7203ca86f42d18d4b7fc43fa38c700d827a3b92bf90189b394d273",
+      "state": "proposed",
+      "selected_by": "parking_model",
+      "point_px": [
+        2617.6,
+        1564.505928853755
+      ],
+      "box_px": [
+        2547.2,
+        1494.0711462450595,
+        2688.0,
+        1634.9407114624507
+      ],
+      "anchor_boxes_px": [
+        [
+          2832.298095703125,
+          719.3764343261719,
+          3840.0,
+          1820.3140869140625
+        ],
+        [
+          1682.0321044921875,
+          1064.4493103027344,
+          2501.8179931640625,
+          1440.2238464355469
+        ]
+      ],
+      "clarification": null,
+      "error": null,
+      "passenger_http_seconds": 45.69,
+      "first_turn_score": "in_region",
+      "signed_distance_pixels": 116.47,
+      "first_journal_sha256": "13013c0888abd84aa5c853db796cb2271e2edb332fa3544cd12278261b5fbc9b",
+      "method": "identified_vehicle_parking_v1",
+      "detections": 26,
+      "reason": "visible_roadside_proposal",
+      "input_sha256": "c406e647fd2207b631dadb3d534388c0db0d9a9365ad986e04fd3dcae97d5a4b",
+      "receipt_replayed": true,
+      "independently_suggested": true,
+      "model_steps": [
+        {
+          "stage": "anchors",
+          "answer": "```json\n{\"vehicles\": [[440, 496, 650, 663], [740, 337, 1000, 812]]}\n```",
+          "gpu_seconds": 2.99
+        },
+        {
+          "stage": "parking_components",
+          "answer": "{\"choice\": \"A\"}",
+          "gpu_seconds": 0.68
+        }
+      ],
+      "processed_photo_url": "https://cdn.kartaview.org/pr:sharp/aHR0cHM6Ly9zdG9yYWdlMTMub3BlbnN0cmVldGNhbS5vcmcvZmlsZXMvcGhvdG8vMjAyMy81LzEvcHJvYy83MTY4Nzc3XzhhNzM3ZjZiM2ZmMmFjMDU4YTM1ODU5MjI2YzNkODM4LmpwZw",
+      "detector_identity_sha256": "acf21b53525d5729541aaedbf961a9c634399fa881fc7976909d48575c5e870d",
+      "detector_checkpoint_sha256": "9ea96f1050f1d3375c5cf0f25a086cd5bb9c6a290fa5fdc009804d9a31181d95",
+      "detector_seconds": 2.01
+    },
+    {
+      "id": "fresh-uae-02",
+      "scene_key": "1fe93727aaa5b5651b8e13b6",
+      "image_sha256": "02743df87088fa38698cf3093947cbb3085c14755dd49fa16cadc8fb24b2e080",
+      "state": "needs_clarification",
+      "selected_by": "parking_model",
+      "point_px": null,
+      "box_px": null,
+      "anchor_boxes_px": null,
+      "clarification": "I can’t locate a clear roadside opening between those vehicles. Can you mark the intended area?",
+      "error": null,
+      "passenger_http_seconds": 8.41,
+      "first_turn_score": "missed_gap",
+      "signed_distance_pixels": null,
+      "first_journal_sha256": "7820e82c10d288e2da60d34fc2af57110c140c59c165bb235ffcf50991ae880d",
+      "method": "identified_vehicle_parking_v1",
+      "detections": 9,
+      "reason": "model_declined_parking_components",
+      "input_sha256": "b7b6f792f255c4c902244147d4a46a33884548fca6c3616047550b2bee236afa",
+      "receipt_replayed": true,
+      "independently_suggested": false,
+      "model_steps": [
+        {
+          "stage": "anchors",
+          "answer": "```json\n{\"vehicles\": [[456, 390, 672, 607], [314, 419, 392, 507]]}\n```",
+          "gpu_seconds": 2.6
+        },
+        {
+          "stage": "parking_components",
+          "answer": "{\"choice\":null}",
+          "gpu_seconds": 0.64
+        }
+      ],
+      "assisted": {
+        "scripted_tap_box_px": [
+          1624,
+          1145,
+          1640,
+          1161
+        ],
+        "state": "proposed",
+        "point_px": [
+          1631.25,
+          1151.25
+        ],
+        "inside_reference": true,
+        "explicit_confirmation": true,
+        "question": null,
+        "road_mask_verified": true,
+        "updated_journal_sha256": "1f9f4cb67224d6774a993f7571c7104ec67354a1d17de9544a1cc75971fd6548"
+      },
+      "processed_photo_url": "https://cdn.kartaview.org/pr:sharp/aHR0cHM6Ly9zdG9yYWdlMTMub3BlbnN0cmVldGNhbS5vcmcvZmlsZXMvcGhvdG8vMjAyMy81LzIvcHJvYy83MTczMTQ1X2YyNTE4NGIwNjBmMzFhZDYzMmJlOGMxMGEwNmJlZGY3LmpwZw",
+      "detector_identity_sha256": "acf21b53525d5729541aaedbf961a9c634399fa881fc7976909d48575c5e870d",
+      "detector_checkpoint_sha256": "9ea96f1050f1d3375c5cf0f25a086cd5bb9c6a290fa5fdc009804d9a31181d95",
+      "detector_seconds": 1.09
+    },
+    {
+      "id": "fresh-uae-03",
+      "scene_key": "c15c39fad8528d439a62ee4d",
+      "image_sha256": "cd4e27b8077b24d36169170a847c9f5d382e9c315ad5bb670cb51ecf6ed40082",
+      "state": "needs_clarification",
+      "selected_by": "parking_model",
+      "point_px": null,
+      "box_px": null,
+      "anchor_boxes_px": null,
+      "clarification": "I can’t locate a clear roadside opening between those vehicles. Can you mark the intended area?",
+      "error": null,
+      "passenger_http_seconds": 8.89,
+      "first_turn_score": "missed_gap",
+      "signed_distance_pixels": null,
+      "first_journal_sha256": "765e0e342690ab87d7911ea25c9190f720291b8fe81620f62b5372bfb2f129c8",
+      "method": "identified_vehicle_parking_v1",
+      "detections": 77,
+      "reason": "selected_parking_component_not_free",
+      "input_sha256": "4260bbebd5bbd697e26db0c87449abec9cdad018bd63a700edbf070b522aada6",
+      "receipt_replayed": true,
+      "independently_suggested": false,
+      "model_steps": [
+        {
+          "stage": "anchors",
+          "answer": "```json\n{\"vehicles\": [[668, 646, 868, 776], [851, 586, 1000, 838]]}\n```",
+          "gpu_seconds": 2.65
+        },
+        {
+          "stage": "parking_components",
+          "answer": "{\"choice\": \"B\"}",
+          "gpu_seconds": 0.69
+        }
+      ],
+      "assisted": {
+        "scripted_tap_box_px": [
+          2572,
+          1484,
+          2585,
+          1498
+        ],
+        "state": "proposed",
+        "point_px": [
+          2578.6875,
+          1488.5625
+        ],
+        "inside_reference": true,
+        "explicit_confirmation": true,
+        "question": null,
+        "road_mask_verified": true,
+        "updated_journal_sha256": "34dbcb9645d4b43e070118cb1b252be7ddba7ff5a8af3139c6228f6a99ba1a76"
+      },
+      "processed_photo_url": "https://cdn.kartaview.org/pr:sharp/aHR0cHM6Ly9zdG9yYWdlMTMub3BlbnN0cmVldGNhbS5vcmcvZmlsZXMvcGhvdG8vMjAyMC8xMi8yMy9wcm9jLzMzMzM4NDlfZjJmZWNhZjdkYmZjZTNmY2U2NmIyMDYxZDQwNWI2OWIuanBn",
+      "detector_identity_sha256": "acf21b53525d5729541aaedbf961a9c634399fa881fc7976909d48575c5e870d",
+      "detector_checkpoint_sha256": "9ea96f1050f1d3375c5cf0f25a086cd5bb9c6a290fa5fdc009804d9a31181d95",
+      "detector_seconds": 1.02
+    },
+    {
+      "id": "fresh-uae-04",
+      "scene_key": "5599765f42ff5a3a7efd3944",
+      "image_sha256": "df3c7569cf08071fe7492af65e599d7132364496766bb9e1e4fa4c3966dccc04",
+      "state": "proposed",
+      "selected_by": "model",
+      "point_px": [
+        3281.25,
+        1323.75
+      ],
+      "box_px": [
+        2986.0002592053447,
+        1215.697178010488,
+        3572.7456364947484,
+        1428.783474837719
+      ],
+      "anchor_boxes_px": [
+        [
+          3189.1732177734375,
+          1077.6360168457031,
+          3470.593505859375,
+          1283.303466796875
+        ]
+      ],
+      "clarification": null,
+      "error": null,
+      "passenger_http_seconds": 42.23,
+      "first_turn_score": "wrong_point",
+      "signed_distance_pixels": -217.25,
+      "first_journal_sha256": "1311f5f5dccb288e3bebc4fa8ca78496f6090090922c36196372b9766a5ec26b",
+      "method": "qwen_landmark_region",
+      "detections": 11,
+      "reason": null,
+      "input_sha256": "a6f6c33bed355d64be7e548a6682cebc80c50e76473f705c71201a70095dd72d",
+      "receipt_replayed": true,
+      "independently_suggested": true,
+      "model_steps": [
+        {
+          "stage": "landmark",
+          "answer": "LANDMARK L11",
+          "gpu_seconds": 17.59399999998277
+        }
+      ],
+      "resolver_model": "unsloth/Qwen3-VL-8B-Instruct-bnb-4bit",
+      "assisted": {
+        "scripted_tap_box_px": [
+          3003,
+          1621,
+          3019,
+          1637
+        ],
+        "state": "proposed",
+        "point_px": [
+          3011.25,
+          1631.25
+        ],
+        "inside_reference": true,
+        "explicit_confirmation": true,
+        "question": null,
+        "road_mask_verified": true,
+        "updated_journal_sha256": "082172cc11ceb76f858c562764255555ae60a574aadbf0636a36893a84eed686"
+      },
+      "processed_photo_url": "https://cdn.kartaview.org/pr:sharp/aHR0cHM6Ly9zdG9yYWdlMTMub3BlbnN0cmVldGNhbS5vcmcvZmlsZXMvcGhvdG8vMjAyMy81LzEvcHJvYy83MTY4NzkzXzM4NjA4YWJiNTJiZDBlYjEwYjQ2ZjE0MzAzMGE5YWRjLmpwZw",
+      "detector_identity_sha256": "acf21b53525d5729541aaedbf961a9c634399fa881fc7976909d48575c5e870d",
+      "detector_checkpoint_sha256": "9ea96f1050f1d3375c5cf0f25a086cd5bb9c6a290fa5fdc009804d9a31181d95",
+      "detector_seconds": 1.06
+    },
+    {
+      "id": "fresh-uae-05",
+      "scene_key": "ca3d3cd76d6f0703c963414b",
+      "image_sha256": "e6a01b783361da5c8f854ef90c6fb4d9bc6b58f46284af27e51f41e9c4230e43",
+      "state": "needs_clarification",
+      "selected_by": "parking_model",
+      "point_px": null,
+      "box_px": null,
+      "anchor_boxes_px": null,
+      "clarification": "I can’t locate a clear roadside opening between those vehicles. Can you mark the intended area?",
+      "error": null,
+      "passenger_http_seconds": 8.39,
+      "first_turn_score": "correct_withhold",
+      "signed_distance_pixels": null,
+      "first_journal_sha256": "e16134761db08ff82a1b80b889a2c404427d01df4b4cb406d1a2de71f112912d",
+      "method": "identified_vehicle_parking_v1",
+      "detections": 12,
+      "reason": "selected_parking_component_not_free",
+      "input_sha256": "1e6d6e845ec8423962c9a77eb7705293b58b0b8322608e290fa949c996f7f455",
+      "receipt_replayed": true,
+      "independently_suggested": false,
+      "model_steps": [
+        {
+          "stage": "anchors",
+          "answer": "```json\n{\"vehicles\": [[146, 556, 320, 788], [304, 521, 521, 765]]}\n```",
+          "gpu_seconds": 2.65
+        },
+        {
+          "stage": "parking_components",
+          "answer": "{\"choice\":\"B\"}",
+          "gpu_seconds": 0.64
+        }
+      ],
+      "processed_photo_url": "https://cdn.kartaview.org/pr:sharp/aHR0cHM6Ly9zdG9yYWdlMTMub3BlbnN0cmVldGNhbS5vcmcvZmlsZXMvcGhvdG8vMjAyMi80LzI0L3Byb2MvNTEwNTkxM184NzY1YzM3ZTQzNWMwZmJkZDY3MmJkMWI4Nzg0MWY2Mi5qcGc",
+      "detector_identity_sha256": "acf21b53525d5729541aaedbf961a9c634399fa881fc7976909d48575c5e870d",
+      "detector_checkpoint_sha256": "9ea96f1050f1d3375c5cf0f25a086cd5bb9c6a290fa5fdc009804d9a31181d95",
+      "detector_seconds": 1.05
+    },
+    {
+      "id": "fresh-uae-06",
+      "scene_key": "694c58655b056a7868759072",
+      "image_sha256": "f573cd9c81bd5cad617c7f9e979ba736140925426632e84cce0569a3e877ceee",
+      "state": "needs_clarification",
+      "selected_by": "parking_model",
+      "point_px": null,
+      "box_px": null,
+      "anchor_boxes_px": null,
+      "clarification": "I can’t locate a clear roadside opening between those vehicles. Can you mark the intended area?",
+      "error": null,
+      "passenger_http_seconds": 8.69,
+      "first_turn_score": "correct_withhold",
+      "signed_distance_pixels": null,
+      "first_journal_sha256": "d0a89b82ddae8e5788222a658a454167268826f551588a2dee3aa597c68c6ec1",
+      "method": "identified_vehicle_parking_v1",
+      "detections": 4,
+      "reason": "no_supported_roadside_patch",
+      "input_sha256": "a2a9bb4b48f1dec2a5c8c42426846c9e90f3c64fe1de688cff7c47ff0ffb39ce",
+      "receipt_replayed": true,
+      "independently_suggested": false,
+      "model_steps": [
+        {
+          "stage": "anchors",
+          "answer": "```json\n{\"vehicles\":[[0,610,282,950],[530,545,870,950]]}\n```",
+          "gpu_seconds": 2.25
+        },
+        {
+          "stage": "tracks",
+          "answer": "{\"ids\": [1, 2]}",
+          "gpu_seconds": 0.9
+        }
+      ],
+      "processed_photo_url": "https://cdn.kartaview.org/pr:sharp/aHR0cHM6Ly9zdG9yYWdlMTMub3BlbnN0cmVldGNhbS5vcmcvZmlsZXMvcGhvdG8vMjAyMi83LzIwL3Byb2MvNTY2MjIzM18xMDlmOGI2ZWIxMTU3MWE3MTE1YmUyM2M0NTRhZGM2My5qcGc",
+      "detector_identity_sha256": "acf21b53525d5729541aaedbf961a9c634399fa881fc7976909d48575c5e870d",
+      "detector_checkpoint_sha256": "9ea96f1050f1d3375c5cf0f25a086cd5bb9c6a290fa5fdc009804d9a31181d95",
+      "detector_seconds": 1.04
+    },
+    {
+      "id": "fresh-uae-07",
+      "scene_key": "aee50a480b85704fb723ac06",
+      "image_sha256": "53d8ce7e491f3c4fe6e96983eff8c1f15c0f4b26eff6e1dc1f6d860882bf9a0c",
+      "state": "proposed",
+      "selected_by": "model",
+      "point_px": [
+        296.25,
+        978.75
+      ],
+      "box_px": [
+        85.02341535414061,
+        874.6027160413325,
+        651.6749505962866,
+        1050.2939576769147
+      ],
+      "anchor_boxes_px": [
+        [
+          258.25767517089844,
+          876.0743408203125,
+          375.5789566040039,
+          942.8394470214844
+        ]
+      ],
+      "clarification": null,
+      "error": null,
+      "passenger_http_seconds": 37.14,
+      "first_turn_score": "false_proposal",
+      "signed_distance_pixels": null,
+      "first_journal_sha256": "9983b2842c9c697e62d30d8bdd71affa445275824a2a6b712d28169540e206f4",
+      "method": "qwen_landmark_region",
+      "detections": 26,
+      "reason": null,
+      "input_sha256": "023bd72ae7e6861fe7f2c2e26209877b5d8d3ea64ed4efbbb0104b8606777224",
+      "receipt_replayed": true,
+      "independently_suggested": true,
+      "model_steps": [
+        {
+          "stage": "landmark",
+          "answer": "LANDMARK L3",
+          "gpu_seconds": 12.48499999998603
+        }
+      ],
+      "resolver_model": "unsloth/Qwen3-VL-8B-Instruct-bnb-4bit",
+      "processed_photo_url": "https://cdn.kartaview.org/pr:sharp/aHR0cHM6Ly9zdG9yYWdlMTMub3BlbnN0cmVldGNhbS5vcmcvZmlsZXMvcGhvdG8vMjAyMy81LzcvcHJvYy83MTk5MjczX2ZmOGQzNTQzZmIzYzhjYzMyNzQyNGI5ZTQwOTQ4YWQ2LmpwZw",
+      "detector_identity_sha256": "acf21b53525d5729541aaedbf961a9c634399fa881fc7976909d48575c5e870d",
+      "detector_checkpoint_sha256": "9ea96f1050f1d3375c5cf0f25a086cd5bb9c6a290fa5fdc009804d9a31181d95",
+      "detector_seconds": 1.1
+    },
+    {
+      "id": "fresh-uae-08",
+      "scene_key": "0b195eaaa22d9afb2e7d8db9",
+      "image_sha256": "1fb0ced74b073b01aa01707e27e120266a4e53629afea0adabfe44adfd0e842a",
+      "state": "needs_clarification",
+      "selected_by": "parking_model",
+      "point_px": null,
+      "box_px": null,
+      "anchor_boxes_px": null,
+      "clarification": "I can’t locate a clear roadside opening between those vehicles. Can you mark the intended area?",
+      "error": null,
+      "passenger_http_seconds": 9.12,
+      "first_turn_score": "correct_withhold",
+      "signed_distance_pixels": null,
+      "first_journal_sha256": "0a0c9f259b43be11c5a3f69491fcb28d378982813f4b4639741bd3dbb280cfa9",
+      "method": "identified_vehicle_parking_v1",
+      "detections": 43,
+      "reason": "no_supported_roadside_patch",
+      "input_sha256": "5877dd792dd767a090e4f1008a20b0c78fb5841c732bfebf9226432b7edde076",
+      "receipt_replayed": true,
+      "independently_suggested": false,
+      "model_steps": [
+        {
+          "stage": "anchors",
+          "answer": "```json\n{\"vehicles\": [[267, 575, 413, 814], [605, 504, 1000, 902]]}\n```",
+          "gpu_seconds": 2.69
+        },
+        {
+          "stage": "tracks",
+          "answer": "{\"ids\": [2, 1]}",
+          "gpu_seconds": 0.91
+        }
+      ],
+      "processed_photo_url": "https://cdn.kartaview.org/pr:sharp/aHR0cHM6Ly9zdG9yYWdlMTMub3BlbnN0cmVldGNhbS5vcmcvZmlsZXMvcGhvdG8vMjAyMy8xLzMwL3Byb2MvNjY5MzQ0OV8xYjMzOWNlN2Q0YmRkY2M2NDFhMDBlYjQxMWViZTEzMi5qcGc",
+      "detector_identity_sha256": "acf21b53525d5729541aaedbf961a9c634399fa881fc7976909d48575c5e870d",
+      "detector_checkpoint_sha256": "9ea96f1050f1d3375c5cf0f25a086cd5bb9c6a290fa5fdc009804d9a31181d95",
+      "detector_seconds": 1.06
+    }
+  ],
+  "counts": {
+    "in_region": 1,
+    "missed_gap": 2,
+    "wrong_point": 1,
+    "correct_withhold": 3,
+    "false_proposal": 1
+  },
+  "strict_correct": 4,
+  "assisted_attempts": 3,
+  "assisted_in_region_confirmed": 3,
+  "timing_note": "First-turn elapsed includes HTTP session creation, the identity check of the served source image, inference and evidence checks. Served-image verification is extra work in the test client. The exact user-question replays separately time only the submit request.",
+  "portable_inference_bank_sha256": "da82c778b4fd5a36909816d471cd359465e970ad4e014aca01a69558609a76f5",
+  "imagery_credit": "© Grab and KartaView Contributors. Original imagery and the photo overlays are CC BY-SA 4.0.",
+  "speech_followup": {
+    "id": "fresh-uae-01",
+    "synthetic_voice": true,
+    "speech_source": "Windows English text to speech. Synthesized WAV supplied to the same audio upload and editable transcript interface, then submitted verbatim without editing. This does not test an actual microphone, accent or noisy cabin.",
+    "expected_text": "Could you let me out in the empty bay between the dark blue sedan and the white van on the right?",
+    "transcript": "Could you let me out in the empty bay between the dark blue sedan and the white van on the right?",
+    "word_for_word_after_normalization": true,
+    "wav_sha256": "e86d30e2dd9fe9b0f304694a29e1f966e737651c3a4e3c7bb86cb04b1196a2d7",
+    "utterance_seconds": 5.33,
+    "asr_seconds": 3.32,
+    "grounding_seconds": 46.78,
+    "method": "identified_vehicle_parking_v1",
+    "state": "proposed",
+    "point_px": [
+      2617.6,
+      1564.505928853755
+    ],
+    "score": "in_region",
+    "margin_pixels": 116.47,
+    "journal_verified": "26f8656d8d285d3ec27fa5268aafe40bc25788544c321bd1c2256c77baa958ec",
+    "model": "Systran/faster-whisper-small.en"
+  },
+  "exact_request_latency": {
+    "words": "could you drop me near the furniture store on the right",
+    "source_sha256": "0dfd8dadbb1ad54388d3ca1c9bb6473aa5eeebf407cb7cbdd7a45ee1b5b0c836",
+    "source": "https://kartaview.org/details/1129101/0/",
+    "confirmed_in_original_session": true,
+    "original_journal_sha256": "bef5c8785cbaa35c433da00a07f973c68adcaaa496e5c432ae138f6d7a4db2b3",
+    "original_anchor_class": "Car",
+    "original_landmark_reply": "LANDMARK L73",
+    "original_generation_seconds": 23.312,
+    "native_original_point_px": [
+      2958.75,
+      1983.75
+    ],
+    "native_original_anchor_boxes_px": [
+      [
+        2815.4842529296875,
+        1573.6569213867188,
+        3331.182861328125,
+        1977.9607543945312
+      ]
+    ],
+    "detector_candidates": 75,
+    "model": "unsloth/Qwen3-VL-8B-Instruct-bnb-4bit",
+    "base_revision": "10d842936325905934ea24e64325d774693f166e",
+    "laptop_gpu": "NVIDIA GeForce RTX 3050 Laptop GPU, 4096 MiB, layer-streamed 8B, released after every request",
+    "laptop_http_replays": [
+      {
+        "submit_seconds": 46.398,
+        "open_seconds": 0.049,
+        "generation_seconds": 20.282,
+        "state": "proposed",
+        "identical_pin": true,
+        "journal_sha256": "6be3665e65eebafa4a9ae7bbb0b5b24a39e3859d58a9259d13859936d7114744"
+      },
+      {
+        "submit_seconds": 44.171,
+        "open_seconds": 0.041,
+        "generation_seconds": 18.734,
+        "state": "proposed",
+        "identical_pin": true,
+        "journal_sha256": "3536462365cd059b493f1d031e9a476cfaec2b98702f8d44b5c94bd89bf4dc81"
+      }
+    ],
+    "local_keep_loaded_trial": {
+      "completed": false,
+      "reason": "The separate keep-loaded laptop test server encountered a CUDA out-of-memory error on its first generation while the other local apps were open. No warm latency comparison is available from that server.",
+      "journal_sha256": "942c0674a8406d54a048acf48da6ae8c06cf29d3e18f629628c10acf6e83f70a"
+    },
+    "cloud_benchmark": {
+      "scope": "The original public photo, prompt, current detections, 4-bit checkpoint, accelerator settings for the image processor, and trained LoRA were matched. A100 used all layers resident instead of streaming. Times here cover the returned model landmark, not the downstream region computation or UI. The temporary cloud job stopped after the four real calls.",
+      "gpu": "NVIDIA A100-SXM4-40GB",
+      "base_file_sha256": {
+        "model-00001-of-00002.safetensors": "4b1b6eb8c99b0ae3f6c793f4c8d5113c5246c98ca65f5d54d50dc6465efc3a70",
+        "model-00002-of-00002.safetensors": "1ff0a1be4f302b91aec0695fbf225398b14c5b2e9d50e6bedd8c2bf015ec8d00",
+        "config.json": "4292e1056469d772b0574e28e0fc5cb648ccb624fdef4c340f88e6588aa0410a",
+        "model.safetensors.index.json": "6192698e7d4dab819026cf5aa58f9d3b1c7b5272c6329ebeb0dac0cc9668356e"
+      },
+      "adapter_file_sha256": {
+        "grounding_adapter_manifest.json": "92e32dc900d919b7e137c70692c51b57921edbda77ff5b772e6dfdc221a12983",
+        "adapter_config.json": "def2dc5ef0c641fe93cba691766f0cdd0cb8e212ef8308f492c3b6aa96ac5ba7",
+        "adapter_model.safetensors": "76bfb3230b17a86248b52ca6a9f8d2ffca324aa80216d6b93845ccb12ad86743"
+      },
+      "processor_file_sha256": {
+        "preprocessor_config.json": "27225450ac9c6529872ee1924fcb0962ff5634834f817040f444118116f4e516",
+        "tokenizer.json": "a5d85b6dcc535e6b93115a9ef287e6132fdbf30270da6218194ba742261173c7",
+        "chat_template.json": "5c72a170d2a4a1a3bc5adad2e689ae28138a9700e5b8c96c0266331e86c0acce",
+        "vocab.json": "ca10d7e9fb3ed18575dd1e277a2579c16d108e32f27439684afa0e10b1440910",
+        "tokenizer_config.json": "c2da771801886ad9ae98181793ffd3dfb7f1af30f6f7c6a4e15d7dbba52e2399",
+        "config.json": "5cd452860dc1e9c29dd71cc3cef7f39b338b7a40793f7a260655c2d3568f3661",
+        "merges.txt": "599bab54075088774b1733fde865d5bd747cbcc7a547c5bc12610e874e26f5e3",
+        "video_preprocessor_config.json": "7768af27c1fafa9cc9011c1dc20067e03f8915e03b63504550e11d5066986d13"
+      },
+      "load_and_weight_verification_seconds": 23.02,
+      "calls": [
+        {
+          "case": "furniture-first",
+          "local_generation_seconds": 23.312,
+          "cloud_call_seconds": 30.069,
+          "generation_seconds": 2.347,
+          "input_tokens": 2163,
+          "output_tokens": 6,
+          "local_answer": "LANDMARK L73",
+          "raw_text": "LANDMARK L73",
+          "image_sha256": "0dfd8dadbb1ad54388d3ca1c9bb6473aa5eeebf407cb7cbdd7a45ee1b5b0c836",
+          "prompt_binding_sha256": "7de1e529b6ebf89cab3e7ba37200b48624facca050dd9a0422caf58573dea118",
+          "same_landmark_output": true
+        },
+        {
+          "case": "furniture-repeat",
+          "local_generation_seconds": 23.312,
+          "cloud_call_seconds": 1.304,
+          "generation_seconds": 0.755,
+          "input_tokens": 2163,
+          "output_tokens": 6,
+          "local_answer": "LANDMARK L73",
+          "raw_text": "LANDMARK L73",
+          "image_sha256": "0dfd8dadbb1ad54388d3ca1c9bb6473aa5eeebf407cb7cbdd7a45ee1b5b0c836",
+          "prompt_binding_sha256": "7de1e529b6ebf89cab3e7ba37200b48624facca050dd9a0422caf58573dea118",
+          "same_landmark_output": true
+        },
+        {
+          "case": "nearest-bay",
+          "local_generation_seconds": 17.594,
+          "cloud_call_seconds": 0.925,
+          "generation_seconds": 0.554,
+          "input_tokens": 830,
+          "output_tokens": 6,
+          "local_answer": "LANDMARK L11",
+          "raw_text": "LANDMARK L11",
+          "image_sha256": "df3c7569cf08071fe7492af65e599d7132364496766bb9e1e4fa4c3966dccc04",
+          "prompt_binding_sha256": "94ad203920ab753d81027d0c63d65c90519ea790104770d8f521ecc3d730537c",
+          "same_landmark_output": true
+        },
+        {
+          "case": "blocked-cafe",
+          "local_generation_seconds": 12.485,
+          "cloud_call_seconds": 0.82,
+          "generation_seconds": 0.496,
+          "input_tokens": 1145,
+          "output_tokens": 5,
+          "local_answer": "LANDMARK L3",
+          "raw_text": "LANDMARK L3",
+          "image_sha256": "53d8ce7e491f3c4fe6e96983eff8c1f15c0f4b26eff6e1dc1f6d860882bf9a0c",
+          "prompt_binding_sha256": "fff38809546460270ff428b3e665d75fc5ff2b2898ce5ee200494cb96ab1ff8c",
+          "same_landmark_output": true
+        }
+      ],
+      "separate_region_replay": {
+        "scope": "The first live A100 landmark reply on each distinct photo was fed through the released region estimator, original pixels, referent ranker and road mask in a separate local replay. This measures the resulting pin independently of the live timing.",
+        "results": [
+          {
+            "case": "furniture-first",
+            "cloud_landmark": "LANDMARK L73",
+            "point_px": [
+              2958.75,
+              1983.75
+            ],
+            "compared_point_px": [
+              2958.75,
+              1983.75
+            ],
+            "identical_result": true,
+            "offline_region_replay_seconds": 0.2607
+          },
+          {
+            "case": "nearest-bay",
+            "cloud_landmark": "LANDMARK L11",
+            "point_px": [
+              3281.25,
+              1323.75
+            ],
+            "compared_point_px": [
+              3281.25,
+              1323.75
+            ],
+            "identical_result": true,
+            "offline_region_replay_seconds": 0.1062
+          },
+          {
+            "case": "blocked-cafe",
+            "cloud_landmark": "LANDMARK L3",
+            "point_px": [
+              296.25,
+              978.75
+            ],
+            "compared_point_px": [
+              296.25,
+              978.75
+            ],
+            "identical_result": true,
+            "offline_region_replay_seconds": 0.0894
+          }
+        ]
+      }
+    }
+  },
+  "protocol_file": "passenger-uae-parking-fresh-protocol-20261123.json",
+  "portable_inference_bank_file": "passenger-uae-parking-fresh-requests-20261123.jsonl",
+  "field_trial_scope": "Eight independent drive IDs, purposive selection, AI-reviewed reference geometry. Isolated single photographs; no moving vehicle or real passenger was tested. The voice follow-up uses synthesized speech on one of the eight images."
+}

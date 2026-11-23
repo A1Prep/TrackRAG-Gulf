@@ -34,6 +34,14 @@ def intervals(result):
     return [(r["track_id"], r["start_frame"], r["end_frame"]) for r in result]
 
 
+@pytest.mark.parametrize("wording", ["Which road users are visible on this frame?",
+                                    "Describe the selected image."])
+def test_current_frame_overview_is_available_without_named_objects(wording):
+    evidence = rank_evidence(query(wording), build_index(Frames(), [track(38, 7, "Bus", 50)]))
+    assert (None, 38, 38) in intervals(evidence)
+    assert all(item["end_frame"] <= 38 for item in evidence)
+
+
 @pytest.mark.parametrize("source", ["predicted", "annotated"])
 def test_late_object_uses_the_requested_frame_and_source(source):
     rows = [track(5, 6, "Car", 75, source=source), track(38, 7, "Car", 70, source=source),

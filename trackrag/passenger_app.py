@@ -11,7 +11,7 @@ import re
 import secrets
 import tempfile
 import threading
-from contextlib import nullcontext
+from contextlib import contextmanager, nullcontext
 from dataclasses import asdict
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
@@ -139,7 +139,7 @@ class BrowserSession:
 
 
 class PassengerSite:
-    def __init__(self, scenes, model, recognizer, out, session_factory, footage=None):
+    def __init__(self, scenes, model, recognizer, out, session_factory, footage=None, release_after_request=None):
         self.scenes = scenes
         self.footage = footage
         self.footage_scenes = {key for key, scene in scenes.items() if footage is not None and footage.covers(scene)}
@@ -150,7 +150,17 @@ class PassengerSite:
         self.sessions = {}
         self.session_lock = threading.Lock()
         self.model_lock = threading.Lock()
+        self.release_after_request = release_after_request
         self.scene_lock = threading.Lock()
+
+    @contextmanager
+    def model_request(self):
+        with self.model_lock:
+            try:
+                yield
+            finally:
+                if self.release_after_request is not None:
+                    self.release_after_request()
 
     def catalog(self):
         with self.scene_lock:
@@ -159,6 +169,15 @@ class PassengerSite:
         return {"scenes": sorted(frames, key=lambda f: (f["recording_id"], f["frame_id"])),
                 "speech_available": self.recognizer is not None, "footage_available": bool(covered),
                 "footage_scenes": covered}
+
+    def check_footage_coverage(self, minimum):
+        covered = {self.scenes[key]["frame"]["recording_id"] for key in self.footage_scenes}
+        if len(covered) < minimum:
+            raise ValueError(
+                f"Searchable footage was verified for {len(covered)} distinct recording(s); {minimum} required. "
+                "Check the prepared scene bank, original EMT images, saved predictions and vision profile."
+            )
+        return sorted(covered)
 
     def open_recording_frame(self, origin, frame_id, *, for_footage=False):
         if self.footage is None:
@@ -255,7 +274,8 @@ class PassengerSite:
                     if not payload or len(payload) > MAX_WAV_BYTES:
                         raise SpeechInputError("invalid_audio_size", "Record or upload a WAV file up to 12 MiB.")
                     digest = archive_wav(s.directory / "audio", payload)
-                    receipt = asdict(self.recognizer.transcribe_wav(payload))
+                    with self.model_lock:
+                        receipt = asdict(self.recognizer.transcribe_wav(payload))
                     if receipt["audio_sha256"] != digest:
                         raise SpeechInputError("speech_receipt_mismatch", "The speech receipt belongs to different audio.")
                     s.receipt = receipt
@@ -290,18 +310,18 @@ class PassengerSite:
                         raise PassengerRequestError(409, "Only the current, unfinished description can be replaced.")
                     kwargs["replaces_request_id"] = previous_id
                 receipt = s.receipt if mode == "voice" else None
-                with self.model_lock:
+                with self.model_request():
                     s.dialogue.submit(text, original_transcript=receipt["transcript"] if receipt else None, speech=receipt, **kwargs)
                 s.clear_audio()
             elif action == "area":
                 if s.voice_stage:
                     raise PassengerRequestError(409, "Finish your new instruction before marking its area.")
-                with self.model_lock:
+                with self.model_request():
                     s.dialogue.select_area(payload.get("box"))
             elif action == "select-pair":
                 if s.voice_stage:
                     raise PassengerRequestError(409, "Finish your new instruction before selecting its vehicles.")
-                with self.model_lock:
+                with self.model_request():
                     s.dialogue.select_pair(payload.get("track_ids"), payload.get("placement"))
             elif action == "confirm":
                 token = payload.get("proposal_id")
@@ -395,8 +415,11 @@ def handler(site):
                         raise PassengerRequestError(503,"Start the app with recording and prediction folders to enable footage search.")
                     if payload.get("scene") not in site.footage_scenes:
                         raise PassengerRequestError(400,"Choose a frame in the attached footage recording.")
-                    return self.respond(site.footage.ask(site.scenes[payload["scene"]],payload.get("question"),
-                                                         hosted=payload.get("hosted",False)))
+                    # Full-resolution retrieval and the local 8B worker share host memory.
+                    with site.model_lock:
+                        result = site.footage.ask(site.scenes[payload["scene"]], payload.get("question"),
+                                                  hosted=payload.get("hosted", False))
+                    return self.respond(result)
                 if m:
                     revision = int(self.headers.get("X-Session-Revision", "-1"))
                     return self.respond(site.change(m[1], revision, m[2], payload))
@@ -441,6 +464,10 @@ def main(argv=None):
     parser.add_argument("--qa-data-root",type=Path)
     parser.add_argument("--qa-predictions",type=Path)
     parser.add_argument("--qa-frame-rate",type=float,help="Used if the prepared EMT frames used an explicit rate")
+    parser.add_argument("--require-footage",type=int,metavar="RECORDINGS",default=0,
+                        help="Require searchable footage on this many distinct recordings at startup")
+    parser.add_argument("--low-memory", action="store_true",
+                        help="Release the 8B worker after each passenger inference on a small laptop")
     parser.add_argument("--qa-vision-config",type=Path,default=Path("configs/vision/finetuned.json"))
     parser.add_argument("--vision-cache", type=Path, required=True)
     parser.add_argument("--between-road-mode", choices=("edge", "edge-or-bay"), default="edge",
@@ -453,6 +480,12 @@ def main(argv=None):
     parser.add_argument("--out", type=Path, required=True, help="Local session receipts and source WAVs")
     parser.add_argument("--port", type=int, default=8765)
     args = parser.parse_args(argv)
+    if args.require_footage < 0:
+        parser.error("--require-footage must be nonnegative.")
+    if bool(args.qa_data_root) != bool(args.qa_predictions):
+        parser.error("Footage search needs both --qa-data-root and --qa-predictions.")
+    if args.require_footage and args.qa_data_root is None:
+        parser.error("Install the project's EMT images and saved predictions or supply --qa-data-root and --qa-predictions.")
     from trackrag.dropoff.passenger_pair_choice import PassengerSession
     from trackrag.dropoff.passenger import load_passenger_model
 
@@ -466,9 +499,7 @@ def main(argv=None):
         from trackrag.dropoff.infrastructure import PassengerDialogueGrounder
         dialogue_model = PassengerDialogueGrounder(model)
     footage = None
-    if args.qa_data_root or args.qa_predictions:
-        if not (args.qa_data_root and args.qa_predictions):
-            parser.error("Footage search needs both --qa-data-root and --qa-predictions.")
+    if args.qa_data_root:
         from trackrag.footage_app import FootageReview
         footage = FootageReview(args.qa_data_root,args.qa_predictions,args.qa_vision_config,args.out/"footage",args.qa_frame_rate)
     session_factory = PassengerSession
@@ -477,15 +508,19 @@ def main(argv=None):
         from trackrag.dropoff.parking_evidence import make_backend
         from trackrag.dropoff.passenger_parking_session import ParkingPassengerSession
         session_factory = partial(ParkingPassengerSession, parking_backend=make_backend(args.parking_backend))
-    site = PassengerSite(scenes, dialogue_model, asr, args.out, session_factory,footage)
-    with ThreadingHTTPServer(("127.0.0.1", args.port), handler(site)) as server:
-        print(f"Open http://127.0.0.1:{server.server_port}/  ({len(scenes)} prepared frames)", flush=True)
-        try:
-            server.serve_forever()
-        except KeyboardInterrupt:
-            pass
-        finally:
-            model.close()
+    site = PassengerSite(scenes, dialogue_model, asr, args.out, session_factory, footage,
+                         release_after_request=model.close if args.low_memory else None)
+    try:
+        recordings = site.check_footage_coverage(args.require_footage)
+        with ThreadingHTTPServer(("127.0.0.1", args.port), handler(site)) as server:
+            print(f"Open http://127.0.0.1:{server.server_port}/  ({len(scenes)} prepared frames, "
+                  f"{len(recordings)} searchable recordings, speech {'enabled' if asr else 'disabled'})", flush=True)
+            try:
+                server.serve_forever()
+            except KeyboardInterrupt:
+                pass
+    finally:
+        model.close()
 
 
 if __name__ == "__main__":

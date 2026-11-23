@@ -813,10 +813,13 @@ def verify(request, outcome, *, requested_box=None):
                                 policy=policy,gravel_packet=source.get("gravel_evidence"))
     elif method==AUTO and source.get("explanation_policy") is not None:
         from . import photo_clarification
-        if source["explanation_policy"] != photo_clarification.POLICY or type(source.get("local_photo_check")) is not bool:
+        if source["explanation_policy"]==photo_clarification.VEGETATION_POLICY:
+            expected=photo_clarification.greenery(request,photo,source["surface_evidence"])
+        elif source["explanation_policy"]==photo_clarification.POLICY and type(source.get("local_photo_check")) is bool:
+            expected=photo_clarification.rebuild(request,photo,source["surface_evidence"],source.get("landmark_evidence"),
+                                                 local=source["local_photo_check"])
+        else:
             raise ValueError("Unknown visible landmark clarification.")
-        expected=photo_clarification.rebuild(request,photo,source["surface_evidence"],source.get("landmark_evidence"),
-                                             local=source["local_photo_check"])
     elif method==AUTO and source.get("destination_scope_checked") is True and policy == CLEARANCE_POLICY:
         expected = _clarify_destination(request, photo)
     elif (method==AUTO and source.get("abbreviated_pair_checked") is True and language==ABBREVIATED_PAIR_POLICY

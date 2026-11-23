@@ -25,9 +25,9 @@ export function drawChosenLandmarks(ctx, boxes, scale) {
   if (boxes?.length === 2) boxes.forEach((box,i)=>outline(ctx,box,i===0?"A":"B",slotColors[i],scale,true));
 }
 
-export function drawVehicleReferences(ctx, boxes, scale) {
+export function drawVehicleReferences(ctx, boxes, scale, name="Vehicle") {
   for (const [index,box] of (boxes || []).entries()) {
-    outline(ctx,box,boxes.length===1 ? "Vehicle" : "Vehicle " + (index+1),"#8be5ff",scale,true);
+    outline(ctx,box,boxes.length===1 ? name : name + " " + (index+1),"#8be5ff",scale,true);
   }
 }
 

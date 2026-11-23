@@ -158,8 +158,11 @@ class PublicFrontageGrounder:
         return getattr(self.dialogue,name)
 
     def interpret(self, request):
+        from .local_surfaces import local_only
         deadline = monotonic() + INTERACTIVE_WAIT_SECONDS
         prior=self.dialogue.interpret(request)
+        if local_only(request["scene"]):
+            return prior
         frame=request["scene"]["frame"]
         key=(request["scene"]["provenance"].get("image_sha256"),frame["recording_id"],frame["frame_id"])
         if key not in self.public.allowed or not prior_eligible(request,prior):

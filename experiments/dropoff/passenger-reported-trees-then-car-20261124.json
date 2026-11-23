@@ -1,0 +1,206 @@
+{
+  "generated_utc": "2026-11-23T22:43:47.431118+00:00",
+  "source_url": "https://kartaview.org/details/4572137/14/",
+  "attribution": "Grab and KartaView contributors, CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
+  "original_public_sha256": "98dbfd42cf22eab79bff24cbf227cdefb7663b12c0d7d1014569642f067adfbd",
+  "recording": "kartaview_4572137",
+  "frame": 14,
+  "size": [
+    3264,
+    1836
+  ],
+  "scope": "AI reviewer viewed the unmarked public original before the refreshed canonical service. The source was already used in an earlier black-vehicle complaint. These are targeted acceptance tests, not fresh generalization or human driver judgments.",
+  "expected_outcomes_sha256": "590f617144dc55f39573d787acc5de0039d2f83f665f0940c8639a172c2f11c7",
+  "normal_browser_readback_sha256": "a194fe3d932a82f571c2d4e503640dccc7eefd0987df994ba77d704119eda8a7",
+  "method": "Five typed Edge requests used the normal canonical PassengerSite. The second was submitted as the next turn after the first without opening a fresh session. The loaded photograph was checked against its source SHA-256. Independent original-image canopy rectangles were recorded before the run. Each actual outline had to overlap the correct reference and be visibly blue on the rendered transparent overlay canvas; no stop, selectable alternative, or save control was allowed. All four real local session journals were subsequently replayed.",
+  "turns_checked": 5,
+  "unique_journals_replayed": 4,
+  "results": [
+    {
+      "id": "left",
+      "original_words": "Could you drop me next to the trees on the left?",
+      "elapsed_to_visible_ms": 850,
+      "first_ack_ms": 266,
+      "same_conversation_after_left_trees": false,
+      "source_grounded_outline_kind": "vegetation",
+      "pictured_source_boxes_xyxy": [
+        [
+          0,
+          72.57,
+          823.25,
+          976.06
+        ]
+      ],
+      "box_overlap_IoU_with_preregistered_canopy_bounds": {
+        "left": 0.9172,
+        "right": 0.0
+      },
+      "real_visible_blue_pixels_in_510px_preview": {
+        "left": 918,
+        "middle": 0,
+        "right": 0
+      },
+      "visible_blue_on_sides": [
+        "left"
+      ],
+      "destination_pin": false,
+      "can_save": false,
+      "selectable_alternatives": 0,
+      "actual_reply": "The blue outline shows tall roadside greenery on the left. I couldn\u2019t verify an open pull-in beside it. Could you tap the off-lane area you meant?",
+      "visible_legend": "Roadside greenery in blue \u00b7 Drop-off point unverified",
+      "browser_screenshot_sha256": "8ed6150566da64785d1a1f7b2cdca590fba9fa34b26be71548dbaa3c724d8c91",
+      "signed_offline_replay": {
+        "journal_sha256": "937477eb48c8f1c0dde27f5bf85a707c8d9979431dcc5d3dfaee2ec52226138e",
+        "replay_verified": true,
+        "references_read_during_replay": false
+      }
+    },
+    {
+      "id": "black-after-left",
+      "original_words": "Could you drop me behind the black car?",
+      "elapsed_to_visible_ms": 575,
+      "first_ack_ms": 57,
+      "same_conversation_after_left_trees": true,
+      "source_grounded_outline_kind": null,
+      "pictured_source_boxes_xyxy": [],
+      "box_overlap_IoU_with_preregistered_canopy_bounds": {
+        "left": 0,
+        "right": 0
+      },
+      "real_visible_blue_pixels_in_510px_preview": {
+        "left": 0,
+        "middle": 0,
+        "right": 0
+      },
+      "visible_blue_on_sides": [],
+      "destination_pin": false,
+      "can_save": false,
+      "selectable_alternatives": 0,
+      "actual_reply": "I can\u2019t see a clear off-lane space immediately behind that vehicle. Could you mark a different spot or name another landmark?",
+      "visible_legend": "Tap the photo to mark your spot",
+      "browser_screenshot_sha256": "1b37d1a0355526a989e5d4aaf66229f2a666d56e2f5c1306720fc3b618995fd8",
+      "signed_offline_replay": {
+        "journal_sha256": "937477eb48c8f1c0dde27f5bf85a707c8d9979431dcc5d3dfaee2ec52226138e",
+        "replay_verified": true,
+        "references_read_during_replay": false
+      }
+    },
+    {
+      "id": "right",
+      "original_words": "Could you drop me next to the trees on the right?",
+      "elapsed_to_visible_ms": 593,
+      "first_ack_ms": 74,
+      "same_conversation_after_left_trees": false,
+      "source_grounded_outline_kind": "vegetation",
+      "pictured_source_boxes_xyxy": [
+        [
+          2074.45,
+          0,
+          3264,
+          714.81
+        ]
+      ],
+      "box_overlap_IoU_with_preregistered_canopy_bounds": {
+        "left": 0.0,
+        "right": 0.9389
+      },
+      "real_visible_blue_pixels_in_510px_preview": {
+        "left": 0,
+        "middle": 0,
+        "right": 1158
+      },
+      "visible_blue_on_sides": [
+        "right"
+      ],
+      "destination_pin": false,
+      "can_save": false,
+      "selectable_alternatives": 0,
+      "actual_reply": "The blue outline shows tall roadside greenery on the right. I couldn\u2019t verify an open pull-in beside it. Could you tap the off-lane area you meant?",
+      "visible_legend": "Roadside greenery in blue \u00b7 Drop-off point unverified",
+      "browser_screenshot_sha256": "91eeec149d0d953d7516cb41027260d04b54916cbd5b3c9a2947035e8943dbf0",
+      "signed_offline_replay": {
+        "journal_sha256": "20bb8186dfb3af0600f5bab1991352c36584357d8d6bfe9696e8cd08634ec4df",
+        "replay_verified": true,
+        "references_read_during_replay": false
+      }
+    },
+    {
+      "id": "either",
+      "original_words": "Could you drop me next to the trees?",
+      "elapsed_to_visible_ms": 596,
+      "first_ack_ms": 67,
+      "same_conversation_after_left_trees": false,
+      "source_grounded_outline_kind": "vegetation",
+      "pictured_source_boxes_xyxy": [
+        [
+          0,
+          72.57,
+          823.25,
+          976.06
+        ],
+        [
+          2074.45,
+          0,
+          3264,
+          714.81
+        ]
+      ],
+      "box_overlap_IoU_with_preregistered_canopy_bounds": {
+        "left": 0.9172,
+        "right": 0.9389
+      },
+      "real_visible_blue_pixels_in_510px_preview": {
+        "left": 961,
+        "middle": 0,
+        "right": 1208
+      },
+      "visible_blue_on_sides": [
+        "left",
+        "right"
+      ],
+      "destination_pin": false,
+      "can_save": false,
+      "selectable_alternatives": 0,
+      "actual_reply": "The blue outlines show tall roadside greenery on both sides. Which side did you mean?",
+      "visible_legend": "Roadside greenery in blue \u00b7 Drop-off point unverified",
+      "browser_screenshot_sha256": "c4cf904e9e0987b1b53de25b1254a55378a72e38f79f36cb493c73b58d9d10e7",
+      "signed_offline_replay": {
+        "journal_sha256": "6ca8eca5c3ad88fb2aa2a84950facbcea4567a77012b0a98d6a8a331b5116311",
+        "replay_verified": true,
+        "references_read_during_replay": false
+      }
+    },
+    {
+      "id": "changed-car",
+      "original_words": "Could you drop me behind the red car?",
+      "elapsed_to_visible_ms": 608,
+      "first_ack_ms": 62,
+      "same_conversation_after_left_trees": false,
+      "source_grounded_outline_kind": null,
+      "pictured_source_boxes_xyxy": [],
+      "box_overlap_IoU_with_preregistered_canopy_bounds": {
+        "left": 0,
+        "right": 0
+      },
+      "real_visible_blue_pixels_in_510px_preview": {
+        "left": 0,
+        "middle": 0,
+        "right": 0
+      },
+      "visible_blue_on_sides": [],
+      "destination_pin": false,
+      "can_save": false,
+      "selectable_alternatives": 0,
+      "actual_reply": "I can\u2019t see a clear off-lane space immediately behind that vehicle. Could you mark a different spot or name another landmark?",
+      "visible_legend": "Tap the photo to mark your spot",
+      "browser_screenshot_sha256": "09e56f30f853dff5f0eb9579aa09c8eadfaefa22388878422e5c940f4a5a6e29",
+      "signed_offline_replay": {
+        "journal_sha256": "26815ea087dbd9e2bcf08f1edd0b7dd603963f39a4a55ed66bacc3d88897f254",
+        "replay_verified": true,
+        "references_read_during_replay": false
+      }
+    }
+  ],
+  "scope_of_vehicle_feedback": "The black and red vehicle requests both returned the same geometry-based no-space explanation. Neither made a vehicle colour-identification claim with an outline or exposed a destination."
+}

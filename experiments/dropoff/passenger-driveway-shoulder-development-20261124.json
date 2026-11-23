@@ -639,5 +639,14 @@
         }
       }
     }
-  ]
+  ],
+  "regression_checks": {
+    "selected_cpu_suite_passed": 149,
+    "scope": "All tests in the native destination, observed pull-in, parking-row extension, driveway apron, passenger whole bay, manual off-lane, paver pull-in, and curb point language modules. This includes open and obstructed synthetic controls, left/right crops, semantic access, changed landmarks, roles and receipts.",
+    "candidate_geometry_unit_tests": 33,
+    "separate_reviewer_access_checks": {
+      "clear_positive_bases": 2,
+      "counterfactual_obstructions_with_no_auto_or_manual_pin": 5
+    }
+  }
 }

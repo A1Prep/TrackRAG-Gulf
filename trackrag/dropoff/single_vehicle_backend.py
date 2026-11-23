@@ -29,10 +29,11 @@ class SingleVehicleBackend:
         self._memory = OrderedDict()
 
     def eligible(self, request):
+        from .local_surfaces import local_only
         scene = request["scene"]
         frame = scene["frame"]
         source = (scene["provenance"].get("image_sha256"), frame["recording_id"], frame["frame_id"])
-        return (scene["source"] == "predicted" and source in self.places.allowed
+        return (not local_only(scene) and scene["source"] == "predicted" and source in self.places.allowed
                 and vehicle.request_reference(request) is not None)
 
     def _save(self, path, packet):

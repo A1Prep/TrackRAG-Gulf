@@ -441,6 +441,8 @@ class PassengerSession:
             bay = {}
             if self._references_only and self._state=="needs_clarification":
                 bay["references_only"]=True
+                if self._references_only=="vegetation":
+                    bay["reference_kind"]="vegetation"
             if receipt is not None and receipt["provenance"].get("bay_outline"):
                 bay["bay_outline"] = receipt["provenance"]["bay_outline"]
             if self._bay_menu is not None:
@@ -505,6 +507,9 @@ class PassengerSession:
             verifier(req, outcome)
             self._references_only = (info.get("reason")=="vehicle_seen_space_withheld" and
                                      result["status"]=="needs_clarification" and bool(result.get("anchor_boxes_xyxy")))
+            if (info.get("reason")=="vegetation_seen_space_withheld" and result["status"]=="needs_clarification"
+                    and result.get("anchor_boxes_xyxy")):
+                self._references_only="vegetation"
             if result["status"] == "proposed":
                 self._place_offer = deepcopy(outcome)
                 self._place_offer_sha256 = digest(outcome)

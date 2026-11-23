@@ -296,7 +296,7 @@ class PlaceDialogueGrounder:
 
     def uses_public_service(self, request):
         from . import bay_intent,curb_point_language,local_surfaces,native_destination,roadside_context,visual_space
-        if local_surfaces.local_only(request["scene"]):
+        if local_surfaces.local_only(request.get("scene",{})):
             return False
         return ((isinstance(self.backend,PublicPlaceBackend) and self.backend.allows_photo(request) and
                  (bay_intent.parse(request["text"]) is not None or
@@ -313,11 +313,12 @@ class PlaceDialogueGrounder:
     def inspect_requested_bay(self, request):
         from . import observed_pullin,photo_clarification,whole_bay
         from .local_surfaces import matches_scene
-        local=matches_scene(request["scene"])
+        local=matches_scene(request.get("scene",{}))
         if local or (isinstance(self.backend,PublicPlaceBackend) and self.backend.allows_photo(request)):
             prior=observed_pullin.supplement(request,whole_bay.explicit_request(request))
-            if local or (prior is not None and prior["provenance"].get("reason") in
-                         {"indexed_reference_unmatched","indexed_no_open_location","parking_fragments_at_vehicles"}):
+            if local or (prior is not None and (photo_clarification.vegetation_reference(request["text"]) or
+                          prior["provenance"].get("reason") in
+                          {"indexed_reference_unmatched","indexed_no_open_location","parking_fragments_at_vehicles"})):
                 try:
                     return photo_clarification.explain(request,prior,local=local)
                 except (ValueError,TypeError,KeyError,OSError):
@@ -328,7 +329,7 @@ class PlaceDialogueGrounder:
     def interpret(self, request):
         from . import bay_intent, single_vehicle
         from .local_surfaces import local_only
-        if local_only(request["scene"]):
+        if local_only(request.get("scene",{})):
             bay = self.inspect_requested_bay(request)
             if bay is not None:
                 return bay
@@ -350,6 +351,15 @@ class PlaceDialogueGrounder:
         if self.single_vehicle is not None and self.single_vehicle.eligible(request):
             return self.single_vehicle.interpret(request)
         if self.backend.eligible(request):
-            return self.backend.interpret(request)
+            outcome=self.backend.interpret(request)
+            from . import photo_clarification
+            if (isinstance(self.backend,PublicPlaceBackend) and isinstance(outcome,dict) and
+                    outcome.get("result",{}).get("status")=="needs_clarification" and
+                    photo_clarification.vegetation_reference(request["text"])):
+                try:
+                    return photo_clarification.explain(request,outcome)
+                except (OSError,ValueError,TypeError,KeyError):
+                    return outcome
+            return outcome
         with _native_guard.get()():
             return self.dialogue.interpret(request)

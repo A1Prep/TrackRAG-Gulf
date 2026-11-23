@@ -166,6 +166,11 @@ get("search").addEventListener("submit",async event => {
       if(failed) {
         const retry=node("button","Retry search"); retry.type="button"; retry.className="subtle";
         retry.onclick=()=>get("search").requestSubmit(); results.append(retry);
+        if (body.can_answer_from_tracks) {
+          const local=node("button","Answer from saved tracks"); local.type="button"; local.className="subtle";
+          local.onclick=()=>{mode.value="local";updatePlayer();get("search").requestSubmit();};
+          results.append(local);
+        }
       }
     } else {
       results.append(node("h2",body.evidence.length ? "Retrieved evidence" : "No matching evidence"),

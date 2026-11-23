@@ -59,31 +59,19 @@ def asks_for_unmeasured_speed(text):
     return bool(re.search(rf"\b(?:exact|precise|actual)\s+(?:physical\s+)?speed\s+of\s+(?:[\w'-]+\s+){{0,4}}{target}\b",text,re.I))
 
 
-def spatial_reference_question(question, evidence):
-    """Ask which unqualified vehicle the reviewer means when retrieval found distinct current matches."""
-    from trackrag.retrieval_temporal import current_spatial_relation, matches_vehicle_class
-
-    words = question['question']
+def _spatial_vehicle_subject(words):
+    from trackrag.retrieval_temporal import current_spatial_relation
     subject = re.search(r"\b(?:is|was)\s+(?:the|that)\s+(truck|lorry|pickup|car|sedan|suv|van|bus|coach|vehicle)"
                         r"\s+(?:near|next to|beside|opposite|behind|under|in front of|to the (?:left|right) of)\b", words, re.I)
-    if not subject or not current_spatial_relation(words):
-        return None
+    return subject[1].lower() if subject and current_spatial_relation(words) else None
+
+
+def _which_vehicle(subject, boxes):
     locations = {}
-    for item in evidence:
-        track = item['interval']['track_id']
-        if track is None:
-            continue
-        for view in item['images']:
-            if view['frame_id'] != question['query_frame'] or not view.get('bbox_xyxy'):
-                continue
-            if not any(row['track_id'] == track and matches_vehicle_class(subject[1].lower(), row['class_name'])
-                       for row in view.get('observations', [])):
-                continue
-            left, top, right, bottom = view['bbox_xyxy']
-            width = view['privacy']['original_size_wh'][0]
-            centre = (left + right) / (2 * width)
-            position = "on the left" if centre < 1/3 else "on the right" if centre > 2/3 else "near the centre"
-            locations[track] = (position, left, top, right, bottom)
+    for track, (left, top, right, bottom), width in boxes:
+        centre = (left + right) / (2 * width)
+        position = "on the left" if centre < 1/3 else "on the right" if centre > 2/3 else "near the centre"
+        locations[track] = (position, left, top, right, bottom)
     same_side = None
     for first, second in combinations(locations.values(), 2):
         where, left, top, right, bottom = first
@@ -91,12 +79,47 @@ def spatial_reference_question(question, evidence):
         if not (right < other_left or other_right < left or bottom < other_top or other_bottom < top):
             continue
         if where != other:
-            return f"Which {subject[1].lower()} do you mean? There are possible matches {where} and {other} in the paused frame."
+            return f"Which {subject} do you mean? There are possible matches {where} and {other} in the paused frame."
         same_side = where
     if same_side:
-        return (f"Which {subject[1].lower()} do you mean? There are at least two possible matches {same_side} "
+        return (f"Which {subject} do you mean? There are at least two possible matches {same_side} "
                 "in the paused frame. What detail distinguishes yours?")
     return None
+
+
+def spatial_reference_from_tracks(question, frame_tracks, width):
+    """Use the selected frame's verified detector observations to identify an ambiguous reference locally."""
+    from trackrag.retrieval_temporal import matches_vehicle_class
+
+    subject = _spatial_vehicle_subject(question['question'])
+    if subject is None:
+        return None
+    boxes = ((row['track_id'], row['bbox_xyxy'], width) for row in frame_tracks
+             if row['source'] == 'predicted' and row['recording_id'] == question['recording_id']
+             and row['frame_id'] == question['query_frame'] and matches_vehicle_class(subject, row['class_name']))
+    return _which_vehicle(subject, boxes)
+
+
+def spatial_reference_question(question, evidence):
+    """Ask which unqualified vehicle the reviewer means when retrieval found distinct current matches."""
+    from trackrag.retrieval_temporal import matches_vehicle_class
+
+    subject = _spatial_vehicle_subject(question['question'])
+    if subject is None:
+        return None
+    boxes = []
+    for item in evidence:
+        track = item['interval']['track_id']
+        if track is None:
+            continue
+        for view in item['images']:
+            if view['frame_id'] != question['query_frame'] or not view.get('bbox_xyxy'):
+                continue
+            if not any(row['track_id'] == track and matches_vehicle_class(subject, row['class_name'])
+                       for row in view.get('observations', [])):
+                continue
+            boxes.append((track, view['bbox_xyxy'], view['privacy']['original_size_wh'][0]))
+    return _which_vehicle(subject, boxes)
 
 
 def _describes_observed_absence(text, track, frame, requested_tracks, required_frames, clock):

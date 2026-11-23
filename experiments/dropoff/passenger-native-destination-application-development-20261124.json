@@ -1,0 +1,821 @@
+{
+  "generated_utc": "2026-11-23T22:34:44.887746+00:00",
+  "scope": "Originals from the opened five-drive development challenge. This targeted browser run covers the hotel and shoulder requests assigned to these two methods, five earlier through-lane clicks and three earlier passenger interior taps. One independent AI reviewer drew the reference regions before they were used in development. The tests do not measure public-road safety, bay dimensions or generalization to a new dataset.",
+  "runtime": "One real Microsoft Edge tab at a time, normal local PassengerSite session, with original bytes hash-checked before submission. The client used the save button only after recording the first response and verifying a positive point against the earlier reference. Signed trained visual observations were read on this computer. No fresh visual model calls, local language-model calls, private footage or target coordinates were used for the automatic predictions.",
+  "attribution": {
+    "credit": "Grab and KartaView contributors",
+    "license": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0/"
+  },
+  "study_sha256": "78f8f4d665fa343ec3ee4d784df2876bdc98eeea1bfb32b9486b21ddb2226cd5",
+  "prior_first_turns_sha256": "69cc2e0fe22454375ebf5429c22ca683375b0c8bba6678f319133f62ea5684a0",
+  "original_http_readback_sha256": "b91e50df1be1cdea33fa12e3d224fd2f67075dc206afb9ab8b0cb7a983554cc8",
+  "independent_scoring_sha256": "04d3eec2f51c8306016b8e1a13e8b091ac4a9ef2fd52c11dbdb6ec35347df093",
+  "trained_visual_source_bank_sha256": "397286628805b8f14af9b3a21eedd429221405ec445e5261b52152cae5103ed0",
+  "current_native_language_source_sha256": "a429a8b0ff436b6904eb52cfaf231fbc71b849b5311c133616c2c829723dbef5",
+  "matched_criteria": {
+    "natural": {
+      "point_match": 1,
+      "withheld": 1
+    },
+    "lane": {
+      "correct_withholding": 5
+    },
+    "interior": {
+      "withheld": 1,
+      "point_match": 2
+    }
+  },
+  "caveat": "The T03 picture has a recognisable white sedan. A specialist geometric check supports the user\u2019s named point in the paved row; the trained visual check marked the automatic candidate BLOCKED, did not identify the skip, and supplied no confirmed vehicle-rear orientation. The normal automatic response therefore outlines only the correctly identified car. The passenger may instead mark a physically corroborated point and save that specific point in a distinct action. The third original target on the industrial apron had no location under these methods.",
+  "original_browser_rows": [
+    {
+      "case": "T02",
+      "task": "natural",
+      "source_url": "https://kartaview.org/details/5204473/819/",
+      "source_sha256": "129e43a4f8482d50707f75d002c0e8dc809d2ae0fea3da57a1e4d030527c080a",
+      "submitted_words": "Could you drop me in the St. Regis entrance driveway, off the main road?",
+      "expected": "point_match",
+      "actor": "model",
+      "state": "proposed",
+      "initial_auto_save": false,
+      "separate_confirm_button": true,
+      "timing_to_visible_ms": 1208,
+      "browser_errors": [],
+      "shown_message": "The gold ring shows the spot in the centre of the photo. Check that it is where you meant.",
+      "result": {
+        "status": "proposed",
+        "destination_point_xy": [
+          1763.767,
+          1094.441
+        ],
+        "destination_box_xyxy": [
+          1746.7,
+          1077.366,
+          1780.833,
+          1111.516
+        ],
+        "clarification_question": null
+      },
+      "number_of_choices": 0,
+      "proposed_extent": "interior_point_only",
+      "submitted_tap_xy": null,
+      "explicit_confirmation": {
+        "ok": true,
+        "state": "confirmed",
+        "actor": "model",
+        "retained_point": [
+          1763.767,
+          1094.441
+        ],
+        "visible_ms": 137
+      },
+      "strict_replay": {
+        "verified": true,
+        "scoring_references_read": false,
+        "journal_sha256": "53264bfb0e5caf80be6348d771fb6de92627b0aaf822568398de99a2a57ad11f",
+        "actions": [
+          "opened",
+          "submitted",
+          "confirmed"
+        ],
+        "grounding_methods": [
+          "public_painted_bay_landmark_v1"
+        ],
+        "reasons": [
+          "observed_native_destination"
+        ],
+        "independently_offered": [
+          true
+        ]
+      }
+    },
+    {
+      "case": "T03",
+      "task": "natural",
+      "source_url": "https://kartaview.org/details/976103/139/",
+      "source_sha256": "bae3d01037cdc79d690fe49f11cf8603abec303643967805ffdbb72abff23b36",
+      "submitted_words": "Let me out on the paved shoulder behind the white sedan, near the big rubbish skip on the right.",
+      "expected": "withheld",
+      "actor": "model",
+      "state": "needs_clarification",
+      "initial_auto_save": false,
+      "separate_confirm_button": false,
+      "timing_to_visible_ms": 2460,
+      "browser_errors": [],
+      "shown_message": "The outline shows the vehicle you described. I couldn\u2019t verify a clear spot behind it. Could you mark another visible spot?",
+      "result": {
+        "status": "needs_clarification",
+        "destination_point_xy": null,
+        "destination_box_xyxy": null,
+        "clarification_question": "The outline shows the vehicle you described. I couldn\u2019t verify a clear spot behind it. Could you mark another visible spot?",
+        "anchor_boxes_xyxy": [
+          [
+            1724.1388549804688,
+            1665.867919921875,
+            2016.66357421875,
+            1892.4431762695312
+          ]
+        ]
+      },
+      "number_of_choices": 0,
+      "proposed_extent": null,
+      "submitted_tap_xy": null,
+      "explicit_confirmation": null,
+      "strict_replay": {
+        "verified": true,
+        "scoring_references_read": false,
+        "journal_sha256": "06efc2ed55b2174c8681e6a221dede8ae56e2d466206ef72f4aa11c8545f4681",
+        "actions": [
+          "opened",
+          "submitted"
+        ],
+        "grounding_methods": [
+          "public_painted_bay_landmark_v1"
+        ],
+        "reasons": [
+          "vehicle_seen_space_withheld"
+        ],
+        "independently_offered": [
+          false
+        ]
+      }
+    },
+    {
+      "case": "T01",
+      "task": "lane",
+      "source_url": "https://kartaview.org/details/54900/393/",
+      "source_sha256": "1002226173c113c3ead9370fd6e8aa2dbabc6b650ca983198adff0778138b657",
+      "submitted_words": "Can you pull off on the open ground by the tree, just before the yellow forklift?",
+      "expected": "correct_withholding",
+      "actor": "passenger",
+      "state": "needs_clarification",
+      "initial_auto_save": false,
+      "separate_confirm_button": false,
+      "timing_to_visible_ms": 1503,
+      "browser_errors": [],
+      "shown_message": "That point appears to be in a traffic lane. Could you mark a visible parking bay instead?",
+      "result": {
+        "status": "needs_clarification",
+        "destination_point_xy": null,
+        "destination_box_xyxy": null,
+        "clarification_question": "That point appears to be in a traffic lane. Could you mark a visible parking bay instead?"
+      },
+      "number_of_choices": 0,
+      "proposed_extent": null,
+      "submitted_tap_xy": [
+        318.8491462922773,
+        1301.3268884586646
+      ],
+      "explicit_confirmation": null,
+      "strict_replay": {
+        "verified": true,
+        "scoring_references_read": false,
+        "journal_sha256": "46f3e80e940d7340c8f7e705054ab440725836ad7a3833000024d1db69778f5f",
+        "actions": [
+          "opened",
+          "submitted",
+          "passenger_marked"
+        ],
+        "grounding_methods": [
+          "passenger_requested_area",
+          "explicit_passenger_offlane_region_v1"
+        ],
+        "reasons": [
+          null,
+          "through_lane"
+        ],
+        "independently_offered": [
+          false,
+          false
+        ]
+      }
+    },
+    {
+      "case": "T02",
+      "task": "lane",
+      "source_url": "https://kartaview.org/details/5204473/819/",
+      "source_sha256": "129e43a4f8482d50707f75d002c0e8dc809d2ae0fea3da57a1e4d030527c080a",
+      "submitted_words": "Could you drop me in the St. Regis entrance driveway, off the main road?",
+      "expected": "correct_withholding",
+      "actor": "passenger",
+      "state": "needs_clarification",
+      "initial_auto_save": false,
+      "separate_confirm_button": false,
+      "timing_to_visible_ms": 1937,
+      "browser_errors": [],
+      "shown_message": "That point appears to be in a traffic lane. Could you mark a visible parking bay instead?",
+      "result": {
+        "status": "needs_clarification",
+        "destination_point_xy": null,
+        "destination_box_xyxy": null,
+        "clarification_question": "That point appears to be in a traffic lane. Could you mark a visible parking bay instead?"
+      },
+      "number_of_choices": 0,
+      "proposed_extent": null,
+      "submitted_tap_xy": [
+        470.5558223058751,
+        1196.6577214293031
+      ],
+      "explicit_confirmation": null,
+      "strict_replay": {
+        "verified": true,
+        "scoring_references_read": false,
+        "journal_sha256": "d4753e5ebf612b9cabb182bd9dc084c4856ee2d037495bad44a102ea80289435",
+        "actions": [
+          "opened",
+          "submitted",
+          "passenger_marked"
+        ],
+        "grounding_methods": [
+          "passenger_requested_area",
+          "explicit_passenger_offlane_region_v1"
+        ],
+        "reasons": [
+          null,
+          "through_lane"
+        ],
+        "independently_offered": [
+          false,
+          false
+        ]
+      }
+    },
+    {
+      "case": "T03",
+      "task": "lane",
+      "source_url": "https://kartaview.org/details/976103/139/",
+      "source_sha256": "bae3d01037cdc79d690fe49f11cf8603abec303643967805ffdbb72abff23b36",
+      "submitted_words": "Let me out on the paved shoulder behind the white sedan, near the big rubbish skip on the right.",
+      "expected": "correct_withholding",
+      "actor": "passenger",
+      "state": "needs_clarification",
+      "initial_auto_save": false,
+      "separate_confirm_button": false,
+      "timing_to_visible_ms": 600,
+      "browser_errors": [],
+      "shown_message": "That point appears to be in a traffic lane. Could you mark a visible parking bay instead?",
+      "result": {
+        "status": "needs_clarification",
+        "destination_point_xy": null,
+        "destination_box_xyxy": null,
+        "clarification_question": "That point appears to be in a traffic lane. Could you mark a visible parking bay instead?"
+      },
+      "number_of_choices": 0,
+      "proposed_extent": null,
+      "submitted_tap_xy": [
+        1347.7340253903624,
+        1964.3011084269472
+      ],
+      "explicit_confirmation": null,
+      "strict_replay": {
+        "verified": true,
+        "scoring_references_read": false,
+        "journal_sha256": "2ab073bbd7c7b1064ccd7005478ff6dfd030b30b7087e4d1fd551d0b4e87419d",
+        "actions": [
+          "opened",
+          "submitted",
+          "passenger_marked"
+        ],
+        "grounding_methods": [
+          "passenger_requested_area",
+          "explicit_passenger_offlane_region_v1"
+        ],
+        "reasons": [
+          null,
+          "through_lane"
+        ],
+        "independently_offered": [
+          false,
+          false
+        ]
+      }
+    },
+    {
+      "case": "T04",
+      "task": "lane",
+      "source_url": "https://kartaview.org/details/5139769/64/",
+      "source_sha256": "a2b23025bda4791dd7a53822937eeb69f2b9655011b6b8be537d9cde4f8158c0",
+      "submitted_words": "Can we go straight into the space by the blue car outside Cibo Diet from this lane?",
+      "expected": "correct_withholding",
+      "actor": "passenger",
+      "state": "needs_clarification",
+      "initial_auto_save": false,
+      "separate_confirm_button": false,
+      "timing_to_visible_ms": 1484,
+      "browser_errors": [],
+      "shown_message": "That point appears to be in a traffic lane. Could you mark a visible parking bay instead?",
+      "result": {
+        "status": "needs_clarification",
+        "destination_point_xy": null,
+        "destination_box_xyxy": null,
+        "clarification_question": "That point appears to be in a traffic lane. Could you mark a visible parking bay instead?"
+      },
+      "number_of_choices": 0,
+      "proposed_extent": null,
+      "submitted_tap_xy": [
+        342.3993436341637,
+        1448.9474702939872
+      ],
+      "explicit_confirmation": null,
+      "strict_replay": {
+        "verified": true,
+        "scoring_references_read": false,
+        "journal_sha256": "1dc1f4f44a768054eab9180db8ad8a43c7df1afa4b26b75a527a3ae9e4eb3744",
+        "actions": [
+          "opened",
+          "submitted",
+          "passenger_marked"
+        ],
+        "grounding_methods": [
+          "passenger_requested_area",
+          "explicit_passenger_offlane_region_v1"
+        ],
+        "reasons": [
+          null,
+          "through_lane"
+        ],
+        "independently_offered": [
+          false,
+          false
+        ]
+      }
+    },
+    {
+      "case": "T05",
+      "task": "lane",
+      "source_url": "https://kartaview.org/details/5204489/936/",
+      "source_sha256": "4b839f186c8365013c4db4087373e1b3fa26dba12777e34b32e4fd34d7c87d27",
+      "submitted_words": "In the garage, I'll take the bay where the bright blue sedan is parked on the right.",
+      "expected": "correct_withholding",
+      "actor": "passenger",
+      "state": "needs_clarification",
+      "initial_auto_save": false,
+      "separate_confirm_button": false,
+      "timing_to_visible_ms": 2818,
+      "browser_errors": [],
+      "shown_message": "That point appears to be in a traffic lane. Could you mark a visible parking bay instead?",
+      "result": {
+        "status": "needs_clarification",
+        "destination_point_xy": null,
+        "destination_box_xyxy": null,
+        "clarification_question": "That point appears to be in a traffic lane. Could you mark a visible parking bay instead?"
+      },
+      "number_of_choices": 0,
+      "proposed_extent": null,
+      "submitted_tap_xy": [
+        1961.390660111011,
+        1305.741369891078
+      ],
+      "explicit_confirmation": null,
+      "strict_replay": {
+        "verified": true,
+        "scoring_references_read": false,
+        "journal_sha256": "07d5d44853baff63e9b18797f844d54e74d4ef34e52fac25cf885a79801c1bba",
+        "actions": [
+          "opened",
+          "submitted",
+          "passenger_marked"
+        ],
+        "grounding_methods": [
+          "passenger_requested_area",
+          "explicit_passenger_offlane_region_v1"
+        ],
+        "reasons": [
+          null,
+          "through_lane"
+        ],
+        "independently_offered": [
+          false,
+          false
+        ]
+      }
+    },
+    {
+      "case": "T01",
+      "task": "interior",
+      "source_url": "https://kartaview.org/details/54900/393/",
+      "source_sha256": "1002226173c113c3ead9370fd6e8aa2dbabc6b650ca983198adff0778138b657",
+      "submitted_words": "Can you pull off on the open ground by the tree, just before the yellow forklift?",
+      "expected": "withheld",
+      "actor": "passenger",
+      "state": "needs_clarification",
+      "initial_auto_save": false,
+      "separate_confirm_button": false,
+      "timing_to_visible_ms": 356,
+      "browser_errors": [],
+      "shown_message": "That point appears to be in a traffic lane. Could you mark a visible parking bay instead?",
+      "result": {
+        "status": "needs_clarification",
+        "destination_point_xy": null,
+        "destination_box_xyxy": null,
+        "clarification_question": "That point appears to be in a traffic lane. Could you mark a visible parking bay instead?"
+      },
+      "number_of_choices": 0,
+      "proposed_extent": null,
+      "submitted_tap_xy": [
+        2005.4348627729655,
+        1372.4647612254603
+      ],
+      "explicit_confirmation": null,
+      "strict_replay": {
+        "verified": true,
+        "scoring_references_read": false,
+        "journal_sha256": "fe18aa142963328e5e7ef212683cbbd05a5c2ced09c8275448305ac3e8711531",
+        "actions": [
+          "opened",
+          "submitted",
+          "passenger_marked"
+        ],
+        "grounding_methods": [
+          "passenger_requested_area",
+          "explicit_passenger_offlane_region_v1"
+        ],
+        "reasons": [
+          null,
+          "through_lane"
+        ],
+        "independently_offered": [
+          false,
+          false
+        ]
+      }
+    },
+    {
+      "case": "T02",
+      "task": "interior",
+      "source_url": "https://kartaview.org/details/5204473/819/",
+      "source_sha256": "129e43a4f8482d50707f75d002c0e8dc809d2ae0fea3da57a1e4d030527c080a",
+      "submitted_words": "Could you drop me in the St. Regis entrance driveway, off the main road?",
+      "expected": "point_match",
+      "actor": "passenger",
+      "state": "proposed",
+      "initial_auto_save": false,
+      "separate_confirm_button": true,
+      "timing_to_visible_ms": 965,
+      "browser_errors": [],
+      "shown_message": "The blue diamond marks your tap. The gold ring shows the spot in the centre of the photo. Check that it is where you meant.",
+      "result": {
+        "status": "proposed",
+        "destination_point_xy": [
+          1788.2111990320163,
+          1087.5271131389354
+        ],
+        "destination_box_xyxy": [
+          1772.3,
+          1068.828,
+          1806.433,
+          1102.978
+        ],
+        "clarification_question": null
+      },
+      "number_of_choices": 0,
+      "proposed_extent": "interior_point_only",
+      "submitted_tap_xy": [
+        1788.2111990320163,
+        1087.5271131389354
+      ],
+      "explicit_confirmation": {
+        "ok": true,
+        "state": "confirmed",
+        "actor": "passenger",
+        "retained_point": [
+          1788.2111990320163,
+          1087.5271131389354
+        ],
+        "visible_ms": 482
+      },
+      "strict_replay": {
+        "verified": true,
+        "scoring_references_read": false,
+        "journal_sha256": "ffc44e63522eac8f488257614a5c25af6efccd1139c7ea8a8497bc6b72dd5417",
+        "actions": [
+          "opened",
+          "submitted",
+          "passenger_marked",
+          "confirmed"
+        ],
+        "grounding_methods": [
+          "passenger_requested_area",
+          "passenger_marked_painted_bay_v1"
+        ],
+        "reasons": [
+          null,
+          "passenger_mark_in_native_destination"
+        ],
+        "independently_offered": [
+          false,
+          false
+        ]
+      }
+    },
+    {
+      "case": "T03",
+      "task": "interior",
+      "source_url": "https://kartaview.org/details/976103/139/",
+      "source_sha256": "bae3d01037cdc79d690fe49f11cf8603abec303643967805ffdbb72abff23b36",
+      "submitted_words": "Let me out on the paved shoulder behind the white sedan, near the big rubbish skip on the right.",
+      "expected": "point_match",
+      "actor": "passenger",
+      "state": "proposed",
+      "initial_auto_save": false,
+      "separate_confirm_button": true,
+      "timing_to_visible_ms": 671,
+      "browser_errors": [],
+      "shown_message": "The blue diamond marks your tap. The gold ring shows the spot in the bottom centre of the photo. Check that it is where you meant.",
+      "result": {
+        "status": "proposed",
+        "destination_point_xy": [
+          2398.091689553844,
+          2047.0933029159696
+        ],
+        "destination_box_xyxy": [
+          2382.433,
+          2029.302,
+          2416.567,
+          2063.453
+        ],
+        "clarification_question": null
+      },
+      "number_of_choices": 0,
+      "proposed_extent": "interior_point_only",
+      "submitted_tap_xy": [
+        2398.091689553844,
+        2047.0933029159696
+      ],
+      "explicit_confirmation": {
+        "ok": true,
+        "state": "confirmed",
+        "actor": "passenger",
+        "retained_point": [
+          2398.091689553844,
+          2047.0933029159696
+        ],
+        "visible_ms": 404
+      },
+      "strict_replay": {
+        "verified": true,
+        "scoring_references_read": false,
+        "journal_sha256": "ee1c3aed0f2a11e9dc76e9e14b723e1aac8d6dc982e01d1aed28758a4e1119b9",
+        "actions": [
+          "opened",
+          "submitted",
+          "passenger_marked",
+          "confirmed"
+        ],
+        "grounding_methods": [
+          "passenger_requested_area",
+          "passenger_marked_painted_bay_v1"
+        ],
+        "reasons": [
+          null,
+          "passenger_mark_in_native_destination"
+        ],
+        "independently_offered": [
+          false,
+          false
+        ]
+      }
+    }
+  ],
+  "altered_reference_controls": [
+    {
+      "case": "T02-hotel-entrance",
+      "task": "natural",
+      "source_url": "https://kartaview.org/details/5204473/819/",
+      "source_sha256": "129e43a4f8482d50707f75d002c0e8dc809d2ae0fea3da57a1e4d030527c080a",
+      "submitted_words": "Could you drop me in the hotel entrance driveway, off the main road?",
+      "expected": "same visible hotel entrance",
+      "actor": "model",
+      "state": "proposed",
+      "initial_auto_save": false,
+      "separate_confirm_button": true,
+      "timing_to_visible_ms": 1248,
+      "browser_errors": [],
+      "shown_message": "The gold ring shows the spot in the centre of the photo. Check that it is where you meant.",
+      "result": {
+        "status": "proposed",
+        "destination_point_xy": [
+          1763.767,
+          1094.441
+        ],
+        "destination_box_xyxy": [
+          1746.7,
+          1077.366,
+          1780.833,
+          1111.516
+        ],
+        "clarification_question": null
+      },
+      "number_of_choices": 0,
+      "proposed_extent": "interior_point_only",
+      "submitted_tap_xy": null,
+      "explicit_confirmation": {
+        "ok": true,
+        "state": "confirmed",
+        "actor": "model",
+        "retained_point": [
+          1763.767,
+          1094.441
+        ],
+        "visible_ms": 116
+      },
+      "strict_replay": {
+        "verified": true,
+        "scoring_references_read": false,
+        "journal_sha256": "c94a7cbe271fd8d86b9da477e983feeddf479d270ca9ce25357b86d9a8706800",
+        "actions": [
+          "opened",
+          "submitted",
+          "confirmed"
+        ],
+        "grounding_methods": [
+          "public_painted_bay_landmark_v1"
+        ],
+        "reasons": [
+          "observed_native_destination"
+        ],
+        "independently_offered": [
+          true
+        ]
+      },
+      "expected_response_verified": true
+    },
+    {
+      "case": "T02-changed-building",
+      "task": "natural",
+      "source_url": "https://kartaview.org/details/5204473/819/",
+      "source_sha256": "129e43a4f8482d50707f75d002c0e8dc809d2ae0fea3da57a1e4d030527c080a",
+      "submitted_words": "Could you drop me in the Blue Planet Clinic entrance driveway, off the main road?",
+      "expected": "withhold all destination and actor claims",
+      "actor": "model",
+      "state": "needs_clarification",
+      "initial_auto_save": false,
+      "separate_confirm_button": false,
+      "timing_to_visible_ms": 635,
+      "browser_errors": [],
+      "shown_message": "I couldn\u2019t match those details to a verified location in this photo. Could you mark the spot you mean?",
+      "result": {
+        "status": "needs_clarification",
+        "destination_point_xy": null,
+        "destination_box_xyxy": null,
+        "clarification_question": "I couldn\u2019t match those details to a verified location in this photo. Could you mark the spot you mean?"
+      },
+      "number_of_choices": 0,
+      "proposed_extent": null,
+      "submitted_tap_xy": null,
+      "explicit_confirmation": null,
+      "strict_replay": {
+        "verified": true,
+        "scoring_references_read": false,
+        "journal_sha256": "14f8dee3689416fc237290f4490ae6a0342abf1972592772f7c1dcbb38809dd6",
+        "actions": [
+          "opened",
+          "submitted"
+        ],
+        "grounding_methods": [
+          "public_painted_bay_landmark_v1"
+        ],
+        "reasons": [
+          "native_reference_unmatched"
+        ],
+        "independently_offered": [
+          false
+        ]
+      },
+      "expected_response_verified": true
+    },
+    {
+      "case": "T03-changed-colour",
+      "task": "natural",
+      "source_url": "https://kartaview.org/details/976103/139/",
+      "source_sha256": "bae3d01037cdc79d690fe49f11cf8603abec303643967805ffdbb72abff23b36",
+      "submitted_words": "Let me out on the paved shoulder behind the red sedan, near the big rubbish skip on the right.",
+      "expected": "withhold all destination and actor claims",
+      "actor": "model",
+      "state": "needs_clarification",
+      "initial_auto_save": false,
+      "separate_confirm_button": false,
+      "timing_to_visible_ms": 1652,
+      "browser_errors": [],
+      "shown_message": "I couldn\u2019t match those details to a verified location in this photo. Could you mark the spot you mean?",
+      "result": {
+        "status": "needs_clarification",
+        "destination_point_xy": null,
+        "destination_box_xyxy": null,
+        "clarification_question": "I couldn\u2019t match those details to a verified location in this photo. Could you mark the spot you mean?"
+      },
+      "number_of_choices": 0,
+      "proposed_extent": null,
+      "submitted_tap_xy": null,
+      "explicit_confirmation": null,
+      "strict_replay": {
+        "verified": true,
+        "scoring_references_read": false,
+        "journal_sha256": "b6a8522211496a6dd0843b084049d08fb921f6823f4562bd98a95cdd165d57af",
+        "actions": [
+          "opened",
+          "submitted"
+        ],
+        "grounding_methods": [
+          "public_painted_bay_landmark_v1"
+        ],
+        "reasons": [
+          "native_reference_unmatched"
+        ],
+        "independently_offered": [
+          false
+        ]
+      },
+      "expected_response_verified": true
+    },
+    {
+      "case": "T03-opposite-side",
+      "task": "natural",
+      "source_url": "https://kartaview.org/details/976103/139/",
+      "source_sha256": "bae3d01037cdc79d690fe49f11cf8603abec303643967805ffdbb72abff23b36",
+      "submitted_words": "Let me out on the paved shoulder behind the white sedan, near the big rubbish skip on the left.",
+      "expected": "withhold all destination and actor claims",
+      "actor": "model",
+      "state": "needs_clarification",
+      "initial_auto_save": false,
+      "separate_confirm_button": false,
+      "timing_to_visible_ms": 608,
+      "browser_errors": [],
+      "shown_message": "I couldn\u2019t match those details to a verified location in this photo. Could you mark the spot you mean?",
+      "result": {
+        "status": "needs_clarification",
+        "destination_point_xy": null,
+        "destination_box_xyxy": null,
+        "clarification_question": "I couldn\u2019t match those details to a verified location in this photo. Could you mark the spot you mean?"
+      },
+      "number_of_choices": 0,
+      "proposed_extent": null,
+      "submitted_tap_xy": null,
+      "explicit_confirmation": null,
+      "strict_replay": {
+        "verified": true,
+        "scoring_references_read": false,
+        "journal_sha256": "c8c8e5d9bed25430d9c15fa858022e7c8ee1fad2190ad5aae132a6ce3ca3f406",
+        "actions": [
+          "opened",
+          "submitted"
+        ],
+        "grounding_methods": [
+          "public_painted_bay_landmark_v1"
+        ],
+        "reasons": [
+          "native_reference_unmatched"
+        ],
+        "independently_offered": [
+          false
+        ]
+      },
+      "expected_response_verified": true
+    },
+    {
+      "case": "T03-farther-vehicle",
+      "task": "natural",
+      "source_url": "https://kartaview.org/details/976103/139/",
+      "source_sha256": "bae3d01037cdc79d690fe49f11cf8603abec303643967805ffdbb72abff23b36",
+      "submitted_words": "Let me out on the paved shoulder behind the grey SUV, near the big rubbish skip on the right.",
+      "expected": "withhold all destination and actor claims",
+      "actor": "model",
+      "state": "needs_clarification",
+      "initial_auto_save": false,
+      "separate_confirm_button": false,
+      "timing_to_visible_ms": 603,
+      "browser_errors": [],
+      "shown_message": "I couldn\u2019t match those details to a verified location in this photo. Could you mark the spot you mean?",
+      "result": {
+        "status": "needs_clarification",
+        "destination_point_xy": null,
+        "destination_box_xyxy": null,
+        "clarification_question": "I couldn\u2019t match those details to a verified location in this photo. Could you mark the spot you mean?"
+      },
+      "number_of_choices": 0,
+      "proposed_extent": null,
+      "submitted_tap_xy": null,
+      "explicit_confirmation": null,
+      "strict_replay": {
+        "verified": true,
+        "scoring_references_read": false,
+        "journal_sha256": "d6107c58389ada2c02d6c52edabd0f3953edd5a476857c4c1d929ad193d50976",
+        "actions": [
+          "opened",
+          "submitted"
+        ],
+        "grounding_methods": [
+          "public_painted_bay_landmark_v1"
+        ],
+        "reasons": [
+          "native_reference_unmatched"
+        ],
+        "independently_offered": [
+          false
+        ]
+      },
+      "expected_response_verified": true
+    }
+  ],
+  "controls_http_readback_sha256": "a6530316e0c6682b66cd6c7f8172014305f0f9662271a646e38bfb85461fcbd6"
+}

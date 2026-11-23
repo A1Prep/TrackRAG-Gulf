@@ -174,6 +174,7 @@ function response(v, stage, bay, choices) {
   if (v.state === "error") return ["error", "The request couldn’t finish", v.landmark_error_guidance ||
     (v.parking_recovery ? "You can still mark the intended spot on the photo or edit your description." : "Try the description again or choose another scene.")];
   if (v.references_only && v.result?.anchor_boxes_xyxy?.length) {
+    if (v.reference_kind === "vegetation") return ["clarify", "I found the roadside greenery", v.result.clarification_question];
     const vehicles = v.result.anchor_boxes_xyxy.length === 1 ? "vehicle" : "vehicles";
     return ["clarify", "I found the " + vehicles + " you described", v.result.clarification_question];
   }
@@ -207,7 +208,8 @@ function legend(v, offerMark, bay, choices) {
   if (!choices.length && currentMark(v) && !pin && !photo.active && !editing) label="Cross = your last mark · no destination pin";
   else if (v.references_only && v.result?.anchor_boxes_xyxy?.length && !photo.active && !editing && !session?.pending_grounding) {
     const outlines = v.result.anchor_boxes_xyxy.length === 1 ? "Blue outline shows the vehicle" : "Blue outlines show the vehicles";
-    label = outlines + " you described · Drop-off point unverified";
+    label = v.reference_kind === "vegetation" ? "Roadside greenery in blue · Drop-off point unverified" :
+      outlines + " you described · Drop-off point unverified";
   }
   else if (offerMark && !photo.zoom) label = v.area_landmarks ? "A and B mark the vehicles · Tap the photo to mark your spot" : "Tap the photo to mark your spot";
   text(node, label);
@@ -392,7 +394,8 @@ function paint() {
   if (pairs.open) { pairs.paint(ctx,scale); return; }
   const choices = visibleChoices(v), bay = offeredBay(v,canvas.width,canvas.height);
   if (v.area_landmarks && (photo.active || (!choices.length && !bay))) drawChosenLandmarks(ctx,v.area_landmarks.boxes_xyxy,scale);
-  if (v.references_only && v.state==="needs_clarification" && !choices.length && !bay) drawVehicleReferences(ctx,v.result?.anchor_boxes_xyxy,scale);
+  if (v.references_only && v.state==="needs_clarification" && !choices.length && !bay)
+    drawVehicleReferences(ctx,v.result?.anchor_boxes_xyxy,scale,v.reference_kind==="vegetation" ? "Greenery" : "Vehicle");
   if (photo.active) {
     if (!photo.box) { photo.drawCursor(ctx,scale); return; }
     drawDestination(ctx, boxCentre(photo.box), photo.dragged ? photo.box : null, "mark_preview", scale);

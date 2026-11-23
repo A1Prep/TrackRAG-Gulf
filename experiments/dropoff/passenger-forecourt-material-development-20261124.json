@@ -1,0 +1,186 @@
+{
+  "created_utc": "2026-11-23T22:38:40.457870+00:00",
+  "scope": "One opened development source. A single H100 function inspected one original, with the two neutral visual prompts used by the public entrance and row bank. The model text received no passenger sentence, evaluation labels, reference coordinates or source filenames. Reference comparison took place afterward.",
+  "attribution": {
+    "credit": "Grab and KartaView contributors",
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0/"
+  },
+  "source_url": "https://kartaview.org/details/54900/393/",
+  "original_sha256": "1002226173c113c3ead9370fd6e8aa2dbabc6b650ca983198adff0778138b657",
+  "optical_geometry_sha256": "8cbb376e879e13ddf182612e04b83fbca5acc6403b4c85511d8dd30914621193",
+  "all_photo_optical_inventory_sha256": "b69c15e4b783d16a56b184fd27e75ec87ed6e36ce081e1d0f9690a0f9f2e1e40",
+  "registered_photo_count": 81,
+  "photos_with_at_least_one_option": 1,
+  "native_candidate_xy": [
+    2130.487,
+    1383.626
+  ],
+  "inside_prior_reference_polygon": true,
+  "vehicle_crop_track_ids": [
+    2,
+    10
+  ],
+  "signed_surface_class_at_candidate": 13,
+  "model": "Qwen/Qwen3.6-35B-A3B-FP8",
+  "model_revision": "c653bba46dfa06e9658dcc0b0dc87fe4685f14a2",
+  "compute": "one short-lived NVIDIA H100 function",
+  "elapsed_seconds_including_startup": 164.38,
+  "actual_observations": {
+    "left_vehicle": "white sedan",
+    "right_vehicle": "dark SUV",
+    "rear_vehicle": "NONE",
+    "frontage": "industrial facility, SHELFCO",
+    "roadside": "gravel shoulder, parked forklift",
+    "edge": "parked row",
+    "status": "BLOCKED"
+  },
+  "saved_signed_proof_sha256": "c1b171d8b57e55f94414e5e42cc982a8f4ac69a0dabc67dc446491271c66bc71",
+  "signed_proof": {
+    "body": {
+      "recipe": "native_entrance_or_row_observation_v1",
+      "revision": "c653bba46dfa06e9658dcc0b0dc87fe4685f14a2",
+      "source": "1002226173c113c3ead9370fd6e8aa2dbabc6b650ca983198adff0778138b657",
+      "context": "b5f45f69a54b5b2c2d9ddae5b2942081b9b40d2a8a8bb688b173391ebd2977f5",
+      "guides": "c75f6c6d03e8317a6e8890857c9d103c8f91bef0852f009c215bcbfc0e19e401",
+      "sides": {
+        "right": {
+          "view": "ac3c5f28923252ee776569070e982501bb3393f63f867d8380e0e8e98a0df403",
+          "spec": "cd27fe1f8c85b4e7395bda980486396247efee4e521217157a441d87cf0e3eec",
+          "reviewed": [
+            {
+              "id": 1,
+              "view": "e122db70ad73eea2a9ab27df2dd67e36f1475ea706c449cfe188af861d390fd0",
+              "description": {
+                "left_vehicle": "white sedan",
+                "right_vehicle": "dark SUV",
+                "rear_vehicle": "NONE",
+                "frontage": "industrial facility, SHELFCO",
+                "roadside": "gravel shoulder, parked forklift",
+                "edge": "parked row",
+                "status": "BLOCKED"
+              }
+            }
+          ]
+        }
+      }
+    },
+    "signature": "58303bcb7ec645bcd26462b6ad4dac0b5925b193ccc8d312fee766df421b656a5c302448a9f2eacd99656e8be5be2bab61638eb3fdaf6aa2c79ebf3deb6f8c08"
+  },
+  "verified": {
+    "original_photo_sha256": true,
+    "model_signature": true,
+    "frozen_model_revision": true,
+    "track_context_digest": true,
+    "neutral_prompt_hashes": true,
+    "current_native_proposal_digest": true,
+    "selection_board_hash": true,
+    "inspection_board_hash": true
+  },
+  "visible_access": {
+    "near_camera_lane_vehicle_track_id": 1,
+    "surface_grid_size": [
+      900,
+      509
+    ],
+    "lane_and_target_grid_cells_xy": [
+      [
+        162,
+        463
+      ],
+      [
+        713,
+        463
+      ]
+    ],
+    "current_obstacle_boxes_removed": true,
+    "minimum_image_y_fraction": 0.58,
+    "passable_class_ids": [
+      10,
+      13,
+      14,
+      26
+    ],
+    "tests": [
+      {
+        "grid_clearance_radii": [
+          7,
+          3
+        ],
+        "both_cells_in_visible_ground": true,
+        "same_connected_visible_region": false
+      },
+      {
+        "grid_clearance_radii": [
+          12,
+          5
+        ],
+        "both_cells_in_visible_ground": true,
+        "same_connected_visible_region": false
+      },
+      {
+        "grid_clearance_radii": [
+          17,
+          8
+        ],
+        "both_cells_in_visible_ground": true,
+        "same_connected_visible_region": false
+      }
+    ],
+    "interpretation": "None of these vehicle-footprint probes found a connected, visibly unobstructed path between the two sampled regions in the photographed foreground. An approach outside the photo could exist."
+  },
+  "counterfactual_test_source_sha256": "beef0188c934b114d069bc3af75d349d472322782cd20f657346ebc9071a113b",
+  "counterfactuals": [
+    {
+      "test": "unaltered_approved_original",
+      "generated": [
+        [
+          2130.487,
+          1383.626
+        ]
+      ],
+      "kept_original": true,
+      "expected": "candidate may be reviewed; no complete parking geometry established"
+    },
+    {
+      "test": "continuous_fence_separating_camera_road",
+      "generated": [
+        [
+          2130.487,
+          1383.626
+        ]
+      ],
+      "kept_original": true,
+      "expected": "withhold automatic placement from this road"
+    },
+    {
+      "test": "current_vehicle_occupies_original_point",
+      "generated": [],
+      "kept_original": false,
+      "expected": "never return occupied original point"
+    },
+    {
+      "test": "green_planted_target_with_road_map_error",
+      "generated": [
+        [
+          2130.487,
+          1383.626
+        ]
+      ],
+      "kept_original": true,
+      "expected": "withhold the visibly planted original patch"
+    },
+    {
+      "test": "visible_direction_arrow_on_same_side_approach",
+      "generated": [
+        [
+          2130.487,
+          1383.626
+        ]
+      ],
+      "kept_original": true,
+      "expected": "withhold an unconfirmed portion of a moving traffic lane"
+    }
+  ],
+  "release_decision": "Excluded from automatic destination proposals, guided options and manual validation. The visual model rated this point BLOCKED. It recognized an industrial facility and parked forklift but did not verify a tree, forklift colour or the before/after relation in the passenger wording. Optical geometry also retained its point through a synthetic continuous fence, visible planting with an erroneous road label, and a directional arrow. Vehicle occupancy directly on the point correctly withheld it."
+}

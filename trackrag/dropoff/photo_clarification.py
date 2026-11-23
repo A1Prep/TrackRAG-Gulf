@@ -6,6 +6,58 @@ from .parking_evidence import source_input
 
 
 POLICY = "visible_landmark_without_destination_v1"
+VEGETATION_POLICY = "pictured_tall_vegetation_reference_v1"
+
+
+def vegetation_reference(text):
+    intent=bay_intent.parse(bay_intent.destination_words(text))
+    if (not intent or intent.blocked or intent.uncertain or intent.vehicles or
+            tuple(intent.frontage_phrases) not in ((("tree",),),(("vegetation",),),(("greenery",),))):
+        return None
+    return intent.side or "either"
+
+
+def canopy_boxes(classes, frame, side):
+    import cv2
+    import numpy as np
+    height,width=classes.shape
+    _,_,regions,_=cv2.connectedComponentsWithStats((classes==30).astype("uint8"))
+    scale_x,scale_y=frame["width"]/width,frame["height"]/height
+    found={}
+    for left,top,w,h,area in regions[1:]:
+        if (area<.012*height*width or h<.15*height or w<.08*width or w>.85*width or
+                top>.52*height or top+h<.29*height):
+            continue
+        centre=(left+w/2)/width
+        edge="left" if centre<.43 else "right" if centre>.57 else None
+        if edge is None or side not in ("either",edge):
+            continue
+        box=[round(float(value),2) for value in
+             (left*scale_x,top*scale_y,(left+w)*scale_x,(top+h)*scale_y)]
+        if edge not in found or area>found[edge][0]:
+            found[edge]=(int(area),box)
+    return [(edge,found[edge][1]) for edge in ("left","right") if edge in found]
+
+
+def greenery(request,photo,surface):
+    from . import whole_bay
+    side=vegetation_reference(request["text"])
+    if not side or not bay_intent.permitted_destination(request["text"]):
+        return None
+    clean,key,portable=source_input(request,photo)
+    frame=clean["scene"]["frame"]
+    found=canopy_boxes(manual_surfaces.decode(surface,frame,key),frame,side)
+    if not found:
+        return None
+    if len(found)==2:
+        question="The blue outlines show tall roadside greenery on both sides. Which side did you mean?"
+    else:
+        question=(f"The blue outline shows tall roadside greenery on the {found[0][0]}. "
+                  "I couldn’t verify an open pull-in beside it. Could you tap the off-lane area you meant?")
+    result=whole_bay._make(clean,portable,[],surface,method=whole_bay.AUTO,reason="vegetation_seen_space_withheld",
+                           question=question,explanation_policy=VEGETATION_POLICY,clearance_policy=whole_bay.CLEARANCE_POLICY)
+    result["result"]["anchor_boxes_xyxy"]=[box for _,box in found]
+    return result
 
 
 def visible_category(text, labels):
@@ -76,4 +128,4 @@ def explain(request,prior,*,local=False):
             answer=whole_bay.point_outcome(request,photo,surface,points,conversational=True,expanded=True)
             if whole_bay._has_location(answer):
                 return answer
-    return rebuild(request,photo,surface,bay_landmarks.get_packet(key),local=local) or prior
+    return greenery(request,photo,surface) or rebuild(request,photo,surface,bay_landmarks.get_packet(key),local=local) or prior

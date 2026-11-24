@@ -1,0 +1,563 @@
+{
+  "scope": "Independent AI visual review of the 24 preselected public original photos and detector boxes. No model predictions, generated outputs, human annotations or passenger study inputs were viewed. Unknown and unclear denote insufficient original visual evidence.",
+  "source_manifest_sha256": "3b841e00fb95a9133411574486bb71ba056cca7a516cd20f21e16b5a4e0055f0",
+  "frozen_utc": "2026-11-24T02:45:16.682676+00:00",
+  "grading": "Each field has a single primary reading, optional visibly plausible alternatives, and high/medium/low confidence. The four-door sedan category excludes obvious sports coupes and hatchbacks, which receive the general car label. Grade colour alternatives and unknowable fields separately.",
+  "cases": [
+    {
+      "id": "00b3d1e4b0d8740686d42902851191cc03293ed212c76bf7d6fb4873f67e1dcd",
+      "ordinal": 1,
+      "image_sha256": "a2b23025bda4791dd7a53822937eeb69f2b9655011b6b8be537d9cde4f8158c0",
+      "box": [
+        2411.833392333984,
+        938.6094131469725,
+        2752.8806396484374,
+        1047.2328140258787
+      ],
+      "paint": "silver",
+      "type": "suv",
+      "end": "SIDE",
+      "confidence": {
+        "paint": "M",
+        "type": "M",
+        "end": "H"
+      },
+      "acceptable_alternatives": {
+        "paint": [
+          "gray"
+        ],
+        "type": [
+          "van"
+        ]
+      },
+      "visible_evidence": "Tall, silver-toned side behind the foreground sedans. Its lower body is hidden."
+    },
+    {
+      "id": "00ceeae1c03dc91b60789c88b1e5392a594c2d0256abad6b5bcaec25fd28c0be",
+      "ordinal": 2,
+      "image_sha256": "28ddebe0da1ff4df35c58dfde9836c88345cd101064d29250f7b38b20bbd3e16",
+      "box": [
+        2360.5609130859375,
+        1661.6942138671875,
+        2478.533935546875,
+        1773.2548828125
+      ],
+      "paint": "white",
+      "type": "truck",
+      "end": "UNCLEAR",
+      "confidence": {
+        "paint": "H",
+        "type": "M",
+        "end": "L"
+      },
+      "acceptable_alternatives": {},
+      "visible_evidence": "White commercial cab behind an SUV. The window and small visible chassis do not distinguish front from rear reliably."
+    },
+    {
+      "id": "02c3e0a50e8192da6d77eb7fc8a3288a7946693830f13bfde27fd30b80fdaaa3",
+      "ordinal": 3,
+      "image_sha256": "ab05db00759062595063f27d3aff5b608c323d62872429ac596fd2fcf07ee8b3",
+      "box": [
+        3600.2080078125,
+        1451.7598571777344,
+        3840.0,
+        1691.9534912109375
+      ],
+      "paint": "white",
+      "type": "unknown",
+      "end": "FRONT",
+      "confidence": {
+        "paint": "H",
+        "type": "L",
+        "end": "H"
+      },
+      "acceptable_alternatives": {},
+      "visible_evidence": "Only the white nose, headlamp and grille corner reach the original frame. Its body shape is outside the image."
+    },
+    {
+      "id": "04ab2ea1249ef5421efda7360605e1de24e53d36af390091b8c3b4838acd60e4",
+      "ordinal": 4,
+      "image_sha256": "51b52d8bac8ef5743305426fd4eead308446d04f79fa65ecdd63566bf32d9e5f",
+      "box": [
+        524.7894744873047,
+        995.8307828955888,
+        806.0994323730469,
+        1113.8623653854454
+      ],
+      "paint": "silver",
+      "type": "suv",
+      "end": "FRONT",
+      "confidence": {
+        "paint": "M",
+        "type": "M",
+        "end": "H"
+      },
+      "acceptable_alternatives": {
+        "paint": [
+          "gray"
+        ]
+      },
+      "visible_evidence": "The box reaches the broad silver SUV grille. A dark sedan overlaps much of its left half."
+    },
+    {
+      "id": "071b15f1cdd5990a0201028562666be6f49f961cca272c5ecba2e0f6d5e01b65",
+      "ordinal": 5,
+      "image_sha256": "4b839f186c8365013c4db4087373e1b3fa26dba12777e34b32e4fd34d7c87d27",
+      "box": [
+        3457.450927734375,
+        1053.6853637695312,
+        3840.0,
+        1214.3800048828125
+      ],
+      "paint": "unknown",
+      "type": "car",
+      "end": "SIDE",
+      "confidence": {
+        "paint": "L",
+        "type": "M",
+        "end": "H"
+      },
+      "acceptable_alternatives": {},
+      "visible_evidence": "Dark side glass and a roof are visible beyond the blue car. Paint and precise body style are obscured."
+    },
+    {
+      "id": "07e7ea2b93315634d0156340e9fa8d763e77127317d5efb3d26074f0e76d9cfa",
+      "ordinal": 6,
+      "image_sha256": "6ae04a49e1e911130e5786a75ed4b74e54aaaec98e873f57b1c2faf24bc82ae8",
+      "box": [
+        32.37881526947021,
+        1043.5322479248046,
+        147.3982858657837,
+        1102.6862091064452
+      ],
+      "paint": "white",
+      "type": "suv",
+      "end": "REAR",
+      "confidence": {
+        "paint": "H",
+        "type": "M",
+        "end": "M"
+      },
+      "acceptable_alternatives": {
+        "type": [
+          "car"
+        ]
+      },
+      "visible_evidence": "Blurred short white crossover or hatchback. The rear window and taillight remain visible."
+    },
+    {
+      "id": "07f86d87de13a41c4397a36b9ca9c5c8943b3ebfbd6e9c33c48197ecf3fe1281",
+      "ordinal": 7,
+      "image_sha256": "cc939b757441dcbe24cde9101ad577d60ceda970abc67a2a57498fe06648dd0e",
+      "box": [
+        1128.9495849609375,
+        1049.3967590332031,
+        1281.0379028320312,
+        1150.4029541015625
+      ],
+      "paint": "white",
+      "type": "truck",
+      "end": "REAR",
+      "confidence": {
+        "paint": "M",
+        "type": "H",
+        "end": "H"
+      },
+      "acceptable_alternatives": {
+        "paint": [
+          "gray"
+        ]
+      },
+      "visible_evidence": "High pale box with vertical rear-door hinges, partly hidden by the separate white SUV."
+    },
+    {
+      "id": "0a5ee6ea536020113f9f5a0a0556e7ce2b30b4a034e50f8a1c516eacabea594a",
+      "ordinal": 8,
+      "image_sha256": "5b4302a90fad5d86120690fc9857bfe0e7ab7f628922d7d260b97d35990a842c",
+      "box": [
+        448.18036193847655,
+        1769.8128112792967,
+        699.8154029846191,
+        1876.8920471191407
+      ],
+      "paint": "white",
+      "type": "bus",
+      "end": "SIDE",
+      "confidence": {
+        "paint": "M",
+        "type": "M",
+        "end": "H"
+      },
+      "acceptable_alternatives": {
+        "paint": [
+          "cream"
+        ],
+        "type": [
+          "van"
+        ]
+      },
+      "visible_evidence": "Long window band broadside. Night lighting warms a pale minibus or extended van."
+    },
+    {
+      "id": "0aa343cd8d1dd2309a36c5cc0ce3a0b187752d6d420865e7c849a37085489fc5",
+      "ordinal": 9,
+      "image_sha256": "5597212281d86a728d6d9dbf482f05ca0dee72fcc15a6f8225520d7e30aebe38",
+      "box": [
+        2420.441162109375,
+        1671.0093383789062,
+        2551.171142578125,
+        1773.4857788085938
+      ],
+      "paint": "white",
+      "type": "suv",
+      "end": "REAR",
+      "confidence": {
+        "paint": "H",
+        "type": "H",
+        "end": "H"
+      },
+      "acceptable_alternatives": {},
+      "visible_evidence": "White high-bodied vehicle with rear glass, tailgate and taillights."
+    },
+    {
+      "id": "0ac97bc1393a309d5ceade2dfb6140feff6027c49f6bf741f6c6ab4d2cc807ec",
+      "ordinal": 10,
+      "image_sha256": "9cf36c28c6a1643cceb7089316aadddd8fa5a51d3b8ef76ee801ab0f44e4f30c",
+      "box": [
+        244.00547790527344,
+        1030.8636474609375,
+        378.5643768310547,
+        1085.3339538574219
+      ],
+      "paint": "unknown",
+      "type": "unknown",
+      "end": "UNCLEAR",
+      "confidence": {
+        "paint": "L",
+        "type": "L",
+        "end": "L"
+      },
+      "acceptable_alternatives": {},
+      "visible_evidence": "Concrete columns hide almost the entire target. A small dark reflective fragment does not establish a vehicle identity."
+    },
+    {
+      "id": "0b477488a6c69c01dc7c079ce800a73f45806427e3c9313d92c7f5c81c162044",
+      "ordinal": 11,
+      "image_sha256": "5a9b732bb1a487c9769eba291ff49bf9c0fff286efe7a849a66b296704c8cffa",
+      "box": [
+        1353.5626831054688,
+        1163.243408203125,
+        1521.3316955566406,
+        1350.4247131347656
+      ],
+      "paint": "blue",
+      "type": "car",
+      "end": "REAR",
+      "confidence": {
+        "paint": "H",
+        "type": "H",
+        "end": "H"
+      },
+      "acceptable_alternatives": {},
+      "visible_evidence": "Bright blue sports coupe with a rear wing and plate recess. The available body vocabulary has no coupe category."
+    },
+    {
+      "id": "0e8ae80cb6d8a6a6f9f2a089d1389254ab837ccd8cb0ea77784b43d14c7485c6",
+      "ordinal": 12,
+      "image_sha256": "7cc82c9152e1c0bada060789698e19b695cba6a92d6dd67efa982eddb1c97965",
+      "box": [
+        2918.9565490722653,
+        1088.1866638183592,
+        3007.956903076172,
+        1135.37403717041
+      ],
+      "paint": "unknown",
+      "type": "unknown",
+      "end": "UNCLEAR",
+      "confidence": {
+        "paint": "L",
+        "type": "L",
+        "end": "L"
+      },
+      "acceptable_alternatives": {},
+      "visible_evidence": "Dark blurred bands and occluding structures. No stable body or directional feature is visible."
+    },
+    {
+      "id": "0f278ee9036d8661bd17292b337b216e0c5f9ec55f3f6a2c7e7c9a49a57aa107",
+      "ordinal": 13,
+      "image_sha256": "918e3e64b7e104fa7e25758e853e712d435ac234349aa802c183f7940c34ea6e",
+      "box": [
+        0.0,
+        764.5783538818359,
+        121.06725311279297,
+        985.0435180664062
+      ],
+      "paint": "unknown",
+      "type": "unknown",
+      "end": "UNCLEAR",
+      "confidence": {
+        "paint": "L",
+        "type": "L",
+        "end": "L"
+      },
+      "acceptable_alternatives": {},
+      "visible_evidence": "The box covers buildings, posts and foliage above the nearby white car. No identifiable motor vehicle occupies it."
+    },
+    {
+      "id": "10449685c51953ec0c4f249e26af08c821fc885e4f22d62a7f87ee97d1da9693",
+      "ordinal": 14,
+      "image_sha256": "4195865865ba917ea8b64832726fbe5ad4b77c95d2e0a52916ea50b24cc1e226",
+      "box": [
+        1460.904656982422,
+        978.3138380524862,
+        1568.728582763672,
+        1028.283226055335
+      ],
+      "paint": "red",
+      "type": "suv",
+      "end": "SIDE",
+      "confidence": {
+        "paint": "M",
+        "type": "H",
+        "end": "M"
+      },
+      "acceptable_alternatives": {
+        "paint": [
+          "brown"
+        ]
+      },
+      "visible_evidence": "The red-brown crossover is visible broadside. Its side windows and roof occupy most of the marked area."
+    },
+    {
+      "id": "10c123b51a7a1bf7570ef416502675591da961fbffaecec7ae2bf9c7e88b2058",
+      "ordinal": 15,
+      "image_sha256": "88cc304edc4b1232912979a59870954915b8e8dc51de853d45e2b5315b2f95be",
+      "box": [
+        1928.6732940673826,
+        995.9364761352539,
+        2101.5406951904297,
+        1080.8845184326171
+      ],
+      "paint": "red",
+      "type": "suv",
+      "end": "REAR",
+      "confidence": {
+        "paint": "H",
+        "type": "M",
+        "end": "H"
+      },
+      "acceptable_alternatives": {
+        "type": [
+          "van"
+        ]
+      },
+      "visible_evidence": "One of two matching high-bodied red taxis with gold roofs. Rear-window and spoiler detail is visible."
+    },
+    {
+      "id": "11cbe40787aa0113f427b042ca41a067cf92bb5c75b2a2aeaf18dc8f8b25bb51",
+      "ordinal": 16,
+      "image_sha256": "976a275111769a8fbd066f25a3b6fd2b231dc7ddf5a42d6d6bfd2f74233b09a0",
+      "box": [
+        1036.929931640625,
+        1657.9231567382812,
+        1321.6090393066406,
+        1756.836181640625
+      ],
+      "paint": "white",
+      "type": "suv",
+      "end": "SIDE",
+      "confidence": {
+        "paint": "M",
+        "type": "H",
+        "end": "H"
+      },
+      "acceptable_alternatives": {
+        "paint": [
+          "silver"
+        ]
+      },
+      "visible_evidence": "Pale crossover profile behind a foreground grey car. The roof and rear-quarter glass are visible."
+    },
+    {
+      "id": "1478717ecbffa9f949ab75174a149608adbca4089dfa3b66876d1a8818608f53",
+      "ordinal": 17,
+      "image_sha256": "87af60ca411087c3c3217f90120bf1ab3bbaf4369c184e7261ef51fbf18a697d",
+      "box": [
+        2201.37890625,
+        1142.49462890625,
+        2443.6448364257812,
+        1339.9225158691406
+      ],
+      "paint": "white",
+      "type": "sedan",
+      "end": "SIDE",
+      "confidence": {
+        "paint": "H",
+        "type": "H",
+        "end": "H"
+      },
+      "acceptable_alternatives": {},
+      "visible_evidence": "Most of the target box is a pillar. Its white front wheel arch and the connected sedan visible on the right establish the broadside vehicle."
+    },
+    {
+      "id": "188288ec7c2401da52ecc89a3f09cdac9683f7d8886f9cc93c5b4be4961b7c64",
+      "ordinal": 18,
+      "image_sha256": "83c12806c2a5380cae15ae202f0e1b5e3500637c811afb4c96069bf643aec9c8",
+      "box": [
+        1479.0837707519531,
+        1837.9905395507812,
+        1661.7601318359375,
+        2017.8425903320312
+      ],
+      "paint": "white",
+      "type": "sedan",
+      "end": "REAR",
+      "confidence": {
+        "paint": "H",
+        "type": "H",
+        "end": "H"
+      },
+      "acceptable_alternatives": {},
+      "visible_evidence": "White four-door sedan with a clear near rear corner and tail lens, partly overlapped by a van."
+    },
+    {
+      "id": "1b946d04ca2b158d44830358f6126d9a30ac2ca49bacb7ccfcb9b946f912c044",
+      "ordinal": 19,
+      "image_sha256": "82822b8b140ca1aa39af2772815a3438d5f9ae65b8125c4558027e67877b5ec7",
+      "box": [
+        150.02426719665527,
+        1021.4143753051757,
+        268.5973606109619,
+        1111.4291885375976
+      ],
+      "paint": "black",
+      "type": "suv",
+      "end": "REAR",
+      "confidence": {
+        "paint": "M",
+        "type": "H",
+        "end": "H"
+      },
+      "acceptable_alternatives": {
+        "paint": [
+          "blue"
+        ]
+      },
+      "visible_evidence": "Very dark crossover ahead, rear window, lights and plate facing the camera. A dark blue cast is plausible."
+    },
+    {
+      "id": "1edb70bad4cc7f6aab0927a320b71ee93e3a0629e6525b279542659bf3684c24",
+      "ordinal": 20,
+      "image_sha256": "6c09f8965a7203ca86f42d18d4b7fc43fa38c700d827a3b92bf90189b394d273",
+      "box": [
+        1097.8135986328125,
+        1079.0796203613281,
+        1278.6712646484375,
+        1204.8060607910156
+      ],
+      "paint": "white",
+      "type": "sedan",
+      "end": "REAR",
+      "confidence": {
+        "paint": "H",
+        "type": "H",
+        "end": "H"
+      },
+      "acceptable_alternatives": {},
+      "visible_evidence": "Two overlapping white sedans show their rear ends. The shared attributes are clear even though the box intersects both."
+    },
+    {
+      "id": "22918cb4605690b920dd8551bfd6b9b295c8703353c29b8b675078989074f693",
+      "ordinal": 21,
+      "image_sha256": "766f78cb42fe0d16ac0f682aa9c21227b6417a7b2b9a42e917e88721d5aaf4ef",
+      "box": [
+        916.5542541503906,
+        989.2738536181371,
+        1018.2513427734375,
+        1081.9664987806457
+      ],
+      "paint": "unknown",
+      "type": "unknown",
+      "end": "REAR",
+      "confidence": {
+        "paint": "L",
+        "type": "L",
+        "end": "M"
+      },
+      "acceptable_alternatives": {},
+      "visible_evidence": "A high dark vehicle with rear lights is occluded by a sedan and a rider. Its paint and specific body cannot be separated reliably."
+    },
+    {
+      "id": "2494bc6524e82e1c2518a828f6cd016f3105d3cc62ed2d5ac8b465e60aa2000b",
+      "ordinal": 22,
+      "image_sha256": "4549afaa313cb102d869866b1abb492b8716804d03859838de5de442a3482b44",
+      "box": [
+        1708.66845703125,
+        1057.6103210449219,
+        2034.6492919921875,
+        1236.9043579101562
+      ],
+      "paint": "yellow",
+      "type": "car",
+      "end": "REAR",
+      "confidence": {
+        "paint": "M",
+        "type": "H",
+        "end": "H"
+      },
+      "acceptable_alternatives": {
+        "paint": [
+          "green"
+        ]
+      },
+      "visible_evidence": "Yellow-green metallic compact hatchback, with the back window and tail lamps visible. Hatchback is outside the body vocabulary."
+    },
+    {
+      "id": "26c6a43228f2f2dfc3f89c6784cb6475071e27a198c9ee0fc5bfe971ad852a59",
+      "ordinal": 23,
+      "image_sha256": "1002226173c113c3ead9370fd6e8aa2dbabc6b650ca983198adff0778138b657",
+      "box": [
+        1201.377264404297,
+        983.589750679817,
+        1348.3047180175781,
+        1098.881249190694
+      ],
+      "paint": "white",
+      "type": "truck",
+      "end": "SIDE",
+      "confidence": {
+        "paint": "H",
+        "type": "H",
+        "end": "H"
+      },
+      "acceptable_alternatives": {},
+      "visible_evidence": "White cement-mixer cab and chassis broadside. The visible side window and front wheel face image-right."
+    },
+    {
+      "id": "278b1e38bca7118042781bb29f86b9101e1e547c3da21e44ac68f67623a3b252",
+      "ordinal": 24,
+      "image_sha256": "e6a01b783361da5c8f854ef90c6fb4d9bc6b58f46284af27e51f41e9c4230e43",
+      "box": [
+        215.13016090393066,
+        1073.5273544311522,
+        363.23251190185545,
+        1182.0770599365233
+      ],
+      "paint": "silver",
+      "type": "car",
+      "end": "FRONT",
+      "confidence": {
+        "paint": "M",
+        "type": "M",
+        "end": "H"
+      },
+      "acceptable_alternatives": {
+        "paint": [
+          "gray",
+          "white"
+        ]
+      },
+      "visible_evidence": "The person occludes a pale, metallic-looking car, but its front lamp, nose and mirror are visible. Specific body style is uncertain."
+    }
+  ]
+}

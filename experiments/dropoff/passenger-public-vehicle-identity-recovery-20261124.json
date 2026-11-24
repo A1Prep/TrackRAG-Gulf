@@ -1,0 +1,176 @@
+{
+  "title": "Vehicle identity coverage on the original 81-image public release",
+  "baseline_release": "7187f6e715ab88183d29d2936bb71c0a9a710c2e",
+  "scope": "The four original privacy-processed public KartaView source manifests only. Every original JPEG, primary model signature, crop specification and composite board render was checked. Historical 8B crops were independently authenticated and replayed against current frames. No newly collected field cohorts, passenger audio, or new model runs.",
+  "counts": {
+    "photos": 81,
+    "all_current_tracks": 2349,
+    "current_four_wheel_motor_vehicles": 1942,
+    "photos_with_any_four_wheel_motor_vehicle": 80,
+    "after_size_and_duplicate_checks": 748,
+    "photos_after_size_and_duplicate_checks": 78,
+    "vehicles_passing_stricter_original_crop_size": 362,
+    "original_crop_places": 239,
+    "photos_with_original_crop": 72,
+    "expanded_crop_places": 475,
+    "photos_with_expanded_crop": 78,
+    "new_places_after_expansion": 236,
+    "photos_with_more_crops": 71,
+    "photos_newly_receiving_a_crop": 6,
+    "reproduced_primary_board_renders": 72,
+    "primary_crop_readings_paint_and_type": 234,
+    "primary_crop_readings_known_orientation": 235,
+    "archived_sources": 12,
+    "archived_sources_with_positive_crops": 4,
+    "archived_crop_calls": 8,
+    "archived_positive_crops": 8,
+    "archived_positive_tracks_outside_primary": 1
+  },
+  "denominators": "All current tracks also include pedestrians, motorbikes and one small motorised vehicle. The four-wheel denominator contains Car, Medium_vehicle, Large_vehicle and Bus. The comparable eligibility denominator applies the current motor_rows minimum apparent box dimensions and duplicate suppression. Expanded coverage is the number that could be read; the wider selector was applied without performing new model inference.",
+  "black_pickup": {
+    "recording": "kartaview_5124809",
+    "frame": 287,
+    "image_sha256": "37249c17aea5689c7f6d059e5fb99ed405a9d95a414f444571d44906033b6626",
+    "current_tracks": 7,
+    "target_rank_by_visible_box_area": 5,
+    "target_current_track": 4,
+    "target_box": [
+      469.1747085571289,
+      926.4775360107421,
+      992.6075775146484,
+      1140.3176971435546
+    ],
+    "detector_class": "medium_vehicle",
+    "primary_board": [
+      [
+        1,
+        "black",
+        "suv",
+        "FRONT"
+      ],
+      [
+        5,
+        "white",
+        "van",
+        "SIDE"
+      ],
+      [
+        3,
+        "white",
+        "car",
+        "SIDE"
+      ],
+      [
+        2,
+        "silver",
+        "suv",
+        "SIDE"
+      ]
+    ],
+    "expanded_eligible_ids": [
+      1,
+      5,
+      3,
+      2,
+      4,
+      7
+    ],
+    "historical_crop": "TRUCK BLACK",
+    "historic_prompt_type_vocabulary": [
+      "bus",
+      "car",
+      "sedan",
+      "suv",
+      "truck",
+      "van"
+    ],
+    "native_side_ground_patches_for_this_target": 0,
+    "tracks_with_a_side_patch": [
+      2
+    ]
+  },
+  "decision_replays": [
+    {
+      "words": "Could you drop me next to that black pickup truck?",
+      "decision": "vehicle_side_uncertain",
+      "archived_identity_used": true,
+      "point": null,
+      "outlined_track_ids": [
+        4
+      ],
+      "local_grounder_ms": 193
+    },
+    {
+      "words": "Could you drop me next to that white pickup truck?",
+      "decision": "vehicle_reference_unmatched",
+      "archived_identity_used": false,
+      "point": null,
+      "outlined_track_ids": [],
+      "local_grounder_ms": 188
+    },
+    {
+      "words": "Could you drop me next to the red truck?",
+      "decision": "vehicle_reference_unmatched",
+      "archived_identity_used": false,
+      "point": null,
+      "outlined_track_ids": [],
+      "local_grounder_ms": 190
+    },
+    {
+      "words": "Could you drop me next to the black SUV?",
+      "decision": "vehicle_seen_space_withheld",
+      "archived_identity_used": false,
+      "point": null,
+      "outlined_track_ids": [
+        1
+      ],
+      "local_grounder_ms": 87
+    },
+    {
+      "words": "Could you drop me beside the black pickup on the right?",
+      "decision": "vehicle_reference_unmatched",
+      "archived_identity_used": false,
+      "point": null,
+      "outlined_track_ids": [],
+      "local_grounder_ms": 178
+    },
+    {
+      "words": "Could you drop me next to the black Ford pickup?",
+      "decision": "vehicle_reference_unmatched",
+      "archived_identity_used": false,
+      "point": null,
+      "outlined_track_ids": [],
+      "local_grounder_ms": 136
+    }
+  ],
+  "supplement": {
+    "model": "Fine-tuned Qwen3-VL-8B, native single-vehicle visual crop",
+    "archive": "passenger-vehicle-archived-crops-v1.zip",
+    "archive_sha256": "175b32d21937154a8c8f9fb086e69f3fa38b9ac180978ddb32cb1adea9d525ec",
+    "model_digests": {
+      "ranker_sha256": "d96a9a69e2e52ddbc21851d5ff6f79b344de6c8558600e54be5cb2712480a07d",
+      "base": "10d842936325905934ea24e64325d774693f166e",
+      "adapter_sha256": "76bfb3230b17a86248b52ca6a9f8d2ffca324aa80216d6b93845ccb12ad86743",
+      "processor": "0c351dd01ed87e9c1b53cbc748cba10e6187ff3b",
+      "parking_segmenter": "4772b6bf101d91f2534c106dc524d906aeb3c68a"
+    },
+    "signed_primary_archive_sha256": "dfd8aee95848eadec6778d13c0e27e9ddeb43306c8da5fe844713b23e3b0611c",
+    "primary_model": "Qwen/Qwen3.6-35B-A3B-FP8",
+    "primary_revision": "c653bba46dfa06e9658dcc0b0dc87fe4685f14a2",
+    "meaning": "A source-specific archival crop may support a single passenger-selectable vehicle identity when stronger routes had no match. A coarse truck reading does not establish a pickup subtype. No point or automatic ground approval is derived from the archive.",
+    "new_model_calls": 0
+  },
+  "public_local_8b_compatibility": "The public gallery omits the registered detector/surface provenance required by the separate local-only crop collector. All 81 original RF-DETR native detection sidecars were recovered. All 81 BoT-SORT replays reproduced the released tracks exactly. A separate source-bound public measurement can therefore reuse the detections and existing authenticated surfaces. The 236 extra eligible boxes alone require 472 new 8B crop views if the existing 35B results are retained. These new reads have not been run.",
+  "ui_followup": "The old 35B-only branch repeated the supplied vehicle colour. For the pictured black truck the new path names the visible body and asks the passenger to confirm its identity. A Yes retains the outlined track without a point and asks for vehicle-accessible ground; a No clears it.",
+  "historical_task1_replay": {
+    "originals": 81,
+    "matching_sources": 81,
+    "matching_track_rows": 2349,
+    "raw_native_rows": 13324,
+    "model_config_sha256": "acf21b53525d5729541aaedbf961a9c634399fa881fc7976909d48575c5e870d",
+    "detector_checkpoint_sha256": "9ea96f1050f1d3375c5cf0f25a086cd5bb9c6a290fa5fdc009804d9a31181d95",
+    "tracker": "ultralytics_botsort",
+    "aggregate_source_and_result_sha256": "498acf4272a8262c4a0cd23d2b542fab6d1c10bf2335c9960debade98e0b0648",
+    "procedure": "Each original JPEG and its real saved native detections were checked against the source, dimensions and pinned Task 1 configuration and weights. BoT-SORT ran again on the saved detections and original picture. Every field of every ordered track row, including its coordinates and ID, matched the gallery JSON exactly. No detector or language model inference was needed."
+  }
+}

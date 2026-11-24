@@ -14,7 +14,7 @@
     <nav aria-label="Project tools"><span aria-current="page">Passenger drop-off</span><a id="footage-link" href="/footage" hidden>Search footage</a></nav>
   </div></header>
   <main>
-    <div class="intro"><h1>Passenger drop-off</h1><p>Describe where to get out, then check the spot on the photo.</p></div>
+    <div class="intro"><h1>Passenger drop-off</h1><p>Describe a place in the photo. Check the highlighted ground before you save your location.</p></div>
     <div class="layout">
       <section class="card scene-card" aria-labelledby="scene-label">
         <div class="scene-controls">
@@ -25,7 +25,7 @@
             <button type="button" id="next-scene" class="icon-button" aria-label="Next road scene" disabled>›</button>
           </div>
         </div>
-        <button type="button" id="next-outlined" class="text-btn gallery-shortcut" hidden>Next photo with a parking outline</button>
+        <button type="button" id="next-outlined" class="text-btn gallery-shortcut" hidden>Browse photos with marked bays</button>
         <div id="photo-viewport" class="photo-viewport" aria-label="Road photo">
           <div class="frame"><img id="frame" alt="Selected road scene" draggable="false"><canvas id="overlay" tabindex="-1" aria-label="Original photo" aria-describedby="legend status"></canvas></div>
           <div id="photo-unavailable" class="photo-unavailable" hidden><strong>Photo unavailable</strong><button type="button" id="retry-photo">Reload photo</button></div>
@@ -74,22 +74,27 @@
           <button type="button" id="answer-yes" class="primary" hidden>Yes</button>
           <button type="button" id="answer-no" class="subtle" hidden>No, something else</button>
           <button type="button" id="draw" class="subtle" hidden>Mark my spot on the photo</button>
+          <button type="button" id="show-driver" class="subtle" aria-haspopup="dialog" hidden>Show this vehicle to the driver</button>
+          <button type="button" id="other-bays" class="subtle" hidden>See marked bays in this photo</button>
           <button type="button" id="edit-words" class="subtle" hidden>Edit description</button>
           <button type="button" id="choose-pair" class="subtle" hidden>Choose two vehicles</button>
         </div>
         <form id="form">
           <label for="instruction" id="input-label">Your description</label>
-          <textarea rows="2" id="instruction" maxlength="4096" placeholder="Between the two parked cars on the right…" required></textarea>
+          <textarea rows="2" id="instruction" maxlength="4096" placeholder="Describe a visible vehicle, a landmark or an open bay…" required></textarea>
+          <div id="request-suggestion" class="request-suggestion" hidden><span>Try a request from this photo</span><button id="use-example" type="button"></button></div>
           <div class="compose-actions"><button id="submit" class="primary" type="submit">Find my spot</button>
             <button id="show-parking-areas" type="button" class="subtle" hidden>Show parking areas</button>
-            <div id="speech-controls" class="speech-controls"><button id="mic" type="button" class="subtle">Record voice</button>
-              <button id="upload" type="button" class="text-btn">Upload WAV</button><input id="file" type="file" accept=".wav,audio/wav,audio/x-wav" hidden></div></div>
-          <div class="mic-settings">
+            <div id="speech-controls" class="speech-controls"><button id="mic" type="button" class="subtle">Record voice</button></div></div>
+          <div class="mic-settings"><details id="voice-options" hidden><summary>Voice options</summary><div class="voice-options-body">
             <label id="mic-choice" hidden>Microphone <select id="mic-input"><option value="">System default</option></select></label>
+            <button id="upload" type="button" class="text-btn">Upload WAV</button><input id="file" type="file" accept=".wav,audio/wav,audio/x-wav" hidden></div></details>
             <label id="mic-monitor" hidden>Input level <meter id="mic-level" min="0" max="1" value="0"></meter></label>
           </div>
-          <button id="submit-pointing" class="text-btn" type="button" hidden>Choose the two vehicles myself</button>
           <button id="submit-area" class="text-btn" type="button" hidden>Mark my spot on the photo</button>
+          <details id="other-photo-options" hidden><summary>Other photo options</summary>
+            <button id="submit-pointing" class="text-btn" type="button" hidden>Choose the two vehicles myself</button>
+          </details>
           <button id="edit-original" type="button" class="text-btn" hidden>Edit original description</button>
           <button id="discard-edit" type="button" class="text-btn" hidden>Back without changing</button>
         </form>
@@ -98,5 +103,13 @@
       </section>
     </div>
   </main>
+  <dialog id="driver-landmark" aria-labelledby="driver-title" aria-describedby="driver-note">
+    <h2 id="driver-title">Passenger’s landmark</h2>
+    <p id="driver-words"></p>
+    <p id="driver-detail" hidden></p>
+    <canvas id="driver-photo" role="img" aria-label="Close-up of the road photo with the vehicle outlined in blue"></canvas>
+    <p id="driver-note">Look for the vehicle outlined in blue. The passenger’s exact drop-off point is still open.</p>
+    <form method="dialog"><button class="primary" autofocus>Back to the photo</button></form>
+  </dialog>
 </body>
 </html>

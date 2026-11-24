@@ -1,0 +1,243 @@
+{
+  "scope": "Separate post-hoc, source-grounded audit of previously stored caption outputs on eight boxed objects from seven public UAE photographs. Independent AI visual labels were sealed before the predictions were opened. The new 24-case cloud trial produced no measurements and is excluded here.",
+  "inputs_sha256": "9606b3d6c4460bad2a3defc199eae5228f8d8f4997371f5700adfc6dfe2d18dc",
+  "blind_reference_sha256": "a87ec45a49363439df64c533ae6df6db12cf7ca30fba02c865d26fc3afa4f37a",
+  "stored_predictions_sha256": "0bf3a65c488d1f10fc4f5b203a480e9ded091e79e85f5b2847617f6bb0445623",
+  "reference_sealed_utc": "2026-11-24T03:02:29.409319+00:00",
+  "counts": {
+    "paint": {
+      "exact": 7,
+      "accepted_visual_alternative": 1
+    },
+    "type": {
+      "exact": 6,
+      "contradicted": 1,
+      "unsupported_specificity": 1
+    },
+    "both_exact": 5,
+    "both_supported_including_paint_alternatives": 6
+  },
+  "cases": [
+    {
+      "id": "3291208fc9a946995ebaaf26d39403fa0f449351c3a5cb3b738d7e108170893e",
+      "image_sha256": "0dfd8dadbb1ad54388d3ca1c9bb6473aa5eeebf407cb7cbdd7a45ee1b5b0c836",
+      "box": [
+        2044.9784545898438,
+        1598.4700927734375,
+        2242.1207885742188,
+        1729.582763671875
+      ],
+      "paint": "black",
+      "type": "sedan",
+      "confidence": {
+        "paint": "M",
+        "type": "H"
+      },
+      "acceptable_alternatives": {
+        "paint": [
+          "gray"
+        ]
+      },
+      "visible_evidence": "Dark conventional four-door saloon, with a lighter reflection on the trunk.",
+      "stored_caption": [
+        "BLACK SEDAN"
+      ],
+      "stored_paint": "black",
+      "stored_type": "sedan",
+      "paint_grade": "exact",
+      "type_grade": "exact"
+    },
+    {
+      "id": "3457d7a862c289eb525904720e39f8d94e5f2d9f4631376a19d02c93d86fec90",
+      "image_sha256": "83dfd7edbc1972d742b885c98e8bde7eeb51d37ab0e4c42d246db39c3f133b06",
+      "box": [
+        677.9740539550781,
+        969.1149801180508,
+        796.5711822509766,
+        1063.5039440176106
+      ],
+      "paint": "white",
+      "type": "suv",
+      "confidence": {
+        "paint": "H",
+        "type": "H"
+      },
+      "acceptable_alternatives": {},
+      "visible_evidence": "High square white vehicle at the back of the queue, above the two foreground cars.",
+      "stored_caption": [
+        "WHITE SEDAN"
+      ],
+      "stored_paint": "white",
+      "stored_type": "sedan",
+      "paint_grade": "exact",
+      "type_grade": "contradicted"
+    },
+    {
+      "id": "5f61ebf1828f4cc1422e1623b1fcb60d2133fbbbcc3ba66ed92d63b672cd6fc3",
+      "image_sha256": "8dfdff87ba2ed6bdb046a7db879bd9c24048989b7d8fdff906e88e021860a31e",
+      "box": [
+        397.12908744812006,
+        479.42567767518943,
+        501.9939823150634,
+        530.7457386363636
+      ],
+      "paint": "silver",
+      "type": "sedan",
+      "confidence": {
+        "paint": "M",
+        "type": "H"
+      },
+      "acceptable_alternatives": {
+        "paint": [
+          "gray"
+        ]
+      },
+      "visible_evidence": "Light metallic-bodied sedan seen broadside. The white utility vehicle overlaps its nose.",
+      "stored_caption": [
+        "SILVER SEDAN"
+      ],
+      "stored_paint": "silver",
+      "stored_type": "sedan",
+      "paint_grade": "exact",
+      "type_grade": "exact"
+    },
+    {
+      "id": "8b5b7a540d9f889dff142b698b2e3a0eda867138b28983bd28b8a94338774a6e",
+      "image_sha256": "28eb871a346c5792d7f63ad1186edcc967a6f96a2469984ecc86c5df7d177d1c",
+      "box": [
+        2359.3207763671876,
+        1014.2672611468405,
+        2554.637438964844,
+        1117.0356269962879
+      ],
+      "paint": "yellow",
+      "type": "car",
+      "confidence": {
+        "paint": "H",
+        "type": "L"
+      },
+      "acceptable_alternatives": {},
+      "visible_evidence": "Small yellow passenger car partly covered by two people. The pillars obscure its body subtype.",
+      "stored_caption": [
+        "YELLOW SEDAN"
+      ],
+      "stored_paint": "yellow",
+      "stored_type": "sedan",
+      "paint_grade": "exact",
+      "type_grade": "unsupported_specificity"
+    },
+    {
+      "id": "93e5cdd5c0414f83ab3890559b94913f68642c283ffd2b3d5c10771b634941a6",
+      "image_sha256": "df3c7569cf08071fe7492af65e599d7132364496766bb9e1e4fa4c3966dccc04",
+      "box": [
+        1060.5029296875,
+        1090.1460571289062,
+        1349.4378662109375,
+        1226.4129638671875
+      ],
+      "paint": "white",
+      "type": "car",
+      "confidence": {
+        "paint": "H",
+        "type": "H"
+      },
+      "acceptable_alternatives": {},
+      "visible_evidence": "Clearly a small white hatchback. The project has no hatchback category.",
+      "stored_caption": [
+        "WHITE HATCHBACK",
+        "WHITE HATCHBACK"
+      ],
+      "stored_paint": "white",
+      "stored_type": "car",
+      "paint_grade": "exact",
+      "type_grade": "exact"
+    },
+    {
+      "id": "998fe9f59fd0882e8e3dce97005034c955783aa0ff6d6fc9d1c4c489e4fdbb76",
+      "image_sha256": "b2b5aeb414b0b52e47f90118b1cb9daa48d61910ce7e1a112a197ce7084245be",
+      "box": [
+        240.25991649627687,
+        1204.489077758789,
+        791.2411720275879,
+        1584.2207221984863
+      ],
+      "paint": "white",
+      "type": "pickup",
+      "confidence": {
+        "paint": "M",
+        "type": "H"
+      },
+      "acceptable_alternatives": {
+        "paint": [
+          "silver"
+        ]
+      },
+      "visible_evidence": "High-bodied double cab and visible open bed to the right. Bright white or very pale metallic paint.",
+      "stored_caption": [
+        "WHITE PICKUP"
+      ],
+      "stored_paint": "white",
+      "stored_type": "pickup",
+      "paint_grade": "exact",
+      "type_grade": "exact"
+    },
+    {
+      "id": "d92636677e3496175e13882bfad62c676e0f8bf96fc4d9d44f2692a44f155c93",
+      "image_sha256": "ed69e5e794d9618bd153a0ea0266dd0a9203b1526c279ec01a0c9c64b2b0124b",
+      "box": [
+        1275.5231323242188,
+        1084.5341491699219,
+        1597.3657836914062,
+        1277.4503173828125
+      ],
+      "paint": "black",
+      "type": "sedan",
+      "confidence": {
+        "paint": "M",
+        "type": "H"
+      },
+      "acceptable_alternatives": {
+        "paint": [
+          "blue"
+        ]
+      },
+      "visible_evidence": "Dark four-door sedan, with very dark blue plausible in this shade.",
+      "stored_caption": [
+        "BLACK SEDAN"
+      ],
+      "stored_paint": "black",
+      "stored_type": "sedan",
+      "paint_grade": "exact",
+      "type_grade": "exact"
+    },
+    {
+      "id": "e2ad22b478a75eb0dc12c4fff4df64f0842e9ff67c7afa778519ff1f99bda445",
+      "image_sha256": "0dfd8dadbb1ad54388d3ca1c9bb6473aa5eeebf407cb7cbdd7a45ee1b5b0c836",
+      "box": [
+        2270.3602294921875,
+        1528.6370544433594,
+        2705.909912109375,
+        1806.2237548828125
+      ],
+      "paint": "cream",
+      "type": "suv",
+      "confidence": {
+        "paint": "M",
+        "type": "H"
+      },
+      "acceptable_alternatives": {
+        "paint": [
+          "white"
+        ]
+      },
+      "visible_evidence": "The tall SUV behind the Mercedes has a warmer pale finish than the foreground saloon. Sunlit cream and warm white are hard to separate.",
+      "stored_caption": [
+        "WHITE SUV"
+      ],
+      "stored_paint": "white",
+      "stored_type": "suv",
+      "paint_grade": "accepted_visual_alternative",
+      "type_grade": "exact"
+    }
+  ]
+}

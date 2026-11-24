@@ -12,6 +12,7 @@ from trackrag.privacy import anonymize_image
 from trackrag.questions import validate_evidence
 from trackrag.evidence_time import requested_frame_ids,referenced_track_ids
 from trackrag.evidence_motion import verify_horizontal_claim
+from trackrag import footage_proximity
 
 
 ANSWER_SCHEMA = {
@@ -66,7 +67,14 @@ def _spatial_vehicle_subject(words):
     from trackrag.retrieval_temporal import current_spatial_relation
     subject = re.search(r"\b(?:is|was)\s+(?:the|that)\s+(truck|lorry|pickup|car|sedan|suv|van|bus|coach|vehicle)"
                         r"\s+(?:near|next to|beside|opposite|behind|under|in front of|to the (?:left|right) of)\b", words, re.I)
-    return subject[1].lower() if subject and current_spatial_relation(words) else None
+    if subject and current_spatial_relation(words):
+        return subject[1].lower()
+    distance = footage_proximity.physical_question(words)
+    if footage_proximity.can_reframe(distance):
+        simple = re.fullmatch(r"(?:the|that)\s+(truck|lorry|pickup|car|sedan|suv|van|bus|coach|vehicle)",distance["subject"],re.I)
+        if simple:
+            return simple[1].lower()
+    return None
 
 
 def _which_vehicle(subject, boxes):
@@ -90,17 +98,43 @@ def _which_vehicle(subject, boxes):
     return None
 
 
-def spatial_reference_from_tracks(question, frame_tracks, width):
-    """Use the selected frame's verified detector observations to identify an ambiguous reference locally."""
+def spatial_reference_options(question, frame_tracks, width, height=None):
+    """Return distinguishable observations from this precise recording, frame and prediction source."""
+    from trackrag.footage_facts import _original_box
     from trackrag.retrieval_temporal import matches_vehicle_class
 
     subject = _spatial_vehicle_subject(question['question'])
     if subject is None:
-        return None
-    boxes = ((row['track_id'], row['bbox_xyxy'], width) for row in frame_tracks
-             if row['source'] == 'predicted' and row['recording_id'] == question['recording_id']
-             and row['frame_id'] == question['query_frame'] and matches_vehicle_class(subject, row['class_name']))
-    return _which_vehicle(subject, boxes)
+        return None, []
+    options = {}
+    for row in frame_tracks:
+        if (row['source'] != 'predicted' or row['recording_id'] != question['recording_id']
+                or row['frame_id'] != question['query_frame'] or not matches_vehicle_class(subject, row['class_name'])):
+            continue
+        track, box = row['track_id'], row['bbox_xyxy']
+        if type(track) is not int or not _original_box(box, (width, height) if height is not None else None):
+            continue
+        middle = (box[0] + box[2]) / (2 * width)
+        position = 'left' if middle < 1/3 else 'right' if middle > 2/3 else 'centre'
+        option = {'track_id': track, 'class_name': row['class_name'], 'bbox_xyxy': list(box), 'position': position}
+        if track in options and option != options[track]:
+            return None, []
+        options[track] = option
+    ordered = sorted(options.values(), key=lambda o: (o['bbox_xyxy'][0], o['bbox_xyxy'][1], o['track_id']))
+    prompt = _which_vehicle(subject, ((o['track_id'], o['bbox_xyxy'], width) for o in ordered))
+    return (prompt, ordered) if prompt else (None, [])
+
+
+def spatial_reference_from_tracks(question, frame_tracks, width):
+    return spatial_reference_options(question, frame_tracks, width)[0]
+
+
+def selected_vehicle_question(words, track_id):
+    """Keep the asked relationship; identify the subject by its actual selected track."""
+    subject = _spatial_vehicle_subject(words)
+    if not subject:
+        raise ValueError('Choose a vehicle from the current question.')
+    return re.sub(rf'\b(the|that)\s+{subject}\b', f'the selected vehicle (track {track_id})', words, count=1, flags=re.I)
 
 
 def spatial_reference_question(question, evidence):
@@ -167,6 +201,9 @@ def validate_answer(result, evidence, question=None) -> Answer:
     if status == 'insufficient_evidence' and citations:
         raise ValueError('Abstentions cannot claim supporting citations')
     if status == 'answered' and question is not None:
+        if footage_proximity.physical_question(question['question']) or footage_proximity.unsupported_image_answer(question['question'],text):
+            named = referenced_track_ids(question['question'])
+            return make_answer('insufficient_evidence', footage_proximity.limitation(question['query_frame'],named[0] if len(named)==1 else None))
         unsupported_source = unavailable_observation_source(question['question'], evidence)
         if unsupported_source:
             return make_answer('insufficient_evidence', unsupported_source)
@@ -435,6 +472,11 @@ def answer_question(question: Question, evidence: list[Evidence], run_dir: str |
             receipt['reason'] = 'ambiguous_current_vehicle'
             receipt['public_question'] = dict(question)
             return make_answer('insufficient_evidence', clarification)
+        if footage_proximity.physical_question(question['question']):
+            receipt['reason'] = 'physical_landmark_distance_unmeasured'
+            receipt['public_question'] = dict(question)
+            return make_answer('insufficient_evidence', footage_proximity.limitation(question['query_frame'],
+                               next(iter(requested_tracks)) if len(requested_tracks)==1 else None))
         # Copy the exact bytes that will be sent into the auditor's hosted namespace.
         # The model receives those same files; neither the audit nor the upload
         # depends on absolute paths surviving Task 5's final directory rename.

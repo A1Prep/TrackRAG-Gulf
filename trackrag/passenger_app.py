@@ -33,6 +33,7 @@ INTERACTIVE_DEADLINE_SECONDS = 15
 STATIC = {"/": ("index.html", "text/html; charset=utf-8"),
           "/favicon.ico": ("favicon.ico", "image/x-icon"),
           "/footage": ("footage.html", "text/html; charset=utf-8"),
+          "/footage.css": ("footage.css", "text/css; charset=utf-8"),
           "/footage.js": ("footage.js", "text/javascript"),
           "/footage-player.js": ("footage-player.js", "text/javascript"),
           "/frames.js": ("frames.js", "text/javascript"),
@@ -340,7 +341,12 @@ class PassengerSite:
                         old.pending = None
                     self.sessions.pop(old.identity, None)
                 self.sessions[sid] = session
-        return session.snapshot()
+        response = session.snapshot()
+        from trackrag.dropoff.vehicle_ground_reference import example_request
+        example = example_request(self.scenes[scene_key])
+        if example:
+            response['example_request'] = example
+        return response
 
     def lookup(self, sid):
         if not isinstance(sid, str):
@@ -675,7 +681,8 @@ def handler(site):
                     # Share the memory guard only while decoding original images. A remote provider
                     # can take seconds or retry, during which other passengers can use local models.
                     result = site.footage.ask(site.scenes[payload["scene"]], payload.get("question"),
-                                              hosted=payload.get("hosted", False), image_guard=site.model_lock)
+                                              hosted=payload.get("hosted", False), image_guard=site.model_lock,
+                                              **{k:payload[k] for k in ("selection","image_relation") if k in payload})
                     return self.respond(result)
                 if m:
                     revision = int(self.headers.get("X-Session-Revision", "-1"))
@@ -717,6 +724,8 @@ def main(argv=None):
     parser.add_argument("--requests", action="append", type=Path, required=True, help="Prepared JSONL scene bank; repeat for additional banks")
     parser.add_argument("--local-surface-index",nargs=2,action="append",default=[],metavar=("JSON","SHA256"))
     parser.add_argument("--local-observations",nargs=2,action="append",default=[],metavar=("JSON","SHA256"))
+    parser.add_argument("--local-vehicle-observations",nargs=2,action="append",default=[],metavar=("JSON","SHA256"))
+    parser.add_argument("--local-vehicle-tail-observations",nargs=2,action="append",default=[],metavar=("JSON","SHA256"))
     parser.add_argument("--config", type=Path, required=True)
     parser.add_argument("--geometry", type=Path, required=True)
     parser.add_argument("--referent",type=Path,help="Use the learned candidate ranker for clarification")
@@ -753,6 +762,14 @@ def main(argv=None):
     from trackrag.dropoff.local_surfaces import matches_scene, register as register_surfaces
     for path, expected in args.local_surface_index:
         register_surfaces(path,expected)
+    if args.local_vehicle_observations:
+        from trackrag.dropoff.local_vehicle_observations import register as register_vehicles
+        for path, expected in args.local_vehicle_observations:
+            register_vehicles(path,expected)
+    if getattr(args,"local_vehicle_tail_observations",None):
+        from trackrag.dropoff.local_vehicle_tail import register as register_tail
+        for path, expected in args.local_vehicle_tail_observations:
+            register_tail(path,expected)
     if args.local_observations:
         from trackrag.dropoff.local_8b_observations import register as register_observations
         for path, expected in args.local_observations:

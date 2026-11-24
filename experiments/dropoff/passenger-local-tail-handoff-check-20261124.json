@@ -1,0 +1,51 @@
+{
+  "scope": "Independent CPU replay of two normal browser interactions after a client explicitly accepted each offered point. Human identity, physical clearance and permission to stop require separate evidence.",
+  "checks": {
+    "source_inputs": true,
+    "decision_reproduced": true,
+    "offlane_mask_replayed": true,
+    "original_and_current_tracks": true,
+    "native_tail_crop_pair_bound": true,
+    "legacy_individual_appearance_readings": 4,
+    "new_model_calls_during_replay": 0
+  },
+  "states": [
+    "idle",
+    "proposed",
+    "confirmed"
+  ],
+  "selected_by": "model",
+  "destination_point_xy": [
+    2744.0,
+    2103.36
+  ],
+  "visible_extent": "interior_point_only",
+  "receipt_sha256": "467a772ef13ddfb12f569384a152f75dcb41cc8461a23caa167835dbe5ff16f6",
+  "parent_vehicle_observation_sha256": "5a7da57974ccdc667e93f89dfc505a5a5bb0bfa336e64fbcff8e2b805c2fc055",
+  "tail_observation_sha256": "7c35225e69890346e6092fd3facb552a499633f44653b5d78f643f776bd6bd39",
+  "missing_only_tail_archive": {
+    "export_issued": false,
+    "diagnostic": "No registered tail measurements on this original photo."
+  },
+  "scoring_references_read": false,
+  "actor_identity_verified": false,
+  "guided_case": {
+    "states": [
+      "idle",
+      "needs_clarification",
+      "proposed",
+      "confirmed"
+    ],
+    "phases": [
+      "opened",
+      "initial_model",
+      "passenger_selected_bay",
+      "confirmed_previous_selection"
+    ],
+    "proposal_selected_by": "passenger",
+    "saved_selection_source": "passenger",
+    "scoring_references_read": false,
+    "actor_identity_verified": false,
+    "receipt_sha256": "5f07360fde8497a86264d56d982c13b1cafa51e9fbbee5f7e459afc3cf4f431d"
+  }
+}

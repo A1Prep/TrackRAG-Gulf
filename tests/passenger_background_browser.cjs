@@ -25,7 +25,7 @@ const latch = () => {
     release:() => release(),notify:() => notify()};
 };
 
-async function browserCase(browser,url) {
+async function browserCase(browser,url,{indexed=false}={}) {
   const page = await browser.newPage();
   const requests = [], sessions = new Map(), errors = [];
   const mock = {page,requests,errors,holdAck:null,holdPoll:null,polls:[],current:null};
@@ -35,7 +35,8 @@ async function browserCase(browser,url) {
     const json = obj => route.fulfill({json:obj}).catch(error => {
       if (!/closed|abort|invalid interception/i.test(String(error))) throw error;
     });
-    if (pathname==="/api/scenes") return json({scenes,footage_scenes:[],speech_available:true});
+    if (pathname==="/api/scenes") return json({scenes:indexed ? scenes.map(s=>({...s,parking_areas_indexed:true})) : scenes,
+      footage_scenes:[],speech_available:true});
     if (pathname==="/api/sessions") {
       const {scene} = req.postDataJSON(), id="s"+(sessions.size+1);
       const s={session:id,scene,revision:0,view:view(),voice_stage:null,pending_grounding:null};
@@ -53,7 +54,16 @@ async function browserCase(browser,url) {
     requests.push({action,body,session:id});
     s.revision++;
     if (action==="begin-audio") s.voice_stage="recording";
-    if (action==="audio") { s.voice_stage="review"; s.transcript="Just behind the last car"; }
+    if (action==="audio") {
+      s.voice_stage="review"; s.transcript="Just behind the last car";
+      if(mock.loseAudioReply) {
+        assert.equal(req.headers()["content-type"],"audio/wav");
+        s.last_action_id=req.headers()["x-action-id"];
+        assert.match(s.last_action_id,/^[a-f0-9-]{36}$/);
+        mock.failReadbacks=mock.loseAudioReadbacks || 0;
+        return route.abort("connectionreset");
+      }
+    }
     if (action==="submit") {
       s.voice_stage=null;
       if (mock.loseImmediateReply && body.text === "Yes") {
@@ -137,7 +147,7 @@ async function main() {
   });
   await new Promise(done=>server.listen(0,"127.0.0.1",done));
   const url="http://127.0.0.1:"+server.address().port;
-  const browser=await chromium.launch({executablePath:process.env.PASSENGER_CHROMIUM||undefined,headless:true});
+  const browser=await chromium.launch({executablePath:process.env.PASSENGER_CHROMIUM||undefined,headless:true,args:["--disable-gpu"]});
   try {
     // Completed typed request restores the normal proposal, without blocking browser navigation during acknowledgment or polling.
     {
@@ -191,10 +201,38 @@ async function main() {
       assert.deepEqual(s.errors,[]); await p.close();
     }
     // Direct area/vehicle requests stay on their immediate server routes.
+    {
+      const s=await browserCase(browser,url,{indexed:true}), p=s.page;
+      await submitTyped(p); await p.locator("#take-over-area").waitFor();
+      s.finish({state:"needs_clarification",request_id:"initial",proposal_id:null,result:{clarification_question:"Can you name another place?"}});
+      await p.locator("#other-bays").waitFor({state:"visible"});
+      assert.equal(s.requests.filter(r=>r.action==="submit").length,1);
+      await p.locator("#other-bays").click();
+      await p.locator("#take-over-area").waitFor();
+      const submitted=s.requests.filter(r=>r.action==="submit");
+      assert.deepEqual(submitted.at(-1).body,{text:"Find the marked parking bays.",mode:"typed",replaces_request_id:"initial",background:true});
+      s.finish({state:"needs_clarification",request_id:"alternative",proposal_id:null,result:{clarification_question:"No marked bays."}});
+      await p.waitForFunction(()=>document.querySelector("#destination-panel").dataset.state==="clarify");
+      assert(await p.locator("#other-bays").isHidden()); assert.deepEqual(s.errors,[]); await p.close();
+    }
     for (const [button,field] of [["submit-area","mark_on_photo"],["submit-pointing","point_to_vehicles"]]) {
       const s=await browserCase(browser,url),p=s.page; await p.locator("#instruction").fill(words);
+      if(button==="submit-pointing") {
+        assert(await p.locator("#submit-pointing").isHidden());
+        await p.locator("#other-photo-options summary").click();
+      }
       await p.locator("#"+button).click(); await p.waitForFunction(()=>document.querySelector('#form').hidden);
       assert.deepEqual(s.requests[0].body,{text:words,mode:"typed",[field]:true}); assert.deepEqual(s.errors,[]); await p.close();
+    }
+    // Whisper completed, but Edge lost the HTTP reply. A previous unrelated typing draft must never become the transcript.
+    for(const loseAudioReadbacks of [0,3]) {
+      const s=await browserCase(browser,url),p=s.page;
+      await p.locator("#instruction").fill("A different typed destination");
+      s.loseAudioReply=true; s.loseAudioReadbacks=loseAudioReadbacks;
+      await reviewVoice(p);
+      assert.equal(s.requests.filter(r=>r.action==="audio").length,1);
+      assert.equal(s.requests.filter(r=>r.action==="submit").length,0);
+      assert(await p.locator("#error").isHidden()); await p.close();
     }
     for (const boxes of [[[44,80,125,146]], [[44,80,125,146],[331,93,412,163]]]) {
       const s=await browserCase(browser,url),p=s.page;
@@ -219,6 +257,7 @@ async function main() {
       s.finish({state:"needs_clarification",proposal_id:null,...scenario.field,
         result:{clarification_question:scenario.question,anchor_boxes_xyxy:[[44,80,125,146]]}});
       await heading(p,scenario.heading);
+      assert(await p.locator("#show-driver").isHidden());
       assert(await p.locator("#confirm").isHidden());
       await p.locator("#"+scenario.button).click(); await p.locator("#take-over-area").waitFor();
       assert.deepEqual(s.requests.at(-1).body,{text:scenario.reply,mode:"typed",background:true});
@@ -241,6 +280,52 @@ async function main() {
       assert.equal(await p.locator("#status").textContent(),"Please mark the ground you mean.");
       assert(await p.locator("#error").isHidden()); assert(await p.locator("#form").isHidden());
       assert.equal(s.requests.filter(r=>r.body.text==="Yes").length,1); await p.close();
+    }
+    // Inspect a small matched vehicle, pan the zoomed photo, then mark the original image deliberately.
+    {
+      const s=await browserCase(browser,url), p=s.page;
+      await submitTyped(p); await p.locator("#take-over-area").waitFor();
+      s.finish({state:"needs_clarification",proposal_id:null,references_only:true,
+        result:{anchor_boxes_xyxy:[[482,112,540,160]],clarification_question:"I found the vehicle. Can you mark the ground?"}});
+      await heading(p,"I found the vehicle you described");
+      const actions=s.requests.length;
+      await p.locator("#show-driver").click(); await p.getByRole("dialog").waitFor();
+      assert.equal(await p.locator("#driver-words").innerText(),words);
+      assert.match(await p.locator("#driver-note").innerText(),/exact drop-off point is still open/);
+      assert(await p.locator("#driver-photo").evaluate(c=>c.getContext("2d").getImageData(0,0,1,1).data[3]===255));
+      await p.keyboard.press("Escape"); assert(await p.getByRole("dialog").isHidden());
+      assert.equal(s.requests.length,actions,"showing the landmark must not submit anything");
+      await p.locator("#zoom-in").click();
+      const placement = await p.locator("#photo-viewport").evaluate(v => {
+        const r=v.getBoundingClientRect(), c=v.querySelector("canvas").getBoundingClientRect();
+        return {x:c.x+511*c.width/640,y:c.y+150*c.height/360, scroll:v.scrollLeft, width:r.width};
+      });
+      assert(placement.scroll>placement.width*.26,"zoom should bring the right-side vehicle into view");
+      await p.mouse.move(placement.x,placement.y); await p.mouse.down();
+      await p.mouse.move(placement.x+40,placement.y+4,{steps:5}); await p.mouse.up();
+      assert(await p.locator("#draw-tools").isHidden(),"dragging to pan must not place a mark");
+      const near = await p.locator("#overlay").evaluate(c => {
+        const r=c.getBoundingClientRect(); return {x:r.x+.79*r.width,y:r.y+.51*r.height};
+      });
+      await p.mouse.click(near.x,near.y); await p.locator("#use-box").waitFor();
+      assert.equal(s.requests.filter(r=>r.action==="area").length,0,"a tap is a draft until the user checks it");
+      await p.locator("#use-box").click(); await heading(p,"Is this your intended location?");
+      const b=s.requests.find(r=>r.action==="area").body.box;
+      assert(Math.abs((b[0]+b[2])/2-640*.79)<2 && Math.abs((b[1]+b[3])/2-360*.51)<2);
+      await p.close();
+    }
+    // An explicitly marked point keeps its authorship and uncertainty through Save.
+    {
+      const s=await browserCase(browser,url),p=s.page;
+      await submitTyped(p); await p.locator("#take-over-area").waitFor();
+      const marked={...fixtureBays[0],extent:"interior_point_only",passenger_tap_xy:fixtureBays[0].center_xy};
+      s.finish({...bayOffer(marked,"passenger"),passenger_marked_vehicle_location:true});
+      await heading(p,"Is this the spot you meant?");
+      assert.match(await p.locator("#legend").innerText(),/your chosen spot/);
+      assert.match(await p.locator("#status").innerText(),/parking pavement you marked.*vehicle is still uncertain/);
+      await p.locator("#confirm").click();await heading(p,"Your marked location was saved");
+      assert.match(await p.locator("#status").innerText(),/exact point you chose.*vehicle is still uncertain/);
+      await p.close();
     }
     // Single automatic bay displays its perspective polygon and centre only; new input clears both.
     {

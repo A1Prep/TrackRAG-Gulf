@@ -96,7 +96,7 @@ function bayLabels(ctx, labels, scale) {
 }
 
 // Coordinates come from this request's road-photo result. Its bounding box is not the painted bay.
-export function drawBays(ctx, bays, scale, choosing, tapLabel = "Your tap") {
+export function drawBays(ctx, bays, scale, choosing, tapLabel = "Your tap", saved = false, passengerMarked = false) {
   ctx.save(); ctx.lineJoin = "round";
   const labels = [];
   for (const [index,bay] of bays.entries()) {
@@ -107,7 +107,8 @@ export function drawBays(ctx, bays, scale, choosing, tapLabel = "Your tap") {
       ctx.lineWidth = 4.5*scale; ctx.strokeStyle = markerDark; ctx.stroke();
       ctx.lineWidth = 2.5*scale; ctx.strokeStyle = bayGold; ctx.stroke();
     }
-    const label = bay.extent === "interior_point_only" ? "Selected spot" : bay.extent === "visible_parking_surface" ? "Parking area" : "Bay centre";
+    const pointLabel = saved ? "Saved spot" : passengerMarked ? "Your chosen spot" : "Suggested spot";
+    const label = bay.extent === "interior_point_only" ? pointLabel : bay.extent === "visible_parking_surface" ? "Parking area" : "Bay centre";
     labels.push({id:bay.id,point:bay.center_xy,text:choosing ? bayName(index,bay) : label,color:bayGold});
   }
   const tap = bays.find(bay => bay.passenger_tap_xy)?.passenger_tap_xy;
@@ -181,14 +182,22 @@ export class PhotoTools {
     viewport.addEventListener("pointerdown", e => {
       if (e.pointerType !== "mouse" || !e.isPrimary || e.button !== 0 || this.zoom === 0 ||
           this.pairs.open || (this.active && !this.panning) || !canvas.parentElement.contains(e.target)) return;
-      this.drag = [e.clientX, e.clientY, viewport.scrollLeft, viewport.scrollTop];
+      this.drag = {x:e.clientX, y:e.clientY, left:viewport.scrollLeft, top:viewport.scrollTop,
+        moved:false, markOnTap:this.quickMark && e.target === canvas};
       viewport.setPointerCapture(e.pointerId); e.preventDefault();
     });
     viewport.addEventListener("pointermove", e => {
       if (!this.drag) return;
-      viewport.scrollTo(this.drag[2] + this.drag[0] - e.clientX, this.drag[3] + this.drag[1] - e.clientY);
+      const dx=e.clientX-this.drag.x, dy=e.clientY-this.drag.y;
+      if (Math.hypot(dx,dy) > 5) this.drag.moved = true;
+      if (this.drag.moved) viewport.scrollTo(this.drag.left-dx,this.drag.top-dy);
     });
-    for (const name of ["pointerup", "pointercancel", "lostpointercapture"])
+    viewport.addEventListener("pointerup", e => {
+      const pressed = this.drag; this.drag = null;
+      if (pressed?.markOnTap && !pressed.moved && this.quickMark && !this.locked() &&
+          Math.hypot(e.clientX-pressed.x,e.clientY-pressed.y) <= 5) this.begin(this.point(e), true);
+    });
+    for (const name of ["pointercancel", "lostpointercapture"])
       viewport.addEventListener(name, () => { this.drag = null; });
   }
   reset() {
@@ -292,7 +301,7 @@ export class PhotoTools {
     this.viewport.classList.toggle("pan-view", this.zoom > 0 && !this.pairs.open && (!this.active || this.panning));
     this.canvas.classList.toggle("drawing", this.active && !this.panning);
     this.canvas.classList.toggle("choosing-pair", this.pairs.open);
-    this.quickMark = offerMark && ready && !busy && !this.active && !this.pairs.open && this.zoom === 0;
+    this.quickMark = offerMark && ready && !busy && !this.active && !this.pairs.open;
     this.canvas.classList.toggle("quick-mark", this.quickMark);
     this.canvas.tabIndex = this.active || this.quickMark ? 0 : -1;
     this.canvas.setAttribute("role", this.active ? "application" : this.quickMark ? "button" : "img");

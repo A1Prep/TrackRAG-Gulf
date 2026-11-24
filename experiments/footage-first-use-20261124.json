@@ -1,0 +1,410 @@
+{
+  "method": "Independent first-use engineering rehearsal in Microsoft Edge on the two saved EMT drives. Both runs used the ordinary footage form in its default recorded-tracks mode. The initial 11 questions were recorded before changing their wording support. Three transfer questions were added for the second drive. All checks ran locally.",
+  "basis": "Counts and classes are measures of the saved detector, not a human count of the traffic. Exact answers were independently compared with the saved detections and decoded original pixels. No people were recruited or recorded for this rehearsal.",
+  "recordings_saved_tracks_sha256": {
+    "video_054907": "95df6a0030009d4340869aa92b8bce6f8265116a9bf446274dc732966d127f3c",
+    "video_054604": "5d99bb0d6ca678e376b6c933e8410b99770d190405650c64c1717d455313ca8a"
+  },
+  "observed": {
+    "fixed_first_questions": 11,
+    "transfer_questions": 3,
+    "cited_answers": 10,
+    "vehicle_identity_clarifications": 2,
+    "out_of_window_refusals": 1,
+    "unrelated_no_evidence": 1,
+    "page_errors": [],
+    "remote_model_calls": 0,
+    "median_response_ms": 618.0,
+    "range_response_ms": [
+      141,
+      2199
+    ]
+  },
+  "baseline_issue": "Five natural questions about current road users, cars, visible people or the opening returned no answer. At pause 103, ‘How many cars are here?’ linked original frame 1 three times. The replay answered all five from the requested original.",
+  "normal_browser_rows": [
+    {
+      "recording": "video_054907",
+      "paused_frame": 103,
+      "question": "What’s happening right now?",
+      "before": {
+        "status": "not_requested",
+        "source": "evidence_only",
+        "linked_frames": [
+          103
+        ],
+        "ms": 703
+      },
+      "after": {
+        "source": "local_tracks",
+        "status": "answered",
+        "answer": "In frame 103, the tracker reported car (10), large vehicle (1), medium vehicle (1).",
+        "cited_originals": [
+          {
+            "id": "E1",
+            "frame": 103,
+            "source_jpeg_sha256": "0448ff2ffa6959029f2af9d6f9fefc72af976679d400fe796e4e7064ce425213",
+            "evidence_png_sha256": "9acaa1e61485f24bc1dd99049204b66d72854e39529ed148bf870b35486a14bc"
+          }
+        ],
+        "ms": 637,
+        "result_sha256": "3218cedc5cb8ff3cc6d6319688e6e5f950b99602e6967318f0e81b45684277d8"
+      }
+    },
+    {
+      "recording": "video_054907",
+      "paused_frame": 103,
+      "question": "How many cars are here?",
+      "before": {
+        "status": "not_requested",
+        "source": "evidence_only",
+        "linked_frames": [
+          1
+        ],
+        "ms": 1794
+      },
+      "after": {
+        "source": "local_tracks",
+        "status": "answered",
+        "answer": "The tracker detected 10 cars in frame 103.",
+        "cited_originals": [
+          {
+            "id": "E2",
+            "frame": 103,
+            "source_jpeg_sha256": "0448ff2ffa6959029f2af9d6f9fefc72af976679d400fe796e4e7064ce425213",
+            "evidence_png_sha256": "9acaa1e61485f24bc1dd99049204b66d72854e39529ed148bf870b35486a14bc"
+          }
+        ],
+        "ms": 1347,
+        "result_sha256": "168d2a71a623d8336b04bba63f6b7a396215951f52a1dad0776b97aa78e25565"
+      }
+    },
+    {
+      "recording": "video_054907",
+      "paused_frame": 103,
+      "question": "Are there any people on foot?",
+      "before": {
+        "status": "not_requested",
+        "source": "evidence_only",
+        "linked_frames": [],
+        "ms": 272
+      },
+      "after": {
+        "source": "local_tracks",
+        "status": "answered",
+        "answer": "The tracker detected 0 pedestrians in frame 103.",
+        "cited_originals": [
+          {
+            "id": "E1",
+            "frame": 103,
+            "source_jpeg_sha256": "0448ff2ffa6959029f2af9d6f9fefc72af976679d400fe796e4e7064ce425213",
+            "evidence_png_sha256": "9acaa1e61485f24bc1dd99049204b66d72854e39529ed148bf870b35486a14bc"
+          }
+        ],
+        "ms": 599,
+        "result_sha256": "c3b597f045c0c5529f178c8e10b781d48b59392b0872d772dcc84e1f798552b9"
+      }
+    },
+    {
+      "recording": "video_054907",
+      "paused_frame": 103,
+      "question": "Can you see anyone in this frame?",
+      "before": {
+        "status": "not_requested",
+        "source": "evidence_only",
+        "linked_frames": [
+          103
+        ],
+        "ms": 584
+      },
+      "after": {
+        "source": "local_tracks",
+        "status": "answered",
+        "answer": "In frame 103, the tracker recorded 0 pedestrians and 0 cyclists. It does not count people inside vehicles.",
+        "cited_originals": [
+          {
+            "id": "E1",
+            "frame": 103,
+            "source_jpeg_sha256": "0448ff2ffa6959029f2af9d6f9fefc72af976679d400fe796e4e7064ce425213",
+            "evidence_png_sha256": "9acaa1e61485f24bc1dd99049204b66d72854e39529ed148bf870b35486a14bc"
+          }
+        ],
+        "ms": 639,
+        "result_sha256": "a3c9919450941a16c620d715840cabce38b5f4ca73920010aba4bbedea9150a7"
+      }
+    },
+    {
+      "recording": "video_054907",
+      "paused_frame": 103,
+      "question": "Is the truck near the building?",
+      "before": {
+        "status": "insufficient_evidence",
+        "source": "local_tracks",
+        "linked_frames": [
+          103
+        ],
+        "ms": 1568
+      },
+      "after": {
+        "source": "local_tracks",
+        "status": "insufficient_evidence",
+        "answer": "Which truck do you mean? There are possible matches on the left and near the centre in the paused frame.",
+        "cited_originals": [],
+        "ms": 1332,
+        "result_sha256": "e9beebe31f37487ba1145da708f3f7d0a518b5fcf9c0123f8f0e8bffbc9eb79f"
+      }
+    },
+    {
+      "recording": "video_054907",
+      "paused_frame": 103,
+      "question": "At seven seconds, how many vehicles are there?",
+      "before": {
+        "status": "answered",
+        "source": "local_tracks",
+        "linked_frames": [
+          71
+        ],
+        "ms": 1596
+      },
+      "after": {
+        "source": "local_tracks",
+        "status": "answered",
+        "answer": "The tracker detected 11 vehicles in frame 71.",
+        "cited_originals": [
+          {
+            "id": "E2",
+            "frame": 71,
+            "source_jpeg_sha256": "b406dfe055d7e5b7296855680c181da4297ed9757672d82c9883103ae018d6a6",
+            "evidence_png_sha256": "532cbb09ac287caf8b4a1cb640894407491b41edce2ae056452e35cfd3ad5bf9"
+          }
+        ],
+        "ms": 2199,
+        "result_sha256": "001d56e2dc2588d6c698c950632ab8e5f72e9527058fb80a0405e1fb08c2e0b6"
+      }
+    },
+    {
+      "recording": "video_054604",
+      "paused_frame": 126,
+      "question": "When does the bus first appear?",
+      "before": {
+        "status": "not_requested",
+        "source": "evidence_only",
+        "linked_frames": [
+          111,
+          117,
+          121,
+          123,
+          126
+        ],
+        "ms": 2500
+      },
+      "after": {
+        "source": "local_tracks",
+        "status": "insufficient_evidence",
+        "answer": "Several tracks match that description. Which did you mean? The frames below show track 6, track 2117, track 2323.",
+        "cited_originals": [],
+        "ms": 2004,
+        "result_sha256": "11c9dc42e095d305e8b93b6125d141db18cc93c20b4a5c6030bb067dc47a22f8"
+      }
+    },
+    {
+      "recording": "video_054604",
+      "paused_frame": 126,
+      "question": "What was the final score of the football game?",
+      "before": {
+        "status": "not_requested",
+        "source": "evidence_only",
+        "linked_frames": [],
+        "ms": 152
+      },
+      "after": {
+        "source": "evidence_only",
+        "status": "not_requested",
+        "answer": null,
+        "cited_originals": [],
+        "ms": 157,
+        "result_sha256": "50a59a78b6de1f7b2ab8002a7f1023997351ba8250e15b6084b38fe00357850e"
+      }
+    },
+    {
+      "recording": "video_054604",
+      "paused_frame": 126,
+      "question": "How many cars are there at 25 seconds?",
+      "before": {
+        "status": "insufficient_evidence",
+        "source": "local_tracks",
+        "linked_frames": [],
+        "ms": 167
+      },
+      "after": {
+        "source": "local_tracks",
+        "status": "insufficient_evidence",
+        "answer": "That time is outside the footage available from the start through the paused frame.",
+        "cited_originals": [],
+        "ms": 141,
+        "result_sha256": "c2242a412b20de974b009c6ab100f3184e7525d150cc505e6ac17819dc9d4066"
+      }
+    },
+    {
+      "recording": "video_054604",
+      "paused_frame": 1,
+      "question": "What can you see at the start of the clip?",
+      "before": {
+        "status": "not_requested",
+        "source": "evidence_only",
+        "linked_frames": [
+          1
+        ],
+        "ms": 461
+      },
+      "after": {
+        "source": "local_tracks",
+        "status": "answered",
+        "answer": "In frame 1, the tracker reported bus (1), car (22).",
+        "cited_originals": [
+          {
+            "id": "E1",
+            "frame": 1,
+            "source_jpeg_sha256": "8554bd37dc647488f6a496b2845f22a7a6bf21b2478d732b1340d99175a7e518",
+            "evidence_png_sha256": "838fb0362c22016a038f5bf36109959145762fe08ffe3509cb81ccd563ea1194"
+          }
+        ],
+        "ms": 456,
+        "result_sha256": "052b3ebc82b8adf6b3b0ba8aa499edfc842c097619e0afa290b57645e111a8ad"
+      }
+    },
+    {
+      "recording": "video_054604",
+      "paused_frame": 1,
+      "question": "Which types of road users are detected in this frame?",
+      "before": {
+        "status": "answered",
+        "source": "local_tracks",
+        "linked_frames": [
+          1
+        ],
+        "ms": 469
+      },
+      "after": {
+        "source": "local_tracks",
+        "status": "answered",
+        "answer": "In frame 1, the tracker reported bus (1), car (22).",
+        "cited_originals": [
+          {
+            "id": "E1",
+            "frame": 1,
+            "source_jpeg_sha256": "8554bd37dc647488f6a496b2845f22a7a6bf21b2478d732b1340d99175a7e518",
+            "evidence_png_sha256": "838fb0362c22016a038f5bf36109959145762fe08ffe3509cb81ccd563ea1194"
+          }
+        ],
+        "ms": 415,
+        "result_sha256": "044cde800533008ca8176d676c207ad4a23f8d1b5a5334570b2cd8e14ab57778"
+      }
+    },
+    {
+      "recording": "video_054604",
+      "paused_frame": 126,
+      "question": "What can you see at the start of the clip?",
+      "after": {
+        "source": "local_tracks",
+        "status": "answered",
+        "answer": "In frame 1, the tracker reported bus (1), car (22).",
+        "cited_originals": [
+          {
+            "id": "E1",
+            "frame": 1,
+            "source_jpeg_sha256": "8554bd37dc647488f6a496b2845f22a7a6bf21b2478d732b1340d99175a7e518",
+            "evidence_png_sha256": "838fb0362c22016a038f5bf36109959145762fe08ffe3509cb81ccd563ea1194"
+          }
+        ],
+        "ms": 483,
+        "result_sha256": "fefe28bc5cfc2856738d265e703e8a33bc409be4d3d4c9a48baec7956c5348ab"
+      }
+    },
+    {
+      "recording": "video_054604",
+      "paused_frame": 126,
+      "question": "How many cars are here?",
+      "after": {
+        "source": "local_tracks",
+        "status": "answered",
+        "answer": "The tracker detected 7 cars in frame 126.",
+        "cited_originals": [
+          {
+            "id": "E2",
+            "frame": 126,
+            "source_jpeg_sha256": "95544d64cd88097e424da0dab1bd195cee644559388d89ed52a56cb55dd8be70",
+            "evidence_png_sha256": "4900f18f1a8da73707e3178432da6fb324553883a95be4eb5a30caf313b25667"
+          }
+        ],
+        "ms": 1333,
+        "result_sha256": "e2c9b613d72a22fc20e001e6df98de05addb6c43bae5d3e8da73e73a07a1c83d"
+      }
+    },
+    {
+      "recording": "video_054604",
+      "paused_frame": 1,
+      "question": "Are there any cyclists?",
+      "after": {
+        "source": "local_tracks",
+        "status": "answered",
+        "answer": "The tracker detected 0 cyclists in frame 1.",
+        "cited_originals": [
+          {
+            "id": "E1",
+            "frame": 1,
+            "source_jpeg_sha256": "8554bd37dc647488f6a496b2845f22a7a6bf21b2478d732b1340d99175a7e518",
+            "evidence_png_sha256": "838fb0362c22016a038f5bf36109959145762fe08ffe3509cb81ccd563ea1194"
+          }
+        ],
+        "ms": 431,
+        "result_sha256": "ec0229e350a6a7dab6f5c030fb58e97140261c3d76076ced44b2d169387c6294"
+      }
+    }
+  ],
+  "clicked_citations_and_returned_to_question": [
+    {
+      "recording": "video_054907",
+      "frame": 103,
+      "question": "At seven seconds, how many vehicles are there?",
+      "citedFrame": 71,
+      "citedPosition": "Frame 71 · 0:07.0 / 0:14.9",
+      "restoredPosition": "Frame 103 · 0:10.2 / 0:14.9",
+      "originalDimensions": [
+        2560,
+        1440
+      ],
+      "fullEvidenceSHA": "532cbb09ac287caf8b4a1cb640894407491b41edce2ae056452e35cfd3ad5bf9"
+    },
+    {
+      "recording": "video_054604",
+      "frame": 126,
+      "question": "What can you see at the start of the clip?",
+      "citedFrame": 1,
+      "citedPosition": "Frame 1 · 0:00.0 / 0:14.9",
+      "restoredPosition": "Frame 126 · 0:12.5 / 0:14.9",
+      "originalDimensions": [
+        2560,
+        1440
+      ],
+      "fullEvidenceSHA": "838fb0362c22016a038f5bf36109959145762fe08ffe3509cb81ccd563ea1194"
+    },
+    {
+      "recording": "video_054604",
+      "frame": 126,
+      "question": "How many cars are here?",
+      "citedFrame": 126,
+      "citedPosition": "Frame 126 · 0:12.5 / 0:14.9",
+      "restoredPosition": "Frame 126 · 0:12.5 / 0:14.9",
+      "originalDimensions": [
+        2560,
+        1440
+      ],
+      "fullEvidenceSHA": "4900f18f1a8da73707e3178432da6fb324553883a95be4eb5a30caf313b25667"
+    }
+  ],
+  "source_sha256": {
+    "footage_facts.py": "c014096ae1a37c2066a122aa8a4d04f4707cd241dfa4727e445440ddf9cdc1b2",
+    "footage_app.py": "ed9fb6cc2b266fc2e00fd2440f7d0da934f6ff7f6e8b1090ac7a18394920057b",
+    "footage_history.py": "07f0472d12509c0e659e0de5c34ed816413b4a166727045ccc5e31eb02b99655"
+  }
+}

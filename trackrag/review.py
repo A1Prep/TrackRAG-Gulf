@@ -88,6 +88,7 @@ def _resolve_evidence(
     source: TrackSource,
     tracks: dict[int, dict[int, TrackObservation]],
     run_dir: Path,
+    image_store=None,
 ) -> list[Evidence]:
     if len(intervals) > 3:
         raise ValueError("Retriever returned more than the requested three results")
@@ -132,13 +133,10 @@ def _resolve_evidence(
             destination = run_dir / relative_path
             destination.parent.mkdir(parents=True, exist_ok=True)
             if not destination.exists():
-                with Image.open(frame["image_path"]) as original:
-                    if original.size != (frame["width"], frame["height"]):
-                        raise ValueError(f"Image dimensions disagree with frame metadata for {frame_id}")
-                    marked = original.convert("RGB")
-                    if box is not None:
-                        ImageDraw.Draw(marked).rectangle(box, outline=(255, 0, 0), width=2)
-                    marked.save(destination)
+                if image_store is None:
+                    _render_frame(frame, box, destination)
+                else:
+                    image_store.save(frame, box, destination, _render_frame)
             images.append({
                 "frame_id": frame_id,
                 "bbox_xyxy": box,
@@ -146,6 +144,18 @@ def _resolve_evidence(
             })
         evidence.append({"evidence_id": evidence_id, "interval": dict(interval), "images": images})
     return evidence
+
+
+def _render_frame(frame, box, destination, *, image_source=None):
+    with Image.open(image_source if image_source is not None else frame["image_path"]) as original:
+        if image_source is not None:
+            original.filename = str(frame["image_path"])
+        if original.size != (frame["width"], frame["height"]):
+            raise ValueError(f"Image dimensions disagree with frame metadata for {frame['frame_id']}")
+        with original.convert("RGB") as marked:
+            if box is not None:
+                ImageDraw.Draw(marked).rectangle(box, outline=(255, 0, 0), width=2)
+            marked.save(destination)
 
 
 def _answer(
@@ -171,6 +181,10 @@ def _answer(
                 explanation = "The stated frame and time refer to different moments. Which one should I check?"
         if explanation is None and asks_for_unmeasured_speed(question["question"]):
             explanation = UNMEASURED_SPEED
+        if explanation is None:
+            from .footage_proximity import limitation, physical_question
+            if physical_question(question["question"]):
+                explanation = limitation(question["query_frame"])
         return {"answer_status": "insufficient_evidence", "answer": explanation, "cited_evidence_ids": []}
     valid_ids = {item["evidence_id"] for item in evidence}
     try:
@@ -209,6 +223,7 @@ def review_recording(
     answer_question: Callable[[Question, list[Evidence], Path], Answer] | None = None,
     run_metadata: dict | None = None,
     image_guard=None,
+    image_store=None,
 ) -> Path:
     """Publish one run after all evidence files and JSON records have been written.
 
@@ -260,7 +275,7 @@ def review_recording(
                 intervals = deepcopy(list(rank_evidence(deepcopy(question), index, k=3)))
                 with image_guard if image_guard is not None else nullcontext():
                     evidence = _resolve_evidence(
-                        recording, intervals, question, source, by_track, run_dir,
+                        recording, intervals, question, source, by_track, run_dir, image_store,
                     )
                 result: ReviewResult = {
                     "question": dict(question), "source": source, "evidence": evidence,

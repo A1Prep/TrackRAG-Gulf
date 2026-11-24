@@ -1,0 +1,205 @@
+{
+  "date": "2026-11-24",
+  "recording": "video_054907",
+  "paused_frame": 103,
+  "selected_track": 6,
+  "original_question": "Is the truck near the building?",
+  "entry_point": "Normal footage page in desktop Edge on the prepared Windows laptop. The reviewer chose the left vehicle and separately requested a visual comparison using the privacy-processed frame.",
+  "review": "The pickup occupies the left foreground. Buildings appear in the distant skyline. The first response claimed physical proximity without a measurement. The revised interaction explains the missing depth measurement locally, then answers an explicitly image-only question if the reviewer asks for it. Both cited evidence items were inspected on frame 103.",
+  "observations": {
+    "before": {
+      "first_reply": "Which truck do you mean? There are possible matches on the left and near the centre in the paused frame.",
+      "first_local_ms": 1176,
+      "choice_count": 2,
+      "focus_text": "Outlined medium vehicle · left · Track 6. Recorded tracks show its position. Gemini can check your original question against privacy-processed images.",
+      "asked": "Is the selected vehicle (track 6) near the building?",
+      "generator": "gemini",
+      "status": "answered",
+      "answer": "Yes, the selected vehicle (track 6) is near the buildings visible in the distance and background skyline.",
+      "cited": [
+        {
+          "id": "E1",
+          "source": "predicted",
+          "track": 6,
+          "frames": [
+            103
+          ]
+        },
+        {
+          "id": "E2",
+          "source": "predicted",
+          "track": null,
+          "frames": [
+            103
+          ]
+        }
+      ],
+      "seconds": 4.567,
+      "browser_errors": [],
+      "original_receipt_sha256": "9e45a3692da76fee9edf8d124bc5158166914a1d43b19fd3e50bbfe4c5ee0c5f"
+    },
+    "after": {
+      "first_reply": "Which truck do you mean? There are possible matches on the left and near the centre in the paused frame.",
+      "first_local_ms": 1551,
+      "choice_count": 2,
+      "focus_text": "Outlined medium vehicle · left · Track 6. The camera does not measure the distance to the landmark. Gemini can describe their positions in this image.",
+      "asked": "In this frame, describe the image-plane positions of the selected vehicle (track 6) and the building. Where do they appear relative to each other in the picture?",
+      "generator": "gemini",
+      "status": "answered",
+      "answer": "In frame 103, the selected vehicle (track 6) is located on the left side of the foreground, whereas multiple buildings and skyscrapers appear in the background further down the highway and towards the center and right side of the picture.",
+      "cited": [
+        {
+          "id": "E1",
+          "source": "predicted",
+          "track": 6,
+          "frames": [
+            103
+          ]
+        },
+        {
+          "id": "E2",
+          "source": "predicted",
+          "track": null,
+          "frames": [
+            103
+          ]
+        }
+      ],
+      "seconds": 4.795,
+      "browser_errors": [],
+      "original_receipt_sha256": "e5fc826f6a1791fe882da5c3aad1a936a50ae5e19678822f4b5c157c7e6d90eb"
+    },
+    "final_repeat": {
+      "first_reply": "Which truck do you mean? There are possible matches on the left and near the centre in the paused frame.",
+      "first_local_ms": 396,
+      "choice_count": 2,
+      "focus_text": "Outlined medium vehicle · left · Track 6. The camera does not measure the distance to the landmark. Gemini can describe their positions in this image.",
+      "asked": "In this frame, describe the image-plane positions of the selected vehicle (track 6) and the building. Where do they appear relative to each other in the picture?",
+      "generator": "gemini",
+      "status": "answered",
+      "answer": "In frame 103, the selected vehicle (track 6) is located in the left foreground to mid-ground of the picture. Multiple distant buildings are visible on the horizon in the background, appearing to the right and center-left relative to the vehicle.",
+      "cited": [
+        {
+          "id": "E1",
+          "source": "predicted",
+          "track": 6,
+          "frames": [
+            103
+          ]
+        },
+        {
+          "id": "E2",
+          "source": "predicted",
+          "track": null,
+          "frames": [
+            103
+          ]
+        }
+      ],
+      "seconds": 4.87,
+      "browser_errors": [],
+      "original_receipt_sha256": "da52d5a73f2ff104ca627cd66a5718af1e464ebec23c6be0a4624782cee5a7c4"
+    }
+  },
+  "offline_adversarial_checks": {
+    "procedure": "Synthetic images and model stand-in using the normal footage entry point. These are independent controls and entail no hosted calls.",
+    "observations": [
+      {
+        "check": "bind two observed cars / Is the car near the building?",
+        "passed": true
+      },
+      {
+        "check": "unselected visual followup / Is the car near the building?",
+        "passed": true
+      },
+      {
+        "check": "selected visual followup / Is the car near the building?",
+        "passed": true
+      },
+      {
+        "check": "other frame",
+        "passed": true
+      },
+      {
+        "check": "other recording",
+        "passed": true
+      },
+      {
+        "check": "changed words",
+        "passed": true
+      },
+      {
+        "check": "bind two observed cars / Is the car close to the building?",
+        "passed": true
+      },
+      {
+        "check": "unselected visual followup / Is the car close to the building?",
+        "passed": true
+      },
+      {
+        "check": "selected visual followup / Is the car close to the building?",
+        "passed": true
+      },
+      {
+        "check": "bind two observed cars / How far is the car from the building?",
+        "passed": true
+      },
+      {
+        "check": "unselected visual followup / How far is the car from the building?",
+        "passed": true
+      },
+      {
+        "check": "selected visual followup / How far is the car from the building?",
+        "passed": true
+      },
+      {
+        "check": "bind two observed cars / Can you check whether the car is near the building?",
+        "passed": true
+      },
+      {
+        "check": "unselected visual followup / Can you check whether the car is near the building?",
+        "passed": true
+      },
+      {
+        "check": "selected visual followup / Can you check whether the car is near the building?",
+        "passed": true
+      },
+      {
+        "check": "no hosted physical estimate / At frame 1, was the car close to the building?",
+        "passed": true
+      },
+      {
+        "check": "no hosted physical estimate / How far away is the car from the mall?",
+        "passed": true
+      },
+      {
+        "check": "no hosted physical estimate / Is the car near the gate at frame 9?",
+        "passed": true
+      },
+      {
+        "check": "model response / The truck is physically close to the building, about two metres away.",
+        "passed": true
+      },
+      {
+        "check": "model response / The truck is physically close to the mall, about two metres away.",
+        "passed": true
+      },
+      {
+        "check": "model response / The truck is on the left and parked within a few steps of the building in real life.",
+        "passed": true
+      },
+      {
+        "check": "model response / The truck is on the left and parked right in front of the building, so they are physically close.",
+        "passed": true
+      },
+      {
+        "check": "model response / The truck is below the building on the left. The physical distance cannot be measured in metres from this frame.",
+        "passed": true
+      },
+      {
+        "check": "model response / The truck is just left of the building in the picture.",
+        "passed": true
+      }
+    ]
+  }
+}

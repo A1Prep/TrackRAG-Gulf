@@ -109,7 +109,70 @@ def test_paused_local_footage_asks_which_truck_only_when_the_current_original_ha
     assert not (f.root/"review"/clarified["question"]["question_id"]/"hosted").exists()
     for scene, question in [(one, words), (two, "Is the white truck on the left near the building?")]:
         result = review.ask(scene, question)
-        assert result["answer_source"] == "evidence_only" and result["answer"]["answer_status"] == "not_requested"
+        assert result["answer_source"] == "local_tracks" and result["answer"]["answer_status"] == "insufficient_evidence"
+        assert "do not measure the physical distance" in result["answer"]["answer"]
+    distance = review.ask(one, "How far is the truck from the building?")
+    assert not distance["evidence"] and "do not measure the physical distance" in distance["answer"]["answer"]
+
+
+def test_footage_vehicle_choice_binds_question_source_and_frame_before_visual_review(scene_fixture, monkeypatch):
+    from trackrag import answering
+    from trackrag.footage_app import FootageReview
+
+    f = scene_fixture
+    for recording in ("rec_a", "rec_b"):
+        source = f.artifacts(recording_id=recording)
+        second = [{**row, "track_id":9, "bbox_xyxy":[27,7,35,19]} for row in source.rows]
+        source.rows.extend(second)
+        source.rows.sort(key=lambda row: (row["frame_id"], row["track_id"]))
+        source.write()
+    f.run([instruction("one", frame_id=1), instruction("two", frame_id=2), instruction("other", recording_id="rec_b")])
+    first, current, other = (entry["scene"] for entry in read_requests(f.root/"prepared"/"requests.jsonl"))
+    review = FootageReview(f.data, f.predictions, f.config_path, f.root/"review", frame_rate=20)
+
+    calls = []
+    def capture(question, evidence, folder):
+        calls.append((question, evidence, json.loads((folder/"run.json").read_bytes())["configuration"]))
+        return {"answer_status":"insufficient_evidence","answer":"The relationship is unclear.","cited_evidence_ids":[]}
+    monkeypatch.setattr(answering, "answer_question", capture)
+    words = "Is the car near the building?"
+    initial = review.ask(current, words, hosted=True)
+    assert initial["answer_source"] == "local_tracks" and calls == []
+    choices = initial["vehicle_choices"]
+    assert [(o["track_id"], o["position"]) for o in choices["options"]] == [(7, "left"), (9, "right")]
+    selection = {"track_id":9, "binding":choices["binding"]}
+    for scene, text, supplied in [(first, words, selection), (other, words, selection),
+                                  (current, "Is the car near the shop?", selection),
+                                  (current, words, {**selection, "track_id":777}),
+                                  (current, words, {**selection, "bbox_xyxy":[0,0,1,1]})]:
+        with pytest.raises(ValueError, match="choice"):
+            review.ask(scene, text, hosted=True, selection=supplied)
+    local = review.ask(current, words, selection=selection)
+    assert local["answer_source"] == "local_tracks" and local["answer"]["answer_status"] == "insufficient_evidence"
+    assert local["selected_vehicle"] == choices["options"][1] and not local["vehicle_choices"] and not calls
+    distance = review.ask(current, words, hosted=True, selection=selection)
+    assert distance["answer_source"] == "local_tracks" and not calls
+    assert "Track 9 is selected in frame 2" in distance["answer"]["answer"]
+    for other_words in ("Is the car close to the building?", "How far is the car from the building?"):
+        clarification = review.ask(current,other_words,hosted=True)
+        assert [o["track_id"] for o in clarification["vehicle_choices"]["options"]] == [7,9]
+        assert "Which car" in clarification["answer"]["answer"]
+        with pytest.raises(ValueError,match="Choose a current vehicle"):
+            review.ask(current,other_words,hosted=True,image_relation=True)
+        choice = {"binding":clarification["vehicle_choices"]["binding"],"track_id":7}
+        chosen = review.ask(current,other_words,hosted=True,selection=choice)
+        assert not calls and {e["interval"]["track_id"] for e in chosen["evidence"]} == {7,None}
+    timed = review.ask(current,"At frame 1, was the car close to the building?",hosted=True)
+    assert timed["answer_source"] == "local_tracks" and not timed["vehicle_choices"] and not timed["image_relation_available"] and not calls
+    response = review.ask(current, words, hosted=True, selection=selection, image_relation=True)
+    q, evidence, saved = calls.pop()
+    assert response["selection"] == selection and response["answer_source"] == "gemini"
+    assert saved["original_question"] == response["original_question"] == words
+    assert saved["selected_vehicle"] == choices["options"][1]
+    assert "image-plane positions of the selected vehicle (track 9) and the building" in q["question"]
+    assert saved["image_plane_review"] and response["image_plane_review"]
+    assert {(i["interval"]["track_id"], im["frame_id"]) for i in evidence for im in i["images"]} == {(9,2),(None,2)}
+    assert list(next(i["images"][0]["bbox_xyxy"] for i in evidence if i["interval"]["track_id"] == 9)) == [27,7,35,19]
 
 
 def test_footage_search_reads_prefix_dimensions_and_decodes_only_selected_original_pixels(scene_fixture, monkeypatch):

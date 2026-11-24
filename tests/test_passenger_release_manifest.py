@@ -163,6 +163,20 @@ def test_standard_launch_adds_installed_still_and_honors_explicit_banks(bundle, 
     args.requests, args.additional_requests, args.local_surface_index = [still], [], []
     assert "--local-surface-index" not in release.start(args)
 
+    bank, study, entries = next(entry for entry in release.PHOTO_PACKS if 'rear-transfer-a' in entry[0])
+    transfer = tmp_path / bank
+    transfer.parent.mkdir(parents=True)
+    transfer.touch()
+    args.requests = [transfer]
+    args.local_vehicle_tail_observations = [(tmp_path/study/name, pin) for kind,name,pin in entries
+                                            if kind == 'local_vehicle_tail_observations']
+    argv = release.start(args)
+    assert argv.count('--local-vehicle-tail-observations') == 1
+    assert argv.index('--local-vehicle-observations') < argv.index('--local-vehicle-tail-observations')
+    path,pin=args.local_vehicle_tail_observations[0]
+    index=argv.index('--local-vehicle-tail-observations')
+    assert argv[index+1:index+3] == [str(path), pin]
+
 
 def test_portable_installer_binds_all_public_photos_to_their_original_frames(tmp_path):
     from tools import passenger_parking_photos as photos
@@ -182,3 +196,67 @@ def test_portable_installer_binds_all_public_photos_to_their_original_frames(tmp
     with pytest.raises(ValueError, match="does not match"):
         photos.write_request_bank(tmp_path, {"photos": mismatched}, banks)
     assert target.read_bytes() == original
+
+
+def test_photo_pack_model_pins_resolve_to_the_released_bytes():
+    from hashlib import sha256
+    for _, directory, files in release.PHOTO_PACKS:
+        for _, name, expected in files:
+            raw = (release.ROOT / directory / name).read_bytes().replace(b'\r\n',b'\n')
+            assert sha256(raw).hexdigest() == expected, (directory, name)
+
+
+@pytest.mark.parametrize('study',['rear-transfer-a','rear-fourth'])
+def test_serving_process_loads_real_tail_pack_before_local_grounding_threads(monkeypatch,tmp_path,study):
+    from concurrent.futures import ThreadPoolExecutor
+    from trackrag import passenger_app
+    from trackrag.dropoff import local_surfaces, local_vehicle_observations, local_vehicle_tail
+
+    monkeypatch.setattr(local_surfaces,'_extra_sources',{})
+    monkeypatch.setattr(local_vehicle_observations,'_registered',{})
+    monkeypatch.setattr(local_vehicle_tail,'_registered',{})
+    bank, folder, parts=next(entry for entry in release.PHOTO_PACKS if study in entry[0])
+    argv=['--config','model','--geometry','geometry','--vision-cache','cache','--out',str(tmp_path),'--requests',bank]
+    for kind, name, pin in reversed(parts):
+        argv.extend(['--'+kind.replace('_','-'),str(release.ROOT/folder/name),pin])
+    source=json.loads((release.ROOT/folder/'sources.json').read_bytes())['sources'][0]['sha256']
+    class RegistrationComplete(Exception): pass
+    def checked_scene_load(_):
+        with ThreadPoolExecutor(max_workers=1) as pool:
+            packet=pool.submit(local_vehicle_tail.get_packet,source).result()
+        assert packet['origin']==local_vehicle_tail.ORIGIN
+        assert packet['body']['parent_body_sha256']==local_vehicle_observations.get_packet(source)['body_sha256']
+        raise RegistrationComplete
+    monkeypatch.setattr(passenger_app,'load_scenes',checked_scene_load)
+    with pytest.raises(RegistrationComplete):passenger_app.main(argv)
+
+
+def test_presentation_launcher_reuses_only_a_healthy_footage_server(monkeypatch):
+    from io import BytesIO
+    from tools import presentation_start as presentation
+    monkeypatch.setattr(presentation.subprocess,"Popen",lambda *args,**kwargs:pytest.fail("Started a second server"))
+    def serve(value):
+        monkeypatch.setattr(presentation,"urlopen",lambda *args,**kwargs:BytesIO(json.dumps(value).encode()))
+    serve({"footage_available":True,"scenes":[{"recording_id":"one"},{"recording_id":"two"}]})
+    assert presentation.open_presentation(8775,open_browser=False) == "http://127.0.0.1:8775/footage"
+    serve({"footage_available":True,"scenes":[{"recording_id":"one"},{"recording_id":"one"}]})
+    with pytest.raises(RuntimeError,match="two searchable recordings"):
+        presentation.open_presentation(8775,open_browser=False)
+
+
+def test_presentation_launcher_starts_regular_release_before_opening_the_browser(tmp_path,monkeypatch):
+    from types import SimpleNamespace
+    from tools import presentation_start as presentation
+    readiness = iter([False,False,True])
+    calls = []
+    monkeypatch.setattr(presentation,"ROOT",tmp_path)
+    monkeypatch.setattr(presentation,"ready",lambda port:next(readiness))
+    monkeypatch.setattr(presentation.subprocess,"Popen",lambda args,**opts:
+                        calls.append((args,opts)) or SimpleNamespace(poll=lambda:None))
+    monkeypatch.setattr(presentation.time,"sleep",lambda _:None)
+    monkeypatch.setattr(presentation.webbrowser,"open",lambda url:calls.append(url))
+    presentation.open_presentation(8775)
+    command,opts = calls[0]
+    assert command[1:4] == ["-m","tools.passenger_release","start"]
+    assert command[command.index("--require-footage")+1] == "2" and "--low-memory" in command
+    assert opts["cwd"]==tmp_path and calls[1]=="http://127.0.0.1:8775/footage"

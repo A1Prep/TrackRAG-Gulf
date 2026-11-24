@@ -334,9 +334,14 @@ class PlaceDialogueGrounder:
         agreed = vehicle_wording.reply(request)
         if agreed and agreed[0] == "accepted":
             # This is consent to check an explicitly named vehicle. Its ground still needs source evidence.
-            result = vehicle_ground_reference.available(request) if not local_only(request["scene"]) else None
+            result = vehicle_ground_reference.available(request)
             return result if result is not None else vehicle_ground_reference.unavailable(request)
         if local_only(request.get("scene",{})):
+            from . import local_vehicle_observations
+            ref = vehicle_ground_reference.direct_reference(request)
+            if ref and ref['relation'] == 'behind' and local_vehicle_observations.get_packet(request['scene']['provenance']['image_sha256']) is not None:
+                current = vehicle_ground_reference.available(request)
+                return current if current is not None else vehicle_ground_reference.unavailable(request)
             bay = self.inspect_requested_bay(request)
             if bay is not None:
                 return bay

@@ -34,6 +34,58 @@ EXTRA_MODEL_FILES = {
     "local_observations": ("observations.json",
                            "3c11f54f49eb0f5db47e8715e252e8b091b20830930d75e61eb1fb6eb0f75e6f"),
 }
+REAR_PHOTO_BANK = 'data/uae-parking-local-rear-20261124/passenger-requests.jsonl'
+REAR_PHOTO_RESULTS = 'experiments/dropoff/passenger-rear-local-photos-20261124'
+REAR_MODEL_FILES = (
+    ('local_surface_index', 'passenger-local-image-surfaces-v1.json',
+     'c9ead6f19929510cf46b9645166ca064e0cbe887158ff17e4e95f3806a7722bf'),
+    ('local_vehicle_observations', 'vehicle-observations.json',
+     '7b12523b429e064d2b650e4e3fa6958c2a865e4e659e6959adf756ef124a19d1'),
+    ('local_vehicle_observations', 'vehicle-observations-v2.json',
+     'e53861f2e30f9307cf5327e31d12d5e8b83ae6f2b1ba59a2077c9bd2b9b2fcef'),
+)
+RESERVE_PHOTO_BANK = 'data/uae-parking-local-rear-reserve-20261124/passenger-requests.jsonl'
+RESERVE_PHOTO_RESULTS = 'experiments/dropoff/passenger-rear-reserve-photos-20261124'
+RESERVE_MODEL_FILES = (
+    ('local_surface_index', 'passenger-local-image-surfaces-v1.json',
+     '9dd806e609645fe51e49ead8c1d35db908fdf98217dbb43f4e620f9e3662d452'),
+    ('local_vehicle_observations', 'vehicle-observations.json',
+     'b03aa392eb8631683ff58cfa9d4cc69a63c5e2997515a6a7bd94a56d4e2e1828'),
+    ('local_vehicle_observations', 'vehicle-observations-v2.json',
+     '704197c9c1ab8a9ca108b8cf93bbc8db107ad6b80e4e75ffd00536af256f0ff5'),
+)
+PHOTO_PACKS = (
+    (EXTRA_PHOTO_BANK, EXTRA_PHOTO_RESULTS, tuple((kind, *pin) for kind, pin in EXTRA_MODEL_FILES.items())),
+    (REAR_PHOTO_BANK, REAR_PHOTO_RESULTS, REAR_MODEL_FILES),
+    (RESERVE_PHOTO_BANK, RESERVE_PHOTO_RESULTS, RESERVE_MODEL_FILES),
+    ("data/uae-parking-local-rear-transfer-a-20261124/passenger-requests.jsonl",
+     "experiments/dropoff/passenger-rear-transfer-a-photos-20261124", (
+         ("local_surface_index", "passenger-local-image-surfaces-v1.json",
+          "6200d8c9e8f02e9ddb8e604b83fb99a4b910be2b32b4f8dd0a7ad3e5d19171b8"),
+         ("local_vehicle_observations", "vehicle-observations-v2.json",
+          "73627772dbeb5140c8d27cb8bcf63bb46272e8af8c6114bac77ca2bf063885c7"),
+         ("local_vehicle_tail_observations", "vehicle-tail-observations-v1.json",
+          "55a8f952e9d60875bc9887e55e85cac920357efbbdcb2826a711fb40d17a87d8"),
+     )),
+    ("data/uae-parking-local-rear-transfer-b-20261124/passenger-requests.jsonl",
+     "experiments/dropoff/passenger-rear-transfer-b-photos-20261124", (
+         ("local_surface_index", "passenger-local-image-surfaces-v1.json",
+          "2a42b674a5363ebd3ff897e75cd25c7f3988ae29727ee2041ac9174a714ef2a3"),
+         ("local_vehicle_observations", "vehicle-observations-v2.json",
+          "8a8b2913cdef791670d965432b36b06f747ed3d5302edbe81dcb583142c1206a"),
+         ("local_vehicle_tail_observations", "vehicle-tail-observations-v1.json",
+          "08bfc6f02033f204758e2ddd6b8d871a4a8140a72753c1ff561acdd2105167b4"),
+     )),
+    ("data/uae-parking-local-rear-fourth-20261124/passenger-requests.jsonl",
+     "experiments/dropoff/passenger-rear-fourth-photos-20261124", (
+         ("local_surface_index", "passenger-local-image-surfaces-v1.json",
+          "e7e492591b3ce4721d18f42e5943f95f6b4b207a6685719a230f2691ddeb2a00"),
+         ("local_vehicle_observations", "vehicle-observations-v2.json",
+          "05d2472aafc3728ef63946f239df4cef2416fce674a6a8ccd57b7bc11a5340a9"),
+         ("local_vehicle_tail_observations", "vehicle-tail-observations-v1.json",
+          "05068433e911cd0e8b76e3331d27e247e00ad738a2de64e7ce1f49ac4396a4f8"),
+     )),
+)
 
 
 def file_hash(path):
@@ -222,7 +274,7 @@ def start(args):
     banks = args.requests or [ROOT/"runs/passenger-inputs/requests.jsonl"]
     if args.requests is None:
         for extra in ("runs/passenger-pair-scene/requests.jsonl", "data/uae-parking-study/passenger-requests.jsonl",
-                      "data/uae-parking-local/passenger-requests.jsonl", EXTRA_PHOTO_BANK):
+                      "data/uae-parking-local/passenger-requests.jsonl", *(bank for bank, _, _ in PHOTO_PACKS)):
             if (ROOT/extra).is_file():
                 banks.append(ROOT/extra)
     banks = list(dict.fromkeys(Path(p).resolve() for p in [*banks, *(getattr(args,"additional_requests",None) or ())]))
@@ -244,11 +296,14 @@ def start(args):
             sources.extend(ROOT / "experiments/dropoff" / name for name in PUBLIC_PHOTO_LISTS)
         for path in dict.fromkeys(Path(source).resolve() for source in sources):
             argv.extend(["--place-public-sources",str(path)])
-        for option in ("local_surface_index", "local_observations"):
+        for option in ("local_surface_index", "local_observations", "local_vehicle_observations", "local_vehicle_tail_observations"):
             pairs = [(Path(path).resolve(), expected) for path, expected in getattr(args,option,None) or ()]
-            if ROOT / EXTRA_PHOTO_BANK in banks and option in EXTRA_MODEL_FILES:
-                name, digest = EXTRA_MODEL_FILES[option]
-                pairs.insert(0, (ROOT / EXTRA_PHOTO_RESULTS / name, digest))
+            for bank, study, files in PHOTO_PACKS:
+                if ROOT / bank not in banks:
+                    continue
+                for kind, name, digest in files:
+                    if kind == option and all(expected != digest for _, expected in pairs):
+                        pairs.append((ROOT / study / name, digest))
             for path, expected in dict.fromkeys(pairs):
                 argv.extend(["--"+option.replace("_","-"),str(path),expected])
         if getattr(args, "low_memory", False):
@@ -299,6 +354,10 @@ def main():
                            help="Add a prepared scene bank while keeping the normal gallery and recordings")
             p.add_argument("--local-surface-index",nargs=2,action="append",metavar=("JSON","SHA256"),
                            help="Surface maps prepared offline for an additional photo bank")
+            p.add_argument("--local-vehicle-observations",nargs=2,action="append",metavar=("JSON","SHA256"),
+                           help="Vehicle crop readings prepared on the original local photos")
+            p.add_argument("--local-vehicle-tail-observations",nargs=2,action="append",metavar=("JSON","SHA256"),
+                           help="Tail directions measured using original and reflected local vehicle crops")
             p.add_argument("--local-observations",nargs=2,action="append",metavar=("JSON","SHA256"),
                            help="Verified offline 8B observations for additional registered surfaces")
             p.add_argument("--base-dir",type=Path,default=ROOT/"models/qwen3-vl-8b-local-nf4")

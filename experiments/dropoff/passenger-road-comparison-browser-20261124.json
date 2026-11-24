@@ -1,0 +1,468 @@
+{
+  "release": "45650d3ecca493196b486b998b14a1fb0ec3befb",
+  "port": 8775,
+  "browser": "Microsoft Edge, through the normal passenger page and local source-verified 8B route. V04 used a 390x844 viewport, U05 used 1280x850. The browser controls submitted typed requests and explicitly pressed Yes, No, any offered point and Save. Two additional unauthorized Save probes used the session API.",
+  "scope": "Post-disclosure development repeats on two genuine previously published UAE sources. Tested identity clarification does not itself propose a destination. The unchanged 14-drive first-pass cohort and the six originally unseen reserve scores remain separately published. No passenger recording, personal session identifier or original photograph is included.",
+  "sources": {
+    "U05": {
+      "recording_id": "kartaview_966575",
+      "frame_id": 17,
+      "sha256": "be9b3857ed70e910fa7d898b045d61eaac18df0c2844d865003f0e96be222918",
+      "native_size": [
+        3840,
+        2160
+      ]
+    },
+    "V04": {
+      "recording_id": "kartaview_7422361",
+      "frame_id": 0,
+      "sha256": "88ff343532dfbd0d2e073497008bb98607e604c680a378b44d593ef3842556db",
+      "native_size": [
+        3840,
+        2160
+      ]
+    }
+  },
+  "outcomes": {
+    "distinct_first_phrases": 5,
+    "primary_firsts_with_followups": 6,
+    "extra_post_yes_physical_sessions": 2,
+    "source_bound_identity_comparisons_that_could_be_confirmed": 2,
+    "contradictory_paint_or_explicit_image_side_controls_with_zero_outline_or_point": 3,
+    "confirmed_identity_without_a_ground_proposal": true,
+    "declined_identity_cleared": true,
+    "all_eight_original_session_journals_replayed": true,
+    "save_after_confirming_vehicle_only_http_status": [
+      409,
+      409
+    ],
+    "explicit_parking_mark": "The marked pavement was photographed parking and explicitly described as a passenger choice whose relation to the sedan could not be proved. A separately selected and saved point was inside the original visual ground polygon.",
+    "explicit_traffic_lane": "After the same affirmative vehicle reply, the lane tap returned no point, selectable option, token or Save operation."
+  },
+  "audit": "Each original normal session journal was replayed through tools/dropoff_passenger_handoff.session with the released original photo/mask and the two pinned local vehicle evidence manifests. Only action, phase, state and the source journal digest are exported. Raw local session receipts remain outside the report.",
+  "instrumentation": "Before the two post-Yes physical trials, an ASCII/UTF-8 assertion in the local harness stopped two attempts after their correctly displayed first responses and before any tap. They contributed no scored physical result. The corrected harness completed both physical trials, each in a fresh session.",
+  "firsts": [
+    {
+      "case": "V04",
+      "condition": "original",
+      "words": "Please let me out behind the grey sedan further up the right-hand side.",
+      "reply": "yes",
+      "browser_errors": [],
+      "first_ms": 646,
+      "status": "I can see a gray sedan left of centre in the photo. I can’t verify that it is further up the right-hand side of the road. Is this the vehicle you mean? I haven’t verified a drop-off point behind it.",
+      "heading": "Is this the vehicle you meant?",
+      "initial_boxes": [
+        [
+          879.6353759765625,
+          1183.43408203125,
+          1256.6275634765625,
+          1452.2771301269531
+        ]
+      ],
+      "point": null,
+      "first_save": false,
+      "first_token": false,
+      "identity_question": true,
+      "after_ms": 171,
+      "after_status": "You confirmed the outlined vehicle. Please mark the open ground behind it where you want to get out. I’ll check that spot on the photo.",
+      "after_boxes": [
+        [
+          879.6353759765625,
+          1183.43408203125,
+          1256.6275634765625,
+          1452.2771301269531
+        ]
+      ],
+      "after_point": null,
+      "after_save": false,
+      "after_token": false,
+      "complete": true,
+      "journal_sha256": "88e310ba1d1e32ca6c6cad957c565cb4ecfe7ec3c75ccfeb5e2c30d5cde81c29",
+      "locally_replayed_actions": [
+        {
+          "action": "opened",
+          "phase": "opened",
+          "state": "idle"
+        },
+        {
+          "action": "submitted",
+          "phase": "initial_model",
+          "state": "needs_clarification"
+        },
+        {
+          "action": "submitted",
+          "phase": "model_after_prior_dialogue",
+          "state": "needs_clarification"
+        }
+      ]
+    },
+    {
+      "case": "V04",
+      "condition": "original",
+      "words": "Please let me out behind the grey sedan further up the right-hand side.",
+      "reply": "no",
+      "browser_errors": [],
+      "first_ms": 597,
+      "status": "I can see a gray sedan left of centre in the photo. I can’t verify that it is further up the right-hand side of the road. Is this the vehicle you mean? I haven’t verified a drop-off point behind it.",
+      "heading": "Is this the vehicle you meant?",
+      "initial_boxes": [
+        [
+          879.6353759765625,
+          1183.43408203125,
+          1256.6275634765625,
+          1452.2771301269531
+        ]
+      ],
+      "point": null,
+      "first_save": false,
+      "first_token": false,
+      "identity_question": true,
+      "after_ms": 170,
+      "after_status": "Which vehicle did you mean? Describe its colour, body type or position in the photo, or mark the spot where you want to get out.",
+      "after_boxes": [],
+      "after_point": null,
+      "after_save": false,
+      "after_token": false,
+      "complete": true,
+      "journal_sha256": "f06ba1362300b9e3ecd50730c7c77dd3a817929124bdf00a2aba757b1d583e5a",
+      "locally_replayed_actions": [
+        {
+          "action": "opened",
+          "phase": "opened",
+          "state": "idle"
+        },
+        {
+          "action": "submitted",
+          "phase": "initial_model",
+          "state": "needs_clarification"
+        },
+        {
+          "action": "submitted",
+          "phase": "model_after_prior_dialogue",
+          "state": "needs_clarification"
+        }
+      ]
+    },
+    {
+      "case": "V04",
+      "condition": "wrong_colour",
+      "words": "Please let me out behind the red sedan further up the right-hand side.",
+      "reply": null,
+      "browser_errors": [],
+      "first_ms": 602,
+      "status": "I couldn’t verify a red sedan further up the right-hand side of the road. Could you describe another detail or mark the area you mean?",
+      "heading": "Which spot do you mean?",
+      "initial_boxes": [],
+      "point": null,
+      "first_save": false,
+      "first_token": false,
+      "identity_question": false,
+      "complete": true,
+      "journal_sha256": "0d99e7b46c925198a3161a27480b24c33ff053dc850131b0f04e107dfb52311e",
+      "locally_replayed_actions": [
+        {
+          "action": "opened",
+          "phase": "opened",
+          "state": "idle"
+        },
+        {
+          "action": "submitted",
+          "phase": "initial_model",
+          "state": "needs_clarification"
+        }
+      ]
+    },
+    {
+      "case": "V04",
+      "condition": "explicit_image",
+      "words": "Drop me behind the grey sedan further up the right-hand side of the picture.",
+      "reply": null,
+      "browser_errors": [],
+      "first_ms": 628,
+      "status": "I couldn’t verify the described vehicle in this photo. Could you give another visible detail or mark where you mean?",
+      "heading": "Which spot do you mean?",
+      "initial_boxes": [],
+      "point": null,
+      "first_save": false,
+      "first_token": false,
+      "identity_question": false,
+      "complete": true,
+      "journal_sha256": "0013872fd90c71df0f9d6f1f78840e3690ea7c6b3e992fc3e543e0a6595c2ea7",
+      "locally_replayed_actions": [
+        {
+          "action": "opened",
+          "phase": "opened",
+          "state": "idle"
+        },
+        {
+          "action": "submitted",
+          "phase": "initial_model",
+          "state": "needs_clarification"
+        }
+      ]
+    },
+    {
+      "case": "U05",
+      "condition": "mirrored",
+      "words": "Could you drop me behind the silver SUV farther down the street on our left?",
+      "reply": "yes",
+      "browser_errors": [],
+      "first_ms": 610,
+      "status": "I can see a silver SUV left of centre in the photo. I can’t verify that it is farther down the left-hand side of the road. Is this the vehicle you mean? I haven’t verified a drop-off point behind it.",
+      "heading": "Is this the vehicle you meant?",
+      "initial_boxes": [
+        [
+          110.45791625976562,
+          1497.73095703125,
+          837.7567749023438,
+          1943.314453125
+        ]
+      ],
+      "point": null,
+      "first_save": false,
+      "first_token": false,
+      "identity_question": true,
+      "after_ms": 187,
+      "after_status": "You confirmed the outlined vehicle. Please mark the open ground behind it where you want to get out. I’ll check that spot on the photo.",
+      "after_boxes": [
+        [
+          110.45791625976562,
+          1497.73095703125,
+          837.7567749023438,
+          1943.314453125
+        ]
+      ],
+      "after_point": null,
+      "after_save": false,
+      "after_token": false,
+      "complete": true,
+      "journal_sha256": "c96ddef29cf49d0ff4742259304139976306780253f21f3b6fca2db540c3a78f",
+      "locally_replayed_actions": [
+        {
+          "action": "opened",
+          "phase": "opened",
+          "state": "idle"
+        },
+        {
+          "action": "submitted",
+          "phase": "initial_model",
+          "state": "needs_clarification"
+        },
+        {
+          "action": "submitted",
+          "phase": "model_after_prior_dialogue",
+          "state": "needs_clarification"
+        }
+      ]
+    },
+    {
+      "case": "U05",
+      "condition": "wrong_colour",
+      "words": "Could you drop me behind the blue SUV farther down the street on our left?",
+      "reply": null,
+      "browser_errors": [],
+      "first_ms": 575,
+      "status": "I couldn’t verify a blue SUV farther down the left-hand side of the road. Could you describe another detail or mark the area you mean?",
+      "heading": "Which spot do you mean?",
+      "initial_boxes": [],
+      "point": null,
+      "first_save": false,
+      "first_token": false,
+      "identity_question": false,
+      "complete": true,
+      "journal_sha256": "51c8b088214d8a4a1a85876e0112856d7aefaf1427539b0d71ee0120ea769cc5",
+      "locally_replayed_actions": [
+        {
+          "action": "opened",
+          "phase": "opened",
+          "state": "idle"
+        },
+        {
+          "action": "submitted",
+          "phase": "initial_model",
+          "state": "needs_clarification"
+        }
+      ]
+    }
+  ],
+  "post_yes_physical_controls": [
+    {
+      "case": "V04",
+      "condition": "original",
+      "words": "Please let me out behind the grey sedan further up the right-hand side.",
+      "reply": "yes",
+      "browser_errors": [],
+      "first_ms": 594,
+      "status": "I can see a gray sedan left of centre in the photo. I can’t verify that it is further up the right-hand side of the road. Is this the vehicle you mean? I haven’t verified a drop-off point behind it.",
+      "heading": "Is this the vehicle you meant?",
+      "initial_boxes": [
+        [
+          879.6353759765625,
+          1183.43408203125,
+          1256.6275634765625,
+          1452.2771301269531
+        ]
+      ],
+      "point": null,
+      "first_save": false,
+      "first_token": false,
+      "identity_question": true,
+      "after_ms": 178,
+      "after_status": "You confirmed the outlined vehicle. Please mark the open ground behind it where you want to get out. I’ll check that spot on the photo.",
+      "after_boxes": [
+        [
+          879.6353759765625,
+          1183.43408203125,
+          1256.6275634765625,
+          1452.2771301269531
+        ]
+      ],
+      "after_point": null,
+      "after_save": false,
+      "after_token": false,
+      "early_save_refused": 409,
+      "independently_labelled_tap_xy": [
+        1240.976,
+        1532.148
+      ],
+      "applied_tap": [
+        1240.931919642857,
+        1532.0900583791208
+      ],
+      "mark_ms": 1570,
+      "after_mark_status": "I can see parking pavement at your mark. I couldn’t verify that it is behind the outlined vehicle. Would you like to use your marked spot anyway? You can also mark another spot.",
+      "mark_state": "needs_clarification",
+      "mark_choices": [
+        {
+          "id": "bay-1",
+          "point": [
+            1240.931919642857,
+            1532.0900583791208
+          ]
+        }
+      ],
+      "mark_saved_automatically": false,
+      "mark_point": null,
+      "save_after_mark": false,
+      "token_after_mark": false,
+      "selected_actor": "passenger",
+      "explicitly_saved_point": [
+        1240.931919642857,
+        1532.0900583791208
+      ],
+      "complete": true,
+      "mark": "interior",
+      "journal_sha256": "6b8d30acb5d23a96527b15b145644b54aef83e807a9f7114b6a7cdaae4bcf92f",
+      "locally_replayed_actions": [
+        {
+          "action": "opened",
+          "phase": "opened",
+          "state": "idle"
+        },
+        {
+          "action": "submitted",
+          "phase": "initial_model",
+          "state": "needs_clarification"
+        },
+        {
+          "action": "submitted",
+          "phase": "model_after_prior_dialogue",
+          "state": "needs_clarification"
+        },
+        {
+          "action": "passenger_marked",
+          "phase": "passenger_marked",
+          "state": "needs_clarification"
+        },
+        {
+          "action": "passenger_selected_bay",
+          "phase": "passenger_selected_bay",
+          "state": "proposed"
+        },
+        {
+          "action": "confirmed",
+          "phase": "confirmed_previous_selection",
+          "state": "confirmed"
+        }
+      ],
+      "saved_inside_reference_by_px": 49.99
+    },
+    {
+      "case": "V04",
+      "condition": "original",
+      "words": "Please let me out behind the grey sedan further up the right-hand side.",
+      "reply": "yes",
+      "browser_errors": [],
+      "first_ms": 608,
+      "status": "I can see a gray sedan left of centre in the photo. I can’t verify that it is further up the right-hand side of the road. Is this the vehicle you mean? I haven’t verified a drop-off point behind it.",
+      "heading": "Is this the vehicle you meant?",
+      "initial_boxes": [
+        [
+          879.6353759765625,
+          1183.43408203125,
+          1256.6275634765625,
+          1452.2771301269531
+        ]
+      ],
+      "point": null,
+      "first_save": false,
+      "first_token": false,
+      "identity_question": true,
+      "after_ms": 200,
+      "after_status": "You confirmed the outlined vehicle. Please mark the open ground behind it where you want to get out. I’ll check that spot on the photo.",
+      "after_boxes": [
+        [
+          879.6353759765625,
+          1183.43408203125,
+          1256.6275634765625,
+          1452.2771301269531
+        ]
+      ],
+      "after_point": null,
+      "after_save": false,
+      "after_token": false,
+      "early_save_refused": 409,
+      "independently_labelled_tap_xy": [
+        580.683,
+        1682.082
+      ],
+      "applied_tap": [
+        580.6417679000687,
+        1681.9976605425825
+      ],
+      "mark_ms": 682,
+      "after_mark_status": "That point appears to be in a traffic lane. Could you mark a visible parking bay instead?",
+      "mark_state": "needs_clarification",
+      "mark_choices": [],
+      "mark_saved_automatically": false,
+      "mark_point": null,
+      "save_after_mark": false,
+      "token_after_mark": false,
+      "complete": true,
+      "mark": "lane",
+      "journal_sha256": "8676cbca7974c61f8bd26b426e5a001c4713f974897d75c2f9a151f340ceb4c8",
+      "locally_replayed_actions": [
+        {
+          "action": "opened",
+          "phase": "opened",
+          "state": "idle"
+        },
+        {
+          "action": "submitted",
+          "phase": "initial_model",
+          "state": "needs_clarification"
+        },
+        {
+          "action": "submitted",
+          "phase": "model_after_prior_dialogue",
+          "state": "needs_clarification"
+        },
+        {
+          "action": "passenger_marked",
+          "phase": "passenger_marked",
+          "state": "needs_clarification"
+        }
+      ]
+    }
+  ]
+}

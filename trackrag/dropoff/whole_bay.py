@@ -795,8 +795,11 @@ def choice_outcome(request, offered, bay_id):
         raise ValueError("This bay is outside the current choices.")
     polygon = selected["polygon_xy"]
     xs, ys = zip(*polygon)
+    location = proposed(selected["center_xy"],[min(xs),min(ys),max(xs),max(ys)])
+    if source.get("unverified_place_name") and source.get("automatic_rear_ground"):
+        location["anchor_boxes_xyxy"] = deepcopy(offered["result"]["anchor_boxes_xyxy"])
     return {"ok":True,"request_id":request["request_id"],
-            "result":proposed(selected["center_xy"],[min(xs),min(ys),max(xs),max(ys)]),
+            "result":location,
             "provenance":{"method":CHOICE,"request_sha256":digest(request),"image":deepcopy(source["image"]),
                           "inference_input_sha256":source["inference_input_sha256"],"independent_model_proposal":False,
                           "choice_source":offered,"bay_id":bay_id,"bay_outline":selected,"bay_choices":[]}}
@@ -840,7 +843,7 @@ def verify(request, outcome, *, requested_box=None):
             raise ValueError('The confirmed vehicle and exact passenger mark must belong to the current request.')
         expected = vehicle_identity_reply.marked(request, requested_box, source['confirmed_vehicle_reply'], source['ground_check'])
     elif source.get('vehicle_ground_policy') is not None:
-        from . import vehicle_ground_reference, vehicle_ground_view
+        from . import vehicle_ground_reference, vehicle_ground_view, vehicle_rear_marked_strip, vehicle_road_comparison
         if (policy != CLEARANCE_POLICY or language is not None or source['vehicle_ground_policy'] != vehicle_ground_view.RECIPE
                 or source.get('vehicle_relation_policy') not in (None,vehicle_ground_reference.RELATION_POLICY,vehicle_ground_reference.PREVIOUS_RELATION_POLICY)
                 or method not in {AUTO, MARK} or (method == MARK) != (requested_box is not None)):
@@ -852,7 +855,13 @@ def verify(request, outcome, *, requested_box=None):
                                                     expanded=source.get('vehicle_relation_policy') is not None,
                                                     observe_sides=source.get('vehicle_relation_policy')==vehicle_ground_reference.RELATION_POLICY,
                                                     side_packet=source.get('side_ground_observation'),load_side_packet=False,
-                                                    side_release=source.get('side_ground_release'))
+                                                    side_release=source.get('side_ground_release'),
+                                                    archived_identity=source.get('archived_vehicle_identity'),
+                                                    extended_rear=source.get('extended_rear_policy')==vehicle_rear_marked_strip.RECIPE,
+                                                    tail_packet=source.get('tail_orientation_observation'),
+                                                    explain_lane_mark='marked_lane_cell' in source,
+                                                    road_comparisons=source.get('road_comparison_policy')==vehicle_road_comparison.POLICY,
+                                                    measure_rear='automatic_rear_ground' in source or 'rear_reference_check' in source)
     elif source.get("divider_policy") is not None:
         from . import parking_divider_choice
         if (method!=MARK or requested_box is None or policy!=CLEARANCE_POLICY
@@ -959,6 +968,8 @@ def verify(request, outcome, *, requested_box=None):
         result["archived_stall_language_calls"] = sum(len(row["reviews"]) for row in source["stall_review"]["body"]["options"])
     if original.get('vehicle_observation'):
         result['archived_vehicle_readings'] = original['vehicle_observation']['body']['count']
+    if original.get('archived_vehicle_identity'):
+        result['archived_identity_crop_calls'] = len(original['archived_vehicle_identity']['body']['calls'])
     if source.get("bay_anchor_evidence"):
         body=source["bay_anchor_evidence"]["body"]
         result["archived_bay_context_records"]=len(body["rows"])
@@ -980,12 +991,18 @@ def verify(request, outcome, *, requested_box=None):
 
 
 def verify_current(request, outcome, *, requested_box=None):
-    from . import curb_alternatives, curb_point_language, vehicle_wording
+    from . import curb_alternatives, curb_point_language, local_vehicle_observations, vehicle_wording
     source = outcome["provenance"]
     if source["method"] == CHOICE:
         source = source["choice_source"]["provenance"]
     if source.get("clearance_policy") != CLEARANCE_POLICY:
         raise ValueError("Request a new check on the current photo before saving this location.")
+    vehicle_packet = source.get("vehicle_observation")
+    if local_vehicle_observations.is_local(vehicle_packet):
+        photo_sha = request["scene"]["provenance"]["image_sha256"]
+        preferred = local_vehicle_observations.get_packet(photo_sha)
+        if preferred is None or preferred["body_sha256"] != vehicle_packet["body_sha256"]:
+            raise ValueError("The vehicle observations for this photo have changed. Check your location again before saving.")
     if (source["method"] == MARK and vehicle_wording.suggestion(request["text"])
             and source.get("reason") != "vehicle_word_check_at_mark"):
         raise ValueError("Confirm the vehicle wording before choosing a location on this photo.")

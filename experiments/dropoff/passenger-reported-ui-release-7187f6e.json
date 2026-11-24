@@ -1,0 +1,354 @@
+{
+  "version": 1,
+  "release": "7187f6e715ab88183d29d2936bb71c0a9a710c2e",
+  "compared_preliminary_release": "d06b083134ebeb4bca77bf2966ef4c21f3f03a59",
+  "tested_at_utc": "2026-11-24T02:13:00.335Z",
+  "last_action_batch_finished_utc": "2026-11-24T02:14:30.770Z",
+  "scope": "Seven previously reported public gallery requests and one additional typed white-SUV request. This is regression coverage on known pictures. The lane and boundary actions use photographed test marks.",
+  "client": "Microsoft Edge. Desktop 1390 x 880 and mobile viewport 390 x 844, with a fresh browser context per scenario and ordinary page controls.",
+  "original_seven": {
+    "direct_first_offers": 1,
+    "first_turns_with_selectable_choices": 2,
+    "clarifications_without_a_point": 4,
+    "geometry_and_action_parity_with_preliminary_release": 7
+  },
+  "firsts": [
+    {
+      "case": "white-rear",
+      "source": [
+        "kartaview_3329429",
+        213
+      ],
+      "photo_sha256": "5b635a7c2e4f7eebd4ae50b91b725fd9054bf7b41bda28248e36e5bfa0de7e5b",
+      "words": "Could you drop me off behind the white car?",
+      "viewport": "desktop",
+      "state": "needs_clarification",
+      "visible_ms": 3031,
+      "offer_ready_to_save": false,
+      "save_visible": false,
+      "point": null,
+      "selectable_points": [
+        [
+          2243.093,
+          1369.743
+        ]
+      ],
+      "heading": "Is this the spot you meant?",
+      "reply": "I found the vehicle and a marked bay behind it. The image checks disagree about the lane edge. Is the highlighted point where you meant? The driver still needs to check the available room. You can also mark another spot.",
+      "can_remark": true
+    },
+    {
+      "case": "gate-truck",
+      "source": [
+        "kartaview_986839",
+        1
+      ],
+      "photo_sha256": "528de6137375fa351d4d85d5f25d3eca7b0034c2542983e75c32ad6b1013d2ac",
+      "words": "can u drop me behind the truck",
+      "viewport": "desktop",
+      "state": "needs_clarification",
+      "visible_ms": 1143,
+      "offer_ready_to_save": false,
+      "save_visible": false,
+      "point": null,
+      "selectable_points": [],
+      "heading": "Which spot do you mean?",
+      "reply": "I can\u2019t see a clear off-lane space immediately behind that vehicle. Could you mark a different spot or name another landmark?",
+      "can_remark": true
+    },
+    {
+      "case": "side-pickup",
+      "source": [
+        "kartaview_5124809",
+        287
+      ],
+      "photo_sha256": "37249c17aea5689c7f6d059e5fb99ed405a9d95a414f444571d44906033b6626",
+      "words": "Could you drop me next to that black pickup truck?",
+      "viewport": "mobile",
+      "state": "needs_clarification",
+      "visible_ms": 604,
+      "offer_ready_to_save": false,
+      "save_visible": false,
+      "point": null,
+      "selectable_points": [],
+      "heading": "Which spot do you mean?",
+      "reply": "I couldn\u2019t identify a clearly visible vehicle with that description. Could you give its colour and side or mark the spot?",
+      "can_remark": true
+    },
+    {
+      "case": "black-rear",
+      "source": [
+        "kartaview_4572137",
+        14
+      ],
+      "photo_sha256": "98dbfd42cf22eab79bff24cbf227cdefb7663b12c0d7d1014569642f067adfbd",
+      "words": "Could you drop me behind the black car?",
+      "viewport": "desktop",
+      "state": "needs_clarification",
+      "visible_ms": 602,
+      "offer_ready_to_save": false,
+      "save_visible": false,
+      "point": null,
+      "selectable_points": [],
+      "heading": "I found the vehicle you described",
+      "reply": "I found the outlined black SUV. Its rear is hard to place from this angle. Could you mark the ground you mean?",
+      "can_remark": true
+    },
+    {
+      "case": "left-trees",
+      "source": [
+        "kartaview_4572137",
+        14
+      ],
+      "photo_sha256": "98dbfd42cf22eab79bff24cbf227cdefb7663b12c0d7d1014569642f067adfbd",
+      "words": "Could you drop me next to the trees on the left?",
+      "viewport": "desktop",
+      "state": "needs_clarification",
+      "visible_ms": 1642,
+      "offer_ready_to_save": false,
+      "save_visible": false,
+      "point": null,
+      "selectable_points": [],
+      "heading": "I found the roadside greenery",
+      "reply": "The blue outline shows tall roadside greenery on the left. I couldn\u2019t verify an open pull-in beside it. Could you tap the off-lane area you meant?",
+      "can_remark": true
+    },
+    {
+      "case": "restaurant",
+      "source": [
+        "kartaview_7199241",
+        48
+      ],
+      "photo_sha256": "ed69e5e794d9618bd153a0ea0266dd0a9203b1526c279ec01a0c9c64b2b0124b",
+      "words": "Could you drop me next to the restaurant?",
+      "viewport": "desktop",
+      "state": "needs_clarification",
+      "visible_ms": 4258,
+      "offer_ready_to_save": false,
+      "save_visible": false,
+      "point": null,
+      "selectable_points": [
+        [
+          1893.315,
+          1434.021
+        ],
+        [
+          2190.935,
+          1564.406
+        ]
+      ],
+      "heading": "Which parking bay do you mean?",
+      "reply": "More than one bay matches your description. Choose bay A or bay B.",
+      "can_remark": true
+    },
+    {
+      "case": "right-bay",
+      "source": [
+        "kartaview_66245",
+        146
+      ],
+      "photo_sha256": "534ff1819947cffe773874bc601925b76ad97e8a17048ec75ff76ba916b7a9e3",
+      "words": "Can you drop me next to the parking spot on the right?",
+      "viewport": "desktop",
+      "state": "proposed",
+      "visible_ms": 1139,
+      "offer_ready_to_save": true,
+      "save_visible": true,
+      "point": [
+        2058.119,
+        1327.806
+      ],
+      "selectable_points": [],
+      "heading": "Is this your intended bay?",
+      "reply": "The gold ring marks the centre of the outlined parking bay in the lower right of the photo.",
+      "can_remark": true
+    },
+    {
+      "case": "hotel",
+      "source": [
+        "kartaview_66346",
+        113
+      ],
+      "photo_sha256": "28eb871a346c5792d7f63ad1186edcc967a6f96a2469984ecc86c5df7d177d1c",
+      "words": "Could you drop me off behind the white SUV?",
+      "viewport": "mobile",
+      "state": "proposed",
+      "visible_ms": 606,
+      "offer_ready_to_save": true,
+      "save_visible": true,
+      "point": [
+        2229.547,
+        1443.851
+      ],
+      "selectable_points": [],
+      "heading": "Is this the spot you meant?",
+      "reply": "The gold ring marks the open ground behind the outlined white SUV. Is this where you want to get out?",
+      "can_remark": true
+    }
+  ],
+  "continued_flows": {
+    "white_rear": {
+      "first_turn": "One spot, no Save and no proposal token. The text names disagreement about the lane edge.",
+      "select_a": {
+        "actor": "passenger",
+        "point": [
+          2243.093,
+          1369.743
+        ],
+        "ms": 355,
+        "heading": "Is this the spot you meant?",
+        "save_visible": true,
+        "state": "proposed"
+      },
+      "explicit_save": {
+        "actor": "passenger",
+        "point": [
+          2243.093,
+          1369.743
+        ],
+        "ms": 232,
+        "heading": "Location saved",
+        "save_visible": false,
+        "state": "confirmed"
+      }
+    },
+    "restaurant_divider_mobile": {
+      "tap_in_original_pixels": [
+        2277.415,
+        1415.73
+      ],
+      "reference_tap": [
+        2277.462,
+        1415.814
+      ],
+      "original_first_mark_ms": 222,
+      "selectable_points": [
+        [
+          1893.315,
+          1434.021
+        ],
+        [
+          2190.935,
+          1564.406
+        ]
+      ],
+      "save_before_choice": false,
+      "choose_b": {
+        "actor": "passenger",
+        "point": [
+          2190.935,
+          1564.406
+        ],
+        "ms": 165,
+        "heading": "Is this your intended bay?",
+        "save_visible": true,
+        "state": "proposed"
+      },
+      "explicit_save": {
+        "actor": "passenger",
+        "point": [
+          2190.935,
+          1564.406
+        ],
+        "ms": 151,
+        "heading": "Location saved",
+        "save_visible": false,
+        "state": "confirmed"
+      }
+    },
+    "restaurant_lane_after_offer": {
+      "choose_a": {
+        "actor": "passenger",
+        "point": [
+          1893.315,
+          1434.021
+        ],
+        "ms": 109,
+        "heading": "Is this your intended bay?",
+        "save_visible": true,
+        "state": "proposed"
+      },
+      "replacement_tap": [
+        1049.986,
+        1549.981
+      ],
+      "after_change": {
+        "state": "needs_clarification",
+        "visible_ms": 457,
+        "offer_ready_to_save": false,
+        "save_visible": false,
+        "point": null,
+        "selectable_points": []
+      },
+      "reply": "That point appears to be in a traffic lane. Could you mark a visible parking bay instead?",
+      "can_mark_again_was_exercised": true
+    },
+    "restaurant_lane_from_fresh_request": {
+      "tap": [
+        1049.986,
+        1549.981
+      ],
+      "after_mark": {
+        "state": "needs_clarification",
+        "visible_ms": 446,
+        "offer_ready_to_save": false,
+        "save_visible": false,
+        "point": null,
+        "selectable_points": []
+      },
+      "reply": "That point appears to be in a traffic lane. Could you mark a visible parking bay instead?"
+    },
+    "right_bay_explicit_save": {
+      "actor": "model",
+      "point": [
+        2058.119,
+        1327.806
+      ],
+      "ms": 156,
+      "heading": "Location saved",
+      "save_visible": false,
+      "state": "confirmed"
+    },
+    "white_suv_hotel_explicit_save": {
+      "actor": "model",
+      "point": [
+        2229.547,
+        1443.851
+      ],
+      "ms": 188,
+      "heading": "Location saved",
+      "save_visible": false,
+      "state": "confirmed"
+    }
+  },
+  "verification": {
+    "image_inputs": "The browser fetched each catalog display photo and matched its SHA-256 against the listed source. All seven original actions, offers and option centres reproduced the earlier release.",
+    "reference_isolation": "Reviewed load_scenes in trackrag/passenger_app.py, source_input in parking_evidence.py, whole_bay._layout and vehicle_ground_reference._measured_rear. They use predicted tracks, source-bound original pixels and computed evidence. The catalog reads only the scene field. The test driver supplied the exact public instruction and actual tap where needed, never a reference polygon to the application. This is source review plus regression coverage, not an operating-system file-access trace.",
+    "focused_tests": {
+      "passed": 4,
+      "scope": [
+        "catalog omits sample wording and reference fields",
+        "typed/voice model input omits injected scoring fields and confirmation preserves source",
+        "frame/observation validation rejects unknown gold fields",
+        "prediction export excludes gold"
+      ]
+    },
+    "screens_with_horizontal_overflow": 0,
+    "browser_page_errors": 0,
+    "timing_note": "Durations measure action through rendered result on this machine. The first harness captured all first submissions; a misspelled POST listener prevented capture of three choice continuations. A fresh browser run captured selecting, changing and saving through the real select-bay action.",
+    "desktop_visual": "The restaurant options have separate outlined bays by the storefront and parked red car. After an override, only the rejected mark remains, with a cross and no destination.",
+    "mobile_visual": "The divider screen renders two distinct A/B buttons and the tapped point. The hotel screen outlines the actual white SUV and shows the gold ring on visible pavement behind the bumper, near the bottom of the photo.",
+    "safety_copy": "Saved describes the passenger selecting a location. The page says the driver must check traffic, clearance and stopping rules. The site does not verify real-world stopping clearance, present traffic or legal permission."
+  },
+  "remaining_limits": [
+    "The side-pickup request still reports that it cannot identify a suitable vehicle and shows no destination.",
+    "The gate truck, angled black SUV and left-side trees also show no independently grounded drop-off location on these photographs.",
+    "The hotel overlay label reads \u201cSelected spot\u201d as the passenger reviews the model suggestion, before the separate explicit Save. The question and Save control distinguish the proposed state.",
+    "The photographs and public examples were known before this release. These results do not estimate performance on new drives."
+  ],
+  "receipt_sha256": {
+    "preliminary_firsts": "0a45dbc7cc03f4ef67ac3dcada1c5bcea5023df19635170de34185fb7f2e0830",
+    "canonical_firsts": "1468041fb6bf813027e299e6448c235d71d34d21e9141ced396e9495052f7f2f",
+    "canonical_choice_continuations": "4a7448cf28f9f6ada82ed2b4b4f3392dee4a1805d230e14ddde0a955c0f11390"
+  }
+}

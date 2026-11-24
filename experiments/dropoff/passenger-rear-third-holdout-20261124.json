@@ -1,0 +1,518 @@
+{
+  "commit": "7187f6e715ab88183d29d2936bb71c0a9a710c2e",
+  "frozen_decision_commit": "7187f6e715ab88183d29d2936bb71c0a9a710c2e",
+  "reference_sealed_utc": "2026-11-24T02:04:25.689169+00:00",
+  "browser_finished_utc": "2026-11-24T02:38:04.793Z",
+  "original_browser_observations_sha256": "b55b1cd388e2aee13e28a0c2949836047b5f9f3ff65934ea6033b2a4c5edc168",
+  "independent_seal": {
+    "frozen_utc": "2026-11-24T02:04:25.689169+00:00",
+    "sha256": {
+      "sources": "11c8e2888abc7e3ac6e3f2d457aa9f276d155ee5118e225f820ffa28cb6e5b83",
+      "requests": "39e972fb0ef24fd2e75aea47646682683a446dce44b27e3168770bef8c435b7a",
+      "road_taps": "5d71294a2a9a7d63ddf504d740ba539ab271fd2ad3102e2140d5d8e9bad4c742",
+      "reference": "1e2e5563fcd46c5c22115510ec73559936eb74ee1b0fe248ceca375a84f2b97f"
+    },
+    "case_count": 8,
+    "no_model_outputs_seen": true,
+    "test_direction": "Behind an identifiable vehicle"
+  },
+  "reviewer": "Independent AI visual review of original UAE driver-view photos before model predictions. No human label collection.",
+  "scope": "Eight photographs from eight new drives selected before testing. Capture days are distinct and drives do not overlap the earlier fourteen. A small hand-selected sample cannot establish fleet performance.",
+  "measurement": {
+    "direct": "A destination must be strictly inside a preregistered native-pixel polygon and remain at the same place after an explicit save. Correct vehicle and ground jointly are also reported. All crop or body evidence alone is scored separately.",
+    "body": "Intersection over union >=0.50 identifies a source vehicle. A unique correct outline, the intended vehicle shown among alternatives, a wrong-only outline and no outline are separate.",
+    "choice": "A selectable alternative is scored by its displayed center independently. It earns no direct hit and the correct alternative may be offered alongside erroneous choices.",
+    "road": "Each original prelabelled road tap comes from a fresh session. One road probe is the vehicle through aisle of a gravel parking lot. A relocated pin or list returned for the road tap is reported separately from a clean refusal.",
+    "time": "Browser-visible wall time after pressing Submit, in milliseconds. Photo loading, offline source preparation and a human pressing Save are excluded."
+  },
+  "summary": {
+    "natural": {
+      "eligible": 4,
+      "ineligible": 4,
+      "outcomes": {
+        "clear_withheld": 4,
+        "negative_withheld": 4
+      },
+      "visible_ms": {
+        "n": 8,
+        "min": 578,
+        "median": 620.5,
+        "max": 1116
+      },
+      "outlines": {
+        "unique_correct": 3,
+        "correct_among_several": 4,
+        "none_shown": 1
+      },
+      "eligible_outlines": {
+        "unique_correct": 2,
+        "correct_among_several": 1,
+        "none_shown": 1
+      },
+      "correct_pin_and_unique_vehicle": 0,
+      "correct_pin_and_visible_vehicle": 0,
+      "total_selectable_alternatives": 0,
+      "correct_alternative_with_wrong_choices_also_shown": 0,
+      "console_error_events": 0,
+      "explicit_saves": 0
+    },
+    "lane": {
+      "eligible": 4,
+      "ineligible": 4,
+      "outcomes": {
+        "road_tap_withheld": 8
+      },
+      "visible_ms": {
+        "n": 8,
+        "min": 366,
+        "median": 1243.5,
+        "max": 1924
+      },
+      "outlines": {
+        "unique_correct": 2,
+        "correct_among_several": 5,
+        "none_shown": 1
+      },
+      "eligible_outlines": {
+        "unique_correct": 2,
+        "correct_among_several": 1,
+        "none_shown": 1
+      },
+      "correct_pin_and_unique_vehicle": 0,
+      "correct_pin_and_visible_vehicle": 0,
+      "total_selectable_alternatives": 0,
+      "correct_alternative_with_wrong_choices_also_shown": 0,
+      "console_error_events": 0,
+      "explicit_saves": 0
+    }
+  },
+  "rows": [
+    {
+      "id": "W36b2dc6",
+      "task": "natural",
+      "eligible": true,
+      "outcome": "clear_withheld",
+      "anchor": {
+        "classification": "unique_correct",
+        "offered": 1,
+        "max_iou": 0.9352,
+        "each_best_iou": [
+          0.9352
+        ]
+      },
+      "point": null,
+      "signed_ground_margin_px": null,
+      "alternatives": [],
+      "explicit_save": false,
+      "visible_ms": 726,
+      "actual_tap": null,
+      "error": null,
+      "browser_errors": []
+    },
+    {
+      "id": "Wc6bbd89",
+      "task": "natural",
+      "eligible": false,
+      "outcome": "negative_withheld",
+      "anchor": {
+        "classification": "correct_among_several",
+        "offered": 2,
+        "max_iou": 0.9553,
+        "each_best_iou": [
+          0.9553,
+          0.0
+        ]
+      },
+      "point": null,
+      "signed_ground_margin_px": null,
+      "alternatives": [],
+      "explicit_save": false,
+      "visible_ms": 612,
+      "actual_tap": null,
+      "error": null,
+      "browser_errors": []
+    },
+    {
+      "id": "Wcc3d8e1",
+      "task": "natural",
+      "eligible": true,
+      "outcome": "clear_withheld",
+      "anchor": {
+        "classification": "correct_among_several",
+        "offered": 3,
+        "max_iou": 0.8506,
+        "each_best_iou": [
+          0.8506,
+          0.0,
+          0.0
+        ]
+      },
+      "point": null,
+      "signed_ground_margin_px": null,
+      "alternatives": [],
+      "explicit_save": false,
+      "visible_ms": 600,
+      "actual_tap": null,
+      "error": null,
+      "browser_errors": []
+    },
+    {
+      "id": "Weba4b92",
+      "task": "natural",
+      "eligible": false,
+      "outcome": "negative_withheld",
+      "anchor": {
+        "classification": "correct_among_several",
+        "offered": 3,
+        "max_iou": 0.938,
+        "each_best_iou": [
+          0.938,
+          0.3018,
+          0.1378
+        ]
+      },
+      "point": null,
+      "signed_ground_margin_px": null,
+      "alternatives": [],
+      "explicit_save": false,
+      "visible_ms": 629,
+      "actual_tap": null,
+      "error": null,
+      "browser_errors": []
+    },
+    {
+      "id": "W36b2dc6",
+      "task": "lane",
+      "eligible": true,
+      "outcome": "road_tap_withheld",
+      "anchor": {
+        "classification": "unique_correct",
+        "offered": 1,
+        "max_iou": 0.9352,
+        "each_best_iou": [
+          0.9352
+        ]
+      },
+      "point": null,
+      "signed_ground_margin_px": null,
+      "alternatives": [],
+      "explicit_save": false,
+      "visible_ms": 1924,
+      "actual_tap": [
+        1814.3623105157785,
+        2338.547650827549
+      ],
+      "error": null,
+      "browser_errors": []
+    },
+    {
+      "id": "Wc6bbd89",
+      "task": "lane",
+      "eligible": false,
+      "outcome": "road_tap_withheld",
+      "anchor": {
+        "classification": "correct_among_several",
+        "offered": 2,
+        "max_iou": 0.9553,
+        "each_best_iou": [
+          0.9553,
+          0.0
+        ]
+      },
+      "point": null,
+      "signed_ground_margin_px": null,
+      "alternatives": [],
+      "explicit_save": false,
+      "visible_ms": 1269,
+      "actual_tap": [
+        1222.526599294499,
+        1517.0845233050848
+      ],
+      "error": null,
+      "browser_errors": []
+    },
+    {
+      "id": "Wcc3d8e1",
+      "task": "lane",
+      "eligible": true,
+      "outcome": "road_tap_withheld",
+      "anchor": {
+        "classification": "correct_among_several",
+        "offered": 3,
+        "max_iou": 0.8506,
+        "each_best_iou": [
+          0.8506,
+          0.0,
+          0.0
+        ]
+      },
+      "point": null,
+      "signed_ground_margin_px": null,
+      "alternatives": [],
+      "explicit_save": false,
+      "visible_ms": 1077,
+      "actual_tap": [
+        1535.9765468586138,
+        2010.999470338983
+      ],
+      "error": null,
+      "browser_errors": []
+    },
+    {
+      "id": "Weba4b92",
+      "task": "lane",
+      "eligible": false,
+      "outcome": "road_tap_withheld",
+      "anchor": {
+        "classification": "correct_among_several",
+        "offered": 3,
+        "max_iou": 0.938,
+        "each_best_iou": [
+          0.938,
+          0.3018,
+          0.1378
+        ]
+      },
+      "point": null,
+      "signed_ground_margin_px": null,
+      "alternatives": [],
+      "explicit_save": false,
+      "visible_ms": 1316,
+      "actual_tap": [
+        2005.0091572123176,
+        1719.3758167372882
+      ],
+      "error": null,
+      "browser_errors": []
+    },
+    {
+      "id": "W25d11a8",
+      "task": "natural",
+      "eligible": false,
+      "outcome": "negative_withheld",
+      "anchor": {
+        "classification": "unique_correct",
+        "offered": 1,
+        "max_iou": 0.965,
+        "each_best_iou": [
+          0.965
+        ]
+      },
+      "point": null,
+      "signed_ground_margin_px": null,
+      "alternatives": [],
+      "explicit_save": false,
+      "visible_ms": 684,
+      "actual_tap": null,
+      "error": null,
+      "browser_errors": []
+    },
+    {
+      "id": "W5cc54a2",
+      "task": "natural",
+      "eligible": true,
+      "outcome": "clear_withheld",
+      "anchor": {
+        "classification": "none_shown",
+        "offered": 0,
+        "max_iou": 0,
+        "each_best_iou": []
+      },
+      "point": null,
+      "signed_ground_margin_px": null,
+      "alternatives": [],
+      "explicit_save": false,
+      "visible_ms": 1116,
+      "actual_tap": null,
+      "error": null,
+      "browser_errors": []
+    },
+    {
+      "id": "W6aadb86",
+      "task": "natural",
+      "eligible": false,
+      "outcome": "negative_withheld",
+      "anchor": {
+        "classification": "correct_among_several",
+        "offered": 5,
+        "max_iou": 0.9891,
+        "each_best_iou": [
+          0.9891,
+          0.0323,
+          0.0,
+          0.0304,
+          0.0
+        ]
+      },
+      "point": null,
+      "signed_ground_margin_px": null,
+      "alternatives": [],
+      "explicit_save": false,
+      "visible_ms": 578,
+      "actual_tap": null,
+      "error": null,
+      "browser_errors": []
+    },
+    {
+      "id": "Wb7e43b4",
+      "task": "natural",
+      "eligible": true,
+      "outcome": "clear_withheld",
+      "anchor": {
+        "classification": "unique_correct",
+        "offered": 1,
+        "max_iou": 0.8968,
+        "each_best_iou": [
+          0.8968
+        ]
+      },
+      "point": null,
+      "signed_ground_margin_px": null,
+      "alternatives": [],
+      "explicit_save": false,
+      "visible_ms": 579,
+      "actual_tap": null,
+      "error": null,
+      "browser_errors": []
+    },
+    {
+      "id": "W25d11a8",
+      "task": "lane",
+      "eligible": false,
+      "outcome": "road_tap_withheld",
+      "anchor": {
+        "classification": "correct_among_several",
+        "offered": 2,
+        "max_iou": 0.965,
+        "each_best_iou": [
+          0.965,
+          0.068
+        ]
+      },
+      "point": null,
+      "signed_ground_margin_px": null,
+      "alternatives": [],
+      "explicit_save": false,
+      "visible_ms": 1071,
+      "actual_tap": [
+        1209.5748736771857,
+        1432.174612641624
+      ],
+      "error": null,
+      "browser_errors": []
+    },
+    {
+      "id": "W5cc54a2",
+      "task": "lane",
+      "eligible": true,
+      "outcome": "road_tap_withheld",
+      "anchor": {
+        "classification": "none_shown",
+        "offered": 0,
+        "max_iou": 0,
+        "each_best_iou": []
+      },
+      "point": null,
+      "signed_ground_margin_px": null,
+      "alternatives": [],
+      "explicit_save": false,
+      "visible_ms": 366,
+      "actual_tap": [
+        979.5547716655544,
+        1497.449745762712
+      ],
+      "error": null,
+      "browser_errors": []
+    },
+    {
+      "id": "W6aadb86",
+      "task": "lane",
+      "eligible": false,
+      "outcome": "road_tap_withheld",
+      "anchor": {
+        "classification": "correct_among_several",
+        "offered": 5,
+        "max_iou": 0.9891,
+        "each_best_iou": [
+          0.9891,
+          0.0323,
+          0.0,
+          0.0304,
+          0.0
+        ]
+      },
+      "point": null,
+      "signed_ground_margin_px": null,
+      "alternatives": [],
+      "explicit_save": false,
+      "visible_ms": 1332,
+      "actual_tap": [
+        1610.437982648489,
+        2093.334311440678
+      ],
+      "error": null,
+      "browser_errors": []
+    },
+    {
+      "id": "Wb7e43b4",
+      "task": "lane",
+      "eligible": true,
+      "outcome": "road_tap_withheld",
+      "anchor": {
+        "classification": "unique_correct",
+        "offered": 1,
+        "max_iou": 0.8968,
+        "each_best_iou": [
+          0.8968
+        ]
+      },
+      "point": null,
+      "signed_ground_margin_px": null,
+      "alternatives": [],
+      "explicit_save": false,
+      "visible_ms": 1218,
+      "actual_tap": [
+        1543.8023167127467,
+        2030.634247881356
+      ],
+      "error": null,
+      "browser_errors": []
+    }
+  ],
+  "evidence_archive": "passenger-rear-third-holdout-evidence-20261124.zip",
+  "evidence_archive_sha256": "afcddb3834297d5a3b9e7ff72160ca32a870b8f02caa61d8cee47062f4f27d04",
+  "reproduce": "Extract methods/grade_live.py and methods/grade_browser.py together, then run python grade_live.py --replay <archive.zip>. The Python standard library can reproduce the case and group scores from frozen browser outputs and references.",
+  "postscore_source_review": {
+    "role": "Secondary qualitative review of the four open eligible source images after scoring. The original benchmark units, references and results are frozen.",
+    "reviewer": "Same independent AI reviewer, using photographs and separately read original-resolution crops.",
+    "batch_integrity": {
+      "first_eight_actions_sha256": "8440e2e5f010102958d0f902878ee2fdae6f8fd3f88d0dd9c9c4cd0c1a3ad148",
+      "first_eight_original_completion_utc": "2026-11-24T02:23:47.362Z",
+      "all_prior_rows_unchanged": true,
+      "frozen_decision_code": "7187f6e715ab88183d29d2936bb71c0a9a710c2e",
+      "browser_actions_by_offline_input_enrollment_commit": {
+        "e3e8fe403bb0f41740475854086d2e30d4e6aeb7": 8,
+        "7b26b68f3c1d1259393cfb80f7e16bac241fa782": 8
+      }
+    },
+    "interpretation": "None of four clear visible destinations was proposed. Three of their target bodies were outlined. The cases include material boundaries, a narrow marked row, and an apron on which physical vehicle access is uncertain. The test scores a photographically identifiable region and cannot certify that a driver may use it.",
+    "cases": {
+      "W36b2dc6": {
+        "vehicle": "Correct unique white SUV. Its left rear lamp, rear window and right-facing nose can be resolved at native scale. The app was uncertain about the near-profile angle.",
+        "ground": "The curved dark asphalt edge, visibly tyre-worn sandy apron and parked tyres corroborate separate off-lane ground. Glare obscures depth; a driver-confirmed ground suggestion or targeted end clarification is defensible."
+      },
+      "Wcc3d8e1": {
+        "vehicle": "The silver SUV has a prominent rear-mounted spare tire. The app outlined it among other cars and could not verify the spare-wheel phrase.",
+        "ground": "The brick beyond the rear is plainly distinct from the dark road, but serves residential carports and meets a kerb that may be raised. Exact vehicle access is uncertain. Asking about access while identifying the target is a defensible response even though it earns no direct ground hit."
+      },
+      "W5cc54a2": {
+        "vehicle": "The near tan/beige sedan has a visible boot, tail lights and rear bumper. The first reply outlined no vehicle. Separate shade recognition from ground measurement.",
+        "ground": "Shop-front gravel, tyre contacts, and a visible asphalt–gravel boundary distinguish the empty patch from traffic. It is bounded by the nearby truck and car; their wheel/box extents matter for clearance."
+      },
+      "Wb7e43b4": {
+        "vehicle": "Correct unique red car, rear facing the camera. The app withheld because it could not verify the furniture shop.",
+        "ground": "White transverse stall ticks between the farther red car and nearer white SUV, together with the shop-side kerb, separate an empty section of parking row from the traffic aisle. This was the strongest measured parking case."
+      }
+    }
+  }
+}

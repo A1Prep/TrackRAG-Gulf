@@ -1,0 +1,576 @@
+{
+  "decision_commit": "316f5c120c2d24f901323d30a198ee2665f986aa",
+  "frozen_utc": "2026-11-24T02:49:07.258766+00:00",
+  "browser_completed_utc": "2026-11-24T03:17:15.282Z",
+  "sealed_source_and_reference": {
+    "sources": "8a041b0d79b13f3e1c27dc86043be7c0fc24913668d9d8ce7f3b6b04b64dde76",
+    "requests": "af64514b5dc889db00524e4b8bcec2d12d2c8f66d8afc4e855ee8084ef6e0a2f",
+    "road_taps": "13cf3aba82c8fd7bbafbcfda74e08a64ac7fc863cca6f1d45a786173346bfbd1",
+    "reference": "42b54ef6bfd0705035c101447532af587af715b5d0a0cdd95cf0ac0ce136d275"
+  },
+  "browser_observations_sha256": "a737131be29c6d850912bfe3469d95ba553780f84470877ca878bc450ba83056",
+  "population": "Six public KartaView UAE driver-view photographs on six previously unused recording sequences and capture days. Three eligible ground regions and three negative cases were chosen by an independent AI visual reviewer before model or detector outputs. No human labels, real driving intervention or legal clearance assessment.",
+  "criteria": "The same numeric scorer as the third field is reused. A direct correct answer must put its explicit, persisted native point strictly inside a separately frozen polygon. A vehicle-only outline (IoU >= 0.50), a list of selectable alternate locations, a wrong-region pin, a completed clarification and a browser/model failure are separate. Each independent through-lane tap is scored in a clean session. Browser wall time excludes source preparation and human saving time.",
+  "summary": {
+    "natural": {
+      "n": 6,
+      "eligible": 3,
+      "ineligible": 3,
+      "outcomes": {
+        "clear_withheld": 3,
+        "negative_withheld": 3
+      },
+      "vehicle_alignment": {
+        "unique_correct": 5,
+        "none_shown": 1
+      },
+      "eligible_vehicle_alignment": {
+        "unique_correct": 3
+      },
+      "correct_direct_and_unique_body": 0,
+      "correct_direct_and_body_present": 0,
+      "separately_selectable_ground_choices": 0,
+      "correct_choice_amid_wrong_choices": 0,
+      "explicit_saves": 0,
+      "visible_ms": {
+        "n": 6,
+        "min": 601,
+        "median": 1554.0,
+        "max": 2155
+      },
+      "browser_errors": 0
+    },
+    "lane": {
+      "n": 6,
+      "eligible": 3,
+      "ineligible": 3,
+      "outcomes": {
+        "road_tap_withheld": 6
+      },
+      "vehicle_alignment": {
+        "unique_correct": 5,
+        "none_shown": 1
+      },
+      "eligible_vehicle_alignment": {
+        "unique_correct": 3
+      },
+      "correct_direct_and_unique_body": 0,
+      "correct_direct_and_body_present": 0,
+      "separately_selectable_ground_choices": 0,
+      "correct_choice_amid_wrong_choices": 0,
+      "explicit_saves": 0,
+      "visible_ms": {
+        "n": 6,
+        "min": 516,
+        "median": 1448.0,
+        "max": 2000
+      },
+      "browser_errors": 0
+    }
+  },
+  "rows": [
+    {
+      "id": "Y0622eb2",
+      "task": "natural",
+      "eligible": true,
+      "outcome": "clear_withheld",
+      "anchor": {
+        "classification": "unique_correct",
+        "offered": 1,
+        "max_iou": 0.8404,
+        "each_best_iou": [
+          0.8404
+        ]
+      },
+      "point": null,
+      "signed_ground_margin_px": null,
+      "alternatives": [],
+      "explicit_save": false,
+      "visible_ms": 1659,
+      "actual_tap": null,
+      "error": null,
+      "browser_errors": [],
+      "enrollment_commit": "272a59cb03f802e003f3c651d083e658091dbc6c"
+    },
+    {
+      "id": "Y29977cf",
+      "task": "natural",
+      "eligible": true,
+      "outcome": "clear_withheld",
+      "anchor": {
+        "classification": "unique_correct",
+        "offered": 1,
+        "max_iou": 0.9134,
+        "each_best_iou": [
+          0.9134
+        ]
+      },
+      "point": null,
+      "signed_ground_margin_px": null,
+      "alternatives": [],
+      "explicit_save": false,
+      "visible_ms": 2133,
+      "actual_tap": null,
+      "error": null,
+      "browser_errors": [],
+      "enrollment_commit": "272a59cb03f802e003f3c651d083e658091dbc6c"
+    },
+    {
+      "id": "Y3a87c00",
+      "task": "natural",
+      "eligible": false,
+      "outcome": "negative_withheld",
+      "anchor": {
+        "classification": "unique_correct",
+        "offered": 1,
+        "max_iou": 0.969,
+        "each_best_iou": [
+          0.969
+        ]
+      },
+      "point": null,
+      "signed_ground_margin_px": null,
+      "alternatives": [],
+      "explicit_save": false,
+      "visible_ms": 2155,
+      "actual_tap": null,
+      "error": null,
+      "browser_errors": [],
+      "enrollment_commit": "272a59cb03f802e003f3c651d083e658091dbc6c"
+    },
+    {
+      "id": "Y73d4554",
+      "task": "natural",
+      "eligible": false,
+      "outcome": "negative_withheld",
+      "anchor": {
+        "classification": "none_shown",
+        "offered": 0,
+        "max_iou": 0,
+        "each_best_iou": []
+      },
+      "point": null,
+      "signed_ground_margin_px": null,
+      "alternatives": [],
+      "explicit_save": false,
+      "visible_ms": 601,
+      "actual_tap": null,
+      "error": null,
+      "browser_errors": [],
+      "enrollment_commit": "272a59cb03f802e003f3c651d083e658091dbc6c"
+    },
+    {
+      "id": "Y8ea55fb",
+      "task": "natural",
+      "eligible": true,
+      "outcome": "clear_withheld",
+      "anchor": {
+        "classification": "unique_correct",
+        "offered": 1,
+        "max_iou": 0.8965,
+        "each_best_iou": [
+          0.8965
+        ]
+      },
+      "point": null,
+      "signed_ground_margin_px": null,
+      "alternatives": [],
+      "explicit_save": false,
+      "visible_ms": 1449,
+      "actual_tap": null,
+      "error": null,
+      "browser_errors": [],
+      "enrollment_commit": "272a59cb03f802e003f3c651d083e658091dbc6c"
+    },
+    {
+      "id": "Ye6333b9",
+      "task": "natural",
+      "eligible": false,
+      "outcome": "negative_withheld",
+      "anchor": {
+        "classification": "unique_correct",
+        "offered": 1,
+        "max_iou": 0.9114,
+        "each_best_iou": [
+          0.9114
+        ]
+      },
+      "point": null,
+      "signed_ground_margin_px": null,
+      "alternatives": [],
+      "explicit_save": false,
+      "visible_ms": 605,
+      "actual_tap": null,
+      "error": null,
+      "browser_errors": [],
+      "enrollment_commit": "272a59cb03f802e003f3c651d083e658091dbc6c"
+    },
+    {
+      "id": "Y0622eb2",
+      "task": "lane",
+      "eligible": true,
+      "outcome": "road_tap_withheld",
+      "anchor": {
+        "classification": "unique_correct",
+        "offered": 1,
+        "max_iou": 0.8404,
+        "each_best_iou": [
+          0.8404
+        ]
+      },
+      "point": null,
+      "signed_ground_margin_px": null,
+      "alternatives": [],
+      "explicit_save": false,
+      "visible_ms": 907,
+      "actual_tap": [
+        1625.4663695299837,
+        1385.9546329449151
+      ],
+      "error": null,
+      "browser_errors": [],
+      "enrollment_commit": "272a59cb03f802e003f3c651d083e658091dbc6c"
+    },
+    {
+      "id": "Y29977cf",
+      "task": "lane",
+      "eligible": true,
+      "outcome": "road_tap_withheld",
+      "anchor": {
+        "classification": "unique_correct",
+        "offered": 1,
+        "max_iou": 0.9134,
+        "each_best_iou": [
+          0.9134
+        ]
+      },
+      "point": null,
+      "signed_ground_margin_px": null,
+      "alternatives": [],
+      "explicit_save": false,
+      "visible_ms": 1452,
+      "actual_tap": [
+        1228.758985603966,
+        1749.4681461864407
+      ],
+      "error": null,
+      "browser_errors": [],
+      "enrollment_commit": "272a59cb03f802e003f3c651d083e658091dbc6c"
+    },
+    {
+      "id": "Y3a87c00",
+      "task": "lane",
+      "eligible": false,
+      "outcome": "road_tap_withheld",
+      "anchor": {
+        "classification": "unique_correct",
+        "offered": 1,
+        "max_iou": 0.969,
+        "each_best_iou": [
+          0.969
+        ]
+      },
+      "point": null,
+      "signed_ground_margin_px": null,
+      "alternatives": [],
+      "explicit_save": false,
+      "visible_ms": 2000,
+      "actual_tap": [
+        1171.2516505386595,
+        2714.9212731675693
+      ],
+      "error": null,
+      "browser_errors": [],
+      "enrollment_commit": "272a59cb03f802e003f3c651d083e658091dbc6c"
+    },
+    {
+      "id": "Y73d4554",
+      "task": "lane",
+      "eligible": false,
+      "outcome": "road_tap_withheld",
+      "anchor": {
+        "classification": "none_shown",
+        "offered": 0,
+        "max_iou": 0,
+        "each_best_iou": []
+      },
+      "point": null,
+      "signed_ground_margin_px": null,
+      "alternatives": [],
+      "explicit_save": false,
+      "visible_ms": 1492,
+      "actual_tap": [
+        921.588259128611,
+        1496.231313559322
+      ],
+      "error": null,
+      "browser_errors": [],
+      "enrollment_commit": "272a59cb03f802e003f3c651d083e658091dbc6c"
+    },
+    {
+      "id": "Y8ea55fb",
+      "task": "lane",
+      "eligible": true,
+      "outcome": "road_tap_withheld",
+      "anchor": {
+        "classification": "unique_correct",
+        "offered": 1,
+        "max_iou": 0.8965,
+        "each_best_iou": [
+          0.8965
+        ]
+      },
+      "point": null,
+      "signed_ground_margin_px": null,
+      "alternatives": [],
+      "explicit_save": false,
+      "visible_ms": 1444,
+      "actual_tap": [
+        1847.3352822004003,
+        2624.44583031424
+      ],
+      "error": null,
+      "browser_errors": [],
+      "enrollment_commit": "272a59cb03f802e003f3c651d083e658091dbc6c"
+    },
+    {
+      "id": "Ye6333b9",
+      "task": "lane",
+      "eligible": false,
+      "outcome": "road_tap_withheld",
+      "anchor": {
+        "classification": "unique_correct",
+        "offered": 1,
+        "max_iou": 0.9114,
+        "each_best_iou": [
+          0.9114
+        ]
+      },
+      "point": null,
+      "signed_ground_margin_px": null,
+      "alternatives": [],
+      "explicit_save": false,
+      "visible_ms": 516,
+      "actual_tap": [
+        1111.2748820192583,
+        1519.0149361134513
+      ],
+      "error": null,
+      "browser_errors": [],
+      "enrollment_commit": "272a59cb03f802e003f3c651d083e658091dbc6c"
+    }
+  ],
+  "evidence_archive": "passenger-rear-fourth-holdout-evidence-20261124.zip",
+  "evidence_archive_sha256": "04b7046e6665d69ea1df8e63a65faf6a5943f6d742431d3fb1d074a67aed42e8",
+  "reproduce": "Extract the three Python files under methods together and run python grade_fourth.py --replay <archive.zip>. No model or source image is required to reproduce the scores. For the separate assisted readback, place methods/supplement_fourth.py beside grade_browser.py, then run python supplement_fourth.py <archive.zip>.",
+  "after_unsealing_assisted": {
+    "design": "After the six first requests and six lane clicks were sealed and scored, repeat the original requests in ordinary Microsoft Edge and press the real mark button. Tap the preregistered ground inside each eligible site or the specifically obstructed spot for each control. Any conditional choice requires an explicit selection and then a separate Save. This is an assisted test after disclosure and cannot earn first-turn accuracy.",
+    "completed": "2026-11-24T03:20:25.247Z",
+    "selection_completed": "2026-11-24T03:20:56.214Z",
+    "eligible_outcomes": {
+      "correct_passenger_chosen_point": 1,
+      "continued_withhold": 2
+    },
+    "negative_outcomes": {
+      "continued_withhold": 3
+    },
+    "native_read": "The released source-bound segmentation raster was reloaded independently. Counts cover the browser's actual tap rectangle and its 49-cell neighbourhood. The application's vehicle relation, collision and parking checks are additional conditions. A semantic class at one point cannot prove the whole bay or permission to stop.",
+    "rows": [
+      {
+        "id": "Y0622eb2",
+        "drive": "kartaview_5095833",
+        "frame": 20,
+        "eligible": true,
+        "passenger_words": "Can you let me out behind the black pickup on the left?",
+        "source_sha256": "0622eb29007e3aea9416f91378919d7c91d7c6b70c5c60460a949697a1575562",
+        "original_reply": "I found the outlined black pickup. I can’t verify open curbside ground behind it. Could you mark the area you mean?",
+        "independently_visible_rear": "The black pickup's tailgate faces the camera and right. It and the neighbouring cars are parked at an angle in front of the shops.",
+        "independently_visible_ground": "A wide shop-front apron is continuously visible beneath the row, ending at a diagonal asphalt seam. The shortlisted native region lies beyond the tailgate, entirely on the apron, before the running lane and clear of the silver sedan next to the pickup. No complete painted bay is claimed.",
+        "assisted_tap_xy": [
+          926.9700921663721,
+          1164.1709673662867
+        ],
+        "ground_class_at_tap": 10,
+        "tap_region_parking_cells": 20,
+        "tap_region_total_cells": 20,
+        "neighborhood_parking_cells": 49,
+        "neighborhood_total_cells": 49,
+        "intersecting_vehicle_ids": [],
+        "assisted_reply": "I can see open parking pavement at your exact mark. I couldn’t verify its position relative to the vehicle you described. Do you want to use the spot you marked? You can also mark another spot.",
+        "assisted_ms": 361,
+        "assisted_outcome": "correct_passenger_chosen_point",
+        "assisted_choices": [
+          {
+            "point": [
+              926.9700921663721,
+              1164.1709673662867
+            ],
+            "distance_inside_frozen_region_px": 31.93,
+            "extent": "interior_point_only"
+          }
+        ],
+        "same_point_explicitly_saved": true
+      },
+      {
+        "id": "Y29977cf",
+        "drive": "kartaview_6179929",
+        "frame": 46,
+        "eligible": true,
+        "passenger_words": "Could you drop me behind the dark SUV on the right?",
+        "source_sha256": "29977cfb49a67b9e2c7a1dbf723f827ec5a94d8c5ebd550469b62fd319bdbb45",
+        "original_reply": "I found the black SUV. I can’t distinguish a separate open spot behind it from this view. Can you describe another nearby spot?",
+        "independently_visible_rear": "The dark Chevrolet is viewed from behind, angled slightly left. The next portion of its curbside row extends to the lower right in the photo.",
+        "independently_visible_ground": "The vehicle is parked against the raised right kerb. White round studs trace its rear stall boundary and a visible seam continues toward the bonnet. Inside the conservative polygon there is empty, road-level ground within this row, separate from the central travel lane and the raised sidewalk. Only the visible portion is labelled.",
+        "assisted_tap_xy": [
+          2538.235070486211,
+          1895.2603367492327
+        ],
+        "ground_class_at_tap": 13,
+        "tap_region_parking_cells": 0,
+        "tap_region_total_cells": 16,
+        "neighborhood_parking_cells": 0,
+        "neighborhood_total_cells": 49,
+        "intersecting_vehicle_ids": [],
+        "assisted_reply": "Your mark is on the roadway. I can’t verify a separate pull-in at that point. Could you choose another spot?",
+        "assisted_ms": 718,
+        "assisted_outcome": "continued_withhold",
+        "assisted_choices": [],
+        "same_point_explicitly_saved": false
+      },
+      {
+        "id": "Y3a87c00",
+        "drive": "kartaview_367177",
+        "frame": 3,
+        "eligible": false,
+        "passenger_words": "Can I get out behind the red pickup?",
+        "source_sha256": "3a87c00453ca32e2db37956338dc51cab7ad867e933d7397dbc30d12317fa6c1",
+        "original_reply": "I found the outlined red pickup. I can’t verify open curbside ground behind it. Could you mark the area you mean?",
+        "independently_visible_rear": "The red pickup is visible in three-quarter rear view. Its tailgate faces toward the camera and right into the ornamental planting.",
+        "independently_visible_ground": "High ornamental grass and a stone occupy the space immediately beyond the tail. The adjacent patch of grey brick belongs to the shared access street and does not supply a separate spot behind the pickup. A reference outline and clarification would be appropriate.",
+        "assisted_tap_xy": [
+          3366.1989591467677,
+          2681.579304067569
+        ],
+        "ground_class_at_tap": 30,
+        "tap_region_parking_cells": 0,
+        "tap_region_total_cells": 20,
+        "neighborhood_parking_cells": 0,
+        "neighborhood_total_cells": 49,
+        "intersecting_vehicle_ids": [],
+        "assisted_reply": "I found the outlined red pickup. I can’t verify open curbside ground behind it. Could you mark the area you mean?",
+        "assisted_ms": 525,
+        "assisted_outcome": "continued_withhold",
+        "assisted_choices": [],
+        "same_point_explicitly_saved": false
+      },
+      {
+        "id": "Y73d4554",
+        "drive": "kartaview_5972857",
+        "frame": 58,
+        "eligible": false,
+        "passenger_words": "Please drop me behind the beige taxi.",
+        "source_sha256": "73d455430211026e8df0e1f9cfa4a10c7cfaaab3d75d2ebcc67f025ee67d7749",
+        "original_reply": "I couldn’t verify the described vehicle in this photo. Could you give another visible detail or mark where you mean?",
+        "independently_visible_rear": "The beige taxi's boot and taxi roof marker are visible. The vehicle points away and slightly left, alongside a white SUV.",
+        "independently_visible_ground": "The apparent open brick beyond the cab is a raised pedestrian kerb extension; the painted black-and-white kerb connects across directly behind the car. The angled parking row alongside is occupied by the white SUV. The near road around the kerb is a running lane.",
+        "assisted_tap_xy": [
+          2311.676564876084,
+          1523.0951337132838
+        ],
+        "ground_class_at_tap": 15,
+        "tap_region_parking_cells": 0,
+        "tap_region_total_cells": 16,
+        "neighborhood_parking_cells": 0,
+        "neighborhood_total_cells": 49,
+        "intersecting_vehicle_ids": [],
+        "assisted_reply": "Your mark falls on the curb or footpath. I can’t verify vehicle access there. Could you choose another visible area?",
+        "assisted_ms": 468,
+        "assisted_outcome": "continued_withhold",
+        "assisted_choices": [],
+        "same_point_explicitly_saved": false
+      },
+      {
+        "id": "Y8ea55fb",
+        "drive": "kartaview_449362",
+        "frame": 24,
+        "eligible": true,
+        "passenger_words": "Could I get out behind the blue truck on the right?",
+        "source_sha256": "8ea55fbbba7b457d9f6e3521354d3f76b301312a5b6466588956b2278b5ea056",
+        "original_reply": "I found the outlined blue truck. I can’t verify open curbside ground behind it. Could you mark the area you mean?",
+        "independently_visible_rear": "The blue shipping-container doors and rear underride bar face the camera. It is the right-hand truck. The other blue truck across the street is side-on.",
+        "independently_visible_ground": "The trailer is parked on a wide pale unpaved warehouse frontage in continuous contact with the street. The balance of truck tyre contacts, native tyre tracks and the dark-to-pale asphalt boundary makes the empty ground behind the trailer visibly different from the through lane. The suggested region excludes the verge and loose rubble further right.",
+        "assisted_tap_xy": [
+          3023.3496876412805,
+          2610.1308765001645
+        ],
+        "ground_class_at_tap": 26,
+        "tap_region_parking_cells": 0,
+        "tap_region_total_cells": 16,
+        "neighborhood_parking_cells": 0,
+        "neighborhood_total_cells": 49,
+        "intersecting_vehicle_ids": [],
+        "assisted_reply": "I see your mark behind the blue truck. The photo doesn’t establish a separate open pull-in there. Could you mark another spot?",
+        "assisted_ms": 618,
+        "assisted_outcome": "continued_withhold",
+        "assisted_choices": [],
+        "same_point_explicitly_saved": false
+      },
+      {
+        "id": "Ye6333b9",
+        "drive": "kartaview_1291765",
+        "frame": 44,
+        "eligible": false,
+        "passenger_words": "Could you drop me behind the white sedan?",
+        "source_sha256": "e6333b97e187b70ca163b8b35c78815ba8aaa8c5102b82d30f71f52062424593",
+        "original_reply": "I found the outlined white sedan. I can’t verify open curbside ground behind it. Could you mark the area you mean?",
+        "independently_visible_rear": "The near white sedan's tail and rear lamps are visible as it travels away, one lane to the right.",
+        "independently_visible_ground": "The white sedan and camera are on a divided multi-lane bridge with lane reflectors and concrete railings. All pictured ground immediately behind that vehicle belongs to a through lane.",
+        "assisted_tap_xy": [
+          2043.7756308824137,
+          1554.742303142024
+        ],
+        "ground_class_at_tap": 13,
+        "tap_region_parking_cells": 0,
+        "tap_region_total_cells": 25,
+        "neighborhood_parking_cells": 0,
+        "neighborhood_total_cells": 49,
+        "intersecting_vehicle_ids": [],
+        "assisted_reply": "Your mark is on the roadway. I can’t verify a separate pull-in at that point. Could you choose another spot?",
+        "assisted_ms": 246,
+        "assisted_outcome": "continued_withhold",
+        "assisted_choices": [],
+        "same_point_explicitly_saved": false
+      }
+    ]
+  },
+  "source_enrollment_release": "272a59cb03f802e003f3c651d083e658091dbc6c",
+  "initial_browser_run": {
+    "runner": "methods/field-browser.cjs",
+    "tasks": [
+      "natural",
+      "lane"
+    ],
+    "enrollment_commit": "272a59cb03f802e003f3c651d083e658091dbc6c",
+    "frozen_decision_commit": "316f5c120c2d24f901323d30a198ee2665f986aa"
+  },
+  "sampling": "The original 81-photo bank had already undergone a behind-vehicle coverage audit, so six brand-new public KartaView drives were chosen instead. All are distinct from 913 prior or screened drives and more than 180 m from 4,528 camera positions in the exclusion registry. The six capture dates are distinct and absent from the three preceding fields. Official KartaView UAE country metadata and CC BY-SA 4.0 terms were verified. Previously updated code was known; its outputs on these photos were not.",
+  "driver_acceptance_interpretation": "All three eligible vehicles were individually and correctly outlined, so identity was successfully communicated in those requests. The initial system supplied zero eligible ground locations. An open apron, a parking row defined by white studs and a warehouse gravel frontage have distinct physical cues; combining a vehicle outline and a broad semantic class does not verify a load-bearing, vehicle-accessible area behind the vehicle. An application failure does not count as a correct refusal.",
+  "assisted_journal": {
+    "sha256": "67de3fae1e6bd24da4b3ab7140db90dfc248e21e5113abd839032b3e56b518b1",
+    "timing": "After first-turn outcome grading",
+    "actions": [
+      "opened",
+      "submitted",
+      "passenger_marked",
+      "passenger_selected_bay",
+      "confirmed"
+    ],
+    "chosen_reason": "choose_passenger_marked_parking_ground",
+    "bay_outline": null,
+    "explicit_passenger_ground": true,
+    "extent": "interior_point_only",
+    "approach": "A directly checked, unoccupied exact mark followed by a choice and Save; this did not confirm its physical relation to the pickup or the full extent of a bay."
+  },
+  "local_gallery": "runs/passenger-rear-20261124/browser-fourth-first-pass/independent-six-drive-gallery.jpg",
+  "local_assisted_screens": "runs/passenger-rear-20261124/browser-fourth-assisted-chosen/"
+}

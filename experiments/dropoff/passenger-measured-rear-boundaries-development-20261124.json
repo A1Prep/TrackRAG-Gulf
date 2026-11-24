@@ -1,0 +1,201 @@
+{
+  "recipe": "rear_ground_between_visible_parking_edge_and_kerb_v1",
+  "scope": "Development replay after the original eight-drive primary study was opened. The reserve remained sealed. Counts below measure physical candidate supply. An integrated passenger request still requires the specified vehicle and a suitable confirmed source-bound identity.",
+  "source_checks": "The geometry receives an original photograph, its native Mask2Former class map, current Task 1 detected tracks and the verified vehicle facing. Neither the passenger words, a tap, source-specific constants nor reference polygons are inputs to the geometry. The eight previously frozen polygons were used only for grading the source-pixel points.",
+  "source_code": {
+    "trackrag/dropoff/vehicle_rear_boundaries.py": "c306bcf323e42513cb38b7be19347c785d11699452fd792a03c2c280bf0f0f8b",
+    "trackrag/dropoff/vehicle_rear_paving.py": "6727e0a9784071af9b762bdfeea557208beb2066aa51fad48ad0fac1ac289659",
+    "tests/test_vehicle_rear_boundaries.py": "f52c969fbf84b3739a7009b596e8a842d13af4e790c3e635d6a5e31df0b38281"
+  },
+  "primary_reference_sha256": "ca1fd6c636fb5d9808387940d5ad8a82b75ba6cd8cebca11534073bd7820e3e2",
+  "initial_independent_primary_firsts_on_82bfb03": {
+    "eligible_photos": 4,
+    "destinations": 0,
+    "blocked_photos": 4,
+    "blocked_withheld": 4,
+    "withheld_lane_taps": 8
+  },
+  "after_development_physical_candidates": {
+    "photographs": 8,
+    "neutral_vehicle_readings": 27,
+    "neutral_rears": 16,
+    "eligible_target_photos": 4,
+    "correct_in_reference": 3,
+    "unresolved_positive": 1,
+    "blocked_photos_with_any_offer": 0,
+    "lane_reference_points": 8,
+    "measured_patches_containing_a_lane_reference": 0
+  },
+  "prior_driver_photographs": {
+    "distinct_previously_disclosed_recordings": 31,
+    "vehicle_readings": 109,
+    "verified_rear_readings": 73,
+    "new_boundary_method_offers": 0
+  },
+  "offers": [
+    {
+      "case": "U03",
+      "source": [
+        "kartaview_976101",
+        196
+      ],
+      "source_sha256": "68016d01c522fd2f488a1a73da053f1755b2262989d0a86c585ca48e97bab243",
+      "source_map_sha256": "fa9f1db77c036974a02e40525000f7bbc091620ea0f89b5de587325f1f783cec",
+      "track": 4,
+      "neutral_identity": [
+        "silver",
+        "suv",
+        "REAR"
+      ],
+      "interior_point": [
+        2528.0,
+        2089.565
+      ],
+      "inside_released_reference": true,
+      "original_geometry": {
+        "physical_boundary": "optical_paving_seam_and_observed_kerb",
+        "point_surface": 13,
+        "curb_side": "right",
+        "ground_run_y": [
+          460,
+          503
+        ],
+        "original_seam_in_registered_pixels": [
+          480.996,
+          491.443,
+          449.315,
+          476.043
+        ],
+        "point_parking_fraction": 0.2653,
+        "nearby_parking_fraction": 0.218,
+        "map_rows_with_parking": 20
+      }
+    },
+    {
+      "case": "U05",
+      "source": [
+        "kartaview_966575",
+        17
+      ],
+      "source_sha256": "be9b3857ed70e910fa7d898b045d61eaac18df0c2844d865003f0e96be222918",
+      "source_map_sha256": "464f441b0ac5c0195c6a71b334dff2d63b660db2a60035c5705b87261bc3c4ab",
+      "track": 2,
+      "neutral_identity": [
+        "silver",
+        "suv",
+        "REAR"
+      ],
+      "interior_point": [
+        125.867,
+        2034.071
+      ],
+      "inside_released_reference": true,
+      "original_geometry": {
+        "physical_boundary": "repeated_white_paint_and_observed_kerb",
+        "point_surface": 13,
+        "curb_side": "left",
+        "ground_run_y": [
+          459,
+          476
+        ],
+        "parking_evidence": {
+          "amber_centre_rows": 21,
+          "opposite_boundary_rows": 15,
+          "amber_extent_y": [
+            426,
+            505
+          ]
+        },
+        "white_dash_runs_y": [
+          [
+            450,
+            455
+          ],
+          [
+            461,
+            468
+          ],
+          [
+            476,
+            487
+          ],
+          [
+            499,
+            502
+          ]
+        ],
+        "optical_outer_kerb_rows": 4
+      }
+    },
+    {
+      "case": "U06",
+      "source": [
+        "kartaview_3849773",
+        75
+      ],
+      "source_sha256": "c53c40170f2ff275879b8ec9c0d20606eb53391cf742471ddcfcceb8f42b6cff",
+      "source_map_sha256": "77730ca11919d4f27b2e1eeb91a168fc14a6498ccead8355113d6e0769f8c0fa",
+      "track": 1,
+      "neutral_identity": [
+        "black",
+        "pickup",
+        "REAR"
+      ],
+      "interior_point": [
+        453.333,
+        692.609
+      ],
+      "inside_released_reference": true,
+      "original_geometry": {
+        "physical_boundary": "repeated_white_paint_and_observed_kerb",
+        "point_surface": 10,
+        "curb_side": "left",
+        "ground_run_y": [
+          306,
+          346
+        ],
+        "parking_evidence": {
+          "native_parking_fraction": 1.0
+        },
+        "white_dash_runs_y": [
+          [
+            299,
+            308
+          ],
+          [
+            316,
+            330
+          ],
+          [
+            335,
+            353
+          ]
+        ],
+        "optical_outer_kerb_rows": 37
+      }
+    }
+  ],
+  "scope_of_controls": "Each of the eight lane coordinates was compared with the actual displayed patch in its own photograph. This reports geometric overlap. The end-to-end manual session handling has a separate test and source-bound review.",
+  "development_failures_observed": [
+    "U03 first optical-seam midpoint [2178.133,2046.877] was outside the conservative frozen ground polygon. The final picker requires nearby source-model parking evidence and ranks the actual support in each clear interior patch. The earlier midpoint remains a strict miss.",
+    "An initial dashed-line heuristic offered a through lane beside landscaping on U01 for an unrelated anchor. It now needs independently recorded native parking or both an amber centre marking and a matching outer marking across the street. U01 has neither form of corroboration.",
+    "U02 has a kerb beside the black pickup but no independently visible separator between the requested asphalt strip and the road, with no native parking support. No destination is supplied.",
+    "U05 also contains a different black sedan and a narrow visible gap. With the final requirement for an optically distinct outer kerb at that vehicle the candidate is withheld, rather than borrowing evidence from the silver SUV."
+  ],
+  "interpretation": "Finite development coverage only. Each point is a visible portion of pavement. Ground access for the camera vehicle, passenger-car clearance, legal stopping and vehicle motion cannot be established by a single still.",
+  "opencv_compatibility": {
+    "previous_development_receipt_sha256": "1cd6328426e0acadc25c5f22558363a557ac5085a7b3214206bf094369e25db4",
+    "api_support": "Normalize both native line-array representations (N,1,4) and (N,4) before examining endpoints.",
+    "real_rerun": {
+      "4.11.0": {
+        "anchors": 136,
+        "identical_graded_output_sha256": "4e0ac611c3bbf53f35bf97ac86442c0b86e8a1c400b529ce30c153fe145baf8a"
+      },
+      "5.0.0": {
+        "anchors": 136,
+        "identical_graded_output_sha256": "4e0ac611c3bbf53f35bf97ac86442c0b86e8a1c400b529ce30c153fe145baf8a"
+      }
+    },
+    "mixed_positive_negative_tests_in_each_environment": 93
+  }
+}

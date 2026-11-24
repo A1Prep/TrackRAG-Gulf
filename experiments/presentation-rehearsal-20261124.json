@@ -1,0 +1,423 @@
+{
+  "scope": "Engineering rehearsal on the prepared Windows laptop. The gallery requests listed here were previously reported by the user and are regression cases. Prospective passenger accuracy is recorded separately.",
+  "launch": {
+    "verified": "Started the production launcher with its original service stopped. A second invocation reused the same listening process.",
+    "port": 8775,
+    "catalog_entries": 131,
+    "searchable_recordings": [
+      "video_054604",
+      "video_054907"
+    ],
+    "speech_available": true
+  },
+  "reported_passenger_requests": [
+    {
+      "case": "white-rear-choose-save",
+      "words": "Could you drop me off behind the white car?",
+      "source": [
+        "kartaview_3329429",
+        213
+      ],
+      "original_sha256": "5b635a7c2e4f7eebd4ae50b91b725fd9054bf7b41bda28248e36e5bfa0de7e5b",
+      "viewport": [
+        1390,
+        880
+      ],
+      "observations": {
+        "first": {
+          "state": "needs_clarification",
+          "point": null,
+          "save_visible": false,
+          "ms": 2204,
+          "choice_count": 1
+        },
+        "picked": {
+          "state": "proposed",
+          "point": [
+            2243.0933333333332,
+            1369.7430830039527
+          ],
+          "save_visible": true,
+          "ms": 353,
+          "choice_count": 0
+        },
+        "saved": {
+          "state": "confirmed",
+          "point": [
+            2243.0933333333332,
+            1369.7430830039527
+          ],
+          "save_visible": false,
+          "ms": 235,
+          "choice_count": 0
+        }
+      },
+      "completed": true
+    },
+    {
+      "case": "restaurant-override",
+      "words": "Could you drop me next to the restaurant?",
+      "source": [
+        "kartaview_7199241",
+        48
+      ],
+      "original_sha256": "ed69e5e794d9618bd153a0ea0266dd0a9203b1526c279ec01a0c9c64b2b0124b",
+      "viewport": [
+        1390,
+        880
+      ],
+      "observations": {
+        "first": {
+          "state": "needs_clarification",
+          "point": null,
+          "save_visible": false,
+          "ms": 3213,
+          "choice_count": 2
+        },
+        "after_mark": {
+          "state": "needs_clarification",
+          "point": null,
+          "save_visible": false,
+          "ms": 471,
+          "choice_count": 0
+        },
+        "picked": {
+          "state": "proposed",
+          "point": [
+            1893.315,
+            1434.021
+          ],
+          "save_visible": true,
+          "ms": 110,
+          "choice_count": 0
+        }
+      },
+      "completed": true
+    },
+    {
+      "case": "restaurant-line",
+      "words": "Could you drop me next to the restaurant?",
+      "source": [
+        "kartaview_7199241",
+        48
+      ],
+      "original_sha256": "ed69e5e794d9618bd153a0ea0266dd0a9203b1526c279ec01a0c9c64b2b0124b",
+      "viewport": [
+        390,
+        844
+      ],
+      "observations": {
+        "after_mark": {
+          "state": "needs_clarification",
+          "point": null,
+          "save_visible": false,
+          "ms": 222,
+          "choice_count": 2
+        },
+        "picked": {
+          "state": "proposed",
+          "point": [
+            2190.935,
+            1564.406
+          ],
+          "save_visible": true,
+          "ms": 179,
+          "choice_count": 0
+        },
+        "saved": {
+          "state": "confirmed",
+          "point": [
+            2190.935,
+            1564.406
+          ],
+          "save_visible": false,
+          "ms": 164,
+          "choice_count": 0
+        }
+      },
+      "completed": true
+    },
+    {
+      "case": "restaurant-lane",
+      "words": "Could you drop me next to the restaurant?",
+      "source": [
+        "kartaview_7199241",
+        48
+      ],
+      "original_sha256": "ed69e5e794d9618bd153a0ea0266dd0a9203b1526c279ec01a0c9c64b2b0124b",
+      "viewport": [
+        1390,
+        880
+      ],
+      "observations": {
+        "after_mark": {
+          "state": "needs_clarification",
+          "point": null,
+          "save_visible": false,
+          "ms": 500,
+          "choice_count": 0
+        }
+      },
+      "completed": true
+    },
+    {
+      "case": "hotel-hotel-save",
+      "words": "Could you drop me off behind the white SUV?",
+      "source": [
+        "kartaview_66346",
+        113
+      ],
+      "original_sha256": "28eb871a346c5792d7f63ad1186edcc967a6f96a2469984ecc86c5df7d177d1c",
+      "viewport": [
+        390,
+        844
+      ],
+      "observations": {
+        "first": {
+          "state": "proposed",
+          "point": [
+            2229.547,
+            1443.851
+          ],
+          "save_visible": true,
+          "ms": 611,
+          "choice_count": 0
+        },
+        "saved": {
+          "state": "confirmed",
+          "point": [
+            2229.547,
+            1443.851
+          ],
+          "save_visible": false,
+          "ms": 195,
+          "choice_count": 0
+        }
+      },
+      "completed": true
+    },
+    {
+      "case": "right-bay-direct-save",
+      "words": "Can you drop me next to the parking spot on the right?",
+      "source": [
+        "kartaview_66245",
+        146
+      ],
+      "original_sha256": "534ff1819947cffe773874bc601925b76ad97e8a17048ec75ff76ba916b7a9e3",
+      "viewport": [
+        1390,
+        880
+      ],
+      "observations": {
+        "first": {
+          "state": "proposed",
+          "point": [
+            2058.119,
+            1327.806
+          ],
+          "save_visible": true,
+          "ms": 1196,
+          "choice_count": 0
+        },
+        "saved": {
+          "state": "confirmed",
+          "point": [
+            2058.119,
+            1327.806
+          ],
+          "save_visible": false,
+          "ms": 160,
+          "choice_count": 0
+        }
+      },
+      "completed": true
+    },
+    {
+      "case": "gate-truck-review",
+      "words": "can u drop me behind the truck",
+      "source": [
+        "kartaview_986839",
+        1
+      ],
+      "original_sha256": "528de6137375fa351d4d85d5f25d3eca7b0034c2542983e75c32ad6b1013d2ac",
+      "viewport": [
+        1390,
+        880
+      ],
+      "observations": {
+        "first": {
+          "state": "needs_clarification",
+          "point": null,
+          "save_visible": false,
+          "ms": 1142,
+          "choice_count": 0
+        }
+      },
+      "completed": true
+    },
+    {
+      "case": "side-pickup-review",
+      "words": "Could you drop me next to that black pickup truck?",
+      "source": [
+        "kartaview_5124809",
+        287
+      ],
+      "original_sha256": "37249c17aea5689c7f6d059e5fb99ed405a9d95a414f444571d44906033b6626",
+      "viewport": [
+        390,
+        844
+      ],
+      "observations": {
+        "first": {
+          "state": "needs_clarification",
+          "point": null,
+          "save_visible": false,
+          "ms": 627,
+          "choice_count": 0
+        }
+      },
+      "completed": true
+    },
+    {
+      "case": "black-rear-review",
+      "words": "Could you drop me behind the black car?",
+      "source": [
+        "kartaview_4572137",
+        14
+      ],
+      "original_sha256": "98dbfd42cf22eab79bff24cbf227cdefb7663b12c0d7d1014569642f067adfbd",
+      "viewport": [
+        1390,
+        880
+      ],
+      "observations": {
+        "first": {
+          "state": "needs_clarification",
+          "point": null,
+          "save_visible": false,
+          "ms": 605,
+          "choice_count": 0
+        }
+      },
+      "completed": true
+    },
+    {
+      "case": "left-trees-review",
+      "words": "Could you drop me next to the trees on the left?",
+      "source": [
+        "kartaview_4572137",
+        14
+      ],
+      "original_sha256": "98dbfd42cf22eab79bff24cbf227cdefb7663b12c0d7d1014569642f067adfbd",
+      "viewport": [
+        1390,
+        880
+      ],
+      "observations": {
+        "first": {
+          "state": "needs_clarification",
+          "point": null,
+          "save_visible": false,
+          "ms": 1640,
+          "choice_count": 0
+        }
+      },
+      "completed": true
+    }
+  ],
+  "independent_road_taps_replayed": {
+    "tested": 8,
+    "without_pin_choices_or_save": 8,
+    "release": "fdf762363a2d3de0148f10ae14f7adf84e40ad9b"
+  },
+  "vehicle_zoom_and_touch": "passenger-zoom-and-marked-choice-20261124.json in experiments/dropoff",
+  "footage_walkthrough": [
+    {
+      "layout": "desktop",
+      "recording": "video_054604",
+      "opened": "Frame 118 · 0:11.7 / 0:14.9",
+      "track": "2323",
+      "first_detection_frame": 109
+    },
+    {
+      "layout": "phone",
+      "recording": "video_054907",
+      "opened": "Frame 54 · 0:05.3 / 0:14.9",
+      "track": "2",
+      "first_detection_frame": 1
+    },
+    {
+      "layout": "desktop-054907",
+      "recording": "video_054907",
+      "opened": "Frame 54 · 0:05.3 / 0:14.9",
+      "track": "2",
+      "first_detection_frame": 1
+    },
+    {
+      "layout": "phone-054604",
+      "recording": "video_054604",
+      "opened": "Frame 118 · 0:11.7 / 0:14.9",
+      "track": "2323",
+      "first_detection_frame": 109
+    }
+  ],
+  "lost_responses": {
+    "replayed_actions": [
+      "area",
+      "confirm"
+    ],
+    "restored_states": [
+      "proposed",
+      "confirmed"
+    ]
+  },
+  "voice": {
+    "sample_route": "A recorded utterance supplied to the actual Edge capture interface and local recognizer. No live speaker for this check.",
+    "cases": [
+      "real device capture, reviewed then sent",
+      "mobile visible WAV upload, discard, retry, edit",
+      "silent WAV and fallback typing",
+      "slow/readback after reviewed voice, explicit cancel and fresh typed retry"
+    ],
+    "recorded_speech_as_heard": "Could you drop me behind the black card?",
+    "desktop_audio_level_detected": true,
+    "revised_words_sent": "Could you drop me behind the white car?",
+    "uploaded_wav_as_heard": "Could you drop me behind the black car?",
+    "physical_input": "Windows reported its Realtek microphone array present and OK. User and machine microphone consent settings allowed input. Acoustic rehearsal by the presenter is outstanding."
+  },
+  "local_python_suite": {
+    "passed": 3632,
+    "skipped": 43,
+    "subtests_passed": 401,
+    "seconds": 132.65
+  },
+  "field_limits": "On the final six unseen UAE drives the app identified the intended vehicle in three of three eligible scenes, offered zero automatic ground points, and withheld all six through-lane taps. See passenger-rear-fourth-holdout-20261124.json in experiments/dropoff.",
+  "offline_presentation": {
+    "filename": "TrackRAG-Gulf-Presentation.mp4",
+    "location": "Private prepared laptop. The file contains original application footage.",
+    "sha256": "626ef92125866742e6366a443d937a196c526ce075eac0d861c8b925fea5fda1",
+    "file_bytes": 2838217,
+    "decoded_frames": 1269,
+    "seconds": 50.76,
+    "video": "H.264, 1600x900, 25 fps, silent with captions",
+    "offline_edge_checks_seconds": [
+      12.4,
+      25.7,
+      47.1
+    ]
+  },
+  "first_screen": {
+    "desktop": {
+      "width": 1366,
+      "height": 820,
+      "bus_question_y": 361
+    },
+    "phone": {
+      "width": 390,
+      "height": 844,
+      "bus_question_y": 762
+    },
+    "procedure": "Both screenshots used normal Edge with the default presentation clip at frame 118. The suggested bus question was visible without scrolling."
+  },
+  "selected_truck_live_check": "footage-selected-vehicle-proximity-20261124.json"
+}

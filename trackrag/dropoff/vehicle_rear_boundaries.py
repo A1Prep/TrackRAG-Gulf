@@ -8,9 +8,10 @@ import cv2
 import numpy as np
 from PIL import Image
 
-from . import bay_clearance, single_vehicle, traffic_arrow, vehicle_rear_apron, vehicle_rear_ground
+from . import bay_clearance, single_vehicle, traffic_arrow, vehicle_curb_ground, vehicle_rear_apron, vehicle_rear_ground
 
 RECIPE = "rear_ground_between_visible_parking_edge_and_kerb_v1"
+PARKING_STRIP_RECIPE = "rear_parking_in_measured_curb_strip_v1"
 GROUND = (10, 13)
 KERB = (2, 15)
 
@@ -355,6 +356,94 @@ def candidates(original, classes, scene, spec, *, facing):
         from .vehicle_rear_paving import measure
 
         options = measure(view)
+    return _interior_point(view, scene, facing, options, RECIPE)
+
+
+def _parking_strip(view, run):
+    """Use the photographed divider and curb to constrain a parking-class point behind the bumper."""
+    side = run[0].curb_direction
+    width, height = view.vehicle_size
+    center_x, bumper = view.bumper
+    sections = [
+        _Section(row.row, row.left if side == 1 else row.right, row.right if side == 1 else row.left)
+        for row in run
+    ]
+    paint_rows = [
+        row.y for row in sections
+        if vehicle_rear_ground._white_paint(view.rgb, row.y, row.lane - 2, row.lane + 2, width)
+    ]
+    if len(paint_rows) < max(4, 0.6 * len(sections)):
+        return None
+    curb_rows = []
+    for row in sections:
+        edge = _outer_kerb(view, row.lane, row.y, side)
+        if edge and edge[1] == row.curb and edge[3]:
+            curb_rows.append(row.y)
+    if len(curb_rows) < max(3, 0.35 * len(sections)):
+        return None
+    if traffic_arrow.in_measured_strip(
+        view.rgb, view.classes, sections, view.spec["box"], view.original.size, side
+    ):
+        return None
+
+    # The geometric centre can land on road pixels when shadows split the
+    # parking mask. Keep the whole small patch inside the observed strip.
+    interior = np.zeros_like(view.classes, dtype=bool)
+    lane = np.zeros(view.classes.shape[0], dtype=int)
+    curb = np.zeros_like(lane)
+    for row in sections:
+        lane[row.y], curb[row.y] = row.lane, row.curb
+        inner, outer = sorted(round(row.lane + fraction * (row.curb - row.lane)) for fraction in (0.34, 0.80))
+        interior[row.y, inner : outer + 1] = True
+    parking = (view.classes == 10) & view.road & ~view.occupied
+    radius = max(2, round(0.032 * min(width, height)))
+    patch = cv2.erode(
+        (interior & parking).astype(np.uint8), np.ones((2 * radius + 1, 2 * radius + 1), np.uint8),
+        borderType=cv2.BORDER_CONSTANT, borderValue=0,
+    )
+    ys, xs = np.nonzero(patch)
+    eligible = np.abs(xs - center_x) <= 0.72 * width
+    if not eligible.any():
+        return None
+    xs, ys = xs[eligible], ys[eligible]
+    middle = (sections[0].y + sections[-1].y) / 2
+    fraction = (xs - lane[ys]) / (curb[ys] - lane[ys])
+    score = np.abs(fraction - 0.60) + 0.30 * np.abs(xs - center_x) / width + np.abs(ys - middle) / height
+    below = int(np.ceil(bumper)) + 1
+    for index in np.argsort(score, kind="stable"):
+        x, y = int(xs[index]), int(ys[index])
+        approach = np.s_[below : y + 1, x - radius : x + radius + 1]
+        if (
+            y - radius < below
+            or view.occupied[approach].any()
+            or not view.road[approach].all()
+            or not np.isin(view.classes[approach], [10, 13, 24]).all()
+        ):
+            continue
+        return len(run), side, x, y, radius, {
+            "bounds_map_y_lane_curb": [[row.y, row.lane, row.curb] for row in sections],
+            "visible_divider_rows": paint_rows,
+            "visible_curb_rows": curb_rows,
+        }
+    return None
+
+
+def marked_parking_point(original, classes, scene, spec, *, facing):
+    """Find a verified patch inside an existing curb-and-divider measurement."""
+    ground = spec.get("ground")
+    if not ground or ground["basis"] != "curb_and_lane_divider":
+        return []
+    view = _view(original, classes, scene, spec, facing)
+    if view is None or vehicle_rear_apron._visible_barrier(view.rgb, *view.bumper, *view.vehicle_size):
+        return []
+    context = single_vehicle.context({"scene": scene})
+    boxes = [row[2] for row in context["tracks"]]
+    runs = vehicle_curb_ground._sections(classes, view.road, spec["box"], boxes, view.original.size)
+    options = [option for run in runs if (option := _parking_strip(view, run)) is not None]
+    return _interior_point(view, scene, facing, options, PARKING_STRIP_RECIPE)
+
+
+def _interior_point(view, scene, facing, options, recipe):
     if not options or len({option[1] for option in options}) != 1:
         return []
     _, side, x, y, radius, evidence = max(options, key=lambda option: option[0])
@@ -368,18 +457,18 @@ def candidates(original, classes, scene, spec, *, facing):
     left, top = low
     right, bottom = high
     evidence.update(
-        recipe=RECIPE,
+        recipe=recipe,
         coverage="interior_point_only",
         curb_side="left" if side < 0 else "right",
-        anchor_id=spec["track_id"],
+        anchor_id=view.spec["track_id"],
         verified_facing=facing,
         current_tracks_clear=True,
-        point_surface=int(classes[y, x]),
+        point_surface=int(view.classes[y, x]),
         travel_arrow_checked=True,
-        surface_map_size=[classes.shape[1], classes.shape[0]],
+        surface_map_size=[view.classes.shape[1], view.classes.shape[0]],
         source_sha256=scene["provenance"]["image_sha256"],
         registered_rgb_sha256=sha256(view.rgb.tobytes()).hexdigest(),
-        map_sha256=sha256(np.ascontiguousarray(classes).tobytes()).hexdigest(),
+        map_sha256=sha256(np.ascontiguousarray(view.classes).tobytes()).hexdigest(),
     )
     return [
         {

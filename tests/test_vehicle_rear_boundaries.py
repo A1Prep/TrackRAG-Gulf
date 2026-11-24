@@ -7,6 +7,7 @@ import numpy as np
 from PIL import Image
 import pytest
 
+from trackrag.dropoff import vehicle_curb_ground
 from trackrag.dropoff import vehicle_rear_boundaries as geometry
 
 
@@ -122,6 +123,52 @@ def test_continuous_white_line_is_insufficient_to_claim_dashed_parking():
     assert all(
         o["evidence"]["physical_boundary"] != "repeated_white_paint_and_observed_kerb" for o in result
     )
+
+
+def split_parking_strip(*, mirrored=False):
+    photo, classes, scene, _ = scene_with_edge(mirrored=mirrored)
+    pixels = np.array(photo)
+    pixels[classes == 24] = (230, 231, 223)
+    # Make the lane-side half of the strip read as road, including its midpoint.
+    for row in range(137, 194):
+        lane = round(192 + 0.86 * (row - 136))
+        curb = round(251 + 1.21 * (row - 136))
+        division = round(lane + 0.56 * (curb - lane))
+        stop = classes.shape[1] - division
+        cells = classes[row, stop:] if mirrored else classes[row, :division]
+        cells[cells == 10] = 13
+    spec, = vehicle_curb_ground.describe(scene, classes)
+    return Image.fromarray(pixels), classes, scene, spec
+
+
+@pytest.mark.parametrize("mirrored", [False, True])
+def test_marked_strip_uses_a_parking_patch_away_from_the_lane(mirrored):
+    photo, classes, scene, spec = split_parking_strip(mirrored=mirrored)
+    midpoint_x, midpoint_y = map(int, spec["ground"]["point"])
+    assert classes[midpoint_y, midpoint_x] == 13
+    proposal, = geometry.marked_parking_point(photo, classes, scene, spec, facing="REAR")
+    x, y = map(int, proposal["point"])
+    assert y > spec["box"][3]
+    assert np.all(classes[y - 2 : y + 3, x - 2 : x + 3] == 10)
+    assert proposal["evidence"]["coverage"] == "interior_point_only"
+    assert proposal["evidence"]["curb_side"] == ("left" if mirrored else "right")
+
+
+@pytest.mark.parametrize("missing", ["visible_boundaries", "parking", "clear_ground", "rear"])
+def test_marked_strip_requires_current_clear_parking_and_visible_boundaries(missing):
+    photo, classes, scene, spec = split_parking_strip()
+    facing = "REAR"
+    if missing == "visible_boundaries":
+        photo = Image.new("RGB", photo.size, (65, 65, 65))
+    elif missing == "parking":
+        classes[classes == 10] = 13
+    elif missing == "clear_ground":
+        scene["tracks"].append(
+            {"frame_id": 3, "track_id": 8, "class_name": "truck", "bbox_xyxy": [185, 137, 340, 206]}
+        )
+    else:
+        facing = "FRONT"
+    assert geometry.marked_parking_point(photo, classes, scene, spec, facing=facing) == []
 
 
 @pytest.mark.parametrize("flat_segments", [False, True])

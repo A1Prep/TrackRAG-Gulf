@@ -2,41 +2,55 @@
 <html lang="en">
 <head>
   <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Footage search · TrackRAG-Gulf</title>
-  <link rel="stylesheet" href="/app.css"><script type="module" src="/footage.js"></script>
+  <title>Search footage · TrackRAG Gulf</title>
+  <link rel="stylesheet" href="/app.css"><link rel="stylesheet" href="/footage.css">
+  <script type="module" src="/footage.js"></script>
 </head>
 <body>
   <header class="top"><div class="nav-inner"><span class="brand"><i aria-hidden="true" class="brand-road"></i>TrackRAG<span>Gulf</span></span><nav aria-label="Project tools"><a id="passenger-link" href="/">Passenger drop-off</a><span aria-current="page">Search footage</span></nav></div></header>
-  <main>
-    <div class="intro"><h1>Search road footage</h1><p>Play the recording, then ask about what happened up to the displayed frame.</p></div>
-    <div class="footage-layout">
-    <section class="card review-form recording-panel" aria-label="Recording and playback">
-      <label for="scene">Recording</label><select id="scene" required></select>
-      <div class="clip-player" role="group" aria-label="Original recording playback">
-        <div id="clip-screen" class="clip-screen"><img id="clip-frame" alt="Original road footage" hidden>
-          <p id="clip-message" role="status">Opening the recording…</p></div>
-        <div class="clip-controls">
-          <button type="button" id="clip-play" disabled>Play</button>
-          <input id="clip-seek" type="range" min="0" max="0" value="0" step="1" aria-label="Scrub recording" disabled>
-          <output id="clip-position" for="clip-seek"></output>
+  <main class="footage-workspace">
+    <div class="footage-intro"><div><h1>Search road footage</h1><p>Ask about a moment in a drive, then check the frames behind the answer.</p></div>
+      <div class="clip-selector"><label for="scene">Choose a recording</label><select id="scene" required></select></div>
+    </div>
+    <div class="footage-desk">
+      <section class="recording-card" aria-label="Recording and playback">
+        <div class="clip-player" role="group" aria-label="Original recording playback">
+          <div id="clip-screen" class="clip-screen"><img id="clip-frame" alt="Original road footage" hidden>
+            <div id="evidence-box" hidden><span id="box-label"></span></div>
+            <p id="clip-message" role="status">Opening the recording…</p></div>
+          <div class="clip-controls">
+            <button type="button" id="clip-play" disabled>Play</button>
+            <div class="clip-scrub"><input id="clip-seek" type="range" min="0" max="0" value="0" step="1" aria-label="Scrub recording" disabled>
+              <button type="button" id="clip-first-marker" hidden></button></div>
+            <output id="clip-position" for="clip-seek"></output>
+          </div>
         </div>
-      </div>
-      <details id="frame-picker" class="frame-picker" hidden><summary>Open another frame in this recording</summary>
-        <div><label for="frame-id">Frame number</label><input id="frame-id" type="number" min="0" step="1">
-        <button type="button" id="open-frame" class="subtle">Open frame</button></div>
-      </details>
-    </section>
-    <div class="footage-questions">
-    <form class="card review-form" id="search">
-      <label for="question">Footage question</label><textarea id="question" rows="2" maxlength="4096" required></textarea>
-      <div id="examples" class="question-examples" aria-label="Example questions"></div>
-      <label for="answer-mode">Answer mode</label><select id="answer-mode">
-        <option value="local">Answer from recorded tracks</option><option value="gemini">Ask Gemini about the privacy-processed frames</option>
-      </select>
-      <button class="primary" id="go">Search footage</button>
-      <button type="button" id="cancel-search" class="text-btn" hidden>Cancel search</button>
-    </form>
-    <p id="progress" role="status" aria-live="polite"></p><section id="results" aria-label="Answer and evidence"></section>
-    </div></div>
+        <div class="clip-foot"><div><strong id="clip-name">Original recording</strong><p id="clip-info"></p>
+          <button type="button" id="back-to-answer" class="text-btn" hidden>Back to answer</button></div>
+          <details id="frame-picker" class="frame-picker" hidden><summary>Go to frame</summary>
+            <div><label for="frame-id">Frame number</label><input id="frame-id" type="number" min="0" step="1">
+            <button type="button" id="open-frame" class="subtle">Open frame</button></div>
+          </details>
+        </div>
+      </section>
+      <section class="ask-card" aria-labelledby="ask-title">
+        <div class="ask-heading"><h2 id="ask-title">Ask about this clip</h2><span id="ask-time"></span></div>
+        <p id="hint-description">Select a question about the displayed moment.</p>
+        <div id="examples" class="footage-prompts" aria-label="Suggested questions"></div>
+        <form id="search">
+          <label for="question">Your question</label>
+          <textarea id="question" rows="2" maxlength="4096" placeholder="Ask about a road user or an earlier moment…" required></textarea>
+          <details id="answer-settings" class="answer-settings"><summary id="mode-label">Search settings · Recorded tracks</summary>
+            <label for="answer-mode">Answer source</label><select id="answer-mode">
+              <option value="local">Recorded tracks</option><option value="gemini">Gemini visual review</option>
+            </select><p id="mode-hint">Use recorded tracks for counts, positions and observed movement.</p>
+          </details>
+          <div class="submit-line"><button class="primary" id="go">Search footage</button>
+            <button type="button" id="cancel-search" class="text-btn" hidden>Cancel search</button></div>
+        </form>
+      </section>
+    </div>
+    <p id="progress" role="status" aria-live="polite"></p>
+    <section id="results" aria-label="Answer and evidence" tabindex="-1"></section>
   </main>
 </body></html>

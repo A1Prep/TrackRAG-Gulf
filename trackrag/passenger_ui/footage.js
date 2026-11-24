@@ -1,227 +1,393 @@
 import {FootagePlayer} from "./footage-player.js";
 
 const get = id => document.getElementById(id);
-function node(tag, text) {
-  const item = document.createElement(tag);
-  if (text !== undefined) item.textContent = text;
-  return item;
+function node(tag, text, className) {
+  const el = document.createElement(tag);
+  if (text !== undefined) el.textContent = text;
+  if (className) el.className = className;
+  return el;
+}
+function action(label, fn, className = "text-btn") {
+  const btn = node("button", label, className);
+  btn.type = "button";
+  btn.addEventListener("click", fn);
+  return btn;
 }
 async function fetchJson(url, opts) {
-  const response = await fetch(url,opts);
+  const response = await fetch(url, opts);
   const body = await response.json();
   if (!response.ok) {
-    const error=new Error(body.error || "Could not search the recording.");
-    error.status=response.status; throw error;
+    const error = new Error(body.error || "Could not open this recording.");
+    error.status = response.status;
+    throw error;
   }
   return body;
 }
+function formatTime(time) {
+  const n = Math.round(10 * time);
+  return Math.floor(n / 600) + ":" + String(Math.floor(n / 10) % 60).padStart(2, "0") + "." + n % 10;
+}
 const scene = get("scene"), question = get("question"), mode = get("answer-mode"), results = get("results");
-let busy = true, loading = true, turn = 0, shown = "", exampleKey = "", searchRun = null, subjects = {};
 const recordings = new Map(), bookmarks = new Map();
+let busy = true, loading = true, sequence = 0, searchRun = null, contexts = {}, subjects = {};
+let lastHints = "", highlight = null, answerMoment = null, submittedHint = null, firstMarker = null;
 const player = new FootagePlayer(updatePlayer);
+const recordingName = rec => "Recording " + rec.recording_id.replace(/^video_/, "");
+const className = text => (text || "road user").toLowerCase().replace(/_/g, " ");
+function canAsk() {
+  return !busy && !loading && player.displayed && (!player.pending || player.playing);
+}
+function syncButtons() {
+  get("go").disabled = !canAsk() || !question.value.trim();
+  for (const btn of get("examples").children) btn.disabled = !canAsk();
+}
 function editing(enabled) {
   busy = !enabled;
   for (const control of [scene, question, mode, get("frame-id"), get("open-frame")]) control.disabled = !enabled;
   player.setLocked(!enabled);
-  get("go").disabled = !enabled || !player.displayed;
-  for (const button of get("examples").children) button.disabled = !enabled;
+  syncButtons();
 }
-function clearResults() {
+function clearResult() {
   results.replaceChildren();
+  answerMoment = null;
+  highlight = null;
+  get("evidence-box").hidden = true;
+  get("back-to-answer").hidden = true;
   get("progress").textContent = "";
 }
-function examples(frame) {
-  const subject=subjects[frame.id], clock=formatTime(frame.time);
-  if (mode.value==="gemini") return [
-    "What can you see on the road at "+clock+"?",
-    ...(subject ? ["What does track "+subject.id+" look like in this frame?"] : [])];
-  return ["Which types of road users are detected in this frame?",
-    subject ? "Which side of the frame is track "+subject.id+" on?" : "How many vehicles are detected in this frame?"];
+function submitWords(words, displayWords = words) {
+  if (!canAsk()) return;
+  question.value = displayWords;
+  submittedHint = {words,displayWords,scene:scene.value,frame:player.displayed.id};
+  syncButtons();
+  get("search").requestSubmit();
 }
-function formatTime(seconds) {
-  const tenths=Math.round(seconds*10), sec=Math.floor(tenths/10)%60;
-  return Math.floor(tenths/600)+":"+String(sec).padStart(2,"0")+(tenths%10 ? "."+tenths%10 : "");
+function examples(row) {
+  const context = contexts[row.id] || {};
+  const subject = context.current || subjects[row.id];
+  const hints = [];
+  if (mode.value === "gemini") {
+    hints.push(["Describe the road at this moment", "What can you see on the road at " + formatTime(row.time) + "?"]);
+    if (subject) hints.push(["Describe the tracked " + className(subject.class_name), "What does track " + subject.id + " look like in this frame?"]);
+    return hints;
+  }
+  hints.push(["Which road users are here?", "Which types of road users are detected in this frame?"]);
+  if (subject) {
+    const name = className(subject.class_name), track = "track " + subject.id;
+    if (subject.first_frame < row.id) {
+      hints.push(["How did the " + name + " move?", "How did " + track + " move across the image?"]);
+    } else {
+      hints.push(["Where is the " + name + " in the frame?", "Which side of the frame is " + track + " on?"]);
+    }
+    const lost = context.recent;
+    const last = lost && player.frames.find(f => f.id === lost.last_frame);
+    if (subject.first_frame > player.frames[0].id && currentObservedSeconds(row,subject) <= 2) {
+      hints.push(["When did the " + name + " first appear?", "When was " + track + " first detected?"]);
+    } else if (last && row.time - last.time <= 2) {
+      hints.push(["When was the " + className(lost.class_name) + " last seen?", "When was track " + lost.id + " last seen?"]);
+    } else if (subject.first_frame !== undefined) {
+      hints.push(["When did the " + name + " first appear?", "When was " + track + " first detected?"]);
+    }
+  } else hints.push(["How many vehicles are visible?", "How many vehicles are detected in this frame?"]);
+  return hints;
+}
+function refreshHints(row) {
+  const hints = examples(row);
+  const key = JSON.stringify(hints);
+  if (lastHints === key) return;
+  lastHints = key;
+  const buttons = hints.map(([label, words]) => {
+    const btn = action(label, () => submitWords(words,label), "footage-question");
+    btn.title = words;
+    return btn;
+  });
+  get("examples").replaceChildren(...buttons);
+}
+function positionBox(element,rect,rec) {
+  if (!Array.isArray(rect) || rect.length!==4 || !rect.every(Number.isFinite)) return false;
+  const [x0,y0,x1,y1]=rect;
+  if (x0<0 || y0<0 || x1<=x0 || y1<=y0 || x1>rec.width || y1>rec.height) return false;
+  Object.assign(element.style,{left:100*x0/rec.width+"%",top:100*y0/rec.height+"%",
+    width:100*(x1-x0)/rec.width+"%",height:100*(y1-y0)/rec.height+"%"});
+  return true;
+}
+function revealBox(row, rec) {
+  const box = get("evidence-box");
+  box.hidden = true;
+  const active = highlight?.key === scene.value && highlight.frame === row.id ? highlight : null;
+  const subject = !answerMoment && !player.playing ? contexts[row.id]?.current : null;
+  const rect = active?.rect || subject?.box;
+  if (!positionBox(box,rect,rec)) return;
+  const [x0,y0] = rect;
+  box.classList.toggle("suggested-track",!active);
+  box.classList.toggle("near-right",x0/rec.width > .63);
+  box.classList.toggle("near-top",y0/rec.height < .10);
+  get("box-label").textContent = active ? "Track " + active.track : className(subject.class_name) + " · " + subject.id;
+  box.hidden = false;
+}
+function currentObservedSeconds(row,subject,frames=player.frames) {
+  const first = frames.find(f=>f.id===subject.first_frame);
+  return first ? row.time-first.time : 0;
+}
+function showFirstMarker(row) {
+  const marker = get("clip-first-marker"), subject = contexts[row.id]?.current;
+  marker.hidden = true; firstMarker = null;
+  if (busy || player.playing || !subject?.first_box || subject.first_frame >= row.id || player.frames.length < 2) return;
+  const at = player.frames.findIndex(f=>f.id===subject.first_frame);
+  if (at < 0) return;
+  const label = "Go to the first sighting of the "+className(subject.class_name)+" at "+formatTime(player.frames[at].time);
+  marker.title = label; marker.setAttribute("aria-label",label);
+  const fraction = at/(player.frames.length-1);
+  marker.style.left = "calc("+100*fraction+"% + "+(8-16*fraction)+"px)";
+  firstMarker = {index:at,id:subject.first_frame,track:subject.id,rect:subject.first_box};
+  marker.hidden=false;
+}
+function representative(frames,rec) {
+  const threshold = frames[0].time + (frames.at(-1).time-frames[0].time)*.35;
+  return frames.find(f=>{
+    const data = contexts[f.id], subject = data?.current;
+    if (f.time<threshold || !subject || data.count<3 || currentObservedSeconds(f,subject,frames)<.8) return false;
+    const [x0,y0,x1,y1]=subject.box;
+    return (x1-x0)*(y1-y0) >= rec.width*rec.height*.002;
+  }) || frames.find(f=>f.time>=threshold && contexts[f.id]?.current) || frames[0];
 }
 function updatePlayer(writeAddress = true) {
-  const row=player.displayed, recording=recordings.get(scene.value);
-  get("go").disabled=busy || loading || !row || (player.pending && !player.playing);
-  if (!row || !recording || !writeAddress) return;
-  const key=recording.recording_id+":"+row.id;
-  if (shown!==key) { shown=key; clearResults(); }
-  get("frame-id").value=String(row.id);
-  const hints=examples(row);
-  if (exampleKey!==hints.join("|")) {
-    exampleKey=hints.join("|"); get("examples").replaceChildren();
-    for(const hint of hints) {
-      const button=node("button",hint); button.type="button"; button.disabled=busy;
-      button.onclick=()=>{question.value=hint; clearResults(); question.focus();};
-      get("examples").append(button);
-    }
-  }
+  syncButtons();
+  const row = player.displayed, rec = recordings.get(scene.value);
+  if (!row || !rec) { get("evidence-box").hidden = true; return; }
+  if (!writeAddress) return;
+  revealBox(row, rec);
+  showFirstMarker(row);
+  const back = get("return-question-frame");
+  if (back) back.hidden = answerMoment?.frame === row.id;
+  const ctx = contexts[row.id];
+  get("clip-info").textContent = (player.frames.length ? formatTime(player.frames.at(-1).time) + " · " + player.frames.length + " frames" : "") +
+    (ctx ? " · " + ctx.count + (ctx.count === 1 ? " road user" : " road users") + " tracked here" : "");
+  get("ask-time").textContent = formatTime(row.time);
+  get("frame-id").value = String(row.id);
+  refreshHints(row);
+  syncButtons();
   if (player.playing) return;
   const url = new URL(location.href);
-  url.searchParams.set("scene",scene.value); url.searchParams.set("recording",recording.recording_id);
+  url.searchParams.set("scene",scene.value);
+  url.searchParams.set("recording",rec.recording_id);
   url.searchParams.set("frame",String(row.id));
-  if (url.href!==location.href) history.replaceState(null,"",url);
-  const saved=bookmarks.get(key);
-  get("passenger-link").href=saved ? "/?scene="+encodeURIComponent(saved)
-    : "/api/footage-preview/"+scene.value+"/dropoff/"+row.id;
+  if (url.href !== location.href) history.replaceState(null,"",url);
+  const saved = bookmarks.get(rec.recording_id + ":" + row.id);
+  get("passenger-link").href = saved ? "/?scene="+encodeURIComponent(saved) : "/api/footage-preview/"+scene.value+"/dropoff/"+row.id;
 }
-async function selectScene(target) {
-  const run=++turn, anchor=recordings.get(scene.value);
-  loading=true; clearResults(); get("examples").replaceChildren(); exampleKey=shown=""; subjects={};
-  player.reset(scene.value,anchor); get("go").disabled=true;
-  void player.cover(target);
+async function selectScene(target = null) {
+  const run = ++sequence, anchor = recordings.get(scene.value);
+  loading = true;
+  clearResult();
+  if (submittedHint) question.value = "";
+  get("examples").replaceChildren();
+  lastHints = ""; subjects = {}; contexts = {};
+  submittedHint=null; firstMarker=null; get("clip-first-marker").hidden=true;
+  get("ask-time").textContent = "";
+  get("clip-name").textContent = "EMT " + recordingName(anchor).toLowerCase();
+  get("clip-info").textContent = "";
+  get("frame-picker").open = false;
+  player.reset(scene.value,anchor);
+  syncButtons();
+  if (target !== null) void player.cover(target);
   try {
-    const manifest=await fetchJson("/api/footage-preview/"+anchor.key+"/timeline");
-    if (run!==turn) return;
-    subjects=manifest.subjects || {};
-    const available=manifest.frames.some(row=>row.id===target);
-    await player.load(manifest.frames,available ? target : anchor.frame_id);
-    if (run!==turn) return;
-    loading=false; updatePlayer();
-    if (!available && player.displayed) get("progress").textContent="Frame "+target+" is unavailable. Showing frame "+player.displayed.id+".";
+    const manifest = await fetchJson("/api/footage-preview/"+anchor.key+"/timeline");
+    if (run !== sequence) return;
+    const frames = manifest.frames;
+    if (!frames.length) throw new Error("This original recording has no readable frames.");
+    subjects = manifest.subjects || {};
+    contexts = manifest.frame_context || {};
+    const featured = representative(frames,anchor);
+    const available = target === null || frames.some(row=>row.id===target);
+    await player.load(frames, target === null ? featured.id : available ? target : anchor.frame_id);
+    if (run !== sequence) return;
+    loading = false; updatePlayer();
+    if (!available && player.displayed) get("progress").textContent = "Frame "+target+" is unavailable. Showing frame "+player.displayed.id+".";
   } catch(error) {
-    if (run!==turn) return;
-    loading=false; get("progress").textContent=error.message; get("go").disabled=true;
+    if (run !== sequence) return;
+    loading = false; get("progress").textContent = error.message; syncButtons();
   }
 }
 async function keyForFrame(anchor, frame) {
-  const label=recordings.get(anchor).recording_id+":"+frame;
+  const label = recordings.get(anchor).recording_id+":"+frame;
   if (bookmarks.has(label)) return bookmarks.get(label);
-  const bound=await fetchJson("/api/frames",{method:"POST",headers:{"Content-Type":"application/json"},
+  const bound = await fetchJson("/api/frames", {method:"POST",headers:{"Content-Type":"application/json"},
     body:JSON.stringify({scene:anchor,frame_id:frame,for_footage:true})});
   if (bound.frame_id!==frame || bound.recording_id!==recordings.get(anchor).recording_id)
     throw new Error("The recording changed. Select the displayed frame again.");
-  bookmarks.set(label,bound.key); return bound.key;
+  bookmarks.set(label,bound.key);
+  return bound.key;
+}
+function updateMode() {
+  const hosted = mode.value === "gemini";
+  get("mode-label").textContent = "Search settings · " + (hosted ? "Gemini visual review" : "Recorded tracks");
+  get("mode-hint").textContent = hosted ? "Gemini receives privacy-processed evidence frames to describe visible details." :
+    "Use recorded tracks for counts, positions and observed movement.";
+  get("hint-description").textContent = hosted ? "Choose a question to send for visual review." : "Choose a question to search the frames seen so far.";
+  if (player.displayed) updatePlayer();
+}
+async function inspect(frame, track = null, rect = null) {
+  if (busy || loading || !answerMoment || answerMoment.key !== scene.value || frame > answerMoment.frame) return;
+  const index = player.frames.findIndex(f => f.id === frame);
+  if (index < 0) return;
+  player.pause(false);
+  highlight = rect && track !== null ? {key:scene.value,frame,track,rect} : null;
+  await player.display(index);
+  if (player.displayed?.id === frame) {
+    get("back-to-answer").hidden = false;
+    const back = get("return-question-frame");
+    if (back) back.hidden = false;
+    get("clip-screen").scrollIntoView({block:"center"});
+    get("clip-play").focus({preventScroll:true});
+  }
+}
+function addEvidence(card, item, cited) {
+  const group = node("section", undefined, "evidence-group");
+  const interval = item.interval, track = interval.track_id;
+  const times = player.frames.filter(f => f.id===interval.start_frame || f.id===interval.end_frame);
+  const time = times.map(f => formatTime(f.time)).join(" – ");
+  group.append(node("h3", (track == null ? "Scene evidence" : "Track " + track) + (time ? " · "+time : "")));
+  group.append(node("p", (cited ? "Cited in the answer. " : "Retrieved for comparison. ") +
+    "Select a frame to see that moment in the player.", "evidence-note"));
+  const strip = node("div", undefined, "moment-strip");
+  for (const im of item.images) {
+    const moment = player.frames.find(f => f.id === im.frame_id);
+    if (!moment) continue;
+    const label = formatTime(moment.time) + " · Frame " + im.frame_id;
+    const thumb = action("", () => void inspect(im.frame_id,track,im.bbox_xyxy), "moment-thumb");
+    thumb.setAttribute("aria-label","View "+(track==null ? "scene" : "track "+track)+" at "+label+" in player");
+    const rec = recordings.get(scene.value);
+    const panel = node("span",undefined,"moment-image"); panel.style.aspectRatio=rec.width+"/"+rec.height;
+    const img = node("img"); img.alt = ""; img.loading = cited ? "eager" : "lazy"; img.src = im.url;
+    panel.append(img);
+    const marker = node("span",undefined,"moment-object");
+    if (track!=null && positionBox(marker,im.bbox_xyxy,rec)) panel.append(marker);
+    thumb.append(panel,node("span",label,"evidence-caption"));
+    const tile = node("div",undefined,"moment-tile");
+    const full = node("a","Open evidence image");
+    full.href = im.url; full.target = "_blank"; full.rel = "noopener";
+    full.setAttribute("aria-label","Open evidence image for frame "+im.frame_id+" in a new tab");
+    tile.append(thumb,full); strip.append(tile);
+  }
+  group.append(strip); card.append(group);
+}
+function showAnswer(body, current, rec, displayWords) {
+  const {answer,evidence} = body, status = answer.answer_status;
+  answerMoment = {key:scene.value,frame:current.id};
+  const card = node("article",undefined,"answer-card"), header = node("div",undefined,"answer-head");
+  const titles = {answered:"Answer",insufficient_evidence:"More evidence needed",error:"Search unavailable"};
+  header.append(node("h2",status==="answered" ? displayWords : titles[status] || (evidence.length ? "Frames found" : "No matching evidence")),
+    node("span", {local_tracks:"Recorded tracks",gemini:"Gemini visual review",evidence_only:"Frame search"}[body.answer_source], "answer-source"));
+  card.append(header, node("p",recordingName(rec)+" · Asked at "+formatTime(current.time)+" · Frame "+current.id,"result-meta"));
+  if (status !== "answered") card.append(node("p",displayWords,"asked-words"));
+  let text = answer.answer || (evidence.length ? "The search found the frames below. They do not establish an answer to this question." :
+    "No frames support that question. Try a visible road user, a track number or an earlier time in this clip.");
+  if (status === "error") text = evidence.length ? "The answer service could not finish. You can inspect the available frames or retry." : "The answer service could not finish. You can retry this question.";
+  card.append(node("p",text,"answer-text"));
+  const actions = node("div",undefined,"answer-actions");
+  if (status === "error") actions.append(action("Retry this search",()=>submitWords(body.question.question,displayWords)));
+  if (body.can_answer_from_tracks) actions.append(action("Answer from recorded tracks",()=>{mode.value="local";updateMode();submitWords(body.question.question,displayWords);}));
+  if (body.answer_source==="evidence_only" && evidence.length && /\b(colou?r|sign|lettering|look like|appearance|paint|wearing)\b/i.test(body.question.question)) {
+    actions.append(action("Ask Gemini about these frames",()=>{mode.value="gemini";updateMode();submitWords(body.question.question,displayWords);}));
+  }
+  if (evidence.length) {
+    const back = action("Return to the question frame",()=>void inspect(current.id));
+    back.id = "return-question-frame"; back.hidden = true;
+    actions.append(back);
+  }
+  card.append(actions);
+  for (const item of evidence) addEvidence(card,item, (answer.cited_evidence_ids || []).includes(item.id));
+  results.replaceChildren(card);
+  results.focus({preventScroll:true});
+  results.scrollIntoView({block:"start"});
 }
 editing(false);
 try {
   const catalog = await fetchJson("/api/footage-catalog").catch(error=>{
-    if(error.status===404) return fetchJson("/api/scenes");
+    if(error.status === 404) return fetchJson("/api/scenes");
     throw error;
   });
   if (!catalog.footage_available) throw new Error("Footage search needs the original recordings and saved predictions.");
   const covered = new Set(catalog.footage_scenes);
-  const frames=catalog.scenes.filter(f=>covered.has(f.key)).sort((a,b)=>
-    a.recording_id.localeCompare(b.recording_id) || a.frame_id-b.frame_id);
-  const params=new URLSearchParams(location.search), requested=frames.find(f=>f.key===params.get("scene"));
-  const recordingId=params.get("recording") || requested?.recording_id;
+  const frames = catalog.scenes.filter(f=>covered.has(f.key)).sort((a,b)=>a.recording_id.localeCompare(b.recording_id)||a.frame_id-b.frame_id);
+  const params = new URLSearchParams(location.search), requested = frames.find(f=>f.key===params.get("scene"));
+  const recordingId = params.get("recording") || requested?.recording_id;
   for(const f of frames) {
     bookmarks.set(f.recording_id+":"+f.frame_id,f.key);
     if ([...recordings.values()].some(row=>row.recording_id===f.recording_id)) continue;
     recordings.set(f.key,f);
-    const option=node("option","Recording "+f.recording_id.replace(/^video_/,""));
-    option.value=f.key; scene.append(option);
+    const opt = node("option",recordingName(f)); opt.value=f.key; scene.append(opt);
     if(f.recording_id===recordingId) scene.value=f.key;
   }
   if (!scene.value) throw new Error("No original recordings are attached.");
-  const anchor=recordings.get(scene.value);
-  const requestedFrame=params.get("frame");
-  const initial=requestedFrame!==null && /^\d+$/.test(requestedFrame) ? Number(requestedFrame)
-    : requested?.recording_id===anchor.recording_id ? requested.frame_id : anchor.frame_id;
-  get("frame-picker").hidden=false;
-  editing(true);
+  const anchor = recordings.get(scene.value), requestedFrame = params.get("frame");
+  const initial = requestedFrame!==null && /^\d+$/.test(requestedFrame) ? Number(requestedFrame) :
+    requested?.recording_id===anchor.recording_id ? requested.frame_id : null;
+  get("frame-picker").hidden = false;
+  editing(true); updateMode();
   await selectScene(initial);
-} catch (error) {
+} catch(error) {
   get("progress").textContent = error.message;
 }
-scene.addEventListener("change", () => void selectScene(recordings.get(scene.value).frame_id));
-question.addEventListener("input", clearResults);
-mode.addEventListener("change", () => {clearResults(); updatePlayer();});
-get("open-frame").onclick=async () => {
+scene.addEventListener("change",()=>void selectScene());
+question.addEventListener("input",()=>{submittedHint=null;clearResult();syncButtons();});
+mode.addEventListener("change",()=>{clearResult();updateMode();});
+get("back-to-answer").onclick=async ()=>{
+  if (answerMoment) await inspect(answerMoment.frame);
+  if (answerMoment) {
+    get("back-to-answer").hidden=true;
+    results.focus({preventScroll:true});
+    results.scrollIntoView({block:"start"});
+  }
+};
+get("clip-first-marker").onclick=async ()=>{
+  const target = firstMarker;
+  if (!target || busy || loading || player.pending) return;
+  player.pause(false);
+  highlight = {key:scene.value,frame:target.id,track:target.track,rect:target.rect};
+  await player.display(target.index);
+  if (player.displayed?.id===target.id) get("clip-play").focus({preventScroll:true});
+};
+get("open-frame").onclick = async () => {
   if (busy || loading) return;
   player.pause(false);
-  const id=get("frame-id").valueAsNumber, index=player.frames.findIndex(f=>f.id===id);
+  const index = player.frames.findIndex(f=>f.id===get("frame-id").valueAsNumber);
   if(index<0) {get("progress").textContent="Enter a frame present in this recording."; return;}
-  await player.display(index); get("frame-picker").open=false;
+  highlight=null; await player.display(index); get("frame-picker").open=false;
 };
-get("search").addEventListener("submit",async event => {
+get("search").addEventListener("submit",async event=>{
   event.preventDefault();
-  if (busy || loading || !player.displayed || (player.pending && !player.playing)) return;
+  if (!canAsk() || !question.value.trim()) return;
   player.pause();
-  const current=player.displayed, anchor=scene.value, hosted=mode.value==="gemini";
-  const controller = new AbortController();
-  searchRun=controller;
-  clearResults();
-  editing(false);
+  const current=player.displayed, anchor=scene.value, hosted=mode.value==="gemini", displayWords=question.value.trim();
+  const bound = submittedHint?.frame===current.id && submittedHint.scene===anchor && submittedHint.displayWords===displayWords;
+  const words = bound ? submittedHint.words : displayWords;
+  const controller=new AbortController();
+  searchRun=controller; clearResult(); editing(false);
   get("cancel-search").hidden=false;
-  get("progress").textContent = hosted ? "Finding frames and asking Gemini…" : "Searching the recorded tracks…";
+  get("progress").textContent=hosted ? "Asking Gemini about the selected evidence…" : "Checking recorded tracks up to "+formatTime(current.time)+"…";
   try {
-    const sourceKey=await keyForFrame(anchor,current.id);
-    if(controller.signal.aborted) return;
-    const body = await fetchJson("/api/footage",{method:"POST",headers:{"Content-Type":"application/json"},
-      signal:controller.signal, body:JSON.stringify({scene:sourceKey,question:question.value,hosted})});
-    if(searchRun!==controller) return;
-    if (body.question.query_frame!==current.id || body.question.recording_id!==recordings.get(anchor).recording_id)
-      throw new Error("The search returned a different frame or recording.");
-    const labels = {answered:hosted ? "Gemini answer" : "Answer from recorded tracks",
-      error:"The search couldn’t finish",insufficient_evidence:"Insufficient evidence"};
-    if (body.answer.answer_status !== "not_requested") {
-      const failed=body.answer.answer_status==="error";
-      const message=failed ? (body.evidence.length ? "You can review the retrieved frames below or retry this question." :
-        "Retry the question or try different wording at this frame.") :
-        body.answer.answer || "The available evidence does not establish an answer.";
-      results.append(node("h2",labels[body.answer.answer_status]),node("p",message));
-      if(failed) {
-        const retry=node("button","Retry search"); retry.type="button"; retry.className="subtle";
-        retry.onclick=()=>get("search").requestSubmit(); results.append(retry);
-        if (body.can_answer_from_tracks) {
-          const local=node("button","Answer from saved tracks"); local.type="button"; local.className="subtle";
-          local.onclick=()=>{mode.value="local";updatePlayer();get("search").requestSubmit();};
-          results.append(local);
-        }
-      }
-    } else {
-      results.append(node("h2",body.evidence.length ? "Retrieved evidence" : "No matching evidence"),
-        node("p","For colours, signs and visual details, ask Gemini about the frames."));
-      const ask=node("button","Ask Gemini about this question");
-      ask.type="button"; ask.className="subtle";
-      ask.onclick=()=>{mode.value="gemini";updatePlayer();get("search").requestSubmit();};
-      results.append(ask);
+    const key=await keyForFrame(anchor,current.id);
+    if (controller.signal.aborted) return;
+    const body=await fetchJson("/api/footage",{method:"POST",headers:{"Content-Type":"application/json"},signal:controller.signal,
+      body:JSON.stringify({scene:key,question:words,hosted})});
+    if (searchRun!==controller) return;
+    if (body.question.query_frame!==current.id || body.question.recording_id!==recordings.get(anchor).recording_id ||
+        body.evidence.some(e => e.interval.end_frame>current.id || e.images.some(im=>im.frame_id>current.id))) {
+      throw new Error("The evidence did not match this recording and playhead. Choose the moment and search again.");
     }
-    const count = body.evidence.length;
-    get("progress").textContent = scene.selectedOptions[0].textContent+" · Paused at "+formatTime(current.time)+" · Frame "+current.id+
-      (count ? " · " + count + " evidence interval" + (count === 1 ? "" : "s") : " · No matching evidence");
-    for (const item of body.evidence) {
-      const article = node("article");
-      article.className = "card review-form";
-      const cited = body.answer.cited_evidence_ids.includes(item.id) ? " · cited in the answer" : "";
-      article.append(node("h3","Evidence "+(body.evidence.indexOf(item)+1)+cited),
-        node("p","Frames "+item.interval.start_frame+"–"+item.interval.end_frame));
-      const strip = node("div");
-      strip.className = "evidence-strip";
-      for (const im of item.images) {
-        const link = node("a");
-        link.href = im.url;
-        link.target = "_blank";
-        link.rel = "noopener";
-        link.setAttribute("aria-label", "Open evidence at frame " + im.frame_id + " in a new tab");
-        const photo = node("img");
-        photo.alt = "Evidence for frame " + im.frame_id;
-        photo.src = im.url;
-        const moment=player.frames.find(row=>row.id===im.frame_id);
-        link.append(photo,node("span","Evidence image · Frame "+im.frame_id));
-        const tile=node("div"); tile.append(link);
-        if(moment) {
-          const replay=node("a","View original at "+formatTime(moment.time));
-          const url=new URL(location.href); url.searchParams.set("frame",String(moment.id));
-          replay.href=url.href; replay.target="_blank"; replay.rel="noopener"; tile.append(replay);
-        }
-        strip.append(tile);
-      }
-      article.append(strip);
-      results.append(article);
-    }
-  } catch (error) {
-    if(searchRun===controller && !controller.signal.aborted) get("progress").textContent = error.message;
+    get("progress").textContent="";
+    showAnswer(body,current,recordings.get(anchor),displayWords);
+  } catch(error) {
+    if (searchRun===controller && !controller.signal.aborted) get("progress").textContent=error.message;
   } finally {
-    if(searchRun===controller) {searchRun=null; get("cancel-search").hidden=true; editing(true);}
+    if (searchRun===controller) {searchRun=null; get("cancel-search").hidden=true; editing(true); updatePlayer();}
   }
 });
 get("cancel-search").onclick=()=>{
-  if(!searchRun) return;
+  if (!searchRun) return;
   searchRun.abort(); searchRun=null;
   get("cancel-search").hidden=true; editing(true);
-  get("progress").textContent="Search cancelled. You can edit the question or replay the recording.";
+  get("progress").textContent="Search cancelled. You can edit your question or play the recording.";
 };

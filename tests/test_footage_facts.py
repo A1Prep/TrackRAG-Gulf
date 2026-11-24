@@ -25,10 +25,10 @@ TRACKS = [observation(4,"Car",BOXES[0]),observation(7,"Car",BOXES[1]),observatio
 SCOPE = {"status":"available","paused_seconds":10.2,"moments":[{"requested_seconds":7.0,"frame_id":FRAME,"frame_seconds":7.0}]}
 
 
-def ask(text, evidence=None, tracks=None, scope=None, cutoff=102, size=SIZE):
+def ask(text, evidence=None, tracks=None, scope=None, cutoff=102, size=SIZE, first_frame=None):
     q = {"question_id":"q","recording_id":"drive","query_frame":cutoff,"question":text}
     return answer_from_tracks(q,[view("E1")] if evidence is None else evidence,TRACKS if tracks is None else tracks,
-                              playback_scope=scope,frame_size=size)
+                              playback_scope=scope,frame_size=size,first_frame=first_frame)
 
 
 def test_actual_single_frame_count_classes_and_absence_have_citations():
@@ -47,6 +47,46 @@ def test_actual_single_frame_count_classes_and_absence_have_citations():
 def test_app_suggestion_routes_to_a_cited_local_fact(words):
     assert supports_track_question(words)
     assert ask(words,cutoff=FRAME)["cited_evidence_ids"]==["E1"]
+
+
+@pytest.mark.parametrize(("text","expected"), [
+    ("What’s happening right now?", "car (2), pedestrian (1)"),
+    ("What is going on here?", "car (2), pedestrian (1)"),
+    ("How many cars are here?", "2 cars in frame 71"),
+    ("Are there any people on foot?", "1 pedestrian in frame 71"),
+    ("Can you see anyone in this frame?", "1 pedestrian and 0 cyclists"),
+    ("Do you see a bus here?", "0 buses in frame 71"),
+])
+def test_everyday_questions_return_only_saved_road_users_from_the_displayed_frame(text, expected):
+    result = ask(text, cutoff=FRAME)
+    assert expected in result["answer"]
+    assert result["cited_evidence_ids"] == ["E1"]
+    assert supports_track_question(text)
+
+
+def test_presence_includes_cyclists_but_never_guesses_an_occupant_or_an_unseen_pedestrian():
+    cyclist = observation(12, "Cyclist", BOXES[1])
+    result = ask("Are there any people?", tracks=TRACKS + [cyclist], cutoff=FRAME)
+    assert "1 pedestrian and 1 cyclist." in result["answer"]
+    assert "does not count people inside vehicles" in result["answer"]
+    boxes = [view("ped", 9, box=BOXES[2]), view("bike", 12, box=BOXES[1])]
+    assert ask("Can you see anybody?", boxes, TRACKS+[cyclist], cutoff=FRAME)["cited_evidence_ids"] == ["ped", "bike"]
+    assert ask("Can you see anybody?", boxes[:1], TRACKS, cutoff=FRAME) is None
+    assert ask("Is there a person on foot?", boxes[:1], TRACKS, cutoff=FRAME)["cited_evidence_ids"] == ["ped"]
+    assert ask("Are there any people on foot?", [view("car", 4, box=BOXES[0])], TRACKS[:2], cutoff=FRAME) is None
+
+
+def test_clock_and_opening_phrases_are_bound_to_the_actual_requested_source_frame():
+    assert "2 cars" in ask("At seven seconds, how many cars are here?", scope=SCOPE)["answer"]
+    assert ask("At seven seconds, how many cars are here right now?", scope=SCOPE) is None
+    assert ask("Are there any people at seven seconds?", scope={**SCOPE, "status": "outside_review_window"}) is None
+    words = "What can you see at the start of the clip?"
+    # This clip begins at original frame 71 and is paused at 102.
+    assert ask(words, first_frame=71)["cited_evidence_ids"] == ["E1"]
+    assert "In frame 71" in ask(words, first_frame=71)["answer"]
+    assert ask(words, first_frame=None) is None
+    assert ask(words, evidence=[view("paused", frame=102)], first_frame=71) is None
+    assert ask(words, first_frame=103) is None
 
 
 def test_track_class_and_original_pixel_side_use_the_corresponding_observation():
@@ -74,6 +114,9 @@ def test_missing_collective_evidence_cannot_be_presented_as_a_full_frame_count()
     "How many people are behind the shopping centre?", "How many medium vehicles are turning left in frame 71?",
     "At frame 71, how many cars are there, and are they moving?", "How many cars were in the school zone?",
     "How many cars in 7 seconds?", "7 seconds, how many cars are there?", "How many cars at 7 seconds, 8 seconds?",
+    "What's happening under the bridge?", "What can you see after the bus leaves?", "Are there any people inside that car?",
+    "How many cars are here behind the gate?", "What happened right before now?", "Is there a red bus?",
+    "What can you see at the start of the clip and right now?", "Are people on foot crossing the street?",
 ])
 def test_unknown_appearance_places_motion_and_multiple_instants_defer(text):
     assert not supports_track_question(text)

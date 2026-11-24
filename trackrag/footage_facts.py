@@ -22,10 +22,18 @@ _FRAME = r"frame(?:\s+(?:id|number))?\s*#?\s*\d+"
 _WHEN = re.compile(rf"\b(?:(?:at|around|about|in|on|by)\s+)?(?:{_TIME}(?:\s+ago)?|{_FRAME})\b|"
                    r"\b(?:(?:in|on|at)\s+)?(?:this|the (?:current|paused|selected|displayed))\s+(?:frame|image)\b|"
                    r"\b(?:right now|currently|now)\b", re.I)
+_CURRENT = re.compile(r"\b(?:(?:this|the (?:current|paused|selected|displayed)) (?:frame|image)|right now|currently|now)\b", re.I)
+_OPENING_FRAME = re.compile(r"\b(?:at the (?:start|beginning) of (?:the|this) (?:clip|video|recording|footage)|"
+                            r"in the (?:first|opening) (?:frame|image))\b", re.I)
 _CLASS = r"(?:road users?|(?:motor |small motorised |medium |large |emergency )?vehicles?|cars?|buses|bus|pedestrians?|cyclists?|motorbikes?|motorcycles?|tracks?)"
+_PERSON = r"(?:people|persons?|anyone|anybody)(?: on foot)?"
+_SUBJECT = rf"(?:{_CLASS}|{_PERSON})"
 _TRACK = r"(?:track(?:ed object)?(?: id| number)?\s*#?\s*(\d+))"
-_COUNT = re.compile(rf"how many (?:tracked |detected )?({_CLASS})(?: (?:are there|are visible|are present|are detected|are tracked|"
-                    r"can you (?:see|count)|do you (?:see|count)|does the tracker (?:show|detect)))?")
+_COUNT = re.compile(rf"how many (?:tracked |detected )?({_SUBJECT})(?: (?:are there|are here|are visible|are present|"
+                    r"are detected|are tracked|can you (?:see|count)|do you (?:see|count)|does the tracker (?:show|detect)))?(?: here)?")
+_PRESENT = re.compile(rf"(?:are there|is there|(?:can|do) you (?:see|spot)) (?:any |an? )?({_SUBJECT})(?: (?:here|visible))?")
+_OVERVIEW = re.compile(r"(?:what(?:'s| is) (?:happening|going on)|what (?:can|do) you see|"
+                       r"what(?:'s| is) in the (?:frame|image|scene))(?: here| in the (?:frame|image|scene))?")
 _CLASSES = re.compile(r"(?:what|which) (?:types?|classes|kinds?)(?: of (?:tracked )?(?:road users|vehicles|objects))? "
                       r"(?:are (?:there|visible|present|tracked|detected)|can you see|does the tracker show)")
 _IDENTITY = re.compile(rf"(?:what|which) (?:(?:type|kind|class)(?: of (?:vehicle|road user|object))?|vehicle|road user) "
@@ -41,9 +49,13 @@ def _parse(text):
     time_tokens = _TIME_TOKENS.findall(text)
     if len(times) > 1 or (time_tokens and (len(time_tokens) != 1 or not times)):
         return None
-    original = text.casefold()
-    words = " ".join(re.sub(r"[,?!().:;]", " ", _WHEN.sub(" ", original)).split())
-    counts, classes, identity, side = (_COUNT.fullmatch(words), _CLASSES.fullmatch(words),
+    original = text.casefold().replace("’", "'")
+    words = _OPENING_FRAME.sub(" ", original)
+    if words != original and _WHEN.search(words):
+        return None
+    words = " ".join(re.sub(r"[,?!().:;]", " ", _WHEN.sub(" ", words)).split())
+    counts, classes, identity, side = (_COUNT.fullmatch(words) or _PRESENT.fullmatch(words),
+                                      _CLASSES.fullmatch(words) or _OVERVIEW.fullmatch(words),
                                       _IDENTITY.fullmatch(words), _SIDE.fullmatch(words))
     if not (counts or classes or identity or side):
         return None
@@ -57,7 +69,7 @@ def supports_track_question(text):
     return _parse(text) is not None
 
 
-def _frame(question, scope):
+def _frame(question, scope, first_frame):
     words, cutoff = question["question"], question["query_frame"]
     frames = requested_frame_ids(words)
     times = requested_playback_times(words)
@@ -79,8 +91,12 @@ def _frame(question, scope):
         frame = moment["frame_id"]
         if frames and frames != [frame]:
             return None
+    elif _OPENING_FRAME.search(words):
+        frame = first_frame
     else:
         frame = frames[0] if frames else cutoff
+    if _CURRENT.search(words) and frame != cutoff:
+        return None
     return frame if type(frame) is int and 0 <= frame <= cutoff else None
 
 
@@ -91,11 +107,11 @@ def _original_box(box, size):
     return 0 <= left < right and 0 <= top < bottom and (size is None or right <= size[0] and bottom <= size[1])
 
 
-def answer_from_tracks(question, evidence_rows, tracks, *, playback_scope=None, frame_size=None):
+def answer_from_tracks(question, evidence_rows, tracks, *, playback_scope=None, frame_size=None, first_frame=None):
     """Return an ordinary cited answer or None when the exact displayed frame cannot establish it."""
     try:
         validate_evidence(question, evidence_rows)
-        frame = _frame(question, playback_scope)
+        frame = _frame(question, playback_scope, first_frame)
     except (KeyError, TypeError, ValueError):
         return None
     if frame is None:
@@ -136,11 +152,21 @@ def answer_from_tracks(question, evidence_rows, tracks, *, playback_scope=None, 
     wanted = set(current)
     if counts:
         noun = counts[1]
-        singular = "bus" if noun in {"bus", "buses"} else noun.removesuffix("s")
-        labels = _GROUPS[singular]
-        wanted = {tid for tid, (label, _) in current.items() if label in labels}
-        plural = "buses" if singular == "bus" else singular + "s"
-        answer = f"The tracker detected {len(wanted)} {singular if len(wanted) == 1 else plural} in frame {frame}."
+        if noun in {"people", "person", "persons", "anyone", "anybody"}:
+            wanted = {tid for tid, (label, _) in current.items() if label in {"Pedestrian", "Cyclist"}}
+            people = Counter(current[tid][0] for tid in wanted)
+            if len(people) < 2 and scene is None:
+                return None
+            groups = [f"{people[label]} {label.lower()}{'' if people[label] == 1 else 's'}"
+                      for label in ("Pedestrian", "Cyclist")]
+            answer = f"In frame {frame}, the tracker recorded {' and '.join(groups)}. It does not count people inside vehicles."
+        else:
+            singular = "bus" if noun in {"bus", "buses"} else noun.removesuffix("s")
+            if noun.endswith(" on foot"):
+                singular = "pedestrian"
+            wanted = {tid for tid, (label, _) in current.items() if label in _GROUPS[singular]}
+            plural = "buses" if singular == "bus" else singular + "s"
+            answer = f"The tracker detected {len(wanted)} {singular if len(wanted) == 1 else plural} in frame {frame}."
     elif classes:
         if "vehicles" in words:
             wanted = {tid for tid, (label, _) in current.items() if label in _MOTOR}

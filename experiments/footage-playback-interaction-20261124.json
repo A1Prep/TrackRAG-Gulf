@@ -1,0 +1,128 @@
+{
+  "test": "tests/footage_first_use_browser.cjs",
+  "browser": "Microsoft Edge 158.0.4370.33",
+  "basis": "Local browser engineering checks on the two original EMT clips and saved predictions. Phone means a phone-sized browser viewport. Frame times are relative to the start of each clip.",
+  "checks": [
+    "A suggested question submitted directly and kept the visible wording in its answer heading.",
+    "The first-sighting marker opened the original frame for the same track as the highlighted road user.",
+    "Selecting an evidence image sought its exact original frame and highlighted the corresponding saved box.",
+    "The desktop return control restored the original question frame. The phone shortcut also returned focus to the answer.",
+    "A recording change cleared its prior evidence. Blank questions stayed disabled. Out-of-scope and future searches returned no supporting frames.",
+    "All returned evidence intervals and images ended no later than each submitted playhead."
+  ],
+  "rendered": [
+    {
+      "device": "desktop",
+      "viewport_css_pixels": [
+        1366,
+        850
+      ],
+      "recording": "video_054604",
+      "initial_display": "Frame 118 Â· 0:11.7 / 0:14.9",
+      "one_click_suggestions": [
+        "Which road users are here?",
+        "How did the bus move?",
+        "When did the bus first appear?"
+      ],
+      "first_sighting_marker": {
+        "observed_track_id": 2323,
+        "opened_original_frame": 109
+      },
+      "actions": [
+        {
+          "words": "Which types of road users are detected in this frame?",
+          "status": "answered",
+          "source": "local_tracks",
+          "answer": "In frame 118, the tracker reported bus (1), car (6), large vehicle (2).",
+          "frames": [
+            118
+          ]
+        },
+        {
+          "words": "How did track 2323 move across the image?",
+          "status": "answered",
+          "source": "local_tracks",
+          "answer": "Track 2323, labelled bus in the paused frame, shifted left and up in the image between 0:10.8 (frame 109) and 0:11.7 (frame 118). This compares the box centres as seen by the moving camera.",
+          "frames": [
+            109,
+            113,
+            118
+          ]
+        },
+        {
+          "words": "When was track 2323 first detected?",
+          "status": "answered",
+          "source": "local_tracks",
+          "answer": "Track 2323, labelled bus in the paused frame, was first detected at 0:10.8 (frame 109). It may have been visible before the tracker picked it up.",
+          "frames": [
+            109
+          ]
+        },
+        {
+          "words": "Who won the football world cup?",
+          "status": "not_requested",
+          "source": "evidence_only",
+          "answer": null,
+          "frames": []
+        },
+        {
+          "words": "How many vehicles can you see at 25 seconds?",
+          "status": "insufficient_evidence",
+          "source": "local_tracks",
+          "answer": "That time is outside the footage available from the start through the paused frame.",
+          "frames": []
+        }
+      ],
+      "screenshots": {
+        "open": "2d89fc216140944a9342405776f5136f071b0db2dc7feee26c14f60b7cfdb7f7",
+        "answer": "7f58c9843a90dabd8f42b1db7841b1df0fe4dbe5242eeaad0b3976e56f6f038e"
+      }
+    },
+    {
+      "device": "phone",
+      "viewport_css_pixels": [
+        390,
+        844
+      ],
+      "recording": "video_054907",
+      "initial_display": "Frame 54 Â· 0:05.3 / 0:14.9",
+      "one_click_suggestions": [
+        "Which road users are here?",
+        "How did the large vehicle move?",
+        "When was the car last seen?"
+      ],
+      "first_sighting_marker": {
+        "observed_track_id": 2,
+        "opened_original_frame": 1
+      },
+      "actions": [
+        {
+          "words": "Which types of road users are detected in this frame?",
+          "status": "answered",
+          "source": "local_tracks",
+          "answer": "In frame 54, the tracker reported car (8), large vehicle (2), medium vehicle (1).",
+          "frames": [
+            54
+          ]
+        },
+        {
+          "words": "How did track 2 move across the image?",
+          "status": "answered",
+          "source": "local_tracks",
+          "answer": "The tracked large vehicle (track 2) shifted right in the image between 0:00.0 (frame 1) and 0:05.3 (frame 54). This compares the box centres as seen by the moving camera.",
+          "frames": [
+            1,
+            27,
+            54
+          ]
+        }
+      ],
+      "screenshots": {
+        "open": "9577909f4c14161b6d343b6ab257cc4cf4d4e7e5d6d5ddadfd411e225b664dbb",
+        "answer": "af3031544fed80e18b8b9e2164f36e6c902c2893d5b8e8d1cd3203cf2f22e942"
+      }
+    }
+  ],
+  "generated_artifact_location": "Set FOOTAGE_BROWSER_OUT to a local output directory when replaying the browser test. It writes the four screenshots and browser-observations.json.",
+  "source": "Default recorded-tracks mode; no hosted visual request was made for this UI check."
+}

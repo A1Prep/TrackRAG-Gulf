@@ -60,16 +60,11 @@ class FootageReview:
         with self._clip_lock:
             if key not in self._subjects:
                 _, tracks, _ = self._source(scene, clock[-1]["id"])
-                largest = {}
-                for track in tracks:
-                    left, top, right, bottom = track["bbox_xyxy"]
-                    area = (right-left)*(bottom-top)
-                    fid = track["frame_id"]
-                    if fid not in largest or area > largest[fid][0]:
-                        largest[fid] = (area, track["track_id"], track["class_name"])
-                self._subjects[key] = {fid: {"id": tid, "class_name": label} for fid, (_,tid,label) in largest.items()}
-            subjects = self._subjects[key]
-        return {"recording_id": key[0], "frames": clock, "subjects": subjects}
+                from trackrag.footage_history import timeline_context
+                self._subjects[key] = timeline_context(clock, tracks)
+            context = self._subjects[key]
+        subjects = {fid:{k:c["current"][k] for k in ("id","class_name")} for fid,c in context.items() if c["current"]}
+        return {"recording_id":key[0], "frames":clock, "subjects":subjects, "frame_context":context}
 
     def preview_frame(self, scene, frame_id, if_none_match=None):
         _, paths = self._clip(scene)
@@ -145,6 +140,7 @@ class FootageReview:
     def ask(self, scene, text, *, hosted=False, image_guard=None):
         from trackrag.answering import UNMEASURED_SPEED, answer_question, asks_for_unmeasured_speed, spatial_reference_from_tracks
         from trackrag.footage_facts import answer_from_tracks, supports_track_question
+        from trackrag import footage_history
         from trackrag.playback_time import playback_scope
         from trackrag.evidence_time import requested_frame_ids
         from trackrag.retrieval_temporal import build_index, rank_evidence
@@ -161,6 +157,7 @@ class FootageReview:
         clock = playback_scope(text, prefix, original["frame_id"])
         clarification = None if hosted else spatial_reference_from_tracks(question, scene["tracks"], original["width"])
         unmeasured_speed = asks_for_unmeasured_speed(text)
+        history = footage_history.intent(text)
         def local_answer(q, evidence, _folder):
             if unmeasured_speed:
                 return {"answer_status":"insufficient_evidence","answer":UNMEASURED_SPEED,"cited_evidence_ids":[]}
@@ -172,19 +169,22 @@ class FootageReview:
             moments = clock.get("moments", []) if clock else []
             fid = moments[0]["frame_id"] if moments else exact[0] if len(exact) == 1 else original["frame_id"]
             target = prefix.get_frame(fid) if 0 <= fid <= original["frame_id"] and fid in prefix.frame_ids else original
-            factual = answer_from_tracks(q, evidence, tracks, playback_scope=clock, frame_size=(target["width"], target["height"]))
+            factual = (footage_history.answer(q,tracks,evidence,prefix) if history else
+                       answer_from_tracks(q, evidence, tracks, playback_scope=clock, first_frame=prefix.frame_ids[0],
+                                          frame_size=(target["width"], target["height"])))
             return factual or {"answer_status":"insufficient_evidence",
                               "answer":"The saved tracks and the retrieved frames do not establish that detail at the requested moment.",
                               "cited_evidence_ids":[]}
 
-        local = not hosted and (unmeasured_speed or clarification is not None or supports_track_question(text))
+        local = not hosted and (unmeasured_speed or clarification is not None or history is not None or supports_track_question(text))
+        local_history = local and history is not None
         answerer = "gemini" if hosted else "local_tracks" if local else "evidence_only"
         result = review_recording(prefix,[question],source="predicted",load_tracks=lambda _: tracks,
-                                  build_index=build_index,rank_evidence=rank_evidence,
+                                  build_index=build_index,rank_evidence=footage_history.intervals if local_history else rank_evidence,
                                   answer_question=answer_question if hosted else local_answer if local else None,output_dir=folder,
                                   image_guard=image_guard,
                                   run_metadata={"vision":"validated_saved_predictions","prediction_receipt":receipt,
-                                                "retrieval":"trackrag.retrieval_temporal","boundary_answer":"visual-candidate-v1",
+                                                "retrieval":"trackrag.footage_history" if local_history else "trackrag.retrieval_temporal","boundary_answer":"visual-candidate-v1",
                                                 "answerer":answerer})
         row = json.loads(result.read_bytes())
         can_answer_from_tracks = (hosted and row["answer"]["answer_status"] == "error"
@@ -192,7 +192,7 @@ class FootageReview:
                                   and local_answer(question, row["evidence"], folder)["answer_status"] == "answered")
         evidence = []
         for number, item in enumerate(row["evidence"]):
-            images = [{"frame_id":im["frame_id"],"url":f"/api/footage/{key}/{number}/{i}"}
+            images = [{"frame_id":im["frame_id"],"bbox_xyxy":im.get("bbox_xyxy"),"url":f"/api/footage/{key}/{number}/{i}"}
                       for i,im in enumerate(item["images"])]
             evidence.append({"id":item["evidence_id"],"interval":item["interval"],"images":images})
         return {"question":question,"answer":row["answer"],"evidence":evidence,"hosted_requested":hosted,

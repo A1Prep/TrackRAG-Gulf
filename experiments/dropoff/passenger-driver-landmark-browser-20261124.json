@@ -1,0 +1,283 @@
+{
+  "purpose": "Verify the optional passenger-to-driver view after the fourth independent photo study had concluded. It provides a way to show an identified vehicle on the same device; outcomes do not improve the published drop-off scores.",
+  "observed_utc": "2026-11-24T03:37:05.256Z",
+  "environment": "Real Microsoft Edge, Canonical laptop service on port 8775. Desktop 1290 by 850, phone 390 by 844 using touchscreen and viewport emulation. No physical phone or in-car driver tested.",
+  "deployment_assets_sha256": {
+    "/": "b9721d23384457e0e9ab1eacb77f5c643bac9498211c8c078075532ee992a888",
+    "/app.js": "db234ac6396d7f870fa4f97daefe3d3fc745c3c336e1319fe29f2569ff7c4ca0",
+    "/app.css": "eb51a541a67f8c5bb5165950ed0537675e496da37adecd4273153c79d029ccf2",
+    "/pair-choices.js": "8c45d7cb4ce06c0b12cf9f033dfa187a78c9d3db9691ce0d8472db1c2874b428"
+  },
+  "evidence_sha256": "1f7875346491981dfad03879dbf75d468d1eb63633019b922306ff8d0dbabfbf",
+  "scope": {
+    "eligible_drives": 3,
+    "supported_case_layouts": 6,
+    "unavailable_controls": 3,
+    "session_mutations_during_display": 0,
+    "network_requests_during_display": 0,
+    "new_destinations_or_save_buttons": 0
+  },
+  "method": "Each case began with its original photograph and actual passenger words in a fresh ordinary session. The page image hash was verified. Browser canvas events confirmed the zoomed area came from that same full original and enclosed its sole observed vehicle. Its visible blue outline was verified by pixel count. All three supported bodies had already been graded against independent vehicle boxes. Opening, closing by the Back button, reopening and pressing Escape were checked against the server session, the on-disk journal bytes, network events and keyboard focus. The visualization never asked the passenger for a location.",
+  "visual_review": {
+    "desktop": "The blue container truck, complete blue outline, original passenger wording, unresolved-location note and Back fit in one desktop viewport. A second blue truck in the source does not replace the matched right-hand one.",
+    "phone": "The sunlit shopping street was dim, but the complete pickup, its blue outline, two-line passenger request and Back were legible and fit the phone viewport without horizontal scrolling.",
+    "files": [
+      "runs/passenger-rear-20261124/driver-landmark-review/Y8ea55fb-desktop.png",
+      "runs/passenger-rear-20261124/driver-landmark-review/Y0622eb2-phone.png"
+    ]
+  },
+  "supported_cases": [
+    {
+      "id": "Y0622eb2",
+      "source_sha256": "0622eb29007e3aea9416f91378919d7c91d7c6b70c5c60460a949697a1575562",
+      "layout": "desktop",
+      "passenger_words": "Can you let me out behind the black pickup on the left?",
+      "native_vehicle_xyxy": [
+        821.8887817382812,
+        981.3012130737304,
+        1096.437744140625,
+        1126.4178314208984
+      ],
+      "native_crop_xywh": [
+        547.3398193359374,
+        884.1687469482422,
+        823.6468872070315,
+        484.4981689453126
+      ],
+      "source_width_to_crop_width": 4,
+      "visible_blue_pixels": 2506,
+      "modal_size": {
+        "x": 253,
+        "y": 99.171875,
+        "width": 784,
+        "height": 651.65625,
+        "bottom": 750.828125,
+        "right": 1037
+      },
+      "focus_after_back": "show-driver",
+      "focus_after_escape": "show-driver",
+      "journal_actions": [
+        "opened",
+        "submitted"
+      ],
+      "unchanged_journal_sha256": "b86cd375852a406472e6d6667367330d1bf0905536339868d6817f0df21c7c30",
+      "errors": []
+    },
+    {
+      "id": "Y29977cf",
+      "source_sha256": "29977cfb49a67b9e2c7a1dbf723f827ec5a94d8c5ebd550469b62fd319bdbb45",
+      "layout": "desktop",
+      "passenger_words": "Could you drop me behind the dark SUV on the right?",
+      "native_vehicle_xyxy": [
+        1886.0537109375,
+        1281.9538879394531,
+        2562.189697265625,
+        1761.74267578125
+      ],
+      "native_crop_xywh": [
+        1209.917724609375,
+        912.5491516113282,
+        2028.407958984375,
+        1247.4508483886718
+      ],
+      "source_width_to_crop_width": 1.9,
+      "visible_blue_pixels": 5515,
+      "modal_size": {
+        "x": 253,
+        "y": 89.140625,
+        "width": 784,
+        "height": 671.71875,
+        "bottom": 760.859375,
+        "right": 1037
+      },
+      "focus_after_back": "show-driver",
+      "focus_after_escape": "show-driver",
+      "journal_actions": [
+        "opened",
+        "submitted"
+      ],
+      "unchanged_journal_sha256": "dcf6f5e4f18c97cc2b615d6f2b1bfe8b45791dd22fdf8ba5875a4a8ed91fdea5",
+      "errors": []
+    },
+    {
+      "id": "Y8ea55fb",
+      "source_sha256": "8ea55fbbba7b457d9f6e3521354d3f76b301312a5b6466588956b2278b5ea056",
+      "layout": "desktop",
+      "passenger_words": "Could I get out behind the blue truck on the right?",
+      "native_vehicle_xyxy": [
+        2458.84833984375,
+        1904.0918472290039,
+        3024.6352615356445,
+        2421.9503952026366
+      ],
+      "native_crop_xywh": [
+        1835.48934173584,
+        1748.734282836914,
+        1812.5049179077146,
+        1346.4322247314453
+      ],
+      "source_width_to_crop_width": 2.3,
+      "visible_blue_pixels": 5197,
+      "modal_size": {
+        "x": 253,
+        "y": 42.453125,
+        "width": 784,
+        "height": 765.09375,
+        "bottom": 807.546875,
+        "right": 1037
+      },
+      "focus_after_back": "show-driver",
+      "focus_after_escape": "show-driver",
+      "journal_actions": [
+        "opened",
+        "submitted"
+      ],
+      "unchanged_journal_sha256": "1f654e0a98bba3762d7d9a8ca81c7eebf6c2c046cdaf135a56ae808024bdb89d",
+      "errors": []
+    },
+    {
+      "id": "Y0622eb2",
+      "source_sha256": "0622eb29007e3aea9416f91378919d7c91d7c6b70c5c60460a949697a1575562",
+      "layout": "phone",
+      "passenger_words": "Can you let me out behind the black pickup on the left?",
+      "native_vehicle_xyxy": [
+        821.8887817382812,
+        981.3012130737304,
+        1096.437744140625,
+        1126.4178314208984
+      ],
+      "native_crop_xywh": [
+        547.3398193359374,
+        884.1687469482422,
+        823.6468872070315,
+        484.4981689453126
+      ],
+      "source_width_to_crop_width": 4,
+      "visible_blue_pixels": 8435,
+      "modal_size": {
+        "x": 19,
+        "y": 196.078125,
+        "width": 352,
+        "height": 451.84375,
+        "bottom": 647.921875,
+        "right": 371
+      },
+      "focus_after_back": "show-driver",
+      "focus_after_escape": "show-driver",
+      "journal_actions": [
+        "opened",
+        "submitted"
+      ],
+      "unchanged_journal_sha256": "cadc890e05f21f10a039cebd0b02b090e7438fd59757c683ebee4bdb294da27e",
+      "errors": []
+    },
+    {
+      "id": "Y29977cf",
+      "source_sha256": "29977cfb49a67b9e2c7a1dbf723f827ec5a94d8c5ebd550469b62fd319bdbb45",
+      "layout": "phone",
+      "passenger_words": "Could you drop me behind the dark SUV on the right?",
+      "native_vehicle_xyxy": [
+        1886.0537109375,
+        1281.9538879394531,
+        2562.189697265625,
+        1761.74267578125
+      ],
+      "native_crop_xywh": [
+        1209.917724609375,
+        912.5491516113282,
+        2028.407958984375,
+        1247.4508483886718
+      ],
+      "source_width_to_crop_width": 1.9,
+      "visible_blue_pixels": 17385,
+      "modal_size": {
+        "x": 19,
+        "y": 191.71875,
+        "width": 352,
+        "height": 460.5625,
+        "bottom": 652.28125,
+        "right": 371
+      },
+      "focus_after_back": "show-driver",
+      "focus_after_escape": "show-driver",
+      "journal_actions": [
+        "opened",
+        "submitted"
+      ],
+      "unchanged_journal_sha256": "5fbc00ee973063dcf0e57cdf5286d6b4dbb8a1c15b52129051bca7324827f863",
+      "errors": []
+    },
+    {
+      "id": "Y8ea55fb",
+      "source_sha256": "8ea55fbbba7b457d9f6e3521354d3f76b301312a5b6466588956b2278b5ea056",
+      "layout": "phone",
+      "passenger_words": "Could I get out behind the blue truck on the right?",
+      "native_vehicle_xyxy": [
+        2458.84833984375,
+        1904.0918472290039,
+        3024.6352615356445,
+        2421.9503952026366
+      ],
+      "native_crop_xywh": [
+        1835.48934173584,
+        1748.734282836914,
+        1812.5049179077146,
+        1346.4322247314453
+      ],
+      "source_width_to_crop_width": 2.3,
+      "visible_blue_pixels": 17498,
+      "modal_size": {
+        "x": 19,
+        "y": 171.390625,
+        "width": 352,
+        "height": 501.203125,
+        "bottom": 672.59375,
+        "right": 371
+      },
+      "focus_after_back": "show-driver",
+      "focus_after_escape": "show-driver",
+      "journal_actions": [
+        "opened",
+        "submitted"
+      ],
+      "unchanged_journal_sha256": "67d4665df184cf44b51bc331de66aa926c88b9d9c66165ab81a208d9eaf7d9d2",
+      "errors": []
+    }
+  ],
+  "controls": [
+    {
+      "id": "Y73d4554",
+      "source_sha256": "73d455430211026e8df0e1f9cfa4a10c7cfaaab3d75d2ebcc67f025ee67d7749",
+      "type": "unresolved taxi",
+      "layout": "desktop",
+      "passenger_words": "Please drop me behind the beige taxi.",
+      "native_vehicle_box_count": 0,
+      "server_reference_kind": null,
+      "offer_shown": false,
+      "errors": []
+    },
+    {
+      "id": "W5cc54a2",
+      "source_sha256": "5cc54a2c449055c5703621bb6cef70e9a2592b80576014a14849042752fa68b7",
+      "type": "uncertain single-vehicle colour",
+      "layout": "phone",
+      "passenger_words": "Could you drop me behind the beige sedan?",
+      "native_vehicle_box_count": 1,
+      "server_reference_kind": "possible_vehicle",
+      "offer_shown": false,
+      "errors": []
+    },
+    {
+      "id": "W6aadb86",
+      "source_sha256": "6aadb86a705dea5cbb5ccbe809aeaccffeba034c76d3d1d9e906db5d16bbab3c",
+      "type": "multiple genuine current vehicles",
+      "layout": "desktop",
+      "passenger_words": "Could you let me out behind the white car with its door open?",
+      "native_vehicle_box_count": 5,
+      "server_reference_kind": null,
+      "offer_shown": false,
+      "errors": []
+    }
+  ],
+  "relationship_to_scoring": "The fresh fourth study initially located zero of three eligible drop-off areas and correctly outlined all three vehicles. Showing a landmark earns no additional direct point, selected bay, or explicit passenger destination. See passenger-rear-fourth-holdout-20261124.json."
+}

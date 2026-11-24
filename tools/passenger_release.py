@@ -41,6 +41,8 @@ REAR_MODEL_FILES = (
      'c9ead6f19929510cf46b9645166ca064e0cbe887158ff17e4e95f3806a7722bf'),
     ('local_vehicle_observations', 'vehicle-observations.json',
      '7b12523b429e064d2b650e4e3fa6958c2a865e4e659e6959adf756ef124a19d1'),
+    ('local_vehicle_observations', 'vehicle-observations-v2.json',
+     'e53861f2e30f9307cf5327e31d12d5e8b83ae6f2b1ba59a2077c9bd2b9b2fcef'),
 )
 RESERVE_PHOTO_BANK = 'data/uae-parking-local-rear-reserve-20261124/passenger-requests.jsonl'
 RESERVE_PHOTO_RESULTS = 'experiments/dropoff/passenger-rear-reserve-photos-20261124'
@@ -49,6 +51,8 @@ RESERVE_MODEL_FILES = (
      '9dd806e609645fe51e49ead8c1d35db908fdf98217dbb43f4e620f9e3662d452'),
     ('local_vehicle_observations', 'vehicle-observations.json',
      'b03aa392eb8631683ff58cfa9d4cc69a63c5e2997515a6a7bd94a56d4e2e1828'),
+    ('local_vehicle_observations', 'vehicle-observations-v2.json',
+     '704197c9c1ab8a9ca108b8cf93bbc8db107ad6b80e4e75ffd00536af256f0ff5'),
 )
 PHOTO_PACKS = (
     (EXTRA_PHOTO_BANK, EXTRA_PHOTO_RESULTS, tuple((kind, *pin) for kind, pin in EXTRA_MODEL_FILES.items())),

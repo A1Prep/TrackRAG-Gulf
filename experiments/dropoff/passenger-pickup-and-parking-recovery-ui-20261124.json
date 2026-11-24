@@ -1,0 +1,121 @@
+{
+  "release": "7b26b68f3c1d1259393cfb80f7e16bac241fa782",
+  "tested_at_utc": "2026-11-24T02:40:00.401Z",
+  "case_design": "Fresh ordinary Edge sessions, one mobile Yes, a separate desktop No, and a physical through-lane tap with passenger-initiated alternative-bay lookup. Each image response on the page was hashed against its previously published original.",
+  "pickup": {
+    "recording": [
+      "kartaview_5124809",
+      287
+    ],
+    "photo_sha256": "37249c17aea5689c7f6d059e5fb99ed405a9d95a414f444571d44906033b6626",
+    "request": "Could you drop me next to that black pickup truck?",
+    "confirmed_vehicle_only": {
+      "before": {
+        "state": "needs_clarification",
+        "title": "Is this the vehicle you meant?",
+        "message": "I can see a black truck left of centre in the photo. I couldn\u2019t verify that it is a pickup. Is that the vehicle you meant? I haven\u2019t verified an open space beside it.",
+        "present": false,
+        "point": null,
+        "save_visible": false,
+        "ms": 1010
+      },
+      "after_yes": {
+        "state": "needs_clarification",
+        "title": "I found the vehicle you described",
+        "message": "You confirmed the outlined vehicle. Please mark the open ground beside it where you want to get out. I\u2019ll check that spot on the photo.",
+        "present": false,
+        "point": null,
+        "save_visible": false,
+        "ms": 225
+      },
+      "same_boxes": true,
+      "box": [
+        469.1747085571289,
+        926.4775360107421,
+        992.6075775146484,
+        1140.3176971435546
+      ]
+    },
+    "separate_decline": {
+      "after_no": {
+        "state": "needs_clarification",
+        "title": "Which spot do you mean?",
+        "message": "Which vehicle did you mean? Describe its colour, body type or position in the photo, or mark the spot where you want to get out.",
+        "present": false,
+        "point": null,
+        "save_visible": false,
+        "ms": 223
+      },
+      "boxes": []
+    }
+  },
+  "restaurant": {
+    "recording": [
+      "kartaview_7199241",
+      48
+    ],
+    "photo_sha256": "ed69e5e794d9618bd153a0ea0266dd0a9203b1526c279ec01a0c9c64b2b0124b",
+    "tap": [
+      1049.9861283249118,
+      1549.9807627118644
+    ],
+    "after_tap": {
+      "state": "needs_clarification",
+      "title": "Choose another location",
+      "message": "That point appears to be in a traffic lane. Could you mark a visible parking bay instead?",
+      "present": false,
+      "point": null,
+      "save_visible": false,
+      "ms": 2413
+    },
+    "recovery_visible": true,
+    "submits_own_request_linked_to_original": true,
+    "new_request_words": "Find the marked parking bays.",
+    "after_request": {
+      "state": "needs_clarification",
+      "title": "Which parking bay do you mean?",
+      "message": "More than one bay matches your description. Choose bay A or bay B.",
+      "present": false,
+      "point": null,
+      "save_visible": false,
+      "ms": 1743
+    },
+    "displayed_bay_centres": [
+      [
+        1893.315,
+        1434.021
+      ],
+      [
+        2190.935,
+        1564.406
+      ]
+    ],
+    "after_b": {
+      "state": "proposed",
+      "title": "Is this your intended bay?",
+      "message": "The gold ring marks the centre of the outlined parking bay in the bottom centre of the photo.",
+      "present": true,
+      "point": [
+        2190.935,
+        1564.406
+      ],
+      "save_visible": true,
+      "ms": 101
+    },
+    "after_explicit_save": {
+      "state": "confirmed",
+      "title": "Location saved",
+      "message": "You chose the outlined parking bay as your intended drop-off. The gold ring marks its centre.",
+      "present": true,
+      "point": [
+        2190.935,
+        1564.406
+      ],
+      "save_visible": false,
+      "ms": 127
+    }
+  },
+  "browser_page_errors": 0,
+  "raw_observation_sha256": "0915f070c4bfbb2fee44cfd70fd91a372f870e77fa86b9fc2c0d3f431ac5fab5",
+  "scope": "Known public-gallery regressions. The parking choices are separate from the rejected traffic-lane mark. Confirming the possible vehicle never approves stopping."
+}

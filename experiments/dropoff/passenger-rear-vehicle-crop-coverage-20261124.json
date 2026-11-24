@@ -1,0 +1,162 @@
+{
+  "scope": "Neutral source and model coverage on public UAE photos. Counting two matching model replies does not grade their factual accuracy. Passenger placement, driving access and safe stopping are scored separately.",
+  "policy": "Up to eight source-detected vehicles distributed across image thirds and relative depth, including legible previously measured vehicles. Originals, models and all inference stayed on device.",
+  "model": "Qwen3-VL-8B-Instruct NF4 with the released local adapter. Each vehicle has a close crop and separate context crop with its current Task 1 box.",
+  "cohorts": {
+    "primary": {
+      "portable_directory": "passenger-rear-local-photos-20261124",
+      "source_manifest_sha256": "487d6aca29eb1aca3e204943d26f39825d004a3780dbc2ea95dc8210b56f5109",
+      "scene_bank_sha256": "9cf234cf71731eff7d45031dd558c3ff640b1cda72ca6069d9a9ea78ba9703c7",
+      "surface_index_sha256": "c9ead6f19929510cf46b9645166ca064e0cbe887158ff17e4e95f3806a7722bf",
+      "vehicle_observations_sha256": "e53861f2e30f9307cf5327e31d12d5e8b83ae6f2b1ba59a2077c9bd2b9b2fcef",
+      "raw_detector_inventory_sha256": "3f74803f7f320c99fa81f01b58840cedd7f6dc4d2bce7e986485dcf69b6e7a71",
+      "source_photos": 8,
+      "legacy_journal_views_reverified": 54,
+      "native_detections": 873,
+      "current_tracks": 148,
+      "measured_vehicles": 45,
+      "source_photos_without_eligible_vehicles": 0,
+      "actual_model_views": 90,
+      "portable_source_photos_and_crops_reverified": 8,
+      "new_model_views": 36,
+      "old_model_views_reused": 54,
+      "malformed_individual_replies": 0,
+      "two_view_attribute_agreements": {
+        "colour": 35,
+        "body": 35,
+        "orientation": 41
+      },
+      "median_single_view_model_seconds": 12.3825
+    },
+    "reserve": {
+      "portable_directory": "passenger-rear-reserve-photos-20261124",
+      "source_manifest_sha256": "8d7acc46e319f50ca51d1945df89aeb3735006bb65e515b4426d21b83a3fb7bf",
+      "scene_bank_sha256": "e771acd8e10e917545e932be32394a63a19c1a3b57a4c5b7fc4c2daeb3a4e7b9",
+      "surface_index_sha256": "9dd806e609645fe51e49ead8c1d35db908fdf98217dbb43f4e620f9e3662d452",
+      "vehicle_observations_sha256": "704197c9c1ab8a9ca108b8cf93bbc8db107ad6b80e4e75ffd00536af256f0ff5",
+      "raw_detector_inventory_sha256": "84a601a0280e12a5420383043f564056c75c05e7c0849c6d424526d216b1d78f",
+      "source_photos": 6,
+      "legacy_journal_views_reverified": 36,
+      "native_detections": 1185,
+      "current_tracks": 217,
+      "measured_vehicles": 41,
+      "source_photos_without_eligible_vehicles": 0,
+      "actual_model_views": 82,
+      "portable_source_photos_and_crops_reverified": 6,
+      "new_model_views": 46,
+      "old_model_views_reused": 36,
+      "malformed_individual_replies": 1,
+      "two_view_attribute_agreements": {
+        "colour": 36,
+        "body": 30,
+        "orientation": 37
+      },
+      "median_single_view_model_seconds": 12.156500000000001
+    },
+    "transfer_a": {
+      "portable_directory": "passenger-rear-transfer-a-photos-20261124",
+      "source_manifest_sha256": "28bfe2dbd22231586cded60db536a49f12b4344653316a6b78d52998d5c9eed0",
+      "scene_bank_sha256": "5b63421211f0f2b017d5b4450aab513ea405a14dcb4cb76b3aeda0eec603186f",
+      "surface_index_sha256": "6200d8c9e8f02e9ddb8e604b83fb99a4b910be2b32b4f8dd0a7ad3e5d19171b8",
+      "vehicle_observations_sha256": "73627772dbeb5140c8d27cb8bcf63bb46272e8af8c6114bac77ca2bf063885c7",
+      "raw_detector_inventory_sha256": "82f1f13ad249a92f8eaf8681eada672988e38de80b57ef57f784f369872cbb6a",
+      "source_photos": 4,
+      "native_detections": 874,
+      "current_tracks": 128,
+      "measured_vehicles": 25,
+      "source_photos_without_eligible_vehicles": 0,
+      "actual_model_views": 50,
+      "portable_source_photos_and_crops_reverified": 4,
+      "new_model_views": 50,
+      "old_model_views_reused": 0,
+      "malformed_individual_replies": 1,
+      "two_view_attribute_agreements": {
+        "colour": 21,
+        "body": 23,
+        "orientation": 22
+      },
+      "median_single_view_model_seconds": 12.5705
+    },
+    "transfer_b": {
+      "portable_directory": "passenger-rear-transfer-b-photos-20261124",
+      "source_manifest_sha256": "72d1aa495746eda661425875b69b2bcf40281edd79bb7193298a29bdaf71ab91",
+      "scene_bank_sha256": "ef67805f742a0a6b5eb6f01462fdbfb1d4f298affd997208ff8895b13394c219",
+      "surface_index_sha256": "2a42b674a5363ebd3ff897e75cd25c7f3988ae29727ee2041ac9174a714ef2a3",
+      "vehicle_observations_sha256": "8a8b2913cdef791670d965432b36b06f747ed3d5302edbe81dcb583142c1206a",
+      "raw_detector_inventory_sha256": "4085789b75c4325a935b69ec880b45b9386400dda23eacd8b109806bb39deb89",
+      "source_photos": 4,
+      "native_detections": 599,
+      "current_tracks": 114,
+      "measured_vehicles": 28,
+      "source_photos_without_eligible_vehicles": 0,
+      "actual_model_views": 56,
+      "portable_source_photos_and_crops_reverified": 4,
+      "new_model_views": 56,
+      "old_model_views_reused": 0,
+      "malformed_individual_replies": 0,
+      "two_view_attribute_agreements": {
+        "colour": 25,
+        "body": 23,
+        "orientation": 26
+      },
+      "median_single_view_model_seconds": 12.422
+    }
+  },
+  "opened_target_diagnostic": {
+    "photo": {
+      "recording": "kartaview_1129197",
+      "frame": 153,
+      "sha256": "4b0625196361aa829383b752ab582dbd61621bf617330895aaa804db96e1aabf"
+    },
+    "target_track": 3,
+    "old_measured_track_ids": [
+      1,
+      2,
+      8,
+      7
+    ],
+    "expanded_measured_track_ids": [
+      1,
+      2,
+      8,
+      7,
+      3,
+      4,
+      5,
+      6
+    ],
+    "measured_task1_box": [
+      2670.5549926757812,
+      1818.9036254882812,
+      2924.0513305664062,
+      1987.3207397460938
+    ],
+    "consensus": [
+      "black",
+      "sedan",
+      "REAR",
+      "NONE"
+    ],
+    "scoring_against_released_reference": {
+      "paint": "incorrect; both views read black for the requested dark-blue sedan",
+      "body": "sedan correct",
+      "orientation": "rear correct"
+    },
+    "same_stored_journal_results_after_registering_both_generations": 2,
+    "raw_views": [
+      {
+        "stage": "crop",
+        "view_sha256": "051193a4314b311add393ff7fd6d5507e2621febcba4219bb73dbf266cdb0dff",
+        "reply": "black | sedan | REAR",
+        "seconds": 15.235
+      },
+      {
+        "stage": "context",
+        "view_sha256": "046a66a091a3c2ed3890497460dd22e85b1cc6a4c250e668892c3410dd346692",
+        "reply": "black | sedan | REAR",
+        "seconds": 12.266
+      }
+    ]
+  },
+  "preparation_recovery": "A memory allocation failed after 43 of the first 50 new-study views. The remaining seven completed using the unchanged model, crop renderer, pixels and prompt after memory was available. Each completed raw view was retained."
+}

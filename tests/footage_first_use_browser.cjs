@@ -30,6 +30,11 @@ async function main() {
       assert.equal(await page.locator("#scene option").count(),2);
       assert.equal(await page.locator("#go").isDisabled(),true);
       assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth <= innerWidth),true);
+      if (name === "phone") {
+        await page.setViewportSize({width:320,height:780});
+        assert(await page.evaluate(()=>document.documentElement.scrollWidth <= innerWidth));
+        await page.setViewportSize(viewport);
+      }
       const initial = await page.locator("#examples button").allTextContents();
       assert.equal(initial[2],subject.hint);
       const shortcut = page.getByRole("button",{name:subject.hint,exact:true});
@@ -81,6 +86,8 @@ async function main() {
         assert.deepEqual(cited[0].images.map(image=>image.frame_id),[subject.first]);
       });
       assert.equal(await page.locator(".answer-head h2").innerText(),subject.hint);
+      assert.equal(await page.locator(".ask-card #results .answer-card").count(),1);
+      await page.getByRole("heading",{name:"Frames behind the answer"}).waitFor();
       assert.equal(await page.locator("#examples button").nth(2).innerText(),
         "When was "+subject.kind+" "+focusId+" first detected?","Name the track while its outline is hidden");
       await page.locator(".moment-thumb").first().click();
@@ -104,7 +111,7 @@ async function main() {
       assert.equal(await page.locator(".answer-head h2").innerText(),initial[1]);
       assert.equal(await page.locator("#question").inputValue(),initial[1]);
       assert.ok(motion.answer.answer.toLowerCase().includes("track "+focusId));
-      await page.locator(".moment-thumb img").evaluateAll(images=>Promise.all(images.map(img=>img.decode())));
+      await page.locator(".moment-thumb img:visible").evaluateAll(images=>Promise.all(images.map(img=>img.decode())));
       if (out) await page.screenshot({path:path.join(out,name+"-answer.png")});
       const im=motion.evidence[0].images[0];
       await page.locator(".moment-thumb").first().click();
@@ -132,7 +139,7 @@ async function main() {
         assert.equal(await page.locator("#go").isDisabled(),true);
         const choices=await page.locator("#scene option").evaluateAll(nodes=>nodes.map(n=>n.value));
         await page.locator("#scene").selectOption(choices[1]);
-        await page.waitForFunction(()=>document.querySelector("#clip-name").textContent.includes("054907") &&
+        await page.waitForFunction(()=>document.querySelector("#scene").selectedOptions[0].textContent.includes("054907") &&
           document.querySelectorAll("#examples button:not(:disabled)").length>=2);
         assert.equal(await page.locator(".answer-card").count(),0);
         const paused = await page.locator("#clip-frame").getAttribute("src");

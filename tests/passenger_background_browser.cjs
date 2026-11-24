@@ -25,7 +25,7 @@ const latch = () => {
     release:() => release(),notify:() => notify()};
 };
 
-async function browserCase(browser,url,{indexed=false}={}) {
+async function browserCase(browser,url,{indexed=false,example=null}={}) {
   const page = await browser.newPage();
   const requests = [], sessions = new Map(), errors = [];
   const mock = {page,requests,errors,holdAck:null,holdPoll:null,polls:[],current:null};
@@ -39,7 +39,7 @@ async function browserCase(browser,url,{indexed=false}={}) {
       footage_scenes:[],speech_available:true});
     if (pathname==="/api/sessions") {
       const {scene} = req.postDataJSON(), id="s"+(sessions.size+1);
-      const s={session:id,scene,revision:0,view:view(),voice_stage:null,pending_grounding:null};
+      const s={session:id,scene,revision:0,view:view(),voice_stage:null,pending_grounding:null,example_request:example};
       sessions.set(id,s); mock.current=s; return json(s);
     }
     const [, , , id, action] = pathname.split("/"), s=sessions.get(id);
@@ -232,6 +232,24 @@ async function main() {
       assert(await p.locator("#other-bays").isHidden());
       assert(await p.locator("#confirm").isHidden()); await p.close();
     }
+    // A first-time passenger can mark without typing, or run the photo example with one click.
+    {
+      const s=await browserCase(browser,url),p=s.page;
+      await p.setViewportSize({width:320,height:780});
+      assert(await p.evaluate(()=>document.documentElement.scrollWidth <= innerWidth));
+      await p.getByRole("button",{name:"Mark on photo",exact:true}).click();
+      await heading(p,"Choose a spot on the photo");
+      assert.deepEqual(s.requests[0].body,{text:"Check my marked parking spot.",mode:"typed",mark_on_photo:true});
+      assert(await p.locator("#use-box").isDisabled());
+      assert(await p.locator("#confirm").isHidden());
+      assert.deepEqual(s.errors,[]); await p.close();
+    }
+    {
+      const s=await browserCase(browser,url,{example:words}),p=s.page;
+      await p.locator("#use-example").click(); await p.locator("#take-over-area").waitFor();
+      assert.deepEqual(s.requests[0].body,{text:words,mode:"typed",background:true});
+      assert.deepEqual(s.errors,[]); await p.close();
+    }
     // Direct area/vehicle requests stay on their immediate server routes.
     for (const [button,field] of [["submit-area","mark_on_photo"],["submit-pointing","point_to_vehicles"]]) {
       const s=await browserCase(browser,url),p=s.page; await p.locator("#instruction").fill(words);
@@ -283,8 +301,9 @@ async function main() {
       assert.deepEqual(s.requests.at(-1).body,{text:scenario.reply,mode:"typed",background:true});
       s.finish({state:"needs_clarification",proposal_id:null,result:{clarification_question:"Please mark the ground you mean."},
         turns:[{role:"user",text:words},{role:"assistant",text:scenario.question},{role:"user",text:scenario.reply}]});
-      await p.locator("#original-request").waitFor();
-      assert.equal(await p.locator("#original-request p").textContent(),words);
+      await p.getByText("Your last reply",{exact:true}).waitFor();
+      await p.locator("#history summary").click();
+      assert((await p.locator("#messages .user").first().textContent()).endsWith(words));
       assert.equal(await p.locator("#last-request p").textContent(),scenario.reply);
       assert(await p.locator("#answer-yes").isHidden()); assert(await p.locator("#answer-no").isHidden());
       assert(!s.requests.some(r=>r.action==="confirm")); assert.deepEqual(s.errors,[]); await p.close();
@@ -295,7 +314,7 @@ async function main() {
       s.finish({state:"needs_clarification",word_confirmation:true,proposal_id:null,
         result:{clarification_question:"Did you mean the white car?"}});
       await heading(p,"Check one word"); s.loseImmediateReply=true; await p.locator("#answer-yes").click();
-      await p.locator("#original-request").waitFor();
+      await p.getByText("Your last reply",{exact:true}).waitFor();
       assert.equal(await p.locator("#last-request p").textContent(),"Yes");
       assert.equal(await p.locator("#status").textContent(),"Please mark the ground you mean.");
       assert(await p.locator("#error").isHidden()); assert(await p.locator("#form").isHidden());

@@ -767,9 +767,11 @@ def choice_outcome(request, offered, bay_id):
     from . import curb_alternatives, vehicle_ground_reference
     source = offered["provenance"]
     choices = source.get("bay_choices") or []
+    single_choice_reasons = {"single_visible_bay_at_painted_edge", "unverified_bay_reference",
+                             curb_alternatives.REASON, *vehicle_ground_reference.CHOICE_REASONS}
     if (source.get("method") not in {AUTO,MARK} or offered["result"]["status"] != "needs_clarification"
             or not isinstance(bay_id,str) or not choices or
-            (len(choices)==1 and source.get("reason") not in {"single_visible_bay_at_painted_edge","unverified_bay_reference",curb_alternatives.REASON,vehicle_ground_reference.CHOICE_REASON})):
+            (len(choices)==1 and source.get("reason") not in single_choice_reasons)):
         raise ValueError("Choose a bay from the current highlighted alternatives.")
     verify(request,offered,requested_box=source.get("selected_box"))
     selected = next((row for row in choices if row["id"]==bay_id),None)
@@ -819,14 +821,17 @@ def verify(request, outcome, *, requested_box=None):
     elif source.get('vehicle_ground_policy') is not None:
         from . import vehicle_ground_reference, vehicle_ground_view
         if (policy != CLEARANCE_POLICY or language is not None or source['vehicle_ground_policy'] != vehicle_ground_view.RECIPE
-                or source.get('vehicle_relation_policy') not in (None,vehicle_ground_reference.RELATION_POLICY)
+                or source.get('vehicle_relation_policy') not in (None,vehicle_ground_reference.RELATION_POLICY,vehicle_ground_reference.PREVIOUS_RELATION_POLICY)
                 or method not in {AUTO, MARK} or (method == MARK) != (requested_box is not None)):
             raise ValueError('The vehicle and ground must match the original request and mark.')
         expected = vehicle_ground_reference.outcome(request, photo, source['surface_evidence'],
                                                     source['vehicle_observation'], requested_box,
                                                     qualifier_packets=source.get('vehicle_qualifier_evidence'),
                                                     earlier_vehicle=source.get('earlier_vehicle_observation'),
-                                                    expanded=source.get('vehicle_relation_policy') is not None)
+                                                    expanded=source.get('vehicle_relation_policy') is not None,
+                                                    observe_sides=source.get('vehicle_relation_policy')==vehicle_ground_reference.RELATION_POLICY,
+                                                    side_packet=source.get('side_ground_observation'),load_side_packet=False,
+                                                    side_release=source.get('side_ground_release'))
     elif source.get("divider_policy") is not None:
         from . import parking_divider_choice
         if (method!=MARK or requested_box is None or policy!=CLEARANCE_POLICY

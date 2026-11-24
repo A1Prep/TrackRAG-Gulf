@@ -216,3 +216,53 @@ def test_observation_reader_rechecks_crop_pixels_and_current_track(monkeypatch):
     body["appearance"]={"5":entry}
     with pytest.raises(ValueError,match="current track"):
         qual.read_observations(request,photo,None,packets={"anchor":{}})
+
+
+def side_alternative(words,specs,answers,observations=()):
+    from trackrag.dropoff.vehicle_ground_reference import direct_reference
+    request={"text":words,"scene":{"frame":{"width":1000,"height":600}}}
+    ref=direct_reference(request)
+    return qual.possible_side_reference(request,ref or {},specs,answers,observations=observations)
+
+
+@pytest.mark.parametrize(("asked","x","pictured"),[("right",410,"left"),("left",590,"right")])
+def test_road_side_can_differ_from_pictured_side_without_proposing_ground(asked,x,pictured):
+    target=car(7,[x-60,120,x+60,201])
+    boxes,message=side_alternative(f"Stop behind the dark sedan parked on the {asked}.",
+                                   [target],[["black","sedan","REAR","CURBSIDE"]])
+    assert boxes==[target["box"]]
+    assert f"black sedan {pictured} of centre" in message
+    assert f"on the {asked}" in message and message.endswith("?")
+
+
+@pytest.mark.parametrize("words",[
+    "Stop behind the dark sedan on the right of the photo.",
+    "Stop behind the dark sedan on the screen right.",
+    "Stop behind the rightmost dark sedan.",
+    "Stop behind the dark sedan on its right.",
+    "Stop behind the red sedan on the right.",
+    "Stop behind the dark SUV on the right.",
+    "Stop behind the dark Toyota sedan on the right.",
+])
+def test_literal_side_other_identity_and_other_constraints_never_become_a_match(words):
+    assert side_alternative(words,[LEFT],[BLACK]) is None
+
+
+def test_no_side_offer_for_ties_on_either_side_or_existing_exact_match():
+    text="Drop me beside the dark sedan on the right."
+    farther_left=car(4,[23,80,103,126])
+    assert side_alternative(text,[LEFT,farther_left],[BLACK,BLACK]) is None
+    assert side_alternative(text,[LEFT,RIGHT],[BLACK,BLACK]) is None
+    assert side_alternative(text,[RIGHT],[BLACK]) is None
+
+
+def test_dark_body_requires_authentic_same_track_same_box_description_or_black():
+    words="Stop beside the dark sedan on the right."
+    row=["blue","sedan","REAR","CURBSIDE"]
+    assert side_alternative(words,[LEFT],[row]) is None
+    assert side_alternative(words,[LEFT],[row],[reading(RIGHT,"dark blue sedan")]) is None
+    assert side_alternative(words,[LEFT],[row],[reading(LEFT,"blue sedan with dark blue trim")]) is None
+    assert side_alternative(words,[LEFT],[row],[reading(LEFT,"dark blue pickup")]) is None
+    assert side_alternative(words,[LEFT],[["white","sedan","REAR","BLOCKED"]]) is None
+    result=side_alternative(words,[LEFT],[row],[reading(LEFT,"dark blue sedan")])
+    assert result and "dark blue sedan" in result[1]

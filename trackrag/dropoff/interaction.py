@@ -446,13 +446,16 @@ class PassengerSession:
                 bay["references_only"]=True
                 if self._references_only=="vegetation":
                     bay["reference_kind"]="vegetation"
+                elif self._references_only=='possible_vehicle':
+                    bay['reference_kind']='possible_vehicle'
             if receipt is not None and receipt["provenance"].get("bay_outline"):
                 bay["bay_outline"] = receipt["provenance"]["bay_outline"]
             if self._bay_menu is not None:
-                bay["bay_choices"] = self._bay_menu[0]["provenance"]["bay_choices"]
-                if self._bay_menu[0]['provenance'].get('vehicle_ground_policy') and self._result.get('anchor_boxes_xyxy'):
+                source = self._bay_menu[0]['provenance']
+                bay['bay_choices'] = source['bay_choices']
+                if source.get('vehicle_ground_policy') and self._result.get('anchor_boxes_xyxy'):
                     bay['vehicle_ground_choice'] = True
-                if self._bay_menu[0]["provenance"]["reason"] in {"unverified_bay_reference", "passenger_choice_of_observed_alternative", "choose_observed_ground_behind_vehicle"}:
+                if source.get('vehicle_ground_policy') or source['reason'] in {'unverified_bay_reference', 'passenger_choice_of_observed_alternative'}:
                     bay["bay_reference_uncertain"] = True
             return deepcopy({"state":self._state, "recording_id":frame["recording_id"], "frame_id":frame["frame_id"],
                              "image_sha256":self._scene["provenance"]["image_sha256"],
@@ -515,6 +518,8 @@ class PassengerSession:
             verifier(req, outcome)
             self._references_only = (info.get("reason")=="vehicle_seen_space_withheld" and
                                      result["status"]=="needs_clarification" and bool(result.get("anchor_boxes_xyxy")))
+            if info.get('reason')=='vehicle_side_uncertain' and result.get('anchor_boxes_xyxy'):
+                self._references_only='possible_vehicle'
             if (info.get("reason")=="vegetation_seen_space_withheld" and result["status"]=="needs_clarification"
                     and result.get("anchor_boxes_xyxy")):
                 self._references_only="vegetation"

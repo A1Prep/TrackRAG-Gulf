@@ -392,6 +392,50 @@ def _description(q):
     return q["value"]
 
 
+def possible_side_reference(request, ref, specs, answers, *, observations=()):
+    """Offer a unique body as a question when road-side and image-side descriptions may differ."""
+    side=ref.get("side")
+    words=_text(request["text"]).split()
+    if (side not in {"left","right"} or ref.get("ground_side") or ref.get("unsupported")
+            or set(words)&{"screen","photo","picture","image","frame","leftmost","rightmost"}):
+        return None
+    details=ref.get("qualifiers",[])
+    if any(q.get("field")!="appearance" or q.get("value")!="dark" for q in details):
+        return None
+    wants_dark=bool(details)
+    width=request["scene"]["frame"]["width"]
+    plausible=[]
+    for spec,row in zip(specs,answers,strict=True):
+        color,kind=row[:2]
+        if (kind=="unknown" or color=="unknown" or not single_vehicle._compatible(ref["kind"],kind)
+                or ref.get("color") and color!=ref["color"]):
+            continue
+        linked=[r for r in observations if r.get("track_id")==spec["track_id"] and r.get("box")==spec["box"]]
+        explicit_dark=False
+        conflict=False
+        for r in linked:
+            caption=r.get("appearance")
+            shade,observed_kind,_=_identity(caption)
+            if (shade and shade!=color or observed_kind and not
+                    (single_vehicle._compatible(kind,observed_kind) or single_vehicle._compatible(observed_kind,kind))):
+                conflict=True
+            names=_body_words(caption)
+            if _has(["dark",color],names) and observed_kind and single_vehicle._compatible(ref["kind"],observed_kind):
+                explicit_dark=True
+        if conflict or wants_dark and color!="black" and not explicit_dark:
+            continue
+        if single_vehicle._side(spec["box"],width,side):
+            return None
+        label=(("dark " if explicit_dark and color!="black" else "")+color+" "+("SUV" if kind=="suv" else kind))
+        plausible.append((spec["box"],label))
+    if len(plausible)!=1:
+        return None
+    box,label=plausible[0]
+    mid=(box[0]+box[2])/2
+    position="left of centre" if mid<width/2 else "right of centre" if mid>width/2 else "in the centre"
+    return [box],f"I can see a {label} {position} in the photo. Is that the vehicle you meant by “on the {side}”?"
+
+
 def resolve(request,ref,specs,answers,*,observations=(),expanded=True):
     """Return qualified matches, drawable anchor boxes, and a clarification unless a unique match is proved."""
     if not expanded:

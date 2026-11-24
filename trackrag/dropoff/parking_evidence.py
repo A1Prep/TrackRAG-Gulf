@@ -199,6 +199,9 @@ class ModalParkingBackend:
         self.root = root
 
     def interpret(self, request):
+        from .local_surfaces import local_only
+        if local_only(request["scene"]):
+            raise ValueError("This photo is registered for local processing only.")
         path = Path(request["scene"]["frame"]["image_path"])
         if path.stat().st_size > MAX_IMAGE_BYTES:
             raise ValueError("Photograph exceeds the parking service input size")

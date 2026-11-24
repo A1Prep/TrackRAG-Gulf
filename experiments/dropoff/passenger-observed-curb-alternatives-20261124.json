@@ -1,0 +1,405 @@
+{
+  "scope": "Development after opening the original six UAE photo references. The 13 further wordings use the same four positive photographs. This is wording and integration coverage, not a new-image accuracy estimate.",
+  "original_independent_study": "passenger-placement-fourth-holdout-results-20261124.json",
+  "original_requests_browser_replay": "passenger-placement-fourth-development-replay-20261124.json",
+  "positive_definition": "One selectable point inside the previously frozen polygon, no immediate proposal or save token, passenger selection and separate confirmation. There is no ground-truth claim about stopping law, free space in metres, movement or an entire parking-bay footprint.",
+  "method": {
+    "interior_points": "The original Mask2Former map, existing same-frame Task 1 tracks, connected pavement and the source-bound 8B OPEN verdict on the full photo and crop corroborate the selected ground. Another registered source uses a specifically measured two-approach kerb recess and nearby pictured greenery/sign, with no 8B vacancy claim.",
+    "public_gallery": "Existing public point observations have a single wide-view vacancy verdict. Each accepted public point marker also fits entirely inside one independently authenticated full-photo + crop BAY footprint that meets the existing vehicle size and connected-road gates. The candidate is withheld when either view or footprint is missing.",
+    "language": "Names must match a legible phrase in a separate photo band, colours belong to the measured sign or named vehicle, and optional materials or palm species are disclosed as unverified. Mandatory legality, fare, travel-lane and unmatched referent instructions produce no alternative."
+  },
+  "endpoint": "Ordinary passenger submit, selection and explicit confirmation on the built app (no hosted calls for these six originals). Timings include local session opening and completion polling; they are a single run on this machine.",
+  "typed_api": {
+    "positive_phrasings": 5,
+    "reference_correct_guided": 5,
+    "direct": 0,
+    "additional_wrong_choices": 0,
+    "selected_and_saved": 5,
+    "altered_or_prohibited": 8,
+    "all_points_withheld": 8,
+    "median_s": 0.391,
+    "range_s": [
+      0.078,
+      0.797
+    ],
+    "receipt_sha256": "3e4a43bc6aa57fb7d8ef62c357e841bc7a1f904cb5fb5fcfc5035281e8368a4b"
+  },
+  "cases": [
+    {
+      "case": "N01",
+      "source_sha256": "23e5daf9f36f07025239167d7d2853be6ced5f4f21c7d6f9645ca6018c26c21d",
+      "recording_id": "kartaview_4716457",
+      "frame_id": 586,
+      "words_and_results": [
+        {
+          "text": "Please use the lay-by by the trees and road sign.",
+          "variation": "similar",
+          "first_state": "needs_clarification",
+          "point_choices": [
+            [
+              2181.288,
+              1128.451
+            ]
+          ],
+          "in_reference": [
+            true
+          ],
+          "initial_save_available": false,
+          "passenger_selected_and_saved": true,
+          "explanation": "The kerb bends into a recess on the right, below greenery and a sign. Is the marked point in that recess what you meant?",
+          "time_s": 0.531
+        },
+        {
+          "text": "Use the lay-by on the right.",
+          "variation": "generic",
+          "first_state": "needs_clarification",
+          "point_choices": [
+            [
+              2181.288,
+              1128.451
+            ]
+          ],
+          "in_reference": [
+            true
+          ],
+          "initial_save_available": false,
+          "passenger_selected_and_saved": true,
+          "explanation": "The kerb bends into a recess on the right. Is the marked point in that recess what you meant?",
+          "time_s": 0.406
+        },
+        {
+          "text": "Use the lay-by on the left.",
+          "variation": "wrong_side",
+          "first_state": "needs_clarification",
+          "point_choices": [],
+          "in_reference": [],
+          "initial_save_available": false,
+          "passenger_selected_and_saved": false,
+          "explanation": "I couldn’t match that description to a visible drop-off area. Tap an off-lane spot to check the surface, or describe another landmark.",
+          "time_s": 0.578
+        },
+        {
+          "text": "Can you stop in the lane by the sign and greenery?",
+          "variation": "lane",
+          "first_state": "needs_clarification",
+          "point_choices": [],
+          "in_reference": [],
+          "initial_save_available": false,
+          "passenger_selected_and_saved": false,
+          "explanation": "You asked to get out in a travel lane. Is there a pull-in off the lane that you meant?",
+          "time_s": 0.11
+        }
+      ]
+    },
+    {
+      "case": "N03",
+      "source_sha256": "f54b64ca973b1dee85217c345b043aef8d9a5bd3854f8d6f25a3fa42edce1eed",
+      "recording_id": "kartaview_64509",
+      "frame_id": 237,
+      "words_and_results": [
+        {
+          "text": "Please use the open gravel to the left of the parked black SUV.",
+          "variation": "similar",
+          "first_state": "needs_clarification",
+          "point_choices": [
+            [
+              46.29333333333334,
+              1157.1709233791748
+            ]
+          ],
+          "in_reference": [
+            true
+          ],
+          "initial_save_available": false,
+          "passenger_selected_and_saved": true,
+          "explanation": "I can see a black SUV among the vehicles beside this parking area. Its marked point is to their left. I couldn’t verify the gravel surface or whether the vehicle is parked. Is this the spot you meant?",
+          "time_s": 0.297
+        },
+        {
+          "text": "Please use the open gravel to the left of the parked white SUV.",
+          "variation": "wrong_colour",
+          "first_state": "needs_clarification",
+          "point_choices": [],
+          "in_reference": [],
+          "initial_save_available": false,
+          "passenger_selected_and_saved": false,
+          "explanation": "I couldn’t match that description to a visible drop-off area. Tap an off-lane spot to check the surface, or describe another landmark.",
+          "time_s": 0.359
+        },
+        {
+          "text": "Please use the open gravel to the right of the parked dark SUV.",
+          "variation": "wrong_side",
+          "first_state": "needs_clarification",
+          "point_choices": [],
+          "in_reference": [],
+          "initial_save_available": false,
+          "passenger_selected_and_saved": false,
+          "explanation": "I couldn’t match that description to a visible drop-off area. Tap an off-lane spot to check the surface, or describe another landmark.",
+          "time_s": 0.391
+        }
+      ]
+    },
+    {
+      "case": "N04",
+      "source_sha256": "5c8a40b1a7f2fc106fae50949ab85a4dbe10b313850e4128b33a09dc45816fcb",
+      "recording_id": "kartaview_4722665",
+      "frame_id": 4,
+      "words_and_results": [
+        {
+          "text": "Please use an empty marked space by the orange parking sign, opposite Mega Mall.",
+          "variation": "similar",
+          "first_state": "needs_clarification",
+          "point_choices": [
+            [
+              552.5333333333333,
+              1880.395256916996
+            ]
+          ],
+          "in_reference": [
+            true
+          ],
+          "initial_save_available": false,
+          "passenger_selected_and_saved": true,
+          "explanation": "I found open parking near the orange parking sign. I can also read “mega mall” elsewhere in the photo. I couldn’t verify that the spot is across the street from it or trace the whole bay. Is this the spot you meant?",
+          "time_s": 0.609
+        },
+        {
+          "text": "Please use an empty marked space by the blue parking sign, opposite Mega Mall.",
+          "variation": "wrong_colour",
+          "first_state": "needs_clarification",
+          "point_choices": [],
+          "in_reference": [],
+          "initial_save_available": false,
+          "passenger_selected_and_saved": false,
+          "explanation": "Could you describe a visible off-lane spot or tap the space you mean on the photo?",
+          "time_s": 0.313
+        },
+        {
+          "text": "Please use an empty marked space by the orange parking sign, opposite Harbour Plaza.",
+          "variation": "wrong_name",
+          "first_state": "needs_clarification",
+          "point_choices": [],
+          "in_reference": [],
+          "initial_save_available": false,
+          "passenger_selected_and_saved": false,
+          "explanation": "Could you describe a visible off-lane spot or tap the space you mean on the photo?",
+          "time_s": 0.219
+        }
+      ]
+    },
+    {
+      "case": "N06",
+      "source_sha256": "1948be1039f755691fda591237ef9aa41ff0a0fc4179a9269d005662347753ce",
+      "recording_id": "kartaview_966571",
+      "frame_id": 40,
+      "words_and_results": [
+        {
+          "text": "Use a parking space on the right by the wall and palm trees.",
+          "variation": "similar",
+          "first_state": "needs_clarification",
+          "point_choices": [
+            [
+              2801.0666666666666,
+              1978.5770750988142
+            ]
+          ],
+          "in_reference": [
+            true
+          ],
+          "initial_save_available": false,
+          "passenger_selected_and_saved": true,
+          "explanation": "The photo shows open parking on the right, with greenery and a wall in that part of the picture. I couldn’t identify the trees as palms. Is this the spot you meant?",
+          "time_s": 0.703
+        },
+        {
+          "text": "Use a parking space on the left by the wall and palm trees.",
+          "variation": "wrong_side",
+          "first_state": "needs_clarification",
+          "point_choices": [],
+          "in_reference": [],
+          "initial_save_available": false,
+          "passenger_selected_and_saved": false,
+          "explanation": "I couldn’t match that description to a visible drop-off area. Tap an off-lane spot to check the surface, or describe another landmark.",
+          "time_s": 0.797
+        },
+        {
+          "text": "Use a free parking space on the right by the wall and palms.",
+          "variation": "fee",
+          "first_state": "needs_clarification",
+          "point_choices": [],
+          "in_reference": [],
+          "initial_save_available": false,
+          "passenger_selected_and_saved": false,
+          "explanation": "Could you describe a visible off-lane spot or tap the space you mean on the photo?",
+          "time_s": 0.078
+        }
+      ]
+    }
+  ],
+  "edge_browser": {
+    "source_sha256": "5c8a40b1a7f2fc106fae50949ab85a4dbe10b313850e4128b33a09dc45816fcb",
+    "words": "Please use an empty marked space by the orange parking sign, opposite Mega Mall.",
+    "first_visible_seconds": 1.501,
+    "visible_message": "I found open parking near the orange parking sign. I can also read “mega mall” elsewhere in the photo. I couldn’t verify that the spot is across the street from it or trace the whole bay. Is this the spot you meant? You can also mark another spot.",
+    "initial_save_visible": false,
+    "save_token_initially_present": false,
+    "explicitly_selected_by": "passenger",
+    "saved_point": [
+      552.5333333333333,
+      1880.395256916996
+    ],
+    "saved_heading": "Location saved",
+    "receipt_sha256": "28dd04c3d1a59ca1ea839d1bbb2812beadac3b989f9f3513acd9ae04a49b03a7"
+  },
+  "existing_signed_gallery": {
+    "archives_with_stall_review": 26,
+    "reviewed_shapes": 65,
+    "full_and_crop_bay": 50,
+    "photos_with_full_and_crop_bay": 21,
+    "photos_with_both_evidence_types": 8,
+    "photos_with_verified_enclosed_points": 3,
+    "verified_enclosed_points": 6,
+    "asked_in_source_replay": [
+      {
+        "recording_id": "kartaview_5331945",
+        "frame_id": 29,
+        "source_sha256": "cb01925b9b3beb0377212524b9c02680e777d1371536dc0c373b0a7809eb533a",
+        "attempts": [
+          {
+            "text": "Please use a parking space by the wall.",
+            "point": [
+              2765.3333333333335,
+              1387.8853754940712
+            ],
+            "replayed": true
+          }
+        ]
+      },
+      {
+        "recording_id": "kartaview_5546153",
+        "frame_id": 445,
+        "source_sha256": "df4b13c0f17548cf0a1911efdbe0f94b00c1299c97a07a6c3783beab3ce2b416",
+        "attempts": [
+          {
+            "text": "Please use a parking space by the sign.",
+            "point": [
+              3223.4666666666667,
+              1957.2332015810277
+            ],
+            "replayed": true
+          }
+        ]
+      }
+    ],
+    "source_review": "The two example locations were visually inspected on the original. One point falls within the parking space along the white wall beside a parked car. The second falls inside the car park beside the marked parking sign. No survey, legal or physical-clearance claim was made.",
+    "first_normal_app_requests": [
+      {
+        "recording_id": "kartaview_5331945",
+        "frame_id": 29,
+        "words": "Please use a parking space by the wall.",
+        "state": "needs_clarification",
+        "point": null,
+        "choices": [],
+        "question": "I couldn’t match an outlined bay to those details. Could you tap inside the bay you mean?",
+        "actor": "model",
+        "error": null,
+        "runtime_s": 2.562
+      },
+      {
+        "recording_id": "kartaview_5546153",
+        "frame_id": 445,
+        "words": "Please use a parking space by the sign.",
+        "state": "needs_clarification",
+        "point": null,
+        "choices": [],
+        "question": "I couldn’t match an outlined bay to those details. Could you tap inside the bay you mean?",
+        "actor": "model",
+        "error": null,
+        "runtime_s": 4.781
+      }
+    ],
+    "receipt_sha256": "3b44728dfa95967278bb75161af1e2edd77f881a3f9d8ca2bd90b917db529e5b",
+    "integrated_normal_app_requests": [
+      {
+        "recording_id": "kartaview_5331945",
+        "frame_id": 29,
+        "words": "Please use a parking space by the wall.",
+        "state": "needs_clarification",
+        "point": null,
+        "choices": [
+          [
+            2765.3333333333335,
+            1387.8853754940712
+          ]
+        ],
+        "question": "The photo shows open parking, with a wall in that part of the picture. I couldn’t verify the exact position beside the landmark. Is this the spot you meant?",
+        "actor": "model",
+        "error": null,
+        "runtime_s": 1.891,
+        "initial_save": false,
+        "chosen_by": "passenger",
+        "separately_saved_same_point": true
+      },
+      {
+        "recording_id": "kartaview_5546153",
+        "frame_id": 445,
+        "words": "Please use a parking space by the sign.",
+        "state": "needs_clarification",
+        "point": null,
+        "choices": [
+          [
+            3223.4666666666667,
+            1957.2332015810277
+          ]
+        ],
+        "question": "The photo shows open parking, with a sign in that part of the picture. I couldn’t verify the exact position beside the landmark. Is this the spot you meant?",
+        "actor": "model",
+        "error": null,
+        "runtime_s": 4.625,
+        "initial_save": false,
+        "chosen_by": "passenger",
+        "separately_saved_same_point": true
+      }
+    ],
+    "integrated_base_revision": "cd6ccf8",
+    "integrated_receipt_sha256": "f5055805947434e066db91230dc08907f97f65c08fd4556b20b75a7adae43cb9",
+    "integrated_edge_browser": [
+      {
+        "recording_id": "kartaview_5331945",
+        "frame_id": 29,
+        "source_sha256": "cb01925b9b3beb0377212524b9c02680e777d1371536dc0c373b0a7809eb533a",
+        "rendered_first_choice_seconds": 0.929,
+        "rendered_copy": "The photo shows open parking, with a wall in that part of the picture. I couldn’t verify the exact position beside the landmark. Is this the spot you meant? You can also mark another spot.",
+        "initial_save_visible": false,
+        "initial_token": false,
+        "actor": "passenger",
+        "saved_point": [
+          2765.3333333333335,
+          1387.8853754940712
+        ],
+        "final_heading": "Location saved",
+        "receipt_sha256": "9fef35888d1a1db2fb1d51e7fe2969f373760067dfb2b625a3f385985e546ec8"
+      },
+      {
+        "recording_id": "kartaview_5546153",
+        "frame_id": 445,
+        "source_sha256": "df4b13c0f17548cf0a1911efdbe0f94b00c1299c97a07a6c3783beab3ce2b416",
+        "rendered_first_choice_seconds": 1.458,
+        "rendered_copy": "The photo shows open parking, with a sign in that part of the picture. I couldn’t verify the exact position beside the landmark. Is this the spot you meant? You can also mark another spot.",
+        "initial_save_visible": false,
+        "initial_token": false,
+        "actor": "passenger",
+        "saved_point": [
+          3223.4666666666667,
+          1957.2332015810277
+        ],
+        "final_heading": "Location saved",
+        "receipt_sha256": "d13d123d84a2f5c83d773ed81cdc9a801ec9b6e8c66239cf1972b46a355afcaa"
+      }
+    ]
+  },
+  "regression_tests": {
+    "passed": 61,
+    "scope": "Focused alternative language, signed observations, existing painted bays, local surfaces and native destinations. OpenCV bounded to one thread for the run. A prior run sharing memory with the model returned one allocation failure; all 61 including the added public eligibility regression passed on repeat."
+  }
+}

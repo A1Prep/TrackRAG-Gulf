@@ -1,0 +1,924 @@
+{
+  "scope": "Frame-specific engineering rehearsal on the previously authorized EMT recording video_054907. Visual interpretation is by one independent AI reviewer. No passenger holdout or KartaView originals were used.",
+  "recording": "video_054907",
+  "paused_frame": 103,
+  "playback_seconds": 10.2,
+  "original_sha256": "0448ff2ffa6959029f2af9d6f9fefc72af976679d400fe796e4e7064ce425213",
+  "original_size": [
+    2560,
+    1440
+  ],
+  "prior_visual_read": "I inspected the full original on this computer before submitting any of these questions to the app. A large white pickup with an uncovered steel rack fills the lower-left foreground. A separate white enclosed box truck is farther down the highway just to the right of centre, apparently in front of a tall building in the image. Multiple buildings beyond an elevated road form the background. No calibrated depth or truck speed can be derived: the bottom overlay gives the recording vehicle's own speed. There are multiple plausible trucks/buildings. Based on the pixels alone an image-plane relationship can be described, while actual physical separation stays unknown.",
+  "method": "A real Edge browser used the ordinary paused-footage page in both modes. Each evidence image was downloaded from its actual displayed link and retained locally with its SHA-256. The citation links and saved provider receipts were checked separately. A localized question was followed by a bounded repeat after an operational failure.",
+  "evidence_guide": "The player displays the original image. Normal evidence links display full-size copies, with a track outline when applicable. Only the separately privacy-processed and resized copies identified by the provider receipts were sent to Gemini.",
+  "outcomes": [
+    {
+      "id": "exact",
+      "mode": "local",
+      "words": "is the truck near the building",
+      "trial": "initial",
+      "operational_failure": "First local request received an unsuccessful HTTP reply. Its response code and error details were not captured; a new session succeeded."
+    },
+    {
+      "id": "exact",
+      "mode": "gemini",
+      "words": "is the truck near the building",
+      "source": "gemini",
+      "time_ms": 8308,
+      "heading": "Insufficient evidence",
+      "answer": {
+        "answer_status": "insufficient_evidence",
+        "answer": "Which truck do you mean? There are possible matches on the left and near the centre in the paused frame.",
+        "cited_evidence_ids": []
+      },
+      "citation_link_frames": [],
+      "trial": "initial",
+      "saved_result_sha256": "fe9c96ac97097021057a48183975945481f1210a8bc82a0b85918e1bb314c55f",
+      "displayed_evidence": [
+        {
+          "id": "E1",
+          "source": "predicted",
+          "track_id": 6,
+          "frame": 103,
+          "cited": false,
+          "image_sha256": [
+            "d2191f599e5665204accb9b9798a3a1828448d2050537fd835d7aab812c36f92"
+          ]
+        },
+        {
+          "id": "E2",
+          "source": "predicted",
+          "track_id": null,
+          "frame": 103,
+          "cited": false,
+          "image_sha256": [
+            "9acaa1e61485f24bc1dd99049204b66d72854e39529ed148bf870b35486a14bc"
+          ]
+        },
+        {
+          "id": "E3",
+          "source": "predicted",
+          "track_id": 1397,
+          "frame": 103,
+          "cited": false,
+          "image_sha256": [
+            "55f7dd0190d42c244197180b875a4e4b2c2421c47eea5cab44813798e64ce108"
+          ]
+        }
+      ],
+      "provider": {
+        "calls_attempted": 0,
+        "images_sent": [],
+        "request_status": "not_requested",
+        "reason": "ambiguous_current_vehicle",
+        "model": null,
+        "attempts": [],
+        "receipt_sha256": "a2f685d37d23d54df60484dce161327231677a602b8ee8c406b93b51a1a9b7d4"
+      }
+    },
+    {
+      "id": "side",
+      "mode": "local",
+      "words": "Which side of the image is the white pickup carrying the metal rack on?",
+      "source": "evidence_only",
+      "time_ms": 6482,
+      "heading": "Retrieved evidence",
+      "answer": {
+        "answer_status": "not_requested",
+        "answer": null,
+        "cited_evidence_ids": []
+      },
+      "citation_link_frames": [],
+      "trial": "initial",
+      "saved_result_sha256": "acff57f66dbd2f3c9811f4229fadb96d7c01f33ddf1209bfb5e6c83d3de89707",
+      "displayed_evidence": [
+        {
+          "id": "E1",
+          "source": "predicted",
+          "track_id": 6,
+          "frame": 103,
+          "cited": false,
+          "image_sha256": [
+            "d2191f599e5665204accb9b9798a3a1828448d2050537fd835d7aab812c36f92"
+          ]
+        },
+        {
+          "id": "E2",
+          "source": "predicted",
+          "track_id": null,
+          "frame": 103,
+          "cited": false,
+          "image_sha256": [
+            "9acaa1e61485f24bc1dd99049204b66d72854e39529ed148bf870b35486a14bc"
+          ]
+        },
+        {
+          "id": "E3",
+          "source": "predicted",
+          "track_id": 5,
+          "frame": 103,
+          "cited": false,
+          "image_sha256": [
+            "5ebe0b41101f5844b8ac3d07c8dee25328bf5cd33fecef36ec0ed4be9aa62d06"
+          ]
+        }
+      ],
+      "provider": {
+        "calls_attempted": 0,
+        "images_sent": []
+      }
+    },
+    {
+      "id": "side",
+      "mode": "gemini",
+      "words": "Which side of the image is the white pickup carrying the metal rack on?",
+      "source": "gemini",
+      "time_ms": 12547,
+      "heading": "Gemini answer",
+      "answer": {
+        "answer_status": "answered",
+        "answer": "The white pickup carrying the metal rack is located on the left side of the image.",
+        "cited_evidence_ids": [
+          "E1",
+          "E2"
+        ]
+      },
+      "citation_link_frames": [
+        103,
+        103
+      ],
+      "trial": "initial",
+      "saved_result_sha256": "75c84316a54054f1d3a4f75e7d89b828968dca385310701ed90888172b3f37c6",
+      "displayed_evidence": [
+        {
+          "id": "E1",
+          "source": "predicted",
+          "track_id": 6,
+          "frame": 103,
+          "cited": true,
+          "image_sha256": [
+            "d2191f599e5665204accb9b9798a3a1828448d2050537fd835d7aab812c36f92"
+          ]
+        },
+        {
+          "id": "E2",
+          "source": "predicted",
+          "track_id": null,
+          "frame": 103,
+          "cited": true,
+          "image_sha256": [
+            "9acaa1e61485f24bc1dd99049204b66d72854e39529ed148bf870b35486a14bc"
+          ]
+        },
+        {
+          "id": "E3",
+          "source": "predicted",
+          "track_id": 5,
+          "frame": 103,
+          "cited": false,
+          "image_sha256": [
+            "5ebe0b41101f5844b8ac3d07c8dee25328bf5cd33fecef36ec0ed4be9aa62d06"
+          ]
+        }
+      ],
+      "provider": {
+        "calls_attempted": 1,
+        "images_sent": [
+          {
+            "id": "E1",
+            "frame": 103,
+            "sha256": "f5c959bf79464960cc741cfbeb4fe8f01cf084fcb7f417b5e3aeeb4f307d6f38",
+            "size": [
+              1024,
+              576
+            ],
+            "lower_vehicle_regions_masked": 12
+          },
+          {
+            "id": "E2",
+            "frame": 103,
+            "sha256": "efd22d3f4027a80dd122a05e7972fbb98ada3c922c2dc19f8d2e2d8734424010",
+            "size": [
+              1024,
+              576
+            ],
+            "lower_vehicle_regions_masked": 12
+          },
+          {
+            "id": "E3",
+            "frame": 103,
+            "sha256": "8ae82227847abba1e5e191b7ec521a240b21a2cc0a86f03a4c33d0ac577bce63",
+            "size": [
+              1024,
+              576
+            ],
+            "lower_vehicle_regions_masked": 12
+          }
+        ],
+        "request_status": "completed",
+        "reason": null,
+        "model": "gemini-3.5-flash-lite",
+        "attempts": [
+          {
+            "attempt": 1,
+            "request_status": "completed",
+            "provider_status": "completed"
+          }
+        ],
+        "receipt_sha256": "e4bb6c61100ac58b404e3f5d73f3881f4d7f2db814639a8877406ffbc79b865f"
+      }
+    },
+    {
+      "id": "count",
+      "mode": "local",
+      "words": "How many cars are detected in this frame?",
+      "source": "local_tracks",
+      "time_ms": 6382,
+      "heading": "Answer from recorded tracks",
+      "answer": {
+        "answer_status": "answered",
+        "answer": "The tracker detected 10 cars in frame 103.",
+        "cited_evidence_ids": [
+          "E2"
+        ]
+      },
+      "citation_link_frames": [
+        103
+      ],
+      "trial": "initial",
+      "saved_result_sha256": "7c719dcdf5b5381e87b5da1f7ece68d2ed0165663f2e3378a3253191d7608bb2",
+      "displayed_evidence": [
+        {
+          "id": "E1",
+          "source": "predicted",
+          "track_id": 5,
+          "frame": 103,
+          "cited": false,
+          "image_sha256": [
+            "5ebe0b41101f5844b8ac3d07c8dee25328bf5cd33fecef36ec0ed4be9aa62d06"
+          ]
+        },
+        {
+          "id": "E2",
+          "source": "predicted",
+          "track_id": null,
+          "frame": 103,
+          "cited": true,
+          "image_sha256": [
+            "9acaa1e61485f24bc1dd99049204b66d72854e39529ed148bf870b35486a14bc"
+          ]
+        },
+        {
+          "id": "E3",
+          "source": "predicted",
+          "track_id": 2870,
+          "frame": 103,
+          "cited": false,
+          "image_sha256": [
+            "1cf42e6d8c11aa539cf328f98b400f28cc8fdd552fe98b3b4b833d14db773ce0"
+          ]
+        }
+      ],
+      "provider": {
+        "calls_attempted": 0,
+        "images_sent": []
+      }
+    },
+    {
+      "id": "count",
+      "mode": "gemini",
+      "words": "How many cars are detected in this frame?",
+      "source": "gemini",
+      "time_ms": 13557,
+      "heading": "The search couldn’t finish",
+      "answer": {
+        "answer_status": "error",
+        "answer": "InternalServerError: Error code: 503 - {'error': {'message': 'gemini-3.5-flash-lite is currently experiencing high demand, spikes in demand are usually temporary. Please try again later.', 'code': 'service_unavailable'}}",
+        "cited_evidence_ids": []
+      },
+      "citation_link_frames": [],
+      "trial": "initial",
+      "saved_result_sha256": "e38a42e6de89614207ed649b2ab7716c2432c5341f19bb2fe3dc3b9af9251df9",
+      "displayed_evidence": [
+        {
+          "id": "E1",
+          "source": "predicted",
+          "track_id": 5,
+          "frame": 103,
+          "cited": false,
+          "image_sha256": [
+            "5ebe0b41101f5844b8ac3d07c8dee25328bf5cd33fecef36ec0ed4be9aa62d06"
+          ]
+        },
+        {
+          "id": "E2",
+          "source": "predicted",
+          "track_id": null,
+          "frame": 103,
+          "cited": false,
+          "image_sha256": [
+            "9acaa1e61485f24bc1dd99049204b66d72854e39529ed148bf870b35486a14bc"
+          ]
+        },
+        {
+          "id": "E3",
+          "source": "predicted",
+          "track_id": 2870,
+          "frame": 103,
+          "cited": false,
+          "image_sha256": [
+            "1cf42e6d8c11aa539cf328f98b400f28cc8fdd552fe98b3b4b833d14db773ce0"
+          ]
+        }
+      ],
+      "provider": {
+        "calls_attempted": 2,
+        "images_sent": [
+          {
+            "id": "E1",
+            "frame": 103,
+            "sha256": "8ae82227847abba1e5e191b7ec521a240b21a2cc0a86f03a4c33d0ac577bce63",
+            "size": [
+              1024,
+              576
+            ],
+            "lower_vehicle_regions_masked": 12
+          },
+          {
+            "id": "E2",
+            "frame": 103,
+            "sha256": "efd22d3f4027a80dd122a05e7972fbb98ada3c922c2dc19f8d2e2d8734424010",
+            "size": [
+              1024,
+              576
+            ],
+            "lower_vehicle_regions_masked": 12
+          },
+          {
+            "id": "E3",
+            "frame": 103,
+            "sha256": "f02cb90756862b1337a731ed0d58bc961ec1ae37fe967e0e70707adcbc4c4efb",
+            "size": [
+              1024,
+              576
+            ],
+            "lower_vehicle_regions_masked": 12
+          }
+        ],
+        "request_status": "error",
+        "reason": null,
+        "model": "gemini-3.5-flash-lite",
+        "attempts": [
+          {
+            "attempt": 1,
+            "request_status": "error",
+            "error_type": "InternalServerError",
+            "http_status": 503,
+            "retry_delay_seconds": 1
+          },
+          {
+            "attempt": 2,
+            "request_status": "error",
+            "error_type": "InternalServerError",
+            "http_status": 503
+          }
+        ],
+        "receipt_sha256": "4287652a943ffab6cd79728733d3139301ee90155dadb602cacf8b9bd7362abb"
+      }
+    },
+    {
+      "id": "unmeasured",
+      "mode": "local",
+      "words": "Can you tell how fast that pickup is moving and how far it is from the building in metres?",
+      "source": "evidence_only",
+      "time_ms": 4527,
+      "heading": "No matching evidence",
+      "answer": {
+        "answer_status": "not_requested",
+        "answer": null,
+        "cited_evidence_ids": []
+      },
+      "citation_link_frames": [],
+      "trial": "initial",
+      "saved_result_sha256": "f6d1fc723e77b88939900c53f1eaf1b649223c49d0d54a50f2ed2847acf678fd",
+      "displayed_evidence": [],
+      "provider": {
+        "calls_attempted": 0,
+        "images_sent": []
+      }
+    },
+    {
+      "id": "unmeasured",
+      "mode": "gemini",
+      "words": "Can you tell how fast that pickup is moving and how far it is from the building in metres?",
+      "source": "gemini",
+      "time_ms": 4585,
+      "heading": "Insufficient evidence",
+      "answer": {
+        "answer_status": "insufficient_evidence",
+        "answer": null,
+        "cited_evidence_ids": []
+      },
+      "citation_link_frames": [],
+      "trial": "initial",
+      "saved_result_sha256": "32101a389350b42f87b5cb5f0ea035db5ad3939b59ed38383d9040951c5ea501",
+      "displayed_evidence": [],
+      "provider": {
+        "calls_attempted": 0,
+        "images_sent": []
+      }
+    },
+    {
+      "id": "exact",
+      "mode": "local",
+      "words": "is the truck near the building",
+      "source": "evidence_only",
+      "time_ms": 6211,
+      "heading": "Retrieved evidence",
+      "answer": {
+        "answer_status": "not_requested",
+        "answer": null,
+        "cited_evidence_ids": []
+      },
+      "http_status": 200,
+      "citation_link_frames": [],
+      "trial": "exact-local-retry",
+      "saved_result_sha256": "e3742ed0913b342c45aa534efc939a313eb02a53f560596eacbfc8a7b3047787",
+      "displayed_evidence": [
+        {
+          "id": "E1",
+          "source": "predicted",
+          "track_id": 6,
+          "frame": 103,
+          "cited": false,
+          "image_sha256": [
+            "d2191f599e5665204accb9b9798a3a1828448d2050537fd835d7aab812c36f92"
+          ]
+        },
+        {
+          "id": "E2",
+          "source": "predicted",
+          "track_id": null,
+          "frame": 103,
+          "cited": false,
+          "image_sha256": [
+            "9acaa1e61485f24bc1dd99049204b66d72854e39529ed148bf870b35486a14bc"
+          ]
+        },
+        {
+          "id": "E3",
+          "source": "predicted",
+          "track_id": 1397,
+          "frame": 103,
+          "cited": false,
+          "image_sha256": [
+            "55f7dd0190d42c244197180b875a4e4b2c2421c47eea5cab44813798e64ce108"
+          ]
+        }
+      ],
+      "provider": {
+        "calls_attempted": 0,
+        "images_sent": []
+      }
+    },
+    {
+      "id": "count",
+      "mode": "gemini",
+      "words": "How many cars are detected in this frame?",
+      "source": "gemini",
+      "time_ms": 11345,
+      "heading": "Gemini answer",
+      "answer": {
+        "answer_status": "answered",
+        "answer": "Based on the observed metadata predictions for frame 103, there are 10 cars detected (track IDs 4, 5, 7, 38, 1675, 2032, 2230, 2870, 3009, and 3026).",
+        "cited_evidence_ids": [
+          "E1",
+          "E2",
+          "E3"
+        ]
+      },
+      "http_status": 200,
+      "citation_link_frames": [
+        103,
+        103,
+        103
+      ],
+      "trial": "count-gemini-retry",
+      "saved_result_sha256": "11e3063353c1b74980c7685634391caec0c01c9238ce011e0fb0c03c4d53fb88",
+      "displayed_evidence": [
+        {
+          "id": "E1",
+          "source": "predicted",
+          "track_id": 5,
+          "frame": 103,
+          "cited": true,
+          "image_sha256": [
+            "5ebe0b41101f5844b8ac3d07c8dee25328bf5cd33fecef36ec0ed4be9aa62d06"
+          ]
+        },
+        {
+          "id": "E2",
+          "source": "predicted",
+          "track_id": null,
+          "frame": 103,
+          "cited": true,
+          "image_sha256": [
+            "9acaa1e61485f24bc1dd99049204b66d72854e39529ed148bf870b35486a14bc"
+          ]
+        },
+        {
+          "id": "E3",
+          "source": "predicted",
+          "track_id": 2870,
+          "frame": 103,
+          "cited": true,
+          "image_sha256": [
+            "1cf42e6d8c11aa539cf328f98b400f28cc8fdd552fe98b3b4b833d14db773ce0"
+          ]
+        }
+      ],
+      "provider": {
+        "calls_attempted": 1,
+        "images_sent": [
+          {
+            "id": "E1",
+            "frame": 103,
+            "sha256": "8ae82227847abba1e5e191b7ec521a240b21a2cc0a86f03a4c33d0ac577bce63",
+            "size": [
+              1024,
+              576
+            ],
+            "lower_vehicle_regions_masked": 12
+          },
+          {
+            "id": "E2",
+            "frame": 103,
+            "sha256": "efd22d3f4027a80dd122a05e7972fbb98ada3c922c2dc19f8d2e2d8734424010",
+            "size": [
+              1024,
+              576
+            ],
+            "lower_vehicle_regions_masked": 12
+          },
+          {
+            "id": "E3",
+            "frame": 103,
+            "sha256": "f02cb90756862b1337a731ed0d58bc961ec1ae37fe967e0e70707adcbc4c4efb",
+            "size": [
+              1024,
+              576
+            ],
+            "lower_vehicle_regions_masked": 12
+          }
+        ],
+        "request_status": "completed",
+        "reason": null,
+        "model": "gemini-3.5-flash-lite",
+        "attempts": [
+          {
+            "attempt": 1,
+            "request_status": "completed",
+            "provider_status": "completed"
+          }
+        ],
+        "receipt_sha256": "44d69e3fd2153290141fc6d4034664ac94670c72307c7228774f3458c507d39e"
+      }
+    },
+    {
+      "id": "exact",
+      "mode": "local",
+      "words": "is the truck near the building",
+      "source": "local_tracks",
+      "time_ms": 1973,
+      "heading": "Insufficient evidence",
+      "answer": {
+        "answer_status": "insufficient_evidence",
+        "answer": "Which truck do you mean? There are possible matches on the left and near the centre in the paused frame.",
+        "cited_evidence_ids": []
+      },
+      "http_status": 200,
+      "citation_link_frames": [],
+      "trial": "updated-canonical-local",
+      "saved_result_sha256": "734a2b2cbf4078ed69a0aa09c7643179ea6e02a15f204bf2d6e20842d4aa2d17",
+      "displayed_evidence": [
+        {
+          "id": "E1",
+          "source": "predicted",
+          "track_id": 6,
+          "frame": 103,
+          "cited": false,
+          "image_sha256": [
+            "d2191f599e5665204accb9b9798a3a1828448d2050537fd835d7aab812c36f92"
+          ]
+        },
+        {
+          "id": "E2",
+          "source": "predicted",
+          "track_id": null,
+          "frame": 103,
+          "cited": false,
+          "image_sha256": [
+            "9acaa1e61485f24bc1dd99049204b66d72854e39529ed148bf870b35486a14bc"
+          ]
+        },
+        {
+          "id": "E3",
+          "source": "predicted",
+          "track_id": 1397,
+          "frame": 103,
+          "cited": false,
+          "image_sha256": [
+            "55f7dd0190d42c244197180b875a4e4b2c2421c47eea5cab44813798e64ce108"
+          ]
+        }
+      ],
+      "provider": {
+        "calls_attempted": 0,
+        "images_sent": []
+      }
+    },
+    {
+      "id": "side",
+      "mode": "gemini",
+      "words": "Which side of the image is the white pickup carrying the metal rack on?",
+      "source": "gemini",
+      "time_ms": 18398,
+      "heading": "Gemini answer",
+      "answer": {
+        "answer_status": "answered",
+        "answer": "The white pickup carrying the metal rack is on the left side of the image.",
+        "cited_evidence_ids": [
+          "E1",
+          "E2"
+        ]
+      },
+      "http_status": 200,
+      "citation_link_frames": [
+        103,
+        103
+      ],
+      "trial": "updated-canonical-local",
+      "saved_result_sha256": "33e394d539ca9f51e952319af4eed04642bf8c54c5a918d6c94e2832d06f90fd",
+      "displayed_evidence": [
+        {
+          "id": "E1",
+          "source": "predicted",
+          "track_id": 6,
+          "frame": 103,
+          "cited": true,
+          "image_sha256": [
+            "d2191f599e5665204accb9b9798a3a1828448d2050537fd835d7aab812c36f92"
+          ]
+        },
+        {
+          "id": "E2",
+          "source": "predicted",
+          "track_id": null,
+          "frame": 103,
+          "cited": true,
+          "image_sha256": [
+            "9acaa1e61485f24bc1dd99049204b66d72854e39529ed148bf870b35486a14bc"
+          ]
+        },
+        {
+          "id": "E3",
+          "source": "predicted",
+          "track_id": 5,
+          "frame": 103,
+          "cited": false,
+          "image_sha256": [
+            "5ebe0b41101f5844b8ac3d07c8dee25328bf5cd33fecef36ec0ed4be9aa62d06"
+          ]
+        }
+      ],
+      "provider": {
+        "calls_attempted": 1,
+        "images_sent": [
+          {
+            "id": "E1",
+            "frame": 103,
+            "sha256": "f5c959bf79464960cc741cfbeb4fe8f01cf084fcb7f417b5e3aeeb4f307d6f38",
+            "size": [
+              1024,
+              576
+            ],
+            "lower_vehicle_regions_masked": 12
+          },
+          {
+            "id": "E2",
+            "frame": 103,
+            "sha256": "efd22d3f4027a80dd122a05e7972fbb98ada3c922c2dc19f8d2e2d8734424010",
+            "size": [
+              1024,
+              576
+            ],
+            "lower_vehicle_regions_masked": 12
+          },
+          {
+            "id": "E3",
+            "frame": 103,
+            "sha256": "8ae82227847abba1e5e191b7ec521a240b21a2cc0a86f03a4c33d0ac577bce63",
+            "size": [
+              1024,
+              576
+            ],
+            "lower_vehicle_regions_masked": 12
+          }
+        ],
+        "request_status": "completed",
+        "reason": null,
+        "model": "gemini-3.5-flash-lite",
+        "attempts": [
+          {
+            "attempt": 1,
+            "request_status": "completed",
+            "provider_status": "completed"
+          }
+        ],
+        "receipt_sha256": "d9640af448d79645b081c56a4b0c1d64fbf156622a0701bfc920dc23ec5ca094"
+      }
+    },
+    {
+      "id": "unmeasured",
+      "mode": "gemini",
+      "words": "Can you tell how fast that pickup is moving and how far it is from the building in metres?",
+      "source": "gemini",
+      "time_ms": 219,
+      "heading": "Insufficient evidence",
+      "answer": {
+        "answer_status": "insufficient_evidence",
+        "answer": null,
+        "cited_evidence_ids": []
+      },
+      "http_status": 200,
+      "citation_link_frames": [],
+      "trial": "updated-canonical-local",
+      "saved_result_sha256": "e02476095fb995c114027d3851a0cbde75332e1dcde3d5d20e923f52239cfdea",
+      "displayed_evidence": [],
+      "provider": {
+        "calls_attempted": 0,
+        "images_sent": []
+      }
+    }
+  ],
+  "class_counts": {
+    "Car": 10,
+    "Medium_vehicle": 1,
+    "Large_vehicle": 1
+  },
+  "car_track_ids": [
+    4,
+    5,
+    7,
+    38,
+    1675,
+    2032,
+    2230,
+    2870,
+    3009,
+    3026
+  ],
+  "updated_routing": {
+    "implementation_check": "Invoked current FootageReview.ask using the canonical prediction receipt and independently rechecked original pixels. The presence of two plausible trucks at the paused time now yields the same specific clarification from the default local mode. A sole candidate or visually qualified request stays on the evidence-only local path.",
+    "response": {
+      "answer_status": "insufficient_evidence",
+      "answer": "Which truck do you mean? There are possible matches on the left and near the centre in the paused frame.",
+      "cited_evidence_ids": []
+    },
+    "source": "local_tracks",
+    "current_origin_sha256": "0448ff2ffa6959029f2af9d6f9fefc72af976679d400fe796e4e7064ce425213",
+    "evidence_frames": [
+      103,
+      103,
+      103
+    ]
+  },
+  "hosted_failure_recovery": {
+    "method": "The browser replayed the earlier genuine two-attempt provider 503 locally; the fallback flag was computed by the updated normal FootageReview.ask on the same original. Clicking the offered control sent one ordinary local request to the live server.",
+    "prior_error_title": "The search couldn’t finish",
+    "retry_was_visible": true,
+    "local_button_was_visible": true,
+    "initial_provider_attempts": [
+      503,
+      503
+    ],
+    "distinct_query_ids": true,
+    "same_original_frame": true,
+    "local_ms": 5858,
+    "local_heading": "Answer from recorded tracks",
+    "local_answer": {
+      "answer_status": "answered",
+      "answer": "The tracker detected 10 cars in frame 103.",
+      "cited_evidence_ids": [
+        "E2"
+      ]
+    },
+    "local_cited_frames": [
+      103
+    ]
+  },
+  "canonical_revision_after_memory_fix": "dc2fe9c0a962b8cb2cd0988ce58e6dad0775aa3a",
+  "canonical_hosted_failure_recovery_after_memory_fix": {
+    "method": "The browser replayed the earlier genuine two-attempt provider 503 locally; the fallback flag was computed by the updated normal FootageReview.ask on the same original. Clicking the offered control sent one ordinary local request to the live server.",
+    "prior_error_title": "The search couldn’t finish",
+    "retry_was_visible": true,
+    "local_button_was_visible": true,
+    "initial_provider_attempts": [
+      503,
+      503
+    ],
+    "distinct_query_ids": true,
+    "same_original_frame": true,
+    "local_ms": 1659,
+    "local_heading": "Answer from recorded tracks",
+    "local_answer": {
+      "answer_status": "answered",
+      "answer": "The tracker detected 10 cars in frame 103.",
+      "cited_evidence_ids": [
+        "E2"
+      ]
+    },
+    "local_cited_frames": [
+      103
+    ]
+  },
+  "canonical_clarification_screenshot": {
+    "sha256": "3989a5a0d41a390a4ca83fe174b29678b9e891d079b4e80e60a4b70cf6eb4592",
+    "separate_browser_trial_ms": 1353
+  },
+  "memory_rehearsal": {
+    "observation": "The running review server logged two OpenCV out-of-memory errors, each while decoding a 2560 by 1440 original to obtain its dimensions. One occurred during scene indexing and one during prediction-receipt validation. The first unsuccessful browser request did not retain its HTTP response details.",
+    "verification": "The regular FootageReview route was repeated with the canonical 103-frame recording prefix. Its metadata steps used original image headers. Full-frame OpenCV decoding was disabled during the run. The original evidence exporter still opened the selected photographs and wrote full-size pixels, as also confirmed in the regression test.",
+    "source_header_validation_s": 0.234,
+    "original_sha256": "0448ff2ffa6959029f2af9d6f9fefc72af976679d400fe796e4e7064ce425213",
+    "opencv_full_frame_decodes": 0,
+    "answers": {
+      "is the truck near the building": {
+        "time_s": 1.375,
+        "answer": {
+          "answer_status": "insufficient_evidence",
+          "answer": "Which truck do you mean? There are possible matches on the left and near the centre in the paused frame.",
+          "cited_evidence_ids": []
+        },
+        "source": "local_tracks",
+        "evidence": [
+          [
+            6,
+            [
+              103
+            ]
+          ],
+          [
+            null,
+            [
+              103
+            ]
+          ],
+          [
+            1397,
+            [
+              103
+            ]
+          ]
+        ]
+      },
+      "How many cars are detected in this frame?": {
+        "time_s": 1.329,
+        "answer": {
+          "answer_status": "answered",
+          "answer": "The tracker detected 10 cars in frame 103.",
+          "cited_evidence_ids": [
+            "E2"
+          ]
+        },
+        "source": "local_tracks",
+        "evidence": [
+          [
+            5,
+            [
+              103
+            ]
+          ],
+          [
+            null,
+            [
+              103
+            ]
+          ],
+          [
+            2870,
+            [
+              103
+            ]
+          ]
+        ]
+      }
+    }
+  },
+  "findings": [
+    "The question has two visually credible truck references. The pickup fills the left foreground. The box truck is in front of the central skyline in image coordinates. The photograph does not establish either vehicle’s real distance from any building.",
+    "Hosted-mode ambiguity handling identified both positions locally and made no provider call. With the metal rack specified, an actual Gemini response correctly placed the pickup on the left and cited exact frame 103. Local visual search displayed that same frame without attempting to name the rack from bounding boxes.",
+    "The saved predictions contain ten Cars, one Medium_vehicle and one Large_vehicle at frame 103. Local count returned ten immediately after its evidence build. The first hosted count failed with HTTP 503 on both attempts. A later ordinary request returned ten and accurately listed every Car track ID.",
+    "The distance and truck-speed question produced no measurements, citations, evidence images or hosted request. The visible dashcam speed would describe the recording vehicle. All displayed evidence and citation links in this rehearsal pointed to frame 103."
+  ]
+}

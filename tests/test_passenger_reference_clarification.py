@@ -16,6 +16,33 @@ UNCLEAR = "Could you show me the gap between the white box truck and the bike on
 CLEAR = "Drop me off between the white box truck and the white van, please."
 
 
+@pytest.mark.parametrize("words, reason", [
+    ("Drop me on the zebra stripes right by the traffic island.", "crossing_target"),
+    ("Let us out on that pedestrian crossing.", "crossing_target"),
+    ("Can you let me out right behind that green-covered lorry, in its lane?", "lane_target"),
+    ("Please stop in the middle of the road.", "lane_target"),
+    ("Drop me in the traffic lane between these two cars.", "lane_target"),
+    ("Could you drop me inside the coned-off work area by the yellow arrow sign?", "work_area_target"),
+    ("Please stop within the barricaded section.", "work_area_target"),
+    ("Drop me in the construction zone.", "work_area_target"),
+])
+def test_explicit_hazard_asks_for_an_alternative_without_a_pin(roadside, words, reason):
+    request = {**roadside[0], "text":words}
+    result = repair.clarify(request)
+    assert result["provenance"]["reference_evidence"]["reason"] == reason
+    assert result["result"]["destination_point_xy"] is None
+    assert repair.verify(request,result)["decision_reproduced"]
+
+
+@pytest.mark.parametrize("words", ["Drop me near the zebra crossing.", "Stop after the marked pedestrian crossing.",
+    "Drop me at the bay across the zebra crossing.", "Drop me beside the SUV that is in the traffic lane.",
+    "Drop me just before the crossing, not on the zebra stripes.", "What is parked in the bus lane?",
+    "Pull in just before the work zone.", "Drop me near the sign inside the construction site.",
+    "Stop beside the work area, not inside the closed section.", "Drop me inside the car park by the roadworks."])
+def test_hazard_can_be_an_orientation_landmark(words):
+    assert repair.requested_hazard(words) is None
+
+
 @pytest.mark.parametrize("words,reason", [
     (UNCLEAR,"cycle"),
     ("Show me the open spot between the e-bike by the curb and the white sedan.","cycle"),

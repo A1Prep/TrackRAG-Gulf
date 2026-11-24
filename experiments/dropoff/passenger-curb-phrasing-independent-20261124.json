@@ -532,5 +532,174 @@
         ]
       }
     ]
+  },
+  "post_disclosure_v3_development_followup": {
+    "scope": "All eight source photographs and texts were already disclosed to the matcher engineer. This subsequent measurement is development evidence only. The earlier prospective v2 result remains in the preceding sections.",
+    "matcher_sha256": "dc540cee477d6fdb25e5c60ecfdc6bcd9c74431b09478af7865bf09c96724739",
+    "offline_signed_replay_sha256": "45377a42b18d966d268ef778c6b7a12c923b02c2aaa95cf2a114f99141ffd7c0",
+    "offline_grades": {
+      "P01": "direct_correct",
+      "P02": "matching_choice",
+      "P03": "direct_correct",
+      "P04": "correct_withholding",
+      "P05": "direct_correct",
+      "P06": "correct_withholding",
+      "P07": "missed",
+      "P08": "missed"
+    },
+    "observed_sha256": "b2699a04e2d78665f5159494a23ac76f0676a594922beec13af12234b037d14e",
+    "first_turn_rows": [
+      {
+        "id": "P01",
+        "grade": "correct_direct_point",
+        "visible_ms": 3769,
+        "ack_ms": 102,
+        "state": "proposed",
+        "actor": "model",
+        "direct_point": [
+          2335.5,
+          1811.595
+        ],
+        "choices": [],
+        "visible_save": true,
+        "initial_proposal_token": true,
+        "message": "The gold ring is inside the visible parking area in the bottom centre. The photo leaves its full edges uncertain."
+      },
+      {
+        "id": "P02",
+        "grade": "matching_selectable_option",
+        "visible_ms": 592,
+        "ack_ms": 81,
+        "state": "needs_clarification",
+        "actor": "model",
+        "direct_point": null,
+        "choices": [
+          [
+            2335.5,
+            1811.595
+          ]
+        ],
+        "visible_save": false,
+        "initial_proposal_token": false,
+        "message": "I can show an open area near some of your landmarks. Could you check the highlight and confirm which place you meant? You can also mark another spot."
+      },
+      {
+        "id": "P03",
+        "grade": "correct_direct_point",
+        "visible_ms": 2689,
+        "ack_ms": 117,
+        "state": "proposed",
+        "actor": "model",
+        "direct_point": [
+          2284.3,
+          1435.943
+        ],
+        "choices": [],
+        "visible_save": true,
+        "initial_proposal_token": true,
+        "message": "The gold ring is inside the visible parking area in the centre. The photo leaves its full edges uncertain."
+      },
+      {
+        "id": "P04",
+        "grade": "correct_withholding",
+        "visible_ms": 608,
+        "ack_ms": 78,
+        "state": "needs_clarification",
+        "actor": "model",
+        "direct_point": null,
+        "choices": [],
+        "visible_save": false,
+        "initial_proposal_token": false,
+        "message": "I couldn’t match all those details to an open area in this photo. Could you mark the spot or describe a different landmark?"
+      },
+      {
+        "id": "P05",
+        "grade": "correct_direct_point",
+        "visible_ms": 3181,
+        "ack_ms": 87,
+        "state": "proposed",
+        "actor": "model",
+        "direct_point": [
+          2199.4666666666667,
+          1496.205533596838
+        ],
+        "choices": [],
+        "visible_save": true,
+        "initial_proposal_token": true,
+        "message": "The gold ring is inside the visible parking area in the bottom centre. The photo leaves its full edges uncertain."
+      },
+      {
+        "id": "P06",
+        "grade": "operational_timeout",
+        "visible_ms": 15565,
+        "ack_ms": 85,
+        "state": "error",
+        "actor": null,
+        "direct_point": null,
+        "choices": [],
+        "visible_save": false,
+        "initial_proposal_token": false,
+        "message": "The automatic photo check took too long. You can mark your spot or try a different description."
+      },
+      {
+        "id": "P07",
+        "grade": "withheld_positive",
+        "visible_ms": 659,
+        "ack_ms": 127,
+        "state": "needs_clarification",
+        "actor": "model",
+        "direct_point": null,
+        "choices": [],
+        "visible_save": false,
+        "initial_proposal_token": false,
+        "message": "I couldn’t verify an open pull-in for this request in the photo. Could you mark another area or describe a different landmark?"
+      },
+      {
+        "id": "P08",
+        "grade": "withheld_positive",
+        "visible_ms": 1232,
+        "ack_ms": 127,
+        "state": "needs_clarification",
+        "actor": "model",
+        "direct_point": null,
+        "choices": [],
+        "visible_save": false,
+        "initial_proposal_token": false,
+        "message": "I can’t place that request on a clear bay in this view. Could you mark the spot you mean, or name another visible landmark?"
+      }
+    ],
+    "ordinary_browser_findings": "Three in-reference direct points and one in-reference selectable option across six positive first turns. Both signed-source-vetoed gravel queries clarified. One of two contradictory-colour controls elicited completed semantic withholding; the second reached a 15.565-second timeout. No incorrect point or choice.",
+    "separate_option_and_save": {
+      "id": "P02",
+      "first_status": "needs_clarification",
+      "initial_choices": [
+        [
+          2335.5,
+          1811.595
+        ]
+      ],
+      "initially_saved": false,
+      "initial_save_token": false,
+      "after_selection": {
+        "visible_ms": 90,
+        "state": "proposed",
+        "actor": "passenger",
+        "point": [
+          2335.5,
+          1811.595
+        ],
+        "save_label": "Save this location"
+      },
+      "after_passenger_save": {
+        "visible_ms": 100,
+        "state": "confirmed",
+        "point": [
+          2335.5,
+          1811.595
+        ],
+        "caption": "Location saved"
+      },
+      "observed_sha256": "1ff9e7b95c72b1d65cbee39ec702314c7c11a441464f444820d66d97ea9cd1d0"
+    }
   }
 }

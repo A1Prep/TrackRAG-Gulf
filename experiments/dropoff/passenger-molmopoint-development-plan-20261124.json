@@ -1,0 +1,803 @@
+{
+  "sealed_utc": "2026-11-23T22:04:25.796629+00:00",
+  "status": "Post-disclosure development experiment. These are eleven original public UAE photographs and the existing, previously seen instructions. No fourth-cohort input is used.",
+  "checkpoint": "allenai/MolmoPoint-8B",
+  "revision": "188130f961c8e0888a34e11121a1423c461a01ba",
+  "official_reference": "https://huggingface.co/allenai/MolmoPoint-8B",
+  "prior_source_sha256": [
+    "30e002a24af1ab47db4b384a6ff7ea45c16d4917a26f86a5898e24f2ee011ad8",
+    "78f8f4d665fa343ec3ee4d784df2876bdc98eeea1bfb32b9486b21ddb2226cd5"
+  ],
+  "source_credit": "KartaView contributors, CC BY-SA 4.0. Verify source photo URL and SHA-256 against the existing public passenger allowlist.",
+  "ground_prompt": "The passenger says: {words}\nPoint to the centre of the visible unoccupied ground space where the driver could pull in, matching the passenger's references. Give one point on the ground itself. If the described area is occupied, a through lane, inaccessible across a raised barrier, or is not visible, reply NONE without a point.",
+  "object_prompt": "Exact separate object wording recorded for each control. Four subjects appear in their passenger instruction. T01's foreground SUV is a distinct object control.",
+  "model_input": "One original photo at native resolution, with the model's official processor and default image sampling. Original unedited words in a fixed ground prompt or separate visible-object words. No checks, polygons, labels, mask, tracks, expected answer, surrounding scene identifiers or other photos are included in the model prompt. Greedy decoding, maximum 96 tokens. No model updates on this dataset.",
+  "rubric": {
+    "positive": "Exactly one finite decoded native pixel point on the displayed image inside a previously fixed accepted polygon. Wrong, absent and multiple outputs are separate. No snapping, choosing the best generated point or padding region boundaries.",
+    "negative": "No decoded points and explicit NONE, no match, no suitable area, or equivalent unambiguous refusal. Missing, malformed, timed-out and non-answer outputs receive no semantic credit; any returned point on a negative is a false offer.",
+    "object": "Exactly one point within the outlined visible vehicle. Object shapes were drawn on the displayed originals before any inference from this checkpoint. Grade independently from the ground query.",
+    "decision": "Do not recommend as standalone unless all five no-location controls are clean and it adds correct ground pins over the measured source application without losing correct pins. Small test, no legal or real-world safety claim. A correct pixel supports position only."
+  },
+  "cases": [
+    {
+      "id": "R02-ground",
+      "cohort": "R",
+      "photo_sha256": "ab05db00759062595063f27d3aff5b608c323d62872429ac596fd2fcf07ee8b3",
+      "photo_url": "https://kartaview.org/details/5231497/102/",
+      "size": [
+        3840,
+        2160
+      ],
+      "task": "ground",
+      "text": "Pull into the empty space just to the left of the blue sedan outside the exchange, please.",
+      "expected": "point",
+      "regions": {
+        "target": [
+          [
+            1712.33,
+            1430.85
+          ],
+          [
+            1998.37,
+            1426.93
+          ],
+          [
+            2245.22,
+            1450.45
+          ],
+          [
+            2256.98,
+            1509.26
+          ],
+          [
+            1931.76,
+            1517.1
+          ],
+          [
+            1790.69,
+            1497.5
+          ]
+        ]
+      },
+      "object_region": "R02-object"
+    },
+    {
+      "id": "R03-ground",
+      "cohort": "R",
+      "photo_sha256": "d0b190d43a9dcfe9a013ae71a0f776494db53901fd70beb8477a8dacdc1763d6",
+      "photo_url": "https://kartaview.org/details/7120073/499/",
+      "size": [
+        3840,
+        2160
+      ],
+      "task": "ground",
+      "text": "Just behind that bright blue advertising pickup on the right would be great.",
+      "expected": "point",
+      "regions": {
+        "target": [
+          [
+            1108.9,
+            1505.34
+          ],
+          [
+            1265.63,
+            1485.74
+          ],
+          [
+            1453.71,
+            1501.42
+          ],
+          [
+            1528.16,
+            1603.34
+          ],
+          [
+            1524.24,
+            1669.98
+          ],
+          [
+            1347.92,
+            1681.74
+          ]
+        ]
+      },
+      "object_region": "R03-object"
+    },
+    {
+      "id": "R04-ground",
+      "cohort": "R",
+      "photo_sha256": "976a275111769a8fbd066f25a3b6fd2b231dc7ddf5a42d6d6bfd2f74233b09a0",
+      "photo_url": "https://kartaview.org/details/1258531/39/",
+      "size": [
+        3840,
+        2160
+      ],
+      "task": "ground",
+      "text": "Could you let me out in the paved gap between the two white vehicles on the right?",
+      "expected": "point",
+      "regions": {
+        "target": [
+          [
+            2981.88,
+            1940.47
+          ],
+          [
+            3201.31,
+            1971.83
+          ],
+          [
+            3236.57,
+            2042.4
+          ],
+          [
+            3240.49,
+            2132.56
+          ],
+          [
+            3044.57,
+            2128.64
+          ],
+          [
+            2903.51,
+            1999.27
+          ]
+        ]
+      },
+      "object_region": null
+    },
+    {
+      "id": "R05-ground",
+      "cohort": "R",
+      "photo_sha256": "a07e0ded72bad166579a87adea852f1a5eef11e83e43f11c914388370c5c1e9a",
+      "photo_url": "https://kartaview.org/details/7271097/62/",
+      "size": [
+        3840,
+        2160
+      ],
+      "task": "ground",
+      "text": "Can we pull straight into the empty area behind those black-and-white posts outside the medical centre?",
+      "expected": "withhold",
+      "regions": {},
+      "object_region": null
+    },
+    {
+      "id": "R06-ground",
+      "cohort": "R",
+      "photo_sha256": "7cc82c9152e1c0bada060789698e19b695cba6a92d6dd67efa982eddb1c97965",
+      "photo_url": "https://kartaview.org/details/5053433/0/",
+      "size": [
+        3264,
+        1836
+      ],
+      "task": "ground",
+      "text": "Drop me beside the white SUV while we're lined up at the lights, please.",
+      "expected": "withhold",
+      "regions": {},
+      "object_region": null
+    },
+    {
+      "id": "R07-ground",
+      "cohort": "R",
+      "photo_sha256": "918e3e64b7e104fa7e25758e853e712d435ac234349aa802c183f7940c34ea6e",
+      "photo_url": "https://kartaview.org/details/7271081/72/",
+      "size": [
+        3840,
+        2160
+      ],
+      "task": "ground",
+      "text": "I'd like the marked spot with the white G-Wagen on the right.",
+      "expected": "withhold",
+      "regions": {},
+      "object_region": null
+    },
+    {
+      "id": "T01-ground",
+      "cohort": "T",
+      "photo_sha256": "1002226173c113c3ead9370fd6e8aa2dbabc6b650ca983198adff0778138b657",
+      "photo_url": "https://kartaview.org/details/54900/393/",
+      "size": [
+        2688,
+        1520
+      ],
+      "task": "ground",
+      "text": "Can you pull off on the open ground by the tree, just before the yellow forklift?",
+      "expected": "point",
+      "regions": {
+        "target": [
+          [
+            1665.51,
+            1303.99
+          ],
+          [
+            1810.45,
+            1253.93
+          ],
+          [
+            2018.64,
+            1243.4
+          ],
+          [
+            2205.74,
+            1282.91
+          ],
+          [
+            2234.73,
+            1338.23
+          ],
+          [
+            2411.29,
+            1414.63
+          ],
+          [
+            2448.19,
+            1483.12
+          ],
+          [
+            1794.64,
+            1493.66
+          ]
+        ]
+      },
+      "object_region": "T01-object"
+    },
+    {
+      "id": "T02-ground",
+      "cohort": "T",
+      "photo_sha256": "129e43a4f8482d50707f75d002c0e8dc809d2ae0fea3da57a1e4d030527c080a",
+      "photo_url": "https://kartaview.org/details/5204473/819/",
+      "size": [
+        3840,
+        2160
+      ],
+      "task": "ground",
+      "text": "Could you drop me in the St. Regis entrance driveway, off the main road?",
+      "expected": "point",
+      "regions": {
+        "target": [
+          [
+            1291.29,
+            1072.47
+          ],
+          [
+            1547.29,
+            985.92
+          ],
+          [
+            1920.0,
+            937.0
+          ],
+          [
+            2228.71,
+            929.48
+          ],
+          [
+            2153.41,
+            1080.0
+          ],
+          [
+            2176.0,
+            1185.37
+          ],
+          [
+            1626.35,
+            1249.34
+          ]
+        ]
+      },
+      "object_region": null
+    },
+    {
+      "id": "T03-ground",
+      "cohort": "T",
+      "photo_sha256": "bae3d01037cdc79d690fe49f11cf8603abec303643967805ffdbb72abff23b36",
+      "photo_url": "https://kartaview.org/details/976103/139/",
+      "size": [
+        3840,
+        2160
+      ],
+      "task": "ground",
+      "text": "Let me out on the paved shoulder behind the white sedan, near the big rubbish skip on the right.",
+      "expected": "point",
+      "regions": {
+        "target": [
+          [
+            2051.76,
+            1907.87
+          ],
+          [
+            2213.65,
+            1919.16
+          ],
+          [
+            2511.06,
+            2020.77
+          ],
+          [
+            2706.82,
+            2084.74
+          ],
+          [
+            2785.88,
+            2137.42
+          ],
+          [
+            2413.18,
+            2133.66
+          ],
+          [
+            2228.71,
+            2035.82
+          ]
+        ]
+      },
+      "object_region": "T03-object"
+    },
+    {
+      "id": "T04-ground",
+      "cohort": "T",
+      "photo_sha256": "a2b23025bda4791dd7a53822937eeb69f2b9655011b6b8be537d9cde4f8158c0",
+      "photo_url": "https://kartaview.org/details/5139769/64/",
+      "size": [
+        3264,
+        1836
+      ],
+      "task": "ground",
+      "text": "Can we go straight into the space by the blue car outside Cibo Diet from this lane?",
+      "expected": "withhold",
+      "regions": {},
+      "object_region": null
+    },
+    {
+      "id": "T05-ground",
+      "cohort": "T",
+      "photo_sha256": "4b839f186c8365013c4db4087373e1b3fa26dba12777e34b32e4fd34d7c87d27",
+      "photo_url": "https://kartaview.org/details/5204489/936/",
+      "size": [
+        3840,
+        2160
+      ],
+      "task": "ground",
+      "text": "In the garage, I'll take the bay where the bright blue sedan is parked on the right.",
+      "expected": "withhold",
+      "regions": {},
+      "object_region": "T05-object"
+    },
+    {
+      "id": "R02-object",
+      "cohort": "R",
+      "photo_sha256": "ab05db00759062595063f27d3aff5b608c323d62872429ac596fd2fcf07ee8b3",
+      "photo_url": "https://kartaview.org/details/5231497/102/",
+      "size": [
+        3840,
+        2160
+      ],
+      "task": "object",
+      "text": "Point to the centre of the blue sedan parked outside the exchange.",
+      "expected": "point",
+      "regions": {
+        "object": [
+          [
+            2279.75,
+            1399.55
+          ],
+          [
+            2534.4,
+            1342.92
+          ],
+          [
+            2768.84,
+            1233.71
+          ],
+          [
+            2934.57,
+            1189.21
+          ],
+          [
+            3233.68,
+            1181.12
+          ],
+          [
+            3431.75,
+            1213.48
+          ],
+          [
+            3633.85,
+            1286.29
+          ],
+          [
+            3706.61,
+            1383.37
+          ],
+          [
+            3734.91,
+            1541.12
+          ],
+          [
+            3609.6,
+            1597.75
+          ],
+          [
+            3548.97,
+            1650.34
+          ],
+          [
+            3468.13,
+            1638.2
+          ],
+          [
+            3427.71,
+            1597.75
+          ],
+          [
+            2886.06,
+            1605.84
+          ],
+          [
+            2841.6,
+            1654.38
+          ],
+          [
+            2724.38,
+            1654.38
+          ],
+          [
+            2671.83,
+            1577.53
+          ],
+          [
+            2324.21,
+            1585.62
+          ],
+          [
+            2287.83,
+            1553.26
+          ]
+        ]
+      }
+    },
+    {
+      "id": "R03-object",
+      "cohort": "R",
+      "photo_sha256": "d0b190d43a9dcfe9a013ae71a0f776494db53901fd70beb8477a8dacdc1763d6",
+      "photo_url": "https://kartaview.org/details/7120073/499/",
+      "size": [
+        3840,
+        2160
+      ],
+      "task": "object",
+      "text": "Point to the centre of the bright blue advertising pickup.",
+      "expected": "point",
+      "regions": {
+        "object": [
+          [
+            1483.45,
+            1257.98
+          ],
+          [
+            1750.23,
+            1221.57
+          ],
+          [
+            1814.91,
+            1043.6
+          ],
+          [
+            1875.54,
+            995.06
+          ],
+          [
+            2344.42,
+            978.88
+          ],
+          [
+            2667.79,
+            1011.24
+          ],
+          [
+            2902.23,
+            1092.13
+          ],
+          [
+            3088.17,
+            1253.93
+          ],
+          [
+            3508.55,
+            1322.7
+          ],
+          [
+            3654.06,
+            1395.51
+          ],
+          [
+            3795.54,
+            1626.07
+          ],
+          [
+            3811.71,
+            1880.9
+          ],
+          [
+            2946.69,
+            1864.72
+          ],
+          [
+            2688.0,
+            1816.18
+          ],
+          [
+            2635.45,
+            1856.63
+          ],
+          [
+            2413.14,
+            1820.22
+          ],
+          [
+            2336.34,
+            1715.06
+          ],
+          [
+            1758.32,
+            1642.25
+          ],
+          [
+            1742.15,
+            1706.97
+          ],
+          [
+            1649.18,
+            1727.19
+          ],
+          [
+            1572.38,
+            1678.65
+          ],
+          [
+            1548.13,
+            1577.53
+          ],
+          [
+            1487.49,
+            1504.72
+          ]
+        ]
+      }
+    },
+    {
+      "id": "T01-object",
+      "cohort": "T",
+      "photo_sha256": "1002226173c113c3ead9370fd6e8aa2dbabc6b650ca983198adff0778138b657",
+      "photo_url": "https://kartaview.org/details/54900/393/",
+      "size": [
+        2688,
+        1520
+      ],
+      "task": "object",
+      "text": "Point to the dark SUV immediately in front of the camera with its two rear lamps visible.",
+      "expected": "point",
+      "regions": {
+        "object": [
+          [
+            633.8,
+            1418.1
+          ],
+          [
+            636.63,
+            1285.07
+          ],
+          [
+            679.07,
+            1197.32
+          ],
+          [
+            696.05,
+            1123.72
+          ],
+          [
+            724.35,
+            1075.61
+          ],
+          [
+            795.08,
+            1018.99
+          ],
+          [
+            846.01,
+            1004.84
+          ],
+          [
+            1103.49,
+            1004.84
+          ],
+          [
+            1182.72,
+            1038.81
+          ],
+          [
+            1227.99,
+            1069.94
+          ],
+          [
+            1259.12,
+            1118.06
+          ],
+          [
+            1310.05,
+            1282.23
+          ],
+          [
+            1293.07,
+            1477.54
+          ],
+          [
+            1264.77,
+            1517.17
+          ],
+          [
+            630.97,
+            1517.17
+          ]
+        ]
+      }
+    },
+    {
+      "id": "T03-object",
+      "cohort": "T",
+      "photo_sha256": "bae3d01037cdc79d690fe49f11cf8603abec303643967805ffdbb72abff23b36",
+      "photo_url": "https://kartaview.org/details/976103/139/",
+      "size": [
+        3840,
+        2160
+      ],
+      "task": "object",
+      "text": "Point to the white sedan parked on the right shoulder near the large rubbish skip.",
+      "expected": "point",
+      "regions": {
+        "object": [
+          [
+            1734.06,
+            1771.69
+          ],
+          [
+            1758.32,
+            1747.42
+          ],
+          [
+            1774.48,
+            1702.92
+          ],
+          [
+            1806.82,
+            1682.7
+          ],
+          [
+            1911.92,
+            1682.7
+          ],
+          [
+            1960.42,
+            1698.88
+          ],
+          [
+            1988.72,
+            1739.33
+          ],
+          [
+            2012.97,
+            1783.82
+          ],
+          [
+            2012.97,
+            1856.63
+          ],
+          [
+            2000.84,
+            1888.99
+          ],
+          [
+            1758.32,
+            1864.72
+          ],
+          [
+            1738.11,
+            1840.45
+          ]
+        ]
+      }
+    },
+    {
+      "id": "T05-object",
+      "cohort": "T",
+      "photo_sha256": "4b839f186c8365013c4db4087373e1b3fa26dba12777e34b32e4fd34d7c87d27",
+      "photo_url": "https://kartaview.org/details/5204489/936/",
+      "size": [
+        3840,
+        2160
+      ],
+      "task": "object",
+      "text": "Point to the bright blue sedan parked on the right in the garage.",
+      "expected": "point",
+      "regions": {
+        "object": [
+          [
+            2805.22,
+            1160.9
+          ],
+          [
+            2845.64,
+            1128.54
+          ],
+          [
+            2966.91,
+            1116.4
+          ],
+          [
+            3055.83,
+            1071.91
+          ],
+          [
+            3128.59,
+            1055.73
+          ],
+          [
+            3326.65,
+            1047.64
+          ],
+          [
+            3451.96,
+            1067.87
+          ],
+          [
+            3536.84,
+            1112.36
+          ],
+          [
+            3706.61,
+            1124.49
+          ],
+          [
+            3831.92,
+            1177.08
+          ],
+          [
+            3835.96,
+            1375.28
+          ],
+          [
+            3783.41,
+            1411.69
+          ],
+          [
+            3698.53,
+            1407.64
+          ],
+          [
+            3645.98,
+            1371.24
+          ],
+          [
+            3148.8,
+            1363.15
+          ],
+          [
+            3112.42,
+            1387.42
+          ],
+          [
+            3007.33,
+            1383.37
+          ],
+          [
+            2950.74,
+            1334.83
+          ],
+          [
+            2809.26,
+            1302.47
+          ]
+        ]
+      }
+    }
+  ]
+}

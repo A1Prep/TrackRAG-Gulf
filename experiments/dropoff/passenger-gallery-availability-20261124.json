@@ -1,0 +1,228 @@
+{
+  "scope": "Every prepared photo advertising parking outlines in the running gallery. A real Edge browser pressed Show parking areas, verified an original image was rendered and read the response. This checks whether the offered button works across its advertised set. It does not grade the boundaries against a human annotation or test other passenger requests.",
+  "prompt": "Find the marked parking bays.",
+  "listed": 20,
+  "rows": [
+    {
+      "scene": "8a32b5b5965ebf8299cc1343",
+      "recording": "kartaview_1129101",
+      "frame": 0,
+      "seconds": 2.663,
+      "heading": "Which highlighted area do you mean?",
+      "state": "clarify",
+      "legend": "Area A / Area B",
+      "photo_rendered": true,
+      "save_available": false
+    },
+    {
+      "scene": "550e051ead850fb310f3c395",
+      "recording": "kartaview_1269447",
+      "frame": 242,
+      "seconds": 1.789,
+      "heading": "Is this the parking area you meant?",
+      "state": "proposed",
+      "legend": "Visible parking area · Gold ring at selected location",
+      "photo_rendered": true,
+      "save_available": true
+    },
+    {
+      "scene": "da8773bd6b0c7f02b9900b7e",
+      "recording": "kartaview_3075698",
+      "frame": 120,
+      "seconds": 1.096,
+      "heading": "Is this the parking area you meant?",
+      "state": "proposed",
+      "legend": "Visible parking area · Gold ring at selected location",
+      "photo_rendered": true,
+      "save_available": true
+    },
+    {
+      "scene": "10e8284093286234e0bdd0df",
+      "recording": "kartaview_3329429",
+      "frame": 213,
+      "seconds": 2.164,
+      "heading": "Is this your intended bay?",
+      "state": "proposed",
+      "legend": "Gold ring at bay centre",
+      "photo_rendered": true,
+      "save_available": true
+    },
+    {
+      "scene": "c15c39fad8528d439a62ee4d",
+      "recording": "kartaview_3333849",
+      "frame": 525,
+      "seconds": 1.621,
+      "heading": "Is this the parking area you meant?",
+      "state": "proposed",
+      "legend": "Visible parking area · Gold ring at selected location",
+      "photo_rendered": true,
+      "save_available": true
+    },
+    {
+      "scene": "201dda24f90549323a41e675",
+      "recording": "kartaview_3336817",
+      "frame": 14,
+      "seconds": 1.218,
+      "heading": "Is this the parking area you meant?",
+      "state": "proposed",
+      "legend": "Visible parking area · Gold ring at selected location",
+      "photo_rendered": true,
+      "save_available": true
+    },
+    {
+      "scene": "1c76dbd43f328dd840ae84fb",
+      "recording": "kartaview_5124937",
+      "frame": 12,
+      "seconds": 1.719,
+      "heading": "Is this your intended bay?",
+      "state": "proposed",
+      "legend": "Gold ring at bay centre",
+      "photo_rendered": true,
+      "save_available": true
+    },
+    {
+      "scene": "0c150fa36349744dbd66653b",
+      "recording": "kartaview_5139785",
+      "frame": 165,
+      "seconds": 3.172,
+      "heading": "Which parking bay do you mean?",
+      "state": "clarify",
+      "legend": "Bay A / Bay B / Bay C",
+      "photo_rendered": true,
+      "save_available": false
+    },
+    {
+      "scene": "f4d997a6f22c942559a798dd",
+      "recording": "kartaview_5231497",
+      "frame": 102,
+      "seconds": 1.873,
+      "heading": "Is this the parking area you meant?",
+      "state": "proposed",
+      "legend": "Visible parking area · Gold ring at selected location",
+      "photo_rendered": true,
+      "save_available": true
+    },
+    {
+      "scene": "e5bde860db079a167d5dba80",
+      "recording": "kartaview_5231529",
+      "frame": 132,
+      "seconds": 1.303,
+      "heading": "Is this your intended bay?",
+      "state": "proposed",
+      "legend": "Gold ring at bay centre",
+      "photo_rendered": true,
+      "save_available": true
+    },
+    {
+      "scene": "0c1bfe0440b27b1f451b01a0",
+      "recording": "kartaview_5331945",
+      "frame": 29,
+      "seconds": 2.651,
+      "heading": "Is this the parking area you meant?",
+      "state": "proposed",
+      "legend": "Visible parking area · Gold ring at selected location",
+      "photo_rendered": true,
+      "save_available": true
+    },
+    {
+      "scene": "52f0e45da5785838fa68fdf8",
+      "recording": "kartaview_5546153",
+      "frame": 445,
+      "seconds": 2.318,
+      "heading": "Is this the parking area you meant?",
+      "state": "proposed",
+      "legend": "Visible parking area · Gold ring at selected location",
+      "photo_rendered": true,
+      "save_available": true
+    },
+    {
+      "scene": "ef1207ebb0cf2f79ec0eb895",
+      "recording": "kartaview_66245",
+      "frame": 146,
+      "seconds": 1.615,
+      "heading": "Is this your intended bay?",
+      "state": "proposed",
+      "legend": "Gold ring at bay centre",
+      "photo_rendered": true,
+      "save_available": true
+    },
+    {
+      "scene": "1325cb7d8899d9dcf96fc2aa",
+      "recording": "kartaview_66396",
+      "frame": 161,
+      "seconds": 1.619,
+      "heading": "Is this your intended bay?",
+      "state": "proposed",
+      "legend": "Gold ring at bay centre",
+      "photo_rendered": true,
+      "save_available": true
+    },
+    {
+      "scene": "7520651abea7382db45fcc04",
+      "recording": "kartaview_7130313",
+      "frame": 1390,
+      "seconds": 4.753,
+      "heading": "Which parking bay do you mean?",
+      "state": "clarify",
+      "legend": "Bay A / Bay B",
+      "photo_rendered": true,
+      "save_available": false
+    },
+    {
+      "scene": "d76c4ca006dc9332d37ec750",
+      "recording": "kartaview_7130313",
+      "frame": 1395,
+      "seconds": 4.703,
+      "heading": "Is this your intended bay?",
+      "state": "proposed",
+      "legend": "Gold ring at bay centre",
+      "photo_rendered": true,
+      "save_available": true
+    },
+    {
+      "scene": "ba838168eb20eae7e2ca891f",
+      "recording": "kartaview_7168777",
+      "frame": 1211,
+      "seconds": 4.049,
+      "heading": "Is this your intended bay?",
+      "state": "proposed",
+      "legend": "Gold ring at bay centre",
+      "photo_rendered": true,
+      "save_available": true
+    },
+    {
+      "scene": "5599765f42ff5a3a7efd3944",
+      "recording": "kartaview_7168793",
+      "frame": 16,
+      "seconds": 8.398,
+      "heading": "Which parking bay do you mean?",
+      "state": "clarify",
+      "legend": "Bay A / Bay B / Bay C / Bay D",
+      "photo_rendered": true,
+      "save_available": false
+    },
+    {
+      "scene": "4edc9abbff73676b9a63bc1d",
+      "recording": "kartaview_7199241",
+      "frame": 48,
+      "seconds": 1.112,
+      "heading": "Which parking bay do you mean?",
+      "state": "clarify",
+      "legend": "Bay A / Bay B",
+      "photo_rendered": true,
+      "save_available": false
+    },
+    {
+      "scene": "aee36a58cccb5c82aa006bb8",
+      "recording": "kartaview_7199353",
+      "frame": 2205,
+      "seconds": 3.553,
+      "heading": "Is this your intended bay?",
+      "state": "proposed",
+      "legend": "Gold ring at bay centre",
+      "photo_rendered": true,
+      "save_available": true
+    }
+  ],
+  "errors": []
+}

@@ -1,0 +1,276 @@
+{
+  "schema": "vehicle_ground_transfer_original_rgb_v1",
+  "frozen_utc": "2026-11-23T23:46:58.697324+00:00",
+  "scope": "Three public gallery originals from three recordings outside the original seven-photo vehicle study. This is a new prospective transfer check conducted inside the existing authorized gallery. The gallery and images could have been used by earlier work. The analyst saw only RGB images and neutral source metadata when selecting and drawing these references. No model outputs, maps, signed bank records or app responses were read for these three cases.",
+  "sampling": "Deterministically ordered the unused gallery drives by a separate SHA-256 of their image identifier, reviewed contact sheets and full-size photo previews, then chose two visible accessible locations with different relations and one barrier-constrained travel lane. This deliberately selected sample is not a prevalence estimate.",
+  "credit": "© Grab and KartaView Contributors, CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
+  "source_terms": "https://kartaview.org/terms",
+  "protocol": "Three unchanged natural requests, separate passenger marks in each positive interior and a separate travel-lane tap on all three photos. Full-source SHA checks precede scoring. Grade the displayed vehicle separately from the destination. Either immediately adjoining empty bay on TCR01 is admissible. TCR02 needs a point behind the sedan on the same visibly separate paved strip. A specific clarification may receive referent-only credit. No full vehicle footprint is inferred.",
+  "sources": [
+    {
+      "recording_id": "kartaview_7130313",
+      "frame_id": 1395,
+      "source_index": 15,
+      "width": 3840,
+      "height": 2160,
+      "sha256": "3ed141c2c0b33754e2ee822ec16e1c1ed1c713dbd29b16e94acde77b950c6af8",
+      "source_url": "https://kartaview.org/details/7130313/1395/",
+      "visual_anchor_box_xyxy": {
+        "black_SUV": [
+          1673.143,
+          870.857,
+          2232.0,
+          1217.143
+        ]
+      },
+      "ground_reference_polygons_xy": {
+        "adjacent_bay_nearer_camera": [
+          [
+            1570.286,
+            1292.571
+          ],
+          [
+            1786.286,
+            1268.571
+          ],
+          [
+            2180.571,
+            1217.143
+          ],
+          [
+            2355.429,
+            1241.143
+          ],
+          [
+            2204.571,
+            1292.571
+          ],
+          [
+            1803.429,
+            1371.429
+          ],
+          [
+            1697.143,
+            1347.429
+          ]
+        ],
+        "adjacent_bay_farther_camera": [
+          [
+            1203.429,
+            1141.714
+          ],
+          [
+            1426.286,
+            1124.571
+          ],
+          [
+            1635.429,
+            1104.0
+          ],
+          [
+            1666.286,
+            1114.286
+          ],
+          [
+            1662.857,
+            1169.143
+          ],
+          [
+            1546.286,
+            1186.286
+          ],
+          [
+            1350.857,
+            1217.143
+          ],
+          [
+            1251.429,
+            1189.714
+          ]
+        ]
+      },
+      "visual_reading": "A black short SUV is parked facing the shops. Its spare wheel is on the rear, toward the driving aisle. Vacant striped bays are directly beside it on both flanks. Their entrances open into the adjacent aisle. A point directly aft of the spare tyre need not be in either adjacent bay.",
+      "marks": [
+        {
+          "id": "interior",
+          "point_xy": [
+            1920.0,
+            1299.429
+          ],
+          "pictured_region": "adjacent_bay_nearer_camera",
+          "visual_reading": "The point lies within the empty photographed off-lane surface."
+        },
+        {
+          "id": "travel_lane",
+          "point_xy": [
+            720.0,
+            1302.857
+          ],
+          "pictured_region": null,
+          "visual_reading": "The marked point is inside the current vehicle travel lane."
+        }
+      ]
+    },
+    {
+      "recording_id": "kartaview_7165449",
+      "frame_id": 33,
+      "source_index": 74,
+      "width": 3840,
+      "height": 2160,
+      "sha256": "e121d0e57b8fbcba436e01a11989063a027652e2c80fcc5c9b4b89ad4cd673cc",
+      "source_url": "https://kartaview.org/details/7165449/33/",
+      "visual_anchor_box_xyxy": {
+        "dark_sedan": [
+          1330.286,
+          1011.429,
+          1834.286,
+          1309.714
+        ]
+      },
+      "ground_reference_polygons_xy": {
+        "same_curb_strip_behind_sedan": [
+          [
+            1625.143,
+            1326.857
+          ],
+          [
+            1700.571,
+            1309.714
+          ],
+          [
+            1806.857,
+            1309.714
+          ],
+          [
+            2033.143,
+            1323.429
+          ],
+          [
+            2317.714,
+            1378.286
+          ],
+          [
+            2705.143,
+            1453.714
+          ],
+          [
+            2907.429,
+            1505.143
+          ],
+          [
+            2904.0,
+            1594.286
+          ],
+          [
+            2571.429,
+            1577.143
+          ],
+          [
+            2256.0,
+            1512.0
+          ],
+          [
+            1968.0,
+            1426.286
+          ],
+          [
+            1714.286,
+            1361.143
+          ]
+        ]
+      },
+      "visual_reading": "A dark sedan and a pale SUV stand in a row on pavers by the right kerb. The sedan rear and taillamps face the camera. A long, empty portion of the same paved pull-in extends toward the foreground, with a separate dark travel lane on its left and a raised pedestrian strip on its right. The red foreground car limits the extreme near-right edge.",
+      "marks": [
+        {
+          "id": "interior",
+          "point_xy": [
+            2190.857,
+            1405.714
+          ],
+          "pictured_region": "same_curb_strip_behind_sedan",
+          "visual_reading": "The point lies within the empty photographed off-lane surface."
+        },
+        {
+          "id": "travel_lane",
+          "point_xy": [
+            1124.571,
+            1477.714
+          ],
+          "pictured_region": null,
+          "visual_reading": "The marked point is inside the current vehicle travel lane."
+        }
+      ]
+    },
+    {
+      "recording_id": "kartaview_7199273",
+      "frame_id": 176,
+      "source_index": 25,
+      "width": 3840,
+      "height": 2160,
+      "sha256": "53d8ce7e491f3c4fe6e96983eff8c1f15c0f4b26eff6e1dc1f6d860882bf9a0c",
+      "source_url": "https://kartaview.org/details/7199273/176/",
+      "visual_anchor_box_xyxy": {
+        "white_hatchback": [
+          682.286,
+          816.0,
+          1008.0,
+          1080.0
+        ]
+      },
+      "ground_reference_polygons_xy": {},
+      "visual_reading": "The white hatchback faces away in a single moving lane between construction barriers. Visible ground immediately behind it belongs to the same confined travel lane. The narrow margin at the base of the right concrete barrier is not a visible pull-in.",
+      "marks": [
+        {
+          "id": "travel_lane",
+          "point_xy": [
+            898.286,
+            1227.429
+          ],
+          "pictured_region": null,
+          "visual_reading": "The marked point is inside the current vehicle travel lane."
+        }
+      ]
+    }
+  ],
+  "requests": [
+    {
+      "id": "TCR01",
+      "source_index": 15,
+      "words": "Could you drop me beside the black SUV?",
+      "relation": "beside",
+      "eligible_visual_anchors": [
+        "black_SUV"
+      ],
+      "depicted_ground_regions": [
+        "adjacent_bay_nearer_camera",
+        "adjacent_bay_farther_camera"
+      ],
+      "expected_response": "direct_or_guided"
+    },
+    {
+      "id": "TCR02",
+      "source_index": 74,
+      "words": "Could you drop me behind the dark sedan on the right?",
+      "relation": "behind",
+      "eligible_visual_anchors": [
+        "dark_sedan"
+      ],
+      "depicted_ground_regions": [
+        "same_curb_strip_behind_sedan"
+      ],
+      "expected_response": "direct_or_guided"
+    },
+    {
+      "id": "TCR03",
+      "source_index": 25,
+      "words": "Could you drop me behind the white car?",
+      "relation": "behind",
+      "eligible_visual_anchors": [
+        "white_hatchback"
+      ],
+      "depicted_ground_regions": [],
+      "expected_response": "through_lane_withhold"
+    }
+  ]
+}

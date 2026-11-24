@@ -45,11 +45,16 @@ def _validate_observation(row, recording_id, width, height):
 
 def _inspect_image(frame):
     path = Path(frame["image_path"]).expanduser().resolve()
-    # Read once, bounded even if the file changes after stat/header inspection.
+    # Size the read to this open original. A maximum-size read reserves the entire
+    # image budget on Windows even when the JPEG is small.
     with path.open("rb") as stream:
-        payload = stream.read(MAX_IMAGE_BYTES + 1)
-    if not payload or len(payload) > MAX_IMAGE_BYTES:
-        raise ValueError("selected image is empty or exceeds the image byte budget")
+        length = stream.seek(0, 2)
+        if not 0 < length <= MAX_IMAGE_BYTES:
+            raise ValueError("selected image is empty or exceeds the image byte budget")
+        stream.seek(0)
+        payload = stream.read(length + 1)
+    if len(payload) != length:
+        raise ValueError("selected image changed during the read")
     try:
         with warnings.catch_warnings():
             warnings.simplefilter("error", Image.DecompressionBombWarning)

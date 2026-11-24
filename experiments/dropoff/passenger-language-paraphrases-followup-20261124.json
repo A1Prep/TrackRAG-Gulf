@@ -762,5 +762,41 @@
         }
       ]
     }
+  },
+  "abbreviated_pair_diagnostic": {
+    "scope": "Two post-exposure normal HTTP submissions on a previously examined photo, using the source-bound evidence for each request. The previously studied blue variant remains separately recorded with its original deadline; the red variant is a matched comparison checked against the existing H04 positive region.",
+    "trials": [
+      {
+        "label": "original_blue_control",
+        "words": "Between the dark sedan and the blue car just here on the right, please.",
+        "source_sha256": "e121d0e57b8fbcba436e01a11989063a027652e2c80fcc5c9b4b89ad4cd673cc",
+        "elapsed_ms": 94,
+        "state": "needs_clarification",
+        "proposal_available": false,
+        "choices": [],
+        "reason": "pictured_pair_fragment_unmatched",
+        "policy": "pictured_pair_fragment_v1",
+        "receipt_replayed": true,
+        "journal_sha256": "a475957cc17dcb135ab1f0556eaa471c0cebf94d0738371040f939e92f1abd9a"
+      },
+      {
+        "label": "pictured_red_variant",
+        "words": "Between the dark sedan and the red car just here on the right, please.",
+        "source_sha256": "e121d0e57b8fbcba436e01a11989063a027652e2c80fcc5c9b4b89ad4cd673cc",
+        "elapsed_ms": 141,
+        "state": "needs_clarification",
+        "proposal_available": false,
+        "choices": [
+          [
+            2199.4666666666667,
+            1496.205533596838
+          ]
+        ],
+        "reason": "pictured_pair_fragment_choice",
+        "policy": "pictured_pair_fragment_v1",
+        "receipt_replayed": true,
+        "journal_sha256": "9733fe9f94c808f3b6d5f3600d8ce767209ad6e74d71184c0ce63d5b35e01542"
+      }
+    ]
   }
 }

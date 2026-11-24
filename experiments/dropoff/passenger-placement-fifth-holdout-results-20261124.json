@@ -1,0 +1,945 @@
+{
+  "candidate_git": "cd6ccf80596445e03c6483afc059a1b819eff18c",
+  "plan_file": "passenger-placement-fifth-holdout-plan-20261124.json",
+  "plan_sha256": "f8f70de94a410be5fe5d4c694ca979fee1084d67404fc5cc9d5e4351ade98fce",
+  "source_manifest_sha256": "6728fbc87ccab6f6429680941c4642da6c301bb4d9a54f846d2c3b7c15917fe5",
+  "local_surface_index_sha256": "41a0c2e929523fb2220e04027203c2f863b8e9653a3ba7c1d21e675f92b8e4e8",
+  "source_only_local_8b_bank_sha256": "3c11f54f49eb0f5db47e8715e252e8b091b20830930d75e61eb1fb6eb0f75e6f",
+  "scope": "Prospective first evaluation on four real UAE drives. The source IDs were excluded from 470 prior project evaluation, screened and metadata-only drives before they were viewed. Driver-view photos were selected by one independent AI reviewer, with no project predictions or candidate flags. Frozen descriptions and original-pixel regions preceded Task 1 inference, surface maps and the separately released local 8B observations. This measures pictured passenger locations.",
+  "evaluation": "One real Edge process on the frozen local 102-scene application, using 13 separate sessions. Each first response, source JPEG digest and screenshot was preserved before inspecting source candidate supply. The renderer blocked non-local connections. Local source registrations and the session journal were verified for every decision. The 15-second first-turn deadline and 45-second observation limit were fixed in advance. There were no repeat attempts.",
+  "source_evidence": "After the thirteen firsts were scored, the exact frozen software replayed the pre-existing Task 1 predictions, local Mask2Former rasters and original local full/crop 8B packets. It compared candidate centres with the conservative independently drawn regions. Source candidates outside a region and unconfirmed captions receive no location credit.",
+  "source_attribution": "© Grab and KartaView Contributors. CC BY-SA 4.0. Each original photograph has a KartaView link, dimensions, SHA-256 and coordinates in the accompanying plan.",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
+  "source_terms": "https://kartaview.org/terms",
+  "observed_browser_sha256": "8eb9b576b1bee6fd74edaff3cc97a0680e8e2754a28a66b3f818e6202ccb8d37",
+  "started_utc": "2026-11-23T23:19:07.884Z",
+  "finished_utc": "2026-11-23T23:19:44.013Z",
+  "counts": {
+    "positive_natural_requests": 3,
+    "positive_correct_direct": 0,
+    "positive_correct_selectable": 0,
+    "wrong_natural_location_or_choice": 0,
+    "negative_natural_requests": 1,
+    "negative_natural_withheld": 1,
+    "negative_target_specific_explanations": 0,
+    "manual_intended_interiors": 3,
+    "manual_correct_points_saved": 2,
+    "travel_lane_controls": 4,
+    "travel_lane_controls_withheld": 4,
+    "explicit_blocked_worksite_marks": 1,
+    "explicit_blocked_worksite_marks_withheld": 1,
+    "painted_divider_marks": 1,
+    "divider_offers": 0,
+    "divider_marks_withheld": 1,
+    "operational_errors": 0,
+    "timeouts": 0,
+    "premature_saves": 0,
+    "wrong_locations_in_all_sessions": 0,
+    "first_response_screenshots": 13,
+    "whole_vehicle_footprints_graded": 0
+  },
+  "timing_ms": {
+    "ack_ms": {
+      "n": 4,
+      "min": 115,
+      "median": 180.5,
+      "max": 229
+    },
+    "visible_ms": {
+      "n": 4,
+      "min": 1722,
+      "median": 2468.5,
+      "max": 3947
+    }
+  },
+  "findings": [
+    "All three positive natural requests and the worksite control received the same generic clarification. No immediate pin or selectable alternative appeared. Every natural reply arrived by 3.947 seconds. The negative was withheld procedurally, with no explanation of the construction barrier.",
+    "The marked bay beside the pink wall and the empty parking row ahead of the red SUV at night both accepted and saved the passenger’s exact original-pixel tap. The open gravel entrance beside a hedge was classified as sidewalk and withheld. Each dedicated traffic-lane tap and the explicit coned-worksite mark withheld. The stripe in the night parking row offered no adjacent point.",
+    "The pink-wall photograph already had three local two-view OPEN points in its target, out of twelve proposed points. The three corresponding point captions omitted the wall and its colour. The full-image bands mention a mosque and the Environmental and Protected Areas Authority. The guided language parser did not recognize the request.",
+    "The gravel entrance had zero measured candidates and a sidewalk label at the reference tap. The night photograph had one two-view OPEN point with a correctly described red SUV and white sedan, but the point lay outside the frozen empty-row region. The original reference tap had a parking label and the original stripe had a paint label."
+  ],
+  "limits": "A manual save is a passenger action. Each graded region tests a depicted point and a visible connection, not a complete parking footprint, actual vehicle clearance or the right to stop. No independently sourced human response was collected.",
+  "first_sessions": [
+    {
+      "case_id": "F01",
+      "task": "natural",
+      "input_sha256": "1ce00bae5a7a65d2c2ca1feb6485ce4f6c4fbd0afd18829d3f86cc72d99ed6e6",
+      "state": "needs_clarification",
+      "actor": "model",
+      "heading": "Which spot do you mean?",
+      "message": "I couldn’t match that description to a visible drop-off area. Tap an off-lane spot to check the surface, or describe another landmark.",
+      "ack_ms": 229,
+      "visible_ms": 2342,
+      "save_button_visible": false,
+      "selectable_buttons": 0,
+      "grade": "missed_positive",
+      "destination_point": null,
+      "saved_in_reference": false,
+      "first_screenshot_sha256": "694b752de31b43030796c79263245cbc01f98177d03e139d40456a7b12a6e1e4",
+      "receipt": {
+        "method": "public_painted_bay_landmark_v1",
+        "reason": "pictured_place_space_unverified",
+        "outcome_ok": true,
+        "journal_sha256": "8cb721efa49be8a01372ea6c3c0beb14b37228795dcb53abc7251653a44a38a3"
+      }
+    },
+    {
+      "case_id": "F02",
+      "task": "natural",
+      "input_sha256": "c7e0afd713582d0b3c19567fbf3e6ca537509333c612a1e5ae5e37ec9635f2c1",
+      "state": "needs_clarification",
+      "actor": "model",
+      "heading": "Which spot do you mean?",
+      "message": "I couldn’t match that description to a visible drop-off area. Tap an off-lane spot to check the surface, or describe another landmark.",
+      "ack_ms": 147,
+      "visible_ms": 2595,
+      "save_button_visible": false,
+      "selectable_buttons": 0,
+      "grade": "withheld_generic",
+      "destination_point": null,
+      "saved_in_reference": false,
+      "first_screenshot_sha256": "228943d1acc1da9003d20c3c7d9430274c7462da0cc649145c77afdb45698ae3",
+      "receipt": {
+        "method": "public_painted_bay_landmark_v1",
+        "reason": "pictured_place_space_unverified",
+        "outcome_ok": true,
+        "journal_sha256": "1b067ee29707eedb71a2e583fe45d8092462737096e525fac2b1725705d36835"
+      }
+    },
+    {
+      "case_id": "F03",
+      "task": "natural",
+      "input_sha256": "ffc38d7f8d94ff8cf964ad65002031c558c86b4c14780aa6cd63381e8494de9f",
+      "state": "needs_clarification",
+      "actor": "model",
+      "heading": "Which spot do you mean?",
+      "message": "I couldn’t match that description to a visible drop-off area. Tap an off-lane spot to check the surface, or describe another landmark.",
+      "ack_ms": 115,
+      "visible_ms": 1722,
+      "save_button_visible": false,
+      "selectable_buttons": 0,
+      "grade": "missed_positive",
+      "destination_point": null,
+      "saved_in_reference": false,
+      "first_screenshot_sha256": "01574d58e3a526990ae5edf00d4d9ec379938742438d1516fd8a6ac57a703f7e",
+      "receipt": {
+        "method": "public_painted_bay_landmark_v1",
+        "reason": "pictured_place_space_unverified",
+        "outcome_ok": true,
+        "journal_sha256": "9116e149ada3aaeb8b899dd14e3fba20147d15fc23d68f37cc8dbbe89a06eb8f"
+      }
+    },
+    {
+      "case_id": "F04",
+      "task": "natural",
+      "input_sha256": "ae1831d72b844f5650f519fee363ca8627ac014db00aef1a3d19d655f2584ad2",
+      "state": "needs_clarification",
+      "actor": "model",
+      "heading": "Which spot do you mean?",
+      "message": "I couldn’t match that description to a visible drop-off area. Tap an off-lane spot to check the surface, or describe another landmark.",
+      "ack_ms": 214,
+      "visible_ms": 3947,
+      "save_button_visible": false,
+      "selectable_buttons": 0,
+      "grade": "missed_positive",
+      "destination_point": null,
+      "saved_in_reference": false,
+      "first_screenshot_sha256": "f5f52ea00c847f97ff642b4a587d6aa2f44b2cc1539d9cbcc3f78080ca6e8704",
+      "receipt": {
+        "method": "public_painted_bay_landmark_v1",
+        "reason": "pictured_place_space_unverified",
+        "outcome_ok": true,
+        "journal_sha256": "70eee59d725abcbd1dd02267e2277f785137eb0439e78fd2a60c57ec88e9ccd3"
+      }
+    },
+    {
+      "case_id": "F01",
+      "task": "lane",
+      "input_sha256": "1ce00bae5a7a65d2c2ca1feb6485ce4f6c4fbd0afd18829d3f86cc72d99ed6e6",
+      "state": "needs_clarification",
+      "actor": "passenger",
+      "heading": "Choose another location",
+      "message": "That point appears to be in a traffic lane. Could you mark a visible parking bay instead?",
+      "visible_ms": 1079,
+      "actual_tap": [
+        706.5594330382008,
+        1461.696113036501
+      ],
+      "save_button_visible": false,
+      "selectable_buttons": 0,
+      "grade": "withheld",
+      "destination_point": null,
+      "saved_in_reference": false,
+      "first_screenshot_sha256": "137650e850a334bf0e50e1101edd477b1e4eff3d7bbf3d50e042567ff04f1123",
+      "receipt": {
+        "method": "explicit_passenger_offlane_region_v1",
+        "reason": "through_lane",
+        "operational_status": "complete",
+        "outcome_ok": true,
+        "journal_sha256": "70972d08aa47abec8cf6e4c2f6899faea7b33a84676a2d1908dadfee08b16340"
+      }
+    },
+    {
+      "case_id": "F02",
+      "task": "lane",
+      "input_sha256": "c7e0afd713582d0b3c19567fbf3e6ca537509333c612a1e5ae5e37ec9635f2c1",
+      "state": "needs_clarification",
+      "actor": "passenger",
+      "heading": "Choose another location",
+      "message": "That point appears to be in a traffic lane. Could you mark a visible parking bay instead?",
+      "visible_ms": 465,
+      "actual_tap": [
+        1985.2742139935083,
+        1948.9605136237922
+      ],
+      "save_button_visible": false,
+      "selectable_buttons": 0,
+      "grade": "withheld",
+      "destination_point": null,
+      "saved_in_reference": false,
+      "first_screenshot_sha256": "9c1126c1841e694d021747ea689ed090e7d80a6ee996310756e8e6a353b6c2f3",
+      "receipt": {
+        "method": "explicit_passenger_offlane_region_v1",
+        "reason": "through_lane",
+        "operational_status": "complete",
+        "outcome_ok": true,
+        "journal_sha256": "0e1ff9f54f28613946a3c559fde838d51278c54278ade312633c1fed69582daa"
+      }
+    },
+    {
+      "case_id": "F03",
+      "task": "lane",
+      "input_sha256": "ffc38d7f8d94ff8cf964ad65002031c558c86b4c14780aa6cd63381e8494de9f",
+      "state": "needs_clarification",
+      "actor": "passenger",
+      "heading": "Choose another location",
+      "message": "That point appears to be in a traffic lane. Could you mark a visible parking bay instead?",
+      "visible_ms": 459,
+      "actual_tap": [
+        1220.7198753529108,
+        1421.8252595008023
+      ],
+      "save_button_visible": false,
+      "selectable_buttons": 0,
+      "grade": "withheld",
+      "destination_point": null,
+      "saved_in_reference": false,
+      "first_screenshot_sha256": "9455d163a159e86e88e90a0cd20c75dcf837781d483571a627b9d5b7b76dd389",
+      "receipt": {
+        "method": "explicit_passenger_offlane_region_v1",
+        "reason": "through_lane",
+        "operational_status": "complete",
+        "outcome_ok": true,
+        "journal_sha256": "659137a87b0a09cf36daf5d58b8378e3fdb4600879bcf7ce200f7dc08a8ce8cc"
+      }
+    },
+    {
+      "case_id": "F04",
+      "task": "lane",
+      "input_sha256": "ae1831d72b844f5650f519fee363ca8627ac014db00aef1a3d19d655f2584ad2",
+      "state": "needs_clarification",
+      "actor": "passenger",
+      "heading": "Choose another location",
+      "message": "That point appears to be in a traffic lane. Could you mark a visible parking bay instead?",
+      "visible_ms": 881,
+      "actual_tap": [
+        1611.876997426393,
+        2261.221046734955
+      ],
+      "save_button_visible": false,
+      "selectable_buttons": 0,
+      "grade": "withheld",
+      "destination_point": null,
+      "saved_in_reference": false,
+      "first_screenshot_sha256": "0c477d41146d7d124f3e8c83b3e435160617f8155e2615a0ce783275a2b7d58f",
+      "receipt": {
+        "method": "explicit_passenger_offlane_region_v1",
+        "reason": "through_lane",
+        "operational_status": "complete",
+        "outcome_ok": true,
+        "journal_sha256": "5c250118e1c7d5dc7abba87d78eb8499834832c1edcbc0d5b7f21bb72d7f5690"
+      }
+    },
+    {
+      "case_id": "F01",
+      "task": "interior",
+      "input_sha256": "1ce00bae5a7a65d2c2ca1feb6485ce4f6c4fbd0afd18829d3f86cc72d99ed6e6",
+      "state": "proposed",
+      "actor": "passenger",
+      "heading": "Is this your intended location?",
+      "message": "The blue pin is at the centre of your mark, in the lower right of the photo. Save it if this is where you want to get out.",
+      "visible_ms": 532,
+      "actual_tap": [
+        2568.958361342117,
+        1500.0712240072387
+      ],
+      "saved_ms": 153,
+      "saved_xy": [
+        2568.958361342117,
+        1500.0712240072387
+      ],
+      "save_button_visible": true,
+      "selectable_buttons": 0,
+      "grade": "saved_exact_passenger_point",
+      "destination_point": [
+        2568.958361342117,
+        1500.0712240072387
+      ],
+      "saved_in_reference": true,
+      "first_screenshot_sha256": "ffa99a4240a4e6bd3dbafb51b43616824b0c27cb4d0a6a2ca3c286e1e5a87da4",
+      "receipt": {
+        "method": "explicit_passenger_offlane_region_v1",
+        "reason": "parking",
+        "operational_status": "complete",
+        "outcome_ok": true,
+        "journal_sha256": "48a631a1f8c89da7d12d4b86a3f83fb18875cd6d05edec594d362c300197ac0c"
+      }
+    },
+    {
+      "case_id": "F03",
+      "task": "interior",
+      "input_sha256": "ffc38d7f8d94ff8cf964ad65002031c558c86b4c14780aa6cd63381e8494de9f",
+      "state": "needs_clarification",
+      "actor": "passenger",
+      "heading": "Choose another location",
+      "message": "I can’t verify an off-lane parking area at that point. Could you mark a different visible bay?",
+      "visible_ms": 218,
+      "actual_tap": [
+        2960.429912420535,
+        1278.3505373544576
+      ],
+      "save_button_visible": false,
+      "selectable_buttons": 0,
+      "grade": "intended_point_withheld",
+      "destination_point": null,
+      "saved_in_reference": false,
+      "first_screenshot_sha256": "8ce32a693d75845d2d2eb11a42a0513a645aed9e23b0afb7354fb9cf87835152",
+      "receipt": {
+        "method": "explicit_passenger_offlane_region_v1",
+        "reason": "unverified_surface",
+        "operational_status": "complete",
+        "outcome_ok": true,
+        "journal_sha256": "47defadb9e8d032ae3cf5e3c46593ff50ef00632cbb0f1c65a17399c028f8be5"
+      }
+    },
+    {
+      "case_id": "F04",
+      "task": "interior",
+      "input_sha256": "ae1831d72b844f5650f519fee363ca8627ac014db00aef1a3d19d655f2584ad2",
+      "state": "proposed",
+      "actor": "passenger",
+      "heading": "Is this your intended location?",
+      "message": "The blue pin is at the centre of your mark, in the lower right of the photo. Save it if this is where you want to get out.",
+      "visible_ms": 674,
+      "actual_tap": [
+        3426.9407014039602,
+        2261.221046734955
+      ],
+      "saved_ms": 281,
+      "saved_xy": [
+        3426.9407014039602,
+        2261.221046734955
+      ],
+      "save_button_visible": true,
+      "selectable_buttons": 0,
+      "grade": "saved_exact_passenger_point",
+      "destination_point": [
+        3426.9407014039602,
+        2261.221046734955
+      ],
+      "saved_in_reference": true,
+      "first_screenshot_sha256": "159a3f7acb0b2de4f2f59bf15995123c86e57fb78352fe997c9f6a3adddfe658",
+      "receipt": {
+        "method": "explicit_passenger_offlane_region_v1",
+        "reason": "parking",
+        "operational_status": "complete",
+        "outcome_ok": true,
+        "journal_sha256": "c55d7fa45072909bc3553ce6a2c2285c03356e8fa2e8b55b357ac5e15ae81ee2"
+      }
+    },
+    {
+      "case_id": "F04",
+      "task": "edge",
+      "input_sha256": "ae1831d72b844f5650f519fee363ca8627ac014db00aef1a3d19d655f2584ad2",
+      "state": "needs_clarification",
+      "actor": "passenger",
+      "heading": "Choose another location",
+      "message": "I can’t verify an off-lane parking area at that point. Could you mark a different visible bay?",
+      "visible_ms": 874,
+      "actual_tap": [
+        3408.9005128008143,
+        2202.5406001920614
+      ],
+      "save_button_visible": false,
+      "selectable_buttons": 0,
+      "grade": "withheld",
+      "destination_point": null,
+      "saved_in_reference": false,
+      "first_screenshot_sha256": "55e62e12f1ea84186a9342e7301b186972d218ec7068cc30141cf390c9c75b58",
+      "receipt": {
+        "method": "explicit_passenger_offlane_region_v1",
+        "reason": "unverified_surface",
+        "operational_status": "complete",
+        "outcome_ok": true,
+        "journal_sha256": "f62f8a2c62f2262b7bf5de422869dc5d6a87c9cc05240f3032c2f7b2011d6d06"
+      }
+    },
+    {
+      "case_id": "F02",
+      "task": "forbidden",
+      "input_sha256": "c7e0afd713582d0b3c19567fbf3e6ca537509333c612a1e5ae5e37ec9635f2c1",
+      "state": "needs_clarification",
+      "actor": "passenger",
+      "heading": "Choose another location",
+      "message": "I can’t verify an off-lane parking area at that point. Could you mark a different visible bay?",
+      "visible_ms": 275,
+      "actual_tap": [
+        2883.834194403365,
+        1879.9042130467442
+      ],
+      "save_button_visible": false,
+      "selectable_buttons": 0,
+      "grade": "withheld",
+      "destination_point": null,
+      "saved_in_reference": false,
+      "first_screenshot_sha256": "9a7478b80f89c6e27270e632d208a434548dc0e2cfa2c6f289de5e00d0e01ad0",
+      "receipt": {
+        "method": "explicit_passenger_offlane_region_v1",
+        "reason": "unverified_surface",
+        "operational_status": "complete",
+        "outcome_ok": true,
+        "journal_sha256": "2a9b6300710a4d6a53ad3622fb630fb9ade301d5b8565c8de410f27fbbf6d2ea"
+      }
+    }
+  ],
+  "diagnosis": {
+    "F01": {
+      "source_sha256": "1ce00bae5a7a65d2c2ca1feb6485ce4f6c4fbd0afd18829d3f86cc72d99ed6e6",
+      "raw_points": {
+        "total": 12,
+        "inside": 3
+      },
+      "full_and_crop_open_points": {
+        "total": 12,
+        "inside": 3
+      },
+      "roadside_sources": {
+        "paved": {
+          "total": 12,
+          "inside": 3
+        },
+        "gravel": {
+          "total": 0,
+          "inside": 0
+        },
+        "paver_pullin": {
+          "total": 0,
+          "inside": 0
+        },
+        "driveway_apron": {
+          "total": 0,
+          "inside": 0
+        },
+        "row_extension": {
+          "total": 0,
+          "inside": 0
+        },
+        "recessed_kerb": {
+          "total": 0,
+          "inside": 0
+        }
+      },
+      "full_and_crop_open_original_points": [
+        {
+          "xy": [
+            1393.0666666666666,
+            1312.6482213438735
+          ],
+          "in_target": false,
+          "full": "OPEN",
+          "crop": "OPEN"
+        },
+        {
+          "xy": [
+            1606.4,
+            1291.304347826087
+          ],
+          "in_target": false,
+          "full": "OPEN",
+          "crop": "OPEN"
+        },
+        {
+          "xy": [
+            1824.0,
+            1534.6245059288538
+          ],
+          "in_target": false,
+          "full": "OPEN",
+          "crop": "OPEN"
+        },
+        {
+          "xy": [
+            2011.7333333333333,
+            1466.3241106719368
+          ],
+          "in_target": false,
+          "full": "OPEN",
+          "crop": "OPEN"
+        },
+        {
+          "xy": [
+            2212.266666666667,
+            1573.0434782608695
+          ],
+          "in_target": true,
+          "full": "OPEN",
+          "crop": "OPEN"
+        },
+        {
+          "xy": [
+            2481.0666666666666,
+            1513.2806324110672
+          ],
+          "in_target": true,
+          "full": "OPEN",
+          "crop": "OPEN"
+        },
+        {
+          "xy": [
+            2762.6666666666665,
+            1521.8181818181818
+          ],
+          "in_target": true,
+          "full": "OPEN",
+          "crop": "OPEN"
+        },
+        {
+          "xy": [
+            2967.4666666666667,
+            1624.2687747035573
+          ],
+          "in_target": false,
+          "full": "OPEN",
+          "crop": "OPEN"
+        },
+        {
+          "xy": [
+            2993.0666666666666,
+            1444.9802371541502
+          ],
+          "in_target": false,
+          "full": "OPEN",
+          "crop": "OPEN"
+        },
+        {
+          "xy": [
+            3240.5333333333333,
+            1577.312252964427
+          ],
+          "in_target": false,
+          "full": "OPEN",
+          "crop": "OPEN"
+        },
+        {
+          "xy": [
+            3479.4666666666667,
+            1602.9249011857708
+          ],
+          "in_target": false,
+          "full": "OPEN",
+          "crop": "OPEN"
+        },
+        {
+          "xy": [
+            3692.8,
+            1632.806324110672
+          ],
+          "in_target": false,
+          "full": "OPEN",
+          "crop": "OPEN"
+        }
+      ],
+      "local_view_landmarks": [
+        "Environment and Protected Areas Authority | building with minaret",
+        "Environment and Protected Areas Authority | mosque",
+        "NONE"
+      ],
+      "source_descriptions": [
+        {
+          "point": [
+            1393.0666666666666,
+            1312.6482213438735
+          ],
+          "in_reference": false,
+          "descriptions": {
+            "nearer_vehicle": "silver sedan",
+            "farther_vehicle": "black SUV",
+            "frontage": "NONE",
+            "roadside": "NONE"
+          }
+        },
+        {
+          "point": [
+            1606.4,
+            1291.304347826087
+          ],
+          "in_reference": false,
+          "descriptions": {
+            "nearer_vehicle": "NONE",
+            "farther_vehicle": "NONE",
+            "frontage": "NONE",
+            "roadside": "NONE"
+          }
+        },
+        {
+          "point": [
+            1824.0,
+            1534.6245059288538
+          ],
+          "in_reference": false,
+          "descriptions": {
+            "nearer_vehicle": "NONE",
+            "farther_vehicle": "NONE",
+            "frontage": "NONE",
+            "roadside": "NONE"
+          }
+        },
+        {
+          "point": [
+            2011.7333333333333,
+            1466.3241106719368
+          ],
+          "in_reference": false,
+          "descriptions": {
+            "nearer_vehicle": "NONE",
+            "farther_vehicle": "NONE",
+            "frontage": "NONE",
+            "roadside": "NONE"
+          }
+        },
+        {
+          "point": [
+            2212.266666666667,
+            1573.0434782608695
+          ],
+          "in_reference": true,
+          "descriptions": {
+            "nearer_vehicle": "NONE",
+            "farther_vehicle": "NONE",
+            "frontage": "NONE",
+            "roadside": "NONE"
+          }
+        },
+        {
+          "point": [
+            2481.0666666666666,
+            1513.2806324110672
+          ],
+          "in_reference": true,
+          "descriptions": {
+            "nearer_vehicle": "NONE",
+            "farther_vehicle": "NONE",
+            "frontage": "NONE",
+            "roadside": "NONE"
+          }
+        },
+        {
+          "point": [
+            2762.6666666666665,
+            1521.8181818181818
+          ],
+          "in_reference": true,
+          "descriptions": {
+            "nearer_vehicle": "NONE",
+            "farther_vehicle": "NONE",
+            "frontage": "NONE",
+            "roadside": "NONE"
+          }
+        },
+        {
+          "point": [
+            2967.4666666666667,
+            1624.2687747035573
+          ],
+          "in_reference": false,
+          "descriptions": {
+            "nearer_vehicle": "NONE",
+            "farther_vehicle": "NONE",
+            "frontage": "NONE",
+            "roadside": "NONE"
+          }
+        },
+        {
+          "point": [
+            2993.0666666666666,
+            1444.9802371541502
+          ],
+          "in_reference": false,
+          "descriptions": {
+            "nearer_vehicle": "NONE",
+            "farther_vehicle": "NONE",
+            "frontage": "NONE",
+            "roadside": "NONE"
+          }
+        },
+        {
+          "point": [
+            3240.5333333333333,
+            1577.312252964427
+          ],
+          "in_reference": false,
+          "descriptions": {
+            "nearer_vehicle": "NONE",
+            "farther_vehicle": "NONE",
+            "frontage": "NONE",
+            "roadside": "NONE"
+          }
+        },
+        {
+          "point": [
+            3479.4666666666667,
+            1602.9249011857708
+          ],
+          "in_reference": false,
+          "descriptions": {
+            "nearer_vehicle": "NONE",
+            "farther_vehicle": "NONE",
+            "frontage": "NONE",
+            "roadside": "NONE"
+          }
+        },
+        {
+          "point": [
+            3692.8,
+            1632.806324110672
+          ],
+          "in_reference": false,
+          "descriptions": {
+            "nearer_vehicle": "NONE",
+            "farther_vehicle": "NONE",
+            "frontage": "NONE",
+            "roadside": "NONE"
+          }
+        }
+      ],
+      "guided_clause_recognized": false,
+      "curb_language_check": {
+        "destination_permitted": true,
+        "curb_point_clause_supported": false,
+        "matched": [],
+        "partial": []
+      },
+      "raster_class_at_reference_and_controls": {
+        "lane": 13,
+        "interior": 10
+      }
+    },
+    "F02": {
+      "source_sha256": "c7e0afd713582d0b3c19567fbf3e6ca537509333c612a1e5ae5e37ec9635f2c1",
+      "raw_points": {
+        "total": 0,
+        "inside": 0
+      },
+      "full_and_crop_open_points": {
+        "total": 0,
+        "inside": 0
+      },
+      "roadside_sources": {
+        "paved": {
+          "total": 0,
+          "inside": 0
+        },
+        "gravel": {
+          "total": 0,
+          "inside": 0
+        },
+        "paver_pullin": {
+          "total": 0,
+          "inside": 0
+        },
+        "driveway_apron": {
+          "total": 0,
+          "inside": 0
+        },
+        "row_extension": {
+          "total": 0,
+          "inside": 0
+        },
+        "recessed_kerb": {
+          "total": 0,
+          "inside": 0
+        }
+      },
+      "full_and_crop_open_original_points": [],
+      "local_view_landmarks": [
+        "NONE",
+        "NONE",
+        "NONE"
+      ],
+      "source_descriptions": [],
+      "guided_clause_recognized": false,
+      "curb_language_check": {
+        "destination_permitted": true,
+        "curb_point_clause_supported": true,
+        "matched": [],
+        "partial": []
+      },
+      "raster_class_at_reference_and_controls": {
+        "lane": 13,
+        "forbidden_target_tap": 50
+      }
+    },
+    "F03": {
+      "source_sha256": "ffc38d7f8d94ff8cf964ad65002031c558c86b4c14780aa6cd63381e8494de9f",
+      "raw_points": {
+        "total": 0,
+        "inside": 0
+      },
+      "full_and_crop_open_points": {
+        "total": 0,
+        "inside": 0
+      },
+      "roadside_sources": {
+        "paved": {
+          "total": 0,
+          "inside": 0
+        },
+        "gravel": {
+          "total": 0,
+          "inside": 0
+        },
+        "paver_pullin": {
+          "total": 0,
+          "inside": 0
+        },
+        "driveway_apron": {
+          "total": 0,
+          "inside": 0
+        },
+        "row_extension": {
+          "total": 0,
+          "inside": 0
+        },
+        "recessed_kerb": {
+          "total": 0,
+          "inside": 0
+        }
+      },
+      "full_and_crop_open_original_points": [],
+      "local_view_landmarks": [
+        "NONE",
+        "NONE",
+        "NONE"
+      ],
+      "source_descriptions": [],
+      "guided_clause_recognized": false,
+      "curb_language_check": {
+        "destination_permitted": true,
+        "curb_point_clause_supported": true,
+        "matched": [],
+        "partial": []
+      },
+      "raster_class_at_reference_and_controls": {
+        "lane": 13,
+        "interior": 15
+      }
+    },
+    "F04": {
+      "source_sha256": "ae1831d72b844f5650f519fee363ca8627ac014db00aef1a3d19d655f2584ad2",
+      "raw_points": {
+        "total": 1,
+        "inside": 0
+      },
+      "full_and_crop_open_points": {
+        "total": 1,
+        "inside": 0
+      },
+      "roadside_sources": {
+        "paved": {
+          "total": 1,
+          "inside": 0
+        },
+        "gravel": {
+          "total": 0,
+          "inside": 0
+        },
+        "paver_pullin": {
+          "total": 0,
+          "inside": 0
+        },
+        "driveway_apron": {
+          "total": 0,
+          "inside": 0
+        },
+        "row_extension": {
+          "total": 0,
+          "inside": 0
+        },
+        "recessed_kerb": {
+          "total": 0,
+          "inside": 0
+        }
+      },
+      "full_and_crop_open_original_points": [
+        {
+          "xy": [
+            3756.48,
+            2470.72
+          ],
+          "in_target": false,
+          "full": "OPEN",
+          "crop": "OPEN"
+        }
+      ],
+      "local_view_landmarks": [
+        "NONE",
+        "NONE",
+        "NONE"
+      ],
+      "source_descriptions": [
+        {
+          "point": [
+            3756.48,
+            2470.72
+          ],
+          "in_reference": false,
+          "descriptions": {
+            "nearer_vehicle": "white sedan",
+            "farther_vehicle": "red SUV",
+            "frontage": "NONE",
+            "roadside": "NONE"
+          }
+        }
+      ],
+      "guided_clause_recognized": false,
+      "curb_language_check": {
+        "destination_permitted": true,
+        "curb_point_clause_supported": false,
+        "matched": [],
+        "partial": []
+      },
+      "raster_class_at_reference_and_controls": {
+        "lane": 13,
+        "interior": 10,
+        "painted_edge": 24
+      }
+    }
+  },
+  "local_screenshot_examples": [
+    {
+      "description": "Exact passenger point offered for saving beside the pink wall",
+      "repository_relative_path": "runs/passenger-placement-field-20261124/fifth/candidate/F01-interior-first.png",
+      "sha256": "ffa99a4240a4e6bd3dbafb51b43616824b0c27cb4d0a6a2ca3c286e1e5a87da4"
+    },
+    {
+      "description": "Original unmarked gravel entrance withheld after the passenger tapped it",
+      "repository_relative_path": "runs/passenger-placement-field-20261124/fifth/candidate/F03-interior-first.png",
+      "sha256": "8ce32a693d75845d2d2eb11a42a0513a645aed9e23b0afb7354fb9cf87835152"
+    },
+    {
+      "description": "Coned work area withheld on the first natural request",
+      "repository_relative_path": "runs/passenger-placement-field-20261124/fifth/candidate/F02-natural-first.png",
+      "sha256": "228943d1acc1da9003d20c3c7d9430274c7462da0cc649145c77afdb45698ae3"
+    }
+  ]
+}

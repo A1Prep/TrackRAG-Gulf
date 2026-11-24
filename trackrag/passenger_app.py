@@ -409,10 +409,12 @@ class PassengerSite:
         try:
             public_route = getattr(self.model,"uses_public_service",None)
             public = callable(public_route) and bool(public_route(req))
+            from trackrag.dropoff.local_surfaces import matches_scene
+            prepared = callable(getattr(self.model,"inspect_requested_bay",None)) and matches_scene(req.get("scene",{}))
             # A queue of slow laptop inferences must not delay a different passenger's
             # signed photo lookup or cloud request before it gets to run at all.
-            pool = self.public_grounding_pool if public else self.grounding_pool
-            job.future = pool.submit(self._run_grounding,s,job,public)
+            pool = self.public_grounding_pool if public or prepared else self.grounding_pool
+            job.future = pool.submit(self._run_grounding,s,job,public or prepared)
             timer.start()
         except RuntimeError:
             s.pending = None
@@ -711,6 +713,8 @@ def load_speech_recognizer(vosk_model, whisper_model=None):
 def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--requests", action="append", type=Path, required=True, help="Prepared JSONL scene bank; repeat for additional banks")
+    parser.add_argument("--local-surface-index",nargs=2,action="append",default=[],metavar=("JSON","SHA256"))
+    parser.add_argument("--local-observations",nargs=2,action="append",default=[],metavar=("JSON","SHA256"))
     parser.add_argument("--config", type=Path, required=True)
     parser.add_argument("--geometry", type=Path, required=True)
     parser.add_argument("--referent",type=Path,help="Use the learned candidate ranker for clarification")
@@ -735,9 +739,6 @@ def main(argv=None):
     parser.add_argument("--out", type=Path, required=True, help="Local session receipts and source WAVs")
     parser.add_argument("--port", type=int, default=8765)
     args = parser.parse_args(argv)
-    if args.low_memory and args.place_public_sources:
-        import cv2
-        cv2.setNumThreads(2)
     if args.require_footage < 0:
         parser.error("--require-footage must be nonnegative.")
     if bool(args.qa_data_root) != bool(args.qa_predictions):
@@ -747,7 +748,18 @@ def main(argv=None):
     from trackrag.dropoff.passenger_pair_choice import PassengerSession
     from trackrag.dropoff.passenger import load_passenger_model
 
+    from trackrag.dropoff.local_surfaces import matches_scene, register as register_surfaces
+    for path, expected in args.local_surface_index:
+        register_surfaces(path,expected)
+    if args.local_observations:
+        from trackrag.dropoff.local_8b_observations import register as register_observations
+        for path, expected in args.local_observations:
+            register_observations(path,expected)
     scenes = load_scenes(args.requests)
+    prepared_photos = any(matches_scene(scene) for scene in scenes.values())
+    if args.low_memory and (args.place_public_sources or prepared_photos):
+        import cv2
+        cv2.setNumThreads(2)
     asr = load_speech_recognizer(args.asr_model, args.whisper_model)
     model = load_passenger_model(args.config, geometry_path=args.geometry, vision_cache=args.vision_cache,
                                  verify_landmarks=args.verify_landmarks, referent_path=args.referent,
@@ -756,13 +768,14 @@ def main(argv=None):
     if args.referent:
         from trackrag.dropoff.infrastructure import PassengerDialogueGrounder
         dialogue_model = PassengerDialogueGrounder(model)
-    if args.place_public_sources:
+    if args.place_public_sources or prepared_photos:
         from trackrag.dropoff.place_evidence import PlaceDialogueGrounder, PublicPlaceBackend
-        from trackrag.dropoff.frontage_evidence import PublicFrontageGrounder
-        public_places = PublicPlaceBackend(args.place_public_sources,cache=Path(args.vision_cache).parent/"public-places-v3")
+        public_places = PublicPlaceBackend(args.place_public_sources or (),cache=Path(args.vision_cache).parent/"public-places-v3")
         dialogue_model = PlaceDialogueGrounder(dialogue_model, public_places)
-        dialogue_model = PublicFrontageGrounder(dialogue_model, public_places, args.place_public_sources,
-                                               args.out/"frontage-cache")
+        if args.place_public_sources:
+            from trackrag.dropoff.frontage_evidence import PublicFrontageGrounder
+            dialogue_model = PublicFrontageGrounder(dialogue_model, public_places, args.place_public_sources,
+                                                   args.out/"frontage-cache")
     footage = None
     if args.qa_data_root:
         from trackrag.footage_app import FootageReview

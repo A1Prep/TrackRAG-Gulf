@@ -26,6 +26,14 @@ SEG_HASHES = {
 
 PUBLIC_PHOTO_LISTS = ("passenger-uae-parking-photos-20261123.json", "passenger-place-public-photos-20261123.json",
                       "passenger-frontage-photos-20261123.json", "passenger-frontage-extended-photos-20261123.json")
+EXTRA_PHOTO_BANK = "data/uae-parking-local-extra/passenger-requests.jsonl"
+EXTRA_PHOTO_RESULTS = "experiments/dropoff/passenger-additional-local-photos-20261124"
+EXTRA_MODEL_FILES = {
+    "local_surface_index": ("passenger-local-image-surfaces-v1.json",
+                            "41a0c2e929523fb2220e04027203c2f863b8e9653a3ba7c1d21e675f92b8e4e8"),
+    "local_observations": ("observations.json",
+                           "3c11f54f49eb0f5db47e8715e252e8b091b20830930d75e61eb1fb6eb0f75e6f"),
+}
 
 
 def file_hash(path):
@@ -213,9 +221,11 @@ def start(args):
                cache_dir=str(args.processor_cache.resolve()))
     banks = args.requests or [ROOT/"runs/passenger-inputs/requests.jsonl"]
     if args.requests is None:
-        for extra in ("runs/passenger-pair-scene/requests.jsonl", "data/uae-parking-study/passenger-requests.jsonl"):
+        for extra in ("runs/passenger-pair-scene/requests.jsonl", "data/uae-parking-study/passenger-requests.jsonl",
+                      "data/uae-parking-local/passenger-requests.jsonl", EXTRA_PHOTO_BANK):
             if (ROOT/extra).is_file():
                 banks.append(ROOT/extra)
+    banks = list(dict.fromkeys(Path(p).resolve() for p in [*banks, *(getattr(args,"additional_requests",None) or ())]))
     for path in banks:
         if not path.is_file():
             raise FileNotFoundError(f"Prepared scene bank unavailable: {path}")
@@ -234,6 +244,13 @@ def start(args):
             sources.extend(ROOT / "experiments/dropoff" / name for name in PUBLIC_PHOTO_LISTS)
         for path in dict.fromkeys(Path(source).resolve() for source in sources):
             argv.extend(["--place-public-sources",str(path)])
+        for option in ("local_surface_index", "local_observations"):
+            pairs = [(Path(path).resolve(), expected) for path, expected in getattr(args,option,None) or ()]
+            if ROOT / EXTRA_PHOTO_BANK in banks and option in EXTRA_MODEL_FILES:
+                name, digest = EXTRA_MODEL_FILES[option]
+                pairs.insert(0, (ROOT / EXTRA_PHOTO_RESULTS / name, digest))
+            for path, expected in dict.fromkeys(pairs):
+                argv.extend(["--"+option.replace("_","-"),str(path),expected])
         if getattr(args, "low_memory", False):
             argv.append("--low-memory")
         for bank in banks:
@@ -278,6 +295,12 @@ def main():
         p.add_argument("--bundle",type=Path,default=ROOT/"models/passenger-feature")
         if cmd == "start":
             p.add_argument("--requests",type=Path,action="append")
+            p.add_argument("--additional-requests",type=Path,action="append",metavar="JSONL",
+                           help="Add a prepared scene bank while keeping the normal gallery and recordings")
+            p.add_argument("--local-surface-index",nargs=2,action="append",metavar=("JSON","SHA256"),
+                           help="Surface maps prepared offline for an additional photo bank")
+            p.add_argument("--local-observations",nargs=2,action="append",metavar=("JSON","SHA256"),
+                           help="Verified offline 8B observations for additional registered surfaces")
             p.add_argument("--base-dir",type=Path,default=ROOT/"models/qwen3-vl-8b-local-nf4")
             p.add_argument("--processor-cache",type=Path,default=ROOT/"models/dropoff-processor-cache/hub")
             p.add_argument("--vision-cache",type=Path)

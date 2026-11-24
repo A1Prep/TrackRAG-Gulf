@@ -1,0 +1,228 @@
+{
+  "schema": 1,
+  "sealed_utc": "2026-11-23T22:57:32.654628+00:00",
+  "scope": "Fifth independent field study. Four distinct UAE recordings excluded from 470 prior project drives, including previously discovered metadata-only drives and fourth-study screening. Source selection used local inspection of provider-published original pixels. The claim of newness applies to checked project records.",
+  "privacy": "Local-only inference on published privacy-processed original photographs. No external images, words or review annotations.",
+  "credit": "© Grab and KartaView Contributors",
+  "license": "CC BY-SA 4.0",
+  "source_terms": "https://kartaview.org/terms",
+  "reviewer": "One independent AI visual review of the original pixels. No independent human passenger or regulatory clearance claim.",
+  "neutral_input_sha256": "6728fbc87ccab6f6429680941c4642da6c301bb4d9a54f846d2c3b7c15917fe5",
+  "excluded_drive_list_sha256": "5d6c19cd44d48b94545bd0dadca5dc165731318a97e54a142b9907797566224e",
+  "protocol": {
+    "natural": "Four unaltered first requests in fresh ordinary browser sessions. An automatic confirmable point or a selectable point must be inside the fixed reference region. Count wrong options even when alongside a correct one. Wait up to 15 s for the primary response and 45 s for an operational classification.",
+    "marks": "Four independent lane taps, three positive interior taps, one separate painted-divider tap and one blocked-target tap. A marked point is the passenger's work. Test explicit save and read-back for in-target offers only.",
+    "negative": "Withhold all pin and choice options. A completed target-specific explanation earns separate semantic credit. General clarification, waiting, and error are tracked separately.",
+    "extent": "Grades are original-pixel locations and do not establish space for a complete vehicle or permission to stop."
+  },
+  "cases": [
+    {
+      "id": "F01",
+      "recording_id": "kartaview_6267177",
+      "frame_id": 167,
+      "size": [
+        3840,
+        2160
+      ],
+      "sha256": "1ce00bae5a7a65d2c2ca1feb6485ce4f6c4fbd0afd18829d3f86cc72d99ed6e6",
+      "source_url": "https://kartaview.org/details/6267177/167/",
+      "words": "Could you pull into the empty marked bay beside the pink wall?",
+      "expected": "point",
+      "regions": {
+        "target": [
+          [
+            2350.08,
+            1400.355
+          ],
+          [
+            2446.08,
+            1354.316
+          ],
+          [
+            2680.32,
+            1365.826
+          ],
+          [
+            2983.68,
+            1400.355
+          ],
+          [
+            3014.4,
+            1569.165
+          ],
+          [
+            2983.68,
+            1611.368
+          ],
+          [
+            2058.24,
+            1615.204
+          ],
+          [
+            2027.52,
+            1603.694
+          ]
+        ]
+      },
+      "interior": [
+        2568.96,
+        1500.107
+      ],
+      "lane": [
+        706.56,
+        1461.741
+      ],
+      "painted_edge": null,
+      "forbidden_target_tap": null,
+      "visual_reference": "The foreground parking bay lies between a yellow and white painted line on the image right, immediately on the road side of the pink wall. Its near lane-side mouth is visible and light paving is free of vehicles. The stone island borders a different side of it. This location grade is an interior point, not a full-footprint measurement."
+    },
+    {
+      "id": "F02",
+      "recording_id": "kartaview_994509",
+      "frame_id": 281,
+      "size": [
+        3840,
+        2160
+      ],
+      "sha256": "c7e0afd713582d0b3c19567fbf3e6ca537509333c612a1e5ae5e37ec9635f2c1",
+      "source_url": "https://kartaview.org/details/994509/281/",
+      "words": "Could you drop me inside the coned-off work area by the yellow arrow sign?",
+      "expected": "withhold",
+      "regions": {},
+      "interior": null,
+      "lane": [
+        1985.28,
+        1948.988
+      ],
+      "painted_edge": null,
+      "forbidden_target_tap": [
+        2883.84,
+        1879.929
+      ],
+      "visual_reference": "Red and white barriers keep the working area on the right of the open through lane. A yellow keep-left/keep-right roadworks sign, construction cones and people beyond the barrier define the excluded area. Both the working area and vehicle travel lane must withhold."
+    },
+    {
+      "id": "F03",
+      "recording_id": "kartaview_5138697",
+      "frame_id": 360,
+      "size": [
+        3264,
+        1836
+      ],
+      "sha256": "ffc38d7f8d94ff8cf964ad65002031c558c86b4c14780aa6cd63381e8494de9f",
+      "source_url": "https://kartaview.org/details/5138697/360/",
+      "words": "Can you pull onto the light gravel just off the road beside the hedge on our right?",
+      "expected": "point",
+      "regions": {
+        "target": [
+          [
+            2516.544,
+            1265.307
+          ],
+          [
+            2813.568,
+            1226.174
+          ],
+          [
+            3188.928,
+            1206.607
+          ],
+          [
+            3221.568,
+            1249.002
+          ],
+          [
+            3198.72,
+            1372.924
+          ],
+          [
+            2842.944,
+            1337.052
+          ],
+          [
+            2585.088,
+            1304.44
+          ]
+        ]
+      },
+      "interior": [
+        2960.448,
+        1278.352
+      ],
+      "lane": [
+        1220.736,
+        1421.84
+      ],
+      "painted_edge": null,
+      "forbidden_target_tap": null,
+      "visual_reference": "The main asphalt runs straight. A broad lighter rough-surfaced vehicle entrance joins it in the right foreground through a visible break at the end of a raised planted island. This conservative area is immediately to the right of the rounded hedge, beyond the dark through asphalt. Its entrance has no continuous footway or kerb across it. Access to the pictured point can be seen; use of the site or permission to stop is unadjudicated."
+    },
+    {
+      "id": "F04",
+      "recording_id": "kartaview_1465182",
+      "frame_id": 0,
+      "size": [
+        4032,
+        3024
+      ],
+      "sha256": "ae1831d72b844f5650f519fee363ca8627ac014db00aef1a3d19d655f2584ad2",
+      "source_url": "https://kartaview.org/details/1465182/0/",
+      "words": "Could I get out in one of the empty marked spaces on the right, this side of the red SUV?",
+      "expected": "point",
+      "regions": {
+        "target": [
+          [
+            2767.767,
+            2089.719
+          ],
+          [
+            3156.067,
+            2112.287
+          ],
+          [
+            3819.789,
+            2116.8
+          ],
+          [
+            3959.758,
+            2152.907
+          ],
+          [
+            3959.758,
+            2342.472
+          ],
+          [
+            3377.308,
+            2315.391
+          ],
+          [
+            3192.188,
+            2279.284
+          ],
+          [
+            3007.068,
+            2193.528
+          ],
+          [
+            2826.464,
+            2152.907
+          ]
+        ]
+      },
+      "interior": [
+        3426.974,
+        2261.23
+      ],
+      "lane": [
+        1611.897,
+        2261.23
+      ],
+      "painted_edge": [
+        3408.914,
+        2202.555
+      ],
+      "forbidden_target_tap": null,
+      "visual_reference": "The night photograph shows a red SUV and a white car standing crosswise in the row on the right. Bright bay dividers mark more than one empty space on the camera side of the SUV, with each mouth visibly open to the vehicle aisle. The target conservatively covers portions of the two empty ground interiors. The separate stripe mark was visually located on the divider between these spaces, avoiding the occupied SUV."
+    }
+  ]
+}

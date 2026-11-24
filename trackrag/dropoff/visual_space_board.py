@@ -5,6 +5,7 @@ from PIL import Image, ImageDraw, ImageFont
 
 RECIPE = "two_view_public_pullin_observation_v1"
 PAVED_RECIPE = "native_pullin_context_observation_v1"
+EXTENSION_RECIPE = "native_entrance_or_row_observation_v1"
 PAVED_GUIDE = (
     "Read the two VEHICLE crops along the bottom and the matching street and frontage above them. "
     "Describe what is visible, independently of the suitability of the parking location. "
@@ -13,6 +14,15 @@ PAVED_GUIDE = (
     "rear_vehicle (colour and type only if the ring is immediately behind the rear of a specific vehicle, else NONE), "
     "frontage (type and readable name of premises by the ring), roadside (other directly adjacent features). "
     "For each label use NONE if unrecognizable. Do not include plates, phone numbers, addresses or people."
+)
+EXTENSION_GUIDE = (
+    "The yellow ring marks an inspected patch of ground. The two bottom panels magnify actual vehicles, "
+    "ordered by their position in the image. Describe their colour and vehicle type, and the premises or "
+    "other objects immediately beside the marked ground. Do not assume either vehicle flanks the ring. "
+    "Return a JSON object with strings: left_vehicle (bottom left crop), right_vehicle (bottom right crop), "
+    "rear_vehicle (colour/type only if the patch is clearly behind the rear of THAT vehicle, otherwise NONE), "
+    "frontage (premises category and readable name), roadside (nearby objects or paving). Use NONE when unclear. "
+    "Omit phone numbers, addresses, people and plates."
 )
 SELECT = (
     "A passenger wants to get out near this street. The upper view is the original scene. "
@@ -102,6 +112,8 @@ def inspection(original, sample):
             left=i*sheet.width//2
             view,_ = _panel(original,tuple(map(round,box)),(sheet.width//2,131))
             sheet.paste(view,(left+(sheet.width//2-view.width)//2,sheet.height-131))
-            pen.text((left+8,sheet.height-153),("Left" if i==0 else "Right")+" vehicle in the measured row",
+            label = ("Vehicle crop from original, " + ("left" if i==0 else "right") if sample.get("native_option")
+                     else ("Left" if i==0 else "Right")+" vehicle in the measured row")
+            pen.text((left+8,sheet.height-153),label,
                      fill="black",font=ImageFont.load_default(size=16))
     return _encoded(sheet)

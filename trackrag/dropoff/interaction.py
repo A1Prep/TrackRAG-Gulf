@@ -357,6 +357,9 @@ class InteractionController:
 
 def signed_place_verifier(method, *, live=False):
     """Replay recorded decisions. A new offer or confirmation must also pass today's model policy."""
+    if method == 'passenger_vehicle_reading_unavailable_v1':
+        from .vehicle_ground_reference import verify_unavailable
+        return verify_unavailable
     if method == "public_painted_bay_landmark_v1":
         from . import whole_bay
         return whole_bay.verify_current if live else whole_bay.verify
@@ -406,6 +409,7 @@ class PassengerSession:
         self._manual_submission_box = None
         self._manual_offer = None
         self._bay_menu = self._bay_selection = None
+        self._references_only = False
         self._waiting_place = False
         self._requested_area = False
         self._error, self._selected_by, self._request = None, None, None
@@ -438,11 +442,17 @@ class PassengerSession:
             frame = self._scene["frame"]
             receipt = self._manual_offer[1] if self._manual_offer else self._place_offer
             bay = {}
+            if self._references_only and self._state=="needs_clarification":
+                bay["references_only"]=True
+                if self._references_only=="vegetation":
+                    bay["reference_kind"]="vegetation"
             if receipt is not None and receipt["provenance"].get("bay_outline"):
                 bay["bay_outline"] = receipt["provenance"]["bay_outline"]
             if self._bay_menu is not None:
                 bay["bay_choices"] = self._bay_menu[0]["provenance"]["bay_choices"]
-                if self._bay_menu[0]["provenance"]["reason"]=="unverified_bay_reference":
+                if self._bay_menu[0]['provenance'].get('vehicle_ground_policy') and self._result.get('anchor_boxes_xyxy'):
+                    bay['vehicle_ground_choice'] = True
+                if self._bay_menu[0]["provenance"]["reason"] in {"unverified_bay_reference", "passenger_choice_of_observed_alternative", "choose_observed_ground_behind_vehicle"}:
                     bay["bay_reference_uncertain"] = True
             return deepcopy({"state":self._state, "recording_id":frame["recording_id"], "frame_id":frame["frame_id"],
                              "image_sha256":self._scene["provenance"]["image_sha256"],
@@ -486,6 +496,9 @@ class PassengerSession:
                 raise ValueError("This location must come from an explicit mark on the current photo.")
             check = manual_offlane.verify if method == manual_offlane.METHOD else whole_bay.verify_current
             check(req, outcome, requested_box=self._manual_submission_box)
+            if (method == whole_bay.MARK and info.get('vehicle_ground_policy')
+                    and info.get('reason') == 'vehicle_seen_space_withheld' and result.get('anchor_boxes_xyxy')):
+                self._references_only = True
         if method == whole_bay.CHOICE:
             if (selected_by != "passenger" or self._bay_selection is None
                     or self._bay_selection != (digest(info.get("choice_source")), info.get("bay_id"))):
@@ -500,6 +513,11 @@ class PassengerSession:
             raise ValueError("Only the passenger can request to mark the photo.")
         if verifier is not None:
             verifier(req, outcome)
+            self._references_only = (info.get("reason")=="vehicle_seen_space_withheld" and
+                                     result["status"]=="needs_clarification" and bool(result.get("anchor_boxes_xyxy")))
+            if (info.get("reason")=="vegetation_seen_space_withheld" and result["status"]=="needs_clarification"
+                    and result.get("anchor_boxes_xyxy")):
+                self._references_only="vegetation"
             if result["status"] == "proposed":
                 self._place_offer = deepcopy(outcome)
                 self._place_offer_sha256 = digest(outcome)
@@ -528,6 +546,7 @@ class PassengerSession:
         self._manual_offer = None
         self._manual_submission_box = None
         self._bay_menu = self._bay_selection = None
+        self._references_only = False
         self._waiting_place = False
 
     def _save_turn(self, action, detail):

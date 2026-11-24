@@ -226,6 +226,16 @@ class ReviewTests(unittest.TestCase):
         self.assertEqual(result["answer"]["answer_status"], "insufficient_evidence")
         answerer.assert_not_called()
 
+    def test_unmeasured_speed_explained_even_when_retrieval_has_no_frames(self):
+        self.question["question"] = "What is the precise physical speed of the pickup truck in km/h?"
+        self.rank_evidence.side_effect = lambda *args, **kwargs: []
+        answerer = Mock()
+        result = self.read_result(self.run_review(answer_question=answerer))
+        self.assertEqual(result["answer"]["answer_status"], "insufficient_evidence")
+        self.assertIn("calibrated", result["answer"]["answer"])
+        self.assertEqual(result["answer"]["cited_evidence_ids"], [])
+        answerer.assert_not_called()
+
     def test_failed_detector_produces_no_completed_run(self):
         self.load_tracks.side_effect = RuntimeError("detector failed")
         with self.assertRaisesRegex(RuntimeError, "detector failed"):

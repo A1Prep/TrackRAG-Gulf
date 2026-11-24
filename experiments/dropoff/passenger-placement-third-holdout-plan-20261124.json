@@ -1,0 +1,237 @@
+{
+  "schema": 1,
+  "sealed_utc": "2026-11-23T21:33:22.907544+00:00",
+  "scope": "Third five-drive prospective field challenge. Three visibly off-lane point targets and two negatives. None of the five drives occurred in the previous two independent field cohorts. The first three original photos figured in earlier unrelated generic frontage/point work; these specific texts, targets and evaluation are new. The two controls are also new to the checked earlier point cohorts. Every original belongs to the project's existing source-authorized bank. Ground truth selected on original pixels, without using retrieval outputs, candidate flags or new-model results. One independent AI review, not participant testimony or stopping permission.",
+  "credit": "Grab and KartaView contributors",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
+  "protocol": {
+    "positive": "A first-turn, confirmable point must be inside its frozen conservative polygon. An overlapping selectable option is a separate guided result. Record all unmatched offered options. The rendered result must require a separate save. All three positives are point-only, complete bay footprint is unadjudicated and cannot gain whole-bay credit.",
+    "negative": "No confirmable pin or selectable option. Withholding/targeted completed clarification can pass. Service-pending, overloaded, provider error, missing response and >15s timeout are operational outcomes and earn zero semantic credit.",
+    "tasks": "Each of five cases starts in a separate normal browser session, once for its natural typed words and once for its travel/aisle tap. Test three positive interior taps in separate sessions. Fifteen seconds for timely terminal semantics; wait for 45 seconds to separate operational failure. Retain authenticated first-turn actor, decision, time, point/geometry and observed controls.",
+    "classification": "Track direct point, matching choices, unrelated points/choices, full vs partial or unverified footprint, semantic no-location, service waits/errors/timeouts and initial/explicitly saved separately."
+  },
+  "cases": [
+    {
+      "id": "T01",
+      "recording_id": "kartaview_54900",
+      "frame_id": 393,
+      "size": [
+        2688,
+        1520
+      ],
+      "sha256": "1002226173c113c3ead9370fd6e8aa2dbabc6b650ca983198adff0778138b657",
+      "source_url": "https://kartaview.org/details/54900/393/",
+      "prior_unrelated_frontage_study": true,
+      "words": "Can you pull off on the open ground by the tree, just before the yellow forklift?",
+      "expected": "point",
+      "regions": {
+        "target": [
+          [
+            1665.51,
+            1303.99
+          ],
+          [
+            1810.45,
+            1253.93
+          ],
+          [
+            2018.64,
+            1243.4
+          ],
+          [
+            2205.74,
+            1282.91
+          ],
+          [
+            2234.73,
+            1338.23
+          ],
+          [
+            2411.29,
+            1414.63
+          ],
+          [
+            2448.19,
+            1483.12
+          ],
+          [
+            1794.64,
+            1493.66
+          ]
+        ]
+      },
+      "lane": [
+        318.87,
+        1301.35
+      ],
+      "interior": [
+        2005.46,
+        1372.48
+      ],
+      "painted_edge": null,
+      "visual_reference": "A broad unoccupied gravel/paved forecourt leaves the through roadway before a row of parked vehicles and a yellow forklift. The point region is on the right-hand apron clear of grass, the foreground queued car, the white car, and the yellow forklift."
+    },
+    {
+      "id": "T02",
+      "recording_id": "kartaview_5204473",
+      "frame_id": 819,
+      "size": [
+        3840,
+        2160
+      ],
+      "sha256": "129e43a4f8482d50707f75d002c0e8dc809d2ae0fea3da57a1e4d030527c080a",
+      "source_url": "https://kartaview.org/details/5204473/819/",
+      "prior_unrelated_frontage_study": true,
+      "words": "Could you drop me in the St. Regis entrance driveway, off the main road?",
+      "expected": "point",
+      "regions": {
+        "target": [
+          [
+            1291.29,
+            1072.47
+          ],
+          [
+            1547.29,
+            985.92
+          ],
+          [
+            1920.0,
+            937.0
+          ],
+          [
+            2228.71,
+            929.48
+          ],
+          [
+            2153.41,
+            1080.0
+          ],
+          [
+            2176.0,
+            1185.37
+          ],
+          [
+            1626.35,
+            1249.34
+          ]
+        ]
+      },
+      "lane": [
+        470.59,
+        1196.66
+      ],
+      "interior": [
+        1788.24,
+        1087.53
+      ],
+      "painted_edge": null,
+      "visual_reference": "Light entrance-drive paving between two raised pink footways leads from the street toward the hotel canopy and already parked black van. The accepted patch is inside the separate driveway, clear of the carriageway, bollards and pedestrians."
+    },
+    {
+      "id": "T03",
+      "recording_id": "kartaview_976103",
+      "frame_id": 139,
+      "size": [
+        3840,
+        2160
+      ],
+      "sha256": "bae3d01037cdc79d690fe49f11cf8603abec303643967805ffdbb72abff23b36",
+      "source_url": "https://kartaview.org/details/976103/139/",
+      "prior_unrelated_frontage_study": true,
+      "words": "Let me out on the paved shoulder behind the white sedan, near the big rubbish skip on the right.",
+      "expected": "point",
+      "regions": {
+        "target": [
+          [
+            2051.76,
+            1907.87
+          ],
+          [
+            2213.65,
+            1919.16
+          ],
+          [
+            2511.06,
+            2020.77
+          ],
+          [
+            2706.82,
+            2084.74
+          ],
+          [
+            2785.88,
+            2137.42
+          ],
+          [
+            2413.18,
+            2133.66
+          ],
+          [
+            2228.71,
+            2035.82
+          ]
+        ]
+      },
+      "lane": [
+        1347.76,
+        1964.32
+      ],
+      "interior": [
+        2398.12,
+        2047.11
+      ],
+      "painted_edge": null,
+      "visual_reference": "The right-hand parking shoulder continues behind the white car and inside the continuous white road edge line. A large industrial waste skip sits beyond it. The conservative patch is on the vacant shoulder, clear of the white car, through lane, kerb and skip."
+    },
+    {
+      "id": "T04",
+      "recording_id": "kartaview_5139769",
+      "frame_id": 64,
+      "size": [
+        3264,
+        1836
+      ],
+      "sha256": "a2b23025bda4791dd7a53822937eeb69f2b9655011b6b8be537d9cde4f8158c0",
+      "source_url": "https://kartaview.org/details/5139769/64/",
+      "prior_unrelated_frontage_study": false,
+      "words": "Can we go straight into the space by the blue car outside Cibo Diet from this lane?",
+      "expected": "withhold",
+      "regions": {},
+      "lane": [
+        342.4,
+        1448.97
+      ],
+      "interior": null,
+      "painted_edge": null,
+      "visual_reference": "A continuous raised curb and dense hedge immediately separate the requested frontage from the current carriageway; the row behind it is also substantially occupied."
+    },
+    {
+      "id": "T05",
+      "recording_id": "kartaview_5204489",
+      "frame_id": 936,
+      "size": [
+        3840,
+        2160
+      ],
+      "sha256": "4b839f186c8365013c4db4087373e1b3fa26dba12777e34b32e4fd34d7c87d27",
+      "source_url": "https://kartaview.org/details/5204489/936/",
+      "prior_unrelated_frontage_study": false,
+      "words": "In the garage, I'll take the bay where the bright blue sedan is parked on the right.",
+      "expected": "withhold",
+      "regions": {},
+      "lane": [
+        1961.41,
+        1305.78
+      ],
+      "interior": null,
+      "painted_edge": null,
+      "visual_reference": "The target is the occupied foreground right garage bay. The central aisle and other slots are distinct and must not substitute."
+    }
+  ],
+  "metadata_correction": {
+    "previous_sha256": "52229cc3917a5b7ecf4d7d7c216fe1d257c6feec8ff4ea0ad5e7201a8577dd7e",
+    "corrected_utc": "2026-11-23T21:35:13.561804+00:00",
+    "change": "The template previously said four positives. Corrected the prose to three before running any baseline. Cases, words, regions, and grading did not change."
+  }
+}

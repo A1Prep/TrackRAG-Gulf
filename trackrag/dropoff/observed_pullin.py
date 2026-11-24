@@ -80,14 +80,14 @@ def _relative(text, options, size):
     return certain, partial
 
 
-def visual_outcome(request, photo, surface, packet):
+def visual_outcome(request, photo, surface, packet, *, references=False):
     from . import whole_bay
     if not bay_intent.permitted_destination(request["text"]):
         return None
     clean, _, portable = source_input(request,photo)
     scene, text = clean["scene"],clean["text"]
     size = [scene["frame"]["width"],scene["frame"]["height"]]
-    options = visual_space.verified(scene,photo,surface,packet,paved=True)
+    options = visual_space.verified(scene,photo,surface,packet,paved=True,references=references)
     # This recipe reconstructs an entrance and paving. Its box is only the inspected
     # interior patch. The seat of a complete parking bay cannot be inferred from it.
     for option in options:
@@ -95,10 +95,38 @@ def visual_outcome(request, photo, surface, packet):
         desc["roadside"] = (desc["roadside"] + " | paved").strip(" |")
         for field in ("nearer_vehicle","farther_vehicle"):
             desc[field] = _vehicle_label(desc[field])
-    if _RELATIVE.search(words._normal(text)):
+    relative = _RELATIVE.search(words._normal(text))
+    if relative:
         supported, tentative = _relative(text,options,size)
     else:
         supported, tentative = words.match_points(text,options,size,conversational=True)
+    if references:
+        # Positive object identification remains useful even when the inspected ground was vetoed.
+        # Neither the source point nor a bay choice is returned from this branch.
+        if len(supported+tentative)!=1:
+            return None
+        option=(supported+tentative)[0]
+        boxes=[]
+        if relative:
+            tail=re.split(r"\b(?:on the (?:left|right)|outside|in front of|near|next to|beside|by|would be)\b",
+                          words._normal(text)[relative.end():],maxsplit=1)[0]
+            target=words._vehicle(" ".join(t for t in words._terms(tail) if t not in _VEHICLE_ATTRIBUTE),requested=True)
+            for field,(_,box) in zip(("nearer_vehicle","farther_vehicle"),option["vehicle_crops"]):
+                if target and words._vehicle_match(target,option["descriptions"][field]) is True:
+                    boxes.append(box)
+            if len(boxes)!=1:
+                return None
+        elif re.search(r"\bbetween\b",text,re.I):
+            boxes=[b for _,b in option["vehicle_crops"]]
+        if not boxes:
+            return None
+        noun="The outline shows the vehicle you described." if len(boxes)==1 else "The outlines show the vehicles you described."
+        question=noun+" I couldn’t verify a clear place to get out there. Could you mark another visible spot?"
+        answer=whole_bay._make(clean,portable,[],surface,method=whole_bay.AUTO,reason="vehicle_seen_space_withheld",
+                               question=question,visual_space_evidence=packet,pullin_policy=POLICY,
+                               clearance_policy=whole_bay.CLEARANCE_POLICY,language_policy=whole_bay.INDEXED_DIALOGUE_POLICY)
+        answer["result"]["anchor_boxes_xyxy"]=boxes
+        return answer
     # An uncertain visual clearance inspection can only offer a question, never an automatic pin.
     tentative = [o for o in supported if o["evidence"]["status"]!="OPEN"] + tentative
     supported = [o for o in supported if o["evidence"]["status"]=="OPEN"]
@@ -119,9 +147,12 @@ def visual_outcome(request, photo, surface, packet):
 
 
 def supplement(request, prior):
-    from . import whole_bay
+    from . import native_destination, whole_bay
     if whole_bay._has_location(prior) or not bay_intent.permitted_destination(request["text"]):
         return prior
+    native = native_destination.supplement(request, prior)
+    if native is not prior:
+        return native
     key = request["scene"]["provenance"]["image_sha256"]
     packet = visual_space.get_packet(key,paved=True)
     if packet is None:
@@ -131,7 +162,8 @@ def supplement(request, prior):
         return prior
     try:
         photo = Path(request["scene"]["frame"]["image_path"]).read_bytes()
-        return visual_outcome(request,photo,surface,packet) or prior
+        return (visual_outcome(request,photo,surface,packet) or
+                visual_outcome(request,photo,surface,packet,references=True) or prior)
     except (OSError,TypeError,KeyError,ValueError):
         return prior
 

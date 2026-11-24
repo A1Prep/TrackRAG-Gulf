@@ -30,6 +30,17 @@ _DESIGNATOR = re.compile(r"\b(?=[A-Za-z0-9-]*[A-Za-z])(?=[A-Za-z0-9-]*\d)[A-Za-z
 _NAME = re.compile(r"(?:[A-Z][A-Za-z0-9-]{1,22})(?:\s+[A-Z][A-Za-z0-9-]{1,22}){0,2}$")
 _MISSING = re.compile(r"\bbetween\s+(?P<first>[^.,;!?\n]+?)\s+and(?:\s+the)?[\s.,!?]*$", re.I)
 _VETO = re.compile(r"\b(?:not|never|except|excluding|without|rather than|instead of|avoid|or)\b|n['’]t\b", re.I)
+_CROSSING_TARGET = re.compile(r"\b(?:on|onto|in)\s+(?:(?:the|that|these|those|marked|painted)\s+)*"
+                              r"(?:crosswalk|zebra[- ](?:stripes?|crossing)|pedestrian[- ]crossing)\b", re.I)
+_LANE_TARGET = re.compile(r"\b(?:in|into|on)\s+(?:(?:the|that|this|active|moving|live|through|traffic|travel|"
+                          r"driving|bus|cycle|bike|fast|main|middle|of)\s+)+lane\b|"
+                          r"(?:^|[,;]|\bstop|\bout|\boff)\s*(in (?:its|their|his|her) lane)\b|"
+                          r"\b(?:in|into) the (?:middle|centre|center) of (?:the |this )?(?:street|road)\b", re.I)
+_WORK_AREA_TARGET = re.compile(
+    r"\b(?:in|inside|into|within|onto)\s+(?:(?:the|that|this|a|an|active|road)\s+)*"
+    r"(?:(?:coned[- ]off|cordoned[- ]off|barricaded|closed)\s+"
+    r"(?:(?:construction|work|roadworks?|maintenance)\s+)?(?:area|zone|site|section)|"
+    r"(?:construction|roadworks?|work|maintenance)[- ](?:area|zone|site))\b", re.I)
 _QUESTIONS = {
     "cycle": "One of those references may be a bicycle. I can check a gap between two motor vehicles. "
              "Could you name both vehicle types and colours, or mark the intended area on the photo?",
@@ -37,7 +48,30 @@ _QUESTIONS = {
                     "and colour, or mark the intended area on the photo?",
     "missing_reference": "Which other vehicle do you mean? Please name both vehicle types and colours, "
                          "or mark the intended area on the photo.",
+    "crossing_target": "You asked to get out on a pedestrian crossing. Could you choose a pull-in before or after it?",
+    "lane_target": "You asked to get out in a travel lane. Is there a pull-in off the lane that you meant?",
+    "work_area_target": "You asked for a spot inside the work area. Could you choose a pull-in outside it?",
 }
+
+
+def requested_hazard(text):
+    """Read an explicitly requested surface, leaving nearby landmarks and negations alone."""
+    speech = parking._PREFACE.sub("", text.strip())
+    if (_VETO.search(text) or parking._CANCEL.search(text) or not parking._PLACEMENT_ACT.search(speech)):
+        return None
+    for reason, pattern in (("crossing_target", _CROSSING_TARGET), ("lane_target", _LANE_TARGET),
+                            ("work_area_target", _WORK_AREA_TARGET)):
+        match = pattern.search(text)
+        if match:
+            before = re.split(r"[,;.!?]", text[:match.start()])[-1]
+            if re.search(r"\b(?:which|who|that['’]s|(?:that|there) (?:is|was)|moving|waiting|parked)\s*$", before, re.I):
+                continue
+            if reason == "work_area_target" and re.search(
+                    r"\b(?:beside|near|by|next to|outside|opposite|past|behind|in front of)\b.+$", before, re.I):
+                continue
+            span = match.span(1) if match.lastindex else match.span()
+            return {"reason":reason,"literal_references":[{"text":text[slice(*span)],"start":span[0],"end":span[1]}]}
+    return None
 
 
 def _kind(phrase):
@@ -70,8 +104,12 @@ def references(request):
     frame = request["scene"]["frame"]
     if (request["scene"]["source"] != "predicted"
             or any((v["recording_id"], v["frame_id"]) != (frame["recording_id"], frame["frame_id"])
-                   for v in request["dialogue"])
-            or parking.parking_instruction(request)
+                   for v in request["dialogue"])):
+        return None
+    hazard = requested_hazard(text)
+    if hazard:
+        return hazard
+    if (parking.parking_instruction(request)
             or not _between_placement(text) or _VETO.search(text) or parking._CANCEL.search(text)
             or any(c.isalpha() and "LATIN" not in unicodedata.name(c, "") for c in text)):
         return None

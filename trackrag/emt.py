@@ -37,6 +37,7 @@ class EMTRecording:
     width: int
     height: int
     frame_index: dict[int, Path]
+    headers_only: bool = False
 
     @property
     def first_frame_id(self) -> int:
@@ -63,10 +64,7 @@ class EMTRecording:
         if frame_id not in self.frame_index:
             raise FrameNotFoundError(f"Frame {frame_id} is absent from recording {self.recording_id!r}.")
         path = self.frame_index[frame_id]
-        image = cv2.imread(str(path), cv2.IMREAD_COLOR)
-        if image is None:
-            raise ValueError(f"Cannot decode original frame image: {path}")
-        height, width = image.shape[:2]
+        width, height = _frame_size(path, self.headers_only)
         return Frame(
             recording_id=self.recording_id,
             frame_id=frame_id,
@@ -75,6 +73,22 @@ class EMTRecording:
             height=height,
             image_path=str(path),
         )
+
+
+def _frame_size(path: Path, headers_only: bool) -> tuple[int, int]:
+    if headers_only:
+        from PIL import Image
+
+        try:
+            with Image.open(path) as original:
+                return original.size
+        except (OSError, ValueError) as error:
+            raise ValueError(f"Cannot read original frame header: {path}") from error
+    image = cv2.imread(str(path), cv2.IMREAD_COLOR)
+    if image is None:
+        raise ValueError(f"Cannot decode original frame image: {path}")
+    height, width = image.shape[:2]
+    return width, height
 
 
 def _candidate_image_dirs(data_root: Path, split: str, recording_id: str) -> list[Path]:
@@ -125,8 +139,9 @@ def read_release_frame_rate(data_root: Path | str) -> Optional[float]:
     return None
 
 
-def open_recording(data_root: Path | str, recording_id: str, frame_rate: Optional[float] = None, split: Optional[str] = None) -> EMTRecording:
-    """Open images/<split>/images/<recording_id>/ without requiring labels."""
+def open_recording(data_root: Path | str, recording_id: str, frame_rate: Optional[float] = None,
+                   split: Optional[str] = None, *, headers_only: bool = False) -> EMTRecording:
+    """Open an EMT recording. Use headers_only when the caller decodes its selected evidence separately."""
     data_root = Path(data_root)
     if frame_rate is None:
         frame_rate = read_release_frame_rate(data_root) or DEFAULT_FRAME_RATE
@@ -146,11 +161,9 @@ def open_recording(data_root: Path | str, recording_id: str, frame_rate: Optiona
     if not frame_index:
         raise ValueError(f"Recording {recording_id!r} has no numerically named images")
     frame_ids = sorted(frame_index)
-    first = cv2.imread(str(frame_index[frame_ids[0]]), cv2.IMREAD_COLOR)
-    if first is None:
-        raise ValueError(f"Cannot decode {frame_index[frame_ids[0]]}")
-    height, width = first.shape[:2]
-    return EMTRecording(recording_id, data_root, recording_split, image_dir, frame_ids, float(frame_rate), width, height, frame_index)
+    width, height = _frame_size(frame_index[frame_ids[0]], headers_only)
+    return EMTRecording(recording_id, data_root, recording_split, image_dir, frame_ids, float(frame_rate),
+                        width, height, frame_index, headers_only)
 
 
 def load_annotated_tracks(recording: Recording, annotation_path: Optional[Path | str] = None) -> list[TrackObservation]:

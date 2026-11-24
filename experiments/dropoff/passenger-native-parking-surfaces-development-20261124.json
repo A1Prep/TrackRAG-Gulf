@@ -31,7 +31,17 @@
     "p50_geometry_ms": 10.7,
     "p95_geometry_ms": 37.1,
     "inventory_sha256": "da9dfac16c4a3bd76328e528bdc22c2b24bedbf8f136468ccaa94a442d19a282",
-    "scope": "Coverage over the bank, which is not annotated in full and does not measure the precision of every point."
+    "scope": "Coverage over the bank, which is not annotated in full and does not measure the precision of every point.",
+    "additional_development_check": {
+      "source_url": "https://kartaview.org/details/7130313/1395/",
+      "source_sha256": "3ed141c2c0b33754e2ee822ec16e1c1ed1c713dbd29b16e94acde77b950c6af8",
+      "point_xy": [
+        1507.767,
+        1141.397
+      ],
+      "sealed_visual_check_sha256": "430f2f71776f8d5799cd25ea915bc1c860fad99cd42cef154243081c653b31c0",
+      "description": "The additional candidate from the existing published UAE bank lands inside the conservatively outlined empty marked parking area between the black SUV and white sedan. The reviewer knew the method returned a candidate before drawing the reference, and reviewed the source before opening the coordinate. This is a post-development check."
+    }
   },
   "independent_counterfactual_checks": {
     "reviewer": "A second AI reviewer supplied counterfactual tests on open sources. Altered images are synthetic regression controls.",

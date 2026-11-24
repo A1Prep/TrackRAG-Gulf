@@ -187,6 +187,19 @@ async function main() {
       await p.locator("#"+button).click(); await p.waitForFunction(()=>document.querySelector('#form').hidden);
       assert.deepEqual(s.requests[0].body,{text:words,mode:"typed",[field]:true}); assert.deepEqual(s.errors,[]); await p.close();
     }
+    for (const boxes of [[[44,80,125,146]], [[44,80,125,146],[331,93,412,163]]]) {
+      const s=await browserCase(browser,url),p=s.page;
+      await submitTyped(p); await p.locator("#take-over-area").waitFor();
+      s.finish({state:"needs_clarification",references_only:true,proposal_id:null,
+        result:{anchor_boxes_xyxy:boxes,clarification_question:"Could you mark another visible spot?"}});
+      const name=boxes.length===1 ? "vehicle" : "vehicles";
+      await heading(p,"I found the "+name+" you described");
+      assert.equal(await p.locator("#legend").textContent(), (boxes.length===1 ? "Blue outline shows" : "Blue outlines show")
+        +" the "+name+" you described · Drop-off point unverified");
+      for (const [x1,y1,,y2] of boxes) assert(await pixelAlpha(p,[x1,Math.floor((y1+y2)/2)])>0);
+      assert(await p.locator("#confirm").isHidden()); assert.equal(await pixelAlpha(p,[260,250]),0);
+      assert.deepEqual(s.errors,[]); await p.close();
+    }
     // Single automatic bay displays its perspective polygon and centre only; new input clears both.
     {
       const s=await browserCase(browser,url),p=s.page; await submitTyped(p); await p.locator("#take-over-area").waitFor();
@@ -244,7 +257,7 @@ async function main() {
       await p.getByRole("button",{name:"Choose bay A"}).click();await heading(p,"Is this your intended bay?");
       assert(await p.locator("#confirm").isVisible());assert.deepEqual(s.errors,[]);await p.close();
     }
-    console.log("13 browser scenarios passed, including explicit choice when only one side of a painted line is supported.");
+    console.log("15 browser scenarios passed, including one- and two-vehicle references without destination pins.");
   } finally { await browser.close(); await new Promise(done=>server.close(done)); }
 }
 main().catch(error=>{console.error(error);process.exitCode=1;});

@@ -1,0 +1,418 @@
+{
+  "scope": "Development replay after the original four photos, requests, regions, negative controls and misses were disclosed; it measures repair on known examples. The independent first run remains in the linked original report.",
+  "frozen_plan_file": "passenger-placement-fifth-holdout-plan-20261124.json",
+  "plan_sha256": "f8f70de94a410be5fe5d4c694ca979fee1084d67404fc5cc9d5e4351ade98fce",
+  "independent_baseline_file": "passenger-placement-fifth-holdout-results-20261124.json",
+  "independent_baseline_sha256": "1a3bf19e647a685ff1b748ae27a5e34d588d3208f6f45f0b6795d2f2487a2a13",
+  "runtime": {
+    "git_base": "4200fe01f58692a0c37ae0e5281ac699f08abf10",
+    "label": "parent-identified staging working tree with painted-row and footpath changes",
+    "file_sha256": {
+      "trackrag/dropoff/marked_row_references.py": "ed083d965c6e89f0e9e8c6683ed6d6468bbbe96b2cfb8e43a658ef98baf3a789",
+      "trackrag/dropoff/painted_row_interiors.py": "e8b6fa8e4b64da2daa244d005dce12add9e3ac9488c45b0289c188c556a1118b",
+      "trackrag/dropoff/manual_offlane.py": "fd9b8bdcd0851aba501f58fb6b6034631099d0a95cbb85363fde8bb267746161",
+      "trackrag/dropoff/whole_bay.py": "d3ef38ecdd9dcf9f985821f61a89124eef6929bfc55fa77ecef1ea2ca67fd540",
+      "trackrag/dropoff/photo_clarification.py": "b6947f39e45d844724316e946cfe64fccab14f4794addf005cbad563f49e106c"
+    }
+  },
+  "raw_browser_sha256": "31e443648cd057049dc77b7216b90fc4cbaf35b4c03aea4c1ed798e67ba738e4",
+  "local_surface_index_sha256": "41a0c2e929523fb2220e04027203c2f863b8e9653a3ba7c1d21e675f92b8e4e8",
+  "source_only_local_8b_bank_sha256": "3c11f54f49eb0f5db47e8715e252e8b091b20830930d75e61eb1fb6eb0f75e6f",
+  "scope_of_check": "Thirteen separately opened Microsoft Edge sessions through the ordinary passenger interface; four natural first responses and nine distinct taps. Collected the unchanged input JPEG hash, source-specific local-only journal, actual browser message and visible controls for each session. Selected a valid offered point and pressed Save in its own session. Browser requests were restricted to loopback.",
+  "started_utc": "2026-11-23T23:35:15.023Z",
+  "finished_utc": "2026-11-23T23:35:38.906Z",
+  "counts": {
+    "positive_natural": 3,
+    "correct_automatic": 0,
+    "correct_selectable": 2,
+    "selected_and_saved_natural": 2,
+    "negative_natural": 1,
+    "negative_natural_withheld_target_specific": 1,
+    "intended_interior_marks": 3,
+    "correct_interior_marks_saved": 2,
+    "wrong_offers": 0,
+    "travel_lane_marks": 4,
+    "travel_lane_marks_withheld": 4,
+    "construction_work_area_marks_withheld": 1,
+    "painted_divider_marks": 1,
+    "painted_divider_choices_in_reference": 1,
+    "painted_divider_choices_saved": 1,
+    "premature_saves": 0,
+    "timeouts": 0,
+    "operational_errors": 0,
+    "screenshots_of_first_response": 13
+  },
+  "timing_ms": {
+    "ack_ms": {
+      "n": 4,
+      "min": 54,
+      "median": 68.0,
+      "max": 89
+    },
+    "visible_ms": {
+      "n": 4,
+      "min": 577,
+      "median": 601.0,
+      "max": 645
+    }
+  },
+  "findings": [
+    "The pink-wall row and the parking ahead of the red SUV at night each offered one point in the original outlined destination. The model disclosed uncertainty about pink and about the exact longitudinal relation. Both locations could be saved only after a passenger chose the point.",
+    "The natural request for the construction area received an explanation specific to the worksite. Its dedicated tap withheld through a general off-lane warning. All four lane taps separately withheld.",
+    "The gravel entrance beside the hedge remains a missed positive under the prospectively fixed reference. Its language request received a general clarification. The marked location was withheld with a specific footpath/vehicle-entrance uncertainty. No full vehicle clearance was graded.",
+    "The night-time painted line supplied one selectable point on its available side, in the frozen region. The pink-wall and red-SUV interior taps each saved the exact passenger point."
+  ],
+  "first_sessions": [
+    {
+      "case_id": "F01",
+      "task": "natural",
+      "input_sha256": "1ce00bae5a7a65d2c2ca1feb6485ce4f6c4fbd0afd18829d3f86cc72d99ed6e6",
+      "state": "needs_clarification",
+      "heading": "Is this the spot you meant?",
+      "message": "I found parking between painted lines beside the light, warm-coloured wall. I couldn’t verify that the wall is pink in this photo. Is this the spot you meant? You can also mark another spot.",
+      "actor": "model",
+      "selectable_buttons": 1,
+      "save_button_visible": false,
+      "ack_ms": 79,
+      "visible_ms": 609,
+      "saved_xy": [
+        2481.0666666666666,
+        1513.2806324110672
+      ],
+      "selected_ms": 888,
+      "saved_ms": 247,
+      "grade": "correct_choice",
+      "choice_points": [
+        [
+          2481.0666666666666,
+          1513.2806324110672
+        ]
+      ],
+      "choice_in_reference": [
+        true
+      ],
+      "saved_in_reference": true,
+      "journal_sha256": "2807a85e3a5e54687da3944a1f4c0c024d0b19857fce63ddbacfc83775f6063a",
+      "method": "public_painted_bay_landmark_v1",
+      "screenshot": "runs/passenger-placement-field-20261124/fifth/post-disclosure/F01-natural-first.png",
+      "screenshot_sha256": "3e31620a9c1b1e404d8d8cda1f4c239553b12ebbe60a65b01d33e85635e7100b"
+    },
+    {
+      "case_id": "F02",
+      "task": "natural",
+      "input_sha256": "c7e0afd713582d0b3c19567fbf3e6ca537509333c612a1e5ae5e37ec9635f2c1",
+      "state": "needs_clarification",
+      "heading": "Which spot do you mean?",
+      "message": "You asked for a spot inside the work area. Could you choose a pull-in outside it?",
+      "actor": "reference_clarification",
+      "selectable_buttons": 0,
+      "save_button_visible": false,
+      "ack_ms": 57,
+      "visible_ms": 593,
+      "grade": "withheld",
+      "choice_points": [],
+      "choice_in_reference": [],
+      "saved_in_reference": false,
+      "journal_sha256": "ed7288354682cdf67fa36c84f62a8104bbacaff6d52b119dc5c0e5556384520f",
+      "method": "passenger_vehicle_reference_clarification_v1",
+      "screenshot": "runs/passenger-placement-field-20261124/fifth/post-disclosure/F02-natural-first.png",
+      "screenshot_sha256": "e05f7de01ac67693adccab5dc915d2d8d7b8b299286a44586b814fb7278f5287"
+    },
+    {
+      "case_id": "F03",
+      "task": "natural",
+      "input_sha256": "ffc38d7f8d94ff8cf964ad65002031c558c86b4c14780aa6cd63381e8494de9f",
+      "state": "needs_clarification",
+      "heading": "Which spot do you mean?",
+      "message": "I couldn’t match that description to a visible drop-off area. Tap an off-lane spot to check the surface, or describe another landmark.",
+      "actor": "model",
+      "selectable_buttons": 0,
+      "save_button_visible": false,
+      "ack_ms": 54,
+      "visible_ms": 577,
+      "grade": "withheld",
+      "choice_points": [],
+      "choice_in_reference": [],
+      "saved_in_reference": false,
+      "journal_sha256": "626894cfc56a55e6bca690f150dda54c9b347f1f8b4aea9d816a813fadb18785",
+      "method": "public_painted_bay_landmark_v1",
+      "screenshot": "runs/passenger-placement-field-20261124/fifth/post-disclosure/F03-natural-first.png",
+      "screenshot_sha256": "01574d58e3a526990ae5edf00d4d9ec379938742438d1516fd8a6ac57a703f7e"
+    },
+    {
+      "case_id": "F04",
+      "task": "natural",
+      "input_sha256": "ae1831d72b844f5650f519fee363ca8627ac014db00aef1a3d19d655f2584ad2",
+      "state": "needs_clarification",
+      "heading": "Is this the spot you meant?",
+      "message": "I can see a red SUV and painted parking spaces on the right. The marked parking appears on this side of the vehicle in the photo. Is this the spot you meant? You can also mark another spot.",
+      "actor": "model",
+      "selectable_buttons": 1,
+      "save_button_visible": false,
+      "ack_ms": 89,
+      "visible_ms": 645,
+      "saved_xy": [
+        3484.144,
+        2272.381
+      ],
+      "selected_ms": 880,
+      "saved_ms": 457,
+      "grade": "correct_choice",
+      "choice_points": [
+        [
+          3484.144,
+          2272.381
+        ]
+      ],
+      "choice_in_reference": [
+        true
+      ],
+      "saved_in_reference": true,
+      "journal_sha256": "b4a581d1875e218327c4c4ad3bf0f31ddfec897be3a2a2a971298f0fb202a9c6",
+      "method": "public_painted_bay_landmark_v1",
+      "screenshot": "runs/passenger-placement-field-20261124/fifth/post-disclosure/F04-natural-first.png",
+      "screenshot_sha256": "94a9dfc366768c1c605bbacf7b6413aa67b7408cc7c2b2cd80f53fd0f5ce9164"
+    },
+    {
+      "case_id": "F01",
+      "task": "lane",
+      "input_sha256": "1ce00bae5a7a65d2c2ca1feb6485ce4f6c4fbd0afd18829d3f86cc72d99ed6e6",
+      "state": "needs_clarification",
+      "heading": "Choose another location",
+      "message": "That point appears to be in a traffic lane. Could you mark a visible parking bay instead?",
+      "actor": "passenger",
+      "selectable_buttons": 0,
+      "save_button_visible": false,
+      "visible_ms": 673,
+      "actual_tap": [
+        706.5594330382008,
+        1461.696113036501
+      ],
+      "grade": "withheld",
+      "choice_points": [],
+      "choice_in_reference": [],
+      "saved_in_reference": false,
+      "journal_sha256": "b9231b59974c3a82827862d5d697ec06aedab42ea8d36af0d284767ca9650762",
+      "method": "explicit_passenger_offlane_region_v1",
+      "screenshot": "runs/passenger-placement-field-20261124/fifth/post-disclosure/F01-lane-first.png",
+      "screenshot_sha256": "137650e850a334bf0e50e1101edd477b1e4eff3d7bbf3d50e042567ff04f1123"
+    },
+    {
+      "case_id": "F02",
+      "task": "lane",
+      "input_sha256": "c7e0afd713582d0b3c19567fbf3e6ca537509333c612a1e5ae5e37ec9635f2c1",
+      "state": "needs_clarification",
+      "heading": "Choose another location",
+      "message": "That point appears to be in a traffic lane. Could you mark a visible parking bay instead?",
+      "actor": "passenger",
+      "selectable_buttons": 0,
+      "save_button_visible": false,
+      "visible_ms": 793,
+      "actual_tap": [
+        1985.2742139935083,
+        1948.9605136237922
+      ],
+      "grade": "withheld",
+      "choice_points": [],
+      "choice_in_reference": [],
+      "saved_in_reference": false,
+      "journal_sha256": "077e106e1601322f46bb64d0e15ddbcc1066d116617f73a2c195f10e062f6c50",
+      "method": "explicit_passenger_offlane_region_v1",
+      "screenshot": "runs/passenger-placement-field-20261124/fifth/post-disclosure/F02-lane-first.png",
+      "screenshot_sha256": "9c1126c1841e694d021747ea689ed090e7d80a6ee996310756e8e6a353b6c2f3"
+    },
+    {
+      "case_id": "F03",
+      "task": "lane",
+      "input_sha256": "ffc38d7f8d94ff8cf964ad65002031c558c86b4c14780aa6cd63381e8494de9f",
+      "state": "needs_clarification",
+      "heading": "Choose another location",
+      "message": "That point appears to be in a traffic lane. Could you mark a visible parking bay instead?",
+      "actor": "passenger",
+      "selectable_buttons": 0,
+      "save_button_visible": false,
+      "visible_ms": 411,
+      "actual_tap": [
+        1220.7198753529108,
+        1421.8252595008023
+      ],
+      "grade": "withheld",
+      "choice_points": [],
+      "choice_in_reference": [],
+      "saved_in_reference": false,
+      "journal_sha256": "e353a140ca43646afded29109bde4a7e5407171be808950e08534f7dcea08f8b",
+      "method": "explicit_passenger_offlane_region_v1",
+      "screenshot": "runs/passenger-placement-field-20261124/fifth/post-disclosure/F03-lane-first.png",
+      "screenshot_sha256": "9455d163a159e86e88e90a0cd20c75dcf837781d483571a627b9d5b7b76dd389"
+    },
+    {
+      "case_id": "F04",
+      "task": "lane",
+      "input_sha256": "ae1831d72b844f5650f519fee363ca8627ac014db00aef1a3d19d655f2584ad2",
+      "state": "needs_clarification",
+      "heading": "Choose another location",
+      "message": "That point appears to be in a traffic lane. Could you mark a visible parking bay instead?",
+      "actor": "passenger",
+      "selectable_buttons": 0,
+      "save_button_visible": false,
+      "visible_ms": 650,
+      "actual_tap": [
+        1611.876997426393,
+        2261.221046734955
+      ],
+      "grade": "withheld",
+      "choice_points": [],
+      "choice_in_reference": [],
+      "saved_in_reference": false,
+      "journal_sha256": "9fb2785c9f633fc739b069816d9bac1fec6edbdbdaa8bab67036f98f581861d1",
+      "method": "explicit_passenger_offlane_region_v1",
+      "screenshot": "runs/passenger-placement-field-20261124/fifth/post-disclosure/F04-lane-first.png",
+      "screenshot_sha256": "0c477d41146d7d124f3e8c83b3e435160617f8155e2615a0ce783275a2b7d58f"
+    },
+    {
+      "case_id": "F01",
+      "task": "interior",
+      "input_sha256": "1ce00bae5a7a65d2c2ca1feb6485ce4f6c4fbd0afd18829d3f86cc72d99ed6e6",
+      "state": "proposed",
+      "heading": "Is this your intended location?",
+      "message": "The blue pin is at the centre of your mark, in the lower right of the photo. Save it if this is where you want to get out.",
+      "actor": "passenger",
+      "selectable_buttons": 0,
+      "save_button_visible": true,
+      "visible_ms": 393,
+      "actual_tap": [
+        2568.958361342117,
+        1500.0712240072387
+      ],
+      "saved_xy": [
+        2568.958361342117,
+        1500.0712240072387
+      ],
+      "saved_ms": 122,
+      "grade": "correct_direct",
+      "choice_points": [],
+      "choice_in_reference": [],
+      "saved_in_reference": true,
+      "journal_sha256": "6c77adfd53825c112e360f4cc4fa46dce25d796f74edb61ecb9f7f5ca9fa66d5",
+      "method": "explicit_passenger_offlane_region_v1",
+      "screenshot": "runs/passenger-placement-field-20261124/fifth/post-disclosure/F01-interior-first.png",
+      "screenshot_sha256": "ffa99a4240a4e6bd3dbafb51b43616824b0c27cb4d0a6a2ca3c286e1e5a87da4"
+    },
+    {
+      "case_id": "F03",
+      "task": "interior",
+      "input_sha256": "ffc38d7f8d94ff8cf964ad65002031c558c86b4c14780aa6cd63381e8494de9f",
+      "state": "needs_clarification",
+      "heading": "Choose another location",
+      "message": "The photo check reads this area as a footpath. I can’t verify a vehicle entrance at your mark. Could you mark another visible pull-in?",
+      "actor": "passenger",
+      "selectable_buttons": 0,
+      "save_button_visible": false,
+      "visible_ms": 177,
+      "actual_tap": [
+        2960.429912420535,
+        1278.3505373544576
+      ],
+      "grade": "withheld",
+      "choice_points": [],
+      "choice_in_reference": [],
+      "saved_in_reference": false,
+      "journal_sha256": "146621d545d1b37acdd1b1cbaa401f2ea56ecdf3ee9a100d8c5eee5b7eee2596",
+      "method": "explicit_passenger_offlane_region_v1",
+      "screenshot": "runs/passenger-placement-field-20261124/fifth/post-disclosure/F03-interior-first.png",
+      "screenshot_sha256": "64acdc1d850d9c890f89d6dd396999acf7327df3060f307cb9dde9fbf9f7161e"
+    },
+    {
+      "case_id": "F04",
+      "task": "interior",
+      "input_sha256": "ae1831d72b844f5650f519fee363ca8627ac014db00aef1a3d19d655f2584ad2",
+      "state": "proposed",
+      "heading": "Is this your intended location?",
+      "message": "The blue pin is at the centre of your mark, in the lower right of the photo. Save it if this is where you want to get out.",
+      "actor": "passenger",
+      "selectable_buttons": 0,
+      "save_button_visible": true,
+      "visible_ms": 381,
+      "actual_tap": [
+        3426.9407014039602,
+        2261.221046734955
+      ],
+      "saved_xy": [
+        3426.9407014039602,
+        2261.221046734955
+      ],
+      "saved_ms": 164,
+      "grade": "correct_direct",
+      "choice_points": [],
+      "choice_in_reference": [],
+      "saved_in_reference": true,
+      "journal_sha256": "2c9778a5b87331a72ba5a9cd6176dab28fec2bb41bc7a8880642aa5ba7889c98",
+      "method": "explicit_passenger_offlane_region_v1",
+      "screenshot": "runs/passenger-placement-field-20261124/fifth/post-disclosure/F04-interior-first.png",
+      "screenshot_sha256": "159a3f7acb0b2de4f2f59bf15995123c86e57fb78352fe997c9f6a3adddfe658"
+    },
+    {
+      "case_id": "F04",
+      "task": "edge",
+      "input_sha256": "ae1831d72b844f5650f519fee363ca8627ac014db00aef1a3d19d655f2584ad2",
+      "state": "needs_clarification",
+      "heading": "Which spot did you mean?",
+      "message": "I can verify the marked point on one side of this painted divider. Is that the side you meant?",
+      "actor": "passenger",
+      "selectable_buttons": 1,
+      "save_button_visible": false,
+      "visible_ms": 882,
+      "actual_tap": [
+        3408.9005128008143,
+        2202.5406001920614
+      ],
+      "saved_xy": [
+        3405.812,
+        2268.452
+      ],
+      "selected_ms": 885,
+      "saved_ms": 368,
+      "grade": "correct_choice",
+      "choice_points": [
+        [
+          3405.812,
+          2268.452
+        ]
+      ],
+      "choice_in_reference": [
+        true
+      ],
+      "saved_in_reference": true,
+      "journal_sha256": "4d78cadf9f46a4ea4fa3d9d170084fcd7bccf41f97f9b13e8da4a9b31d050ca7",
+      "method": "passenger_marked_painted_bay_v1",
+      "screenshot": "runs/passenger-placement-field-20261124/fifth/post-disclosure/F04-edge-first.png",
+      "screenshot_sha256": "d43ae84ce49241251a0475a1ed6ec0cc92e1cc117e6f6f765748115dc18ec06a"
+    },
+    {
+      "case_id": "F02",
+      "task": "forbidden",
+      "input_sha256": "c7e0afd713582d0b3c19567fbf3e6ca537509333c612a1e5ae5e37ec9635f2c1",
+      "state": "needs_clarification",
+      "heading": "Choose another location",
+      "message": "I can’t verify an off-lane parking area at that point. Could you mark a different visible bay?",
+      "actor": "passenger",
+      "selectable_buttons": 0,
+      "save_button_visible": false,
+      "visible_ms": 290,
+      "actual_tap": [
+        2883.834194403365,
+        1879.9042130467442
+      ],
+      "grade": "withheld",
+      "choice_points": [],
+      "choice_in_reference": [],
+      "saved_in_reference": false,
+      "journal_sha256": "fb929b7602135666f24fa65ce55c5d3e74a9abe6c25af015fae84271770ccb34",
+      "method": "explicit_passenger_offlane_region_v1",
+      "screenshot": "runs/passenger-placement-field-20261124/fifth/post-disclosure/F02-forbidden-first.png",
+      "screenshot_sha256": "9a7478b80f89c6e27270e632d208a434548dc0e2cfa2c6f289de5e00d0e01ad0"
+    }
+  ],
+  "photo_attribution": "© Grab and KartaView Contributors. CC BY-SA 4.0. Each original photograph has a KartaView link, dimensions, SHA-256 and coordinates in the accompanying plan.",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0/"
+}

@@ -1,7 +1,7 @@
 {
   "plan_file": "passenger-placement-second-holdout-plan-20261124.json",
   "plan_sha256": "30e002a24af1ab47db4b384a6ff7ea45c16d4917a26f86a5898e24f2ee011ad8",
-  "scope": "Seven independently selected UAE driver-view photographs from seven previously held-out drives. Thirty-six ordinary browser sessions on canonical port 8775, 18 per build. The plan was frozen before candidate observations or requests. One independent AI visual judge, no new human passenger or on-site inspection.",
+  "scope": "Seven independently selected UAE driver-view photographs from seven drives prospectively reserved for this revision. Thirty-six ordinary browser sessions on canonical port 8775, 18 per build. The plan was frozen before candidate observations or requests. One independent AI visual judge, no new human passenger or on-site inspection.",
   "builds": {
     "baseline": {
       "policy": "parking_rows_and_observed_landmarks_v5"
@@ -1286,5 +1286,9 @@
     "V5 completed an evidence-based withholding on one of three blocked natural requests; v6 did so on two. Neither version offered an incorrect point or choice on a blocked natural request. Wording on the v6 traffic-at-the-lights clarification remained generic, and did not cite the active motor lane. The other v6 blocked request timed out.",
     "Both builds withheld seven of seven independent lane marks and all four intended off-lane area marks. The latter measures location availability; a no-pin result on R01 can be sensible when the visible pedestrian strip interrupts access.",
     "V6 native geometry supplied zero target points on all four positive scenes. R02 contributed the only pre-language option on any of the seven scenes, a signed OPEN stall on the left outside the requested position on the right. Rejecting it removed the v5 false choice. The three definite-access misses cannot be remedied by matching more phrasings to the same raw inventory."
-  ]
+  ],
+  "historical_source_correction": {
+    "file": "passenger-placement-source-history-20261124.json",
+    "summary": "Every original in this cohort appeared in earlier project studies, sometimes with related landmarks or intents. The new exact wording, regions and version comparison were prospectively frozen. Photo-level novelty is not claimed."
+  }
 }

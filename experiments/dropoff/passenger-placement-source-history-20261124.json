@@ -1,0 +1,318 @@
+{
+  "scope": "Source-lineage correction for three prospective comparisons of software revisions on the already installed 81-photo UAE collection. All 20 photographs appear in previous project requests and earlier evaluation results. The three cohorts use 8, 7 and 5 different drives with no drive shared between cohorts. The prospective freezes protected exact new text, marked regions, grades and the comparison from the developers. Several earlier requests shared the same landmark(s) or a similar intent. These scores cannot establish generalization to globally unseen imagery or intents. The original plans remain available byte-for-byte so their pre-inference hashes can be verified. The present correction supersedes any broader novelty inference.",
+  "history_query": "Matched original-photo SHA or literal recording/source URL within published experiments predating 24 November 2026. The original text comes from the release request bank bound to that SHA. Exact sentence matching ignored case and punctuation across candidate historical files. Files with only similarly named request IDs were excluded from photographic-use claims.",
+  "photo_count": 20,
+  "previously_used_photos": 20,
+  "exact_prior_sentences": 0,
+  "rows": [
+    {
+      "case": "H01",
+      "source_sha256": "b2b5aeb414b0b52e47f90118b1cb9daa48d61910ce7e1a112a197ce7084245be",
+      "recording_id": "kartaview_7199353",
+      "original_request_ids": [
+        "blind-04"
+      ],
+      "original_bank_words": [
+        "Drop me off between the black sedan and the nearest gray car on the right."
+      ],
+      "new_frozen_words": "Please use one of the empty marked bays along the low divider on our left.",
+      "previous_results_with_this_photo_or_drive": [
+        "passenger-uae-parking-results-20261123.json"
+      ]
+    },
+    {
+      "case": "H02",
+      "source_sha256": "a8cb3c5926766d950eca0588e6bdd178e72026f07d5710f027d2e695d6628de2",
+      "recording_id": "kartaview_980209",
+      "original_request_ids": [
+        "fresh-02"
+      ],
+      "original_bank_words": [
+        "Drop me off between the flatbed truck with the metal rack and the silver hatchback."
+      ],
+      "new_frozen_words": "Could you let me out in the gap between the flatbed and the little silver hatchback outside Prolab?",
+      "previous_results_with_this_photo_or_drive": [
+        "passenger-places-and-gaps-results-20261123.json",
+        "passenger-uae-gap-diagnosis-20261123.json"
+      ]
+    },
+    {
+      "case": "H03",
+      "source_sha256": "5a9b732bb1a487c9769eba291ff49bf9c0fff286efe7a849a66b296704c8cffa",
+      "recording_id": "kartaview_7120185",
+      "original_request_ids": [
+        "curb-01"
+      ],
+      "original_bank_words": [
+        "Could you drop me just to the left of the Dog Spot sign?"
+      ],
+      "new_frozen_words": "I'd like that open spot between the blue SUV and the little grey car outside Dog Spot.",
+      "previous_results_with_this_photo_or_drive": [
+        "passenger-frontage-pointing-20261123.json"
+      ]
+    },
+    {
+      "case": "H04",
+      "source_sha256": "e121d0e57b8fbcba436e01a11989063a027652e2c80fcc5c9b4b89ad4cd673cc",
+      "recording_id": "kartaview_7165449",
+      "original_request_ids": [
+        "confirm-07"
+      ],
+      "original_bank_words": [
+        "Let me out by those tall grey double doors on the right, please."
+      ],
+      "new_frozen_words": "Could you drop me in the open space between the dark sedan and the red car on the right?",
+      "previous_results_with_this_photo_or_drive": [
+        "passenger-frontage-confidence-test-20261123.json",
+        "passenger-public-surface-latency-20261123.json"
+      ]
+    },
+    {
+      "case": "H05",
+      "source_sha256": "032ea529fb20fd7fff661a90456ed1875b849aac1df4da73bc6466c1124c9545",
+      "recording_id": "kartaview_7199289",
+      "original_request_ids": [
+        "blind-09"
+      ],
+      "original_bank_words": [
+        "Could you drop me off between the black car beside the white wagon and the silver car by the blue bins?"
+      ],
+      "new_frozen_words": "The open gravel pull-in by the blue bin would work. Can you drop me there?",
+      "previous_results_with_this_photo_or_drive": [
+        "passenger-uae-parking-results-20261123.json"
+      ]
+    },
+    {
+      "case": "H06",
+      "source_sha256": "51b52d8bac8ef5743305426fd4eead308446d04f79fa65ecdd63566bf32d9e5f",
+      "recording_id": "kartaview_444109",
+      "original_request_ids": [
+        "replication-04"
+      ],
+      "original_bank_words": [
+        "Drop me off between the black SUV and the white SUV at the right edge."
+      ],
+      "new_frozen_words": "Can you put me in the parking gap between the big black SUV and the white SUV on the right?",
+      "previous_results_with_this_photo_or_drive": [
+        "passenger-uae-parking-results-20261123.json",
+        "passenger-ux-road-validation-20261123.json"
+      ]
+    },
+    {
+      "case": "H07",
+      "source_sha256": "a85ff634bcd205e61948238e8201d2f78e50b2cc517a7d1d4516250072ec52e8",
+      "recording_id": "kartaview_3849837",
+      "original_request_ids": [
+        "uae-new-02"
+      ],
+      "original_bank_words": [
+        "Could you drop me off between the white bus and the flatbed truck ahead of us?"
+      ],
+      "new_frozen_words": "Let me out just behind the white SUV on the right, please.",
+      "previous_results_with_this_photo_or_drive": [
+        "passenger-ux-road-validation-20261123.json"
+      ]
+    },
+    {
+      "case": "H08",
+      "source_sha256": "a7dec675112e51d79bea0cc0898d511e88287b7f71be11796aadbdad8cb50fc9",
+      "recording_id": "kartaview_5200729",
+      "original_request_ids": [
+        "field-04"
+      ],
+      "original_bank_words": [
+        "Could you let me out in the parking spaces on the right by the roundabout?"
+      ],
+      "new_frozen_words": "Can we pull straight into one of those marked bays on the right from this lane, before the roundabout?",
+      "previous_results_with_this_photo_or_drive": [
+        "passenger-frontage-results-20261123.json"
+      ]
+    },
+    {
+      "case": "R01",
+      "source_sha256": "71df6d0a6a705be760e5be20937a2442f9cfaedeed71f3c093d894049bd84724",
+      "recording_id": "kartaview_7120169",
+      "original_request_ids": [
+        "blind-11"
+      ],
+      "original_bank_words": [
+        "Drop me off between the black Nissan and the delivery bike with the orange box."
+      ],
+      "new_frozen_words": "Could we stop on the sandy patch between the black car and the delivery bikes?",
+      "previous_results_with_this_photo_or_drive": [
+        "passenger-places-and-gaps-results-20261123.json",
+        "passenger-uae-parking-results-20261123.json"
+      ]
+    },
+    {
+      "case": "R02",
+      "source_sha256": "ab05db00759062595063f27d3aff5b608c323d62872429ac596fd2fcf07ee8b3",
+      "recording_id": "kartaview_5231497",
+      "original_request_ids": [
+        "uae-new-03"
+      ],
+      "original_bank_words": [
+        "Please drop me off in the marked space between the dark blue sedan and the silver SUV outside the shops on the right."
+      ],
+      "new_frozen_words": "Pull into the empty space just to the left of the blue sedan outside the exchange, please.",
+      "previous_results_with_this_photo_or_drive": [
+        "passenger-ux-browser-20261123.json",
+        "passenger-ux-road-validation-20261123.json"
+      ]
+    },
+    {
+      "case": "R03",
+      "source_sha256": "d0b190d43a9dcfe9a013ae71a0f776494db53901fd70beb8477a8dacdc1763d6",
+      "recording_id": "kartaview_7120073",
+      "original_request_ids": [
+        "blind-06"
+      ],
+      "original_bank_words": [
+        "Can you drop me off between the turquoise pickup and the black sedan facing us just beyond it?"
+      ],
+      "new_frozen_words": "Just behind that bright blue advertising pickup on the right would be great.",
+      "previous_results_with_this_photo_or_drive": [
+        "passenger-places-and-gaps-results-20261123.json",
+        "passenger-uae-parking-results-20261123.json"
+      ]
+    },
+    {
+      "case": "R04",
+      "source_sha256": "976a275111769a8fbd066f25a3b6fd2b231dc7ddf5a42d6d6bfd2f74233b09a0",
+      "recording_id": "kartaview_1258531",
+      "original_request_ids": [
+        "fresh-01"
+      ],
+      "original_bank_words": [
+        "Drop me off between the two nearest light-colored SUVs on the right."
+      ],
+      "new_frozen_words": "Could you let me out in the paved gap between the two white vehicles on the right?",
+      "previous_results_with_this_photo_or_drive": [
+        "passenger-uae-gap-diagnosis-20261123.json"
+      ]
+    },
+    {
+      "case": "R05",
+      "source_sha256": "a07e0ded72bad166579a87adea852f1a5eef11e83e43f11c914388370c5c1e9a",
+      "recording_id": "kartaview_7271097",
+      "original_request_ids": [
+        "replication-05"
+      ],
+      "original_bank_words": [
+        "Drop me off between the white SUV and the white minivan parked by the medical center."
+      ],
+      "new_frozen_words": "Can we pull straight into the empty area behind those black-and-white posts outside the medical centre?",
+      "previous_results_with_this_photo_or_drive": [
+        "passenger-places-and-gaps-results-20261123.json",
+        "passenger-uae-parking-results-20261123.json",
+        "passenger-ux-road-validation-20261123.json"
+      ]
+    },
+    {
+      "case": "R06",
+      "source_sha256": "7cc82c9152e1c0bada060789698e19b695cba6a92d6dd67efa982eddb1c97965",
+      "recording_id": "kartaview_5053433",
+      "original_request_ids": [
+        "fresh-10"
+      ],
+      "original_bank_words": [
+        "Drop me off between the two dark cars."
+      ],
+      "new_frozen_words": "Drop me beside the white SUV while we're lined up at the lights, please.",
+      "previous_results_with_this_photo_or_drive": [
+        "passenger-uae-gap-diagnosis-20261123.json"
+      ]
+    },
+    {
+      "case": "R07",
+      "source_sha256": "918e3e64b7e104fa7e25758e853e712d435ac234349aa802c183f7940c34ea6e",
+      "recording_id": "kartaview_7271081",
+      "original_request_ids": [
+        "replication-01"
+      ],
+      "original_bank_words": [
+        "Drop me off between the brown Hyundai and the boxy white Mercedes SUV."
+      ],
+      "new_frozen_words": "I'd like the marked spot with the white G-Wagen on the right.",
+      "previous_results_with_this_photo_or_drive": [
+        "passenger-uae-parking-results-20261123.json",
+        "passenger-ux-browser-20261123.json"
+      ]
+    },
+    {
+      "case": "T01",
+      "source_sha256": "1002226173c113c3ead9370fd6e8aa2dbabc6b650ca983198adff0778138b657",
+      "recording_id": "kartaview_54900",
+      "original_request_ids": [
+        "reserve-05"
+      ],
+      "original_bank_words": [
+        "Could you let me out by the yellow forklift on the right?"
+      ],
+      "new_frozen_words": "Can you pull off on the open ground by the tree, just before the yellow forklift?",
+      "previous_results_with_this_photo_or_drive": [
+        "passenger-frontage-results-20261123.json"
+      ]
+    },
+    {
+      "case": "T02",
+      "source_sha256": "129e43a4f8482d50707f75d002c0e8dc809d2ae0fea3da57a1e4d030527c080a",
+      "recording_id": "kartaview_5204473",
+      "original_request_ids": [
+        "field-07"
+      ],
+      "original_bank_words": [
+        "Could you drop me off by the St Regis entrance on the right?"
+      ],
+      "new_frozen_words": "Could you drop me in the St. Regis entrance driveway, off the main road?",
+      "previous_results_with_this_photo_or_drive": [
+        "passenger-frontage-results-20261123.json"
+      ]
+    },
+    {
+      "case": "T03",
+      "source_sha256": "bae3d01037cdc79d690fe49f11cf8603abec303643967805ffdbb72abff23b36",
+      "recording_id": "kartaview_976103",
+      "original_request_ids": [
+        "field-05"
+      ],
+      "original_bank_words": [
+        "Please let me out by the yellow skip on the right."
+      ],
+      "new_frozen_words": "Let me out on the paved shoulder behind the white sedan, near the big rubbish skip on the right.",
+      "previous_results_with_this_photo_or_drive": [
+        "passenger-frontage-results-20261123.json"
+      ]
+    },
+    {
+      "case": "T04",
+      "source_sha256": "a2b23025bda4791dd7a53822937eeb69f2b9655011b6b8be537d9cde4f8158c0",
+      "recording_id": "kartaview_5139769",
+      "original_request_ids": [
+        "uae-fresh-03"
+      ],
+      "original_bank_words": [
+        "Open this public road scene."
+      ],
+      "new_frozen_words": "Can we go straight into the space by the blue car outside Cibo Diet from this lane?",
+      "previous_results_with_this_photo_or_drive": [
+        "passenger-places-and-gaps-results-20261123.json"
+      ]
+    },
+    {
+      "case": "T05",
+      "source_sha256": "4b839f186c8365013c4db4087373e1b3fa26dba12777e34b32e4fd34d7c87d27",
+      "recording_id": "kartaview_5204489",
+      "original_request_ids": [
+        "uae-new-04"
+      ],
+      "original_bank_words": [
+        "I would like to get out between the silver sedan parked on the left and the blue sedan parked on the right."
+      ],
+      "new_frozen_words": "In the garage, I'll take the bay where the bright blue sedan is parked on the right.",
+      "previous_results_with_this_photo_or_drive": [
+        "passenger-ux-road-validation-20261123.json"
+      ]
+    }
+  ]
+}

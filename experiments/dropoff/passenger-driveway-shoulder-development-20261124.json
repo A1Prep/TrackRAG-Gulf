@@ -1,0 +1,652 @@
+{
+  "created_utc": "2026-11-23T22:28:05.343782+00:00",
+  "scope": "Development on a previously evaluated five-drive UAE study. Independent AI review set the original target regions before these methods were developed. The photo bank is not fully labelled. These measurements separate source geometry, offline replay of trained observations, exact user marks and independent generated controls. The methods identify possible points within pictured off-lane areas. They do not estimate the dimensions of a stall, legality, or actual vehicle and passenger safety.",
+  "recordings_credit": "Grab and KartaView contributors",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
+  "reference_and_original_browser": {
+    "frozen_reference_sha256": "78f8f4d665fa343ec3ee4d784df2876bdc98eeea1bfb32b9486b21ddb2226cd5",
+    "earlier_browser_sha256": "69cc2e0fe22454375ebf5429c22ca683375b0c8bba6678f319133f62ea5684a0"
+  },
+  "sources": {
+    "contrasting_footways_vehicle_entrance_v1": "2e1d2d086df18d5f6b20dbfeb7de0c1ea0cfa2f44820f1f7bf047fc1a486cd87",
+    "visible_painted_edge_parking_row_extension_v1": "9757199db7dac54f6ea919c57d9f0166bcf615c4dd35e2c28bd47280a6bf1cec"
+  },
+  "model_bank_sha256": "397286628805b8f14af9b3a21eedd429221405ec445e5261b52152cae5103ed0",
+  "runtime": "Python 3.11 / NumPy 1.26.4 / OpenCV 4.11.0 / Pillow 11.1.0",
+  "photo_bank_inventory": {
+    "contrasting_footways_vehicle_entrance_v1": {
+      "photos_with_verified_surfaces": 81,
+      "photos_with_at_least_one_option": 1,
+      "total_point_options": 1,
+      "median_geometry_ms": 0.2,
+      "p95_geometry_ms": 2.0,
+      "inventory_sha256": "4900e1b5e3a71eba7fea359b6056592ade32a5f6307ba719d323d5ceda79ce2c"
+    },
+    "visible_painted_edge_parking_row_extension_v1": {
+      "photos_with_verified_surfaces": 81,
+      "photos_with_at_least_one_option": 1,
+      "total_point_options": 1,
+      "median_geometry_ms": 40.3,
+      "p95_geometry_ms": 82.7,
+      "inventory_sha256": "7ec644eb9e03f17567905a4213eab1d5194a0dae6a5c1f701740fd2cbc262970"
+    }
+  },
+  "independent_synthetic_access_challenges": {
+    "source_file_sha256": "bb22f721c9cd915acafc0080c6fe46fe5f269f678b95e81f7a4646087a17574a",
+    "result_sha256": "d29f8a6bb11166050dacede4027b14c663bd8657a069a0400a11f23d0c7179f6",
+    "reviewer": "Separate AI reviewer who created the synthetic class maps and pixel/track counterfactuals and tested the former accepted coordinates even when automatic output was absent.",
+    "conditions": [
+      {
+        "method": "row_extension",
+        "case": "base",
+        "automatic_applied": true,
+        "point": [
+          942.5,
+          662.5
+        ],
+        "explicit_mark": [
+          942.5,
+          662.5
+        ],
+        "manual_applied": true
+      },
+      {
+        "method": "row_extension",
+        "case": "direction_arrow_inside_strip",
+        "automatic_applied": false,
+        "point": null,
+        "explicit_mark": [
+          942.5,
+          662.5
+        ],
+        "manual_applied": false
+      },
+      {
+        "method": "row_extension",
+        "case": "narrow_inlet",
+        "automatic_applied": false,
+        "point": null,
+        "explicit_mark": [
+          942.5,
+          662.5
+        ],
+        "manual_applied": false
+      },
+      {
+        "method": "row_extension",
+        "case": "visibly_planted_entrance",
+        "automatic_applied": false,
+        "point": null,
+        "explicit_mark": [
+          942.5,
+          662.5
+        ],
+        "manual_applied": false
+      },
+      {
+        "method": "driveway_apron",
+        "case": "base",
+        "automatic_applied": true,
+        "point": [
+          700.5,
+          432.5
+        ],
+        "explicit_mark": [
+          700.5,
+          432.5
+        ],
+        "manual_applied": true
+      },
+      {
+        "method": "driveway_apron",
+        "case": "both_wheels_above_raised_kerbs",
+        "automatic_applied": false,
+        "point": null,
+        "explicit_mark": [
+          700.5,
+          434.5
+        ],
+        "manual_applied": false
+      },
+      {
+        "method": "driveway_apron",
+        "case": "fence_across_entrance",
+        "automatic_applied": false,
+        "point": null,
+        "explicit_mark": [
+          700.5,
+          432.5
+        ],
+        "manual_applied": false
+      }
+    ]
+  },
+  "cases": [
+    {
+      "id": "T01",
+      "recording_id": "kartaview_54900",
+      "frame_id": 393,
+      "size": [
+        2688,
+        1520
+      ],
+      "sha256": "1002226173c113c3ead9370fd6e8aa2dbabc6b650ca983198adff0778138b657",
+      "source_url": "https://kartaview.org/details/54900/393/",
+      "words": "Can you pull off on the open ground by the tree, just before the yellow forklift?",
+      "expected": "point",
+      "reference_polygon_or_empty": [
+        [
+          1665.51,
+          1303.99
+        ],
+        [
+          1810.45,
+          1253.93
+        ],
+        [
+          2018.64,
+          1243.4
+        ],
+        [
+          2205.74,
+          1282.91
+        ],
+        [
+          2234.73,
+          1338.23
+        ],
+        [
+          2411.29,
+          1414.63
+        ],
+        [
+          2448.19,
+          1483.12
+        ],
+        [
+          1794.64,
+          1493.66
+        ]
+      ],
+      "earlier_natural": "needs_clarification",
+      "original_semantic_proportions_in_reference": {
+        "target": {
+          "13": 1.0
+        }
+      },
+      "raw_points": [],
+      "strictly_inside_reference": [],
+      "exact_marks": {
+        "interior": {
+          "previously_observed_browser_tap_xy": [
+            2005.4348627729655,
+            1372.4647612254603
+          ],
+          "previous_state": "needs_clarification",
+          "new_native_point_or_null": null,
+          "mark_to_pin_pixels": null,
+          "reconstructed_native_evidence": null
+        },
+        "lane": {
+          "previously_observed_browser_tap_xy": [
+            318.8491462922773,
+            1301.3268884586646
+          ],
+          "previous_state": "needs_clarification",
+          "new_native_point_or_null": null,
+          "mark_to_pin_pixels": null,
+          "reconstructed_native_evidence": null
+        }
+      }
+    },
+    {
+      "id": "T02",
+      "recording_id": "kartaview_5204473",
+      "frame_id": 819,
+      "size": [
+        3840,
+        2160
+      ],
+      "sha256": "129e43a4f8482d50707f75d002c0e8dc809d2ae0fea3da57a1e4d030527c080a",
+      "source_url": "https://kartaview.org/details/5204473/819/",
+      "words": "Could you drop me in the St. Regis entrance driveway, off the main road?",
+      "expected": "point",
+      "reference_polygon_or_empty": [
+        [
+          1291.29,
+          1072.47
+        ],
+        [
+          1547.29,
+          985.92
+        ],
+        [
+          1920.0,
+          937.0
+        ],
+        [
+          2228.71,
+          929.48
+        ],
+        [
+          2153.41,
+          1080.0
+        ],
+        [
+          2176.0,
+          1185.37
+        ],
+        [
+          1626.35,
+          1249.34
+        ]
+      ],
+      "earlier_natural": "needs_clarification",
+      "original_semantic_proportions_in_reference": {
+        "target": {
+          "15": 0.994
+        }
+      },
+      "raw_points": [
+        {
+          "point": [
+            1763.767,
+            1094.441
+          ],
+          "box": [
+            1746.7,
+            1077.366,
+            1780.833,
+            1111.516
+          ],
+          "support_patch": [
+            [
+              1746.7,
+              1077.366
+            ],
+            [
+              1780.833,
+              1077.366
+            ],
+            [
+              1780.833,
+              1111.516
+            ],
+            [
+              1746.7,
+              1111.516
+            ]
+          ],
+          "evidence": {
+            "recipe": "contrasting_footways_vehicle_entrance_v1",
+            "extent": "interior_point_only",
+            "signed_center_class": 15,
+            "supporting_entrance_track_ids": [
+              6,
+              1
+            ],
+            "vehicle_contact_native": [
+              [
+                1622.967,
+                915.152
+              ],
+              [
+                2203.233,
+                932.227
+              ]
+            ],
+            "material_parking_cells": 90,
+            "cut_cells": 751,
+            "cut_vehicle_clear_cells": 91,
+            "clearance_grid_radii": [
+              19,
+              7
+            ],
+            "paired_pavement_rows": [
+              225,
+              244
+            ],
+            "paired_pavement_count": 14,
+            "kerb_return_rows": [
+              55,
+              51
+            ]
+          }
+        }
+      ],
+      "strictly_inside_reference": [
+        true
+      ],
+      "exact_marks": {
+        "interior": {
+          "previously_observed_browser_tap_xy": [
+            1788.2111990320163,
+            1087.5271131389354
+          ],
+          "previous_state": "needs_clarification",
+          "new_native_point_or_null": [
+            1788.2111990320163,
+            1087.5271131389354
+          ],
+          "mark_to_pin_pixels": 0.0,
+          "reconstructed_native_evidence": true
+        },
+        "lane": {
+          "previously_observed_browser_tap_xy": [
+            470.5558223058751,
+            1196.6577214293031
+          ],
+          "previous_state": "needs_clarification",
+          "new_native_point_or_null": null,
+          "mark_to_pin_pixels": null,
+          "reconstructed_native_evidence": null
+        }
+      },
+      "trained_observations": [
+        {
+          "status": "OPEN",
+          "edge": "recessed curb",
+          "pictured_descriptions": {
+            "nearer_vehicle": "white taxi",
+            "farther_vehicle": "black van",
+            "frontage": "hotel St. Regis",
+            "roadside": "bollards"
+          },
+          "rear_vehicle": "NONE",
+          "native_point": [
+            1763.767,
+            1094.441
+          ]
+        }
+      ],
+      "source_replayed_response": {
+        "result": {
+          "status": "proposed",
+          "destination_point_xy": [
+            1763.767,
+            1094.441
+          ],
+          "destination_box_xyxy": [
+            1746.7,
+            1077.366,
+            1780.833,
+            1111.516
+          ],
+          "clarification_question": null
+        },
+        "policy": "pictured_native_destination_v2",
+        "reason": "observed_native_destination",
+        "reproduced": true
+      }
+    },
+    {
+      "id": "T03",
+      "recording_id": "kartaview_976103",
+      "frame_id": 139,
+      "size": [
+        3840,
+        2160
+      ],
+      "sha256": "bae3d01037cdc79d690fe49f11cf8603abec303643967805ffdbb72abff23b36",
+      "source_url": "https://kartaview.org/details/976103/139/",
+      "words": "Let me out on the paved shoulder behind the white sedan, near the big rubbish skip on the right.",
+      "expected": "point",
+      "reference_polygon_or_empty": [
+        [
+          2051.76,
+          1907.87
+        ],
+        [
+          2213.65,
+          1919.16
+        ],
+        [
+          2511.06,
+          2020.77
+        ],
+        [
+          2706.82,
+          2084.74
+        ],
+        [
+          2785.88,
+          2137.42
+        ],
+        [
+          2413.18,
+          2133.66
+        ],
+        [
+          2228.71,
+          2035.82
+        ]
+      ],
+      "earlier_natural": "needs_clarification",
+      "original_semantic_proportions_in_reference": {
+        "target": {
+          "2": 0.105,
+          "13": 0.879,
+          "24": 0.016
+        }
+      },
+      "raw_points": [
+        {
+          "point": [
+            2339.767,
+            2050.646
+          ],
+          "box": [
+            2322.7,
+            2033.571,
+            2356.833,
+            2067.721
+          ],
+          "support_patch": [
+            [
+              2322.7,
+              2033.571
+            ],
+            [
+              2356.833,
+              2033.571
+            ],
+            [
+              2356.833,
+              2067.721
+            ],
+            [
+              2322.7,
+              2067.721
+            ]
+          ],
+          "evidence": {
+            "recipe": "visible_painted_edge_parking_row_extension_v1",
+            "extent": "interior_point_only",
+            "nearest_row_track_id": 1,
+            "supporting_row_track_ids": [
+              1,
+              3
+            ],
+            "relation": "toward_camera_along_outer_row",
+            "signed_center_class": 13,
+            "observed_clear_rows": [
+              445,
+              504
+            ],
+            "boundary_samples_native": [
+              [
+                [
+                  1827.767,
+                  1901.239
+                ],
+                [
+                  2224.567,
+                  1901.239
+                ]
+              ],
+              [
+                [
+                  2028.3,
+                  2050.646
+                ],
+                [
+                  2565.9,
+                  2050.646
+                ]
+              ],
+              [
+                [
+                  2160.567,
+                  2153.097
+                ],
+                [
+                  2864.567,
+                  2153.097
+                ]
+              ]
+            ],
+            "median_paint_surface_kerb_contrast": [
+              15.88,
+              27.5,
+              24.05
+            ]
+          }
+        }
+      ],
+      "strictly_inside_reference": [
+        true
+      ],
+      "exact_marks": {
+        "interior": {
+          "previously_observed_browser_tap_xy": [
+            2398.091689553844,
+            2047.0933029159696
+          ],
+          "previous_state": "needs_clarification",
+          "new_native_point_or_null": [
+            2398.091689553844,
+            2047.0933029159696
+          ],
+          "mark_to_pin_pixels": 0.0,
+          "reconstructed_native_evidence": true
+        },
+        "lane": {
+          "previously_observed_browser_tap_xy": [
+            1347.7340253903624,
+            1964.3011084269472
+          ],
+          "previous_state": "needs_clarification",
+          "new_native_point_or_null": null,
+          "mark_to_pin_pixels": null,
+          "reconstructed_native_evidence": null
+        }
+      },
+      "trained_observations": [
+        {
+          "status": "BLOCKED",
+          "edge": "none",
+          "pictured_descriptions": {
+            "nearer_vehicle": "dark grey SUV",
+            "farther_vehicle": "white sedan",
+            "frontage": "industrial site, 'INT'",
+            "roadside": "concrete utility pole, sand, pipes"
+          },
+          "rear_vehicle": "NONE",
+          "native_point": [
+            2339.767,
+            2050.646
+          ]
+        }
+      ],
+      "source_replayed_response": {
+        "result": {
+          "status": "needs_clarification",
+          "destination_point_xy": null,
+          "destination_box_xyxy": null,
+          "clarification_question": "The outline shows the vehicle you described. I couldn\u2019t verify a clear spot behind it. Could you mark another visible spot?",
+          "anchor_boxes_xyxy": [
+            [
+              1724.1388549804688,
+              1665.867919921875,
+              2016.66357421875,
+              1892.4431762695312
+            ]
+          ]
+        },
+        "policy": "pictured_native_destination_v2",
+        "reason": "vehicle_seen_space_withheld",
+        "reproduced": true
+      }
+    },
+    {
+      "id": "T04",
+      "recording_id": "kartaview_5139769",
+      "frame_id": 64,
+      "size": [
+        3264,
+        1836
+      ],
+      "sha256": "a2b23025bda4791dd7a53822937eeb69f2b9655011b6b8be537d9cde4f8158c0",
+      "source_url": "https://kartaview.org/details/5139769/64/",
+      "words": "Can we go straight into the space by the blue car outside Cibo Diet from this lane?",
+      "expected": "withhold",
+      "reference_polygon_or_empty": [],
+      "earlier_natural": "error",
+      "original_semantic_proportions_in_reference": {},
+      "raw_points": [],
+      "strictly_inside_reference": [],
+      "exact_marks": {
+        "lane": {
+          "previously_observed_browser_tap_xy": [
+            342.3993436341637,
+            1448.9474702939872
+          ],
+          "previous_state": "needs_clarification",
+          "new_native_point_or_null": null,
+          "mark_to_pin_pixels": null,
+          "reconstructed_native_evidence": null
+        }
+      }
+    },
+    {
+      "id": "T05",
+      "recording_id": "kartaview_5204489",
+      "frame_id": 936,
+      "size": [
+        3840,
+        2160
+      ],
+      "sha256": "4b839f186c8365013c4db4087373e1b3fa26dba12777e34b32e4fd34d7c87d27",
+      "source_url": "https://kartaview.org/details/5204489/936/",
+      "words": "In the garage, I'll take the bay where the bright blue sedan is parked on the right.",
+      "expected": "withhold",
+      "reference_polygon_or_empty": [],
+      "earlier_natural": "needs_clarification",
+      "original_semantic_proportions_in_reference": {},
+      "raw_points": [],
+      "strictly_inside_reference": [],
+      "exact_marks": {
+        "lane": {
+          "previously_observed_browser_tap_xy": [
+            1961.390660111011,
+            1305.741369891078
+          ],
+          "previous_state": "needs_clarification",
+          "new_native_point_or_null": null,
+          "mark_to_pin_pixels": null,
+          "reconstructed_native_evidence": null
+        }
+      }
+    }
+  ],
+  "regression_checks": {
+    "selected_cpu_suite_passed": 149,
+    "scope": "All tests in the native destination, observed pull-in, parking-row extension, driveway apron, passenger whole bay, manual off-lane, paver pull-in, and curb point language modules. This includes open and obstructed synthetic controls, left/right crops, semantic access, changed landmarks, roles and receipts.",
+    "candidate_geometry_unit_tests": 33,
+    "separate_reviewer_access_checks": {
+      "clear_positive_bases": 2,
+      "counterfactual_obstructions_with_no_auto_or_manual_pin": 5
+    }
+  }
+}

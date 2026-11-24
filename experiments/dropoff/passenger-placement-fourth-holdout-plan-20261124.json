@@ -1,0 +1,296 @@
+{
+  "schema": 1,
+  "sealed_utc": "2026-11-23T22:13:04.415842+00:00",
+  "scope": "Fourth prospective source-new passenger placement field evaluation. Six distinct UAE KartaView source recordings excluded from earlier checked project evaluation, development, existing 81 and screened-image records. Some initial public photo metadata may have been present in an unlabelled discovery pool. Sources and cases were selected visually without project output, ground availability labels or candidate inference.",
+  "privacy": "KartaView published processed originals only. Local-only model operation. No transfer of these new images or words to hosted inference.",
+  "credit": "© Grab and KartaView Contributors",
+  "license": "CC BY-SA 4.0",
+  "source_terms": "https://kartaview.org/terms",
+  "neutral_input_sha256": "6b93bb44c3e9e948ff39658c1a622b96c22dc95df01e6d6415354c80ddac43cd",
+  "reviewer": "One independent AI visual review; no claim of passenger testimony, traffic-law permission or on-site clearance.",
+  "protocol": {
+    "positive": "First-turn confirmable point inside any frozen target polygon is direct. A selectable in-target option is guided. Count all extraneous options, including alongside a correct choice. Require separate passenger save. Four references identify visible point locations; no whole-space/footprint credit is assessed.",
+    "negative": "Withhold all confirmable and selectable locations. Target-specific completed clarification or semantic rejection alone earn semantic negative credit. Provider waits, errors, unsigned/unavailable evidence and timeouts are operational results. An unrelated selectable point fails even when a suitable option is absent.",
+    "runs": "Case-isolated sessions for each natural request and each original-pixel travel-lane control. Four positive interior marks and one painted divider between spaces in separate sessions; the latter may ask the passenger to select either correct adjacent bay. Two optional explicit prohibited-target marks shown separately from six lane marks. Observe first terminal and actionable results within 15 seconds; follow up to 45s for operational diagnosis.",
+    "grading_unit": "An original-pixel point inside the conservative reference area; geometry extent and legal eligibility remain unadjudicated. Differentiate initial offer, selectable intermediate step and passenger-initiated save."
+  },
+  "cases": [
+    {
+      "id": "N01",
+      "recording_id": "kartaview_4716457",
+      "frame_id": 586,
+      "size": [
+        3264,
+        1836
+      ],
+      "sha256": "23e5daf9f36f07025239167d7d2853be6ced5f4f21c7d6f9645ca6018c26c21d",
+      "source_url": "https://kartaview.org/details/4716457/586/",
+      "words": "Could you pull into the paved recess on the palm-tree side, by the sign?",
+      "expected": "point",
+      "regions": {
+        "target": [
+          [
+            1893.12,
+            1027.247
+          ],
+          [
+            2023.68,
+            1037.03
+          ],
+          [
+            2327.232,
+            1076.163
+          ],
+          [
+            2317.44,
+            1131.602
+          ],
+          [
+            2310.912,
+            1226.174
+          ],
+          [
+            2222.784,
+            1200.085
+          ],
+          [
+            2079.168,
+            1128.341
+          ]
+        ]
+      },
+      "interior": [
+        2196.672,
+        1115.297
+      ],
+      "lane": [
+        1478.592,
+        1412.057
+      ],
+      "painted_edge": null,
+      "forbidden_target_tap": null,
+      "visual_reference": "The right-hand outer kerb bends away from the continuing travel lane and then returns. A broad unoccupied paved lay-by is directly open to the lane. A roadside sign and palm greenery identify the pictured area. Stopping eligibility at this sign is unknown."
+    },
+    {
+      "id": "N02",
+      "recording_id": "kartaview_5520601",
+      "frame_id": 382,
+      "size": [
+        3840,
+        2160
+      ],
+      "sha256": "6c75b87cf07d846faf4059d71c9dae7636e91d36a9a53531b29d93514e7caafd",
+      "source_url": "https://kartaview.org/details/5520601/382/",
+      "words": "Drop me on the zebra stripes right by the traffic island.",
+      "expected": "withhold",
+      "regions": {},
+      "interior": null,
+      "lane": [
+        840.96,
+        1726.465
+      ],
+      "painted_edge": null,
+      "forbidden_target_tap": [
+        1121.28,
+        1526.963
+      ],
+      "visual_reference": "Both marked crossings serve the raised pedestrian island. The stripes and the traffic lane fail as pictured drop-off locations."
+    },
+    {
+      "id": "N03",
+      "recording_id": "kartaview_64509",
+      "frame_id": 237,
+      "size": [
+        2688,
+        1520
+      ],
+      "sha256": "f54b64ca973b1dee85217c345b043aef8d9a5bd3854f8d6f25a3fa42edce1eed",
+      "source_url": "https://kartaview.org/details/64509/237/",
+      "words": "Can you get off the road onto the open gravel just to the left of that parked dark SUV?",
+      "expected": "point",
+      "regions": {
+        "target": [
+          [
+            13.44,
+            1051.894
+          ],
+          [
+            314.496,
+            1054.584
+          ],
+          [
+            419.328,
+            1065.345
+          ],
+          [
+            419.328,
+            1116.46
+          ],
+          [
+            314.496,
+            1137.982
+          ],
+          [
+            40.32,
+            1181.027
+          ],
+          [
+            13.44,
+            1181.027
+          ]
+        ]
+      },
+      "interior": [
+        204.288,
+        1094.938
+      ],
+      "lane": [
+        1309.056,
+        1283.257
+      ],
+      "painted_edge": null,
+      "forbidden_target_tap": null,
+      "visual_reference": "The low-resolution source still shows a broad unsealed parking area on the left. The dark SUV faces away at the road edge with vehicles parked deeper in the lot. A conservative clear gravel interior to its image-left connects to the carriageway without a visible kerb, footpath or obstacle."
+    },
+    {
+      "id": "N04",
+      "recording_id": "kartaview_4722665",
+      "frame_id": 4,
+      "size": [
+        3840,
+        2160
+      ],
+      "sha256": "5c8a40b1a7f2fc106fae50949ab85a4dbe10b313850e4128b33a09dc45816fcb",
+      "source_url": "https://kartaview.org/details/4722665/4/",
+      "words": "Can you pull into one of the empty marked spaces by the orange parking sign, across from Mega Mall?",
+      "expected": "point",
+      "regions": {
+        "target": [
+          [
+            19.2,
+            1833.89
+          ],
+          [
+            1536.0,
+            1741.812
+          ],
+          [
+            3805.44,
+            1619.041
+          ],
+          [
+            3805.44,
+            1791.687
+          ],
+          [
+            2457.6,
+            1887.602
+          ],
+          [
+            706.56,
+            2006.536
+          ],
+          [
+            19.2,
+            2056.412
+          ]
+        ]
+      },
+      "interior": [
+        1105.92,
+        1868.419
+      ],
+      "lane": [
+        2323.2,
+        2098.615
+      ],
+      "painted_edge": [
+        1793.28,
+        1833.89
+      ],
+      "forbidden_target_tap": null,
+      "visual_reference": "The orange P sign, visible mall lettering and ground markings identify a row of empty angled parking spaces in front of the black-and-white kerb. The near traffic side visibly opens to the row. Any interior point in this conservative photographed row is acceptable; a line tap may offer either adjacent actual space."
+    },
+    {
+      "id": "N05",
+      "recording_id": "kartaview_6031225",
+      "frame_id": 401,
+      "size": [
+        3840,
+        2160
+      ],
+      "sha256": "4832889ce5ce64f7c373a1e5c615e1aef12efbdf466945dfc88482bd3000d9f7",
+      "source_url": "https://kartaview.org/details/6031225/401/",
+      "words": "Can you let me out right behind that green-covered lorry, in its lane?",
+      "expected": "withhold",
+      "regions": {},
+      "interior": null,
+      "lane": [
+        1017.6,
+        1599.858
+      ],
+      "painted_edge": null,
+      "forbidden_target_tap": [
+        2304.0,
+        1611.368
+      ],
+      "visual_reference": "The lorry with a green tarpaulin is in one of several motorway travel lanes. The requested asphalt immediately behind it is open moving traffic, without a curbside space."
+    },
+    {
+      "id": "N06",
+      "recording_id": "kartaview_966571",
+      "frame_id": 40,
+      "size": [
+        3840,
+        2160
+      ],
+      "sha256": "1948be1039f755691fda591237ef9aa41ff0a0fc4179a9269d005662347753ce",
+      "source_url": "https://kartaview.org/details/966571/40/",
+      "words": "Please use an empty space along the long wall with the palms, on our right.",
+      "expected": "point",
+      "regions": {
+        "target": [
+          [
+            2231.04,
+            1757.158
+          ],
+          [
+            2407.68,
+            1745.648
+          ],
+          [
+            2760.96,
+            1784.014
+          ],
+          [
+            3816.96,
+            1941.314
+          ],
+          [
+            3816.96,
+            2129.307
+          ],
+          [
+            2864.64,
+            2129.307
+          ],
+          [
+            2442.24,
+            1887.602
+          ]
+        ]
+      },
+      "interior": [
+        3152.64,
+        1987.353
+      ],
+      "lane": [
+        1820.16,
+        2002.7
+      ],
+      "painted_edge": null,
+      "forbidden_target_tap": null,
+      "visual_reference": "Several empty marked vehicle spaces occupy the right side along the long wall, separated visually from the through lane by the alignment of the bay mouths. Surface and individual painted stall dividers, outer kerb and parked taxi in the opposite direction supply scale. There is no intervening footway between the driving lane and spaces."
+    }
+  ]
+}

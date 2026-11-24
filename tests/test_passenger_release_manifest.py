@@ -143,6 +143,25 @@ def test_standard_launch_adds_installed_still_and_honors_explicit_banks(bundle, 
     args.public_places = True
     args.place_public_sources = [pinned[0]]
     assert release.start(args) == [str(path.resolve()) for path in pinned]
+    extra = tmp_path / release.EXTRA_PHOTO_BANK
+    extra.parent.mkdir(parents=True)
+    extra.touch()
+    args.requests = None
+    args.additional_requests = [extra]
+    monkeypatch.setattr(passenger_app, "main", lambda argv: argv)
+    name, digest = release.EXTRA_MODEL_FILES["local_surface_index"]
+    index = tmp_path / release.EXTRA_PHOTO_RESULTS / name
+    args.local_surface_index = [(index, digest)]
+    argv = release.start(args)
+    assert argv.count(str(extra)) == 1
+    assert argv.count("--local-surface-index") == 1
+    pos = argv.index("--local-surface-index")
+    assert argv[pos + 1:pos + 3] == [str(index), digest]
+    name, digest = release.EXTRA_MODEL_FILES["local_observations"]
+    pos = argv.index("--local-observations")
+    assert argv[pos + 1:pos + 3] == [str(tmp_path / release.EXTRA_PHOTO_RESULTS / name), digest]
+    args.requests, args.additional_requests, args.local_surface_index = [still], [], []
+    assert "--local-surface-index" not in release.start(args)
 
 
 def test_portable_installer_binds_all_public_photos_to_their_original_frames(tmp_path):

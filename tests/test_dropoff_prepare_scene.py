@@ -84,6 +84,90 @@ def instruction(identity="a", recording_id="rec_a", frame_id=2, **extra):
             "text": "Please identify the destination next to that car", **extra}
 
 
+def test_paused_local_footage_asks_which_truck_only_when_the_current_original_has_two(scene_fixture):
+    from trackrag.footage_app import FootageReview
+
+    f = scene_fixture
+    source = f.artifacts()
+    for row in source.rows:
+        row["class_name"] = "Medium_vehicle"
+    second = {**source.rows[1], "track_id":9, "class_name":"Large_vehicle", "bbox_xyxy":[22,7,30,19]}
+    source.rows.append(second)
+    source.rows.sort(key=lambda row:(row["frame_id"], row["track_id"]))
+    source.write()
+    f.run([instruction("first", frame_id=1), instruction("second", frame_id=2)])
+    one, two = (entry["scene"] for entry in read_requests(f.root/"prepared"/"requests.jsonl"))
+    review = FootageReview(f.data, f.predictions, f.config_path, f.root/"review", frame_rate=20)
+    words = "is the truck near the building"
+    clarified = review.ask(two, words)
+    assert clarified["answer_source"] == "local_tracks"
+    assert clarified["answer"]["answer_status"] == "insufficient_evidence"
+    assert "on the left and near the centre" in clarified["answer"]["answer"]
+    assert not clarified["answer"]["cited_evidence_ids"] and not clarified["hosted_requested"]
+    assert any(r["interval"]["track_id"] is None and [im["frame_id"] for im in r["images"]] == [2]
+               for r in clarified["evidence"])
+    assert not (f.root/"review"/clarified["question"]["question_id"]/"hosted").exists()
+    for scene, question in [(one, words), (two, "Is the white truck on the left near the building?")]:
+        result = review.ask(scene, question)
+        assert result["answer_source"] == "evidence_only" and result["answer"]["answer_status"] == "not_requested"
+
+
+def test_footage_search_reads_prefix_dimensions_and_decodes_only_selected_original_pixels(scene_fixture, monkeypatch):
+    from trackrag import emt
+    from trackrag.footage_app import FootageReview
+
+    f = scene_fixture
+    source = f.artifacts()
+    f.run([instruction()])
+    scene = read_requests(f.root/"prepared"/"requests.jsonl")[0]["scene"]
+    review = FootageReview(f.data, f.predictions, f.config_path, f.root/"review", frame_rate=20)
+    monkeypatch.setattr(emt.cv2, "imread", lambda *_: pytest.fail("Footage metadata decoded an entire frame."))
+    original_convert = Image.Image.convert
+    converted = set()
+    def capture(image, *args, **kwargs):
+        filename = getattr(image, "filename", None)
+        if filename and Path(filename).parent == source.images:
+            converted.add(Path(filename).name)
+        return original_convert(image, *args, **kwargs)
+    monkeypatch.setattr(Image.Image, "convert", capture)
+    answer = review.ask(scene, "How many cars are detected in this frame?")
+    assert answer["answer"]["answer_status"] == "answered" and converted == {"00002.png"}
+    original = next(e for e in answer["evidence"] if e["interval"]["track_id"] is None)
+    assert [image["frame_id"] for image in original["images"]] == [2]
+    archived = f.root/"review"/answer["question"]["question_id"]/"evidence"/"scene"/"2.png"
+    with Image.open(archived) as image:
+        assert image.getpixel((0,0)) == (12,80,140)
+    # Earlier originals still have to match the saved prediction dimensions.
+    Image.new("RGB", (41,30)).save(source.images/"00001.png")
+    with pytest.raises(ValueError, match="frame size differs"):
+        review.ask(scene, "How many cars are detected in this frame?")
+
+
+def test_hosted_failure_offers_separate_saved_track_recovery_only_for_an_established_fact(scene_fixture, monkeypatch):
+    from trackrag import answering
+    from trackrag.footage_app import FootageReview
+
+    f = scene_fixture
+    f.artifacts()
+    f.run([instruction()])
+    scene = read_requests(f.root/"prepared"/"requests.jsonl")[0]["scene"]
+    review = FootageReview(f.data, f.predictions, f.config_path, f.root/"review", frame_rate=20)
+    failure = {"answer_status":"error","answer":"Provider returned HTTP 503","cited_evidence_ids":[]}
+    monkeypatch.setattr(answering, "answer_question", lambda *_: failure)
+    words = "How many cars are detected in this frame?"
+    failed = review.ask(scene, words, hosted=True)
+    assert failed["can_answer_from_tracks"] and failed["answer"] == failure and failed["answer_source"] == "gemini"
+    recovered = review.ask(scene, words)
+    assert recovered["answer_source"] == "local_tracks" and recovered["answer"]["answer_status"] == "answered"
+    assert recovered["answer"]["cited_evidence_ids"] and not recovered["can_answer_from_tracks"]
+    assert recovered["question"]["question_id"] != failed["question"]["question_id"]
+    prior = f.root/"review"/failed["question"]["question_id"]/"results.jsonl"
+    assert json.loads(prior.read_bytes())["answer"] == failure
+    for visual in ("What colour is the car?", "Which side of the frame is track 555 on?"):
+        result = review.ask(scene, visual, hosted=True)
+        assert result["answer"] == failure and not result["can_answer_from_tracks"]
+
+
 def test_footage_player_uses_original_sparse_clock_and_validated_coverage(scene_fixture):
     from trackrag.footage_app import FootageReview
 

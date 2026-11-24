@@ -1,0 +1,29 @@
+{
+  "date": "2026-11-24",
+  "type": "development coverage audit of an optional vehicle-relative parking fallback",
+  "decision": "The stand-alone fallback was omitted from the release. The measurements describe an offline candidate-selection experiment.",
+  "cohort": "Managed public KartaView photos with source-bound, signed vehicle observations. This was an existing gallery, not an unseen passenger study.",
+  "sources": {
+    "vehicle_archive": "passenger-vehicle-reference-views-v1.zip",
+    "natural_request_plan": "passenger-vehicle-relative-gallery-plan-20261124.json",
+    "interior_point_archive": "passenger-curb-points-v1.zip",
+    "independent_stall_archive": "passenger-stall-reviews-v1.zip"
+  },
+  "measured_outlines": {
+    "signed_original_photos": 72,
+    "tracked_vehicle_observations": 239,
+    "photos_with_candidate_measured_outline": 12,
+    "natural_requests_replayed": 15,
+    "natural_requests_with_additional_offer": 0,
+    "unique_grounded_relations_across_all_vehicles": 0,
+    "relations": "Behind a visibly rear-facing vehicle, or on its left or right beside the bumper. Each option had to be unique, on connected parking pavement and free of tracked objects."
+  },
+  "independent_open_points": {
+    "photos_with_signed_open_points_and_twice_approved_stall": 8,
+    "open_points_enclosed_in_approved_footprint": 12,
+    "source_vehicle_observations": 27,
+    "points_at_required_bumper_position_and_orientation": 0,
+    "accepted_additional_offers": 0
+  },
+  "interpretation": "These counts measure additional coverage. They do not estimate accuracy of the app's primary signed rear-point route or the passenger-mark route."
+}

@@ -19,6 +19,7 @@ from .passenger import digest
 
 BANK = Path(__file__).resolve().parents[2] / "experiments/dropoff/passenger-ground-view-observations-v1.zip"
 PAVED_BANK = BANK.with_name("passenger-paved-row-observations-v1.zip")
+EXTENSION_BANK = BANK.with_name("passenger-entrance-row-observations-v1.zip")
 _cache = OrderedDict()
 _lock = Lock()
 
@@ -124,12 +125,36 @@ def paved_samples(scene,classes,original):
 def get_packet(key, *, paved=False):
     return read_photo_packet(PAVED_BANK if paved else BANK,key,90000)
 
+def extension_samples(scene, classes, original):
+    from . import driveway_apron, row_extension
+    ctx = native_context(scene)
+    boxes = {i:b for i,_,b in ctx["current_vehicles"]}
+    width, height = ctx["size"]
+    result = {}
+    for model, field in ((driveway_apron,"supporting_entrance_track_ids"),(row_extension,"supporting_row_track_ids")):
+        for option in model.candidates(original,classes,ctx):
+            x, y = option["point"]
+            rows = result.setdefault("left" if x < width/2 else "right", [])
+            vehicles = sorted([[i,boxes[i]] for i in option["evidence"][field]],key=lambda v:v[1][0]+v[1][2])
+            cell = int(classes[int(y*classes.shape[0]/height),int(x*classes.shape[1]/width)])
+            rows.append({"id":len(rows)+1, "point":option["point"], "box":option["box"], "class":cell,
+                         "vehicles":vehicles, "native_option":option, "source_shape":digest(option)})
+    return result
 
-def verified(scene, photo, surface, packet, *, paved=False):
+
+def get_extension_packet(key):
+    return read_photo_packet(EXTENSION_BANK,key,90000)
+
+
+def verified_extension(scene,photo,surface,packet):
+    return verified(scene,photo,surface,packet,extension=True)
+
+
+def verified(scene, photo, surface, packet, *, paved=False, references=False, extension=False):
     key=scene["provenance"]["image_sha256"]
     if sha256(photo).hexdigest()!=key:
         raise ValueError("Visual location evidence requires its original photograph.")
-    stamp=digest([key,context(scene),surface,packet,paved])
+    stamp=digest([key,context(scene),surface,packet,paved,references,extension])
     with _lock:
         if stamp in _cache:
             _cache.move_to_end(stamp)
@@ -138,19 +163,23 @@ def verified(scene, photo, surface, packet, *, paved=False):
     body=packet["body"]
     recipe=board.PAVED_RECIPE if paved else board.RECIPE
     guides=[board.REVIEW,board.PAVED_GUIDE] if paved else [board.SELECT,board.REVIEW]
+    if extension:
+        recipe=board.EXTENSION_RECIPE
+        guides=[board.REVIEW,board.EXTENSION_GUIDE]
     expected=(recipe,roadside_board.REVISION,key,digest(context(scene)),digest(guides))
     if tuple(body.get(k) for k in ("recipe","revision","source","context","guides")) != expected:
         raise ValueError("The visual location review differs from this scene or model.")
     classes=manual_surfaces.decode(surface,scene["frame"],key)
     options=[]
     with Image.open(BytesIO(photo)) as original:
-        points=paved_samples(scene,classes,original) if paved else samples(scene,classes)
+        points=(extension_samples(scene,classes,original) if extension else
+                paved_samples(scene,classes,original) if paved else samples(scene,classes))
         if set(points)!=set(body["sides"]):
             raise ValueError("The reviewed photo sides changed.")
         for side, rows in points.items():
             receipt=body["sides"][side]
             if (receipt["spec"]!=digest(rows) or receipt["view"]!=sha256(board.selection(original,rows,side)).hexdigest()
-                    or len(receipt["reviewed"])>(len(rows) if paved else 2)):
+                    or len(receipt["reviewed"])>(len(rows) if paved or extension else 2)):
                 raise ValueError("A labelled view of the original changed.")
             selected=set()
             for review in receipt["reviewed"]:
@@ -168,7 +197,10 @@ def verified(scene, photo, surface, packet, *, paved=False):
                 if (obs.get("status") not in statuses or obs.get("edge") not in edges or
                         any(not isinstance(obs.get(k),str) or len(obs[k])>180 for k in fields)):
                     raise ValueError("Invalid labels in visual inspection.")
-                if obs["status"] in {"BLOCKED","LANE","SEPARATED"} or (not paved and (obs["status"]!="OPEN" or obs["edge"]=="none")):
+                blocked=obs["status"] in {"BLOCKED","LANE","SEPARATED"}
+                if not extension and ((references and (not paved or not blocked)) or (not references and blocked)):
+                    continue
+                if not (paved or extension) and (obs["status"]!="OPEN" or obs["edge"]=="none"):
                     continue
                 box=sample["box"]
                 l,t,r,b=box
@@ -180,6 +212,8 @@ def verified(scene, photo, surface, packet, *, paved=False):
                                 "descriptions":{"nearer_vehicle":obs["left_vehicle"],"farther_vehicle":obs["right_vehicle"],
                                                 "frontage":obs["frontage"],"roadside":obs["roadside"]},
                                 "rear_vehicle":obs["rear_vehicle"]})
+                if extension:
+                    options[-1].update(kind="native_entrance_or_row", native_option=sample["native_option"])
     with _lock:
         _cache[stamp]=deepcopy(options)
         if len(_cache)>96:

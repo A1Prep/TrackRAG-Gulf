@@ -1,6 +1,6 @@
 # Assessment 3: training and completion evidence
 
-Checked against the supplied MAAI 901 and 902 subject outlines on 16 November 2026, plus Omar's report that the lecturers prefer fine-tuning and locally run models. The current Gemini trials are development work. They do not complete the assessed model-training work.
+The team checked these criteria against the supplied MAAI 901 and 902 subject outlines on 16 November 2026. The lecturers also expressed a preference for fine-tuning and locally run models. The project trained a visual detector and a passenger language-grounding model. Gemini provides hosted answers for footage review.
 
 Updated on 20 November 2026 for the approved passenger drop-off addition and Tuesday, 24 November submission. [Part 2: final project completion](final-completion-part2.md) controls current assignments and the four-day delivery plan. The adopted local NLP training objective is now language-conditioned destination grounding, replacing the earlier separate Qwen-reranker objective. Both application routes remain in scope.
 
@@ -78,12 +78,18 @@ The exact training method, number of examples and evaluation metrics need techni
 
 The README was deliberately cleared during initial setup. It must be completed for submission; this note does not change that file now.
 
-## Current verified status
+## Verified on 24 November 2026
+
+For MAAI 901, the team reloaded the fine-tuned RF-DETR Large checkpoint, ran BoT-SORT and compared both detection and tracking with the pretrained baseline on five held-out EMT recordings. Road-user AP rose from 0.303 to 0.355 and IDF1 rose from 0.400 to 0.443. Identity switches also increased. The footage application uses the saved predictions. [Vision evaluation](task1-vision.md) · [Both tasks in the running application](project-release.md)
+
+For MAAI 902, the team trained and reloaded a Qwen3-VL-8B adapter on 500 public passenger directions from 295 scenes. A separate continuation on four approved Gulf examples was evaluated against the pretrained model. Its action matched the reviewers on 24 of 44 Gulf requests, and its direct point fell inside the accepted area on 1 of 33 location cases. The application combines language grounding, independent image checks, passenger clarification and explicit confirmation. The footage route retrieves time-bounded evidence and opens the originals cited in its answers. [Local training record](dropoff-local-training.md) · [Paired model results](passenger-independent-comparisons.md) · [Release checks and outstanding human evaluation](project-release.md)
+
+## Planning record from 16–20 November 2026
 
 The integrated code contains the EMT reader, Task 3 question loader and cited answerer, reviewer, scoring, explicit development adapters, question banks and small real-data trials. Automated checks cover application boundaries and reproducibility, including the Task 3 SDK through local mocked HTTP. The 36 Gemini development cases provide error analysis using human-labeled tracks, with known failures and qualifications retained; the newly integrated normal Task 3 answerer still requires its own live quality check. The [Task 3 handoff](task3-integration.md) separates integration checks, source-annotation agreement and pending human review. The [retrieval verification command](retrieval-verification.md) adds offline contract and future-input checks; those are not answer-accuracy scores. Zero-score scene-context fallbacks remain separate from semantic retrieval performance.
 
 On 19 November 2026, the supplied Task 1 trained checkpoint was verified against its pinned hash, safely loaded and exercised through the real vision interface on two 150-frame image-only recordings. The supplied full-test tracking metrics were independently reproduced on five recordings. [The artifact verification](task1-artifact-verification.md) distinguishes these completed checks from archived full-test detection AP, whose raw detection files were not included in the handoff.
 
-No completed Qwen fine-tuning run has been verified here. Actual local grounding training, saved/reloaded parameters and final evaluation remain incomplete. The current development question bank is not final held-out assessment evidence. The new voice layer, application route and reserved grounding labels are also unfinished; the [Part 2 checklist](final-completion-part2.md#shared-project-acceptance-checklist) defines the remaining technical release gates.
+At that stage, the team still needed to train Qwen, reload its weights, integrate speech and grounding, and evaluate reserved examples. The development question bank was available for regression testing. [Original completion checklist](final-completion-part2.md#shared-project-acceptance-checklist)
 
 On 20 November, Task 5's [model/training handoff](dropoff-model-handoff.md) added the actual training/inference code, strict partial-label and source-scene guards, a verified ten-example public training bootstrap and a cloud pilot notebook. The real pinned Qwen processor/collator passed ten-case CPU checks; the full software suite passed 590 tests and 285 subtests, with 12 optional/platform skips. These are implementation and input-pipeline checks, not 8B parameter updates or model accuracy. The laptop preflight correctly remains blocked, and the [preparation record](../experiments/dropoff/task5_preparation_20261120.json) keeps actual neural training/inference explicitly false.

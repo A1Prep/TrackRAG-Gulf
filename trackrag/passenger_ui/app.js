@@ -1,6 +1,6 @@
 import {addFrame, openFrame} from "./frames.js";
 import {noSound, openMicrophone} from "./capture.js";
-import {VehiclePairPicker, drawChosenLandmarks} from "./pair-choices.js";
+import {VehiclePairPicker, drawChosenLandmarks, drawVehicleReferences} from "./pair-choices.js";
 import {PhotoTools, bayAtPoint, bayChoices, bayName, boxCentre, destinationLabel, drawBays,
   drawCheckedMark, drawDestination, offeredBay, positionWords} from "./photo-tools.js";
 
@@ -151,7 +151,7 @@ function response(v, stage, bay, choices) {
   if (editing === "reply") return ["clarify", "Tell me more", v.result?.clarification_question || v.turns?.filter(t=>t.role==="assistant").at(-1)?.text || ""];
   if (editing) return ["idle", editing === "new" ? "Where would you like to get out?" : "Edit your description", ""];
   if (choices.length) {
-    if (v.bay_reference_uncertain) return ["clarify", choices.some(c=>c.extent==="interior_point_only") ? "Is this the spot you meant?" : choices.some(c=>c.extent==="visible_parking_surface") ? "Does a highlighted area match?" : "Which outlined bay did you mean?",
+    if (v.bay_reference_uncertain) return ["clarify", choices.some(c=>c.extent==="interior_point_only") ? "Is this the spot you meant?" : choices.some(c=>c.extent==="visible_parking_surface") ? "Does a highlighted area match?" : choices.length===1 ? "Is this the bay you meant?" : "Which outlined bay did you mean?",
       v.result.clarification_question + " You can also mark another spot."];
     if (choices.some(c=>c.extent==="interior_point_only")) return ["clarify","Which spot did you mean?",v.result.clarification_question];
     if (choices.some(c=>c.extent==="visible_parking_surface")) return ["clarify","Which highlighted area do you mean?",
@@ -173,6 +173,11 @@ function response(v, stage, bay, choices) {
   if (v.state === "cancelled") return ["idle", "Request cancelled", "You can start again on this photo."];
   if (v.state === "error") return ["error", "The request couldn’t finish", v.landmark_error_guidance ||
     (v.parking_recovery ? "You can still mark the intended spot on the photo or edit your description." : "Try the description again or choose another scene.")];
+  if (v.references_only && v.result?.anchor_boxes_xyxy?.length) {
+    if (v.reference_kind === "vegetation") return ["clarify", "I found the roadside greenery", v.result.clarification_question];
+    const vehicles = v.result.anchor_boxes_xyxy.length === 1 ? "vehicle" : "vehicles";
+    return ["clarify", "I found the " + vehicles + " you described", v.result.clarification_question];
+  }
   if (canMark(v)) return ["clarify", currentMark(v) ? "Choose another location" : "Which spot do you mean?", v.result?.clarification_question ||
     v.turns?.filter(t => t.role === "assistant").at(-1)?.text || "Mark the location on the photo or edit your description."];
   return ["idle", "Where would you like to get out?", ""];
@@ -189,6 +194,7 @@ function legend(v, offerMark, bay, choices) {
   else if (photo.active) label = "Centre dot · your point to check";
   else if (choices.length) {
     label = choices.map((choice,i) => bayName(i,choice)).join(" / ");
+    if (v.vehicle_ground_choice) label += " · Blue outline around the vehicle";
     if (choices.some(choice => choice.passenger_tap_xy)) label += " · Blue diamond at " + tapName(v).toLowerCase();
   }
   else if (pin) {
@@ -201,6 +207,11 @@ function legend(v, offerMark, bay, choices) {
     if (!bay && v.result.anchor_boxes_xyxy?.length === 2 && ["parking_model","passenger_landmarks"].includes(v.selected_by)) label += " · A and B mark the vehicles";
   } else if (!editing && !session?.voice_stage && v.area_landmarks) label = "A and B mark the vehicles";
   if (!choices.length && currentMark(v) && !pin && !photo.active && !editing) label="Cross = your last mark · no destination pin";
+  else if (v.references_only && v.result?.anchor_boxes_xyxy?.length && !photo.active && !editing && !session?.pending_grounding) {
+    const outlines = v.result.anchor_boxes_xyxy.length === 1 ? "Blue outline shows the vehicle" : "Blue outlines show the vehicles";
+    label = v.reference_kind === "vegetation" ? "Roadside greenery in blue · Drop-off point unverified" :
+      outlines + " you described · Drop-off point unverified";
+  }
   else if (offerMark && !photo.zoom) label = v.area_landmarks ? "A and B mark the vehicles · Tap the photo to mark your spot" : "Tap the photo to mark your spot";
   text(node, label);
   return label;
@@ -384,6 +395,8 @@ function paint() {
   if (pairs.open) { pairs.paint(ctx,scale); return; }
   const choices = visibleChoices(v), bay = offeredBay(v,canvas.width,canvas.height);
   if (v.area_landmarks && (photo.active || (!choices.length && !bay))) drawChosenLandmarks(ctx,v.area_landmarks.boxes_xyxy,scale);
+  if ((v.references_only || v.vehicle_ground_choice) && v.state==="needs_clarification" && !bay)
+    drawVehicleReferences(ctx,v.result?.anchor_boxes_xyxy,scale,v.reference_kind==="vegetation" ? "Greenery" : "Vehicle");
   if (photo.active) {
     if (!photo.box) { photo.drawCursor(ctx,scale); return; }
     drawDestination(ctx, boxCentre(photo.box), photo.dragged ? photo.box : null, "mark_preview", scale);

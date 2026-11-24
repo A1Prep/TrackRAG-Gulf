@@ -27,6 +27,7 @@ CLEARANCE_POLICY = "parking_outlines_and_observed_pullins_v6"
 LANGUAGE_POLICY = "scoped_landmark_observations_v1"
 INDEXED_DIALOGUE_POLICY = "scoped_conversational_landmarks_v2"
 SPATIAL_DIALOGUE_POLICY = "scoped_directional_landmarks_v3"
+ABBREVIATED_PAIR_POLICY = "pictured_pair_fragment_v1"
 _cache, _lock = OrderedDict(), Lock()
 _layout_build = Lock()
 _index_cache = OrderedDict()
@@ -272,7 +273,7 @@ def mark_outcome(request, photo, surface, box, stall_review=None, *, policy=CLEA
 
 def select_mark(request, box):
     from . import roadside_context, surface_stalls
-    clean, original_sha, mark, _ = manual_offlane.mark_input(request,box)
+    clean, original_sha, mark, center = manual_offlane.mark_input(request,box)
     try:
         packet = manual_surfaces.get_packet(original_sha)
         if packet is not None:
@@ -284,13 +285,44 @@ def select_mark(request, box):
                 if stall_review is None:
                     raise
                 bay = mark_outcome(clean,data,packet,mark)
+            from . import vehicle_ground_reference
+            vehicle_mark = vehicle_ground_reference.available(clean, data, packet, mark)
+            if vehicle_mark is not None:
+                if (vehicle_mark['provenance'].get('explicit_passenger_ground')
+                        and vehicle_ground_reference.mark_agrees_with_bay(clean, vehicle_mark, bay)
+                        and not vehicle_ground_reference.direct_reference(clean).get('qualified')):
+                    return bay
+                if vehicle_mark['provenance']['bay_choices']:
+                    return vehicle_mark
+                if vehicle_ground_reference.mark_agrees_with_bay(clean, vehicle_mark, bay):
+                    return bay
+                return vehicle_mark
             if bay is None or bay["provenance"].get("reason")=="parking_fragment_at_vehicle":
-                from .observed_pullin import marked_outcome
+                from .native_destination import marked_outcome
                 paved = marked_outcome(clean,data,packet,mark)
                 if paved is not None:
                     return paved
             if bay is not None:
                 return bay
+            from . import curb_points, parking_divider_choice, recessed_kerb
+            frame=clean["scene"]["frame"]
+            classes=manual_surfaces.decode(packet,frame,original_sha)
+            reason,_=manual_offlane.surface_check(frame,clean["scene"]["tracks"],mark,center,classes)
+            if reason=="through_lane":
+                recess=recessed_kerb.marked_outcome(clean,data,packet,mark)
+                if recess is not None:
+                    return recess
+            elif (reason in {"unverified_surface","mixed_area"}
+                  and parking_divider_choice.near_paint(classes,frame,center)):
+                points=curb_points.get_packet(original_sha)
+                if points is not None:
+                    divider=parking_divider_choice.marked_outcome(clean,data,packet,mark,points)
+                    if divider is not None:
+                        return divider
+                from . import painted_row_interiors
+                measured=painted_row_interiors.marked_outcome(clean,data,packet,mark)
+                if measured is not None:
+                    return measured
             gravel = roadside_context.get_packet(original_sha, gravel_only=True)
             if gravel is not None:
                 bay = mark_outcome(clean,data,packet,mark,stall_review,gravel_packet=gravel)
@@ -567,6 +599,29 @@ def _clarify_destination(request, photo):
                  destination_scope_checked=True,language_policy=LANGUAGE_POLICY,clearance_policy=CLEARANCE_POLICY)
 
 
+def abbreviated_pair_outcome(request, photo, surface, review, roadside):
+    from . import curb_point_language,roadside_context
+    clean,_,portable=source_input(request,photo)
+    described=curb_point_language.abbreviated_pair(clean["text"])
+    if described is None or roadside is None:
+        return None
+    # The original utterance is bound to the receipt. Only its implicit "drop me in the gap"
+    # is made explicit for comparing the two actually pictured vehicle descriptions.
+    options=roadside_context.verified(clean,photo,surface,review,roadside)
+    shown,_=roadside_context.match({**clean,"text":described},options,conversational=True,expanded=True)
+    if shown:
+        question="Is one of these areas between the vehicles you meant? Select the area to check your location."
+        reason="pictured_pair_fragment_choice"
+    else:
+        question="I couldn’t match those two vehicle descriptions to an open area in this photo. Could you mark the spot or describe another pair?"
+        reason="pictured_pair_fragment_unmatched"
+    evidence={"roadside_evidence":roadside}
+    if review is not None:
+        evidence["stall_review"]=review
+    return _make(clean,portable,shown,surface,method=AUTO,reason=reason,question=question,require_choice=True,
+                 abbreviated_pair_checked=True,language_policy=ABBREVIATED_PAIR_POLICY,clearance_policy=CLEARANCE_POLICY,**evidence)
+
+
 def _has_location(outcome):
     if outcome is None:
         return False
@@ -641,6 +696,11 @@ def explicit_request(request):
         return None
     photo = Path(request["scene"]["frame"]["image_path"]).read_bytes()
     review = surface_stalls.get_packet(key)
+    if roadside is not None and curb_point_language.abbreviated_pair(request["text"]) is not None:
+        try:
+            return abbreviated_pair_outcome(request,photo,surface,review,roadside)
+        except (ValueError,KeyError,TypeError):
+            pass
     def from_context():
         return _context_outcome(request,photo,surface,review,roadside,gravel,points,indexed=indexed)
 
@@ -704,11 +764,12 @@ def explicit_request(request):
 
 
 def choice_outcome(request, offered, bay_id):
+    from . import curb_alternatives, vehicle_ground_reference
     source = offered["provenance"]
     choices = source.get("bay_choices") or []
     if (source.get("method") not in {AUTO,MARK} or offered["result"]["status"] != "needs_clarification"
             or not isinstance(bay_id,str) or not choices or
-            (len(choices)==1 and source.get("reason") not in {"single_visible_bay_at_painted_edge","unverified_bay_reference"})):
+            (len(choices)==1 and source.get("reason") not in {"single_visible_bay_at_painted_edge","unverified_bay_reference",curb_alternatives.REASON,vehicle_ground_reference.CHOICE_REASON})):
         raise ValueError("Choose a bay from the current highlighted alternatives.")
     verify(request,offered,requested_box=source.get("selected_box"))
     selected = next((row for row in choices if row["id"]==bay_id),None)
@@ -738,6 +799,7 @@ def _archive_display_matches(expected, outcome):
 
 
 def verify(request, outcome, *, requested_box=None):
+    from . import native_destination
     source = outcome["provenance"]
     photo = Path(request["scene"]["frame"]["image_path"]).read_bytes()
     method = source["method"]
@@ -745,7 +807,7 @@ def verify(request, outcome, *, requested_box=None):
     language = source.get("language_policy")
     conversational = language in (INDEXED_DIALOGUE_POLICY,SPATIAL_DIALOGUE_POLICY)
     expanded = language==SPATIAL_DIALOGUE_POLICY
-    if language not in (None,LANGUAGE_POLICY,INDEXED_DIALOGUE_POLICY,SPATIAL_DIALOGUE_POLICY):
+    if language not in (None,LANGUAGE_POLICY,INDEXED_DIALOGUE_POLICY,SPATIAL_DIALOGUE_POLICY,ABBREVIATED_PAIR_POLICY):
         raise ValueError("Unknown passenger language checks.")
     if policy not in (None,VEHICLE_POLICY,CONNECTED_POLICY,LANDMARK_POLICY,ROW_POLICY,CLEARANCE_POLICY):
         raise ValueError("Unknown parking clearance checks.")
@@ -754,6 +816,47 @@ def verify(request, outcome, *, requested_box=None):
         if original.get("provenance",{}).get("method") not in {MARK,AUTO}:
             raise ValueError("Only an original set of pictured bays can be selected.")
         expected = choice_outcome(request,original,source["bay_id"])
+    elif source.get('vehicle_ground_policy') is not None:
+        from . import vehicle_ground_reference, vehicle_ground_view
+        if (policy != CLEARANCE_POLICY or language is not None or source['vehicle_ground_policy'] != vehicle_ground_view.RECIPE
+                or source.get('vehicle_relation_policy') not in (None,vehicle_ground_reference.RELATION_POLICY)
+                or method not in {AUTO, MARK} or (method == MARK) != (requested_box is not None)):
+            raise ValueError('The vehicle and ground must match the original request and mark.')
+        expected = vehicle_ground_reference.outcome(request, photo, source['surface_evidence'],
+                                                    source['vehicle_observation'], requested_box,
+                                                    qualifier_packets=source.get('vehicle_qualifier_evidence'),
+                                                    earlier_vehicle=source.get('earlier_vehicle_observation'),
+                                                    expanded=source.get('vehicle_relation_policy') is not None)
+    elif source.get("divider_policy") is not None:
+        from . import parking_divider_choice
+        if (method!=MARK or requested_box is None or policy!=CLEARANCE_POLICY
+                or source["divider_policy"]!=parking_divider_choice.POLICY or language is not None):
+            raise ValueError("A painted divider requires the original passenger tap and checked adjacent points.")
+        expected=parking_divider_choice.marked_outcome(request,photo,source["surface_evidence"],
+                                                      requested_box,source["divider_point_observations"])
+    elif source.get("kerb_policy") is not None:
+        from . import recessed_kerb
+        if (method!=MARK or requested_box is None or policy!=CLEARANCE_POLICY
+                or source["kerb_policy"]!=recessed_kerb.RECIPE or language is not None):
+            raise ValueError("A recessed kerb requires its original passenger tap and measured current road edges.")
+        expected=recessed_kerb.marked_outcome(request,photo,source["surface_evidence"],requested_box)
+    elif source.get("measured_row_policy") is not None:
+        from . import painted_row_interiors
+        if (method!=MARK or requested_box is None or policy!=CLEARANCE_POLICY
+                or source["measured_row_policy"]!=painted_row_interiors.RECIPE or language is not None):
+            raise ValueError("An adjacent parking choice needs its original passenger tap and painted row.")
+        expected=painted_row_interiors.marked_outcome(request,photo,source["surface_evidence"],requested_box)
+    elif source.get("pullin_policy") == native_destination.POLICY:
+        if policy != CLEARANCE_POLICY:
+            raise ValueError("Unknown native destination clearance checks.")
+        if method == MARK and requested_box is not None and language is None:
+            expected = native_destination.marked_outcome(request, photo, source["surface_evidence"], requested_box)
+        elif (method == AUTO and language == INDEXED_DIALOGUE_POLICY and requested_box is None
+              and source.get("native_location_observations")):
+            expected = native_destination.language_outcome(request, photo, source["surface_evidence"],
+                                                           source["native_location_observations"])
+        else:
+            raise ValueError("A pictured native destination requires its original tap or verified visual observations.")
     elif source.get("pullin_policy") is not None:
         from . import observed_pullin
         if source["pullin_policy"]!=observed_pullin.POLICY or policy!=CLEARANCE_POLICY:
@@ -761,7 +864,8 @@ def verify(request, outcome, *, requested_box=None):
         if method==MARK and requested_box is not None:
             expected=observed_pullin.marked_outcome(request,photo,source["surface_evidence"],requested_box)
         elif method==AUTO and source.get("visual_space_evidence") and language==INDEXED_DIALOGUE_POLICY:
-            expected=observed_pullin.visual_outcome(request,photo,source["surface_evidence"],source["visual_space_evidence"])
+            expected=observed_pullin.visual_outcome(request,photo,source["surface_evidence"],source["visual_space_evidence"],
+                                                   references=source.get("reason")=="vehicle_seen_space_withheld")
         else:
             raise ValueError("A paved pull-in requires its original mark or signed visual observations.")
     elif method==MARK:
@@ -769,8 +873,26 @@ def verify(request, outcome, *, requested_box=None):
             raise ValueError("The original passenger mark is required.")
         expected = mark_outcome(request,photo,source["surface_evidence"],requested_box,source.get("stall_review"),
                                 policy=policy,gravel_packet=source.get("gravel_evidence"))
+    elif method==AUTO and source.get("explanation_policy") is not None:
+        from . import curb_alternatives, marked_row_references, photo_clarification
+        if source["explanation_policy"]==photo_clarification.VEGETATION_POLICY:
+            expected=photo_clarification.greenery(request,photo,source["surface_evidence"])
+        elif source["explanation_policy"]==curb_alternatives.POLICY and type(source.get("local_photo_check")) is bool:
+            expected=curb_alternatives.rebuild(request,photo,source["surface_evidence"],source.get("curb_point_evidence"),
+                                               source.get("landmark_evidence"),public_stall_review=source.get("public_stall_review"))
+        elif source["explanation_policy"]==marked_row_references.POLICY and source.get("local_photo_check") is True:
+            expected=marked_row_references.rebuild(request,photo,source["surface_evidence"],source.get("marked_row_point_evidence"))
+        elif source["explanation_policy"]==photo_clarification.POLICY and type(source.get("local_photo_check")) is bool:
+            expected=photo_clarification.rebuild(request,photo,source["surface_evidence"],source.get("landmark_evidence"),
+                                                 local=source["local_photo_check"])
+        else:
+            raise ValueError("Unknown visible landmark clarification.")
     elif method==AUTO and source.get("destination_scope_checked") is True and policy == CLEARANCE_POLICY:
         expected = _clarify_destination(request, photo)
+    elif (method==AUTO and source.get("abbreviated_pair_checked") is True and language==ABBREVIATED_PAIR_POLICY
+          and policy==CLEARANCE_POLICY):
+        expected=abbreviated_pair_outcome(request,photo,source["surface_evidence"],source.get("stall_review"),
+                                          source["roadside_evidence"])
     elif (method==AUTO and source.get("index_geometry_checked") is True
           and conversational and policy==CLEARANCE_POLICY):
         expected = _empty_geometry(request,photo,source["surface_evidence"],source.get("stall_review"),expanded=expanded)
@@ -806,6 +928,8 @@ def verify(request, outcome, *, requested_box=None):
         result["archived_landmark_language_calls"] = len(bay_landmarks.BANDS)
     if source.get("stall_review"):
         result["archived_stall_language_calls"] = sum(len(row["reviews"]) for row in source["stall_review"]["body"]["options"])
+    if original.get('vehicle_observation'):
+        result['archived_vehicle_readings'] = original['vehicle_observation']['body']['count']
     if source.get("bay_anchor_evidence"):
         body=source["bay_anchor_evidence"]["body"]
         result["archived_bay_context_records"]=len(body["rows"])
@@ -821,17 +945,20 @@ def verify(request, outcome, *, requested_box=None):
         result["native_paved_entrance_checked"] = True
         if original.get("visual_space_evidence"):
             result["archived_ground_inspections"] = sum(len(side["reviewed"]) for side in original["visual_space_evidence"]["body"]["sides"].values())
+        if original.get("native_location_observations"):
+            result["archived_native_inspections"] = sum(len(side["reviewed"]) for side in original["native_location_observations"]["body"]["sides"].values())
     return result
 
 
 def verify_current(request, outcome, *, requested_box=None):
-    from . import curb_point_language
+    from . import curb_alternatives, curb_point_language
     source = outcome["provenance"]
     if source["method"] == CHOICE:
         source = source["choice_source"]["provenance"]
     if source.get("clearance_policy") != CLEARANCE_POLICY:
         raise ValueError("Request a new check on the current photo before saving this location.")
-    if (source["method"]==AUTO and any(source.get(key) for key in ("roadside_evidence","curb_point_evidence","gravel_evidence"))
+    if (source["method"]==AUTO and source.get("explanation_policy")!=curb_alternatives.POLICY
+            and any(source.get(key) for key in ("roadside_evidence","curb_point_evidence","gravel_evidence"))
             and curb_point_language.indexed_reference(request["text"],expanded=True)
             and source.get("language_policy")!=SPATIAL_DIALOGUE_POLICY):
         raise ValueError("Recheck this passenger instruction with the current pictured-location policy.")

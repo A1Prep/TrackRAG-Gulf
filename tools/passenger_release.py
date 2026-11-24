@@ -61,6 +61,13 @@ PHOTO_PACKS = (
          ("local_vehicle_observations", "vehicle-observations-v2.json",
           "73627772dbeb5140c8d27cb8bcf63bb46272e8af8c6114bac77ca2bf063885c7"),
      )),
+    ("data/uae-parking-local-rear-transfer-b-20261124/passenger-requests.jsonl",
+     "experiments/dropoff/passenger-rear-transfer-b-photos-20261124", (
+         ("local_surface_index", "passenger-local-image-surfaces-v1.json",
+          "2a42b674a5363ebd3ff897e75cd25c7f3988ae29727ee2041ac9174a714ef2a3"),
+         ("local_vehicle_observations", "vehicle-observations-v2.json",
+          "8a8b2913cdef791670d965432b36b06f747ed3d5302edbe81dcb583142c1206a"),
+     )),
 )
 
 

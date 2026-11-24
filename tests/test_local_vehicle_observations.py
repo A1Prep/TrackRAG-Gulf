@@ -212,3 +212,23 @@ def test_separate_journal_export_registers_operator_pins_before_source_replay(tm
         '--local-observations','ground','b'*64])
     handoff.main()
     assert json.loads(out.read_bytes())=={'verified':True}
+
+
+@pytest.mark.parametrize('wrapped', [False, True])
+def test_saving_uses_current_vehicle_readings_but_a_past_journal_can_keep_its_original(wrapped, monkeypatch):
+    from trackrag.dropoff import whole_bay
+    old = {'origin':local.ORIGIN, 'body_sha256':'a'*64}
+    current = {'origin':local.ORIGIN_V2, 'body_sha256':'b'*64}
+    source = {'method':whole_bay.AUTO, 'clearance_policy':whole_bay.CLEARANCE_POLICY, 'vehicle_observation':old}
+    result = {'provenance':source}
+    if wrapped:
+        result = {'provenance':{'method':whole_bay.CHOICE,'choice_source':result}}
+    request = {'text':'Behind the white car','scene':{'provenance':{'image_sha256':'c'*64}}}
+    monkeypatch.setattr(whole_bay,'verify',lambda *args,**kwargs:'replayed')
+    for active in (None,current):
+        monkeypatch.setattr(local,'get_packet',lambda _,value=active:value)
+        with pytest.raises(ValueError,match='Check your location again'):
+            whole_bay.verify_current(request,result)
+        assert whole_bay.verify(request,result)=='replayed'
+    monkeypatch.setattr(local,'get_packet',lambda _:old)
+    assert whole_bay.verify_current(request,result)=='replayed'

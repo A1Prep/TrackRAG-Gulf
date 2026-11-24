@@ -31,7 +31,7 @@ class FootageImages:
             except OSError:
                 pass
         with BytesIO(raw) as source:
-            render({**frame, "image_path":source}, box, destination)
+            render(frame, box, destination, image_source=source)
         digest = _sha(destination)
         shared = self.folder / (digest + ".png")
         try:

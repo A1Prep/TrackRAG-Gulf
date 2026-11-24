@@ -146,8 +146,10 @@ def _resolve_evidence(
     return evidence
 
 
-def _render_frame(frame, box, destination):
-    with Image.open(frame["image_path"]) as original:
+def _render_frame(frame, box, destination, *, image_source=None):
+    with Image.open(image_source if image_source is not None else frame["image_path"]) as original:
+        if image_source is not None:
+            original.filename = str(frame["image_path"])
         if original.size != (frame["width"], frame["height"]):
             raise ValueError(f"Image dimensions disagree with frame metadata for {frame['frame_id']}")
         with original.convert("RGB") as marked:

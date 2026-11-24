@@ -14,6 +14,8 @@ RECIPE = "visible_marked_compartment_behind_rear_vehicle_v1"
 
 def _borders(view, scene):
     """Reuse the established Task 5 detector's traced paint, aisle and kerb checks."""
+    from .vehicle_rear_end_marks import neutral_stroke
+
     gray, labels, original_scale = parking_row_bays._work_view(view.original, view.classes)
     context = single_vehicle.context({"scene": scene})
     boxes = np.asarray([box for _, _, box in context["tracks"]], dtype=float).reshape(-1, 4)
@@ -22,7 +24,9 @@ def _borders(view, scene):
     return [
         (stem["front"] * to_native, stem["back"] * to_native)
         for stem in parking_row_bays._semantic_stems(gray, labels, boxes)
-        if stem["back_curb"] and not stem["front_hood"]
+        if stem["back_curb"]
+        and not stem["front_hood"]
+        and neutral_stroke(view.rgb, stem["front"] * to_native, stem["back"] * to_native)
     ]
 
 
@@ -184,6 +188,7 @@ def candidates(original, classes, scene, spec, *, facing):
         "curb_side": "left" if side < 0 else "right",
         "current_tracks_clear": True,
         "travel_arrow_checked": True,
+        "neutral_paint_checked": True,
         "point_surface": int(classes[y, x]),
         "surface_map_size": [w, h],
         "source_sha256": scene["provenance"]["image_sha256"],

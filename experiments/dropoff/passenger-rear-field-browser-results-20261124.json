@@ -10,7 +10,8 @@
     "short": "The same eight photos and physical references were tested with shorter questions fixed before the original runs. Two questions lose a positional disambiguator; offering their intended location by coincidence does not prove resolution of the shorter ambiguous language."
   },
   "evidence_archive": "passenger-rear-field-browser-evidence-20261124.zip",
-  "evidence_archive_sha256": "4b39b01dcbf4648e1e394936e932dc3c02a9f8abb9ea2e4000fe84627c7a9f13",
+  "evidence_archive_sha256": "c9457dfc80dc94ad58b468355774fce5eca52bb4478e0844609d56cac8c2a126",
+  "reproduce": "Extract methods/grade_browser.py from the ZIP, then run python grade_browser.py --replay <path-to-the-ZIP>. Python's standard library can recompute each case, the role of its anchor, signed pixel distance, first-turn latency and arm summaries without model access. Source photos are attributed separately inside public_sources.",
   "arms": {
     "browser-primary": {
       "commit": "82bfb03414953f2b08cea3589b20046a97430e94",

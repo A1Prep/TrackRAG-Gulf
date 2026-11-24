@@ -981,12 +981,18 @@ def verify(request, outcome, *, requested_box=None):
 
 
 def verify_current(request, outcome, *, requested_box=None):
-    from . import curb_alternatives, curb_point_language, vehicle_wording
+    from . import curb_alternatives, curb_point_language, local_vehicle_observations, vehicle_wording
     source = outcome["provenance"]
     if source["method"] == CHOICE:
         source = source["choice_source"]["provenance"]
     if source.get("clearance_policy") != CLEARANCE_POLICY:
         raise ValueError("Request a new check on the current photo before saving this location.")
+    vehicle_packet = source.get("vehicle_observation")
+    if local_vehicle_observations.is_local(vehicle_packet):
+        photo_sha = request["scene"]["provenance"]["image_sha256"]
+        preferred = local_vehicle_observations.get_packet(photo_sha)
+        if preferred is None or preferred["body_sha256"] != vehicle_packet["body_sha256"]:
+            raise ValueError("The vehicle observations for this photo have changed. Check your location again before saving.")
     if (source["method"] == MARK and vehicle_wording.suggestion(request["text"])
             and source.get("reason") != "vehicle_word_check_at_mark"):
         raise ValueError("Confirm the vehicle wording before choosing a location on this photo.")

@@ -123,3 +123,11 @@ def test_measured_paint_on_the_wrong_ground_or_relative_to_the_wrong_vehicle_is_
         sc["tracks"][0]["frame_id"] = 1
     monkeypatch.setattr(stalls, "_borders", lambda *_: borders)
     assert not stalls.candidates(im, classes, sc, spec, facing=facing)
+
+
+def test_two_yellow_crossbars_are_not_evidence_for_a_white_marked_bay():
+    image, labels, scene, spec, _ = marked_source()
+    pixels = np.array(image)
+    paint = np.min(pixels, axis=2) > 185
+    pixels[paint] = (238, 177, 18)
+    assert not stalls.candidates(Image.fromarray(pixels), labels, scene, spec, facing="REAR")

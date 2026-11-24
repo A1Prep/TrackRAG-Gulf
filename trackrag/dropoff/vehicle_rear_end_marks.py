@@ -99,6 +99,24 @@ def _light_ridge(gray, start, end, normal, thickness):
     return float(np.mean(contrast > 4)), float(np.median(contrast))
 
 
+def neutral_stroke(rgb, start, end):
+    """Measure the pigment on the actual bright line, allowing a moderate cast from light or shadow."""
+    direction = np.asarray(end) - start
+    length = np.linalg.norm(direction)
+    if length < 2:
+        return False
+    normal = np.array([-direction[1], direction[0]]) / length
+    line = np.linspace(start, end, min(64, max(9, round(length))))
+    colours = np.stack(
+        [_at(rgb, line + normal * delta) for delta in (-1.5, -0.75, 0, 0.75, 1.5)], axis=1
+    ).astype(float)
+    luminance = colours @ np.array([0.299, 0.587, 0.114])
+    brightest = colours[np.arange(len(line)), np.argmax(luminance, axis=1)]
+    # Bright yellow paint can have the same grayscale intensity and shape as a white parking line.
+    neutral = np.ptp(brightest, axis=1) <= np.maximum(23.0, 0.28 * brightest.max(axis=1))
+    return bool(np.mean(neutral) >= 0.78)
+
+
 def _stroke_score(gray, classes, centre, cap, arm, half_cap, span, thickness):
     normal = np.array([-arm[1], arm[0]])
     supported, contrast = _light_ridge(
@@ -156,7 +174,13 @@ def _visible_markers(view, side, kerb_slope, kerb_intercept):
                 if not ground[y, x] or not 0.19 * width < distance < 2.10 * width:
                     continue
                 strokes = _stroke_score(signed, view.classes, point, cap, arm, half_cap, span, thickness)
-                if strokes is not None:
+                if (
+                    strokes is not None
+                    and neutral_stroke(view.rgb, point + 0.14 * span * arm, point + 0.97 * span * arm)
+                    and neutral_stroke(
+                        view.rgb, point - 0.85 * half_cap * cap, point + 0.85 * half_cap * cap
+                    )
+                ):
                     measured.append(
                         _Marker(float(scores[row, col]) + strokes, x, y, span, float(cap[0] / cap[1]))
                     )

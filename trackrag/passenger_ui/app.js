@@ -173,6 +173,7 @@ function response(v, stage, bay, choices) {
   if (v.state === "cancelled") return ["idle", "Request cancelled", "You can start again on this photo."];
   if (v.state === "error") return ["error", "The request couldn’t finish", v.landmark_error_guidance ||
     (v.parking_recovery ? "You can still mark the intended spot on the photo or edit your description." : "Try the description again or choose another scene.")];
+  if (v.word_confirmation) return ["clarify", "Check one word", v.result.clarification_question];
   if (v.references_only && v.result?.anchor_boxes_xyxy?.length) {
     if (v.reference_kind === "vegetation") return ["clarify", "I found the roadside greenery", v.result.clarification_question];
     if (v.reference_kind === "possible_vehicle") return ["clarify", "Is this the vehicle you meant?", v.result.clarification_question];
@@ -236,9 +237,13 @@ function render() {
   const err = failure || session?.speech_error?.message || "";
   text(el("error"), err); el("error").hidden = !err;
   const shownWords = pending?.text ?? prior?.text;
+  const firstRequest = v.turns?.find(turn => turn.role === "user");
+  const showOriginal = !formOpen && !pending && firstRequest && prior && firstRequest !== prior && firstRequest.text !== shownWords;
+  el("original-request").hidden = !showOriginal;
+  if (showOriginal) text(el("original-request").querySelector("p"), firstRequest.text);
   el("last-request").hidden = !shownWords || formOpen;
   if (shownWords) {
-    text(el("last-request").querySelector("span"), pending?.mode === "voice" ? "Your reviewed transcript" : "Your words");
+    text(el("last-request").querySelector("span"), pending?.mode === "voice" ? "Your reviewed transcript" : showOriginal ? "Your last reply" : "Your words");
     text(el("last-request").querySelector("p"), shownWords);
   }
   history(v);
@@ -280,11 +285,17 @@ function render() {
   el("confirm").hidden = !(decision && v.state === "proposed" && v.proposal_id);
   el("confirm").disabled = locked || !ready;
   text(el("confirm"),bay && !bay.extent ? "Save this bay" : "Save this location");
+  const yesNo = decision && v.state === "needs_clarification" && (v.word_confirmation || v.reference_kind === "possible_vehicle");
+  for (const id of ["answer-yes", "answer-no"]) {
+    el(id).hidden = !yesNo;
+    el(id).disabled = locked || !ready;
+  }
+  text(el("answer-yes"), v.word_confirmation ? "Yes, I meant a car" : "Yes, that vehicle");
   el("draw").hidden = !(decision && canMark(v));
   el("draw").disabled = locked || !ready;
   el("take-over-area").hidden = !pending;
   el("take-over-area").disabled = locked || !ready || !v.can_request_area;
-  el("draw").className = v.state === "proposed" || choices.length ? "subtle" : "primary";
+  el("draw").className = v.state === "proposed" || choices.length || yesNo ? "subtle" : "primary";
   text(el("draw"), choices.length ? "Mark a different spot" : v.state === "proposed" ? "Change spot on photo" : "Mark my spot on the photo");
   el("edit-words").hidden = !decision || !prior;
   el("edit-words").disabled = locked;
@@ -535,6 +546,14 @@ function sendInstruction(choice = "automatic") {
   () => photo.active ? photo.focusPhoto() : pairs.open ? el("pair-first").focus() : focusResult());
 }
 el("form").onsubmit = e => { e.preventDefault(); sendInstruction(); };
+for (const [id, answer] of [["answer-yes", "Yes"], ["answer-no", "No"]]) {
+  const button = el(id);
+  button.onclick = () => {
+    if (button.hidden || button.disabled) return;
+    startEditing("reply", answer);
+    sendInstruction();
+  };
+}
 el("show-parking-areas").onclick = () => {
   const button = el("show-parking-areas");
   if (button.hidden || button.disabled || input.value.trim()) return;

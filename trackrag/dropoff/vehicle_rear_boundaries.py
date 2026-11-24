@@ -44,8 +44,9 @@ class _Section:
     curb: float
 
 
-def _view(original, classes, scene, spec, facing):
-    if facing != "REAR" or scene.get("source") != "predicted" or not isinstance(spec, dict):
+def _view(original, classes, scene, spec, facing, *, profile=False):
+    ends = ("REAR","SIDE") if profile else ("REAR",)
+    if facing not in ends or scene.get("source") != "predicted" or not isinstance(spec, dict):
         return None
     if not isinstance(classes, np.ndarray) or classes.ndim != 2 or classes.dtype != np.uint8:
         return None
@@ -67,7 +68,8 @@ def _view(original, classes, scene, spec, facing):
     scale = np.array([w / original.width, h / original.height])
     box = np.asarray(spec["box"]) * np.tile(scale, 2)
     width, height = box[2:] - box[:2]
-    if width < max(18, 0.04 * w) or height < max(10, 0.04 * h) or not 0.62 < width / height < 2.15:
+    low, high = (1.65,4.4) if profile else (.62,2.15)
+    if width < max(18, 0.04 * w) or height < max(10, 0.04 * h) or not low < width / height < high:
         return None
     road = bay_clearance.visible_road_component(classes)
     if road is None:

@@ -22,6 +22,7 @@ CHOICE_REASONS = {CHOICE_REASON, SIDE_CHOICE_REASON, EXPLICIT_GROUND_REASON}
 PREVIOUS_RELATION_POLICY = 'separate_vehicle_and_measured_destination_v2'
 RELATION_POLICY = 'separate_rear_lateral_and_marked_ground_v3'
 NO_READING = 'passenger_vehicle_reading_unavailable_v1'
+LIGHT_PAINT = re.compile(r"\b(?:beige|tan|champagne|ivory|cream|off[ -]white)\b",re.I)
 
 
 def direct_reference(request, *, expanded=True):
@@ -35,6 +36,14 @@ def direct_reference(request, *, expanded=True):
         return qualified
     text = request['text'].lower()
     ref = single_vehicle.request_reference(request)
+    shades = list(LIGHT_PAINT.finditer(text)) if expanded else []
+    if len(shades) == 1 and ref and ref['unsupported']:
+        # The grammar knows the vehicle/side syntax. Keep the actual shade for subsequent visual checks.
+        normal = LIGHT_PAINT.sub('white',text)
+        if not set(re.findall(r'[a-z]+', LIGHT_PAINT.sub(' ',text))) & single_vehicle.COLORS:
+            probe = single_vehicle.request_reference({**request,'text':normal})
+            if probe and not probe['unsupported']:
+                ref = {**probe,'color':shades[0][0]}
     if not ref or ref['unsupported'] or not bay_intent.permitted_destination(text) or bay_intent.PARKING.search(text):
         return None
     prefix = text[:single_vehicle.RELATION.search(text).start()]
@@ -78,7 +87,8 @@ def _option(spec):
             'evidence': {'recipe': view.RECIPE, 'coverage':'interior_point_only'}}
 
 
-def _measured_rear(request, ref, specs, answers, observations, photo, classes, local_matches=()):
+def _measured_rear(request, ref, specs, answers, observations, photo, classes, local_matches=(), *,
+                   marked_strip=False, tail_packet=None):
     """Pair a single verified referent with visibly separated pavement behind its own bumper."""
     from . import vehicle_rear_apron, vehicle_rear_boundaries, vehicle_rear_ground, vehicle_rear_stall
     from . import vehicle_relative_bays, vehicle_scene_details
@@ -107,15 +117,23 @@ def _measured_rear(request, ref, specs, answers, observations, photo, classes, l
     if len(matches) != 1:
         return None
     spec, row = matches[0]
-    if row[2] != 'REAR' or not single_vehicle.visible_vehicle_end(spec['box'], (frame['width'], frame['height'])):
-        return None
-    options = vehicle_rear_ground.candidates(photo, classes, request['scene'], spec, facing=row[2])
-    if not options and row[3] == 'NONE':
-        options = vehicle_rear_apron.candidates(photo, classes, request['scene'], spec, facing=row[2])
-    if not options:
-        options = vehicle_rear_boundaries.candidates(photo, classes, request['scene'], spec, facing=row[2])
-    if not options:
-        options = vehicle_rear_stall.candidates(photo, classes, request['scene'], spec, facing=row[2])
+    options = []
+    if row[2] == 'REAR' and single_vehicle.visible_vehicle_end(spec['box'], (frame['width'], frame['height'])):
+        options = vehicle_rear_ground.candidates(photo, classes, request['scene'], spec, facing=row[2])
+        if not options and row[3] == 'NONE':
+            options = vehicle_rear_apron.candidates(photo, classes, request['scene'], spec, facing=row[2])
+        if not options:
+            options = vehicle_rear_boundaries.candidates(photo, classes, request['scene'], spec, facing=row[2])
+        if not options:
+            options = vehicle_rear_stall.candidates(photo, classes, request['scene'], spec, facing=row[2])
+        if not options and marked_strip:
+            from . import vehicle_rear_marked_strip
+            options = vehicle_rear_marked_strip.candidates(photo, classes, request['scene'], spec, facing=row[2])
+    if not options and tail_packet and row[2] in {'REAR','SIDE'}:
+        from . import local_vehicle_tail, vehicle_profile_ground
+        edges = local_vehicle_tail.verify(request['scene'], photo, tail_packet)
+        options = vehicle_profile_ground.candidates(photo, classes, request['scene'], spec, facing=row[2],
+                                                    tail=edges.get(spec['track_id']))
     if len(options) != 1:
         return None
     option = options[0]
@@ -129,6 +147,38 @@ def _measured_rear(request, ref, specs, answers, observations, photo, classes, l
         return None
     label = ' '.join(v for v in row[:2] if v != 'unknown').replace('suv', 'SUV')
     return spec, label, option
+
+
+def _unread_shop(ref):
+    """A passenger may explicitly choose a uniquely coloured car with measured ground while its shop sign is unread."""
+    if (not ref.get('color') or ref.get('ground_side') or len(ref.get('qualifiers', ())) != 1):
+        return None
+    detail = ref['qualifiers'][0]
+    if detail.get('field') != 'place' or detail.get('relation') not in {'by','beside','near','next to','outside'}:
+        return None
+    name = detail['value']
+    if not re.fullmatch(r"(?:[a-z]+ ){0,3}(?:shop|store|restaurant|pharmacy|hotel|bank|clinic|caf[eé])", name):
+        return None
+    return name
+
+
+def _possible_light_vehicle(ref, specs, packet, width):
+    """Show a body candidate only when both crops support a light/neutral paint family and the requested body."""
+    from . import local_vehicle_observations as local
+    if not LIGHT_PAINT.fullmatch(ref.get('color') or '') or ref.get('qualified'):
+        return None
+    neutral = {'cream','white','gray','silver'}
+    matches = []
+    for spec, observation in zip(specs,packet['body']['rows'],strict=True):
+        if not single_vehicle._side(spec['box'],width,ref['side']):
+            continue
+        readings = [local.parse(c['reply']) for c in observation['calls']]
+        if all(r and r[0] in neutral and r[1]!='unknown' and single_vehicle._compatible(ref['kind'],r[1])
+               for r in readings):
+            matches.append(spec)
+    if len(matches) != 1:
+        return None
+    return matches[0]['box']
 
 
 def mark_agrees_with_bay(request, vehicle_mark, bay):
@@ -283,7 +333,7 @@ def _previously_observed_rear(request, photo, surface, earlier, specs, answers, 
 
 def outcome(request, photo, surface, packet, mark=None, *, qualifier_packets=None, earlier_vehicle=None, expanded=True,
             observe_sides=True, side_packet=None, load_side_packet=True, side_release=None, measure_rear=False,
-            archived_identity=None, load_archived_identity=False):
+            archived_identity=None, load_archived_identity=False, extended_rear=False, tail_packet=None):
     from . import whole_bay
     ref = direct_reference(request, expanded=expanded)
     if ref is None:
@@ -324,6 +374,13 @@ def outcome(request, photo, surface, packet, mark=None, *, qualifier_packets=Non
         clean, _, mark, center = manual_offlane.mark_input(clean, mark)
         evidence['selected_box'] = mark
     boxes, options, reason, question = decision(clean, ref, specs, answers, classes, mark, observations=observations, expanded=expanded)
+    if (extended_rear and local_packet and mark is None and not boxes and not options
+            and (possible := _possible_light_vehicle(ref,specs,packet,clean['scene']['frame']['width']))):
+        from . import vehicle_rear_marked_strip
+        boxes, reason = [possible], 'vehicle_side_uncertain'
+        question = (f'The outlined {ref["kind"]} looks light-coloured. I can’t verify the {ref["color"]} paint in this light. '
+                    'Is this the vehicle you mean?')
+        evidence['extended_rear_policy'] = vehicle_rear_marked_strip.RECIPE
     if expanded and observe_sides and not boxes and not options and mark is None:
         plausible = qualifiers.possible_side_reference(clean, ref, specs, answers, observations=observations)
         if plausible is not None:
@@ -368,10 +425,19 @@ def outcome(request, photo, surface, packet, mark=None, *, qualifier_packets=Non
             options, reason = [option], CHOICE_REASON
             evidence['earlier_vehicle_observation'] = earlier_vehicle
     measured = None
+    conditional_shop = None
     if measure_rear and mark is None and ref['relation'] == 'behind':
         from . import vehicle_scene_details, vehicle_relative_bays
         local_matches = vehicle_scene_details.matching(clean,ref,specs,answers,classes,original=photo) if local_packet else []
-        measured = _measured_rear(clean, ref, specs, answers, observations, photo, classes,local_matches)
+        measured = _measured_rear(clean, ref, specs, answers, observations, photo, classes,local_matches,
+                                  marked_strip=extended_rear and local_packet,tail_packet=tail_packet)
+        if extended_rear and local_packet and not measured and not options and len(boxes) == 1:
+            shop = _unread_shop(ref)
+            if shop:
+                candidate = _measured_rear(clean, {**ref, 'qualified':False}, specs, answers, (), photo, classes,
+                                           marked_strip=True,tail_packet=tail_packet)
+                if candidate and candidate[0]['box'] == boxes[0]:
+                    measured, conditional_shop = candidate, shop
         if measured and options:
             from . import vehicle_rear_ground
             # Two observations behind the same bumper can sample different depths in its parking strip.
@@ -387,6 +453,17 @@ def outcome(request, photo, surface, packet, mark=None, *, qualifier_packets=Non
             reason = 'measured_ground_behind_vehicle'
             question = f'Is the highlighted ground behind the {label} where you want to get out?'
             evidence['automatic_rear_ground'] = {'track_id':spec['track_id'], 'vehicle':label, 'measurement':option['evidence']}
+            from . import vehicle_profile_ground, vehicle_rear_marked_strip
+            if option['evidence']['recipe'] == vehicle_profile_ground.RECIPE:
+                evidence['tail_orientation_observation'] = tail_packet
+            if (option['evidence']['recipe'] in {vehicle_rear_marked_strip.RECIPE,vehicle_profile_ground.RECIPE}
+                    or conditional_shop):
+                evidence['extended_rear_policy'] = vehicle_rear_marked_strip.RECIPE
+            if conditional_shop:
+                reason = CHOICE_REASON
+                question = (f'I found a space behind the outlined {label}. I couldn’t verify the {conditional_shop} sign. '
+                            'Is this the spot you meant?')
+                evidence['unverified_place_name'] = conditional_shop
         elif len(local_matches) == 1 and not options and not vehicle_relative_bays.restricted_instruction(clean['text']):
             spec, row, ground_conditions = local_matches[0]
             if not ground_conditions and row[2]=='REAR':
@@ -426,7 +503,7 @@ def outcome(request, photo, surface, packet, mark=None, *, qualifier_packets=Non
                                           if s['box'] in boxes and a[2] == 'REAR' and
                                           single_vehicle.visible_vehicle_end(s['box'], (frame['width'], frame['height']))]
     answer = whole_bay._make(clean, portable, options, surface, method=whole_bay.MARK if mark else whole_bay.AUTO,
-                             reason=reason, question=question, tap=center, require_choice=measured is None, **evidence)
+                             reason=reason, question=question, tap=center, require_choice=measured is None or bool(conditional_shop), **evidence)
     if boxes:
         answer['result']['anchor_boxes_xyxy'] = boxes
     return answer
@@ -436,7 +513,7 @@ def available(request, photo=None, surface=None, mark=None, *, earlier_vehicle=N
     if not direct_reference(request):
         return None
     key = request['scene']['provenance'].get('image_sha256')
-    from . import local_surfaces, local_vehicle_observations
+    from . import local_surfaces, local_vehicle_observations, local_vehicle_tail
     packet = (local_vehicle_observations.get_packet(key) if local_surfaces.local_only(request['scene'])
               else read_photo_packet(BANK, key, 8192))
     if packet is None:
@@ -448,7 +525,7 @@ def available(request, photo=None, surface=None, mark=None, *, earlier_vehicle=N
         photo = Path(request['scene']['frame']['image_path']).read_bytes()
     try:
         return outcome(request, photo, surface, packet, mark, earlier_vehicle=earlier_vehicle, measure_rear=True,
-                       load_archived_identity=True)
+                       load_archived_identity=True, extended_rear=True, tail_packet=local_vehicle_tail.get_packet(key))
     except (KeyError, TypeError, ValueError, OSError):
         return None
 

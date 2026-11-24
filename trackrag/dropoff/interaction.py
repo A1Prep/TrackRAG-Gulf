@@ -459,7 +459,12 @@ class PassengerSession:
                     bay['reference_kind']='possible_vehicle'
             if receipt is not None and receipt["provenance"].get("bay_outline"):
                 bay["bay_outline"] = receipt["provenance"]["bay_outline"]
-                rear = receipt['provenance'].get('automatic_rear_ground')
+                proof = receipt['provenance']
+                chosen_from = proof.get('choice_source',{}).get('provenance',{})
+                if chosen_from.get('unverified_place_name') and chosen_from.get('automatic_rear_ground'):
+                    proof = chosen_from
+                    bay['unverified_place_name'] = proof['unverified_place_name']
+                rear = proof.get('automatic_rear_ground')
                 if rear:
                     bay['rear_vehicle'] = rear['vehicle']
             if self._bay_menu is not None:

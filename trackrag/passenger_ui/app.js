@@ -126,6 +126,7 @@ function suggestion(v, bay) {
   const point = v.result?.destination_point_xy;
   if (!point) return "Choose a location on the photo.";
   const where = positionWords(point, canvas.width, canvas.height);
+  if (v.unverified_place_name && v.rear_vehicle && bay) return "You chose the ground behind the outlined " + v.rear_vehicle + ". The " + v.unverified_place_name + " sign is still unverified. Save this location if the ring is where you meant.";
   if (v.rear_vehicle && bay) return "The gold ring marks the open ground behind the outlined " + v.rear_vehicle + ". Is this where you want to get out?";
   if (bay?.extent === "interior_point_only") return (bay.passenger_tap_xy ? "The blue diamond marks your tap. " : "")
     + "The gold ring shows the spot in the " + where + " of the photo. Check that it is where you meant.";

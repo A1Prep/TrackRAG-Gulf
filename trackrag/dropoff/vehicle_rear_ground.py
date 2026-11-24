@@ -29,6 +29,18 @@ def _runs(indices):
             yield int(chunk[0]), int(chunk[-1])
 
 
+def contains_measured_point(option, point, frame):
+    """Two points can occupy different depths in the same precisely observed strip."""
+    evidence = option['evidence']
+    if evidence.get('recipe') != RECIPE or not evidence.get('surface_map_size'):
+        return False
+    w, h = evidence['surface_map_size']
+    map_x = point[0]*w/frame['width'] - .5
+    map_y = round(point[1]*h/frame['height'] - .5)
+    return any(y == map_y and min(lane,kerb)+1 <= map_x <= max(lane,kerb)-1
+               for y,lane,kerb in evidence['bounds_map_y_lane_curb'])
+
+
 def _white_paint(rgb, y, left, right, vehicle_width):
     """Require an optical light ridge on both sides of the model's marking."""
     margin = max(2, round(0.08 * vehicle_width))
@@ -232,7 +244,7 @@ def candidates(original, classes, scene, anchor, *, facing):
              "evidence":{"recipe":RECIPE,"coverage":"interior_point_only","curb_side":"right" if direction==1 else "left",
                          "anchor_id":int(vehicle[0]),"aligned_neighbour_id":int(partner),"verified_facing":facing,
                          "section_count":len(sections),"surface_map_size":[w,h],
-                         "bounds_map_y_lane_curb":[[s.y,s.lane,s.curb] for s in (sections[0],middle,sections[-1])],
+                         "bounds_map_y_lane_curb":[[s.y,s.lane,s.curb] for s in sections],
                          "divider_observations":{k:sum(s.boundary==k and bool(s.optical) for s in sections)
                                                  for k in ("paint","parking_material")},
                          "point_surface_class":int(classes[y,x]),"source_sha256":ctx["image_sha256"],

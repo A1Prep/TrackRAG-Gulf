@@ -356,9 +356,11 @@ def outcome(request, photo, surface, packet, mark=None, *, qualifier_packets=Non
     if measure_rear and mark is None and ref['relation'] == 'behind':
         measured = _measured_rear(clean, ref, specs, answers, observations, photo, classes)
         if measured and options:
-            # Preserve an earlier observed location if the independent measurements disagree.
+            from . import vehicle_rear_ground
+            # Two observations behind the same bumper can sample different depths in its parking strip.
             same_strip = any(cv2.pointPolygonTest(np.float32(o['polygon']), tuple(measured[2]['point']), False) >= 0
                              or cv2.pointPolygonTest(np.float32(measured[2]['polygon']), tuple(o['point']), False) >= 0
+                             or vehicle_rear_ground.contains_measured_point(measured[2], o['point'], clean['scene']['frame'])
                              for o in options)
             if not same_strip:
                 measured = None

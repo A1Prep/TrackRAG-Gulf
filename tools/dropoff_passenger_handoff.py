@@ -483,7 +483,19 @@ def main():
     j.add_argument("--parking-artifacts", type=Path, help="Optional private artifacts for offline verification of parking-model decisions")
     for sub in (b, j):
         sub.add_argument("--out", required=True, type=Path)
+        sub.add_argument('--local-surface-index',nargs=2,action='append',metavar=('JSON','SHA256'),
+                         help='Register the original local segmentation release used in this interaction')
+        sub.add_argument('--local-observations',nargs=2,action='append',metavar=('JSON','SHA256'),
+                         help='Register the local curb and frontage observations used in this interaction')
+        sub.add_argument('--local-vehicle-observations',nargs=2,action='append',metavar=('JSON','SHA256'),
+                         help='Register the source-bound local vehicle crop readings used in this interaction')
     args = parser.parse_args()
+    from trackrag.dropoff import local_8b_observations, local_surfaces, local_vehicle_observations
+    for files,register in ((args.local_surface_index,local_surfaces.register),
+                           (args.local_observations,local_8b_observations.register),
+                           (args.local_vehicle_observations,local_vehicle_observations.register)):
+        for path,pin in files or []:
+            register(path,pin)
     data = (batch(args.run, args.requests, args.replay) if args.mode == "batch" else
             session(args.journal, referent_path=args.referent,pair_geometry=args.geometry,road_cache=args.road_cache,
                     parking_artifacts=args.parking_artifacts))

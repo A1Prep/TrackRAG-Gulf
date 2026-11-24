@@ -57,6 +57,12 @@ def test_ground_on_both_sides_can_be_proved_by_paint_or_a_distinct_parking_mater
     assert y>anchor["box"][3] and classes[int(y),int(x)] == surface
     buffer=BytesIO(); rgb.save(buffer,format="PNG")
     assert rear.candidates(buffer.getvalue(),classes,scene,anchor,facing="REAR") == result
+    first, last = evidence['bounds_map_y_lane_curb'][0], evidence['bounds_map_y_lane_curb'][-1]
+    assert last[0] > first[0] + 7
+    y, lane, kerb = first
+    assert rear.contains_measured_point(point, [(lane+kerb)/2+.5,y+.5],scene['frame'])
+    assert not rear.contains_measured_point(point,[min(lane,kerb)-2,y+.5],scene['frame'])
+    assert not rear.contains_measured_point(point,[(lane+kerb)/2+.5,last[0]+9],scene['frame'])
 
 
 @pytest.mark.parametrize("facing", ["FRONT","SIDE","UNCLEAR",None])

@@ -2,6 +2,7 @@
 from hashlib import sha256
 from io import BytesIO
 import json
+import sys
 
 from PIL import Image, ImageDraw
 import pytest
@@ -130,3 +131,21 @@ def test_source_only_inventory_rejects_substituted_detector_and_replaced_raw_box
     native.write_bytes(signed_bytes(altered)+b'\n')
     with pytest.raises(ValueError,match='raw Task 1'):
         task1(bank,scene,info)
+
+
+def test_separate_journal_export_registers_operator_pins_before_source_replay(tmp_path,monkeypatch):
+    from tools import dropoff_passenger_handoff as handoff
+    from trackrag.dropoff import local_8b_observations
+    registrations=[]
+    for name,module in [('map',local.local_surfaces),('curb',local_8b_observations),('vehicle',local)]:
+        monkeypatch.setattr(module,'register',lambda path,pin,name=name:registrations.append((name,path,pin)))
+    def replay(journal,**kwargs):
+        assert registrations==[('map','index','a'*64),('curb','ground','b'*64),('vehicle','cars','c'*64)]
+        return {'verified':True}
+    out=tmp_path/'actual.json'
+    monkeypatch.setattr(handoff,'session',replay)
+    monkeypatch.setattr(sys,'argv',['handoff','session','--journal','original','--out',str(out),
+        '--local-vehicle-observations','cars','c'*64,'--local-surface-index','index','a'*64,
+        '--local-observations','ground','b'*64])
+    handoff.main()
+    assert json.loads(out.read_bytes())=={'verified':True}

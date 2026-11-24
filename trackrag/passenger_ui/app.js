@@ -1,6 +1,6 @@
 import {addFrame, openFrame} from "./frames.js";
 import {noSound, openMicrophone} from "./capture.js";
-import {VehiclePairPicker, drawChosenLandmarks, drawVehicleReferences} from "./pair-choices.js";
+import {VehiclePairPicker, drawChosenLandmarks, drawLandmarkCrop, drawVehicleReferences} from "./pair-choices.js";
 import {PhotoTools, bayAtPoint, bayChoices, bayName, boxCentre, destinationLabel, drawBays,
   drawCheckedMark, drawDestination, offeredBay, positionWords} from "./photo-tools.js";
 
@@ -319,6 +319,14 @@ function render() {
   text(el("answer-yes"), v.word_confirmation ? "Yes, I meant a car" : "Yes, that vehicle");
   el("draw").hidden = !(decision && canMark(v));
   el("draw").disabled = locked || !ready;
+  const driverLandmark = decision && v.references_only && !v.reference_kind && !yesNo &&
+    v.result?.anchor_boxes_xyxy?.length === 1 && !choices.length && Boolean(firstRequest);
+  el("show-driver").hidden = !driverLandmark;
+  el("show-driver").disabled = locked || !ready;
+  const driverDialog=el("driver-landmark");
+  if (driverDialog.open && (!driverLandmark || !ready || driverDialog.dataset.session !== session?.session ||
+      driverDialog.dataset.revision !== String(session?.revision)))
+    driverDialog.close();
   el("take-over-area").hidden = !pending;
   el("take-over-area").disabled = locked || !ready || !v.can_request_area;
   el("draw").className = v.state === "proposed" || choices.length || yesNo ? "subtle" : "primary";
@@ -481,6 +489,19 @@ el("pan").onclick = () => {
   if (!photo.panning) photo.focusPhoto();
 };
 el("draw").onclick = () => photo.begin(session?.view.result?.destination_point_xy);
+el("show-driver").onclick = () => {
+  const dialog=el("driver-landmark"), v=session?.view;
+  if (el("show-driver").hidden || el("show-driver").disabled || dialog.open) return;
+  const words=v.turns.filter(turn=>turn.role==="user");
+  text(el("driver-words"),words[0].text);
+  const last=words.filter(turn=>!/^\s*(yes|no)[.!?]?\s*$/i.test(turn.text)).at(-1);
+  el("driver-detail").hidden = !last || last.text === words[0].text;
+  if (!el("driver-detail").hidden) text(el("driver-detail"),"Passenger’s clarification · "+last.text);
+  dialog.dataset.session=session.session;
+  dialog.dataset.revision=String(session.revision);
+  dialog.showModal();
+  drawLandmarkCrop(el("driver-photo"),image,v.result.anchor_boxes_xyxy[0]);
+};
 function selectBay(id) {
   if (busy || !visibleChoices(session?.view || {}).some(bay => bay.id === id)) return;
   perform(() => action("select-bay",{bay_id:id}), "Opening the selected bay…",focusResult);

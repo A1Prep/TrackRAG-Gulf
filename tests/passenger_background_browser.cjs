@@ -257,6 +257,7 @@ async function main() {
       s.finish({state:"needs_clarification",proposal_id:null,...scenario.field,
         result:{clarification_question:scenario.question,anchor_boxes_xyxy:[[44,80,125,146]]}});
       await heading(p,scenario.heading);
+      assert(await p.locator("#show-driver").isHidden());
       assert(await p.locator("#confirm").isHidden());
       await p.locator("#"+scenario.button).click(); await p.locator("#take-over-area").waitFor();
       assert.deepEqual(s.requests.at(-1).body,{text:scenario.reply,mode:"typed",background:true});
@@ -287,6 +288,13 @@ async function main() {
       s.finish({state:"needs_clarification",proposal_id:null,references_only:true,
         result:{anchor_boxes_xyxy:[[482,112,540,160]],clarification_question:"I found the vehicle. Can you mark the ground?"}});
       await heading(p,"I found the vehicle you described");
+      const actions=s.requests.length;
+      await p.locator("#show-driver").click(); await p.getByRole("dialog").waitFor();
+      assert.equal(await p.locator("#driver-words").innerText(),words);
+      assert.match(await p.locator("#driver-note").innerText(),/exact drop-off point is still open/);
+      assert(await p.locator("#driver-photo").evaluate(c=>c.getContext("2d").getImageData(0,0,1,1).data[3]===255));
+      await p.keyboard.press("Escape"); assert(await p.getByRole("dialog").isHidden());
+      assert.equal(s.requests.length,actions,"showing the landmark must not submit anything");
       await p.locator("#zoom-in").click();
       const placement = await p.locator("#photo-viewport").evaluate(v => {
         const r=v.getBoundingClientRect(), c=v.querySelector("canvas").getBoundingClientRect();

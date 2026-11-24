@@ -1,6 +1,7 @@
 """Local release replay and ordinary abstention, using generated pixels and synthetic raw readings."""
 from hashlib import sha256
 from io import BytesIO
+import json
 
 from PIL import Image, ImageDraw
 import pytest
@@ -108,3 +109,24 @@ def test_empty_measured_source_and_missing_archive_keep_zero_readings(evidence):
     p=local.get_packet(body['image_sha256'])
     assert local.verify(scene,photo,[],p)==[]
     assert local.get_packet('9'*64) is None
+
+
+def test_source_only_inventory_rejects_substituted_detector_and_replaced_raw_boxes(tmp_path,monkeypatch):
+    from tests.test_passenger_local_photos import FakeIoUTracker, OneCar, manifest, source
+    from tools import passenger_local_photos as intake
+    from tools.passenger_local_vehicle_views import task1
+    from trackrag.passenger_app import load_scenes
+    manifest_path=manifest(tmp_path,[source(tmp_path,'42',3)])
+    config=intake.load_config(intake.ROOT/'configs/vision/finetuned.json',device='cpu')
+    bank=intake.prepare(manifest_path,tmp_path/'bundle',config,detector_factory=OneCar,tracker_factory=FakeIoUTracker)
+    scene=next(iter(load_scenes([bank]).values()))
+    info=json.loads((bank.parent/'sources.json').read_bytes())
+    monkeypatch.setattr(local.local_surfaces,'matches_scene',lambda _:True)
+    with pytest.raises(ValueError,match='real detector'):
+        task1(bank,scene,info)
+    native=next((bank.parent/'predictions').glob('*.detections.jsonl'))
+    altered=json.loads(native.read_bytes())
+    altered['native'][0]['bbox_xyxy']=[1.,1.,12.,10.]
+    native.write_bytes(signed_bytes(altered)+b'\n')
+    with pytest.raises(ValueError,match='raw Task 1'):
+        task1(bank,scene,info)

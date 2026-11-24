@@ -104,7 +104,7 @@ def _measured_rear(request, ref, specs, answers, observations, photo, classes):
     spec, row = matches[0]
     if row[2] != 'REAR' or not single_vehicle.visible_vehicle_end(spec['box'], (frame['width'], frame['height'])):
         return None
-    options = vehicle_rear_ground.candidates(photo, classes, request['scene'], spec, facing='rear')
+    options = vehicle_rear_ground.candidates(photo, classes, request['scene'], spec, facing=row[2])
     if len(options) != 1:
         return None
     option = options[0]

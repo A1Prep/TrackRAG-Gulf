@@ -156,7 +156,7 @@ def _qualified_run(sections, vehicle, neighbour):
 
 
 def candidates(original, classes, scene, anchor, *, facing):
-    """Return a point only for a verified rear, row neighbour, outer kerb and continuous white paint.
+    """Measure a point using a verified rear, an aligned vehicle, the kerb, and a visible parking boundary.
 
     The caller establishes vehicle identity and source integrity. The geometry independently
     checks the current-frame box, original dimensions, detector exclusions and connected pavement.
@@ -231,7 +231,8 @@ def candidates(original, classes, scene, anchor, *, facing):
     return [{"point":point,"box":box,"polygon":[p0,[p1[0],p0[1]],p1,[p0[0],p1[1]]],
              "evidence":{"recipe":RECIPE,"coverage":"interior_point_only","curb_side":"right" if direction==1 else "left",
                          "anchor_id":int(vehicle[0]),"aligned_neighbour_id":int(partner),"verified_facing":facing,
-                         "section_count":len(sections),"bounds_native":[[s.y,s.lane,s.curb] for s in (sections[0],middle,sections[-1])],
+                         "section_count":len(sections),"surface_map_size":[w,h],
+                         "bounds_map_y_lane_curb":[[s.y,s.lane,s.curb] for s in (sections[0],middle,sections[-1])],
                          "divider_observations":{k:sum(s.boundary==k and bool(s.optical) for s in sections)
                                                  for k in ("paint","parking_material")},
                          "point_surface_class":int(classes[y,x]),"source_sha256":ctx["image_sha256"],

@@ -54,6 +54,13 @@ PHOTO_PACKS = (
     (EXTRA_PHOTO_BANK, EXTRA_PHOTO_RESULTS, tuple((kind, *pin) for kind, pin in EXTRA_MODEL_FILES.items())),
     (REAR_PHOTO_BANK, REAR_PHOTO_RESULTS, REAR_MODEL_FILES),
     (RESERVE_PHOTO_BANK, RESERVE_PHOTO_RESULTS, RESERVE_MODEL_FILES),
+    ("data/uae-parking-local-rear-transfer-a-20261124/passenger-requests.jsonl",
+     "experiments/dropoff/passenger-rear-transfer-a-photos-20261124", (
+         ("local_surface_index", "passenger-local-image-surfaces-v1.json",
+          "6200d8c9e8f02e9ddb8e604b83fb99a4b910be2b32b4f8dd0a7ad3e5d19171b8"),
+         ("local_vehicle_observations", "vehicle-observations-v2.json",
+          "73627772dbeb5140c8d27cb8bcf63bb46272e8af8c6114bac77ca2bf063885c7"),
+     )),
 )
 
 

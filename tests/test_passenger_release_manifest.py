@@ -182,3 +182,11 @@ def test_portable_installer_binds_all_public_photos_to_their_original_frames(tmp
     with pytest.raises(ValueError, match="does not match"):
         photos.write_request_bank(tmp_path, {"photos": mismatched}, banks)
     assert target.read_bytes() == original
+
+
+def test_photo_pack_model_pins_resolve_to_the_released_bytes():
+    from hashlib import sha256
+    for _, directory, files in release.PHOTO_PACKS:
+        for _, name, expected in files:
+            raw = (release.ROOT / directory / name).read_bytes().replace(b'\r\n',b'\n')
+            assert sha256(raw).hexdigest() == expected, (directory, name)

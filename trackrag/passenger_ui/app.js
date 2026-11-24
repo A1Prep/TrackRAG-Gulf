@@ -208,7 +208,8 @@ function legend(v, offerMark, bay, choices) {
   else if (pin) {
     if (bay) {
       node.dataset.kind = "bay";
-      label = bay.extent === "interior_point_only" ? "Gold ring at the selected spot" : bay.extent === "visible_parking_surface" ? "Visible parking area · Gold ring at selected location" : "Gold ring at bay centre";
+      label = bay.extent === "interior_point_only" ? "Gold ring at the proposed spot" : bay.extent === "visible_parking_surface" ? "Gold ring inside the visible parking area" : "Gold ring at bay centre";
+      if (v.state === "confirmed" && bay.extent === "interior_point_only") label = "Gold ring at your spot";
       if (v.rear_vehicle) label = "Gold ring behind the vehicle · Blue outline around the " + v.rear_vehicle;
       if (bay.passenger_tap_xy) label += " · Blue diamond at " + tapName(v).toLowerCase();
     } else label = destinationLabel(v);
@@ -452,7 +453,7 @@ function paint() {
     if (mark) drawCheckedMark(ctx,boxCentre(mark.box),scale);
     return;
   }
-  if (bay) { drawBays(ctx,[bay],scale,false,tapName(v)); return; }
+  if (bay) { drawBays(ctx,[bay],scale,false,tapName(v),v.state==="confirmed"); return; }
   if (["passenger_landmarks","parking_model"].includes(v.selected_by)) drawChosenLandmarks(ctx, v.result.anchor_boxes_xyxy, scale);
   const showBox = v.selected_by!=="passenger" || mark?.dragged;
   drawDestination(ctx, v.result.destination_point_xy, showBox ? v.result.destination_box_xyxy : null, v.selected_by, scale);

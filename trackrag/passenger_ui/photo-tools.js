@@ -96,7 +96,7 @@ function bayLabels(ctx, labels, scale) {
 }
 
 // Coordinates come from this request's road-photo result. Its bounding box is not the painted bay.
-export function drawBays(ctx, bays, scale, choosing, tapLabel = "Your tap") {
+export function drawBays(ctx, bays, scale, choosing, tapLabel = "Your tap", saved = false) {
   ctx.save(); ctx.lineJoin = "round";
   const labels = [];
   for (const [index,bay] of bays.entries()) {
@@ -107,7 +107,8 @@ export function drawBays(ctx, bays, scale, choosing, tapLabel = "Your tap") {
       ctx.lineWidth = 4.5*scale; ctx.strokeStyle = markerDark; ctx.stroke();
       ctx.lineWidth = 2.5*scale; ctx.strokeStyle = bayGold; ctx.stroke();
     }
-    const label = bay.extent === "interior_point_only" ? "Selected spot" : bay.extent === "visible_parking_surface" ? "Parking area" : "Bay centre";
+    const pointLabel = saved ? "Saved spot" : "Suggested spot";
+    const label = bay.extent === "interior_point_only" ? pointLabel : bay.extent === "visible_parking_surface" ? "Parking area" : "Bay centre";
     labels.push({id:bay.id,point:bay.center_xy,text:choosing ? bayName(index,bay) : label,color:bayGold});
   }
   const tap = bays.find(bay => bay.passenger_tap_xy)?.passenger_tap_xy;

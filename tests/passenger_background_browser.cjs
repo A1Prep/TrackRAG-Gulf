@@ -146,7 +146,7 @@ async function main() {
   });
   await new Promise(done=>server.listen(0,"127.0.0.1",done));
   const url="http://127.0.0.1:"+server.address().port;
-  const browser=await chromium.launch({executablePath:process.env.PASSENGER_CHROMIUM||undefined,headless:true});
+  const browser=await chromium.launch({executablePath:process.env.PASSENGER_CHROMIUM||undefined,headless:true,args:["--disable-gpu"]});
   try {
     // Completed typed request restores the normal proposal, without blocking browser navigation during acknowledgment or polling.
     {

@@ -18,7 +18,7 @@ from dataclasses import asdict, dataclass
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 from time import monotonic
-from urllib.parse import urlsplit
+from urllib.parse import parse_qs, urlsplit
 
 from PIL import Image
 
@@ -282,7 +282,39 @@ class PassengerSite:
         with self.scene_lock:
             covered = sorted(self.footage_scenes)
             frames = [public_frame(key, self.scenes[key]) for key in covered]
-        return {"scenes": frames, "footage_available": bool(covered), "footage_scenes": covered}
+        return {"scenes": frames, "footage_available": bool(covered), "footage_scenes": covered,
+                "moments_available": bool(covered)}
+
+    def footage_moments(self, query, offset):
+        from trackrag.footage_moments import PAGE_SIZE, search_type
+
+        kind = search_type(query)
+        if kind is None:
+            raise PassengerRequestError(400, 'Search by road-user type, such as “buses” or “pedestrians”, or try “busy traffic”.')
+        if type(offset) is not int or not 0 <= offset <= 1_000_000:
+            raise PassengerRequestError(400, "Choose a valid results page.")
+        with self.scene_lock:
+            anchors = {}
+            ordered = sorted(self.footage_scenes, key=lambda key: self.scenes[key]["frame"]["frame_id"])
+            for key in ordered:
+                scene = self.scenes[key]
+                anchors.setdefault(scene["frame"]["recording_id"], (key, scene))
+        if not anchors:
+            raise PassengerRequestError(404, "Attach original footage and its saved tracks to find moments.")
+
+        matches = []
+        unavailable = 0
+        for name, (key, scene) in anchors.items():
+            try:
+                moments = self.footage.moments(scene)
+            except (KeyError, OSError, ValueError):
+                unavailable += 1
+                continue
+            matches.extend({**moment, "recording_id": name, "scene": key} for moment in moments.get(kind, []))
+        matches.sort(key=lambda row: (-row["observations"], row["recording_id"], row["frame_id"]))
+        stop = offset + PAGE_SIZE
+        return {"matches": matches[offset:stop], "total": len(matches), "next_offset": stop if stop < len(matches) else None,
+                "recordings_searched": len(anchors) - unavailable, "recordings_unavailable": unavailable}
 
     def check_footage_coverage(self, minimum):
         covered = {self.scenes[key]["frame"]["recording_id"] for key in self.footage_scenes}
@@ -612,15 +644,25 @@ def handler(site):
             allowed = {f"127.0.0.1:{self.server.server_port}", f"localhost:{self.server.server_port}"}
             if host not in allowed or self.headers.get("Origin") not in (None, f"http://{host}"):
                 raise PassengerRequestError(403, "Use this application from its local address.")
-            path = urlsplit(self.path).path
+            address = urlsplit(self.path)
+            path = address.path
             if method == "GET":
                 if path in STATIC:
                     filename, mime = STATIC[path]
                     return self.send_data(200, mime, (ASSETS / filename).read_bytes())
                 if path == "/api/scenes":
-                    return self.respond(site.catalog(include_parking=urlsplit(self.path).query != "preview=1"))
+                    return self.respond(site.catalog(include_parking=address.query != "preview=1"))
                 if path == "/api/footage-catalog":
                     return self.respond(site.footage_catalog())
+                if path == "/api/footage-moments":
+                    parameters = parse_qs(address.query, keep_blank_values=True)
+                    query = parameters.get("q", [])
+                    if len(query) != 1:
+                        raise PassengerRequestError(400, "Enter one search for moments.")
+                    page = parameters.get("offset", ["0"])
+                    if len(page) != 1 or not re.fullmatch(r"[0-9]{1,7}", page[0]):
+                        raise PassengerRequestError(400, "Choose a valid results page.")
+                    return self.respond(site.footage_moments(query[0], int(page[0])))
                 dropoff = re.fullmatch(r"/api/footage-preview/([a-f0-9]{24})/dropoff/(\d{1,10})", path)
                 if dropoff and dropoff[1] in site.footage_scenes:
                     bound = site.open_recording_frame(dropoff[1], int(dropoff[2]), for_footage=True)

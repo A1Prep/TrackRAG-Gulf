@@ -1,4 +1,54 @@
 .recording-card, .ask-card { min-width: 0; border-radius: var(--radius); box-shadow: var(--panel-shadow); }
+#browse-moments { min-height: 0; margin-left: 5px; padding: 2px 0; font-size: inherit; }
+#browse-moments[aria-expanded="true"] { color: var(--ink); }
+.moment-search {
+  padding: clamp(14px, 2vw, 24px);
+  margin-bottom: clamp(13px, 2vw, 24px);
+  background: white;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: var(--panel-shadow);
+}
+.moment-form { max-width: 640px; }
+.moment-form label { margin-bottom: 6px; }
+.moment-form > div { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 8px; }
+.moment-form input {
+  min-width: 0;
+  min-height: 42px;
+  padding: 7px 11px;
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  font: inherit;
+  color: var(--ink);
+  background: #fafcfb;
+}
+.moment-examples { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 9px; }
+.moment-examples button { min-height: 31px; padding: 4px 10px; font-size: .82rem; }
+#moment-status { color: var(--quiet); font-size: .86rem; }
+#moment-status:not(:empty) { margin-top: 12px; }
+.moment-results {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(200px, 100%), 1fr));
+  gap: 10px;
+  list-style: none;
+  padding: 0;
+  margin: 10px 0 0;
+}
+.moment-results:empty { display: none; }
+.archive-moment {
+  display: block;
+  width: 100%;
+  padding: 0;
+  text-align: left;
+  color: var(--ink);
+  background: #f6faf8;
+  border: 1px solid var(--line);
+  overflow: hidden;
+}
+.archive-moment:hover:enabled { background: #e6f5ee; border-color: #469581; }
+.archive-caption { display: grid; gap: 4px; padding: 8px 10px; }
+.archive-caption > span { color: var(--quiet); font-size: .76rem; }
+#more-moments { margin-top: 6px; }
 .recording-card .scene-controls { padding-inline: 15px; }
 .recording-card .scene-controls select { min-width: min(12rem, 58%); }
 .clip-player { background: var(--deep); }
@@ -166,6 +216,9 @@
   .recording-card { position: sticky; top: 14px; }
 }
 @media (max-width: 540px) {
+  .moment-results { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .archive-caption { padding: 6px; }
+  .archive-caption > strong { font-size: .83rem; }
   .recording-card .scene-controls { padding-inline: 9px; }
   .clip-controls { padding: 7px 9px; gap: 7px; }
   #clip-play { min-width: 63px; padding-inline: 8px; }

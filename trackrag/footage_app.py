@@ -142,16 +142,18 @@ class FootageReview:
             return False
         return True
 
-    def ask(self, scene, text, *, hosted=False, image_guard=None):
-        from trackrag.answering import UNMEASURED_SPEED, answer_question, asks_for_unmeasured_speed, spatial_reference_from_tracks
+    def ask(self, scene, text, *, hosted=False, image_guard=None, selection=None, image_relation=False):
+        from trackrag.answering import (UNMEASURED_SPEED, answer_question, asks_for_unmeasured_speed,
+                                        selected_vehicle_question, spatial_reference_options)
         from trackrag.footage_facts import answer_from_tracks, supports_track_question
         from trackrag import footage_history
+        from trackrag import footage_proximity
         from trackrag.playback_time import playback_scope
         from trackrag.evidence_time import requested_frame_ids
         from trackrag.retrieval_temporal import build_index, rank_evidence
         from trackrag.review import review_recording
 
-        if not isinstance(text,str) or not 1 <= len(text.strip()) <= 4096 or type(hosted) is not bool:
+        if not isinstance(text,str) or not 1 <= len(text.strip()) <= 4096 or type(hosted) is not bool or type(image_relation) is not bool:
             raise ValueError("Enter a recording question and select an available answer mode.")
         original = scene["frame"]
         prefix, tracks, receipt = self._bound_source(scene)
@@ -160,9 +162,43 @@ class FootageReview:
         question = {"question_id":key,"recording_id":prefix.recording_id,
                     "query_frame":original["frame_id"],"question":text.strip()}
         clock = playback_scope(text, prefix, original["frame_id"])
-        clarification = None if hosted else spatial_reference_from_tracks(question, scene["tracks"], original["width"])
+        clarification, options = spatial_reference_options(question, scene["tracks"], original["width"], original["height"])
+        # Bind a choice to its original words, photograph, frame, run and actual detected boxes.
+        # Selection is always reconstructed from the verified current tracks, including on a retry.
+        binding = None
+        selected = None
+        if options:
+            source = scene["provenance"]
+            material = ["footage-vehicle-choice-v1", prefix.recording_id, original["frame_id"], source["image_sha256"],
+                        source["prediction_provenance_sha256"], text.strip(), options]
+            binding = sha256(json.dumps(material, sort_keys=True, separators=(",", ":")).encode()).hexdigest()
+        if selection is not None:
+            if (not binding or not isinstance(selection, dict) or set(selection) != {"binding", "track_id"}
+                    or type(selection.get("track_id")) is not int or selection.get("binding") != binding):
+                raise ValueError("This vehicle choice belongs to a different question or frame. Search again.")
+            selected = next((o for o in options if o["track_id"] == selection["track_id"]), None)
+            if selected is None:
+                raise ValueError("That vehicle is not a choice in this frame. Search again.")
+            question["question"] = selected_vehicle_question(text.strip(), selected["track_id"])
+            clarification = None
+        proximity = footage_proximity.physical_question(question["question"])
+        if image_relation:
+            if not footage_proximity.can_reframe(proximity) or not hosted or clarification:
+                raise ValueError("Choose a current vehicle and request a visual comparison for this question.")
+            question["question"] = footage_proximity.image_question(proximity)
+        distance_limited = bool(proximity and not image_relation)
         unmeasured_speed = asks_for_unmeasured_speed(text)
         history = footage_history.intent(text)
+        def rank_reference(q,index,k):
+            intervals = rank_evidence(q, index, k=k, observation_source="predicted")
+            ranked_ids = {item["track_id"] for item in intervals if item["start_frame"] == item["end_frame"] == q["query_frame"]}
+            if None in ranked_ids and (not selected or selected["track_id"] in ranked_ids):
+                return intervals
+            # A distance query may intentionally have no ranked physical evidence. For a current
+            # identity choice we can still show the verified object and the exact paused image.
+            ids = [selected["track_id"],None] if selected else [None,*(o["track_id"] for o in options)]
+            return [{"recording_id":q["recording_id"],"source":"predicted","track_id":track,"start_frame":q["query_frame"],
+                     "end_frame":q["query_frame"],"rank":rank,"score":1.0} for rank,track in enumerate(ids[:k],1)]
         def local_answer(q, evidence, _folder):
             if unmeasured_speed:
                 return {"answer_status":"insufficient_evidence","answer":UNMEASURED_SPEED,"cited_evidence_ids":[]}
@@ -170,6 +206,14 @@ class FootageReview:
                                      any(image["frame_id"] == q["query_frame"] for image in item["images"])
                                      for item in evidence):
                 return {"answer_status":"insufficient_evidence","answer":clarification,"cited_evidence_ids":[]}
+            if distance_limited:
+                return {"answer_status":"insufficient_evidence","cited_evidence_ids":[],
+                        "answer":footage_proximity.limitation(q["query_frame"],selected["track_id"] if selected else None)}
+            if selected:
+                return {"answer_status":"insufficient_evidence",
+                        "answer":f'Track {selected["track_id"]} is selected. The recorded tracks give its image position. '
+                                 'A visual review is needed to assess the relationship you asked about.',
+                        "cited_evidence_ids":[]}
             exact = requested_frame_ids(text)
             moments = clock.get("moments", []) if clock else []
             fid = moments[0]["frame_id"] if moments else exact[0] if len(exact) == 1 else original["frame_id"]
@@ -181,16 +225,21 @@ class FootageReview:
                               "answer":"The saved tracks and the retrieved frames do not establish that detail at the requested moment.",
                               "cited_evidence_ids":[]}
 
-        local = not hosted and (unmeasured_speed or clarification is not None or history is not None or supports_track_question(text))
+        local = bool(clarification or distance_limited or (not hosted and (selected or unmeasured_speed or history is not None or supports_track_question(text))))
+        use_provider = hosted and not local
         local_history = local and history is not None
-        answerer = "gemini" if hosted else "local_tracks" if local else "evidence_only"
+        answerer = "local_tracks" if local else "gemini" if use_provider else "evidence_only"
+        selection_metadata = {"original_question":text.strip(),"selected_vehicle":selected,"binding":binding,
+                              "image_plane_review":image_relation} if selected or image_relation else {}
+        retriever = (footage_history.intervals if local_history else
+                     rank_reference if distance_limited and (selected or clarification) else rank_evidence)
         result = review_recording(prefix,[question],source="predicted",load_tracks=lambda _: tracks,
-                                  build_index=build_index,rank_evidence=footage_history.intervals if local_history else rank_evidence,
-                                  answer_question=answer_question if hosted else local_answer if local else None,output_dir=folder,
+                                  build_index=build_index,rank_evidence=retriever,
+                                  answer_question=answer_question if use_provider else local_answer if local else None,output_dir=folder,
                                   image_guard=image_guard, image_store=self._images,
                                   run_metadata={"vision":"validated_saved_predictions","prediction_receipt":receipt,
                                                 "retrieval":"trackrag.footage_history" if local_history else "trackrag.retrieval_temporal","boundary_answer":"visual-candidate-v1",
-                                                "answerer":answerer})
+                                                "answerer":answerer, **selection_metadata})
         row = json.loads(result.read_bytes())
         can_answer_from_tracks = (hosted and row["answer"]["answer_status"] == "error"
                                   and supports_track_question(text)
@@ -200,7 +249,10 @@ class FootageReview:
             images = [{"frame_id":im["frame_id"],"bbox_xyxy":im.get("bbox_xyxy"),"url":f"/api/footage/{key}/{number}/{i}"}
                       for i,im in enumerate(item["images"])]
             evidence.append({"id":item["evidence_id"],"interval":item["interval"],"images":images})
-        return {"question":question,"answer":row["answer"],"evidence":evidence,"hosted_requested":hosted,
+        return {"question":question,"original_question":text.strip(),"answer":row["answer"],"evidence":evidence,"hosted_requested":hosted,
+                "vehicle_choices":{"binding":binding,"options":options} if clarification and row["answer"]["answer"] == clarification else None,
+                "selected_vehicle":selected, "selection":dict(selection) if selected else None,
+                "image_relation_available":footage_proximity.can_reframe(proximity), "image_plane_review":image_relation,
                 "answer_source":answerer,"can_answer_from_tracks":can_answer_from_tracks,"playback_scope":clock,
                 "vision":"validated_saved_predictions"}
 

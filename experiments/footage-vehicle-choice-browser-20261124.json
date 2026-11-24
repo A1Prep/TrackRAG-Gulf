@@ -1,0 +1,144 @@
+{
+  "scope": "Two real EMT recordings, original paused photos, validated Task 1 predictions, clean desktop and mobile Microsoft Edge sessions on the regular release. The local checks do not send images to a hosted model.",
+  "fixture": "tests/footage_vehicle_choice_browser.cjs",
+  "procedure": "Ask the unqualified vehicle question; inspect two different actual choices in the original; compare their original coordinates; verify the selected object plus full-frame evidence, changing-frame and changed-question controls. Intercept only the final explicit image-plane request before network transmission.",
+  "cases": [
+    {
+      "recording": "video_054907",
+      "frame": 103,
+      "viewport_width": 1366,
+      "question": "Is the truck near the building?",
+      "source": "local_tracks",
+      "first_display_ms": 1884,
+      "choices": [
+        {
+          "track_id": 6,
+          "class_name": "Medium_vehicle",
+          "position": "left"
+        },
+        {
+          "track_id": 1397,
+          "class_name": "Large_vehicle",
+          "position": "centre"
+        }
+      ],
+      "selected": {
+        "track_id": 1397,
+        "class_name": "Large_vehicle",
+        "bbox_xyxy": [
+          1285.37939453125,
+          968.5253295898438,
+          1382.6043701171875,
+          1094.7822265625
+        ],
+        "position": "centre"
+      },
+      "original_box_verified": true,
+      "local_selected_status": "insufficient_evidence",
+      "local_selected_answer": "Track 1397 is selected in frame 103. The camera and recorded tracks do not measure the physical distance to that landmark.",
+      "local_evidence": [
+        {
+          "track": 1397,
+          "frames": [
+            103
+          ]
+        },
+        {
+          "track": null,
+          "frames": [
+            103
+          ]
+        }
+      ],
+      "changed_question_status": 400,
+      "next_frame_disables_choices": true,
+      "verified_explicit_hosted_request_without_forwarding": true,
+      "original_and_outline_screenshot_sha256": "b0a00dc5efb14a8e9bba940b8f555577afd061dd240a8baf9d24eab347bc67cf"
+    },
+    {
+      "recording": "video_054604",
+      "frame": 126,
+      "viewport_width": 390,
+      "question": "Is the car near the building?",
+      "source": "local_tracks",
+      "first_display_ms": 1452,
+      "choices": [
+        {
+          "track_id": 3223,
+          "class_name": "Car",
+          "position": "centre"
+        },
+        {
+          "track_id": 2916,
+          "class_name": "Car",
+          "position": "centre"
+        },
+        {
+          "track_id": 1705,
+          "class_name": "Car",
+          "position": "centre"
+        },
+        {
+          "track_id": 3349,
+          "class_name": "Car",
+          "position": "centre"
+        },
+        {
+          "track_id": 2855,
+          "class_name": "Car",
+          "position": "centre"
+        },
+        {
+          "track_id": 3277,
+          "class_name": "Car",
+          "position": "centre"
+        },
+        {
+          "track_id": 3347,
+          "class_name": "Car",
+          "position": "centre"
+        }
+      ],
+      "selected": {
+        "track_id": 2916,
+        "class_name": "Car",
+        "bbox_xyxy": [
+          875.8612060546875,
+          1001.5709228515625,
+          923.8525390625,
+          1042.065673828125
+        ],
+        "position": "centre"
+      },
+      "original_box_verified": true,
+      "local_selected_status": "insufficient_evidence",
+      "local_selected_answer": "Track 2916 is selected in frame 126. The camera and recorded tracks do not measure the physical distance to that landmark.",
+      "local_evidence": [
+        {
+          "track": 2916,
+          "frames": [
+            126
+          ]
+        },
+        {
+          "track": null,
+          "frames": [
+            126
+          ]
+        }
+      ],
+      "changed_question_status": 400,
+      "next_frame_disables_choices": true,
+      "verified_explicit_hosted_request_without_forwarding": true,
+      "original_and_outline_screenshot_sha256": "05a050ea735e512bedea9311612f4859529c488572bb7c692d7cec7601f7b2c3"
+    }
+  ],
+  "limitations": "One selected example per recording and one latency observation per viewport. Source classes are broad. These checks do not score Gemini answers or infer physical distances.",
+  "separate_independent_generated_fixture": {
+    "count": 24,
+    "passed": 24,
+    "raw_sha256": "adfbb694ec6da4783d0564b52a15cd9517a948b9961758f412f0ed8cbf63c983",
+    "scope": "Question paraphrases, recording/frame/track binding, earlier/future gates and explicit image-versus-physical claims. These use generated photos and a recording stub."
+  },
+  "separate_live_gemini_comparison": "experiments/footage-selected-vehicle-proximity-20261124.json"
+}

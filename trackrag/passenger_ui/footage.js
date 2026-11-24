@@ -31,6 +31,7 @@ const scene = get("scene"), question = get("question"), mode = get("answer-mode"
 const recordings = new Map(), bookmarks = new Map();
 let busy = true, loading = true, sequence = 0, searchRun = null, contexts = {}, subjects = {};
 let lastHints = "", highlight = null, answerMoment = null, submittedHint = null, firstMarker = null;
+let chosenVehicle = null;
 const player = new FootagePlayer(updatePlayer);
 const recordingName = rec => "Recording " + rec.recording_id.replace(/^video_/, "");
 const className = text => (text || "road user").toLowerCase().replace(/_/g, " ");
@@ -47,18 +48,26 @@ function editing(enabled) {
   player.setLocked(!enabled);
   syncButtons();
 }
+function forgetVehicle() {
+  chosenVehicle = null;
+  get("vehicle-focus").hidden = true;
+  for (const button of results.querySelectorAll('.vehicle-choices button[aria-pressed="true"]')) {
+    button.setAttribute("aria-pressed","false");
+  }
+}
 function clearResult() {
   results.replaceChildren();
   answerMoment = null;
   highlight = null;
+  forgetVehicle();
   get("evidence-box").hidden = true;
   get("back-to-answer").hidden = true;
   get("progress").textContent = "";
 }
-function submitWords(words, displayWords = words) {
+function submitWords(words, displayWords = words, selection = null, imageRelation = false) {
   if (!canAsk()) return;
   question.value = displayWords;
-  submittedHint = {words,displayWords,scene:scene.value,frame:player.displayed.id};
+  submittedHint = {words,displayWords,scene:scene.value,frame:player.displayed.id,selection,imageRelation};
   syncButtons();
   get("search").requestSubmit();
 }
@@ -110,6 +119,23 @@ function positionBox(element,rect,rec) {
     width:100*(x1-x0)/rec.width+"%",height:100*(y1-y0)/rec.height+"%"});
   return true;
 }
+function vehicleCrop(option) {
+  const image = get("clip-frame");
+  if (!image.complete || !image.naturalWidth) return null;
+  const [left,top,right,bottom] = option.bbox_xyxy;
+  const crop = node("canvas",undefined,"vehicle-crop");
+  crop.width=140; crop.height=84; crop.setAttribute("aria-hidden","true");
+  const context=crop.getContext("2d");
+  if (!context) return null;
+  const w=Math.min(image.naturalWidth,Math.max(24,(right-left)*1.55,(bottom-top)*1.55*crop.width/crop.height));
+  const h=Math.min(image.naturalHeight,w*crop.height/crop.width);
+  const x=Math.max(0,Math.min(image.naturalWidth-w,(left+right-w)/2));
+  const y=Math.max(0,Math.min(image.naturalHeight-h,(top+bottom-h)/2));
+  context.drawImage(image,x,y,w,h,0,0,crop.width,crop.height);
+  context.strokeStyle="#ffdc62"; context.lineWidth=1.5;
+  context.strokeRect((left-x)*crop.width/w,(top-y)*crop.height/h,(right-left)*crop.width/w,(bottom-top)*crop.height/h);
+  return crop;
+}
 function revealBox(row, rec) {
   const box = get("evidence-box");
   box.hidden = true;
@@ -154,6 +180,10 @@ function representative(frames,rec) {
 function updatePlayer(writeAddress = true) {
   syncButtons();
   const row = player.displayed, rec = recordings.get(scene.value);
+  if (chosenVehicle && (row?.id!==answerMoment?.frame || player.playing)) forgetVehicle();
+  const atQuestion = row && row.id===answerMoment?.frame && scene.value===answerMoment.key && !player.playing && !player.pending;
+  for (const button of results.querySelectorAll(".vehicle-choices button")) button.disabled = busy || !atQuestion;
+  get("vehicle-focus").hidden = !atQuestion || !chosenVehicle || busy;
   if (!row || !rec) { get("evidence-box").hidden = true; return; }
   if (!writeAddress) return;
   const visibleTrack = revealBox(row, rec);
@@ -236,6 +266,7 @@ async function inspect(frame, track = null, rect = null) {
   const index = player.frames.findIndex(f => f.id === frame);
   if (index < 0) return;
   player.pause(false);
+  if (chosenVehicle && (frame!==answerMoment.frame || track!==chosenVehicle.option.track_id)) forgetVehicle();
   highlight = rect && track !== null ? {key:scene.value,frame,track,rect} : null;
   await player.display(index);
   if (player.displayed?.id === frame) {
@@ -278,19 +309,51 @@ function addEvidence(card, item, cited) {
 }
 function showAnswer(body, current, rec, displayWords) {
   const {answer,evidence} = body, status = answer.answer_status;
+  const words = body.original_question || body.question.question;
   answerMoment = {key:scene.value,frame:current.id};
   const card = node("article",undefined,"answer-card"), header = node("div",undefined,"answer-head");
   const titles = {answered:"Answer",insufficient_evidence:"More evidence needed",error:"Search unavailable"};
-  header.append(node("h2",status==="answered" ? displayWords : titles[status] || (evidence.length ? "Frames found" : "No matching evidence")),
+  header.append(node("h2",body.vehicle_choices ? "Choose a vehicle" : body.image_plane_review && status==="answered" ? "Positions in the image" : status==="answered" ? displayWords : titles[status] || (evidence.length ? "Frames found" : "No matching evidence")),
     node("span", {local_tracks:"Recorded tracks",gemini:"Gemini visual review",evidence_only:"Frame search"}[body.answer_source], "answer-source"));
   card.append(header, node("p",recordingName(rec)+" · Asked at "+formatTime(current.time)+" · Frame "+current.id,"result-meta"));
-  if (status !== "answered") card.append(node("p",displayWords,"asked-words"));
+  if (status !== "answered" || body.image_plane_review) card.append(node("p",displayWords,"asked-words"));
+  if (body.image_plane_review) card.append(node("p","The camera does not measure the physical distance to the landmark.","result-meta"));
   let text = answer.answer || (evidence.length ? "The search found the frames below. They do not establish an answer to this question." :
     "No frames support that question. Try a visible road user, a track number or an earlier time in this clip.");
   if (status === "error") text = evidence.length ? "The answer service could not finish. You can inspect the available frames or retry." : "The answer service could not finish. You can retry this question.";
   card.append(node("p",text,"answer-text"));
+  if (body.vehicle_choices) {
+    const group = node("div",undefined,"vehicle-choices");
+    group.setAttribute("role","group"); group.setAttribute("aria-label","Vehicles in the paused frame");
+    for (const option of body.vehicle_choices.options) {
+      const label = className(option.class_name) + " · " + option.position + " · Track " + option.track_id;
+      const button = action(label,async ()=>{
+        if (!canAsk() || player.playing || player.displayed.id!==current.id || answerMoment?.key!==scene.value) return;
+        chosenVehicle = {option, selection:{binding:body.vehicle_choices.binding,track_id:option.track_id}, words, displayWords, imageRelation:body.image_relation_available};
+        for (const item of group.children) item.setAttribute("aria-pressed",String(item===button));
+        get("vehicle-focus-note").textContent = "Outlined " + label + ". " + (body.image_relation_available
+          ? "The camera does not measure the distance to the landmark. Gemini can describe their positions in this image."
+          : "Recorded tracks show its position. Gemini can check your question against privacy-processed images.");
+        get("review-selected").textContent = body.image_relation_available ? "Compare image positions with Gemini" : "Ask Gemini about this vehicle";
+        get("review-selected").hidden = false; get("change-vehicle").hidden = false;
+        await inspect(current.id,option.track_id,option.bbox_xyxy);
+        if (chosenVehicle?.option===option) get("review-selected").focus({preventScroll:true});
+      },"subtle");
+      const crop=vehicleCrop(option);
+      if (crop) button.prepend(crop);
+      button.setAttribute("aria-pressed","false");
+      group.append(button);
+    }
+    card.append(group);
+  } else if (body.selected_vehicle) {
+    const option = body.selected_vehicle;
+    highlight = {key:scene.value,frame:current.id,track:option.track_id,rect:option.bbox_xyxy};
+    card.append(node("p","Selected track "+option.track_id+" · "+className(option.class_name)+" · "+option.position,"result-meta"));
+  }
   const actions = node("div",undefined,"answer-actions");
-  if (status === "error") actions.append(action("Retry this search",()=>submitWords(body.question.question,displayWords)));
+  if (status === "error") actions.append(action("Retry this search",()=>submitWords(words,displayWords,body.selection,body.image_plane_review)));
+  if (body.image_relation_available && !body.vehicle_choices && !body.image_plane_review)
+    actions.append(action("Compare image positions with Gemini",()=>{mode.value="gemini";updateMode();submitWords(words,displayWords,body.selection,true);}));
   if (body.can_answer_from_tracks) actions.append(action("Answer from recorded tracks",()=>{mode.value="local";updateMode();submitWords(body.question.question,displayWords);}));
   if (body.answer_source==="evidence_only" && evidence.length && /\b(colou?r|sign|lettering|look like|appearance|paint|wearing)\b/i.test(body.question.question)) {
     actions.append(action("Ask Gemini about these frames",()=>{mode.value="gemini";updateMode();submitWords(body.question.question,displayWords);}));
@@ -336,14 +399,23 @@ try {
 }
 scene.addEventListener("change",()=>void selectScene());
 question.addEventListener("input",()=>{submittedHint=null;clearResult();syncButtons();});
-mode.addEventListener("change",()=>{clearResult();updateMode();});
+mode.addEventListener("change",()=>{submittedHint=null;clearResult();updateMode();});
 get("back-to-answer").onclick=async ()=>{
-  if (answerMoment) await inspect(answerMoment.frame);
+  if (answerMoment) await inspect(answerMoment.frame,chosenVehicle?.option.track_id,chosenVehicle?.option.bbox_xyxy);
   if (answerMoment) {
     get("back-to-answer").hidden=true;
     results.focus({preventScroll:true});
     results.scrollIntoView({block:"start"});
   }
+};
+get("review-selected").onclick=()=>{
+  if (!chosenVehicle || !canAsk() || player.playing || player.displayed.id!==answerMoment?.frame) return;
+  const {words,displayWords,selection,imageRelation}=chosenVehicle;
+  mode.value="gemini"; updateMode(); submitWords(words,displayWords,selection,imageRelation);
+};
+get("change-vehicle").onclick=()=>{
+  const selected=results.querySelector('.vehicle-choices button[aria-pressed="true"]');
+  if (selected) {selected.scrollIntoView({block:"center"});selected.focus({preventScroll:true});}
 };
 get("clip-first-marker").onclick=async ()=>{
   const target = firstMarker;
@@ -367,6 +439,8 @@ get("search").addEventListener("submit",async event=>{
   const current=player.displayed, anchor=scene.value, hosted=mode.value==="gemini", displayWords=question.value.trim();
   const bound = submittedHint?.frame===current.id && submittedHint.scene===anchor && submittedHint.displayWords===displayWords;
   const words = bound ? submittedHint.words : displayWords;
+  const selection = bound ? submittedHint.selection : null;
+  const imageRelation = bound && submittedHint.imageRelation;
   const controller=new AbortController();
   searchRun=controller; clearResult(); editing(false);
   get("cancel-search").hidden=false;
@@ -375,7 +449,7 @@ get("search").addEventListener("submit",async event=>{
     const key=await keyForFrame(anchor,current.id);
     if (controller.signal.aborted) return;
     const body=await fetchJson("/api/footage",{method:"POST",headers:{"Content-Type":"application/json"},signal:controller.signal,
-      body:JSON.stringify({scene:key,question:words,hosted})});
+      body:JSON.stringify({scene:key,question:words,hosted,...(selection ? {selection} : {}),...(imageRelation ? {image_relation:true} : {})})});
     if (searchRun!==controller) return;
     if (body.question.query_frame!==current.id || body.question.recording_id!==recordings.get(anchor).recording_id ||
         body.evidence.some(e => e.interval.end_frame>current.id || e.images.some(im=>im.frame_id>current.id))) {

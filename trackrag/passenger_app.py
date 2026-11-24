@@ -681,7 +681,8 @@ def handler(site):
                     # Share the memory guard only while decoding original images. A remote provider
                     # can take seconds or retry, during which other passengers can use local models.
                     result = site.footage.ask(site.scenes[payload["scene"]], payload.get("question"),
-                                              hosted=payload.get("hosted", False), image_guard=site.model_lock)
+                                              hosted=payload.get("hosted", False), image_guard=site.model_lock,
+                                              **{k:payload[k] for k in ("selection","image_relation") if k in payload})
                     return self.respond(result)
                 if m:
                     revision = int(self.headers.get("X-Session-Revision", "-1"))

@@ -63,6 +63,14 @@
 #evidence-box.near-right span{left:auto;right:-3px}
 #evidence-box.near-top span{bottom:auto;top:-2px}
 .asked-words{font-size:.93rem;font-weight:600;margin-top:10px}
+.vehicle-choices,.vehicle-focus{display:flex;flex-wrap:wrap;gap:7px;align-items:center}
+.vehicle-choices{margin:12px 0}
+.vehicle-choices button{display:grid;gap:4px;justify-items:start;text-align:left}
+.vehicle-crop{display:block;width:70px;height:42px;border-radius:3px}
+.vehicle-choices button[aria-pressed="true"]{background:#275c4a;color:white}
+.vehicle-focus{padding:10px 14px;border-bottom:1px solid var(--line)}
+.vehicle-focus p{flex-basis:100%;margin:0;color:#345748}
+.vehicle-focus[hidden]{display:none}
 #back-to-answer{font-size:.8rem;margin-top:4px}
 .recording-card .clip-scrub{position:relative;flex:1;min-width:70px;display:flex;align-items:center}
 .recording-card .clip-scrub input{width:100%;margin:0}

@@ -181,6 +181,10 @@ def _answer(
                 explanation = "The stated frame and time refer to different moments. Which one should I check?"
         if explanation is None and asks_for_unmeasured_speed(question["question"]):
             explanation = UNMEASURED_SPEED
+        if explanation is None:
+            from .footage_proximity import limitation, physical_question
+            if physical_question(question["question"]):
+                explanation = limitation(question["query_frame"])
         return {"answer_status": "insufficient_evidence", "answer": explanation, "cited_evidence_ids": []}
     valid_ids = {item["evidence_id"] for item in evidence}
     try:

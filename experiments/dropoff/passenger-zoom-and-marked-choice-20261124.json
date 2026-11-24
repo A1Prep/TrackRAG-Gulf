@@ -1,0 +1,45 @@
+{
+  "scope": "Two browser interactions on one previously reviewed Abu Dhabi photo. This checks zoom, coordinate mapping and what the app tells the passenger after a manually chosen point. It is a development replay.",
+  "source": "https://kartaview.org/details/5095833/20/",
+  "source_sha256": "0622eb29007e3aea9416f91378919d7c91d7c6b70c5c60460a949697a1575562",
+  "view_limits": "Desktop Edge received a mouse click. A 390 by 844 Edge viewport received an emulated touch. Both used the displayed source at 2x zoom. A separate browser regression exercised a pan before tapping and confirmed no write until Check this point.",
+  "actual_browser_rows": [
+    {
+      "viewport": "desktop",
+      "errors": [],
+      "actual_mark": [
+        926.976023399266,
+        1164.2130556688417
+      ],
+      "reviewer_mark": [
+        926.976,
+        1164.213
+      ],
+      "before_save": "The ring is on the parking pavement you marked. Its position relative to the vehicle is still uncertain. Save this point if it matches your intent.",
+      "saved_point": [
+        926.976023399266,
+        1164.2130556688417
+      ],
+      "after_save": "The ring shows the exact point you chose. Its position relative to the vehicle is still uncertain."
+    },
+    {
+      "viewport": "phone",
+      "errors": [],
+      "actual_mark": [
+        928.0879120879121,
+        1163.9629120879122
+      ],
+      "reviewer_mark": [
+        926.976,
+        1164.213
+      ],
+      "before_save": "The ring is on the parking pavement you marked. Its position relative to the vehicle is still uncertain. Save this point if it matches your intent.",
+      "saved_point": [
+        928.0879120879121,
+        1163.9629120879122
+      ],
+      "after_save": "The ring shows the exact point you chose. Its position relative to the vehicle is still uncertain."
+    }
+  ],
+  "interpretation": "The passenger chose the photographed point. The model did not establish its relationship to the vehicle. The same uncertainty is displayed before and after saving."
+}

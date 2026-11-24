@@ -461,6 +461,9 @@ class PassengerSession:
                 bay["bay_outline"] = receipt["provenance"]["bay_outline"]
                 proof = receipt['provenance']
                 chosen_from = proof.get('choice_source',{}).get('provenance',{})
+                if chosen_from.get('reason') == 'choose_passenger_marked_parking_ground':
+                    # The verified choice is the passenger's tap, even after the separate Save action.
+                    bay['passenger_marked_vehicle_location'] = True
                 if chosen_from.get('unverified_place_name') and chosen_from.get('automatic_rear_ground'):
                     proof = chosen_from
                     bay['unverified_place_name'] = proof['unverified_place_name']

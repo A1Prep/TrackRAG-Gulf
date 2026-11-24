@@ -126,6 +126,8 @@ function suggestion(v, bay) {
   const point = v.result?.destination_point_xy;
   if (!point) return "Choose a location on the photo.";
   const where = positionWords(point, canvas.width, canvas.height);
+  if (v.passenger_marked_vehicle_location)
+    return "The ring is on the parking pavement you marked. Its position relative to the vehicle is still uncertain. Save this point if it matches your intent.";
   if (v.unverified_place_name && v.rear_vehicle && bay) return "You chose the ground behind the outlined " + v.rear_vehicle + ". The " + v.unverified_place_name + " sign is still unverified. Save this location if the ring is where you meant.";
   if (v.rear_vehicle && bay) return "The gold ring marks the open ground behind the outlined " + v.rear_vehicle + ". Is this where you want to get out?";
   if (bay?.extent === "interior_point_only") return (bay.passenger_tap_xy ? "The blue diamond marks your tap. " : "")
@@ -170,6 +172,7 @@ function response(v, stage, bay, choices) {
   }
   if (v.state === "proposed") return ["proposed", bay?.extent === "interior_point_only" ? "Is this the spot you meant?" : bay?.extent === "visible_parking_surface" ? "Is this the parking area you meant?" : bay ? "Is this your intended bay?" : "Is this your intended location?", suggestion(v,bay)];
   if (v.state === "confirmed") {
+    if (v.passenger_marked_vehicle_location) return ["confirmed","Your marked location was saved","The ring shows the exact point you chose. Its position relative to the vehicle is still uncertain."];
     if (bay?.extent === "interior_point_only") return ["confirmed","Location saved","You chose the spot at the gold ring as your intended drop-off."];
     if (bay?.extent === "visible_parking_surface") return ["confirmed", "Location saved", "You chose the gold ring inside the outlined parking area as your intended drop-off."];
     if (bay) return ["confirmed", "Location saved", "You chose the outlined parking bay as your intended drop-off. The gold ring marks its centre."];
@@ -211,6 +214,7 @@ function legend(v, offerMark, bay, choices) {
       node.dataset.kind = "bay";
       label = bay.extent === "interior_point_only" ? "Gold ring at the proposed spot" : bay.extent === "visible_parking_surface" ? "Gold ring inside the visible parking area" : "Gold ring at bay centre";
       if (v.state === "confirmed" && bay.extent === "interior_point_only") label = "Gold ring at your spot";
+      if (v.passenger_marked_vehicle_location) label = "Gold ring at your chosen spot";
       if (v.rear_vehicle) label = "Gold ring behind the vehicle · Blue outline around the " + v.rear_vehicle;
       if (bay.passenger_tap_xy) label += " · Blue diamond at " + tapName(v).toLowerCase();
     } else label = destinationLabel(v);
@@ -224,7 +228,7 @@ function legend(v, offerMark, bay, choices) {
       v.reference_kind === "possible_vehicle" ? "Blue outline shows a possible match · Drop-off point unverified" :
       outlines + " you described · Drop-off point unverified";
   }
-  else if (offerMark && !photo.zoom) label = v.area_landmarks ? "A and B mark the vehicles · Tap the photo to mark your spot" : "Tap the photo to mark your spot";
+  else if (offerMark) label = v.area_landmarks ? "A and B mark the vehicles · Tap the photo to mark your spot" : "Tap the photo to mark your spot";
   text(node, label);
   return label;
 }
@@ -459,12 +463,18 @@ function paint() {
     if (mark) drawCheckedMark(ctx,boxCentre(mark.box),scale);
     return;
   }
-  if (bay) { drawBays(ctx,[bay],scale,false,tapName(v),v.state==="confirmed"); return; }
+  if (bay) { drawBays(ctx,[bay],scale,false,tapName(v),v.state==="confirmed",v.passenger_marked_vehicle_location); return; }
   if (["passenger_landmarks","parking_model"].includes(v.selected_by)) drawChosenLandmarks(ctx, v.result.anchor_boxes_xyxy, scale);
   const showBox = v.selected_by!=="passenger" || mark?.dragged;
   drawDestination(ctx, v.result.destination_point_xy, showBox ? v.result.destination_box_xyxy : null, v.selected_by, scale);
 }
-el("zoom-in").onclick = () => photo.setZoom(1, photo.active ? photo.cursor : session?.view.result?.destination_point_xy);
+el("zoom-in").onclick = () => {
+  const v = session?.view;
+  let target = photo.active ? photo.cursor : v?.result?.destination_point_xy;
+  if (!target && !photo.zoom && v?.references_only && v.result.anchor_boxes_xyxy?.length === 1)
+    target = boxCentre(v.result.anchor_boxes_xyxy[0]);
+  photo.setZoom(1,target);
+};
 el("zoom-out").onclick = () => photo.setZoom(-1, photo.active ? photo.cursor : session?.view.result?.destination_point_xy);
 el("pan").onclick = () => {
   photo.panning = !photo.panning; render();

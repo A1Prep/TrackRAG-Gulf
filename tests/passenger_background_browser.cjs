@@ -280,6 +280,45 @@ async function main() {
       assert(await p.locator("#error").isHidden()); assert(await p.locator("#form").isHidden());
       assert.equal(s.requests.filter(r=>r.body.text==="Yes").length,1); await p.close();
     }
+    // Inspect a small matched vehicle, pan the zoomed photo, then mark the original image deliberately.
+    {
+      const s=await browserCase(browser,url), p=s.page;
+      await submitTyped(p); await p.locator("#take-over-area").waitFor();
+      s.finish({state:"needs_clarification",proposal_id:null,references_only:true,
+        result:{anchor_boxes_xyxy:[[482,112,540,160]],clarification_question:"I found the vehicle. Can you mark the ground?"}});
+      await heading(p,"I found the vehicle you described");
+      await p.locator("#zoom-in").click();
+      const placement = await p.locator("#photo-viewport").evaluate(v => {
+        const r=v.getBoundingClientRect(), c=v.querySelector("canvas").getBoundingClientRect();
+        return {x:c.x+511*c.width/640,y:c.y+150*c.height/360, scroll:v.scrollLeft, width:r.width};
+      });
+      assert(placement.scroll>placement.width*.26,"zoom should bring the right-side vehicle into view");
+      await p.mouse.move(placement.x,placement.y); await p.mouse.down();
+      await p.mouse.move(placement.x+40,placement.y+4,{steps:5}); await p.mouse.up();
+      assert(await p.locator("#draw-tools").isHidden(),"dragging to pan must not place a mark");
+      const near = await p.locator("#overlay").evaluate(c => {
+        const r=c.getBoundingClientRect(); return {x:r.x+.79*r.width,y:r.y+.51*r.height};
+      });
+      await p.mouse.click(near.x,near.y); await p.locator("#use-box").waitFor();
+      assert.equal(s.requests.filter(r=>r.action==="area").length,0,"a tap is a draft until the user checks it");
+      await p.locator("#use-box").click(); await heading(p,"Is this your intended location?");
+      const b=s.requests.find(r=>r.action==="area").body.box;
+      assert(Math.abs((b[0]+b[2])/2-640*.79)<2 && Math.abs((b[1]+b[3])/2-360*.51)<2);
+      await p.close();
+    }
+    // An explicitly marked point keeps its authorship and uncertainty through Save.
+    {
+      const s=await browserCase(browser,url),p=s.page;
+      await submitTyped(p); await p.locator("#take-over-area").waitFor();
+      const marked={...fixtureBays[0],extent:"interior_point_only",passenger_tap_xy:fixtureBays[0].center_xy};
+      s.finish({...bayOffer(marked,"passenger"),passenger_marked_vehicle_location:true});
+      await heading(p,"Is this the spot you meant?");
+      assert.match(await p.locator("#legend").innerText(),/your chosen spot/);
+      assert.match(await p.locator("#status").innerText(),/parking pavement you marked.*vehicle is still uncertain/);
+      await p.locator("#confirm").click();await heading(p,"Your marked location was saved");
+      assert.match(await p.locator("#status").innerText(),/exact point you chose.*vehicle is still uncertain/);
+      await p.close();
+    }
     // Single automatic bay displays its perspective polygon and centre only; new input clears both.
     {
       const s=await browserCase(browser,url),p=s.page; await submitTyped(p); await p.locator("#take-over-area").waitFor();

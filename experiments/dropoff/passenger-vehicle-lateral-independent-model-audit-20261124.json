@@ -1,0 +1,1990 @@
+{
+  "scope": "Independent re-score of the two real specialist renders for 79 requests. The 63 distinct physical-location labels were fixed before viewing requested roles or either model output. These are original-pixel AI visual assessments. Each of the 16 source signatures, every complete original JPEG hash, every input row hash and all 158 source-view hashes were authenticated or recomputed locally. Wide and close are separate views evaluated by the same model. No model or runtime code was changed by this evaluation.",
+  "photo_label_file": "passenger-vehicle-lateral-independent-photo-labels-20261124.json",
+  "photo_labels_sha256": "b8f9eca76c0f1dd86d396830b3680fc9d56fe7d003ac59d835206c4a29ffb6de",
+  "independent_inputs_sha256": "fe63edaff7c35f5a4a8e6292651450fd371a8b141791cbc2cf4895c04f6ca8b9",
+  "jobs_sha256": "d0f21e7d1a66c7794f42689c76940568b30d4eff5c15172acdc496c399ad2e1f",
+  "signed_response_packets_sha256": "3e146bffe5a9b110950e71f56fc07c85b59092dace92111aa1e9bc7dcdccf857",
+  "model": "Qwen/Qwen3.6-35B-A3B-FP8",
+  "model_revision": "c653bba46dfa06e9658dcc0b0dc87fe4685f14a2",
+  "photos": 16,
+  "physical_points": 63,
+  "jobs": 79,
+  "photographic_view_reads": 158,
+  "reference_by_role": {
+    "candidate": {
+      "uncertain": 7,
+      "correct_side": 10,
+      "not": 14
+    },
+    "wrong_side_control": {
+      "uncertain": 3,
+      "not": 10,
+      "opposite_side": 3
+    },
+    "occupied_control": {
+      "not": 16
+    },
+    "lane_control": {
+      "not": 15,
+      "uncertain": 1
+    }
+  },
+  "opened_by_role_and_view": {
+    "candidate": {
+      "all": {
+        "uncertain": 7,
+        "correct_side": 10,
+        "not": 14
+      },
+      "wide": {
+        "uncertain": 3,
+        "correct_side": 8,
+        "not": 9
+      },
+      "close": {
+        "uncertain": 4,
+        "correct_side": 7,
+        "not": 11
+      },
+      "either": {
+        "uncertain": 5,
+        "correct_side": 10,
+        "not": 12
+      },
+      "both": {
+        "uncertain": 2,
+        "correct_side": 5,
+        "not": 8
+      },
+      "after_source_controls": {
+        "not": 2
+      }
+    },
+    "wrong_side_control": {
+      "all": {
+        "uncertain": 3,
+        "not": 10,
+        "opposite_side": 3
+      },
+      "wide": {
+        "uncertain": 2,
+        "not": 7,
+        "opposite_side": 1
+      },
+      "either": {
+        "uncertain": 2,
+        "not": 8,
+        "opposite_side": 2
+      },
+      "close": {
+        "not": 6,
+        "opposite_side": 2
+      },
+      "both": {
+        "not": 5,
+        "opposite_side": 1
+      }
+    },
+    "occupied_control": {
+      "all": {
+        "not": 16
+      },
+      "wide": {
+        "not": 10
+      },
+      "close": {
+        "not": 11
+      },
+      "either": {
+        "not": 14
+      },
+      "both": {
+        "not": 7
+      }
+    },
+    "lane_control": {
+      "all": {
+        "not": 15,
+        "uncertain": 1
+      },
+      "wide": {
+        "not": 8,
+        "uncertain": 1
+      },
+      "either": {
+        "not": 11,
+        "uncertain": 1
+      },
+      "close": {
+        "not": 7
+      },
+      "both": {
+        "not": 4
+      }
+    }
+  },
+  "complete_controls_policy": "On each original, require all three source controls to avoid simultaneous OPEN in both views. Only candidate points also called OPEN in both views survive. The global policy then requires at least one independently verified offer and zero independently wrong offers.",
+  "source_control_veto_photos": 11,
+  "retained_candidate_points": 2,
+  "retained_verified": 0,
+  "retained_incorrect": 2,
+  "retained_uncertain": 0,
+  "global_release": false,
+  "retained_candidates": [
+    {
+      "source": "02743df87088fa38698cf3093947cbb3085c14755dd49fa16cadc8fb24b2e080",
+      "id": "24f3f11361e50f464feecc517d1b5574b88fbe7bd564da36e2c345b7cabce7e7",
+      "recording_id": "kartaview_7173145",
+      "frame_id": 1173,
+      "row_index": 0,
+      "role": "candidate",
+      "asked_side": "right",
+      "reference": "NOT",
+      "physical_comparison": "not",
+      "physical_relation": "behind",
+      "surface": "curbside_parking",
+      "original_pixel_observation": "The ring is on the right-hand parking strip between the white sedan and the nearer white SUV. Both face away along the same curb: this open space is longitudinally behind the sedan.",
+      "point": [
+        1687.4666666666667,
+        1116.2845849802372
+      ],
+      "wide": "OPEN",
+      "close": "OPEN",
+      "apparent_open_in_both": true
+    },
+    {
+      "source": "5a9b732bb1a487c9769eba291ff49bf9c0fff286efe7a849a66b296704c8cffa",
+      "id": "f9ae4e0630b7b220f8aecd7df1828b481317e4cc75557fba810e6f9403aa1cbf",
+      "recording_id": "kartaview_7120185",
+      "frame_id": 54,
+      "row_index": 2,
+      "role": "candidate",
+      "asked_side": "left",
+      "reference": "NOT",
+      "physical_comparison": "not",
+      "physical_relation": "behind_or_separated",
+      "surface": "occupied_row_mouth",
+      "original_pixel_observation": "The next place beyond the blue SUV's rear is occupied by the white cars. This ring at the apron mouth establishes neither a free neighbouring space nor a side location.",
+      "point": [
+        1256.5333333333333,
+        1363.8735177865613
+      ],
+      "wide": "OPEN",
+      "close": "OPEN",
+      "apparent_open_in_both": true
+    }
+  ],
+  "per_photo": [
+    {
+      "source_sha256": "a8cb3c5926766d950eca0588e6bdd178e72026f07d5710f027d2e695d6628de2",
+      "recording_id": "kartaview_980209",
+      "frame_id": 34,
+      "positive_control_roles": [
+        "occupied_control"
+      ],
+      "qualified_candidates": []
+    },
+    {
+      "source_sha256": "c4d59cba6fe27a9aa31b27decb3b5c5dd40945ef3e8a89865f325b307e577411",
+      "recording_id": "kartaview_5124937",
+      "frame_id": 12,
+      "positive_control_roles": [],
+      "qualified_candidates": []
+    },
+    {
+      "source_sha256": "e42cb766f40a42ac9ccd31bb27d446371bf7972f721883fb64c315713baa5f6f",
+      "recording_id": "kartaview_3336817",
+      "frame_id": 14,
+      "positive_control_roles": [],
+      "qualified_candidates": []
+    },
+    {
+      "source_sha256": "0dfd8dadbb1ad54388d3ca1c9bb6473aa5eeebf407cb7cbdd7a45ee1b5b0c836",
+      "recording_id": "kartaview_1129101",
+      "frame_id": 0,
+      "positive_control_roles": [
+        "wrong_side_control",
+        "occupied_control"
+      ],
+      "qualified_candidates": []
+    },
+    {
+      "source_sha256": "4e305274bf98f5a5ef5bfbd4224af7bebddcde53657624c3901ed5b7c2b8c15e",
+      "recording_id": "kartaview_7130313",
+      "frame_id": 1390,
+      "positive_control_roles": [
+        "occupied_control"
+      ],
+      "qualified_candidates": []
+    },
+    {
+      "source_sha256": "b2b5aeb414b0b52e47f90118b1cb9daa48d61910ce7e1a112a197ce7084245be",
+      "recording_id": "kartaview_7199353",
+      "frame_id": 2205,
+      "positive_control_roles": [
+        "occupied_control"
+      ],
+      "qualified_candidates": []
+    },
+    {
+      "source_sha256": "87af60ca411087c3c3217f90120bf1ab3bbaf4369c184e7261ef51fbf18a697d",
+      "recording_id": "kartaview_6327417",
+      "frame_id": 13,
+      "positive_control_roles": [
+        "lane_control"
+      ],
+      "qualified_candidates": []
+    },
+    {
+      "source_sha256": "3ed141c2c0b33754e2ee822ec16e1c1ed1c713dbd29b16e94acde77b950c6af8",
+      "recording_id": "kartaview_7130313",
+      "frame_id": 1395,
+      "positive_control_roles": [],
+      "qualified_candidates": []
+    },
+    {
+      "source_sha256": "6c09f8965a7203ca86f42d18d4b7fc43fa38c700d827a3b92bf90189b394d273",
+      "recording_id": "kartaview_7168777",
+      "frame_id": 1211,
+      "positive_control_roles": [
+        "wrong_side_control"
+      ],
+      "qualified_candidates": []
+    },
+    {
+      "source_sha256": "02743df87088fa38698cf3093947cbb3085c14755dd49fa16cadc8fb24b2e080",
+      "recording_id": "kartaview_7173145",
+      "frame_id": 1173,
+      "positive_control_roles": [],
+      "qualified_candidates": [
+        0
+      ]
+    },
+    {
+      "source_sha256": "cd4e27b8077b24d36169170a847c9f5d382e9c315ad5bb670cb51ecf6ed40082",
+      "recording_id": "kartaview_3333849",
+      "frame_id": 525,
+      "positive_control_roles": [
+        "occupied_control",
+        "lane_control"
+      ],
+      "qualified_candidates": []
+    },
+    {
+      "source_sha256": "df3c7569cf08071fe7492af65e599d7132364496766bb9e1e4fa4c3966dccc04",
+      "recording_id": "kartaview_7168793",
+      "frame_id": 16,
+      "positive_control_roles": [
+        "wrong_side_control",
+        "lane_control"
+      ],
+      "qualified_candidates": []
+    },
+    {
+      "source_sha256": "5a9b732bb1a487c9769eba291ff49bf9c0fff286efe7a849a66b296704c8cffa",
+      "recording_id": "kartaview_7120185",
+      "frame_id": 54,
+      "positive_control_roles": [],
+      "qualified_candidates": [
+        2
+      ]
+    },
+    {
+      "source_sha256": "df4b13c0f17548cf0a1911efdbe0f94b00c1299c97a07a6c3783beab3ce2b416",
+      "recording_id": "kartaview_5546153",
+      "frame_id": 445,
+      "positive_control_roles": [
+        "wrong_side_control",
+        "occupied_control",
+        "lane_control"
+      ],
+      "qualified_candidates": []
+    },
+    {
+      "source_sha256": "d6219bd62cb3eb77119a72473ad133ce125ad8b02645d2bdc44f817590764203",
+      "recording_id": "kartaview_5098777",
+      "frame_id": 73,
+      "positive_control_roles": [
+        "wrong_side_control",
+        "occupied_control"
+      ],
+      "qualified_candidates": []
+    },
+    {
+      "source_sha256": "88cc304edc4b1232912979a59870954915b8e8dc51de853d45e2b5315b2f95be",
+      "recording_id": "kartaview_5095849",
+      "frame_id": 996,
+      "positive_control_roles": [
+        "wrong_side_control"
+      ],
+      "qualified_candidates": []
+    }
+  ],
+  "rows": [
+    {
+      "source": "a8cb3c5926766d950eca0588e6bdd178e72026f07d5710f027d2e695d6628de2",
+      "id": "1a0034612965854056c444173c6856b414db006b935ab7c9cca36b5da4c10336",
+      "recording_id": "kartaview_980209",
+      "frame_id": 34,
+      "row_index": 0,
+      "role": "candidate",
+      "asked_side": "right",
+      "reference": "UNCERTAIN",
+      "physical_comparison": "uncertain",
+      "physical_relation": "in_front_or_unclear",
+      "surface": "open_forecourt",
+      "original_pixel_observation": "Open apron beyond the cab of the side-on truck, near the pedestrian's path to the kerb. A separate lateral position cannot be resolved.",
+      "point": [
+        2272.0,
+        1782.213438735178
+      ],
+      "wide": "UNCLEAR",
+      "close": "LANE",
+      "apparent_open_in_both": false
+    },
+    {
+      "source": "a8cb3c5926766d950eca0588e6bdd178e72026f07d5710f027d2e695d6628de2",
+      "id": "080eb614755dc62dfae74364e67f315db087737056541c15e14845a54390e765",
+      "recording_id": "kartaview_980209",
+      "frame_id": 34,
+      "row_index": 1,
+      "role": "candidate",
+      "asked_side": "left",
+      "reference": "UNCERTAIN",
+      "physical_comparison": "uncertain",
+      "physical_relation": "behind_or_unclear",
+      "surface": "apron_or_unmarked_shoulder",
+      "original_pixel_observation": "The white SUV's rear points left. The ring is beyond its rear near the asphalt and rougher apron boundary; no independently clear lateral stall is visible.",
+      "point": [
+        765.8666666666667,
+        1790.7509881422925
+      ],
+      "wide": "OPEN",
+      "close": "OPEN",
+      "apparent_open_in_both": true
+    },
+    {
+      "source": "a8cb3c5926766d950eca0588e6bdd178e72026f07d5710f027d2e695d6628de2",
+      "id": "eb99f0bda7c247bbc2c5ebd114cf2bb0daea2f71be8bd803939f45b02eed0d34",
+      "recording_id": "kartaview_980209",
+      "frame_id": 34,
+      "row_index": 2,
+      "role": "candidate",
+      "asked_side": "right",
+      "reference": "UNCERTAIN",
+      "physical_comparison": "uncertain",
+      "physical_relation": "front_corner_or_unclear",
+      "surface": "parking_apron",
+      "original_pixel_observation": "The ring projects beyond the white SUV's front and immediately aft of a separate truck. Whether this is truly side-by-side with the SUV is unclear.",
+      "point": [
+        1585.0666666666666,
+        1816.3636363636365
+      ],
+      "wide": "UNCLEAR",
+      "close": "OPEN",
+      "apparent_open_in_both": false
+    },
+    {
+      "source": "a8cb3c5926766d950eca0588e6bdd178e72026f07d5710f027d2e695d6628de2",
+      "id": "f5460f89b3d0478aab5f55ddc25326a9f85cdcf5174e74b65180e5a9b9c971fc",
+      "recording_id": "kartaview_980209",
+      "frame_id": 34,
+      "row_index": 3,
+      "role": "candidate",
+      "asked_side": "left",
+      "reference": "LEFT",
+      "physical_comparison": "correct_side",
+      "physical_relation": "left",
+      "surface": "off_lane_parking",
+      "original_pixel_observation": "Vacant paved frontage between the rear-facing pickup and a separate parked hatchback, to the pickup's image-left. Whole-vehicle fit was not judged.",
+      "point": [
+        3014.4,
+        1790.7509881422925
+      ],
+      "wide": "OPEN",
+      "close": "OPEN",
+      "apparent_open_in_both": true
+    },
+    {
+      "source": "a8cb3c5926766d950eca0588e6bdd178e72026f07d5710f027d2e695d6628de2",
+      "id": "6185b875675f8a5c5b0bea77ff604bb65688121987c23e41477cfb95658cf672",
+      "recording_id": "kartaview_980209",
+      "frame_id": 34,
+      "row_index": 4,
+      "role": "candidate",
+      "asked_side": "right",
+      "reference": "RIGHT",
+      "physical_comparison": "correct_side",
+      "physical_relation": "right",
+      "surface": "off_lane_parking",
+      "original_pixel_observation": "Vacant paved frontage to image-right of the clearly rear-facing white pickup, outside the dark running lane.",
+      "point": [
+        3722.6666666666665,
+        1795.01976284585
+      ],
+      "wide": "OPEN",
+      "close": "OPEN",
+      "apparent_open_in_both": true
+    },
+    {
+      "source": "a8cb3c5926766d950eca0588e6bdd178e72026f07d5710f027d2e695d6628de2",
+      "id": "1a0034612965854056c444173c6856b414db006b935ab7c9cca36b5da4c10336",
+      "recording_id": "kartaview_980209",
+      "frame_id": 34,
+      "row_index": 5,
+      "role": "wrong_side_control",
+      "asked_side": "left",
+      "reference": "UNCERTAIN",
+      "physical_comparison": "uncertain",
+      "physical_relation": "in_front_or_unclear",
+      "surface": "open_forecourt",
+      "original_pixel_observation": "Open apron beyond the cab of the side-on truck, near the pedestrian's path to the kerb. A separate lateral position cannot be resolved.",
+      "point": [
+        2272.0,
+        1782.213438735178
+      ],
+      "wide": "UNCLEAR",
+      "close": "LANE",
+      "apparent_open_in_both": false
+    },
+    {
+      "source": "a8cb3c5926766d950eca0588e6bdd178e72026f07d5710f027d2e695d6628de2",
+      "id": "c708d7b815759e8c9ae5d7d1579c3f8b8c559c0c0e8672a767956a1e65e91a54",
+      "recording_id": "kartaview_980209",
+      "frame_id": 34,
+      "row_index": 6,
+      "role": "occupied_control",
+      "asked_side": "right",
+      "reference": "NOT",
+      "physical_comparison": "not",
+      "physical_relation": "on_vehicle",
+      "surface": "vehicle",
+      "original_pixel_observation": "Ring lands on the truck body.",
+      "point": [
+        1809.216796875,
+        1603.3534240722656
+      ],
+      "wide": "OPEN",
+      "close": "OPEN",
+      "apparent_open_in_both": true
+    },
+    {
+      "source": "a8cb3c5926766d950eca0588e6bdd178e72026f07d5710f027d2e695d6628de2",
+      "id": "8488ee322a2930d6a8c8d75a64adf97e58b4fbbf6f40202dc6814af8769edd96",
+      "recording_id": "kartaview_980209",
+      "frame_id": 34,
+      "row_index": 7,
+      "role": "lane_control",
+      "asked_side": "right",
+      "reference": "NOT",
+      "physical_comparison": "not",
+      "physical_relation": "road_below_vehicle",
+      "surface": "travel_lane",
+      "original_pixel_observation": "The horizontal edge separates the frontage apron from this dark traffic lane.",
+      "point": [
+        1811.2,
+        1918.814229249012
+      ],
+      "wide": "UNCLEAR",
+      "close": "LANE",
+      "apparent_open_in_both": false
+    },
+    {
+      "source": "c4d59cba6fe27a9aa31b27decb3b5c5dd40945ef3e8a89865f325b307e577411",
+      "id": "3f27b0d2b8057b3b2a7edcc504d20eb346db423ec431ec6578587abe05ffa870",
+      "recording_id": "kartaview_5124937",
+      "frame_id": 12,
+      "row_index": 0,
+      "role": "candidate",
+      "asked_side": "left",
+      "reference": "UNCERTAIN",
+      "physical_comparison": "uncertain",
+      "physical_relation": "left_front_corner",
+      "surface": "marked_parking",
+      "original_pixel_observation": "Point is in a vacant marked space at the near left of the GMC's front. Only its protruding front is photographed, so a true side position versus its front approach cannot be established reliably.",
+      "point": [
+        2511.4666666666667,
+        1562.0513833992095
+      ],
+      "wide": "UNCLEAR",
+      "close": "LANE",
+      "apparent_open_in_both": false
+    },
+    {
+      "source": "c4d59cba6fe27a9aa31b27decb3b5c5dd40945ef3e8a89865f325b307e577411",
+      "id": "11a4a409f29055c00f8b97311411475c2e39a12e1fa1d8c46d56a819321bef03",
+      "recording_id": "kartaview_5124937",
+      "frame_id": 12,
+      "row_index": 1,
+      "role": "candidate",
+      "asked_side": "right",
+      "reference": "UNCERTAIN",
+      "physical_comparison": "uncertain",
+      "physical_relation": "near_lateral_or_front_corner",
+      "surface": "marked_parking",
+      "original_pixel_observation": "There is real accessible marked parking on the near side of the silver car. The car is broadside, nose image-right, and this ring projects beyond that nose; immediate side versus a subsequent bay is uncertain.",
+      "point": [
+        2043.6266666666666,
+        1362.4861660079052
+      ],
+      "wide": "UNCLEAR",
+      "close": "OPEN",
+      "apparent_open_in_both": false
+    },
+    {
+      "source": "c4d59cba6fe27a9aa31b27decb3b5c5dd40945ef3e8a89865f325b307e577411",
+      "id": "3f27b0d2b8057b3b2a7edcc504d20eb346db423ec431ec6578587abe05ffa870",
+      "recording_id": "kartaview_5124937",
+      "frame_id": 12,
+      "row_index": 2,
+      "role": "wrong_side_control",
+      "asked_side": "right",
+      "reference": "UNCERTAIN",
+      "physical_comparison": "uncertain",
+      "physical_relation": "left_front_corner",
+      "surface": "marked_parking",
+      "original_pixel_observation": "Point is in a vacant marked space at the near left of the GMC's front. Only its protruding front is photographed, so a true side position versus its front approach cannot be established reliably.",
+      "point": [
+        2511.4666666666667,
+        1562.0513833992095
+      ],
+      "wide": "OPEN",
+      "close": "LANE",
+      "apparent_open_in_both": false
+    },
+    {
+      "source": "c4d59cba6fe27a9aa31b27decb3b5c5dd40945ef3e8a89865f325b307e577411",
+      "id": "1933adaba84893d8f149d4ba066f74eaa54983629947d4365d1f02a50335af3f",
+      "recording_id": "kartaview_5124937",
+      "frame_id": 12,
+      "row_index": 3,
+      "role": "occupied_control",
+      "asked_side": "left",
+      "reference": "NOT",
+      "physical_comparison": "not",
+      "physical_relation": "on_vehicle",
+      "surface": "vehicle",
+      "original_pixel_observation": "Ring sits on the GMC grille and bonnet.",
+      "point": [
+        2980.3369354248043,
+        1327.7135147094725
+      ],
+      "wide": "UNCLEAR",
+      "close": "OPEN",
+      "apparent_open_in_both": false
+    },
+    {
+      "source": "c4d59cba6fe27a9aa31b27decb3b5c5dd40945ef3e8a89865f325b307e577411",
+      "id": "34a42c33934e4864594fbe654616f2f4486c49290899cbfdbd21ed2ac94227f0",
+      "recording_id": "kartaview_5124937",
+      "frame_id": 12,
+      "row_index": 4,
+      "role": "lane_control",
+      "asked_side": "left",
+      "reference": "NOT",
+      "physical_comparison": "not",
+      "physical_relation": "in_front",
+      "surface": "occluded_foreground",
+      "original_pixel_observation": "The very near area directly in front of the GMC lies in the windshield/dashboard reflection; no separate lateral parking position is visible.",
+      "point": [
+        2892.2666666666664,
+        1725.3320158102767
+      ],
+      "wide": "OPEN",
+      "close": "LANE",
+      "apparent_open_in_both": false
+    },
+    {
+      "source": "e42cb766f40a42ac9ccd31bb27d446371bf7972f721883fb64c315713baa5f6f",
+      "id": "84a13038a3d5f7d0627d3dabf820fc2dc59d908422a0f017cdca85451038c40f",
+      "recording_id": "kartaview_3336817",
+      "frame_id": 14,
+      "row_index": 0,
+      "role": "candidate",
+      "asked_side": "left",
+      "reference": "NOT",
+      "physical_comparison": "not",
+      "physical_relation": "behind",
+      "surface": "kerb_or_lane_edge",
+      "original_pixel_observation": "The broadside sedan points to image-right, and the ring meets the raised kerb beyond its rear. This does not show a side pull-in.",
+      "point": [
+        1887.6799999999998,
+        1039.5533596837945
+      ],
+      "wide": "UNCLEAR",
+      "close": "SEPARATED",
+      "apparent_open_in_both": false
+    },
+    {
+      "source": "e42cb766f40a42ac9ccd31bb27d446371bf7972f721883fb64c315713baa5f6f",
+      "id": "84a13038a3d5f7d0627d3dabf820fc2dc59d908422a0f017cdca85451038c40f",
+      "recording_id": "kartaview_3336817",
+      "frame_id": 14,
+      "row_index": 1,
+      "role": "wrong_side_control",
+      "asked_side": "right",
+      "reference": "NOT",
+      "physical_comparison": "not",
+      "physical_relation": "behind",
+      "surface": "kerb_or_lane_edge",
+      "original_pixel_observation": "The broadside sedan points to image-right, and the ring meets the raised kerb beyond its rear. This does not show a side pull-in.",
+      "point": [
+        1887.6799999999998,
+        1039.5533596837945
+      ],
+      "wide": "UNCLEAR",
+      "close": "SEPARATED",
+      "apparent_open_in_both": false
+    },
+    {
+      "source": "e42cb766f40a42ac9ccd31bb27d446371bf7972f721883fb64c315713baa5f6f",
+      "id": "7fc75fb82cf4fc43177ce054f5cab497f3cf6833a1d4f0543a60b45ecf2beee9",
+      "recording_id": "kartaview_3336817",
+      "frame_id": 14,
+      "row_index": 2,
+      "role": "occupied_control",
+      "asked_side": "left",
+      "reference": "NOT",
+      "physical_comparison": "not",
+      "physical_relation": "on_vehicle",
+      "surface": "vehicle",
+      "original_pixel_observation": "The ring lies on the white sedan's doors.",
+      "point": [
+        2355.5474029541015,
+        962.8024291992186
+      ],
+      "wide": "OPEN",
+      "close": "LANE",
+      "apparent_open_in_both": false
+    },
+    {
+      "source": "e42cb766f40a42ac9ccd31bb27d446371bf7972f721883fb64c315713baa5f6f",
+      "id": "f3391defe870864d0a510dc9a8fad2fcd24861e8c3538b446dc681953e3adf5f",
+      "recording_id": "kartaview_3336817",
+      "frame_id": 14,
+      "row_index": 3,
+      "role": "lane_control",
+      "asked_side": "left",
+      "reference": "NOT",
+      "physical_comparison": "not",
+      "physical_relation": "nonadjacent",
+      "surface": "studded_road_or_approach",
+      "original_pixel_observation": "Several distinct lines of raised road studs intervene between the ring and the sedan. There is no directly adjoining vacant parking position at this distance.",
+      "point": [
+        2119.7866666666664,
+        1137.5217391304348
+      ],
+      "wide": "OPEN",
+      "close": "LANE",
+      "apparent_open_in_both": false
+    },
+    {
+      "source": "0dfd8dadbb1ad54388d3ca1c9bb6473aa5eeebf407cb7cbdd7a45ee1b5b0c836",
+      "id": "87f14c1e579d308571cc3c624e942e9a2e12a6bcc0319b9a265bfce16d3b7dfe",
+      "recording_id": "kartaview_1129101",
+      "frame_id": 0,
+      "row_index": 0,
+      "role": "candidate",
+      "asked_side": "left",
+      "reference": "NOT",
+      "physical_comparison": "not",
+      "physical_relation": "adjacent_stall_occupied",
+      "surface": "occupied_stall_mouth",
+      "original_pixel_observation": "The neighbouring space on the white SUV's left contains the black sedan. Empty pavement beyond the bumper is not a vacant adjacent bay.",
+      "point": [
+        2839.4666666666667,
+        2068.221343873518
+      ],
+      "wide": "UNCLEAR",
+      "close": "OPEN",
+      "apparent_open_in_both": false
+    },
+    {
+      "source": "0dfd8dadbb1ad54388d3ca1c9bb6473aa5eeebf407cb7cbdd7a45ee1b5b0c836",
+      "id": "56502f5ec9ebcc1f466d5faf01ab8937e30dce95841ed8c435692c708dce9581",
+      "recording_id": "kartaview_1129101",
+      "frame_id": 0,
+      "row_index": 1,
+      "role": "candidate",
+      "asked_side": "left",
+      "reference": "NOT",
+      "physical_comparison": "not",
+      "physical_relation": "adjacent_stall_occupied",
+      "surface": "occupied_stall_mouth",
+      "original_pixel_observation": "The point is before parked bumpers in a striped row. The gold sedan occupies the space on the black sedan's left.",
+      "point": [
+        2459.733333333333,
+        1970.0395256916997
+      ],
+      "wide": "OPEN",
+      "close": "OPEN",
+      "apparent_open_in_both": true
+    },
+    {
+      "source": "0dfd8dadbb1ad54388d3ca1c9bb6473aa5eeebf407cb7cbdd7a45ee1b5b0c836",
+      "id": "3098fa96b69b6a5427aaa08a07207e35a3dada3afa20b423bafcc408a7cd1378",
+      "recording_id": "kartaview_1129101",
+      "frame_id": 0,
+      "row_index": 2,
+      "role": "candidate",
+      "asked_side": "left",
+      "reference": "NOT",
+      "physical_comparison": "not",
+      "physical_relation": "adjacent_stall_occupied",
+      "surface": "occupied_stall_mouth",
+      "original_pixel_observation": "The short open surface at the mouth of this stall leads directly to another parked sedan. The far side of the gold sedan has no empty adjoining bay.",
+      "point": [
+        2306.133333333333,
+        1884.6640316205535
+      ],
+      "wide": "OPEN",
+      "close": "OPEN",
+      "apparent_open_in_both": true
+    },
+    {
+      "source": "0dfd8dadbb1ad54388d3ca1c9bb6473aa5eeebf407cb7cbdd7a45ee1b5b0c836",
+      "id": "87f14c1e579d308571cc3c624e942e9a2e12a6bcc0319b9a265bfce16d3b7dfe",
+      "recording_id": "kartaview_1129101",
+      "frame_id": 0,
+      "row_index": 3,
+      "role": "wrong_side_control",
+      "asked_side": "right",
+      "reference": "NOT",
+      "physical_comparison": "not",
+      "physical_relation": "adjacent_stall_occupied",
+      "surface": "occupied_stall_mouth",
+      "original_pixel_observation": "The neighbouring space on the white SUV's left contains the black sedan. Empty pavement beyond the bumper is not a vacant adjacent bay.",
+      "point": [
+        2839.4666666666667,
+        2068.221343873518
+      ],
+      "wide": "OPEN",
+      "close": "OPEN",
+      "apparent_open_in_both": true
+    },
+    {
+      "source": "0dfd8dadbb1ad54388d3ca1c9bb6473aa5eeebf407cb7cbdd7a45ee1b5b0c836",
+      "id": "1f3cc51da902f5dd8b6e0274148618cfee28d5750e2fb98aaa8283413dbcebf0",
+      "recording_id": "kartaview_1129101",
+      "frame_id": 0,
+      "row_index": 4,
+      "role": "occupied_control",
+      "asked_side": "left",
+      "reference": "NOT",
+      "physical_comparison": "not",
+      "physical_relation": "on_vehicle",
+      "surface": "vehicle",
+      "original_pixel_observation": "Ring is on the white SUV's tailgate.",
+      "point": [
+        3544.9953002929688,
+        1764.4503021240234
+      ],
+      "wide": "OPEN",
+      "close": "OPEN",
+      "apparent_open_in_both": true
+    },
+    {
+      "source": "0dfd8dadbb1ad54388d3ca1c9bb6473aa5eeebf407cb7cbdd7a45ee1b5b0c836",
+      "id": "c39ee3a35cc906628aa6d005c9d8fdb4e06122989b53965523e1bf846112af0e",
+      "recording_id": "kartaview_1129101",
+      "frame_id": 0,
+      "row_index": 5,
+      "role": "lane_control",
+      "asked_side": "left",
+      "reference": "NOT",
+      "physical_comparison": "not",
+      "physical_relation": "nonadjacent",
+      "surface": "parking_aisle_or_stall_mouth",
+      "original_pixel_observation": "The low point near the frame edge is in the approach to the occupied row, with a separate black car between it and the white SUV's side.",
+      "point": [
+        2596.266666666667,
+        2157.8656126482215
+      ],
+      "wide": "UNCLEAR",
+      "close": "OPEN",
+      "apparent_open_in_both": false
+    },
+    {
+      "source": "4e305274bf98f5a5ef5bfbd4224af7bebddcde53657624c3901ed5b7c2b8c15e",
+      "id": "c4bb0a5e87b97c568ac2bd2553098b7e080a1e35b9fa17473edff58b4ef7da98",
+      "recording_id": "kartaview_7130313",
+      "frame_id": 1390,
+      "row_index": 0,
+      "role": "candidate",
+      "asked_side": "left",
+      "reference": "LEFT",
+      "physical_comparison": "correct_side",
+      "physical_relation": "left",
+      "surface": "marked_parking",
+      "original_pixel_observation": "The native view shows this ring above the white divider at the far flank of the sedan, inside the next empty stripe-bounded stall. It is well outside the sedan's own bumper footprint.",
+      "point": [
+        1623.4666666666667,
+        1193.1225296442688
+      ],
+      "wide": "UNCLEAR",
+      "close": "OPEN",
+      "apparent_open_in_both": false
+    },
+    {
+      "source": "4e305274bf98f5a5ef5bfbd4224af7bebddcde53657624c3901ed5b7c2b8c15e",
+      "id": "d0c565de6ca43d0e563dedb71787291ff8c17d5c1b6e41f7bd72b97dbaef425a",
+      "recording_id": "kartaview_7130313",
+      "frame_id": 1390,
+      "row_index": 1,
+      "role": "candidate",
+      "asked_side": "right",
+      "reference": "RIGHT",
+      "physical_comparison": "correct_side",
+      "physical_relation": "right",
+      "surface": "marked_parking",
+      "original_pixel_observation": "Ring is on the paving inside the immediately adjoining near-side stall, between its two white dividers and inside the kerb. Both flanks of this sedan have visible vacant bays.",
+      "point": [
+        2643.2,
+        1252.8853754940712
+      ],
+      "wide": "OPEN",
+      "close": "OPEN",
+      "apparent_open_in_both": true
+    },
+    {
+      "source": "4e305274bf98f5a5ef5bfbd4224af7bebddcde53657624c3901ed5b7c2b8c15e",
+      "id": "c4bb0a5e87b97c568ac2bd2553098b7e080a1e35b9fa17473edff58b4ef7da98",
+      "recording_id": "kartaview_7130313",
+      "frame_id": 1390,
+      "row_index": 2,
+      "role": "wrong_side_control",
+      "asked_side": "right",
+      "reference": "LEFT",
+      "physical_comparison": "opposite_side",
+      "physical_relation": "left",
+      "surface": "marked_parking",
+      "original_pixel_observation": "The native view shows this ring above the white divider at the far flank of the sedan, inside the next empty stripe-bounded stall. It is well outside the sedan's own bumper footprint.",
+      "point": [
+        1623.4666666666667,
+        1193.1225296442688
+      ],
+      "wide": "LANE",
+      "close": "OPEN",
+      "apparent_open_in_both": false
+    },
+    {
+      "source": "4e305274bf98f5a5ef5bfbd4224af7bebddcde53657624c3901ed5b7c2b8c15e",
+      "id": "b4fbc9b7357b79c518cbcbc764630b6f64ea35516483fffe6e838074077d9224",
+      "recording_id": "kartaview_7130313",
+      "frame_id": 1390,
+      "row_index": 3,
+      "role": "occupied_control",
+      "asked_side": "left",
+      "reference": "NOT",
+      "physical_comparison": "not",
+      "physical_relation": "on_vehicle",
+      "surface": "vehicle",
+      "original_pixel_observation": "The ring lands on the silver sedan body.",
+      "point": [
+        2174.2811279296875,
+        1069.8021240234375
+      ],
+      "wide": "OPEN",
+      "close": "OPEN",
+      "apparent_open_in_both": true
+    },
+    {
+      "source": "4e305274bf98f5a5ef5bfbd4224af7bebddcde53657624c3901ed5b7c2b8c15e",
+      "id": "926a1cd0a9baac4785fd0c8f9d2dde1bc274bbbd6486db20e33e92722fce17ee",
+      "recording_id": "kartaview_7130313",
+      "frame_id": 1390,
+      "row_index": 4,
+      "role": "lane_control",
+      "asked_side": "left",
+      "reference": "NOT",
+      "physical_comparison": "not",
+      "physical_relation": "road_below_vehicle",
+      "surface": "traffic_or_parking_aisle",
+      "original_pixel_observation": "Cyan point is on the driving side of the painted stall-end marker at the mouth of the row.",
+      "point": [
+        1828.2666666666667,
+        1338.2608695652175
+      ],
+      "wide": "UNCLEAR",
+      "close": "UNCLEAR",
+      "apparent_open_in_both": false
+    },
+    {
+      "source": "b2b5aeb414b0b52e47f90118b1cb9daa48d61910ce7e1a112a197ce7084245be",
+      "id": "4a325583444d0b4f8c687f66bb8e5851d02c764630d23d5be2f6a2d54395e926",
+      "recording_id": "kartaview_7199353",
+      "frame_id": 2205,
+      "row_index": 0,
+      "role": "candidate",
+      "asked_side": "left",
+      "reference": "NOT",
+      "physical_comparison": "not",
+      "physical_relation": "behind",
+      "surface": "parking_apron_edge",
+      "original_pixel_observation": "The car faces almost straight towards image-right. The point is beyond its rear near the transition to the circulating pavers.",
+      "point": [
+        2685.4933333333333,
+        1672.6660079051383
+      ],
+      "wide": "UNCLEAR",
+      "close": "OPEN",
+      "apparent_open_in_both": false
+    },
+    {
+      "source": "b2b5aeb414b0b52e47f90118b1cb9daa48d61910ce7e1a112a197ce7084245be",
+      "id": "f0b510284c404459425b9738cd82a91ea42b1568d1686b8a33147f94338ae59d",
+      "recording_id": "kartaview_7199353",
+      "frame_id": 2205,
+      "row_index": 1,
+      "role": "candidate",
+      "asked_side": "left",
+      "reference": "LEFT",
+      "physical_comparison": "correct_side",
+      "physical_relation": "left",
+      "surface": "marked_parking",
+      "original_pixel_observation": "Native detail resolves two painted stall dividers. The ring sits just inside the open stall between the black sedan and the cropped grey car, on the latter vehicle’s image-left; its bumper extends over the near-side boundary.",
+      "point": [
+        3488.16,
+        1879.1679841897233
+      ],
+      "wide": "OPEN",
+      "close": "UNCLEAR",
+      "apparent_open_in_both": false
+    },
+    {
+      "source": "b2b5aeb414b0b52e47f90118b1cb9daa48d61910ce7e1a112a197ce7084245be",
+      "id": "4a325583444d0b4f8c687f66bb8e5851d02c764630d23d5be2f6a2d54395e926",
+      "recording_id": "kartaview_7199353",
+      "frame_id": 2205,
+      "row_index": 2,
+      "role": "wrong_side_control",
+      "asked_side": "right",
+      "reference": "NOT",
+      "physical_comparison": "not",
+      "physical_relation": "behind",
+      "surface": "parking_apron_edge",
+      "original_pixel_observation": "The car faces almost straight towards image-right. The point is beyond its rear near the transition to the circulating pavers.",
+      "point": [
+        2685.4933333333333,
+        1672.6660079051383
+      ],
+      "wide": "UNCLEAR",
+      "close": "OPEN",
+      "apparent_open_in_both": false
+    },
+    {
+      "source": "b2b5aeb414b0b52e47f90118b1cb9daa48d61910ce7e1a112a197ce7084245be",
+      "id": "020e6941252d144f9cee58062ecf5109ef5cf4e4911a1d1fb218dede2013cc6b",
+      "recording_id": "kartaview_7199353",
+      "frame_id": 2205,
+      "row_index": 3,
+      "role": "occupied_control",
+      "asked_side": "left",
+      "reference": "NOT",
+      "physical_comparison": "not",
+      "physical_relation": "on_vehicle",
+      "surface": "vehicle",
+      "original_pixel_observation": "Ring falls on the side doors of the black sedan.",
+      "point": [
+        3519.655931854248,
+        1470.1017528533937
+      ],
+      "wide": "OPEN",
+      "close": "OPEN",
+      "apparent_open_in_both": true
+    },
+    {
+      "source": "b2b5aeb414b0b52e47f90118b1cb9daa48d61910ce7e1a112a197ce7084245be",
+      "id": "fac73e0bfa9b7de9e55f2e4194e5132a71da11704ad0f820a5b1629b2dfc904b",
+      "recording_id": "kartaview_7199353",
+      "frame_id": 2205,
+      "row_index": 4,
+      "role": "lane_control",
+      "asked_side": "left",
+      "reference": "UNCERTAIN",
+      "physical_comparison": "uncertain",
+      "physical_relation": "near_lateral_flank",
+      "surface": "parking_pavement",
+      "original_pixel_observation": "Empty parking pavement on the near side of the broadside black sedan. The mark appears below and inside the car's horizontal span, so a left/right image-side instruction is ambiguous.",
+      "point": [
+        3249.653333333333,
+        1915.8794466403162
+      ],
+      "wide": "OPEN",
+      "close": "UNCLEAR",
+      "apparent_open_in_both": false
+    },
+    {
+      "source": "87af60ca411087c3c3217f90120bf1ab3bbaf4369c184e7261ef51fbf18a697d",
+      "id": "b029c47b87a140b7329bae0d60559274e7fdd4e86f55ccbb9107d4d37825229d",
+      "recording_id": "kartaview_6327417",
+      "frame_id": 13,
+      "row_index": 0,
+      "role": "candidate",
+      "asked_side": "right",
+      "reference": "NOT",
+      "physical_comparison": "not",
+      "physical_relation": "in_front_of_column",
+      "surface": "garage_aisle",
+      "original_pixel_observation": "The ring is in the grey vehicle aisle in front of a pillar, outside the green bays.",
+      "point": [
+        1572.2666666666667,
+        1555.9683794466405
+      ],
+      "wide": "OPEN",
+      "close": "OPEN",
+      "apparent_open_in_both": true
+    },
+    {
+      "source": "87af60ca411087c3c3217f90120bf1ab3bbaf4369c184e7261ef51fbf18a697d",
+      "id": "6307c2525b2d69f14bbe3ee298a533a9bafff73e51d38962f8173138fb7f3a35",
+      "recording_id": "kartaview_6327417",
+      "frame_id": 13,
+      "row_index": 1,
+      "role": "candidate",
+      "asked_side": "right",
+      "reference": "NOT",
+      "physical_comparison": "not",
+      "physical_relation": "pillar_separates",
+      "surface": "garage_aisle",
+      "original_pixel_observation": "A large structural column and a different parking position intervene between the black sedan and this aisle point.",
+      "point": [
+        2519.4666666666667,
+        1427.905138339921
+      ],
+      "wide": "OPEN",
+      "close": "OPEN",
+      "apparent_open_in_both": true
+    },
+    {
+      "source": "87af60ca411087c3c3217f90120bf1ab3bbaf4369c184e7261ef51fbf18a697d",
+      "id": "b029c47b87a140b7329bae0d60559274e7fdd4e86f55ccbb9107d4d37825229d",
+      "recording_id": "kartaview_6327417",
+      "frame_id": 13,
+      "row_index": 2,
+      "role": "wrong_side_control",
+      "asked_side": "left",
+      "reference": "NOT",
+      "physical_comparison": "not",
+      "physical_relation": "in_front_of_column",
+      "surface": "garage_aisle",
+      "original_pixel_observation": "The ring is in the grey vehicle aisle in front of a pillar, outside the green bays.",
+      "point": [
+        1572.2666666666667,
+        1555.9683794466405
+      ],
+      "wide": "OPEN",
+      "close": "UNCLEAR",
+      "apparent_open_in_both": false
+    },
+    {
+      "source": "87af60ca411087c3c3217f90120bf1ab3bbaf4369c184e7261ef51fbf18a697d",
+      "id": "4b990b47712442c04c77c15c8cdffd21f4be0652dfab33bf4c94dc15ced5f500",
+      "recording_id": "kartaview_6327417",
+      "frame_id": 13,
+      "row_index": 3,
+      "role": "occupied_control",
+      "asked_side": "right",
+      "reference": "NOT",
+      "physical_comparison": "not",
+      "physical_relation": "on_vehicle",
+      "surface": "vehicle",
+      "original_pixel_observation": "Ring sits on the Toyota's bonnet/front body.",
+      "point": [
+        691.3460426330566,
+        1257.448745727539
+      ],
+      "wide": "OPEN",
+      "close": "UNCLEAR",
+      "apparent_open_in_both": false
+    },
+    {
+      "source": "87af60ca411087c3c3217f90120bf1ab3bbaf4369c184e7261ef51fbf18a697d",
+      "id": "8876fd6f1389ca9acf15335e735bc089b5fd6316f8668bde04c2fbe003bdc9a6",
+      "recording_id": "kartaview_6327417",
+      "frame_id": 13,
+      "row_index": 4,
+      "role": "lane_control",
+      "asked_side": "right",
+      "reference": "NOT",
+      "physical_comparison": "not",
+      "physical_relation": "in_front",
+      "surface": "garage_aisle",
+      "original_pixel_observation": "The dark grey foreground is the garage circulation aisle, in front of the row of green parking spaces.",
+      "point": [
+        1875.2,
+        1675.4940711462452
+      ],
+      "wide": "OPEN",
+      "close": "OPEN",
+      "apparent_open_in_both": true
+    },
+    {
+      "source": "3ed141c2c0b33754e2ee822ec16e1c1ed1c713dbd29b16e94acde77b950c6af8",
+      "id": "1afbafb443a6fd0ae8f4bd25de9ffc2ae0a93292bdb2597feecda266d84f14b7",
+      "recording_id": "kartaview_7130313",
+      "frame_id": 1395,
+      "row_index": 0,
+      "role": "candidate",
+      "asked_side": "left",
+      "reference": "NOT",
+      "physical_comparison": "not",
+      "physical_relation": "behind",
+      "surface": "occupied_vehicle_stall_mouth",
+      "original_pixel_observation": "Close inspection places the ring between the painted lines of the black SUV's own bay, just behind its rear spare wheel. The adjoining empty bay lies across the white divider.",
+      "point": [
+        1465.6,
+        1205.9288537549407
+      ],
+      "wide": "LANE",
+      "close": "LANE",
+      "apparent_open_in_both": false
+    },
+    {
+      "source": "3ed141c2c0b33754e2ee822ec16e1c1ed1c713dbd29b16e94acde77b950c6af8",
+      "id": "1afbafb443a6fd0ae8f4bd25de9ffc2ae0a93292bdb2597feecda266d84f14b7",
+      "recording_id": "kartaview_7130313",
+      "frame_id": 1395,
+      "row_index": 1,
+      "role": "wrong_side_control",
+      "asked_side": "right",
+      "reference": "NOT",
+      "physical_comparison": "not",
+      "physical_relation": "behind",
+      "surface": "occupied_vehicle_stall_mouth",
+      "original_pixel_observation": "Close inspection places the ring between the painted lines of the black SUV's own bay, just behind its rear spare wheel. The adjoining empty bay lies across the white divider.",
+      "point": [
+        1465.6,
+        1205.9288537549407
+      ],
+      "wide": "LANE",
+      "close": "LANE",
+      "apparent_open_in_both": false
+    },
+    {
+      "source": "3ed141c2c0b33754e2ee822ec16e1c1ed1c713dbd29b16e94acde77b950c6af8",
+      "id": "a2293eb4699ba2502cde402c4cf67c616e4e7220a42135076440ffaeeda9dc60",
+      "recording_id": "kartaview_7130313",
+      "frame_id": 1395,
+      "row_index": 2,
+      "role": "occupied_control",
+      "asked_side": "left",
+      "reference": "NOT",
+      "physical_comparison": "not",
+      "physical_relation": "on_vehicle",
+      "surface": "vehicle",
+      "original_pixel_observation": "Ring sits on the parked SUV's side/rear body.",
+      "point": [
+        1944.2535095214844,
+        1042.71533203125
+      ],
+      "wide": "UNCLEAR",
+      "close": "OPEN",
+      "apparent_open_in_both": false
+    },
+    {
+      "source": "3ed141c2c0b33754e2ee822ec16e1c1ed1c713dbd29b16e94acde77b950c6af8",
+      "id": "fca89c9646dbcec2e110085a8c4a9aef7a457de2a1860fd449b3c53213c32454",
+      "recording_id": "kartaview_7130313",
+      "frame_id": 1395,
+      "row_index": 3,
+      "role": "lane_control",
+      "asked_side": "right",
+      "reference": "NOT",
+      "physical_comparison": "not",
+      "physical_relation": "nonadjacent_lateral_bay",
+      "surface": "marked_parking",
+      "original_pixel_observation": "The ring lies on empty parking pavement but one entire empty marked bay lies between this point and the SUV; it is across the second stripe from the occupied bay.",
+      "point": [
+        2097.0666666666666,
+        1406.5612648221345
+      ],
+      "wide": "UNCLEAR",
+      "close": "UNCLEAR",
+      "apparent_open_in_both": false
+    },
+    {
+      "source": "6c09f8965a7203ca86f42d18d4b7fc43fa38c700d827a3b92bf90189b394d273",
+      "id": "2346a99ab9dd9cbd494cd84b899adf168877b2ab3959115ce38f5ee72aad62b9",
+      "recording_id": "kartaview_7168777",
+      "frame_id": 1211,
+      "row_index": 0,
+      "role": "candidate",
+      "asked_side": "left",
+      "reference": "NOT",
+      "physical_comparison": "not",
+      "physical_relation": "adjacent_stall_occupied",
+      "surface": "occupied_stall_mouth",
+      "original_pixel_observation": "On the image-left of the red Mazda, a white car already occupies the adjacent stall. The ring is near that car's rear and the aisle end of its bay.",
+      "point": [
+        1354.6666666666667,
+        1321.1857707509882
+      ],
+      "wide": "OPEN",
+      "close": "OPEN",
+      "apparent_open_in_both": true
+    },
+    {
+      "source": "6c09f8965a7203ca86f42d18d4b7fc43fa38c700d827a3b92bf90189b394d273",
+      "id": "2346a99ab9dd9cbd494cd84b899adf168877b2ab3959115ce38f5ee72aad62b9",
+      "recording_id": "kartaview_7168777",
+      "frame_id": 1211,
+      "row_index": 1,
+      "role": "wrong_side_control",
+      "asked_side": "right",
+      "reference": "NOT",
+      "physical_comparison": "not",
+      "physical_relation": "adjacent_stall_occupied",
+      "surface": "occupied_stall_mouth",
+      "original_pixel_observation": "On the image-left of the red Mazda, a white car already occupies the adjacent stall. The ring is near that car's rear and the aisle end of its bay.",
+      "point": [
+        1354.6666666666667,
+        1321.1857707509882
+      ],
+      "wide": "OPEN",
+      "close": "OPEN",
+      "apparent_open_in_both": true
+    },
+    {
+      "source": "6c09f8965a7203ca86f42d18d4b7fc43fa38c700d827a3b92bf90189b394d273",
+      "id": "f5b28a282cc626b171b8189fffdfe8be887e49d6eabd8d1addbcd8892f65cd1b",
+      "recording_id": "kartaview_7168777",
+      "frame_id": 1211,
+      "row_index": 2,
+      "role": "occupied_control",
+      "asked_side": "left",
+      "reference": "NOT",
+      "physical_comparison": "not",
+      "physical_relation": "on_vehicle",
+      "surface": "vehicle",
+      "original_pixel_observation": "The projected ring is on a vehicle body where the nearer blue car visually overlaps the red one.",
+      "point": [
+        1714.2193450927734,
+        1210.3961334228516
+      ],
+      "wide": "UNCLEAR",
+      "close": "OPEN",
+      "apparent_open_in_both": false
+    },
+    {
+      "source": "6c09f8965a7203ca86f42d18d4b7fc43fa38c700d827a3b92bf90189b394d273",
+      "id": "5d206529c9ec84bd0632560f3e32f455c20ea55217381860c33b08b3c5f7e9eb",
+      "recording_id": "kartaview_7168777",
+      "frame_id": 1211,
+      "row_index": 3,
+      "role": "lane_control",
+      "asked_side": "left",
+      "reference": "NOT",
+      "physical_comparison": "not",
+      "physical_relation": "behind_row",
+      "surface": "parking_aisle",
+      "original_pixel_observation": "Below the red car's rear and outside the painted stall ends, this is the circulation space down the middle of the car park.",
+      "point": [
+        1538.1333333333334,
+        1496.205533596838
+      ],
+      "wide": "UNCLEAR",
+      "close": "OPEN",
+      "apparent_open_in_both": false
+    },
+    {
+      "source": "02743df87088fa38698cf3093947cbb3085c14755dd49fa16cadc8fb24b2e080",
+      "id": "24f3f11361e50f464feecc517d1b5574b88fbe7bd564da36e2c345b7cabce7e7",
+      "recording_id": "kartaview_7173145",
+      "frame_id": 1173,
+      "row_index": 0,
+      "role": "candidate",
+      "asked_side": "right",
+      "reference": "NOT",
+      "physical_comparison": "not",
+      "physical_relation": "behind",
+      "surface": "curbside_parking",
+      "original_pixel_observation": "The ring is on the right-hand parking strip between the white sedan and the nearer white SUV. Both face away along the same curb: this open space is longitudinally behind the sedan.",
+      "point": [
+        1687.4666666666667,
+        1116.2845849802372
+      ],
+      "wide": "OPEN",
+      "close": "OPEN",
+      "apparent_open_in_both": true
+    },
+    {
+      "source": "02743df87088fa38698cf3093947cbb3085c14755dd49fa16cadc8fb24b2e080",
+      "id": "24f3f11361e50f464feecc517d1b5574b88fbe7bd564da36e2c345b7cabce7e7",
+      "recording_id": "kartaview_7173145",
+      "frame_id": 1173,
+      "row_index": 1,
+      "role": "wrong_side_control",
+      "asked_side": "left",
+      "reference": "NOT",
+      "physical_comparison": "not",
+      "physical_relation": "behind",
+      "surface": "curbside_parking",
+      "original_pixel_observation": "The ring is on the right-hand parking strip between the white sedan and the nearer white SUV. Both face away along the same curb: this open space is longitudinally behind the sedan.",
+      "point": [
+        1687.4666666666667,
+        1116.2845849802372
+      ],
+      "wide": "OPEN",
+      "close": "UNCLEAR",
+      "apparent_open_in_both": false
+    },
+    {
+      "source": "02743df87088fa38698cf3093947cbb3085c14755dd49fa16cadc8fb24b2e080",
+      "id": "fafd28f87d4ed35118322a851a518fdf2e238ad04429cfd53f55a29aa3af979f",
+      "recording_id": "kartaview_7173145",
+      "frame_id": 1173,
+      "row_index": 2,
+      "role": "occupied_control",
+      "asked_side": "right",
+      "reference": "NOT",
+      "physical_comparison": "not",
+      "physical_relation": "on_vehicle",
+      "surface": "vehicle",
+      "original_pixel_observation": "Ring is on the white sedan's boot.",
+      "point": [
+        1352.3668670654297,
+        1000.3968658447266
+      ],
+      "wide": "UNCLEAR",
+      "close": "OPEN",
+      "apparent_open_in_both": false
+    },
+    {
+      "source": "02743df87088fa38698cf3093947cbb3085c14755dd49fa16cadc8fb24b2e080",
+      "id": "3b26dad6c439346931c0589847f8769b311a65ca41387729f0b5d489b3630c72",
+      "recording_id": "kartaview_7173145",
+      "frame_id": 1173,
+      "row_index": 3,
+      "role": "lane_control",
+      "asked_side": "left",
+      "reference": "NOT",
+      "physical_comparison": "not",
+      "physical_relation": "road_below_vehicle",
+      "surface": "travel_lane",
+      "original_pixel_observation": "The point lies on the dark travel lane across the colour/material boundary from the curbside parking row.",
+      "point": [
+        1252.2666666666667,
+        1158.9723320158103
+      ],
+      "wide": "LANE",
+      "close": "LANE",
+      "apparent_open_in_both": false
+    },
+    {
+      "source": "cd4e27b8077b24d36169170a847c9f5d382e9c315ad5bb670cb51ecf6ed40082",
+      "id": "3f1baeec3887c3a7e2ed69de4b4e3a10b96c773c4413d17a9fae7f20f477ba36",
+      "recording_id": "kartaview_3333849",
+      "frame_id": 525,
+      "row_index": 0,
+      "role": "candidate",
+      "asked_side": "left",
+      "reference": "UNCERTAIN",
+      "physical_comparison": "uncertain",
+      "physical_relation": "in_front_or_unclear",
+      "surface": "possible_parking_mouth",
+      "original_pixel_observation": "The ring is near the edge of the marked parking/approach, beyond the dark SUV's nose. A vacant directly lateral space cannot be distinguished from its front access.",
+      "point": [
+        2457.0666666666666,
+        1554.7944664031622
+      ],
+      "wide": "OPEN",
+      "close": "LANE",
+      "apparent_open_in_both": false
+    },
+    {
+      "source": "cd4e27b8077b24d36169170a847c9f5d382e9c315ad5bb670cb51ecf6ed40082",
+      "id": "3f1baeec3887c3a7e2ed69de4b4e3a10b96c773c4413d17a9fae7f20f477ba36",
+      "recording_id": "kartaview_3333849",
+      "frame_id": 525,
+      "row_index": 1,
+      "role": "wrong_side_control",
+      "asked_side": "right",
+      "reference": "UNCERTAIN",
+      "physical_comparison": "uncertain",
+      "physical_relation": "in_front_or_unclear",
+      "surface": "possible_parking_mouth",
+      "original_pixel_observation": "The ring is near the edge of the marked parking/approach, beyond the dark SUV's nose. A vacant directly lateral space cannot be distinguished from its front access.",
+      "point": [
+        2457.0666666666666,
+        1554.7944664031622
+      ],
+      "wide": "OPEN",
+      "close": "LANE",
+      "apparent_open_in_both": false
+    },
+    {
+      "source": "cd4e27b8077b24d36169170a847c9f5d382e9c315ad5bb670cb51ecf6ed40082",
+      "id": "287056cffe767e61d965cb5ba911176eecc0250f5f5ec83bd463734c57a46306",
+      "recording_id": "kartaview_3333849",
+      "frame_id": 525,
+      "row_index": 2,
+      "role": "occupied_control",
+      "asked_side": "left",
+      "reference": "NOT",
+      "physical_comparison": "not",
+      "physical_relation": "on_vehicle",
+      "surface": "vehicle",
+      "original_pixel_observation": "Ring is on the nose of the dark SUV.",
+      "point": [
+        3021.1987243652343,
+        1310.7531509399414
+      ],
+      "wide": "OPEN",
+      "close": "OPEN",
+      "apparent_open_in_both": true
+    },
+    {
+      "source": "cd4e27b8077b24d36169170a847c9f5d382e9c315ad5bb670cb51ecf6ed40082",
+      "id": "c5729a63d3f42b8380414f40d911b5584df2747c2fa898d541d5bd72dab76f90",
+      "recording_id": "kartaview_3333849",
+      "frame_id": 525,
+      "row_index": 3,
+      "role": "lane_control",
+      "asked_side": "left",
+      "reference": "NOT",
+      "physical_comparison": "not",
+      "physical_relation": "road_below_vehicle",
+      "surface": "traffic_or_parking_aisle",
+      "original_pixel_observation": "The mark is in the foreground circulation path on the driving side of the painted row edge.",
+      "point": [
+        2525.9733333333334,
+        1747.102766798419
+      ],
+      "wide": "OPEN",
+      "close": "OPEN",
+      "apparent_open_in_both": true
+    },
+    {
+      "source": "df3c7569cf08071fe7492af65e599d7132364496766bb9e1e4fa4c3966dccc04",
+      "id": "09bcf40dd497ef4b1a428cc6149069fac13d5ebd0e5ad95f7fb50d259cdf4ac9",
+      "recording_id": "kartaview_7168793",
+      "frame_id": 16,
+      "row_index": 0,
+      "role": "candidate",
+      "asked_side": "right",
+      "reference": "RIGHT",
+      "physical_comparison": "correct_side",
+      "physical_relation": "right_near_flank",
+      "surface": "marked_parking",
+      "original_pixel_observation": "Native detail resolves a complete painted divider between the cropped red SUV and the empty nearer stall containing the ring. The distant dark car occupies the far flank, while the ring lies below and image-right of the red car in the near-side stall.",
+      "point": [
+        258.1333333333333,
+        1338.2608695652175
+      ],
+      "wide": "OPEN",
+      "close": "OPEN",
+      "apparent_open_in_both": true
+    },
+    {
+      "source": "df3c7569cf08071fe7492af65e599d7132364496766bb9e1e4fa4c3966dccc04",
+      "id": "09bcf40dd497ef4b1a428cc6149069fac13d5ebd0e5ad95f7fb50d259cdf4ac9",
+      "recording_id": "kartaview_7168793",
+      "frame_id": 16,
+      "row_index": 1,
+      "role": "wrong_side_control",
+      "asked_side": "left",
+      "reference": "RIGHT",
+      "physical_comparison": "opposite_side",
+      "physical_relation": "right_near_flank",
+      "surface": "marked_parking",
+      "original_pixel_observation": "Native detail resolves a complete painted divider between the cropped red SUV and the empty nearer stall containing the ring. The distant dark car occupies the far flank, while the ring lies below and image-right of the red car in the near-side stall.",
+      "point": [
+        258.1333333333333,
+        1338.2608695652175
+      ],
+      "wide": "OPEN",
+      "close": "OPEN",
+      "apparent_open_in_both": true
+    },
+    {
+      "source": "df3c7569cf08071fe7492af65e599d7132364496766bb9e1e4fa4c3966dccc04",
+      "id": "85176c8f230f5b7d715be8cd2fda1723897f8030e1a879272e0fcc438773efbf",
+      "recording_id": "kartaview_7168793",
+      "frame_id": 16,
+      "row_index": 2,
+      "role": "occupied_control",
+      "asked_side": "right",
+      "reference": "NOT",
+      "physical_comparison": "not",
+      "physical_relation": "on_vehicle",
+      "surface": "vehicle",
+      "original_pixel_observation": "Ring is on the red SUV's rear hatch.",
+      "point": [
+        100.88258743286133,
+        1177.5200500488281
+      ],
+      "wide": "OPEN",
+      "close": "UNCLEAR",
+      "apparent_open_in_both": false
+    },
+    {
+      "source": "df3c7569cf08071fe7492af65e599d7132364496766bb9e1e4fa4c3966dccc04",
+      "id": "b91cfeeaa761218250ef09c387a2650ef5358c8096c03dcb28c608eb22c7be1e",
+      "recording_id": "kartaview_7168793",
+      "frame_id": 16,
+      "row_index": 3,
+      "role": "lane_control",
+      "asked_side": "left",
+      "reference": "NOT",
+      "physical_comparison": "not",
+      "physical_relation": "nonadjacent_lateral_bay",
+      "surface": "bay_mouth_or_aisle",
+      "original_pixel_observation": "Native detail shows at least two painted dividers between the cropped red SUV and the low foreground ring. It is not the immediately adjoining space.",
+      "point": [
+        83.2,
+        1530.3557312252965
+      ],
+      "wide": "OPEN",
+      "close": "OPEN",
+      "apparent_open_in_both": true
+    },
+    {
+      "source": "5a9b732bb1a487c9769eba291ff49bf9c0fff286efe7a849a66b296704c8cffa",
+      "id": "88103cd622b27bd8727d6e925811b618463b92438a23e89ec9ffabf16c34a8eb",
+      "recording_id": "kartaview_7120185",
+      "frame_id": 54,
+      "row_index": 0,
+      "role": "candidate",
+      "asked_side": "left",
+      "reference": "LEFT",
+      "physical_comparison": "correct_side",
+      "physical_relation": "left",
+      "surface": "off_lane_parking",
+      "original_pixel_observation": "The ring lies on the same vacant accessible frontage between the Mini and the blue SUV, immediately to the Mini's image-left. Both the Mini's left and right locations are plausible.",
+      "point": [
+        2254.9333333333334,
+        1466.3241106719368
+      ],
+      "wide": "OPEN",
+      "close": "UNCLEAR",
+      "apparent_open_in_both": false
+    },
+    {
+      "source": "5a9b732bb1a487c9769eba291ff49bf9c0fff286efe7a849a66b296704c8cffa",
+      "id": "6a197449638b3e4df883c72b422fa69d545a875b18f5110575ba70882463148b",
+      "recording_id": "kartaview_7120185",
+      "frame_id": 54,
+      "row_index": 1,
+      "role": "candidate",
+      "asked_side": "right",
+      "reference": "RIGHT",
+      "physical_comparison": "correct_side",
+      "physical_relation": "right",
+      "surface": "off_lane_parking",
+      "original_pixel_observation": "Clear reddish parking pavement beside the Mini on its image-right, separated visibly from the pedestrian strip and road.",
+      "point": [
+        3223.4666666666667,
+        1509.01185770751
+      ],
+      "wide": "OPEN",
+      "close": "UNCLEAR",
+      "apparent_open_in_both": false
+    },
+    {
+      "source": "5a9b732bb1a487c9769eba291ff49bf9c0fff286efe7a849a66b296704c8cffa",
+      "id": "f9ae4e0630b7b220f8aecd7df1828b481317e4cc75557fba810e6f9403aa1cbf",
+      "recording_id": "kartaview_7120185",
+      "frame_id": 54,
+      "row_index": 2,
+      "role": "candidate",
+      "asked_side": "left",
+      "reference": "NOT",
+      "physical_comparison": "not",
+      "physical_relation": "behind_or_separated",
+      "surface": "occupied_row_mouth",
+      "original_pixel_observation": "The next place beyond the blue SUV's rear is occupied by the white cars. This ring at the apron mouth establishes neither a free neighbouring space nor a side location.",
+      "point": [
+        1256.5333333333333,
+        1363.8735177865613
+      ],
+      "wide": "OPEN",
+      "close": "OPEN",
+      "apparent_open_in_both": true
+    },
+    {
+      "source": "5a9b732bb1a487c9769eba291ff49bf9c0fff286efe7a849a66b296704c8cffa",
+      "id": "29ac89d61dc3b2111ac756316f55df4d31a563ae582177ea03553468aeb6ff1e",
+      "recording_id": "kartaview_7120185",
+      "frame_id": 54,
+      "row_index": 3,
+      "role": "candidate",
+      "asked_side": "right",
+      "reference": "RIGHT",
+      "physical_comparison": "correct_side",
+      "physical_relation": "right",
+      "surface": "off_lane_parking",
+      "original_pixel_observation": "The ring sits on the vacant brick-paved frontage between the blue SUV and the Mini. It is on the blue SUV's nearer flank, at image-right; both vehicles stand nose-in towards the shops.",
+      "point": [
+        2276.266666666667,
+        1398.0237154150198
+      ],
+      "wide": "UNCLEAR",
+      "close": "OPEN",
+      "apparent_open_in_both": false
+    },
+    {
+      "source": "5a9b732bb1a487c9769eba291ff49bf9c0fff286efe7a849a66b296704c8cffa",
+      "id": "88103cd622b27bd8727d6e925811b618463b92438a23e89ec9ffabf16c34a8eb",
+      "recording_id": "kartaview_7120185",
+      "frame_id": 54,
+      "row_index": 4,
+      "role": "wrong_side_control",
+      "asked_side": "right",
+      "reference": "LEFT",
+      "physical_comparison": "opposite_side",
+      "physical_relation": "left",
+      "surface": "off_lane_parking",
+      "original_pixel_observation": "The ring lies on the same vacant accessible frontage between the Mini and the blue SUV, immediately to the Mini's image-left. Both the Mini's left and right locations are plausible.",
+      "point": [
+        2254.9333333333334,
+        1466.3241106719368
+      ],
+      "wide": "UNCLEAR",
+      "close": "UNCLEAR",
+      "apparent_open_in_both": false
+    },
+    {
+      "source": "5a9b732bb1a487c9769eba291ff49bf9c0fff286efe7a849a66b296704c8cffa",
+      "id": "3db194b1dad2db6622eb225d2874a0eeda0adc47c3f38b52bed4ad5963d65d2f",
+      "recording_id": "kartaview_7120185",
+      "frame_id": 54,
+      "row_index": 5,
+      "role": "occupied_control",
+      "asked_side": "left",
+      "reference": "NOT",
+      "physical_comparison": "not",
+      "physical_relation": "on_vehicle",
+      "surface": "vehicle",
+      "original_pixel_observation": "Ring lands on the Mini's rear hatch.",
+      "point": [
+        2758.838653564453,
+        1270.6930389404297
+      ],
+      "wide": "UNCLEAR",
+      "close": "UNCLEAR",
+      "apparent_open_in_both": false
+    },
+    {
+      "source": "5a9b732bb1a487c9769eba291ff49bf9c0fff286efe7a849a66b296704c8cffa",
+      "id": "6a23832f8a96e34c231c08a19a7f0d046ed79dc3f30eb4a32b6361a6aac10c1d",
+      "recording_id": "kartaview_7120185",
+      "frame_id": 54,
+      "row_index": 6,
+      "role": "lane_control",
+      "asked_side": "left",
+      "reference": "NOT",
+      "physical_comparison": "not",
+      "physical_relation": "behind",
+      "surface": "approach_paving",
+      "original_pixel_observation": "The light paving directly behind the Mini is the approach to its parking position rather than its side.",
+      "point": [
+        2728.5333333333333,
+        1607.1936758893282
+      ],
+      "wide": "OPEN",
+      "close": "UNCLEAR",
+      "apparent_open_in_both": false
+    },
+    {
+      "source": "df4b13c0f17548cf0a1911efdbe0f94b00c1299c97a07a6c3783beab3ce2b416",
+      "id": "e22fb136afb3ddbf9c63faee91495a46fa11092557081e2f2d90c2006df6c08f",
+      "recording_id": "kartaview_5546153",
+      "frame_id": 445,
+      "row_index": 0,
+      "role": "candidate",
+      "asked_side": "left",
+      "reference": "NOT",
+      "physical_comparison": "not",
+      "physical_relation": "adjacent_stall_occupied",
+      "surface": "occupied_stall_mouth",
+      "original_pixel_observation": "This spot is on open paved apron by the white-line edge, but another white SUV occupies the next bay between this mark and the grey SUV.",
+      "point": [
+        1755.7333333333333,
+        1709.6442687747037
+      ],
+      "wide": "OPEN",
+      "close": "LANE",
+      "apparent_open_in_both": false
+    },
+    {
+      "source": "df4b13c0f17548cf0a1911efdbe0f94b00c1299c97a07a6c3783beab3ce2b416",
+      "id": "a1ba63e3e6569843146c2dd1772341fe34dcbed4bd9d3c94b8af7165547a917f",
+      "recording_id": "kartaview_5546153",
+      "frame_id": 445,
+      "row_index": 1,
+      "role": "candidate",
+      "asked_side": "right",
+      "reference": "RIGHT",
+      "physical_comparison": "correct_side",
+      "physical_relation": "right",
+      "surface": "marked_parking",
+      "original_pixel_observation": "The right-hand flank of the grey SUV borders this distinctly empty painted bay. There is an unobstructed access from the adjacent aisle.",
+      "point": [
+        2984.5333333333333,
+        1735.2569169960475
+      ],
+      "wide": "OPEN",
+      "close": "OPEN",
+      "apparent_open_in_both": true
+    },
+    {
+      "source": "df4b13c0f17548cf0a1911efdbe0f94b00c1299c97a07a6c3783beab3ce2b416",
+      "id": "e22fb136afb3ddbf9c63faee91495a46fa11092557081e2f2d90c2006df6c08f",
+      "recording_id": "kartaview_5546153",
+      "frame_id": 445,
+      "row_index": 2,
+      "role": "wrong_side_control",
+      "asked_side": "right",
+      "reference": "NOT",
+      "physical_comparison": "not",
+      "physical_relation": "adjacent_stall_occupied",
+      "surface": "occupied_stall_mouth",
+      "original_pixel_observation": "This spot is on open paved apron by the white-line edge, but another white SUV occupies the next bay between this mark and the grey SUV.",
+      "point": [
+        1755.7333333333333,
+        1709.6442687747037
+      ],
+      "wide": "OPEN",
+      "close": "OPEN",
+      "apparent_open_in_both": true
+    },
+    {
+      "source": "df4b13c0f17548cf0a1911efdbe0f94b00c1299c97a07a6c3783beab3ce2b416",
+      "id": "79a0fd67102b3ba3291cd68149d833ce5c6e18cd88974a46d92a9a5d3c659e80",
+      "recording_id": "kartaview_5546153",
+      "frame_id": 445,
+      "row_index": 3,
+      "role": "occupied_control",
+      "asked_side": "left",
+      "reference": "NOT",
+      "physical_comparison": "not",
+      "physical_relation": "on_vehicle",
+      "surface": "vehicle",
+      "original_pixel_observation": "Ring falls on the grey SUV's near side panel.",
+      "point": [
+        2499.8302001953125,
+        1522.5175323486328
+      ],
+      "wide": "OPEN",
+      "close": "OPEN",
+      "apparent_open_in_both": true
+    },
+    {
+      "source": "df4b13c0f17548cf0a1911efdbe0f94b00c1299c97a07a6c3783beab3ce2b416",
+      "id": "7d81cd7ba76aff890a1006d5fe19c3e1591ae92bac7bbb2bf81e2c7cbd2c4388",
+      "recording_id": "kartaview_5546153",
+      "frame_id": 445,
+      "row_index": 4,
+      "role": "lane_control",
+      "asked_side": "left",
+      "reference": "NOT",
+      "physical_comparison": "not",
+      "physical_relation": "road_below_vehicle",
+      "surface": "travel_lane",
+      "original_pixel_observation": "The mark is to the traffic side of the solid white line and near the recording car's bonnet.",
+      "point": [
+        1896.5333333333333,
+        1952.9644268774705
+      ],
+      "wide": "OPEN",
+      "close": "OPEN",
+      "apparent_open_in_both": true
+    },
+    {
+      "source": "d6219bd62cb3eb77119a72473ad133ce125ad8b02645d2bdc44f817590764203",
+      "id": "f7c1e9a74233a1bbec7478d9156ba6eb7902c863e76e13419eb1ab0cacacd675",
+      "recording_id": "kartaview_5098777",
+      "frame_id": 73,
+      "row_index": 0,
+      "role": "candidate",
+      "asked_side": "right",
+      "reference": "NOT",
+      "physical_comparison": "not",
+      "physical_relation": "in_front",
+      "surface": "open_forecourt",
+      "original_pixel_observation": "The beige SUV is seen in full side profile, spare wheel to the left and bonnet to the right. The ring is beyond the bonnet, in front of the vehicle.",
+      "point": [
+        2899.52,
+        919.8142292490119
+      ],
+      "wide": "OPEN",
+      "close": "OPEN",
+      "apparent_open_in_both": true
+    },
+    {
+      "source": "d6219bd62cb3eb77119a72473ad133ce125ad8b02645d2bdc44f817590764203",
+      "id": "f7c1e9a74233a1bbec7478d9156ba6eb7902c863e76e13419eb1ab0cacacd675",
+      "recording_id": "kartaview_5098777",
+      "frame_id": 73,
+      "row_index": 1,
+      "role": "wrong_side_control",
+      "asked_side": "left",
+      "reference": "NOT",
+      "physical_comparison": "not",
+      "physical_relation": "in_front",
+      "surface": "open_forecourt",
+      "original_pixel_observation": "The beige SUV is seen in full side profile, spare wheel to the left and bonnet to the right. The ring is beyond the bonnet, in front of the vehicle.",
+      "point": [
+        2899.52,
+        919.8142292490119
+      ],
+      "wide": "OPEN",
+      "close": "OPEN",
+      "apparent_open_in_both": true
+    },
+    {
+      "source": "d6219bd62cb3eb77119a72473ad133ce125ad8b02645d2bdc44f817590764203",
+      "id": "0280179f0c7c617947db790ab6fd5b1c46e26fdb88643ff33702098db69ea756",
+      "recording_id": "kartaview_5098777",
+      "frame_id": 73,
+      "row_index": 2,
+      "role": "occupied_control",
+      "asked_side": "right",
+      "reference": "NOT",
+      "physical_comparison": "not",
+      "physical_relation": "on_vehicle",
+      "surface": "vehicle",
+      "original_pixel_observation": "Ring lies in the centre of the beige SUV's doors.",
+      "point": [
+        2487.679861450195,
+        830.0307586669921
+      ],
+      "wide": "OPEN",
+      "close": "OPEN",
+      "apparent_open_in_both": true
+    },
+    {
+      "source": "d6219bd62cb3eb77119a72473ad133ce125ad8b02645d2bdc44f817590764203",
+      "id": "d0f8251aaadfdead7c5a8b50c38abb9bbdb1246f99752a3001e53ad564cfac5b",
+      "recording_id": "kartaview_5098777",
+      "frame_id": 73,
+      "row_index": 3,
+      "role": "lane_control",
+      "asked_side": "left",
+      "reference": "NOT",
+      "physical_comparison": "not",
+      "physical_relation": "road_below_vehicle",
+      "surface": "travel_lane",
+      "original_pixel_observation": "Ring lies in the dark driving lane, across the boundary from the parking forecourt.",
+      "point": [
+        2206.8266666666664,
+        1017.7826086956522
+      ],
+      "wide": "UNCLEAR",
+      "close": "OPEN",
+      "apparent_open_in_both": false
+    },
+    {
+      "source": "88cc304edc4b1232912979a59870954915b8e8dc51de853d45e2b5315b2f95be",
+      "id": "60609e91bfd45ec80ef61a0d8c80d4606adcfdc0330a7a5d6a4ee937152020e9",
+      "recording_id": "kartaview_5095849",
+      "frame_id": 996,
+      "row_index": 0,
+      "role": "candidate",
+      "asked_side": "left",
+      "reference": "NOT",
+      "physical_comparison": "not",
+      "physical_relation": "behind_or_separated",
+      "surface": "occupied_row_mouth",
+      "original_pixel_observation": "A different red SUV occupies the neighbouring place. The ring is out beyond its bumper at the edge of the driving surface.",
+      "point": [
+        1862.2933333333333,
+        1257.2608695652175
+      ],
+      "wide": "UNCLEAR",
+      "close": "OPEN",
+      "apparent_open_in_both": false
+    },
+    {
+      "source": "88cc304edc4b1232912979a59870954915b8e8dc51de853d45e2b5315b2f95be",
+      "id": "70f6db1dcd3cd2f71d7793ca51179c6790c5ca5e0deb965cdb20c3fb06f0c53e",
+      "recording_id": "kartaview_5095849",
+      "frame_id": 996,
+      "row_index": 1,
+      "role": "candidate",
+      "asked_side": "left",
+      "reference": "UNCERTAIN",
+      "physical_comparison": "uncertain",
+      "physical_relation": "behind_or_unclear",
+      "surface": "parking_apron_edge",
+      "original_pixel_observation": "The ring is just past the rear of the second red SUV, at a narrow apron mouth. No separate empty side stall can be identified.",
+      "point": [
+        1822.3999999999999,
+        1228.2332015810277
+      ],
+      "wide": "OPEN",
+      "close": "OPEN",
+      "apparent_open_in_both": true
+    },
+    {
+      "source": "88cc304edc4b1232912979a59870954915b8e8dc51de853d45e2b5315b2f95be",
+      "id": "60609e91bfd45ec80ef61a0d8c80d4606adcfdc0330a7a5d6a4ee937152020e9",
+      "recording_id": "kartaview_5095849",
+      "frame_id": 996,
+      "row_index": 2,
+      "role": "wrong_side_control",
+      "asked_side": "right",
+      "reference": "NOT",
+      "physical_comparison": "not",
+      "physical_relation": "behind_or_separated",
+      "surface": "occupied_row_mouth",
+      "original_pixel_observation": "A different red SUV occupies the neighbouring place. The ring is out beyond its bumper at the edge of the driving surface.",
+      "point": [
+        1862.2933333333333,
+        1257.2608695652175
+      ],
+      "wide": "OPEN",
+      "close": "OPEN",
+      "apparent_open_in_both": true
+    },
+    {
+      "source": "88cc304edc4b1232912979a59870954915b8e8dc51de853d45e2b5315b2f95be",
+      "id": "a063e2f6da8a60279d68b228b0a2e28ff01bd4819cb86ba3e8869e462484ab93",
+      "recording_id": "kartaview_5095849",
+      "frame_id": 996,
+      "row_index": 3,
+      "role": "occupied_control",
+      "asked_side": "left",
+      "reference": "NOT",
+      "physical_comparison": "not",
+      "physical_relation": "on_vehicle",
+      "surface": "vehicle",
+      "original_pixel_observation": "Ring is on the rear side panel of the red SUV.",
+      "point": [
+        2328.396221923828,
+        1138.733674621582
+      ],
+      "wide": "UNCLEAR",
+      "close": "UNCLEAR",
+      "apparent_open_in_both": false
+    },
+    {
+      "source": "88cc304edc4b1232912979a59870954915b8e8dc51de853d45e2b5315b2f95be",
+      "id": "0b389895b63d13c889fe07cbfbbfab477dce691c5a3e229ffd9c94fc7a58bd6b",
+      "recording_id": "kartaview_5095849",
+      "frame_id": 996,
+      "row_index": 4,
+      "role": "lane_control",
+      "asked_side": "left",
+      "reference": "NOT",
+      "physical_comparison": "not",
+      "physical_relation": "road_below_vehicle",
+      "surface": "travel_lane",
+      "original_pixel_observation": "Ring is in the moving lane outside the row of parked taxis, near the jagged apron edge.",
+      "point": [
+        2105.2799999999997,
+        1406.0276679841897
+      ],
+      "wide": "OPEN",
+      "close": "UNCLEAR",
+      "apparent_open_in_both": false
+    }
+  ],
+  "findings": [
+    "Five of ten independently eligible directional points obtained two OPEN readings. Among the fifteen candidate points classified OPEN in both views, eight were independently unsuitable and two were visually uncertain. An open-looking patch can sit behind an adjacent parked car, in front of its bonnet or several stalls away from the requested vehicle.",
+    "A two-view rule alone also accepted seven of sixteen occupied controls, four of sixteen nominal road controls and six of sixteen reversed-side requests. Three reversed controls were genuinely eligible on the opposite side in the independent read. These source challenges are distinct from the 31 actual candidate decisions.",
+    "Rejecting every source with a two-view OPEN control removed eleven whole photographs, including the five genuine dual-view positive points. The two surviving candidates on the other five photographs were physically incorrect. The signed lateral bank consequently produces no qualified global release."
+  ]
+}

@@ -16,6 +16,8 @@ For a request between two vehicles, the app checks the current road surface, bot
 
 For automatic two-vehicle drop-off proposals, start with `--parking-backend modal`. The regular form accepts typed instructions and reviewed voice transcripts. It can identify both vehicles, mark a patch for confirmation or ask the passenger to clarify. A passenger can also mark a visible parking bay on the original photo. The driver assesses clearance, traffic and permission to stop. [Run the parking feature and see the UAE results](passenger-parking-feature.md) · [Earlier comparison on ten UAE drives](passenger-gap-diagnosis.md)
 
+For a request about one parked car, the blue outline identifies a visible vehicle. A gold ring identifies a possible destination for passenger confirmation. A blue diamond records the passenger’s own tap. An outlined vehicle alone means the passenger still needs to identify a spot. The app can ask for confirmation of the vehicle when its position on the road and its position in the photo differ. On the prepared public gallery, 72 of the 81 photographs have stored neutral vehicle readings. The separately tested model for ground beside vehicles remains disabled after it repeatedly accepted occupied points and traffic lanes. [Project results and limits](project-release.md)
+
 ## Try the passenger interaction
 
 1. Select recording **054907**, frame **1**. Choose **Record voice** and say “Drop me here.” Check the recognized words and send them. The assistant should ask for a landmark.

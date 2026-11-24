@@ -1,0 +1,253 @@
+{
+  "scope": "Follow-up engineering check on the previously released dark-sedan photograph. These were automated Edge interactions with original public imagery and real local signed observations. No human passenger or microphone trial is claimed.",
+  "runtime_git": "ebab861714a1cd25b79423654c363df8ddb2f99d",
+  "recording": "kartaview_7165449",
+  "frame": 33,
+  "image_sha256": "e121d0e57b8fbcba436e01a11989063a027652e2c80fcc5c9b4b89ad4cd673cc",
+  "original_instruction": "Could you drop me behind the dark sedan on the right?",
+  "original_question": "I can see a black sedan left of centre in the photo. Is that the vehicle you meant by “on the right”?",
+  "single_outlined_vehicle_xyxy": [
+    1320.5653381347656,
+    1006.3737487792969,
+    1837.3793334960938,
+    1307.5003967285156
+  ],
+  "before": {
+    "browser_observation_sha256": "69405ee0502529f807ccfa6205537ce6b1ea679bc5b2863aeb8844e52a0f5734",
+    "operational_limit_seconds": 15,
+    "responses": [
+      {
+        "words": "Yes, that’s the sedan I meant",
+        "state": "error",
+        "display": "The automatic photo check took too long. You can mark your spot or try a different description.",
+        "retained_vehicle_outline": false,
+        "offered_save": false
+      },
+      {
+        "words": "No, another car",
+        "state": "error",
+        "display": "The automatic photo check took too long. You can mark your spot or try a different description.",
+        "retained_vehicle_outline": false,
+        "offered_save": false
+      }
+    ]
+  },
+  "after": {
+    "browser_observation_sha256": "e48ec2249cbadb236705746869e884c095c38ceedbf4f294a4f96729e01f2233",
+    "firsts": [
+      {
+        "case": "yes-interior",
+        "words": "Yes, that’s the sedan I meant",
+        "visible_ms": 166,
+        "visible_reply": "You confirmed the outlined vehicle. Please mark the open ground behind it where you want to get out. I’ll check that spot on the photo.",
+        "same_single_vehicle_outline": true,
+        "marker_available": true,
+        "proposal_or_save_at_reply": false,
+        "verified_journal_sha256": "53e1637045604798a954b4e27fa33f874d7364c2c0d5e4dbcaffc374f0ad837f",
+        "mark": {
+          "actual_tap_xy": [
+            2190.8334453684674,
+            1405.667563680131
+          ],
+          "visible_ms": 761,
+          "visible_reply": "I can see parking pavement at your mark. I couldn’t verify that it is behind the outlined vehicle. Would you like to use your marked spot anyway? You can also mark another spot.",
+          "separately_selectable_points": [
+            [
+              2190.8334453684674,
+              1405.667563680131
+            ]
+          ],
+          "vehicle_outline_retained": true,
+          "proposal_or_save_at_mark": false
+        },
+        "separate_selection_then_save": {
+          "select_visible_ms": 337,
+          "save_visible_ms": 275,
+          "saved_exact_point": [
+            2190.8334453684674,
+            1405.667563680131
+          ],
+          "actor": "passenger"
+        }
+      },
+      {
+        "case": "yes-lane",
+        "words": "Yes",
+        "visible_ms": 241,
+        "visible_reply": "You confirmed the outlined vehicle. Please mark the open ground behind it where you want to get out. I’ll check that spot on the photo.",
+        "same_single_vehicle_outline": true,
+        "marker_available": true,
+        "proposal_or_save_at_reply": false,
+        "verified_journal_sha256": "4e7b1f9bc49c83946404838f6002977f76c93f2096185dc523a29ab24c9b3383",
+        "mark": {
+          "actual_tap_xy": [
+            1124.5690168436822,
+            1477.6976026052514
+          ],
+          "visible_ms": 707,
+          "visible_reply": "That point appears to be in a traffic lane. Could you mark a visible parking bay instead?",
+          "separately_selectable_points": [],
+          "vehicle_outline_retained": true,
+          "proposal_or_save_at_mark": false
+        }
+      },
+      {
+        "case": "no",
+        "words": "No, another car",
+        "visible_ms": 204,
+        "visible_reply": "Which vehicle did you mean? Describe its colour, body type or position in the photo, or mark the spot where you want to get out.",
+        "same_single_vehicle_outline": false,
+        "marker_available": true,
+        "proposal_or_save_at_reply": false,
+        "verified_journal_sha256": "882d41018733c285f08f003aa0f986b621f190501d83c0f7dd7f8e689e250505"
+      },
+      {
+        "case": "no-replacement",
+        "words": "No, I meant the white SUV",
+        "visible_ms": 159,
+        "visible_reply": "Where is the white suv you mean? Describe its position in the photo, or mark the open ground behind it where you want to get out.",
+        "same_single_vehicle_outline": false,
+        "marker_available": true,
+        "proposal_or_save_at_reply": false,
+        "verified_journal_sha256": "73a8384d949ae56c0cb29156cb419cede6e0a816124a777d5fa4ca210b074a9c"
+      },
+      {
+        "case": "yes-unrelated",
+        "words": "Yes, please",
+        "visible_ms": 127,
+        "visible_reply": "You confirmed the outlined vehicle. Please mark the open ground behind it where you want to get out. I’ll check that spot on the photo.",
+        "same_single_vehicle_outline": true,
+        "marker_available": true,
+        "proposal_or_save_at_reply": false,
+        "verified_journal_sha256": "0e006c7ce30d2cd378ac131b97ee5bb55ec5ca6db6487ac54adcc7ff101caff3",
+        "mark": {
+          "actual_tap_xy": [
+            1046.9710181112796,
+            1184.9990076655172
+          ],
+          "visible_ms": 438,
+          "visible_reply": "Your mark touches a detected object. Could you mark the open ground itself?",
+          "separately_selectable_points": [],
+          "vehicle_outline_retained": true,
+          "proposal_or_save_at_mark": false
+        }
+      },
+      {
+        "case": "yes-occupied",
+        "words": "That’s the one",
+        "visible_ms": 120,
+        "visible_reply": "You confirmed the outlined vehicle. Please mark the open ground behind it where you want to get out. I’ll check that spot on the photo.",
+        "same_single_vehicle_outline": true,
+        "marker_available": true,
+        "proposal_or_save_at_reply": false,
+        "verified_journal_sha256": "b467f40c2ffd8cf2a23d3b32a910bd82003edf93ebe435fdc195dc0f140f1ec5",
+        "mark": {
+          "actual_tap_xy": [
+            1578.97031709144,
+            1156.9611090244819
+          ],
+          "visible_ms": 509,
+          "visible_reply": "Your mark touches a detected object. Could you mark the open ground itself?",
+          "separately_selectable_points": [],
+          "vehicle_outline_retained": true,
+          "proposal_or_save_at_mark": false
+        }
+      },
+      {
+        "case": "yes-additional-road",
+        "words": "Yes",
+        "visible_ms": 139,
+        "visible_reply": "You confirmed the outlined vehicle. Please mark the open ground behind it where you want to get out. I’ll check that spot on the photo.",
+        "same_single_vehicle_outline": true,
+        "marker_available": true,
+        "proposal_or_save_at_reply": false,
+        "verified_journal_sha256": "e22b87ab6938a3eec5840a52ff66db7a990ce7d31fbb04d1b4d8726d170ac060",
+        "mark": {
+          "actual_tap_xy": [
+            2449.965237098354,
+            1949.9991036978865
+          ],
+          "visible_ms": 552,
+          "visible_reply": "I can’t verify an off-lane parking area at that point. Could you mark a different visible bay?",
+          "separately_selectable_points": [],
+          "vehicle_outline_retained": true,
+          "proposal_or_save_at_mark": false
+        }
+      },
+      {
+        "case": "brief-no",
+        "words": "No, thanks",
+        "visible_ms": 117,
+        "visible_reply": "Which vehicle did you mean? Describe its colour, body type or position in the photo, or mark the spot where you want to get out.",
+        "same_single_vehicle_outline": false,
+        "marker_available": true,
+        "proposal_or_save_at_reply": false,
+        "verified_journal_sha256": "6570fa24de0205c7e1b7a93cfe32e4742416349d7a3b37a11bdc8ec95ccbbdc6"
+      },
+      {
+        "case": "nearby-unrelated",
+        "words": "Yes, please",
+        "visible_ms": 244,
+        "visible_reply": "You confirmed the outlined vehicle. Please mark the open ground behind it where you want to get out. I’ll check that spot on the photo.",
+        "same_single_vehicle_outline": true,
+        "marker_available": true,
+        "proposal_or_save_at_reply": false,
+        "verified_journal_sha256": "4f2c2d3a98949346dbcf3c365b03709c5cb1f5099314d4d1108fc18081a93dc5",
+        "mark": {
+          "actual_tap_xy": [
+            1040.9765782549407,
+            1184.9990076655172
+          ],
+          "visible_ms": 728,
+          "visible_reply": "I can see parking pavement at your mark. I couldn’t verify that it is behind the outlined vehicle. Would you like to use your marked spot anyway? You can also mark another spot.",
+          "separately_selectable_points": [
+            [
+              1040.9765782549407,
+              1184.9990076655172
+            ]
+          ],
+          "vehicle_outline_retained": true,
+          "proposal_or_save_at_mark": false
+        }
+      }
+    ],
+    "word_reply_ms": {
+      "min": 117,
+      "median": 159,
+      "max": 244
+    },
+    "independent_location_proposals_from_confirming_vehicle": 0,
+    "journal_replays_passed": 9
+  },
+  "unrelated_taps": "The 15 by 15 original-pixel browser tap nearest [1047,1185] overlapped a detected object. A separate engineering probe six pixels left at [1041,1185] qualified as parking. Neither position was established as behind the confirmed sedan.",
+  "screenshots": {
+    "before_typed_yes": {
+      "path": "runs/passenger-placement-field-20261124/vehicle-lateral-v3/dark-sedan-followup/canonical-first/yes-after.png",
+      "sha256": "f6c71817937d59e6a2ef6838389b4944bf1c9888017a8404b5fbeb335ad6997c"
+    },
+    "after_typed_yes": {
+      "path": "runs/passenger-placement-field-20261124/vehicle-lateral-v3/dark-sedan-followup/final-ebab861/yes-interior-reply.png",
+      "sha256": "1eec7349f37858cb930eda588427598b1db6f42b81cbb4777f449feb9cf165f9"
+    },
+    "marked_ground_before_separate_selection": {
+      "path": "runs/passenger-placement-field-20261124/vehicle-lateral-v3/dark-sedan-followup/final-ebab861/yes-interior-mark.png",
+      "sha256": "008c269c0b2d649d84f187f7c341ee962743aa6677ede12e84b80abe363289d8"
+    },
+    "explicitly_saved": {
+      "path": "runs/passenger-placement-field-20261124/vehicle-lateral-v3/dark-sedan-followup/final-ebab861/yes-interior-saved.png",
+      "sha256": "a898d6f7e960807c2f7d1d78d33a1f31214c94a09bf9b54b0a5b721427c0fbad"
+    },
+    "travel_lane_withheld": {
+      "path": "runs/passenger-placement-field-20261124/vehicle-lateral-v3/dark-sedan-followup/final-ebab861/yes-lane-mark.png",
+      "sha256": "e8f933f8c0138f6b1c4afaf8ae71be3930b9a42f756a3862324d513b4d983148"
+    },
+    "unrelated_point_unverified": {
+      "path": "runs/passenger-placement-field-20261124/vehicle-lateral-v3/dark-sedan-followup/final-ebab861/nearby-unrelated-mark.png",
+      "sha256": "2e9832eb5fa5fd97278f78c2b7e28a8099ae7007a7421267f375c63e8c64a5a8"
+    },
+    "declined_vehicle": {
+      "path": "runs/passenger-placement-field-20261124/vehicle-lateral-v3/dark-sedan-followup/final-ebab861/no-reply.png",
+      "sha256": "610e14399f256de1fb7bde425777cf90ef19b61ab8d177d3de5e857ef53e19a1"
+    }
+  }
+}

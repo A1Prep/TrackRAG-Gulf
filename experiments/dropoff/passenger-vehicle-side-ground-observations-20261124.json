@@ -1,0 +1,904 @@
+{
+  "study": "Public lateral vehicle-ground checks",
+  "scope": "Existing public KartaView originals.",
+  "model": "Qwen/Qwen3.6-35B-A3B-FP8",
+  "revision": "c653bba46dfa06e9658dcc0b0dc87fe4685f14a2",
+  "recipe": "vehicle_side_ground_two_views_v1",
+  "archive": "passenger-vehicle-side-ground-v1.zip",
+  "archive_sha256": "8fae4ba1b746f638f70e903952bdb3b253af4691782e515ca579691d890fc137",
+  "images": 16,
+  "individual_model_views": 158,
+  "method": "Separate wide and close readings by the same model. A dual OPEN on a wrong-side, occupied or road control rejects all candidates on that original.",
+  "counts": {
+    "candidate": {
+      "total": 31,
+      "wide_open": 20,
+      "close_open": 22,
+      "wide_and_close_open": 15,
+      "returned_after_source_controls": 2
+    },
+    "wrong_side_control": {
+      "total": 16,
+      "wide_open": 10,
+      "close_open": 8,
+      "wide_and_close_open": 6,
+      "returned_after_source_controls": 0
+    },
+    "occupied_control": {
+      "total": 16,
+      "wide_open": 10,
+      "close_open": 11,
+      "wide_and_close_open": 7,
+      "returned_after_source_controls": 0
+    },
+    "lane_control": {
+      "total": 16,
+      "wide_open": 9,
+      "close_open": 7,
+      "wide_and_close_open": 4,
+      "returned_after_source_controls": 0
+    }
+  },
+  "failed_source_controls": [
+    {
+      "photo": "0dfd8dadbb1ad54388d3ca1c9bb6473aa5eeebf407cb7cbdd7a45ee1b5b0c836",
+      "role": "wrong_side_control"
+    },
+    {
+      "photo": "0dfd8dadbb1ad54388d3ca1c9bb6473aa5eeebf407cb7cbdd7a45ee1b5b0c836",
+      "role": "occupied_control"
+    },
+    {
+      "photo": "4e305274bf98f5a5ef5bfbd4224af7bebddcde53657624c3901ed5b7c2b8c15e",
+      "role": "occupied_control"
+    },
+    {
+      "photo": "6c09f8965a7203ca86f42d18d4b7fc43fa38c700d827a3b92bf90189b394d273",
+      "role": "wrong_side_control"
+    },
+    {
+      "photo": "87af60ca411087c3c3217f90120bf1ab3bbaf4369c184e7261ef51fbf18a697d",
+      "role": "lane_control"
+    },
+    {
+      "photo": "88cc304edc4b1232912979a59870954915b8e8dc51de853d45e2b5315b2f95be",
+      "role": "wrong_side_control"
+    },
+    {
+      "photo": "a8cb3c5926766d950eca0588e6bdd178e72026f07d5710f027d2e695d6628de2",
+      "role": "occupied_control"
+    },
+    {
+      "photo": "b2b5aeb414b0b52e47f90118b1cb9daa48d61910ce7e1a112a197ce7084245be",
+      "role": "occupied_control"
+    },
+    {
+      "photo": "cd4e27b8077b24d36169170a847c9f5d382e9c315ad5bb670cb51ecf6ed40082",
+      "role": "occupied_control"
+    },
+    {
+      "photo": "cd4e27b8077b24d36169170a847c9f5d382e9c315ad5bb670cb51ecf6ed40082",
+      "role": "lane_control"
+    },
+    {
+      "photo": "d6219bd62cb3eb77119a72473ad133ce125ad8b02645d2bdc44f817590764203",
+      "role": "wrong_side_control"
+    },
+    {
+      "photo": "d6219bd62cb3eb77119a72473ad133ce125ad8b02645d2bdc44f817590764203",
+      "role": "occupied_control"
+    },
+    {
+      "photo": "df3c7569cf08071fe7492af65e599d7132364496766bb9e1e4fa4c3966dccc04",
+      "role": "wrong_side_control"
+    },
+    {
+      "photo": "df3c7569cf08071fe7492af65e599d7132364496766bb9e1e4fa4c3966dccc04",
+      "role": "lane_control"
+    },
+    {
+      "photo": "df4b13c0f17548cf0a1911efdbe0f94b00c1299c97a07a6c3783beab3ce2b416",
+      "role": "wrong_side_control"
+    },
+    {
+      "photo": "df4b13c0f17548cf0a1911efdbe0f94b00c1299c97a07a6c3783beab3ce2b416",
+      "role": "occupied_control"
+    },
+    {
+      "photo": "df4b13c0f17548cf0a1911efdbe0f94b00c1299c97a07a6c3783beab3ce2b416",
+      "role": "lane_control"
+    }
+  ],
+  "cases": [
+    {
+      "point_id": "24f3f11361e50f464feecc517d1b5574b88fbe7bd564da36e2c345b7cabce7e7",
+      "photo": "02743df87088fa38698cf3093947cbb3085c14755dd49fa16cadc8fb24b2e080",
+      "track_id": 2,
+      "asked_side": "right",
+      "role": "candidate",
+      "wide": "OPEN",
+      "close": "OPEN",
+      "passed_source_checks": true
+    },
+    {
+      "point_id": "24f3f11361e50f464feecc517d1b5574b88fbe7bd564da36e2c345b7cabce7e7",
+      "photo": "02743df87088fa38698cf3093947cbb3085c14755dd49fa16cadc8fb24b2e080",
+      "track_id": 2,
+      "asked_side": "left",
+      "role": "wrong_side_control",
+      "wide": "OPEN",
+      "close": "UNCLEAR",
+      "passed_source_checks": false
+    },
+    {
+      "point_id": "fafd28f87d4ed35118322a851a518fdf2e238ad04429cfd53f55a29aa3af979f",
+      "photo": "02743df87088fa38698cf3093947cbb3085c14755dd49fa16cadc8fb24b2e080",
+      "track_id": 2,
+      "asked_side": "right",
+      "role": "occupied_control",
+      "wide": "UNCLEAR",
+      "close": "OPEN",
+      "passed_source_checks": false
+    },
+    {
+      "point_id": "3b26dad6c439346931c0589847f8769b311a65ca41387729f0b5d489b3630c72",
+      "photo": "02743df87088fa38698cf3093947cbb3085c14755dd49fa16cadc8fb24b2e080",
+      "track_id": 2,
+      "asked_side": "left",
+      "role": "lane_control",
+      "wide": "LANE",
+      "close": "LANE",
+      "passed_source_checks": false
+    },
+    {
+      "point_id": "87f14c1e579d308571cc3c624e942e9a2e12a6bcc0319b9a265bfce16d3b7dfe",
+      "photo": "0dfd8dadbb1ad54388d3ca1c9bb6473aa5eeebf407cb7cbdd7a45ee1b5b0c836",
+      "track_id": 3,
+      "asked_side": "left",
+      "role": "candidate",
+      "wide": "UNCLEAR",
+      "close": "OPEN",
+      "passed_source_checks": false
+    },
+    {
+      "point_id": "56502f5ec9ebcc1f466d5faf01ab8937e30dce95841ed8c435692c708dce9581",
+      "photo": "0dfd8dadbb1ad54388d3ca1c9bb6473aa5eeebf407cb7cbdd7a45ee1b5b0c836",
+      "track_id": 2,
+      "asked_side": "left",
+      "role": "candidate",
+      "wide": "OPEN",
+      "close": "OPEN",
+      "passed_source_checks": false
+    },
+    {
+      "point_id": "3098fa96b69b6a5427aaa08a07207e35a3dada3afa20b423bafcc408a7cd1378",
+      "photo": "0dfd8dadbb1ad54388d3ca1c9bb6473aa5eeebf407cb7cbdd7a45ee1b5b0c836",
+      "track_id": 4,
+      "asked_side": "left",
+      "role": "candidate",
+      "wide": "OPEN",
+      "close": "OPEN",
+      "passed_source_checks": false
+    },
+    {
+      "point_id": "87f14c1e579d308571cc3c624e942e9a2e12a6bcc0319b9a265bfce16d3b7dfe",
+      "photo": "0dfd8dadbb1ad54388d3ca1c9bb6473aa5eeebf407cb7cbdd7a45ee1b5b0c836",
+      "track_id": 3,
+      "asked_side": "right",
+      "role": "wrong_side_control",
+      "wide": "OPEN",
+      "close": "OPEN",
+      "passed_source_checks": false
+    },
+    {
+      "point_id": "1f3cc51da902f5dd8b6e0274148618cfee28d5750e2fb98aaa8283413dbcebf0",
+      "photo": "0dfd8dadbb1ad54388d3ca1c9bb6473aa5eeebf407cb7cbdd7a45ee1b5b0c836",
+      "track_id": 3,
+      "asked_side": "left",
+      "role": "occupied_control",
+      "wide": "OPEN",
+      "close": "OPEN",
+      "passed_source_checks": false
+    },
+    {
+      "point_id": "c39ee3a35cc906628aa6d005c9d8fdb4e06122989b53965523e1bf846112af0e",
+      "photo": "0dfd8dadbb1ad54388d3ca1c9bb6473aa5eeebf407cb7cbdd7a45ee1b5b0c836",
+      "track_id": 3,
+      "asked_side": "left",
+      "role": "lane_control",
+      "wide": "UNCLEAR",
+      "close": "OPEN",
+      "passed_source_checks": false
+    },
+    {
+      "point_id": "1afbafb443a6fd0ae8f4bd25de9ffc2ae0a93292bdb2597feecda266d84f14b7",
+      "photo": "3ed141c2c0b33754e2ee822ec16e1c1ed1c713dbd29b16e94acde77b950c6af8",
+      "track_id": 2,
+      "asked_side": "left",
+      "role": "candidate",
+      "wide": "LANE",
+      "close": "LANE",
+      "passed_source_checks": false
+    },
+    {
+      "point_id": "1afbafb443a6fd0ae8f4bd25de9ffc2ae0a93292bdb2597feecda266d84f14b7",
+      "photo": "3ed141c2c0b33754e2ee822ec16e1c1ed1c713dbd29b16e94acde77b950c6af8",
+      "track_id": 2,
+      "asked_side": "right",
+      "role": "wrong_side_control",
+      "wide": "LANE",
+      "close": "LANE",
+      "passed_source_checks": false
+    },
+    {
+      "point_id": "a2293eb4699ba2502cde402c4cf67c616e4e7220a42135076440ffaeeda9dc60",
+      "photo": "3ed141c2c0b33754e2ee822ec16e1c1ed1c713dbd29b16e94acde77b950c6af8",
+      "track_id": 2,
+      "asked_side": "left",
+      "role": "occupied_control",
+      "wide": "UNCLEAR",
+      "close": "OPEN",
+      "passed_source_checks": false
+    },
+    {
+      "point_id": "fca89c9646dbcec2e110085a8c4a9aef7a457de2a1860fd449b3c53213c32454",
+      "photo": "3ed141c2c0b33754e2ee822ec16e1c1ed1c713dbd29b16e94acde77b950c6af8",
+      "track_id": 2,
+      "asked_side": "right",
+      "role": "lane_control",
+      "wide": "UNCLEAR",
+      "close": "UNCLEAR",
+      "passed_source_checks": false
+    },
+    {
+      "point_id": "c4bb0a5e87b97c568ac2bd2553098b7e080a1e35b9fa17473edff58b4ef7da98",
+      "photo": "4e305274bf98f5a5ef5bfbd4224af7bebddcde53657624c3901ed5b7c2b8c15e",
+      "track_id": 1,
+      "asked_side": "left",
+      "role": "candidate",
+      "wide": "UNCLEAR",
+      "close": "OPEN",
+      "passed_source_checks": false
+    },
+    {
+      "point_id": "d0c565de6ca43d0e563dedb71787291ff8c17d5c1b6e41f7bd72b97dbaef425a",
+      "photo": "4e305274bf98f5a5ef5bfbd4224af7bebddcde53657624c3901ed5b7c2b8c15e",
+      "track_id": 1,
+      "asked_side": "right",
+      "role": "candidate",
+      "wide": "OPEN",
+      "close": "OPEN",
+      "passed_source_checks": false
+    },
+    {
+      "point_id": "c4bb0a5e87b97c568ac2bd2553098b7e080a1e35b9fa17473edff58b4ef7da98",
+      "photo": "4e305274bf98f5a5ef5bfbd4224af7bebddcde53657624c3901ed5b7c2b8c15e",
+      "track_id": 1,
+      "asked_side": "right",
+      "role": "wrong_side_control",
+      "wide": "LANE",
+      "close": "OPEN",
+      "passed_source_checks": false
+    },
+    {
+      "point_id": "b4fbc9b7357b79c518cbcbc764630b6f64ea35516483fffe6e838074077d9224",
+      "photo": "4e305274bf98f5a5ef5bfbd4224af7bebddcde53657624c3901ed5b7c2b8c15e",
+      "track_id": 1,
+      "asked_side": "left",
+      "role": "occupied_control",
+      "wide": "OPEN",
+      "close": "OPEN",
+      "passed_source_checks": false
+    },
+    {
+      "point_id": "926a1cd0a9baac4785fd0c8f9d2dde1bc274bbbd6486db20e33e92722fce17ee",
+      "photo": "4e305274bf98f5a5ef5bfbd4224af7bebddcde53657624c3901ed5b7c2b8c15e",
+      "track_id": 1,
+      "asked_side": "left",
+      "role": "lane_control",
+      "wide": "UNCLEAR",
+      "close": "UNCLEAR",
+      "passed_source_checks": false
+    },
+    {
+      "point_id": "88103cd622b27bd8727d6e925811b618463b92438a23e89ec9ffabf16c34a8eb",
+      "photo": "5a9b732bb1a487c9769eba291ff49bf9c0fff286efe7a849a66b296704c8cffa",
+      "track_id": 2,
+      "asked_side": "left",
+      "role": "candidate",
+      "wide": "OPEN",
+      "close": "UNCLEAR",
+      "passed_source_checks": false
+    },
+    {
+      "point_id": "6a197449638b3e4df883c72b422fa69d545a875b18f5110575ba70882463148b",
+      "photo": "5a9b732bb1a487c9769eba291ff49bf9c0fff286efe7a849a66b296704c8cffa",
+      "track_id": 2,
+      "asked_side": "right",
+      "role": "candidate",
+      "wide": "OPEN",
+      "close": "UNCLEAR",
+      "passed_source_checks": false
+    },
+    {
+      "point_id": "f9ae4e0630b7b220f8aecd7df1828b481317e4cc75557fba810e6f9403aa1cbf",
+      "photo": "5a9b732bb1a487c9769eba291ff49bf9c0fff286efe7a849a66b296704c8cffa",
+      "track_id": 1,
+      "asked_side": "left",
+      "role": "candidate",
+      "wide": "OPEN",
+      "close": "OPEN",
+      "passed_source_checks": true
+    },
+    {
+      "point_id": "29ac89d61dc3b2111ac756316f55df4d31a563ae582177ea03553468aeb6ff1e",
+      "photo": "5a9b732bb1a487c9769eba291ff49bf9c0fff286efe7a849a66b296704c8cffa",
+      "track_id": 1,
+      "asked_side": "right",
+      "role": "candidate",
+      "wide": "UNCLEAR",
+      "close": "OPEN",
+      "passed_source_checks": false
+    },
+    {
+      "point_id": "88103cd622b27bd8727d6e925811b618463b92438a23e89ec9ffabf16c34a8eb",
+      "photo": "5a9b732bb1a487c9769eba291ff49bf9c0fff286efe7a849a66b296704c8cffa",
+      "track_id": 2,
+      "asked_side": "right",
+      "role": "wrong_side_control",
+      "wide": "UNCLEAR",
+      "close": "UNCLEAR",
+      "passed_source_checks": false
+    },
+    {
+      "point_id": "3db194b1dad2db6622eb225d2874a0eeda0adc47c3f38b52bed4ad5963d65d2f",
+      "photo": "5a9b732bb1a487c9769eba291ff49bf9c0fff286efe7a849a66b296704c8cffa",
+      "track_id": 2,
+      "asked_side": "left",
+      "role": "occupied_control",
+      "wide": "UNCLEAR",
+      "close": "UNCLEAR",
+      "passed_source_checks": false
+    },
+    {
+      "point_id": "6a23832f8a96e34c231c08a19a7f0d046ed79dc3f30eb4a32b6361a6aac10c1d",
+      "photo": "5a9b732bb1a487c9769eba291ff49bf9c0fff286efe7a849a66b296704c8cffa",
+      "track_id": 2,
+      "asked_side": "left",
+      "role": "lane_control",
+      "wide": "OPEN",
+      "close": "UNCLEAR",
+      "passed_source_checks": false
+    },
+    {
+      "point_id": "2346a99ab9dd9cbd494cd84b899adf168877b2ab3959115ce38f5ee72aad62b9",
+      "photo": "6c09f8965a7203ca86f42d18d4b7fc43fa38c700d827a3b92bf90189b394d273",
+      "track_id": 3,
+      "asked_side": "left",
+      "role": "candidate",
+      "wide": "OPEN",
+      "close": "OPEN",
+      "passed_source_checks": false
+    },
+    {
+      "point_id": "2346a99ab9dd9cbd494cd84b899adf168877b2ab3959115ce38f5ee72aad62b9",
+      "photo": "6c09f8965a7203ca86f42d18d4b7fc43fa38c700d827a3b92bf90189b394d273",
+      "track_id": 3,
+      "asked_side": "right",
+      "role": "wrong_side_control",
+      "wide": "OPEN",
+      "close": "OPEN",
+      "passed_source_checks": false
+    },
+    {
+      "point_id": "f5b28a282cc626b171b8189fffdfe8be887e49d6eabd8d1addbcd8892f65cd1b",
+      "photo": "6c09f8965a7203ca86f42d18d4b7fc43fa38c700d827a3b92bf90189b394d273",
+      "track_id": 3,
+      "asked_side": "left",
+      "role": "occupied_control",
+      "wide": "UNCLEAR",
+      "close": "OPEN",
+      "passed_source_checks": false
+    },
+    {
+      "point_id": "5d206529c9ec84bd0632560f3e32f455c20ea55217381860c33b08b3c5f7e9eb",
+      "photo": "6c09f8965a7203ca86f42d18d4b7fc43fa38c700d827a3b92bf90189b394d273",
+      "track_id": 3,
+      "asked_side": "left",
+      "role": "lane_control",
+      "wide": "UNCLEAR",
+      "close": "OPEN",
+      "passed_source_checks": false
+    },
+    {
+      "point_id": "b029c47b87a140b7329bae0d60559274e7fdd4e86f55ccbb9107d4d37825229d",
+      "photo": "87af60ca411087c3c3217f90120bf1ab3bbaf4369c184e7261ef51fbf18a697d",
+      "track_id": 1,
+      "asked_side": "right",
+      "role": "candidate",
+      "wide": "OPEN",
+      "close": "OPEN",
+      "passed_source_checks": false
+    },
+    {
+      "point_id": "6307c2525b2d69f14bbe3ee298a533a9bafff73e51d38962f8173138fb7f3a35",
+      "photo": "87af60ca411087c3c3217f90120bf1ab3bbaf4369c184e7261ef51fbf18a697d",
+      "track_id": 2,
+      "asked_side": "right",
+      "role": "candidate",
+      "wide": "OPEN",
+      "close": "OPEN",
+      "passed_source_checks": false
+    },
+    {
+      "point_id": "b029c47b87a140b7329bae0d60559274e7fdd4e86f55ccbb9107d4d37825229d",
+      "photo": "87af60ca411087c3c3217f90120bf1ab3bbaf4369c184e7261ef51fbf18a697d",
+      "track_id": 1,
+      "asked_side": "left",
+      "role": "wrong_side_control",
+      "wide": "OPEN",
+      "close": "UNCLEAR",
+      "passed_source_checks": false
+    },
+    {
+      "point_id": "4b990b47712442c04c77c15c8cdffd21f4be0652dfab33bf4c94dc15ced5f500",
+      "photo": "87af60ca411087c3c3217f90120bf1ab3bbaf4369c184e7261ef51fbf18a697d",
+      "track_id": 1,
+      "asked_side": "right",
+      "role": "occupied_control",
+      "wide": "OPEN",
+      "close": "UNCLEAR",
+      "passed_source_checks": false
+    },
+    {
+      "point_id": "8876fd6f1389ca9acf15335e735bc089b5fd6316f8668bde04c2fbe003bdc9a6",
+      "photo": "87af60ca411087c3c3217f90120bf1ab3bbaf4369c184e7261ef51fbf18a697d",
+      "track_id": 1,
+      "asked_side": "right",
+      "role": "lane_control",
+      "wide": "OPEN",
+      "close": "OPEN",
+      "passed_source_checks": false
+    },
+    {
+      "point_id": "60609e91bfd45ec80ef61a0d8c80d4606adcfdc0330a7a5d6a4ee937152020e9",
+      "photo": "88cc304edc4b1232912979a59870954915b8e8dc51de853d45e2b5315b2f95be",
+      "track_id": 3,
+      "asked_side": "left",
+      "role": "candidate",
+      "wide": "UNCLEAR",
+      "close": "OPEN",
+      "passed_source_checks": false
+    },
+    {
+      "point_id": "70f6db1dcd3cd2f71d7793ca51179c6790c5ca5e0deb965cdb20c3fb06f0c53e",
+      "photo": "88cc304edc4b1232912979a59870954915b8e8dc51de853d45e2b5315b2f95be",
+      "track_id": 7,
+      "asked_side": "left",
+      "role": "candidate",
+      "wide": "OPEN",
+      "close": "OPEN",
+      "passed_source_checks": false
+    },
+    {
+      "point_id": "60609e91bfd45ec80ef61a0d8c80d4606adcfdc0330a7a5d6a4ee937152020e9",
+      "photo": "88cc304edc4b1232912979a59870954915b8e8dc51de853d45e2b5315b2f95be",
+      "track_id": 3,
+      "asked_side": "right",
+      "role": "wrong_side_control",
+      "wide": "OPEN",
+      "close": "OPEN",
+      "passed_source_checks": false
+    },
+    {
+      "point_id": "a063e2f6da8a60279d68b228b0a2e28ff01bd4819cb86ba3e8869e462484ab93",
+      "photo": "88cc304edc4b1232912979a59870954915b8e8dc51de853d45e2b5315b2f95be",
+      "track_id": 3,
+      "asked_side": "left",
+      "role": "occupied_control",
+      "wide": "UNCLEAR",
+      "close": "UNCLEAR",
+      "passed_source_checks": false
+    },
+    {
+      "point_id": "0b389895b63d13c889fe07cbfbbfab477dce691c5a3e229ffd9c94fc7a58bd6b",
+      "photo": "88cc304edc4b1232912979a59870954915b8e8dc51de853d45e2b5315b2f95be",
+      "track_id": 3,
+      "asked_side": "left",
+      "role": "lane_control",
+      "wide": "OPEN",
+      "close": "UNCLEAR",
+      "passed_source_checks": false
+    },
+    {
+      "point_id": "1a0034612965854056c444173c6856b414db006b935ab7c9cca36b5da4c10336",
+      "photo": "a8cb3c5926766d950eca0588e6bdd178e72026f07d5710f027d2e695d6628de2",
+      "track_id": 4,
+      "asked_side": "right",
+      "role": "candidate",
+      "wide": "UNCLEAR",
+      "close": "LANE",
+      "passed_source_checks": false
+    },
+    {
+      "point_id": "080eb614755dc62dfae74364e67f315db087737056541c15e14845a54390e765",
+      "photo": "a8cb3c5926766d950eca0588e6bdd178e72026f07d5710f027d2e695d6628de2",
+      "track_id": 2,
+      "asked_side": "left",
+      "role": "candidate",
+      "wide": "OPEN",
+      "close": "OPEN",
+      "passed_source_checks": false
+    },
+    {
+      "point_id": "eb99f0bda7c247bbc2c5ebd114cf2bb0daea2f71be8bd803939f45b02eed0d34",
+      "photo": "a8cb3c5926766d950eca0588e6bdd178e72026f07d5710f027d2e695d6628de2",
+      "track_id": 2,
+      "asked_side": "right",
+      "role": "candidate",
+      "wide": "UNCLEAR",
+      "close": "OPEN",
+      "passed_source_checks": false
+    },
+    {
+      "point_id": "f5460f89b3d0478aab5f55ddc25326a9f85cdcf5174e74b65180e5a9b9c971fc",
+      "photo": "a8cb3c5926766d950eca0588e6bdd178e72026f07d5710f027d2e695d6628de2",
+      "track_id": 1,
+      "asked_side": "left",
+      "role": "candidate",
+      "wide": "OPEN",
+      "close": "OPEN",
+      "passed_source_checks": false
+    },
+    {
+      "point_id": "6185b875675f8a5c5b0bea77ff604bb65688121987c23e41477cfb95658cf672",
+      "photo": "a8cb3c5926766d950eca0588e6bdd178e72026f07d5710f027d2e695d6628de2",
+      "track_id": 1,
+      "asked_side": "right",
+      "role": "candidate",
+      "wide": "OPEN",
+      "close": "OPEN",
+      "passed_source_checks": false
+    },
+    {
+      "point_id": "1a0034612965854056c444173c6856b414db006b935ab7c9cca36b5da4c10336",
+      "photo": "a8cb3c5926766d950eca0588e6bdd178e72026f07d5710f027d2e695d6628de2",
+      "track_id": 4,
+      "asked_side": "left",
+      "role": "wrong_side_control",
+      "wide": "UNCLEAR",
+      "close": "LANE",
+      "passed_source_checks": false
+    },
+    {
+      "point_id": "c708d7b815759e8c9ae5d7d1579c3f8b8c559c0c0e8672a767956a1e65e91a54",
+      "photo": "a8cb3c5926766d950eca0588e6bdd178e72026f07d5710f027d2e695d6628de2",
+      "track_id": 4,
+      "asked_side": "right",
+      "role": "occupied_control",
+      "wide": "OPEN",
+      "close": "OPEN",
+      "passed_source_checks": false
+    },
+    {
+      "point_id": "8488ee322a2930d6a8c8d75a64adf97e58b4fbbf6f40202dc6814af8769edd96",
+      "photo": "a8cb3c5926766d950eca0588e6bdd178e72026f07d5710f027d2e695d6628de2",
+      "track_id": 4,
+      "asked_side": "right",
+      "role": "lane_control",
+      "wide": "UNCLEAR",
+      "close": "LANE",
+      "passed_source_checks": false
+    },
+    {
+      "point_id": "4a325583444d0b4f8c687f66bb8e5851d02c764630d23d5be2f6a2d54395e926",
+      "photo": "b2b5aeb414b0b52e47f90118b1cb9daa48d61910ce7e1a112a197ce7084245be",
+      "track_id": 2,
+      "asked_side": "left",
+      "role": "candidate",
+      "wide": "UNCLEAR",
+      "close": "OPEN",
+      "passed_source_checks": false
+    },
+    {
+      "point_id": "f0b510284c404459425b9738cd82a91ea42b1568d1686b8a33147f94338ae59d",
+      "photo": "b2b5aeb414b0b52e47f90118b1cb9daa48d61910ce7e1a112a197ce7084245be",
+      "track_id": 4,
+      "asked_side": "left",
+      "role": "candidate",
+      "wide": "OPEN",
+      "close": "UNCLEAR",
+      "passed_source_checks": false
+    },
+    {
+      "point_id": "4a325583444d0b4f8c687f66bb8e5851d02c764630d23d5be2f6a2d54395e926",
+      "photo": "b2b5aeb414b0b52e47f90118b1cb9daa48d61910ce7e1a112a197ce7084245be",
+      "track_id": 2,
+      "asked_side": "right",
+      "role": "wrong_side_control",
+      "wide": "UNCLEAR",
+      "close": "OPEN",
+      "passed_source_checks": false
+    },
+    {
+      "point_id": "020e6941252d144f9cee58062ecf5109ef5cf4e4911a1d1fb218dede2013cc6b",
+      "photo": "b2b5aeb414b0b52e47f90118b1cb9daa48d61910ce7e1a112a197ce7084245be",
+      "track_id": 2,
+      "asked_side": "left",
+      "role": "occupied_control",
+      "wide": "OPEN",
+      "close": "OPEN",
+      "passed_source_checks": false
+    },
+    {
+      "point_id": "fac73e0bfa9b7de9e55f2e4194e5132a71da11704ad0f820a5b1629b2dfc904b",
+      "photo": "b2b5aeb414b0b52e47f90118b1cb9daa48d61910ce7e1a112a197ce7084245be",
+      "track_id": 2,
+      "asked_side": "left",
+      "role": "lane_control",
+      "wide": "OPEN",
+      "close": "UNCLEAR",
+      "passed_source_checks": false
+    },
+    {
+      "point_id": "3f27b0d2b8057b3b2a7edcc504d20eb346db423ec431ec6578587abe05ffa870",
+      "photo": "c4d59cba6fe27a9aa31b27decb3b5c5dd40945ef3e8a89865f325b307e577411",
+      "track_id": 1,
+      "asked_side": "left",
+      "role": "candidate",
+      "wide": "UNCLEAR",
+      "close": "LANE",
+      "passed_source_checks": false
+    },
+    {
+      "point_id": "11a4a409f29055c00f8b97311411475c2e39a12e1fa1d8c46d56a819321bef03",
+      "photo": "c4d59cba6fe27a9aa31b27decb3b5c5dd40945ef3e8a89865f325b307e577411",
+      "track_id": 2,
+      "asked_side": "right",
+      "role": "candidate",
+      "wide": "UNCLEAR",
+      "close": "OPEN",
+      "passed_source_checks": false
+    },
+    {
+      "point_id": "3f27b0d2b8057b3b2a7edcc504d20eb346db423ec431ec6578587abe05ffa870",
+      "photo": "c4d59cba6fe27a9aa31b27decb3b5c5dd40945ef3e8a89865f325b307e577411",
+      "track_id": 1,
+      "asked_side": "right",
+      "role": "wrong_side_control",
+      "wide": "OPEN",
+      "close": "LANE",
+      "passed_source_checks": false
+    },
+    {
+      "point_id": "1933adaba84893d8f149d4ba066f74eaa54983629947d4365d1f02a50335af3f",
+      "photo": "c4d59cba6fe27a9aa31b27decb3b5c5dd40945ef3e8a89865f325b307e577411",
+      "track_id": 1,
+      "asked_side": "left",
+      "role": "occupied_control",
+      "wide": "UNCLEAR",
+      "close": "OPEN",
+      "passed_source_checks": false
+    },
+    {
+      "point_id": "34a42c33934e4864594fbe654616f2f4486c49290899cbfdbd21ed2ac94227f0",
+      "photo": "c4d59cba6fe27a9aa31b27decb3b5c5dd40945ef3e8a89865f325b307e577411",
+      "track_id": 1,
+      "asked_side": "left",
+      "role": "lane_control",
+      "wide": "OPEN",
+      "close": "LANE",
+      "passed_source_checks": false
+    },
+    {
+      "point_id": "3f1baeec3887c3a7e2ed69de4b4e3a10b96c773c4413d17a9fae7f20f477ba36",
+      "photo": "cd4e27b8077b24d36169170a847c9f5d382e9c315ad5bb670cb51ecf6ed40082",
+      "track_id": 7,
+      "asked_side": "left",
+      "role": "candidate",
+      "wide": "OPEN",
+      "close": "LANE",
+      "passed_source_checks": false
+    },
+    {
+      "point_id": "3f1baeec3887c3a7e2ed69de4b4e3a10b96c773c4413d17a9fae7f20f477ba36",
+      "photo": "cd4e27b8077b24d36169170a847c9f5d382e9c315ad5bb670cb51ecf6ed40082",
+      "track_id": 7,
+      "asked_side": "right",
+      "role": "wrong_side_control",
+      "wide": "OPEN",
+      "close": "LANE",
+      "passed_source_checks": false
+    },
+    {
+      "point_id": "287056cffe767e61d965cb5ba911176eecc0250f5f5ec83bd463734c57a46306",
+      "photo": "cd4e27b8077b24d36169170a847c9f5d382e9c315ad5bb670cb51ecf6ed40082",
+      "track_id": 7,
+      "asked_side": "left",
+      "role": "occupied_control",
+      "wide": "OPEN",
+      "close": "OPEN",
+      "passed_source_checks": false
+    },
+    {
+      "point_id": "c5729a63d3f42b8380414f40d911b5584df2747c2fa898d541d5bd72dab76f90",
+      "photo": "cd4e27b8077b24d36169170a847c9f5d382e9c315ad5bb670cb51ecf6ed40082",
+      "track_id": 7,
+      "asked_side": "left",
+      "role": "lane_control",
+      "wide": "OPEN",
+      "close": "OPEN",
+      "passed_source_checks": false
+    },
+    {
+      "point_id": "f7c1e9a74233a1bbec7478d9156ba6eb7902c863e76e13419eb1ab0cacacd675",
+      "photo": "d6219bd62cb3eb77119a72473ad133ce125ad8b02645d2bdc44f817590764203",
+      "track_id": 3,
+      "asked_side": "right",
+      "role": "candidate",
+      "wide": "OPEN",
+      "close": "OPEN",
+      "passed_source_checks": false
+    },
+    {
+      "point_id": "f7c1e9a74233a1bbec7478d9156ba6eb7902c863e76e13419eb1ab0cacacd675",
+      "photo": "d6219bd62cb3eb77119a72473ad133ce125ad8b02645d2bdc44f817590764203",
+      "track_id": 3,
+      "asked_side": "left",
+      "role": "wrong_side_control",
+      "wide": "OPEN",
+      "close": "OPEN",
+      "passed_source_checks": false
+    },
+    {
+      "point_id": "0280179f0c7c617947db790ab6fd5b1c46e26fdb88643ff33702098db69ea756",
+      "photo": "d6219bd62cb3eb77119a72473ad133ce125ad8b02645d2bdc44f817590764203",
+      "track_id": 3,
+      "asked_side": "right",
+      "role": "occupied_control",
+      "wide": "OPEN",
+      "close": "OPEN",
+      "passed_source_checks": false
+    },
+    {
+      "point_id": "d0f8251aaadfdead7c5a8b50c38abb9bbdb1246f99752a3001e53ad564cfac5b",
+      "photo": "d6219bd62cb3eb77119a72473ad133ce125ad8b02645d2bdc44f817590764203",
+      "track_id": 3,
+      "asked_side": "left",
+      "role": "lane_control",
+      "wide": "UNCLEAR",
+      "close": "OPEN",
+      "passed_source_checks": false
+    },
+    {
+      "point_id": "09bcf40dd497ef4b1a428cc6149069fac13d5ebd0e5ad95f7fb50d259cdf4ac9",
+      "photo": "df3c7569cf08071fe7492af65e599d7132364496766bb9e1e4fa4c3966dccc04",
+      "track_id": 3,
+      "asked_side": "right",
+      "role": "candidate",
+      "wide": "OPEN",
+      "close": "OPEN",
+      "passed_source_checks": false
+    },
+    {
+      "point_id": "09bcf40dd497ef4b1a428cc6149069fac13d5ebd0e5ad95f7fb50d259cdf4ac9",
+      "photo": "df3c7569cf08071fe7492af65e599d7132364496766bb9e1e4fa4c3966dccc04",
+      "track_id": 3,
+      "asked_side": "left",
+      "role": "wrong_side_control",
+      "wide": "OPEN",
+      "close": "OPEN",
+      "passed_source_checks": false
+    },
+    {
+      "point_id": "85176c8f230f5b7d715be8cd2fda1723897f8030e1a879272e0fcc438773efbf",
+      "photo": "df3c7569cf08071fe7492af65e599d7132364496766bb9e1e4fa4c3966dccc04",
+      "track_id": 3,
+      "asked_side": "right",
+      "role": "occupied_control",
+      "wide": "OPEN",
+      "close": "UNCLEAR",
+      "passed_source_checks": false
+    },
+    {
+      "point_id": "b91cfeeaa761218250ef09c387a2650ef5358c8096c03dcb28c608eb22c7be1e",
+      "photo": "df3c7569cf08071fe7492af65e599d7132364496766bb9e1e4fa4c3966dccc04",
+      "track_id": 3,
+      "asked_side": "left",
+      "role": "lane_control",
+      "wide": "OPEN",
+      "close": "OPEN",
+      "passed_source_checks": false
+    },
+    {
+      "point_id": "e22fb136afb3ddbf9c63faee91495a46fa11092557081e2f2d90c2006df6c08f",
+      "photo": "df4b13c0f17548cf0a1911efdbe0f94b00c1299c97a07a6c3783beab3ce2b416",
+      "track_id": 2,
+      "asked_side": "left",
+      "role": "candidate",
+      "wide": "OPEN",
+      "close": "LANE",
+      "passed_source_checks": false
+    },
+    {
+      "point_id": "a1ba63e3e6569843146c2dd1772341fe34dcbed4bd9d3c94b8af7165547a917f",
+      "photo": "df4b13c0f17548cf0a1911efdbe0f94b00c1299c97a07a6c3783beab3ce2b416",
+      "track_id": 2,
+      "asked_side": "right",
+      "role": "candidate",
+      "wide": "OPEN",
+      "close": "OPEN",
+      "passed_source_checks": false
+    },
+    {
+      "point_id": "e22fb136afb3ddbf9c63faee91495a46fa11092557081e2f2d90c2006df6c08f",
+      "photo": "df4b13c0f17548cf0a1911efdbe0f94b00c1299c97a07a6c3783beab3ce2b416",
+      "track_id": 2,
+      "asked_side": "right",
+      "role": "wrong_side_control",
+      "wide": "OPEN",
+      "close": "OPEN",
+      "passed_source_checks": false
+    },
+    {
+      "point_id": "79a0fd67102b3ba3291cd68149d833ce5c6e18cd88974a46d92a9a5d3c659e80",
+      "photo": "df4b13c0f17548cf0a1911efdbe0f94b00c1299c97a07a6c3783beab3ce2b416",
+      "track_id": 2,
+      "asked_side": "left",
+      "role": "occupied_control",
+      "wide": "OPEN",
+      "close": "OPEN",
+      "passed_source_checks": false
+    },
+    {
+      "point_id": "7d81cd7ba76aff890a1006d5fe19c3e1591ae92bac7bbb2bf81e2c7cbd2c4388",
+      "photo": "df4b13c0f17548cf0a1911efdbe0f94b00c1299c97a07a6c3783beab3ce2b416",
+      "track_id": 2,
+      "asked_side": "left",
+      "role": "lane_control",
+      "wide": "OPEN",
+      "close": "OPEN",
+      "passed_source_checks": false
+    },
+    {
+      "point_id": "84a13038a3d5f7d0627d3dabf820fc2dc59d908422a0f017cdca85451038c40f",
+      "photo": "e42cb766f40a42ac9ccd31bb27d446371bf7972f721883fb64c315713baa5f6f",
+      "track_id": 1,
+      "asked_side": "left",
+      "role": "candidate",
+      "wide": "UNCLEAR",
+      "close": "SEPARATED",
+      "passed_source_checks": false
+    },
+    {
+      "point_id": "84a13038a3d5f7d0627d3dabf820fc2dc59d908422a0f017cdca85451038c40f",
+      "photo": "e42cb766f40a42ac9ccd31bb27d446371bf7972f721883fb64c315713baa5f6f",
+      "track_id": 1,
+      "asked_side": "right",
+      "role": "wrong_side_control",
+      "wide": "UNCLEAR",
+      "close": "SEPARATED",
+      "passed_source_checks": false
+    },
+    {
+      "point_id": "7fc75fb82cf4fc43177ce054f5cab497f3cf6833a1d4f0543a60b45ecf2beee9",
+      "photo": "e42cb766f40a42ac9ccd31bb27d446371bf7972f721883fb64c315713baa5f6f",
+      "track_id": 1,
+      "asked_side": "left",
+      "role": "occupied_control",
+      "wide": "OPEN",
+      "close": "LANE",
+      "passed_source_checks": false
+    },
+    {
+      "point_id": "f3391defe870864d0a510dc9a8fad2fcd24861e8c3538b446dc681953e3adf5f",
+      "photo": "e42cb766f40a42ac9ccd31bb27d446371bf7972f721883fb64c315713baa5f6f",
+      "track_id": 1,
+      "asked_side": "left",
+      "role": "lane_control",
+      "wide": "OPEN",
+      "close": "LANE",
+      "passed_source_checks": false
+    }
+  ]
+}

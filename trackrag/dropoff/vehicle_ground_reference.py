@@ -16,11 +16,20 @@ BANK = Path(__file__).resolve().parents[2] / 'experiments/dropoff/passenger-vehi
 MODEL = 'Qwen/Qwen3.6-35B-A3B-FP8'
 REVISION = 'c653bba46dfa06e9658dcc0b0dc87fe4685f14a2'
 CHOICE_REASON = 'choose_observed_ground_behind_vehicle'
-RELATION_POLICY = 'separate_vehicle_and_measured_destination_v2'
+SIDE_CHOICE_REASON = 'choose_observed_ground_beside_vehicle'
+EXPLICIT_GROUND_REASON = 'choose_passenger_marked_parking_ground'
+CHOICE_REASONS = {CHOICE_REASON, SIDE_CHOICE_REASON, EXPLICIT_GROUND_REASON}
+PREVIOUS_RELATION_POLICY = 'separate_vehicle_and_measured_destination_v2'
+RELATION_POLICY = 'separate_rear_lateral_and_marked_ground_v3'
 NO_READING = 'passenger_vehicle_reading_unavailable_v1'
 
 
 def direct_reference(request, *, expanded=True):
+    from . import vehicle_wording
+    answer = vehicle_wording.reply(request) if expanded else None
+    if answer and answer[0] == 'accepted':
+        # All visual receipts still bind the actual answer and its original same-photo dialogue.
+        request = {**request, 'text':answer[1]}
     qualified = qualifiers.parse(request) if expanded else qualifiers.parse(request, expanded=False)
     if qualified is not None:
         return qualified
@@ -219,7 +228,8 @@ def _previously_observed_rear(request, photo, surface, earlier, specs, answers, 
                     'Is the highlighted point where you meant? The driver still needs to check the available room.')
 
 
-def outcome(request, photo, surface, packet, mark=None, *, qualifier_packets=None, earlier_vehicle=None, expanded=True):
+def outcome(request, photo, surface, packet, mark=None, *, qualifier_packets=None, earlier_vehicle=None, expanded=True,
+            observe_sides=True, side_packet=None, load_side_packet=True, side_release=None):
     from . import whole_bay
     ref = direct_reference(request, expanded=expanded)
     if ref is None:
@@ -244,7 +254,7 @@ def outcome(request, photo, surface, packet, mark=None, *, qualifier_packets=Non
     evidence = {'clearance_policy':whole_bay.CLEARANCE_POLICY, 'vehicle_ground_policy':view.RECIPE,
                 'vehicle_observation':packet}
     if expanded:
-        evidence['vehicle_relation_policy'] = RELATION_POLICY
+        evidence['vehicle_relation_policy'] = RELATION_POLICY if observe_sides else PREVIOUS_RELATION_POLICY
     observations = []
     if ref.get('qualified'):
         qualifier_packets = qualifier_packets if qualifier_packets is not None else qualifiers.packets_for(photo_sha)
@@ -254,6 +264,42 @@ def outcome(request, photo, surface, packet, mark=None, *, qualifier_packets=Non
         clean, _, mark, center = manual_offlane.mark_input(clean, mark)
         evidence['selected_box'] = mark
     boxes, options, reason, question = decision(clean, ref, specs, answers, classes, mark, observations=observations, expanded=expanded)
+    if expanded and observe_sides and not boxes and not options and mark is None:
+        plausible = qualifiers.possible_side_reference(clean, ref, specs, answers, observations=observations)
+        if plausible is not None:
+            boxes, question = plausible
+            reason = 'vehicle_side_uncertain'
+    if (expanded and observe_sides and not options and ref['relation'] == 'beside'
+            and (side_packet is not None or load_side_packet)):
+        from . import vehicle_side_ground
+        if side_packet is None:
+            side_packet = read_photo_packet(vehicle_side_ground.BANK, photo_sha, 160_000)
+        lateral = (vehicle_side_ground.side_ground_choices(clean, photo, surface, ref, specs, answers,
+                                                           packet=side_packet, observations=observations,
+                                                           identity_evidence=packet, expected_release=side_release)
+                   if side_packet is not None else None)
+        if lateral is not None:
+            lateral_options, inspected, prompt = lateral
+            if mark is not None:
+                grade, _ = manual_offlane.surface_check(clean['scene']['frame'], clean['scene']['tracks'], mark, center, classes)
+                lateral_options = [o for o in lateral_options if grade == 'parking' and
+                                   cv2.pointPolygonTest(np.float32(o['polygon']), tuple(center), False) >= 0]
+            if lateral_options:
+                selected_tracks = {o['evidence']['track_id'] for o in lateral_options}
+                boxes = [s['box'] for s in specs if s['track_id'] in selected_tracks]
+                if len(selected_tracks) != 1 or len(boxes) != 1:
+                    raise ValueError('Side choices must refer to one identifiable vehicle in the current photo.')
+                options = lateral_options
+                reason, question = SIDE_CHOICE_REASON, prompt
+                evidence['side_ground_observation'] = inspected
+                evidence['side_ground_release'] = vehicle_side_ground.release_id()
+    if (expanded and observe_sides and mark is not None and not options and ref['relation'] == 'beside'
+            and not ref.get('qualified') and reason == 'vehicle_seen_space_withheld'):
+        checked, detail = manual_offlane.surface_check(clean['scene']['frame'], clean['scene']['tracks'], mark, center, classes)
+        if checked == 'through_lane':
+            question = 'I found the vehicle. Your mark appears to be in the traffic lane beside it. Could you choose a visible pull-in?'
+        elif checked not in {'observed_object','broad_area'} and detail.get('center_class_id') not in {2,8,15,23}:
+            question = 'I checked your mark beside the outlined vehicle. I couldn’t verify open parking there. Could you choose another visible spot?'
     if (expanded and not options and mark is None and earlier_vehicle is not None
             and ref['relation'] == 'behind' and not ref.get('qualified')):
         supported = _previously_observed_rear(clean, photo, surface, earlier_vehicle, specs, answers, boxes)
@@ -266,7 +312,7 @@ def outcome(request, photo, surface, packet, mark=None, *, qualifier_packets=Non
         marked = _explicit_ground(clean['scene'], classes, mark, center)
         if marked is not None and not vehicle_relative_bays.restricted_instruction(clean['text']):
             options = [marked]
-            reason = CHOICE_REASON
+            reason = EXPLICIT_GROUND_REASON if observe_sides else CHOICE_REASON
             question = ('I can see open parking pavement at your exact mark. I couldn’t verify its position '
                         'relative to the vehicle you described. Do you want to use the spot you marked?')
             evidence['explicit_passenger_ground'] = True

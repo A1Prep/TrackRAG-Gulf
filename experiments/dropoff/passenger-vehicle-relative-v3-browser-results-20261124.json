@@ -1,0 +1,2319 @@
+{
+  "scope": "Ordinary Microsoft Edge sessions through the frozen passenger interface. Covers two separately scored previous protocols, two new natural descriptions fixed before the lateral model outcomes, and four candidate-selected extra descriptions fixed after blind visual ground assessment but before specialist outcomes. The last group measures retrieval of those photographed candidates and cannot estimate transfer.",
+  "runtime_git": "c5314233bf45aea8a8f60bfea47986d28d663a17",
+  "lateral_decision": "disabled_after_independent_global_check",
+  "runtime_source": {
+    "git": "c5314233bf45aea8a8f60bfea47986d28d663a17",
+    "label": "Frozen canonical checkout",
+    "source_sha256": {
+      "experiments/dropoff/passenger-vehicle-reference-views-v1.zip": "dfd8aee95848eadec6778d13c0e27e9ddeb43306c8da5fe844713b23e3b0611c",
+      "trackrag/dropoff/interaction.py": "0a0cb1a69b28b473c50acc0671d9f0c2a989499903f6c7c205cc2c68e79a66be",
+      "trackrag/dropoff/manual_offlane.py": "fd9b8bdcd0851aba501f58fb6b6034631099d0a95cbb85363fde8bb267746161",
+      "trackrag/dropoff/single_vehicle.py": "3f20004b3d0e76b3797f0563516402fd7c794b8d9fb29204d07842458409d60b",
+      "trackrag/dropoff/single_vehicle_backend.py": "f19368799e87e4c72653ae1a8640f8cca66d180881f955545904c12b9a35161a",
+      "trackrag/dropoff/vehicle_curb_ground.py": "17b3de62a0db249abdd9c3b27cdca2b22d4ad14539768d6174923bf0864029c9",
+      "trackrag/dropoff/vehicle_ground_reference.py": "abcd2f5c88be781ba9851680fa0f4ac25ce9b4bb1b53daab5fbf5524f60cc389",
+      "trackrag/dropoff/vehicle_ground_view.py": "f435128e3094fcb9fbdee125a6d408dd835dac5048977384a7232f90c7cf42df",
+      "trackrag/dropoff/vehicle_reference_qualifiers.py": "e61fc555becc6bbd8dcb94a2e84fe7653835668e6b32d769a3e3e7cfe6752a17",
+      "trackrag/dropoff/vehicle_relative_bays.py": "75f3639a259c20583ff03a8e0f736ff3e9fd2c8e3a5da35c2881c94d003ddc45",
+      "trackrag/dropoff/vehicle_side_ground.py": "abdef1f484b0a1da41a16984042345f80afdb84bc0140109b779abacd7088bf5",
+      "trackrag/dropoff/vehicle_side_view.py": "bbeb0ce09ddad68ccee0829ccd5b74d372ebfda181541cce925dbb52aa61fe06",
+      "trackrag/dropoff/whole_bay.py": "05a3f4e317dbef91075ab4509b948351b0996c901e175ab7eee55c7bba84e7a6",
+      "trackrag/passenger_ui/app.js": "fb4497f82284dc6cd29b5be532316d3e38087585579e2f028225c10bc47049c6"
+    },
+    "file_encoding": "Git blob bytes"
+  },
+  "previous_reports": {
+    "passenger-vehicle-relative-gallery-baseline-20261124.json": "077f7950e769123d9a61414e447fcb5583b90de4808342035a845949774c0d1e",
+    "passenger-vehicle-relative-gallery-followup-20261124.json": "4514ff4bdc3ad84549b9f78b7752903687a499c1250cec3df66a0b397277bff4",
+    "passenger-vehicle-relative-gallery-v2-development-20261124.json": "290ba404b2e92404e94fcafb485cf28a1df90833ebd693fd4f2b090563477f1d",
+    "passenger-vehicle-relative-transfer-results-20261124.json": "9934639958dbe05c549263d16709adb3d894bbf96fb342abbc0e7bb6c1e8eb85"
+  },
+  "groups": {
+    "earlier_gallery_26": {
+      "plan_sha256": "e207d1a9ea4eb994d4e720c99fa156690aa3338f5fe8087eec3afc921c5b5b66",
+      "observed_sha256": "5976f27437987ab3ad59113a7bb97a1c6193e3723f81e743a95bb9fe9afd63ce",
+      "started_utc": "2026-11-24T00:09:49.063Z",
+      "finished_utc": "2026-11-24T00:10:33.375Z",
+      "natural_timing_ms": {
+        "min": 581,
+        "median": 594,
+        "max": 2669
+      },
+      "counts": {
+        "total": 26,
+        "positive_requests": {
+          "correct_selectable": 3,
+          "withheld": 2
+        },
+        "shown_boxes_overlapping_at_least_one_possible_positive_vehicle": 5,
+        "positive_requests_with_one_overlapping_box_only": 4,
+        "unsuitable_natural_requests": {
+          "withheld": 9
+        },
+        "intended_marks": {
+          "correct_selectable": 2,
+          "correct_direct": 1,
+          "withheld": 1
+        },
+        "dedicated_lane_or_aisle_marks": {
+          "withheld": 6
+        },
+        "all_natural": {
+          "correct_selectable": 3,
+          "withheld": 12
+        },
+        "all_marks": {
+          "correct_selectable": 2,
+          "withheld": 8,
+          "correct_direct": 1
+        },
+        "incorrect_or_mixed_offers": 0
+      },
+      "first_responses": [
+        {
+          "case_id": "V01",
+          "task": "natural",
+          "words": "Could you drop me behind the white car?",
+          "heading": "Is this the spot you meant?",
+          "message": "I found the white SUV and the curbside strip behind it. Is the highlighted ground where you meant? The photo doesn’t show how much room a vehicle would have. You can also mark another spot.",
+          "grade": "correct_selectable",
+          "visible_ms": 584,
+          "actual_tap": null,
+          "point": null,
+          "point_in_region": false,
+          "choice_xy": [
+            [
+              1980.16,
+              1330.37
+            ]
+          ],
+          "choice_inside": [
+            true
+          ],
+          "displayed_vehicle_boxes_xyxy": [
+            [
+              1607.0716552734375,
+              909.7937989630093,
+              2120.968212890625,
+              1286.663400217973
+            ]
+          ],
+          "displayed_box_overlap": [
+            {
+              "right_white_suv": 0.919,
+              "partly_seen_light_car": 0.0
+            }
+          ],
+          "saved_xy": [
+            1980.16,
+            1330.37
+          ],
+          "saved_in_region": true,
+          "save_button_visible": false,
+          "selectable_buttons": 1,
+          "audit": {
+            "sha256": "7c7ca5e4365992b23daf115f9a25e4352dec29e54bdee9902624aaa0b5db7562",
+            "method": "public_painted_bay_landmark_v1",
+            "reason": "choose_observed_ground_behind_vehicle",
+            "completed_outcome": true
+          },
+          "actor_before_selection": "model",
+          "actor_after_save": "passenger",
+          "screenshot": "runs/passenger-placement-field-20261124/car-relative/v3-c531423-side-disabled/V01-natural-first.png",
+          "screenshot_sha256": "aa37fcc2f352f102fa90b4211837fcc05a34cc4cba35653154f9d9c33cf900db"
+        },
+        {
+          "case_id": "V02",
+          "task": "natural",
+          "words": "Could you drop me beside the white car?",
+          "heading": "I found the vehicle you described",
+          "message": "I found the outlined white SUV. Which side of it do you mean? Please mark the open ground beside it.",
+          "grade": "withheld",
+          "visible_ms": 598,
+          "actual_tap": null,
+          "point": null,
+          "point_in_region": false,
+          "choice_xy": [],
+          "choice_inside": [],
+          "displayed_vehicle_boxes_xyxy": [
+            [
+              1607.0716552734375,
+              909.7937989630093,
+              2120.968212890625,
+              1286.663400217973
+            ]
+          ],
+          "displayed_box_overlap": [
+            {
+              "right_white_suv": 0.919,
+              "partly_seen_light_car": 0.0
+            }
+          ],
+          "saved_xy": null,
+          "saved_in_region": false,
+          "save_button_visible": false,
+          "selectable_buttons": 0,
+          "audit": {
+            "sha256": "6844bdb3b0a028ab685c74765234b4454502dbadb4afcb772c2c2dd05624f2ec",
+            "method": "public_painted_bay_landmark_v1",
+            "reason": "vehicle_seen_space_withheld",
+            "completed_outcome": true
+          },
+          "actor_before_selection": "model",
+          "actor_after_save": null,
+          "screenshot": "runs/passenger-placement-field-20261124/car-relative/v3-c531423-side-disabled/V02-natural-first.png",
+          "screenshot_sha256": "800e66edf931bbc344a6c1984ed70ea13fdb00e201c06cc35b92d65b224d051a"
+        },
+        {
+          "case_id": "V03",
+          "task": "natural",
+          "words": "Could you drop me behind the white SUV parked on the right?",
+          "heading": "Is this the spot you meant?",
+          "message": "I found the white SUV and the curbside strip behind it. Is the highlighted ground where you meant? The photo doesn’t show how much room a vehicle would have. You can also mark another spot.",
+          "grade": "correct_selectable",
+          "visible_ms": 586,
+          "actual_tap": null,
+          "point": null,
+          "point_in_region": false,
+          "choice_xy": [
+            [
+              1980.16,
+              1330.37
+            ]
+          ],
+          "choice_inside": [
+            true
+          ],
+          "displayed_vehicle_boxes_xyxy": [
+            [
+              1607.0716552734375,
+              909.7937989630093,
+              2120.968212890625,
+              1286.663400217973
+            ]
+          ],
+          "displayed_box_overlap": [
+            {
+              "right_white_suv": 0.919
+            }
+          ],
+          "saved_xy": [
+            1980.16,
+            1330.37
+          ],
+          "saved_in_region": true,
+          "save_button_visible": false,
+          "selectable_buttons": 1,
+          "audit": {
+            "sha256": "6da636d1fd8500a382975c8903609ab828f201fa927e915c3cecce172f7c9438",
+            "method": "public_painted_bay_landmark_v1",
+            "reason": "choose_observed_ground_behind_vehicle",
+            "completed_outcome": true
+          },
+          "actor_before_selection": "model",
+          "actor_after_save": "passenger",
+          "screenshot": "runs/passenger-placement-field-20261124/car-relative/v3-c531423-side-disabled/V03-natural-first.png",
+          "screenshot_sha256": "4ca6dea73cf0fc568dbe612a07df95fea7829acc3d229682ab7b9a1c5a7f8d77"
+        },
+        {
+          "case_id": "V04",
+          "task": "natural",
+          "words": "Could you drop me off behind the white car?",
+          "heading": "Is this the spot you meant?",
+          "message": "I found the vehicle and a marked bay behind it. The image checks disagree about the lane edge. Is the highlighted point where you meant? The driver still needs to check the available room. You can also mark another spot.",
+          "grade": "correct_selectable",
+          "visible_ms": 1631,
+          "actual_tap": null,
+          "point": null,
+          "point_in_region": false,
+          "choice_xy": [
+            [
+              2243.0933333333332,
+              1369.7430830039527
+            ]
+          ],
+          "choice_inside": [
+            true
+          ],
+          "displayed_vehicle_boxes_xyxy": [
+            [
+              1895.5494415283201,
+              1067.6167831420898,
+              2195.9110839843747,
+              1296.4726684570312
+            ]
+          ],
+          "displayed_box_overlap": [
+            {
+              "parked_right_white_sedan": 0.927,
+              "left_white_crossover": 0.0
+            }
+          ],
+          "saved_xy": [
+            2243.0933333333332,
+            1369.7430830039527
+          ],
+          "saved_in_region": true,
+          "save_button_visible": false,
+          "selectable_buttons": 1,
+          "audit": {
+            "sha256": "3b245eb31fdbf9e4d049406c837f195f9fb1e57b93de02090e3b9b94de015af4",
+            "method": "public_painted_bay_landmark_v1",
+            "reason": "choose_observed_ground_behind_vehicle",
+            "completed_outcome": true
+          },
+          "actor_before_selection": "model",
+          "actor_after_save": "passenger",
+          "screenshot": "runs/passenger-placement-field-20261124/car-relative/v3-c531423-side-disabled/V04-natural-first.png",
+          "screenshot_sha256": "ab5d11793cdb7c384b7eb708a22f69f199899afde2b72b3cfd0436bd6329d18b"
+        },
+        {
+          "case_id": "V05",
+          "task": "natural",
+          "words": "Could you drop me beside the white sedan parked on the right?",
+          "heading": "I found the vehicle you described",
+          "message": "I found the outlined white sedan. Which side of it do you mean? Please mark the open ground beside it.",
+          "grade": "withheld",
+          "visible_ms": 594,
+          "actual_tap": null,
+          "point": null,
+          "point_in_region": false,
+          "choice_xy": [],
+          "choice_inside": [],
+          "displayed_vehicle_boxes_xyxy": [
+            [
+              1895.5494415283201,
+              1067.6167831420898,
+              2195.9110839843747,
+              1296.4726684570312
+            ]
+          ],
+          "displayed_box_overlap": [
+            {
+              "parked_right_white_sedan": 0.927
+            }
+          ],
+          "saved_xy": null,
+          "saved_in_region": false,
+          "save_button_visible": false,
+          "selectable_buttons": 0,
+          "audit": {
+            "sha256": "6393851691d506b38736c535d926b84883a54cce28741610f41bc789313f6507",
+            "method": "public_painted_bay_landmark_v1",
+            "reason": "vehicle_seen_space_withheld",
+            "completed_outcome": true
+          },
+          "actor_before_selection": "model",
+          "actor_after_save": null,
+          "screenshot": "runs/passenger-placement-field-20261124/car-relative/v3-c531423-side-disabled/V05-natural-first.png",
+          "screenshot_sha256": "adb484fd8de46f417593de9276b0488eadbdae18ce4293259bd5c6abde10cc6a"
+        },
+        {
+          "case_id": "V06",
+          "task": "natural",
+          "words": "Could you drop me behind the white SUV with the red design on its door?",
+          "heading": "I found the vehicle you described",
+          "message": "I can outline the vehicle matching the basic description. I couldn’t verify red design on the door. Could you identify it another way or mark the ground behind it?",
+          "grade": "withheld",
+          "visible_ms": 581,
+          "actual_tap": null,
+          "point": null,
+          "point_in_region": false,
+          "choice_xy": [],
+          "choice_inside": [],
+          "displayed_vehicle_boxes_xyxy": [
+            [
+              1740.9437255859375,
+              833.390625,
+              2593.42529296875,
+              1318.2387084960938
+            ]
+          ],
+          "displayed_box_overlap": [
+            {
+              "near_white_suv": 0.969
+            }
+          ],
+          "saved_xy": null,
+          "saved_in_region": false,
+          "save_button_visible": false,
+          "selectable_buttons": 0,
+          "audit": {
+            "sha256": "4c9135936621c2f00e28cb3b57717b25b39298965745af3f5a823f9ab8f15190",
+            "method": "public_painted_bay_landmark_v1",
+            "reason": "vehicle_seen_space_withheld",
+            "completed_outcome": true
+          },
+          "actor_before_selection": "model",
+          "actor_after_save": null,
+          "screenshot": "runs/passenger-placement-field-20261124/car-relative/v3-c531423-side-disabled/V06-natural-first.png",
+          "screenshot_sha256": "123f1a11df25cee2a309d63f59a75d3ad9a68d8b532a7415a5957f8253a096c6"
+        },
+        {
+          "case_id": "V07",
+          "task": "natural",
+          "words": "Could you drop me beside the white SUV with the red design on its door?",
+          "heading": "I found the vehicle you described",
+          "message": "I can outline the vehicle matching the basic description. I couldn’t verify red design on the door. Could you identify it another way or mark the ground beside it?",
+          "grade": "withheld",
+          "visible_ms": 611,
+          "actual_tap": null,
+          "point": null,
+          "point_in_region": false,
+          "choice_xy": [],
+          "choice_inside": [],
+          "displayed_vehicle_boxes_xyxy": [
+            [
+              1740.9437255859375,
+              833.390625,
+              2593.42529296875,
+              1318.2387084960938
+            ]
+          ],
+          "displayed_box_overlap": [
+            {
+              "near_white_suv": 0.969
+            }
+          ],
+          "saved_xy": null,
+          "saved_in_region": false,
+          "save_button_visible": false,
+          "selectable_buttons": 0,
+          "audit": {
+            "sha256": "43bf5e6a84801c523932b0540f50fa9442c7e955a468c6363ac985436f548faf",
+            "method": "public_painted_bay_landmark_v1",
+            "reason": "vehicle_seen_space_withheld",
+            "completed_outcome": true
+          },
+          "actor_before_selection": "model",
+          "actor_after_save": null,
+          "screenshot": "runs/passenger-placement-field-20261124/car-relative/v3-c531423-side-disabled/V07-natural-first.png",
+          "screenshot_sha256": "57f902dc21e425e1dd9c71c52a26b8e52ae9a45fcd4404b557c6ebfd21d0f305"
+        },
+        {
+          "case_id": "V08",
+          "task": "natural",
+          "words": "Could you drop me beside the grey Mini outside Dog Spot, on its right?",
+          "heading": "I found the vehicles you described",
+          "message": "I can see the Dog Spot frontage. The close-up readings disagree about the outlined vehicles’ colours or body types. I couldn’t confirm the Mini make. Could you identify which vehicle you mean or mark the ground on its right?",
+          "grade": "withheld",
+          "visible_ms": 2669,
+          "actual_tap": null,
+          "point": null,
+          "point_in_region": false,
+          "choice_xy": [],
+          "choice_inside": [],
+          "displayed_vehicle_boxes_xyxy": [
+            [
+              1454.6855163574219,
+              1061.6428527832031,
+              2104.4935913085938,
+              1389.8486938476562
+            ],
+            [
+              2453.7222290039062,
+              1027.7738342285156,
+              3063.955078125,
+              1513.6122436523438
+            ]
+          ],
+          "displayed_box_overlap": [
+            {
+              "grey_mini": 0.0
+            },
+            {
+              "grey_mini": 0.967
+            }
+          ],
+          "saved_xy": null,
+          "saved_in_region": false,
+          "save_button_visible": false,
+          "selectable_buttons": 0,
+          "audit": {
+            "sha256": "16fbc573c9b79196a6f74008736d163b805e3a045f503a88ab7428fd6d7eccd8",
+            "method": "public_painted_bay_landmark_v1",
+            "reason": "vehicle_seen_space_withheld",
+            "completed_outcome": true
+          },
+          "actor_before_selection": "model",
+          "actor_after_save": null,
+          "screenshot": "runs/passenger-placement-field-20261124/car-relative/v3-c531423-side-disabled/V08-natural-first.png",
+          "screenshot_sha256": "2f4566cae594193eb794cb52a813e9ae815cab3166b796741b82b875e62a9c0d"
+        },
+        {
+          "case_id": "V09",
+          "task": "natural",
+          "words": "Could you drop me behind the grey Mini outside Dog Spot?",
+          "heading": "I found the vehicles you described",
+          "message": "I can see the Dog Spot frontage. The close-up readings disagree about the outlined vehicles’ colours or body types. I couldn’t confirm the Mini make. Could you identify which vehicle you mean or mark the ground behind it?",
+          "grade": "withheld",
+          "visible_ms": 581,
+          "actual_tap": null,
+          "point": null,
+          "point_in_region": false,
+          "choice_xy": [],
+          "choice_inside": [],
+          "displayed_vehicle_boxes_xyxy": [
+            [
+              1454.6855163574219,
+              1061.6428527832031,
+              2104.4935913085938,
+              1389.8486938476562
+            ],
+            [
+              2453.7222290039062,
+              1027.7738342285156,
+              3063.955078125,
+              1513.6122436523438
+            ]
+          ],
+          "displayed_box_overlap": [
+            {
+              "grey_mini": 0.0
+            },
+            {
+              "grey_mini": 0.967
+            }
+          ],
+          "saved_xy": null,
+          "saved_in_region": false,
+          "save_button_visible": false,
+          "selectable_buttons": 0,
+          "audit": {
+            "sha256": "c811ffc9967388883a30057cabdc388e5026b48b717d8021345cc6b2034dad66",
+            "method": "public_painted_bay_landmark_v1",
+            "reason": "vehicle_seen_space_withheld",
+            "completed_outcome": true
+          },
+          "actor_before_selection": "model",
+          "actor_after_save": null,
+          "screenshot": "runs/passenger-placement-field-20261124/car-relative/v3-c531423-side-disabled/V09-natural-first.png",
+          "screenshot_sha256": "72f5727eb81523f6d9d06e56c4d7c895db51f73c48703927f3f779da12489b08"
+        },
+        {
+          "case_id": "V10",
+          "task": "natural",
+          "words": "Could you drop me beside the black sedan nearest the motorcycles, in the gravel gap?",
+          "heading": "I found the vehicle you described",
+          "message": "I can outline the vehicle matching the basic description. I couldn’t verify the requested gravel gap. Could you identify it another way or mark the ground beside it?",
+          "grade": "withheld",
+          "visible_ms": 606,
+          "actual_tap": null,
+          "point": null,
+          "point_in_region": false,
+          "choice_xy": [],
+          "choice_inside": [],
+          "displayed_vehicle_boxes_xyxy": [
+            [
+              1110.8290100097656,
+              1189.6285400390625,
+              1661.6700439453125,
+              1631.5127563476562
+            ]
+          ],
+          "displayed_box_overlap": [
+            {
+              "near_black_sedan": 0.938
+            }
+          ],
+          "saved_xy": null,
+          "saved_in_region": false,
+          "save_button_visible": false,
+          "selectable_buttons": 0,
+          "audit": {
+            "sha256": "dea9abee1640134ba8ffb774f96a5042d9ab52a64b8b14b071a7e68d84a8b864",
+            "method": "public_painted_bay_landmark_v1",
+            "reason": "vehicle_seen_space_withheld",
+            "completed_outcome": true
+          },
+          "actor_before_selection": "model",
+          "actor_after_save": null,
+          "screenshot": "runs/passenger-placement-field-20261124/car-relative/v3-c531423-side-disabled/V10-natural-first.png",
+          "screenshot_sha256": "6547bca920a0691cdb52e446a0402fa9ac2618217d1807bb3e0dce2a9faa1d92"
+        },
+        {
+          "case_id": "V11",
+          "task": "natural",
+          "words": "Could you drop me behind the black sedan nearest the motorcycles?",
+          "heading": "I found the vehicle you described",
+          "message": "I found the outlined black sedan. I can’t verify open curbside ground behind it. Could you mark the area you mean?",
+          "grade": "withheld",
+          "visible_ms": 612,
+          "actual_tap": null,
+          "point": null,
+          "point_in_region": false,
+          "choice_xy": [],
+          "choice_inside": [],
+          "displayed_vehicle_boxes_xyxy": [
+            [
+              1110.8290100097656,
+              1189.6285400390625,
+              1661.6700439453125,
+              1631.5127563476562
+            ]
+          ],
+          "displayed_box_overlap": [
+            {
+              "near_black_sedan": 0.938
+            }
+          ],
+          "saved_xy": null,
+          "saved_in_region": false,
+          "save_button_visible": false,
+          "selectable_buttons": 0,
+          "audit": {
+            "sha256": "1624f8b214be5a5188dbf4c5c32b3e050d42758b4fc315b60829cc4be97585b0",
+            "method": "public_painted_bay_landmark_v1",
+            "reason": "vehicle_seen_space_withheld",
+            "completed_outcome": true
+          },
+          "actor_before_selection": "model",
+          "actor_after_save": null,
+          "screenshot": "runs/passenger-placement-field-20261124/car-relative/v3-c531423-side-disabled/V11-natural-first.png",
+          "screenshot_sha256": "5a2c2557d18ca9e750636c2900f5cbf9bf927e3c864205311731ad5eeb213df7"
+        },
+        {
+          "case_id": "V12",
+          "task": "natural",
+          "words": "Could you drop me behind the red Jeep?",
+          "heading": "I found the vehicle you described",
+          "message": "I can outline the vehicle matching the basic description. I couldn’t verify the Jeep make. Could you identify it another way or mark the ground behind it?",
+          "grade": "withheld",
+          "visible_ms": 589,
+          "actual_tap": null,
+          "point": null,
+          "point_in_region": false,
+          "choice_xy": [],
+          "choice_inside": [],
+          "displayed_vehicle_boxes_xyxy": [
+            [
+              1817.7139892578125,
+              896.0963745117188,
+              3508.9599609375,
+              1869.9277954101562
+            ]
+          ],
+          "displayed_box_overlap": [
+            {
+              "red_jeep": 0.956
+            }
+          ],
+          "saved_xy": null,
+          "saved_in_region": false,
+          "save_button_visible": false,
+          "selectable_buttons": 0,
+          "audit": {
+            "sha256": "1d1eb8ae23af5842f0829808cc8663e8f87218a5da912642625fd1cdfa31e7e9",
+            "method": "public_painted_bay_landmark_v1",
+            "reason": "vehicle_seen_space_withheld",
+            "completed_outcome": true
+          },
+          "actor_before_selection": "model",
+          "actor_after_save": null,
+          "screenshot": "runs/passenger-placement-field-20261124/car-relative/v3-c531423-side-disabled/V12-natural-first.png",
+          "screenshot_sha256": "3da65bb33fec05002826320b2b2070414c350cae1aa03e134c81f43e6abe10e0"
+        },
+        {
+          "case_id": "V13",
+          "task": "natural",
+          "words": "Could you drop me beside the red Jeep?",
+          "heading": "I found the vehicle you described",
+          "message": "I can outline the vehicle matching the basic description. I couldn’t verify the Jeep make. Could you identify it another way or mark the ground beside it?",
+          "grade": "withheld",
+          "visible_ms": 616,
+          "actual_tap": null,
+          "point": null,
+          "point_in_region": false,
+          "choice_xy": [],
+          "choice_inside": [],
+          "displayed_vehicle_boxes_xyxy": [
+            [
+              1817.7139892578125,
+              896.0963745117188,
+              3508.9599609375,
+              1869.9277954101562
+            ]
+          ],
+          "displayed_box_overlap": [
+            {
+              "red_jeep": 0.956
+            }
+          ],
+          "saved_xy": null,
+          "saved_in_region": false,
+          "save_button_visible": false,
+          "selectable_buttons": 0,
+          "audit": {
+            "sha256": "e7146a2e6f3965a853097dfe2084ad1b4a3b24f5815d213ed5e5031df393eb5d",
+            "method": "public_painted_bay_landmark_v1",
+            "reason": "vehicle_seen_space_withheld",
+            "completed_outcome": true
+          },
+          "actor_before_selection": "model",
+          "actor_after_save": null,
+          "screenshot": "runs/passenger-placement-field-20261124/car-relative/v3-c531423-side-disabled/V13-natural-first.png",
+          "screenshot_sha256": "d90d35dc323e8c02f0f2dc4c0e7a7657d41c9016019ba5cb123bf8d870456021"
+        },
+        {
+          "case_id": "V14",
+          "task": "natural",
+          "words": "Could you drop me behind the white car?",
+          "heading": "I found the vehicle you described",
+          "message": "I can see a white van. Is one of the outlined vehicles the one you mean?",
+          "grade": "withheld",
+          "visible_ms": 586,
+          "actual_tap": null,
+          "point": null,
+          "point_in_region": false,
+          "choice_xy": [],
+          "choice_inside": [],
+          "displayed_vehicle_boxes_xyxy": [
+            [
+              989.1886413574218,
+              943.5381317138671,
+              1708.7326812744138,
+              1408.5511138916015
+            ]
+          ],
+          "displayed_box_overlap": [
+            {
+              "near_white_minivan": 0.943,
+              "cream_hatchback": 0.027,
+              "right_white_suv": 0.0
+            }
+          ],
+          "saved_xy": null,
+          "saved_in_region": false,
+          "save_button_visible": false,
+          "selectable_buttons": 0,
+          "audit": {
+            "sha256": "2239f7ffa3b905244822641b375272c25d3547584c0e8b967caabc6e6ab8a664",
+            "method": "public_painted_bay_landmark_v1",
+            "reason": "vehicle_seen_space_withheld",
+            "completed_outcome": true
+          },
+          "actor_before_selection": "model",
+          "actor_after_save": null,
+          "screenshot": "runs/passenger-placement-field-20261124/car-relative/v3-c531423-side-disabled/V14-natural-first.png",
+          "screenshot_sha256": "3416387f5e01979247ab80f5b6d337b085cf61d2997b8bb4b3a758942a419404"
+        },
+        {
+          "case_id": "V15",
+          "task": "natural",
+          "words": "Could you drop me beside the white car?",
+          "heading": "I found the vehicle you described",
+          "message": "I can see a white van. Is one of the outlined vehicles the one you mean?",
+          "grade": "withheld",
+          "visible_ms": 585,
+          "actual_tap": null,
+          "point": null,
+          "point_in_region": false,
+          "choice_xy": [],
+          "choice_inside": [],
+          "displayed_vehicle_boxes_xyxy": [
+            [
+              989.1886413574218,
+              943.5381317138671,
+              1708.7326812744138,
+              1408.5511138916015
+            ]
+          ],
+          "displayed_box_overlap": [
+            {
+              "near_white_minivan": 0.943,
+              "cream_hatchback": 0.027,
+              "right_white_suv": 0.0
+            }
+          ],
+          "saved_xy": null,
+          "saved_in_region": false,
+          "save_button_visible": false,
+          "selectable_buttons": 0,
+          "audit": {
+            "sha256": "18b0c025359a482041f31c4dec9c00336294588cd65d8d607fbcd66b4ce0b476",
+            "method": "public_painted_bay_landmark_v1",
+            "reason": "vehicle_seen_space_withheld",
+            "completed_outcome": true
+          },
+          "actor_before_selection": "model",
+          "actor_after_save": null,
+          "screenshot": "runs/passenger-placement-field-20261124/car-relative/v3-c531423-side-disabled/V15-natural-first.png",
+          "screenshot_sha256": "5b1a1fadd8454d7ff2ba80d42b80bde1c7f384caf4e35455be071a8625e8e969"
+        },
+        {
+          "case_id": "M13-reported",
+          "task": "mark",
+          "words": "Could you drop me behind the white car?",
+          "heading": "Is this the spot you meant?",
+          "message": "Your mark is at the curbside strip behind the white SUV. Is the highlighted ground where you meant? The photo doesn’t show how much room a vehicle would have. You can also mark another spot.",
+          "grade": "correct_selectable",
+          "visible_ms": 1331,
+          "actual_tap": [
+            2050.931501718939,
+            1355.8118504177705
+          ],
+          "point": null,
+          "point_in_region": false,
+          "choice_xy": [
+            [
+              1980.16,
+              1330.37
+            ]
+          ],
+          "choice_inside": [
+            true
+          ],
+          "displayed_vehicle_boxes_xyxy": [
+            [
+              1607.0716552734375,
+              909.7937989630093,
+              2120.968212890625,
+              1286.663400217973
+            ]
+          ],
+          "displayed_box_overlap": [
+            {}
+          ],
+          "saved_xy": [
+            1980.16,
+            1330.37
+          ],
+          "saved_in_region": true,
+          "save_button_visible": false,
+          "selectable_buttons": 1,
+          "audit": {
+            "sha256": "600a67ff269ada7476bae4d8534063c36fbb2fae653884d5344a51b64b65b17a",
+            "method": "passenger_marked_painted_bay_v1",
+            "reason": "choose_observed_ground_behind_vehicle",
+            "completed_outcome": true
+          },
+          "actor_before_selection": "passenger",
+          "actor_after_save": "passenger",
+          "screenshot": "runs/passenger-placement-field-20261124/car-relative/v3-c531423-side-disabled/M13-reported-mark-first.png",
+          "screenshot_sha256": "db398edd84fe27b35de0b7c670957cdc2ccc4a3eac3bfb51bb77baa56c3ef7c3"
+        },
+        {
+          "case_id": "M13-travel_lane",
+          "task": "mark",
+          "words": "Could you drop me behind the white car?",
+          "heading": "I found the vehicle you described",
+          "message": "Your mark falls outside the curbside area I can see behind the outlined vehicle. Could you tap inside that area or choose another spot?",
+          "grade": "withheld",
+          "visible_ms": 220,
+          "actual_tap": [
+            1531.1713177252386,
+            1368.698012193465
+          ],
+          "point": null,
+          "point_in_region": false,
+          "choice_xy": [],
+          "choice_inside": [],
+          "displayed_vehicle_boxes_xyxy": [
+            [
+              1607.0716552734375,
+              909.7937989630093,
+              2120.968212890625,
+              1286.663400217973
+            ]
+          ],
+          "displayed_box_overlap": [
+            {}
+          ],
+          "saved_xy": null,
+          "saved_in_region": false,
+          "save_button_visible": false,
+          "selectable_buttons": 0,
+          "audit": {
+            "sha256": "7d8f615967f4110067ce4b4653860f86d850b284cb6c641ddd8e03229405b236",
+            "method": "passenger_marked_painted_bay_v1",
+            "reason": "vehicle_seen_space_withheld",
+            "completed_outcome": true
+          },
+          "actor_before_selection": "passenger",
+          "actor_after_save": null,
+          "screenshot": "runs/passenger-placement-field-20261124/car-relative/v3-c531423-side-disabled/M13-travel_lane-mark-first.png",
+          "screenshot_sha256": "0ece5adf2a405b5709218695c058799166c781598507422797a3061d705eb0ff"
+        },
+        {
+          "case_id": "M31-interior",
+          "task": "mark",
+          "words": "Could you drop me off behind the white car?",
+          "heading": "Is this your intended bay?",
+          "message": "Your tap is the blue diamond. The gold ring marks the centre of the outlined parking bay in the lower right of the photo.",
+          "grade": "correct_direct",
+          "visible_ms": 859,
+          "actual_tap": [
+            2310.997556033572,
+            1369.7073979069212
+          ],
+          "point": [
+            2308.967,
+            1377.79
+          ],
+          "point_in_region": true,
+          "choice_xy": [],
+          "choice_inside": [],
+          "displayed_vehicle_boxes_xyxy": [],
+          "displayed_box_overlap": [],
+          "saved_xy": [
+            2308.967,
+            1377.79
+          ],
+          "saved_in_region": true,
+          "save_button_visible": true,
+          "selectable_buttons": 0,
+          "audit": {
+            "sha256": "c6f0fb0c4eba0d334826b47b8dc678f0cd69775574f77c77cc385e4834d187dc",
+            "method": "passenger_marked_painted_bay_v1",
+            "reason": "passenger_mark_on_painted_bay",
+            "completed_outcome": true
+          },
+          "actor_before_selection": "passenger",
+          "actor_after_save": "passenger",
+          "screenshot": "runs/passenger-placement-field-20261124/car-relative/v3-c531423-side-disabled/M31-interior-mark-first.png",
+          "screenshot_sha256": "4aeb4c5081af2df1c6128d2c85cf7858c30a942a922185201c21e0a5aa0a6f5c"
+        },
+        {
+          "case_id": "M31-travel_lane",
+          "task": "mark",
+          "words": "Could you drop me off behind the white car?",
+          "heading": "I found the vehicle you described",
+          "message": "I found the outlined white sedan. I can’t verify open curbside ground behind it. Could you mark the area you mean?",
+          "grade": "withheld",
+          "visible_ms": 222,
+          "actual_tap": [
+            1567.8835418787332,
+            1407.5819113429166
+          ],
+          "point": null,
+          "point_in_region": false,
+          "choice_xy": [],
+          "choice_inside": [],
+          "displayed_vehicle_boxes_xyxy": [
+            [
+              1895.5494415283201,
+              1067.6167831420898,
+              2195.9110839843747,
+              1296.4726684570312
+            ]
+          ],
+          "displayed_box_overlap": [
+            {}
+          ],
+          "saved_xy": null,
+          "saved_in_region": false,
+          "save_button_visible": false,
+          "selectable_buttons": 0,
+          "audit": {
+            "sha256": "7bec7227133e23354477994caa78eeba000b14ebcd2dfd6f57ae0eb20249b3d4",
+            "method": "passenger_marked_painted_bay_v1",
+            "reason": "vehicle_seen_space_withheld",
+            "completed_outcome": true
+          },
+          "actor_before_selection": "passenger",
+          "actor_after_save": null,
+          "screenshot": "runs/passenger-placement-field-20261124/car-relative/v3-c531423-side-disabled/M31-travel_lane-mark-first.png",
+          "screenshot_sha256": "d7cf307bfae6d5b63480e56a2c650ed3123e84f6aff0901c21522c86dee6d83a"
+        },
+        {
+          "case_id": "M2-interior",
+          "task": "mark",
+          "words": "Could you drop me behind the white SUV with the red design on its door?",
+          "heading": "I found the vehicle you described",
+          "message": "Your mark falls on the curb or footpath. I can’t verify vehicle access there. Could you choose another visible area?",
+          "grade": "withheld",
+          "visible_ms": 1310,
+          "actual_tap": [
+            2921.1228801352104,
+            1429.6934219961074
+          ],
+          "point": null,
+          "point_in_region": false,
+          "choice_xy": [],
+          "choice_inside": [],
+          "displayed_vehicle_boxes_xyxy": [
+            [
+              1740.9437255859375,
+              833.390625,
+              2593.42529296875,
+              1318.2387084960938
+            ]
+          ],
+          "displayed_box_overlap": [
+            {}
+          ],
+          "saved_xy": null,
+          "saved_in_region": false,
+          "save_button_visible": false,
+          "selectable_buttons": 0,
+          "audit": {
+            "sha256": "8caa2f23752e3bd965e0a67371b7cbf19fd094ab5ee1a73ae55aa152ab7006cb",
+            "method": "passenger_marked_painted_bay_v1",
+            "reason": "vehicle_seen_space_withheld",
+            "completed_outcome": true
+          },
+          "actor_before_selection": "passenger",
+          "actor_after_save": null,
+          "screenshot": "runs/passenger-placement-field-20261124/car-relative/v3-c531423-side-disabled/M2-interior-mark-first.png",
+          "screenshot_sha256": "240e6e6185e4ddcaa32013cde73cb3ecdd52ea896584e7f78419e4720b3b362b"
+        },
+        {
+          "case_id": "M2-travel_lane",
+          "task": "mark",
+          "words": "Could you drop me behind the white SUV with the red design on its door?",
+          "heading": "I found the vehicle you described",
+          "message": "I checked the spot you marked. I can’t verify a separate open parking area there. Could you choose another visible area?",
+          "grade": "withheld",
+          "visible_ms": 285,
+          "actual_tap": [
+            1518.8366431712984,
+            1433.1390634069724
+          ],
+          "point": null,
+          "point_in_region": false,
+          "choice_xy": [],
+          "choice_inside": [],
+          "displayed_vehicle_boxes_xyxy": [
+            [
+              1740.9437255859375,
+              833.390625,
+              2593.42529296875,
+              1318.2387084960938
+            ]
+          ],
+          "displayed_box_overlap": [
+            {}
+          ],
+          "saved_xy": null,
+          "saved_in_region": false,
+          "save_button_visible": false,
+          "selectable_buttons": 0,
+          "audit": {
+            "sha256": "27e049cc0d54646c64acd185b70d5a5e2ca3808ecc59c2411f54efeb0e5460e3",
+            "method": "passenger_marked_painted_bay_v1",
+            "reason": "vehicle_seen_space_withheld",
+            "completed_outcome": true
+          },
+          "actor_before_selection": "passenger",
+          "actor_after_save": null,
+          "screenshot": "runs/passenger-placement-field-20261124/car-relative/v3-c531423-side-disabled/M2-travel_lane-mark-first.png",
+          "screenshot_sha256": "eb16af7b6737854de2826f318ea3a794f0cc93a6a1eba5b65099339d010bdc1b"
+        },
+        {
+          "case_id": "M29-interior",
+          "task": "mark",
+          "words": "Could you drop me beside the grey Mini outside Dog Spot, on its right?",
+          "heading": "Is this the spot you meant?",
+          "message": "I can see open parking pavement at your exact mark. I couldn’t verify its position relative to the vehicle you described. Do you want to use the spot you marked? You can also mark another spot.",
+          "grade": "correct_selectable",
+          "visible_ms": 329,
+          "actual_tap": [
+            3397.7087214550484,
+            1484.5419255983884
+          ],
+          "point": null,
+          "point_in_region": false,
+          "choice_xy": [
+            [
+              3397.7087214550484,
+              1484.5419255983884
+            ]
+          ],
+          "choice_inside": [
+            true
+          ],
+          "displayed_vehicle_boxes_xyxy": [
+            [
+              1454.6855163574219,
+              1061.6428527832031,
+              2104.4935913085938,
+              1389.8486938476562
+            ],
+            [
+              2453.7222290039062,
+              1027.7738342285156,
+              3063.955078125,
+              1513.6122436523438
+            ]
+          ],
+          "displayed_box_overlap": [
+            {},
+            {}
+          ],
+          "saved_xy": [
+            3397.7087214550484,
+            1484.5419255983884
+          ],
+          "saved_in_region": true,
+          "save_button_visible": false,
+          "selectable_buttons": 1,
+          "audit": {
+            "sha256": "160424e924721fdf53669013cdd91f0d75f813f43ad1167d9118d02baa6d06ea",
+            "method": "passenger_marked_painted_bay_v1",
+            "reason": "choose_passenger_marked_parking_ground",
+            "completed_outcome": true
+          },
+          "actor_before_selection": "passenger",
+          "actor_after_save": "passenger",
+          "screenshot": "runs/passenger-placement-field-20261124/car-relative/v3-c531423-side-disabled/M29-interior-mark-first.png",
+          "screenshot_sha256": "42fc6d49f3c8550c85ab829bf9d6993a0428ced959233ec1e707f7546e5d781a"
+        },
+        {
+          "case_id": "M29-travel_lane",
+          "task": "mark",
+          "words": "Could you drop me beside the grey Mini outside Dog Spot, on its right?",
+          "heading": "I found the vehicles you described",
+          "message": "I checked the spot you marked. I can’t verify a separate open parking area there. Could you choose another visible area?",
+          "grade": "withheld",
+          "visible_ms": 324,
+          "actual_tap": [
+            1433.120114467897,
+            1638.84471992693
+          ],
+          "point": null,
+          "point_in_region": false,
+          "choice_xy": [],
+          "choice_inside": [],
+          "displayed_vehicle_boxes_xyxy": [
+            [
+              1454.6855163574219,
+              1061.6428527832031,
+              2104.4935913085938,
+              1389.8486938476562
+            ],
+            [
+              2453.7222290039062,
+              1027.7738342285156,
+              3063.955078125,
+              1513.6122436523438
+            ]
+          ],
+          "displayed_box_overlap": [
+            {},
+            {}
+          ],
+          "saved_xy": null,
+          "saved_in_region": false,
+          "save_button_visible": false,
+          "selectable_buttons": 0,
+          "audit": {
+            "sha256": "623845bd1146096f821868f02ae38fbdeace3421794effdb09979e5a04b7842c",
+            "method": "passenger_marked_painted_bay_v1",
+            "reason": "vehicle_seen_space_withheld",
+            "completed_outcome": true
+          },
+          "actor_before_selection": "passenger",
+          "actor_after_save": null,
+          "screenshot": "runs/passenger-placement-field-20261124/car-relative/v3-c531423-side-disabled/M29-travel_lane-mark-first.png",
+          "screenshot_sha256": "98546ca029a70144b016d11ba4df015dfeee3632f66a7d24f96b6347f13e8b5b"
+        },
+        {
+          "case_id": "M35-visible_gravel",
+          "task": "mark",
+          "words": "Could you drop me beside the black sedan nearest the motorcycles, in the gravel gap?",
+          "heading": "I found the vehicle you described",
+          "message": "I checked the spot you marked. I can’t verify a separate open parking area there. Could you choose another visible area?",
+          "grade": "withheld",
+          "visible_ms": 1107,
+          "actual_tap": [
+            2094.8270497628055,
+            1563.4159994195377
+          ],
+          "point": null,
+          "point_in_region": false,
+          "choice_xy": [],
+          "choice_inside": [],
+          "displayed_vehicle_boxes_xyxy": [
+            [
+              1110.8290100097656,
+              1189.6285400390625,
+              1661.6700439453125,
+              1631.5127563476562
+            ]
+          ],
+          "displayed_box_overlap": [
+            {}
+          ],
+          "saved_xy": null,
+          "saved_in_region": false,
+          "save_button_visible": false,
+          "selectable_buttons": 0,
+          "audit": {
+            "sha256": "9517de31c9357f8d3fc8e1af39f33d94955daea798bee266e917334fca3b8a5b",
+            "method": "passenger_marked_painted_bay_v1",
+            "reason": "vehicle_seen_space_withheld",
+            "completed_outcome": true
+          },
+          "actor_before_selection": "passenger",
+          "actor_after_save": null,
+          "screenshot": "runs/passenger-placement-field-20261124/car-relative/v3-c531423-side-disabled/M35-visible_gravel-mark-first.png",
+          "screenshot_sha256": "42a8b8c1ea585c5b98263d7d45cba887d26adc70be06f77888cdf0c3663de6f4"
+        },
+        {
+          "case_id": "M54-travel_lane",
+          "task": "mark",
+          "words": "Could you drop me behind the red Jeep?",
+          "heading": "I found the vehicle you described",
+          "message": "Your mark touches a detected object. Could you mark the open ground itself?",
+          "grade": "withheld",
+          "visible_ms": 918,
+          "actual_tap": [
+            3329.125933892869,
+            1745.095797623519
+          ],
+          "point": null,
+          "point_in_region": false,
+          "choice_xy": [],
+          "choice_inside": [],
+          "displayed_vehicle_boxes_xyxy": [
+            [
+              1817.7139892578125,
+              896.0963745117188,
+              3508.9599609375,
+              1869.9277954101562
+            ]
+          ],
+          "displayed_box_overlap": [
+            {}
+          ],
+          "saved_xy": null,
+          "saved_in_region": false,
+          "save_button_visible": false,
+          "selectable_buttons": 0,
+          "audit": {
+            "sha256": "12d896949eaf2b91ea6aaaab72e922afb94cc9b1880c75db75cbaf649661557b",
+            "method": "passenger_marked_painted_bay_v1",
+            "reason": "vehicle_seen_space_withheld",
+            "completed_outcome": true
+          },
+          "actor_before_selection": "passenger",
+          "actor_after_save": null,
+          "screenshot": "runs/passenger-placement-field-20261124/car-relative/v3-c531423-side-disabled/M54-travel_lane-mark-first.png",
+          "screenshot_sha256": "f4f92d7720cf62007f58d3a54f6cf68c344fa717da896dc22fb8d4fe4170539b"
+        },
+        {
+          "case_id": "M77-parking_aisle",
+          "task": "mark",
+          "words": "Could you drop me behind the white car?",
+          "heading": "I found the vehicle you described",
+          "message": "I can see a white van. Is one of the outlined vehicles the one you mean?",
+          "grade": "withheld",
+          "visible_ms": 2060,
+          "actual_tap": [
+            1553.2795796761864,
+            1541.6281658671082
+          ],
+          "point": null,
+          "point_in_region": false,
+          "choice_xy": [],
+          "choice_inside": [],
+          "displayed_vehicle_boxes_xyxy": [
+            [
+              989.1886413574218,
+              943.5381317138671,
+              1708.7326812744138,
+              1408.5511138916015
+            ]
+          ],
+          "displayed_box_overlap": [
+            {}
+          ],
+          "saved_xy": null,
+          "saved_in_region": false,
+          "save_button_visible": false,
+          "selectable_buttons": 0,
+          "audit": {
+            "sha256": "9568417f725e93b1e31312e921fb5919f074c1b4747f74657e2647eee7921952",
+            "method": "passenger_marked_painted_bay_v1",
+            "reason": "vehicle_seen_space_withheld",
+            "completed_outcome": true
+          },
+          "actor_before_selection": "passenger",
+          "actor_after_save": null,
+          "screenshot": "runs/passenger-placement-field-20261124/car-relative/v3-c531423-side-disabled/M77-parking_aisle-mark-first.png",
+          "screenshot_sha256": "9db36cc425a30cd4e3590242ede16a8293353daab571665262eaa09c543a39dd"
+        }
+      ]
+    },
+    "earlier_three_photo_transfer_8": {
+      "plan_sha256": "c4117ded347fb0b2db0ec87a324fd37f40562c99b6098c9e251412c069b6231b",
+      "observed_sha256": "37badcd8f541464e5d4e41b5b7da36275a02c9eb279a73e5271b8d701fbf11f3",
+      "started_utc": "2026-11-24T00:10:33.749Z",
+      "finished_utc": "2026-11-24T00:10:48.364Z",
+      "natural_timing_ms": {
+        "min": 603,
+        "median": 611,
+        "max": 632
+      },
+      "counts": {
+        "total": 8,
+        "positive_requests": {
+          "withheld": 2
+        },
+        "shown_boxes_overlapping_at_least_one_possible_positive_vehicle": 2,
+        "positive_requests_with_one_overlapping_box_only": 2,
+        "unsuitable_natural_requests": {
+          "withheld": 1
+        },
+        "intended_marks": {
+          "correct_selectable": 2
+        },
+        "dedicated_lane_or_aisle_marks": {
+          "withheld": 3
+        },
+        "all_natural": {
+          "withheld": 3
+        },
+        "all_marks": {
+          "correct_selectable": 2,
+          "withheld": 3
+        },
+        "incorrect_or_mixed_offers": 0
+      },
+      "first_responses": [
+        {
+          "case_id": "TCR01",
+          "task": "natural",
+          "words": "Could you drop me beside the black SUV?",
+          "heading": "I found the vehicle you described",
+          "message": "I found the outlined black SUV. Which side of it do you mean? Please mark the open ground beside it.",
+          "grade": "withheld",
+          "visible_ms": 632,
+          "actual_tap": null,
+          "point": null,
+          "point_in_region": false,
+          "choice_xy": [],
+          "choice_inside": [],
+          "displayed_vehicle_boxes_xyxy": [
+            [
+              1674.2913208007812,
+              863.478515625,
+              2214.2156982421875,
+              1221.9521484375
+            ]
+          ],
+          "displayed_box_overlap": [
+            {
+              "black_SUV": 0.934
+            }
+          ],
+          "saved_xy": null,
+          "saved_in_region": false,
+          "save_button_visible": false,
+          "selectable_buttons": 0,
+          "audit": {
+            "sha256": "b636a7938b9f89b524533eed6a02376ea8c3de9c8b7986afc06ba718684c1155",
+            "method": "public_painted_bay_landmark_v1",
+            "reason": "vehicle_seen_space_withheld",
+            "completed_outcome": true
+          },
+          "actor_before_selection": "model",
+          "actor_after_save": null,
+          "screenshot": "runs/passenger-placement-field-20261124/car-relative-transfer/v3-c531423-side-disabled/TCR01-natural-first.png",
+          "screenshot_sha256": "066fa39cad5161aed8c683e6a82105e683e0bb26181b2d17f5dd03bc3946c592"
+        },
+        {
+          "case_id": "TCR02",
+          "task": "natural",
+          "words": "Could you drop me behind the dark sedan on the right?",
+          "heading": "Is this the vehicle you meant?",
+          "message": "I can see a black sedan left of centre in the photo. Is that the vehicle you meant by “on the right”?",
+          "grade": "withheld",
+          "visible_ms": 611,
+          "actual_tap": null,
+          "point": null,
+          "point_in_region": false,
+          "choice_xy": [],
+          "choice_inside": [],
+          "displayed_vehicle_boxes_xyxy": [
+            [
+              1320.5653381347656,
+              1006.3737487792969,
+              1837.3793334960938,
+              1307.5003967285156
+            ]
+          ],
+          "displayed_box_overlap": [
+            {
+              "dark_sedan": 0.952
+            }
+          ],
+          "saved_xy": null,
+          "saved_in_region": false,
+          "save_button_visible": false,
+          "selectable_buttons": 0,
+          "audit": {
+            "sha256": "2c48c0e18e64d2af7ad543e60b526a1a9337b3f8b6d94bb73bda73571d101b36",
+            "method": "public_painted_bay_landmark_v1",
+            "reason": "vehicle_side_uncertain",
+            "completed_outcome": true
+          },
+          "actor_before_selection": "model",
+          "actor_after_save": null,
+          "screenshot": "runs/passenger-placement-field-20261124/car-relative-transfer/v3-c531423-side-disabled/TCR02-natural-first.png",
+          "screenshot_sha256": "aa9ce3d772e619d52114a2ec0599588a7fba482450ebbc0543dac4551909f389"
+        },
+        {
+          "case_id": "TCR03",
+          "task": "natural",
+          "words": "Could you drop me behind the white car?",
+          "heading": "I found the vehicles you described",
+          "message": "More than one outlined vehicle matches. Which one do you mean? You can tell me its side or mark the ground.",
+          "grade": "withheld",
+          "visible_ms": 603,
+          "actual_tap": null,
+          "point": null,
+          "point_in_region": false,
+          "choice_xy": [],
+          "choice_inside": [],
+          "displayed_vehicle_boxes_xyxy": [
+            [
+              681.7266540527344,
+              814.1444091796875,
+              1003.5792846679688,
+              1079.8253173828125
+            ],
+            [
+              730.56298828125,
+              637.3800201416016,
+              986.7123413085938,
+              882.5240478515625
+            ],
+            [
+              737.0209808349609,
+              764.5608215332031,
+              984.09228515625,
+              893.3194885253906
+            ]
+          ],
+          "displayed_box_overlap": [
+            {
+              "white_hatchback": 0.977
+            },
+            {
+              "white_hatchback": 0.129
+            },
+            {
+              "white_hatchback": 0.194
+            }
+          ],
+          "saved_xy": null,
+          "saved_in_region": false,
+          "save_button_visible": false,
+          "selectable_buttons": 0,
+          "audit": {
+            "sha256": "360bec92e9f63495f15581f33e1310aa058d193f26c80307af56c515ac5cecf1",
+            "method": "public_painted_bay_landmark_v1",
+            "reason": "vehicle_seen_space_withheld",
+            "completed_outcome": true
+          },
+          "actor_before_selection": "model",
+          "actor_after_save": null,
+          "screenshot": "runs/passenger-placement-field-20261124/car-relative-transfer/v3-c531423-side-disabled/TCR03-natural-first.png",
+          "screenshot_sha256": "78742086e90cf2357c3a96a40e2b8f7ea7dbadb6182e9e23705d22343e134303"
+        },
+        {
+          "case_id": "M15-interior",
+          "task": "mark",
+          "words": "Could you drop me beside the black SUV?",
+          "heading": "Is this the spot you meant?",
+          "message": "I can see open parking pavement at your exact mark. I couldn’t verify its position relative to the vehicle you described. Do you want to use the spot you marked? You can also mark another spot.",
+          "grade": "correct_selectable",
+          "visible_ms": 1840,
+          "actual_tap": [
+            1919.9955345996505,
+            1299.4161978864342
+          ],
+          "point": null,
+          "point_in_region": false,
+          "choice_xy": [
+            [
+              1919.9955345996505,
+              1299.4161978864342
+            ]
+          ],
+          "choice_inside": [
+            true
+          ],
+          "displayed_vehicle_boxes_xyxy": [
+            [
+              1674.2913208007812,
+              863.478515625,
+              2214.2156982421875,
+              1221.9521484375
+            ]
+          ],
+          "displayed_box_overlap": [
+            {}
+          ],
+          "saved_xy": [
+            1919.9955345996505,
+            1299.4161978864342
+          ],
+          "saved_in_region": true,
+          "save_button_visible": false,
+          "selectable_buttons": 1,
+          "audit": {
+            "sha256": "4750964863c70ff61ada67990523c400821232082735dd92c742d5907e4abf25",
+            "method": "passenger_marked_painted_bay_v1",
+            "reason": "choose_passenger_marked_parking_ground",
+            "completed_outcome": true
+          },
+          "actor_before_selection": "passenger",
+          "actor_after_save": "passenger",
+          "screenshot": "runs/passenger-placement-field-20261124/car-relative-transfer/v3-c531423-side-disabled/M15-interior-mark-first.png",
+          "screenshot_sha256": "a64585761c0cf9180e780e165328347c5ba7985fcad1c655388890b3c33bd2ed"
+        },
+        {
+          "case_id": "M15-travel_lane",
+          "task": "mark",
+          "words": "Could you drop me beside the black SUV?",
+          "heading": "I found the vehicle you described",
+          "message": "I found the vehicle. Your mark appears to be in the traffic lane beside it. Could you choose a visible pull-in?",
+          "grade": "withheld",
+          "visible_ms": 251,
+          "actual_tap": [
+            719.9644208423762,
+            1302.8148794687063
+          ],
+          "point": null,
+          "point_in_region": false,
+          "choice_xy": [],
+          "choice_inside": [],
+          "displayed_vehicle_boxes_xyxy": [
+            [
+              1674.2913208007812,
+              863.478515625,
+              2214.2156982421875,
+              1221.9521484375
+            ]
+          ],
+          "displayed_box_overlap": [
+            {}
+          ],
+          "saved_xy": null,
+          "saved_in_region": false,
+          "save_button_visible": false,
+          "selectable_buttons": 0,
+          "audit": {
+            "sha256": "51051003209fe2cbaf25dda48e2426aa330918dca60b75dd79928b13108c725b",
+            "method": "passenger_marked_painted_bay_v1",
+            "reason": "vehicle_seen_space_withheld",
+            "completed_outcome": true
+          },
+          "actor_before_selection": "passenger",
+          "actor_after_save": null,
+          "screenshot": "runs/passenger-placement-field-20261124/car-relative-transfer/v3-c531423-side-disabled/M15-travel_lane-mark-first.png",
+          "screenshot_sha256": "fbff606b1630ec63d1388c64bc001ebdef8339f68ab2fa05209ed39e14c27874"
+        },
+        {
+          "case_id": "M74-interior",
+          "task": "mark",
+          "words": "Could you drop me behind the dark sedan on the right?",
+          "heading": "Is this the spot you meant?",
+          "message": "I can see open parking pavement at your exact mark. I couldn’t verify its position relative to the vehicle you described. Do you want to use the spot you marked? You can also mark another spot.",
+          "grade": "correct_selectable",
+          "visible_ms": 336,
+          "actual_tap": [
+            2190.8334453684674,
+            1405.667563680131
+          ],
+          "point": null,
+          "point_in_region": false,
+          "choice_xy": [
+            [
+              2190.8334453684674,
+              1405.667563680131
+            ]
+          ],
+          "choice_inside": [
+            true
+          ],
+          "displayed_vehicle_boxes_xyxy": [],
+          "displayed_box_overlap": [],
+          "saved_xy": [
+            2190.8334453684674,
+            1405.667563680131
+          ],
+          "saved_in_region": true,
+          "save_button_visible": false,
+          "selectable_buttons": 1,
+          "audit": {
+            "sha256": "070728520bb162d42c0ec559608659dab5ce51d28036ba9a231de604ca845c23",
+            "method": "passenger_marked_painted_bay_v1",
+            "reason": "choose_passenger_marked_parking_ground",
+            "completed_outcome": true
+          },
+          "actor_before_selection": "passenger",
+          "actor_after_save": "passenger",
+          "screenshot": "runs/passenger-placement-field-20261124/car-relative-transfer/v3-c531423-side-disabled/M74-interior-mark-first.png",
+          "screenshot_sha256": "2e1fd58285e9159fa895a864a75e0c0910fa79b8f5e861ee4688d5262d467ac4"
+        },
+        {
+          "case_id": "M74-travel_lane",
+          "task": "mark",
+          "words": "Could you drop me behind the dark sedan on the right?",
+          "heading": "Choose another location",
+          "message": "I checked the spot you marked. I can’t verify a separate open parking area there. Could you choose another visible area?",
+          "grade": "withheld",
+          "visible_ms": 325,
+          "actual_tap": [
+            1124.5690168436822,
+            1477.6976026052514
+          ],
+          "point": null,
+          "point_in_region": false,
+          "choice_xy": [],
+          "choice_inside": [],
+          "displayed_vehicle_boxes_xyxy": [],
+          "displayed_box_overlap": [],
+          "saved_xy": null,
+          "saved_in_region": false,
+          "save_button_visible": false,
+          "selectable_buttons": 0,
+          "audit": {
+            "sha256": "61b6636c4e3b5d61c124695436f26277bd7128a9f0a6d6cad6aa58e3dd462ced",
+            "method": "passenger_marked_painted_bay_v1",
+            "reason": "vehicle_reference_unmatched",
+            "completed_outcome": true
+          },
+          "actor_before_selection": "passenger",
+          "actor_after_save": null,
+          "screenshot": "runs/passenger-placement-field-20261124/car-relative-transfer/v3-c531423-side-disabled/M74-travel_lane-mark-first.png",
+          "screenshot_sha256": "37448e1d15c51db5bd7a4f9914bc9d8bac6e63d3969336fce9b490d9948fdbc9"
+        },
+        {
+          "case_id": "M25-travel_lane",
+          "task": "mark",
+          "words": "Could you drop me behind the white car?",
+          "heading": "I found the vehicles you described",
+          "message": "More than one outlined vehicle matches. Which one do you mean? You can tell me its side or mark the ground.",
+          "grade": "withheld",
+          "visible_ms": 1028,
+          "actual_tap": [
+            898.2415685558991,
+            1227.3861589613139
+          ],
+          "point": null,
+          "point_in_region": false,
+          "choice_xy": [],
+          "choice_inside": [],
+          "displayed_vehicle_boxes_xyxy": [
+            [
+              681.7266540527344,
+              814.1444091796875,
+              1003.5792846679688,
+              1079.8253173828125
+            ],
+            [
+              730.56298828125,
+              637.3800201416016,
+              986.7123413085938,
+              882.5240478515625
+            ],
+            [
+              737.0209808349609,
+              764.5608215332031,
+              984.09228515625,
+              893.3194885253906
+            ]
+          ],
+          "displayed_box_overlap": [
+            {},
+            {},
+            {}
+          ],
+          "saved_xy": null,
+          "saved_in_region": false,
+          "save_button_visible": false,
+          "selectable_buttons": 0,
+          "audit": {
+            "sha256": "4a828217a54f0040342c2f56a726335e966a6e6a0bce820927fb6fda1019ead4",
+            "method": "passenger_marked_painted_bay_v1",
+            "reason": "vehicle_seen_space_withheld",
+            "completed_outcome": true
+          },
+          "actor_before_selection": "passenger",
+          "actor_after_save": null,
+          "screenshot": "runs/passenger-placement-field-20261124/car-relative-transfer/v3-c531423-side-disabled/M25-travel_lane-mark-first.png",
+          "screenshot_sha256": "012894d513bb48f97b8c839d025172b9e6f903ce8dd6f6180ca1e6434caf9424"
+        }
+      ]
+    },
+    "new_two_natural": {
+      "plan_sha256": "339b535891d6d1d8e2b2af3e3582f34f02d42f006e2f212f4b3eed3d5063b887",
+      "observed_sha256": "ec338f7ab9cf77eb0d4266410f8e3f01bc7025d7bac0d902dbe23af16bf0778b",
+      "started_utc": "2026-11-24T00:10:48.765Z",
+      "finished_utc": "2026-11-24T00:10:55.428Z",
+      "natural_timing_ms": {
+        "min": 598,
+        "median": 2144.0,
+        "max": 3690
+      },
+      "counts": {
+        "total": 2,
+        "positive_requests": {
+          "withheld": 1
+        },
+        "shown_boxes_overlapping_at_least_one_possible_positive_vehicle": 1,
+        "positive_requests_with_one_overlapping_box_only": 1,
+        "unsuitable_natural_requests": {
+          "withheld": 1
+        },
+        "intended_marks": {},
+        "dedicated_lane_or_aisle_marks": {},
+        "all_natural": {
+          "withheld": 2
+        },
+        "all_marks": {},
+        "incorrect_or_mixed_offers": 0
+      },
+      "first_responses": [
+        {
+          "case_id": "LXT01",
+          "task": "natural",
+          "words": "Could you drop me beside the grey SUV parked in front of the shops?",
+          "heading": "I found the vehicle you described",
+          "message": "The outlined vehicle looks silver in this photo. I couldn’t confirm the gray shade or its position in front of shops. Is the vehicle you mean outlined? You can mark the ground you want.",
+          "grade": "withheld",
+          "visible_ms": 3690,
+          "actual_tap": null,
+          "point": null,
+          "point_in_region": false,
+          "choice_xy": [],
+          "choice_inside": [],
+          "displayed_vehicle_boxes_xyxy": [
+            [
+              2182.6519775390625,
+              1325.1101989746094,
+              2817.0084228515625,
+              1719.9248657226562
+            ]
+          ],
+          "displayed_box_overlap": [
+            {
+              "grey_suv": 0.939
+            }
+          ],
+          "saved_xy": null,
+          "saved_in_region": false,
+          "save_button_visible": false,
+          "selectable_buttons": 0,
+          "audit": {
+            "sha256": "84926e8010681ed160f3aa381de12b9cd11a678470171c946f1f1c36b4fe0280",
+            "method": "public_painted_bay_landmark_v1",
+            "reason": "vehicle_seen_space_withheld",
+            "completed_outcome": true
+          },
+          "actor_before_selection": "model",
+          "actor_after_save": null,
+          "screenshot": "runs/passenger-placement-field-20261124/vehicle-lateral-v3/v3-c531423-side-disabled/LXT01-natural-first.png",
+          "screenshot_sha256": "83ac910c0d9efd8f5f4ff2dbd2367e68ffc7148c2772a0ea56323d1c0a7255a8"
+        },
+        {
+          "case_id": "LXT02",
+          "task": "natural",
+          "words": "Could you drop me behind the large white van on the right?",
+          "heading": "I found the vehicle you described",
+          "message": "I can outline the vehicle matching the basic description. I couldn’t verify large. Could you identify it another way or mark the ground behind it?",
+          "grade": "withheld",
+          "visible_ms": 598,
+          "actual_tap": null,
+          "point": null,
+          "point_in_region": false,
+          "choice_xy": [],
+          "choice_inside": [],
+          "displayed_vehicle_boxes_xyxy": [
+            [
+              2518.9682006835938,
+              349.40625,
+              3840,
+              1481.8987426757812
+            ]
+          ],
+          "displayed_box_overlap": [
+            {
+              "large_white_van": 0.989
+            }
+          ],
+          "saved_xy": null,
+          "saved_in_region": false,
+          "save_button_visible": false,
+          "selectable_buttons": 0,
+          "audit": {
+            "sha256": "2600097fe40ffb886a587136ce67190364cb6c7f90ef876e6e3e7bab04dd4058",
+            "method": "public_painted_bay_landmark_v1",
+            "reason": "vehicle_seen_space_withheld",
+            "completed_outcome": true
+          },
+          "actor_before_selection": "model",
+          "actor_after_save": null,
+          "screenshot": "runs/passenger-placement-field-20261124/vehicle-lateral-v3/v3-c531423-side-disabled/LXT02-natural-first.png",
+          "screenshot_sha256": "7a4352973c514bcec07252a7d7c4452da561e430a06ed720d30b7aed290f6283"
+        }
+      ],
+      "frozen_input_plan": {
+        "schema": "additional_lateral_transfer_v3",
+        "frozen_utc": "2026-11-23T23:57:22.217708+00:00",
+        "scope": "Two additional natural requests prospectively read from unannotated original RGB on two distinct drives outside the ten previously scored car-study photos, before receiving the lateral point manifest or inspecting its new model responses. Both photos were already in the historical public gallery.",
+        "source_attribution": "© Grab and KartaView Contributors. Creative Commons Attribution-ShareAlike 4.0.",
+        "sources": [
+          {
+            "source_index": 73,
+            "recording_id": "kartaview_5546153",
+            "frame_id": 445,
+            "width": 3840,
+            "height": 2160,
+            "sha256": "df4b13c0f17548cf0a1911efdbe0f94b00c1299c97a07a6c3783beab3ce2b416",
+            "source_url": "https://kartaview.org/details/5546153/445/",
+            "visual_anchor_box_xyxy": {
+              "grey_suv": [
+                2166.857,
+                1320.0,
+                2808.0,
+                1724.571
+              ]
+            },
+            "ground_reference_polygons_xy": {
+              "empty_adjacent_marked_space": [
+                [
+                  2273.143,
+                  1810.286
+                ],
+                [
+                  2348.571,
+                  1800.0
+                ],
+                [
+                  2640.0,
+                  1734.857
+                ],
+                [
+                  2790.857,
+                  1693.714
+                ],
+                [
+                  3168.0,
+                  1728.0
+                ],
+                [
+                  3212.571,
+                  1769.143
+                ],
+                [
+                  3120.0,
+                  1868.571
+                ],
+                [
+                  3034.286,
+                  1974.857
+                ],
+                [
+                  2904.0,
+                  2002.286
+                ],
+                [
+                  2701.714,
+                  1974.857
+                ],
+                [
+                  2420.571,
+                  1906.286
+                ],
+                [
+                  2283.429,
+                  1861.714
+                ]
+              ]
+            },
+            "marks": [],
+            "visual_reading": "A grey SUV is nose-in to the shopfront. The tall white SUV occupies its far flank. On the near flank, a broad unobstructed painted bay lies between the next two lines and opens to the paved aisle. The request does not establish a full parking footprint."
+          },
+          {
+            "source_index": 75,
+            "recording_id": "kartaview_6315033",
+            "frame_id": 178,
+            "width": 3840,
+            "height": 2160,
+            "sha256": "e21f0aad1482c686d8c00c156018ced599944c8982b24a9510f30068443748eb",
+            "source_url": "https://kartaview.org/details/6315033/178/",
+            "visual_anchor_box_xyxy": {
+              "large_white_van": [
+                2520.0,
+                360.0,
+                3840.0,
+                1481.143
+              ]
+            },
+            "ground_reference_polygons_xy": {},
+            "marks": [],
+            "visual_reading": "The large white van occupies the near right margin. Its rear fills the side of the crop, with the bonnet obscuring ground aft of it. The raised pedestrian kerb and travel-lane side do not verify an open rear pull-in."
+          }
+        ],
+        "requests": [
+          {
+            "id": "LXT01",
+            "source_index": 73,
+            "words": "Could you drop me beside the grey SUV parked in front of the shops?",
+            "relation": "beside",
+            "eligible_visual_anchors": [
+              "grey_suv"
+            ],
+            "depicted_ground_regions": [
+              "empty_adjacent_marked_space"
+            ],
+            "expected_response": "direct_or_guided"
+          },
+          {
+            "id": "LXT02",
+            "source_index": 75,
+            "words": "Could you drop me behind the large white van on the right?",
+            "relation": "behind",
+            "eligible_visual_anchors": [
+              "large_white_van"
+            ],
+            "depicted_ground_regions": [],
+            "expected_response": "unseen_rear_ground_withhold"
+          }
+        ]
+      },
+      "sampling": "Two additional natural requests prospectively read from unannotated original RGB on two distinct drives outside the ten previously scored car-study photos, before receiving the lateral point manifest or inspecting its new model responses. Both photos were already in the historical public gallery."
+    },
+    "four_candidate_selected_natural": {
+      "plan_sha256": "41f479d8acc5711d2cb9336953ba657313ee62750961a683fc766647ca5ff15b",
+      "observed_sha256": "0437e83f8da268574a84d062b67f07e6d950491623100a14d238e4b8c45f290d",
+      "started_utc": "2026-11-24T00:10:55.775Z",
+      "finished_utc": "2026-11-24T00:11:03.434Z",
+      "natural_timing_ms": {
+        "min": 578,
+        "median": 602.0,
+        "max": 2183
+      },
+      "counts": {
+        "total": 4,
+        "positive_requests": {
+          "withheld": 4
+        },
+        "shown_boxes_overlapping_at_least_one_possible_positive_vehicle": 3,
+        "positive_requests_with_one_overlapping_box_only": 3,
+        "unsuitable_natural_requests": {},
+        "intended_marks": {},
+        "dedicated_lane_or_aisle_marks": {},
+        "all_natural": {
+          "withheld": 4
+        },
+        "all_marks": {},
+        "incorrect_or_mixed_offers": 0
+      },
+      "first_responses": [
+        {
+          "case_id": "LS01",
+          "task": "natural",
+          "words": "Could you drop me beside the white pickup?",
+          "heading": "Which spot do you mean?",
+          "message": "I couldn’t identify a clearly visible vehicle with that description. Could you give its colour and side or mark the spot?",
+          "grade": "withheld",
+          "visible_ms": 610,
+          "actual_tap": null,
+          "point": null,
+          "point_in_region": false,
+          "choice_xy": [],
+          "choice_inside": [],
+          "displayed_vehicle_boxes_xyxy": [],
+          "displayed_box_overlap": [],
+          "saved_xy": null,
+          "saved_in_region": false,
+          "save_button_visible": false,
+          "selectable_buttons": 0,
+          "audit": {
+            "sha256": "7a44def80ca380c6d60e97eeeec219e62aa0da57c59f099ecd40ff7f2048459a",
+            "method": "public_painted_bay_landmark_v1",
+            "reason": "vehicle_reference_unmatched",
+            "completed_outcome": true
+          },
+          "actor_before_selection": "model",
+          "actor_after_save": null,
+          "screenshot": "runs/passenger-placement-field-20261124/vehicle-lateral-v3/source-chosen/v3-c531423-side-disabled/LS01-natural-first.png",
+          "screenshot_sha256": "f79f999681472c84ea0d9a3aa2d43b450471bf949d87c0a04c7dd20fcd4fa2f7"
+        },
+        {
+          "case_id": "LS02",
+          "task": "natural",
+          "words": "Could you drop me beside the silver sedan?",
+          "heading": "I found the vehicle you described",
+          "message": "I found the outlined silver sedan. Which side of it do you mean? Please mark the open ground beside it.",
+          "grade": "withheld",
+          "visible_ms": 578,
+          "actual_tap": null,
+          "point": null,
+          "point_in_region": false,
+          "choice_xy": [],
+          "choice_inside": [],
+          "displayed_vehicle_boxes_xyxy": [
+            [
+              1867.9317626953125,
+              919.5896301269531,
+              2480.6304931640625,
+              1220.0146179199219
+            ]
+          ],
+          "displayed_box_overlap": [
+            {
+              "silver_sedan": 1.0
+            }
+          ],
+          "saved_xy": null,
+          "saved_in_region": false,
+          "save_button_visible": false,
+          "selectable_buttons": 0,
+          "audit": {
+            "sha256": "1ad02c31a8d2ed1359ea1cf381da72b9a34af98269e8905c029e7e4035dfcd62",
+            "method": "public_painted_bay_landmark_v1",
+            "reason": "vehicle_seen_space_withheld",
+            "completed_outcome": true
+          },
+          "actor_before_selection": "model",
+          "actor_after_save": null,
+          "screenshot": "runs/passenger-placement-field-20261124/vehicle-lateral-v3/source-chosen/v3-c531423-side-disabled/LS02-natural-first.png",
+          "screenshot_sha256": "3d3914fbaab435da252a71e992091326b40fb260ff06462d786d8d02e346667e"
+        },
+        {
+          "case_id": "LS03",
+          "task": "natural",
+          "words": "Could you drop me beside the red SUV parked on the left?",
+          "heading": "I found the vehicle you described",
+          "message": "I found the outlined red SUV. Which side of it do you mean? Please mark the open ground beside it.",
+          "grade": "withheld",
+          "visible_ms": 594,
+          "actual_tap": null,
+          "point": null,
+          "point_in_region": false,
+          "choice_xy": [],
+          "choice_inside": [],
+          "displayed_vehicle_boxes_xyxy": [
+            [
+              0,
+              1026.8167419433594,
+              201.76517486572266,
+              1328.2233581542969
+            ]
+          ],
+          "displayed_box_overlap": [
+            {
+              "red_suv": 1.0
+            }
+          ],
+          "saved_xy": null,
+          "saved_in_region": false,
+          "save_button_visible": false,
+          "selectable_buttons": 0,
+          "audit": {
+            "sha256": "14c0cfcd45a52b57c4d5dfa5888b3f36481685e5c8ad2bdac62f50cf0f4823ff",
+            "method": "public_painted_bay_landmark_v1",
+            "reason": "vehicle_seen_space_withheld",
+            "completed_outcome": true
+          },
+          "actor_before_selection": "model",
+          "actor_after_save": null,
+          "screenshot": "runs/passenger-placement-field-20261124/vehicle-lateral-v3/source-chosen/v3-c531423-side-disabled/LS03-natural-first.png",
+          "screenshot_sha256": "8db9fdb5894a0d2284c730b2438b99e6b77f3035236b67c7993d3ed419bffd1c"
+        },
+        {
+          "case_id": "LS04",
+          "task": "natural",
+          "words": "Could you drop me beside the grey car at the right edge?",
+          "heading": "I found the vehicle you described",
+          "message": "The outlined vehicle looks silver in this photo. I couldn’t confirm the gray shade or at edge. Is the vehicle you mean outlined? You can mark the ground you want.",
+          "grade": "withheld",
+          "visible_ms": 2183,
+          "actual_tap": null,
+          "point": null,
+          "point_in_region": false,
+          "choice_xy": [],
+          "choice_inside": [],
+          "displayed_vehicle_boxes_xyxy": [
+            [
+              3737.149053955078,
+              1321.2227005004884,
+              4127.2594940185545,
+              1972.4429901123046
+            ]
+          ],
+          "displayed_box_overlap": [
+            {
+              "grey_car": 1.0
+            }
+          ],
+          "saved_xy": null,
+          "saved_in_region": false,
+          "save_button_visible": false,
+          "selectable_buttons": 0,
+          "audit": {
+            "sha256": "76c0a81788fafd6a1271bcfd5fdffdac83b40058a6e2f6e9101e715daa4f54a6",
+            "method": "public_painted_bay_landmark_v1",
+            "reason": "vehicle_seen_space_withheld",
+            "completed_outcome": true
+          },
+          "actor_before_selection": "model",
+          "actor_after_save": null,
+          "screenshot": "runs/passenger-placement-field-20261124/vehicle-lateral-v3/source-chosen/v3-c531423-side-disabled/LS04-natural-first.png",
+          "screenshot_sha256": "5a5937bda44092402bdb7cdafac326538b3b7fa71466e946857c0110beecd60d"
+        }
+      ],
+      "frozen_input_plan": {
+        "schema": "source_candidate_selected_lateral_questions",
+        "frozen_utc": "2026-11-24T00:07:40.677598+00:00",
+        "scope": "Four supplementary ordinary questions sampling original photos/vehicles on which the independent RGB assessment verified at least one requested-side candidate. This is a deliberately candidate-selected physical-source test with no new specialist outcomes inspected. One photo shares a recording with the earlier transfer but is a different original frame. Acceptance tests a stated native position within 0.9% of the original diagonal. Any alternative outside these small matching windows requires separate visual assessment.",
+        "sources": [
+          {
+            "source_index": 1,
+            "recording_id": "kartaview_980209",
+            "frame_id": 34,
+            "width": 3840,
+            "height": 2160,
+            "sha256": "a8cb3c5926766d950eca0588e6bdd178e72026f07d5710f027d2e695d6628de2",
+            "visual_anchor_box_xyxy": {
+              "white_pickup": [
+                3140.49169921875,
+                1509.5582885742188,
+                3562.2103271484375,
+                1795.13525390625
+              ]
+            },
+            "ground_reference_polygons_xy": {
+              "checked_right": [
+                [
+                  3683.015,
+                  1755.368
+                ],
+                [
+                  3762.319,
+                  1755.368
+                ],
+                [
+                  3762.319,
+                  1834.672
+                ],
+                [
+                  3683.015,
+                  1834.672
+                ]
+              ],
+              "checked_left": [
+                [
+                  2974.748,
+                  1751.099
+                ],
+                [
+                  3054.052,
+                  1751.099
+                ],
+                [
+                  3054.052,
+                  1830.403
+                ],
+                [
+                  2974.748,
+                  1830.403
+                ]
+              ]
+            },
+            "marks": [],
+            "source_url": "https://kartaview.org/details/980209/34/"
+          },
+          {
+            "source_index": 2,
+            "recording_id": "kartaview_7130313",
+            "frame_id": 1390,
+            "width": 3840,
+            "height": 2160,
+            "sha256": "4e305274bf98f5a5ef5bfbd4224af7bebddcde53657624c3901ed5b7c2b8c15e",
+            "visual_anchor_box_xyxy": {
+              "silver_sedan": [
+                1867.9317626953125,
+                919.5896301269531,
+                2480.6304931640625,
+                1220.0146179199219
+              ]
+            },
+            "ground_reference_polygons_xy": {
+              "checked_left": [
+                [
+                  1583.815,
+                  1153.471
+                ],
+                [
+                  1663.119,
+                  1153.471
+                ],
+                [
+                  1663.119,
+                  1232.775
+                ],
+                [
+                  1583.815,
+                  1232.775
+                ]
+              ],
+              "checked_right": [
+                [
+                  2603.548,
+                  1213.233
+                ],
+                [
+                  2682.852,
+                  1213.233
+                ],
+                [
+                  2682.852,
+                  1292.537
+                ],
+                [
+                  2603.548,
+                  1292.537
+                ]
+              ]
+            },
+            "marks": [],
+            "source_url": "https://kartaview.org/details/7130313/1390/"
+          },
+          {
+            "source_index": 3,
+            "recording_id": "kartaview_7168793",
+            "frame_id": 16,
+            "width": 3840,
+            "height": 2160,
+            "sha256": "df3c7569cf08071fe7492af65e599d7132364496766bb9e1e4fa4c3966dccc04",
+            "visual_anchor_box_xyxy": {
+              "red_suv": [
+                0.0,
+                1026.8167419433594,
+                201.76517486572266,
+                1328.2233581542969
+              ]
+            },
+            "ground_reference_polygons_xy": {
+              "checked_right": [
+                [
+                  218.481,
+                  1298.609
+                ],
+                [
+                  297.785,
+                  1298.609
+                ],
+                [
+                  297.785,
+                  1377.913
+                ],
+                [
+                  218.481,
+                  1377.913
+                ]
+              ]
+            },
+            "marks": [],
+            "source_url": "https://kartaview.org/details/7168793/16/"
+          },
+          {
+            "source_index": 4,
+            "recording_id": "kartaview_7199353",
+            "frame_id": 2205,
+            "width": 4128,
+            "height": 2322,
+            "sha256": "b2b5aeb414b0b52e47f90118b1cb9daa48d61910ce7e1a112a197ce7084245be",
+            "visual_anchor_box_xyxy": {
+              "grey_car": [
+                3737.149053955078,
+                1321.2227005004884,
+                4127.2594940185545,
+                1972.4429901123046
+              ]
+            },
+            "ground_reference_polygons_xy": {
+              "checked_left": [
+                [
+                  3445.534,
+                  1836.542
+                ],
+                [
+                  3530.786,
+                  1836.542
+                ],
+                [
+                  3530.786,
+                  1921.794
+                ],
+                [
+                  3445.534,
+                  1921.794
+                ]
+              ]
+            },
+            "marks": [],
+            "source_url": "https://kartaview.org/details/7199353/2205/"
+          }
+        ],
+        "requests": [
+          {
+            "id": "LS01",
+            "source_index": 1,
+            "words": "Could you drop me beside the white pickup?",
+            "relation": "beside",
+            "eligible_visual_anchors": [
+              "white_pickup"
+            ],
+            "depicted_ground_regions": [
+              "checked_right",
+              "checked_left"
+            ],
+            "expected_response": "direct_or_guided_validated_point"
+          },
+          {
+            "id": "LS02",
+            "source_index": 2,
+            "words": "Could you drop me beside the silver sedan?",
+            "relation": "beside",
+            "eligible_visual_anchors": [
+              "silver_sedan"
+            ],
+            "depicted_ground_regions": [
+              "checked_left",
+              "checked_right"
+            ],
+            "expected_response": "direct_or_guided_validated_point"
+          },
+          {
+            "id": "LS03",
+            "source_index": 3,
+            "words": "Could you drop me beside the red SUV parked on the left?",
+            "relation": "beside",
+            "eligible_visual_anchors": [
+              "red_suv"
+            ],
+            "depicted_ground_regions": [
+              "checked_right"
+            ],
+            "expected_response": "direct_or_guided_validated_point"
+          },
+          {
+            "id": "LS04",
+            "source_index": 4,
+            "words": "Could you drop me beside the grey car at the right edge?",
+            "relation": "beside",
+            "eligible_visual_anchors": [
+              "grey_car"
+            ],
+            "depicted_ground_regions": [
+              "checked_left"
+            ],
+            "expected_response": "direct_or_guided_validated_point"
+          }
+        ]
+      },
+      "sampling": "Four supplementary ordinary questions sampling original photos/vehicles on which the independent RGB assessment verified at least one requested-side candidate. This is a deliberately candidate-selected physical-source test with no new specialist outcomes inspected. One photo shares a recording with the earlier transfer but is a different original frame. Acceptance tests a stated native position within 0.9% of the original diagonal. Any alternative outside these small matching windows requires separate visual assessment."
+    }
+  },
+  "whole_vehicle_clearance_verified": false
+}

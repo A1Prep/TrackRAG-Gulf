@@ -236,6 +236,7 @@ def batch(run_dir, requests_path, replay_path=None):
 def session(journal_path, *, referent_path=None, pair_geometry=None, road_cache=None, parking_artifacts=None):
     from trackrag.dropoff import passenger_parking as parking
     from trackrag.dropoff import parking_clarification
+    from trackrag.dropoff import vehicle_identity_reply
     raw = records(journal_path)
     need(raw and raw[0][1]["action"] == "opened", "Session lacks its opening record")
     scene = raw[0][1]["detail"]["scene"]
@@ -302,6 +303,12 @@ def session(journal_path, *, referent_path=None, pair_geometry=None, road_cache=
                 passenger_requested_area = detail.get("passenger_requested_area", False)
                 need(type(passenger_requested_pointing) is bool and type(passenger_requested_area) is bool
                      and not (passenger_requested_pointing and passenger_requested_area), "Invalid passenger pointing action")
+                source = (detail.get('outcome') or {}).get('provenance') or {}
+                if source.get('method') == vehicle_identity_reply.METHOD:
+                    need(previous.get('state') == 'needs_clarification' and previous.get('reference_kind') == 'possible_vehicle'
+                         and previous.get('request_id') == source['reference_request']['request_id']
+                         and native == source.get('reference_outcome') and not (passenger_requested_area or passenger_requested_pointing),
+                         'The passenger answered a different vehicle question from the one displayed in this session')
                 native = detail["outcome"]
                 origin_state = ("original_area_request_state" if passenger_requested_area else
                                 "original_pointing_state" if passenger_requested_pointing else "original_automatic_state")
@@ -336,6 +343,13 @@ def session(journal_path, *, referent_path=None, pair_geometry=None, road_cache=
             elif manual:
                 if (detail.get("outcome") or {}).get("ok") is True:
                     need(detail.get("requested_box") is not None, "Passenger mark lacks its submitted rectangle")
+                    confirmed = (native or {}).get('provenance', {})
+                    marked_source = detail['outcome']['provenance']
+                    if confirmed.get('method') == vehicle_identity_reply.METHOD and confirmed.get('reply') == 'yes':
+                        need(marked_source.get('confirmed_vehicle_reply') == native,
+                             'A mark after vehicle confirmation must retain the chosen vehicle and the requested relation')
+                    else:
+                        need('confirmed_vehicle_reply' not in marked_source, 'This request did not confirm that vehicle')
                 item["requested_box"] = detail.get("requested_box")
             elif pair:
                 item["track_ids"],item["placement"] = detail["track_ids"],detail["placement"]

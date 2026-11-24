@@ -1,0 +1,179 @@
+{
+  "abi_order_roundtrip": 158,
+  "sdk_contract": "https://github.com/vllm-project/vllm/blob/v0.19.1/vllm/entrypoints/llm.py#L458-L460",
+  "actual_signed_packet_rows": 79,
+  "selected": [
+    {
+      "role": "occupied_control",
+      "point_id": "020e6941252d144f9cee58062ecf5109ef5cf4e4911a1d1fb218dede2013cc6b",
+      "source": "b2b5aeb414b0b52e47f90118b1cb9daa48d61910ce7e1a112a197ce7084245be",
+      "recording_id": "kartaview_7199353",
+      "frame_id": 2205,
+      "original_size": [
+        4128,
+        2322
+      ],
+      "exif_orientation": 1,
+      "native_point": [
+        3519.655931854248,
+        1470.1017528533937
+      ],
+      "vehicle_box": [
+        2975.0930099487305,
+        1233.5529533386232,
+        4064.218853759766,
+        1706.6505523681642
+      ],
+      "requested_side": "left",
+      "independent_rating": "NOT",
+      "independent_observation": "Ring falls on the side doors of the black sedan.",
+      "views": [
+        {
+          "global_view_ordinal_one_based": 63,
+          "view": "wide",
+          "signed_jpeg_sha256": "b88158209acfe27374e195d4172d42c28b5c2f085a9d85376dcc2a7ddcec1600",
+          "ring_center_expected_xy": [
+            920.84,
+            417.94
+          ],
+          "ring_center_jpeg_xy": [
+            920.0,
+            417.0
+          ],
+          "offset_px": 1.258,
+          "model_verdict": "OPEN"
+        },
+        {
+          "global_view_ordinal_one_based": 64,
+          "view": "close",
+          "signed_jpeg_sha256": "e571e14ba34cd469a9523b9a48ba2a31a5705c1b7463541f4c3165123022da98",
+          "ring_center_expected_xy": [
+            726.96,
+            362.56
+          ],
+          "ring_center_jpeg_xy": [
+            726.0,
+            362.0
+          ],
+          "offset_px": 1.109,
+          "model_verdict": "OPEN"
+        }
+      ]
+    },
+    {
+      "role": "wrong_side_control",
+      "point_id": "09bcf40dd497ef4b1a428cc6149069fac13d5ebd0e5ad95f7fb50d259cdf4ac9",
+      "source": "df3c7569cf08071fe7492af65e599d7132364496766bb9e1e4fa4c3966dccc04",
+      "recording_id": "kartaview_7168793",
+      "frame_id": 16,
+      "original_size": [
+        3840,
+        2160
+      ],
+      "exif_orientation": 1,
+      "native_point": [
+        258.1333333333333,
+        1338.2608695652175
+      ],
+      "vehicle_box": [
+        0.0,
+        1026.8167419433594,
+        201.76517486572266,
+        1328.2233581542969
+      ],
+      "requested_side": "left",
+      "independent_rating": "RIGHT",
+      "independent_observation": "Native detail resolves a complete painted divider between the cropped red SUV and the empty nearer stall containing the ring. The distant dark car occupies the far flank, while the ring lies below and image-right of the red car in the near-side stall.",
+      "views": [
+        {
+          "global_view_ordinal_one_based": 111,
+          "view": "wide",
+          "signed_jpeg_sha256": "ed7ca8c36d780a1aebfd24dca1fc60b14fc84e8f7c6a0143dd88b4f0972a55a0",
+          "ring_center_expected_xy": [
+            72.6,
+            409.7
+          ],
+          "ring_center_jpeg_xy": [
+            72.0,
+            409.0
+          ],
+          "offset_px": 0.919,
+          "model_verdict": "OPEN"
+        },
+        {
+          "global_view_ordinal_one_based": 112,
+          "view": "close",
+          "signed_jpeg_sha256": "cef4351be417396028222a918f952bd5d42276f8395ece4de56d4a9dee6b6495",
+          "ring_center_expected_xy": [
+            258.13,
+            556.26
+          ],
+          "ring_center_jpeg_xy": [
+            258.0,
+            556.0
+          ],
+          "offset_px": 0.293,
+          "model_verdict": "OPEN"
+        }
+      ]
+    },
+    {
+      "role": "lane_control",
+      "point_id": "7d81cd7ba76aff890a1006d5fe19c3e1591ae92bac7bbb2bf81e2c7cbd2c4388",
+      "source": "df4b13c0f17548cf0a1911efdbe0f94b00c1299c97a07a6c3783beab3ce2b416",
+      "recording_id": "kartaview_5546153",
+      "frame_id": 445,
+      "original_size": [
+        3840,
+        2160
+      ],
+      "exif_orientation": 1,
+      "native_point": [
+        1896.5333333333333,
+        1952.9644268774705
+      ],
+      "vehicle_box": [
+        2182.6519775390625,
+        1325.1101989746094,
+        2817.0084228515625,
+        1719.9248657226562
+      ],
+      "requested_side": "left",
+      "independent_rating": "NOT",
+      "independent_observation": "The mark is to the traffic side of the solid white line and near the recording car's bonnet.",
+      "views": [
+        {
+          "global_view_ordinal_one_based": 139,
+          "view": "wide",
+          "signed_jpeg_sha256": "9fa292e056f4db1cccf80677bad61a633e5b106684766da902ace4dab61bf1e6",
+          "ring_center_expected_xy": [
+            533.4,
+            582.72
+          ],
+          "ring_center_jpeg_xy": [
+            533.0,
+            582.0
+          ],
+          "offset_px": 0.827,
+          "model_verdict": "OPEN"
+        },
+        {
+          "global_view_ordinal_one_based": 140,
+          "view": "close",
+          "signed_jpeg_sha256": "93323b3aad127687b7351f52c597543b6e859a90d41b8ca92962548768328150",
+          "ring_center_expected_xy": [
+            255.32,
+            592.91
+          ],
+          "ring_center_jpeg_xy": [
+            255.0,
+            592.0
+          ],
+          "offset_px": 0.961,
+          "model_verdict": "OPEN"
+        }
+      ]
+    }
+  ],
+  "diagnostic_limit": "GPU signed packets store normalized verdicts tied to board checksums. Request IDs, logits and raw model tokens were not archived. A local identity-echo is an adapter test, not a second GPU run."
+}

@@ -271,9 +271,25 @@ def mark_outcome(request, photo, surface, box, stall_review=None, *, policy=CLEA
                  tap=center,selected_box=mark,**evidence)
 
 
+def _wording_mark(clean, original_sha, mark, center):
+    from .data import inference_input_sha256
+    from .vehicle_wording import suggestion
+
+    proposed_word = suggestion(clean["text"])
+    if proposed_word is None:
+        return None
+    # A tap identifies pixels. It cannot confirm what the passenger meant by a word.
+    return _make(clean, inference_input_sha256(clean, original_sha), [], None, method=MARK,
+                 reason="vehicle_word_check_at_mark", question=proposed_word.question,
+                 tap=center, selected_box=mark, clearance_policy=CLEARANCE_POLICY)
+
+
 def select_mark(request, box):
     from . import roadside_context, surface_stalls
     clean, original_sha, mark, center = manual_offlane.mark_input(request,box)
+    word_check = _wording_mark(clean, original_sha, mark, center)
+    if word_check is not None:
+        return word_check
     try:
         packet = manual_surfaces.get_packet(original_sha)
         if packet is not None:
@@ -767,9 +783,11 @@ def choice_outcome(request, offered, bay_id):
     from . import curb_alternatives, vehicle_ground_reference
     source = offered["provenance"]
     choices = source.get("bay_choices") or []
+    single_choice_reasons = {"single_visible_bay_at_painted_edge", "unverified_bay_reference",
+                             curb_alternatives.REASON, *vehicle_ground_reference.CHOICE_REASONS}
     if (source.get("method") not in {AUTO,MARK} or offered["result"]["status"] != "needs_clarification"
             or not isinstance(bay_id,str) or not choices or
-            (len(choices)==1 and source.get("reason") not in {"single_visible_bay_at_painted_edge","unverified_bay_reference",curb_alternatives.REASON,vehicle_ground_reference.CHOICE_REASON})):
+            (len(choices)==1 and source.get("reason") not in single_choice_reasons)):
         raise ValueError("Choose a bay from the current highlighted alternatives.")
     verify(request,offered,requested_box=source.get("selected_box"))
     selected = next((row for row in choices if row["id"]==bay_id),None)
@@ -816,17 +834,25 @@ def verify(request, outcome, *, requested_box=None):
         if original.get("provenance",{}).get("method") not in {MARK,AUTO}:
             raise ValueError("Only an original set of pictured bays can be selected.")
         expected = choice_outcome(request,original,source["bay_id"])
+    elif 'confirmed_vehicle_reply' in source:
+        from . import vehicle_identity_reply
+        if method != MARK or requested_box is None or policy != CLEARANCE_POLICY or language is not None:
+            raise ValueError('The confirmed vehicle and exact passenger mark must belong to the current request.')
+        expected = vehicle_identity_reply.marked(request, requested_box, source['confirmed_vehicle_reply'], source['ground_check'])
     elif source.get('vehicle_ground_policy') is not None:
         from . import vehicle_ground_reference, vehicle_ground_view
         if (policy != CLEARANCE_POLICY or language is not None or source['vehicle_ground_policy'] != vehicle_ground_view.RECIPE
-                or source.get('vehicle_relation_policy') not in (None,vehicle_ground_reference.RELATION_POLICY)
+                or source.get('vehicle_relation_policy') not in (None,vehicle_ground_reference.RELATION_POLICY,vehicle_ground_reference.PREVIOUS_RELATION_POLICY)
                 or method not in {AUTO, MARK} or (method == MARK) != (requested_box is not None)):
             raise ValueError('The vehicle and ground must match the original request and mark.')
         expected = vehicle_ground_reference.outcome(request, photo, source['surface_evidence'],
                                                     source['vehicle_observation'], requested_box,
                                                     qualifier_packets=source.get('vehicle_qualifier_evidence'),
                                                     earlier_vehicle=source.get('earlier_vehicle_observation'),
-                                                    expanded=source.get('vehicle_relation_policy') is not None)
+                                                    expanded=source.get('vehicle_relation_policy') is not None,
+                                                    observe_sides=source.get('vehicle_relation_policy')==vehicle_ground_reference.RELATION_POLICY,
+                                                    side_packet=source.get('side_ground_observation'),load_side_packet=False,
+                                                    side_release=source.get('side_ground_release'))
     elif source.get("divider_policy") is not None:
         from . import parking_divider_choice
         if (method!=MARK or requested_box is None or policy!=CLEARANCE_POLICY
@@ -871,8 +897,11 @@ def verify(request, outcome, *, requested_box=None):
     elif method==MARK:
         if requested_box is None:
             raise ValueError("The original passenger mark is required.")
-        expected = mark_outcome(request,photo,source["surface_evidence"],requested_box,source.get("stall_review"),
-                                policy=policy,gravel_packet=source.get("gravel_evidence"))
+        if source.get("reason") == "vehicle_word_check_at_mark":
+            expected = _wording_mark(*manual_offlane.mark_input(request, requested_box))
+        else:
+            expected = mark_outcome(request,photo,source["surface_evidence"],requested_box,source.get("stall_review"),
+                                    policy=policy,gravel_packet=source.get("gravel_evidence"))
     elif method==AUTO and source.get("explanation_policy") is not None:
         from . import curb_alternatives, marked_row_references, photo_clarification
         if source["explanation_policy"]==photo_clarification.VEGETATION_POLICY:
@@ -951,12 +980,15 @@ def verify(request, outcome, *, requested_box=None):
 
 
 def verify_current(request, outcome, *, requested_box=None):
-    from . import curb_alternatives, curb_point_language
+    from . import curb_alternatives, curb_point_language, vehicle_wording
     source = outcome["provenance"]
     if source["method"] == CHOICE:
         source = source["choice_source"]["provenance"]
     if source.get("clearance_policy") != CLEARANCE_POLICY:
         raise ValueError("Request a new check on the current photo before saving this location.")
+    if (source["method"] == MARK and vehicle_wording.suggestion(request["text"])
+            and source.get("reason") != "vehicle_word_check_at_mark"):
+        raise ValueError("Confirm the vehicle wording before choosing a location on this photo.")
     if (source["method"]==AUTO and source.get("explanation_policy")!=curb_alternatives.POLICY
             and any(source.get(key) for key in ("roadside_evidence","curb_point_evidence","gravel_evidence"))
             and curb_point_language.indexed_reference(request["text"],expanded=True)

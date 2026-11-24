@@ -524,11 +524,13 @@ class PassengerSite:
                 background = payload.get("background",False)
                 if type(background) is not bool or (background and (area or pointing)):
                     raise PassengerRequestError(400,"Only an automatic photo check can run in the background.")
-                if background:
+                vehicle_reply = (not (area or pointing) and s.dialogue.is_vehicle_identity_reply(
+                    text, replaces_request_id=payload.get('replaces_request_id')))
+                if background and not vehicle_reply:
                     self._start_grounding(s,text,receipt,payload.get("replaces_request_id"))
                 else:
-                    # Opening a passenger mark checks the current photograph and never invokes a model.
-                    with nullcontext() if area else self.model_request():
+                    # These actions verify existing local evidence without waiting for a model worker.
+                    with nullcontext() if area or vehicle_reply else self.model_request():
                         s.dialogue.submit(text, original_transcript=receipt["transcript"] if receipt else None, speech=receipt, **kwargs)
                 s.clear_audio()
             elif action == "area":

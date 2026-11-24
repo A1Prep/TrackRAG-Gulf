@@ -1548,5 +1548,17 @@
       "prominent_vehicles": 0,
       "behind_questions": []
     }
-  ]
+  ],
+  "actual_neutral_rear_points": {
+    "photos_with_a_rear_point": 28,
+    "points": 55,
+    "individual_model_verdicts": {
+      "LANE": 47,
+      "UNCLEAR": 7,
+      "CURBSIDE": 1
+    },
+    "vehicles_without_any_ring": 184,
+    "lateral_points_in_these_images": 0,
+    "interpretation": "Only an actual ring presented on original ground is an observation of a point. Predictions for vehicles without a ring do not score ground."
+  }
 }

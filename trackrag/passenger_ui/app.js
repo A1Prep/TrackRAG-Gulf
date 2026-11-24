@@ -32,8 +32,8 @@ function post(path, body, extra = {}, signal) {
 function endpoint(action) {
   return "/api/sessions/" + session.session + (action ? "/" + action : "");
 }
-async function postAction(name, body, signal) {
-  const sid=session.session, revision=session.revision, actionId=crypto.randomUUID();
+async function postAction(name, body, signal, actionId=crypto.randomUUID()) {
+  const sid=session.session, revision=session.revision;
   try {
     return await post(endpoint(name),body,{"X-Session-Revision":String(revision),"X-Action-ID":actionId},signal);
   } catch(error) {
@@ -151,7 +151,7 @@ function response(v, stage, bay, choices) {
   if (editing === "reply") return ["clarify", "Tell me more", v.result?.clarification_question || v.turns?.filter(t=>t.role==="assistant").at(-1)?.text || ""];
   if (editing) return ["idle", editing === "new" ? "Where would you like to get out?" : "Edit your description", ""];
   if (choices.length) {
-    if (v.bay_reference_uncertain) return ["clarify", choices.some(c=>c.extent==="interior_point_only") ? "Is this the spot you meant?" : choices.some(c=>c.extent==="visible_parking_surface") ? "Does a highlighted area match?" : choices.length===1 ? "Is this the bay you meant?" : "Which outlined bay did you mean?",
+    if (v.bay_reference_uncertain) return ["clarify", choices.some(c=>c.extent==="interior_point_only") ? (choices.length===1 ? "Is this the spot you meant?" : "Which spot did you mean?") : choices.some(c=>c.extent==="visible_parking_surface") ? "Does a highlighted area match?" : choices.length===1 ? "Is this the bay you meant?" : "Which outlined bay did you mean?",
       v.result.clarification_question + " You can also mark another spot."];
     if (choices.some(c=>c.extent==="interior_point_only")) return ["clarify","Which spot did you mean?",v.result.clarification_question];
     if (choices.some(c=>c.extent==="visible_parking_surface")) return ["clarify","Which highlighted area do you mean?",
@@ -173,8 +173,10 @@ function response(v, stage, bay, choices) {
   if (v.state === "cancelled") return ["idle", "Request cancelled", "You can start again on this photo."];
   if (v.state === "error") return ["error", "The request couldn’t finish", v.landmark_error_guidance ||
     (v.parking_recovery ? "You can still mark the intended spot on the photo or edit your description." : "Try the description again or choose another scene.")];
+  if (v.word_confirmation) return ["clarify", "Check one word", v.result.clarification_question];
   if (v.references_only && v.result?.anchor_boxes_xyxy?.length) {
     if (v.reference_kind === "vegetation") return ["clarify", "I found the roadside greenery", v.result.clarification_question];
+    if (v.reference_kind === "possible_vehicle") return ["clarify", "Is this the vehicle you meant?", v.result.clarification_question];
     const vehicles = v.result.anchor_boxes_xyxy.length === 1 ? "vehicle" : "vehicles";
     return ["clarify", "I found the " + vehicles + " you described", v.result.clarification_question];
   }
@@ -210,6 +212,7 @@ function legend(v, offerMark, bay, choices) {
   else if (v.references_only && v.result?.anchor_boxes_xyxy?.length && !photo.active && !editing && !session?.pending_grounding) {
     const outlines = v.result.anchor_boxes_xyxy.length === 1 ? "Blue outline shows the vehicle" : "Blue outlines show the vehicles";
     label = v.reference_kind === "vegetation" ? "Roadside greenery in blue · Drop-off point unverified" :
+      v.reference_kind === "possible_vehicle" ? "Blue outline shows a possible match · Drop-off point unverified" :
       outlines + " you described · Drop-off point unverified";
   }
   else if (offerMark && !photo.zoom) label = v.area_landmarks ? "A and B mark the vehicles · Tap the photo to mark your spot" : "Tap the photo to mark your spot";
@@ -234,9 +237,13 @@ function render() {
   const err = failure || session?.speech_error?.message || "";
   text(el("error"), err); el("error").hidden = !err;
   const shownWords = pending?.text ?? prior?.text;
+  const firstRequest = v.turns?.find(turn => turn.role === "user");
+  const showOriginal = !formOpen && !pending && firstRequest && prior && firstRequest !== prior && firstRequest.text !== shownWords;
+  el("original-request").hidden = !showOriginal;
+  if (showOriginal) text(el("original-request").querySelector("p"), firstRequest.text);
   el("last-request").hidden = !shownWords || formOpen;
   if (shownWords) {
-    text(el("last-request").querySelector("span"), pending?.mode === "voice" ? "Your reviewed transcript" : "Your words");
+    text(el("last-request").querySelector("span"), pending?.mode === "voice" ? "Your reviewed transcript" : showOriginal ? "Your last reply" : "Your words");
     text(el("last-request").querySelector("p"), shownWords);
   }
   history(v);
@@ -278,11 +285,17 @@ function render() {
   el("confirm").hidden = !(decision && v.state === "proposed" && v.proposal_id);
   el("confirm").disabled = locked || !ready;
   text(el("confirm"),bay && !bay.extent ? "Save this bay" : "Save this location");
+  const yesNo = decision && v.state === "needs_clarification" && (v.word_confirmation || v.reference_kind === "possible_vehicle");
+  for (const id of ["answer-yes", "answer-no"]) {
+    el(id).hidden = !yesNo;
+    el(id).disabled = locked || !ready;
+  }
+  text(el("answer-yes"), v.word_confirmation ? "Yes, I meant a car" : "Yes, that vehicle");
   el("draw").hidden = !(decision && canMark(v));
   el("draw").disabled = locked || !ready;
   el("take-over-area").hidden = !pending;
   el("take-over-area").disabled = locked || !ready || !v.can_request_area;
-  el("draw").className = v.state === "proposed" || choices.length ? "subtle" : "primary";
+  el("draw").className = v.state === "proposed" || choices.length || yesNo ? "subtle" : "primary";
   text(el("draw"), choices.length ? "Mark a different spot" : v.state === "proposed" ? "Change spot on photo" : "Mark my spot on the photo");
   el("edit-words").hidden = !decision || !prior;
   el("edit-words").disabled = locked;
@@ -492,10 +505,11 @@ el("discard-edit").onclick = () => {
 };
 async function sendAutomatic(payload) {
   const controller = new AbortController(), sid = session.session;
+  const actionId = crypto.randomUUID(), revision = session.revision;
   submitting = controller; failure=""; render();
   let accepted = false;
   try {
-    const next = await postAction("submit",{...payload,background:true},controller.signal);
+    const next = await postAction("submit",{...payload,background:true},controller.signal,actionId);
     if (submitting !== controller || next.session !== sid) return;
     session = next; accepted = true;
   } catch (error) {
@@ -505,7 +519,7 @@ async function sendAutomatic(payload) {
       const next = await api("/api/sessions/"+sid,{signal:controller.signal});
       if (submitting === controller && next.session === sid) {
         session = next;
-        accepted = Boolean(next.pending_grounding && next.pending_grounding.text === payload.text && next.pending_grounding.mode === payload.mode);
+        accepted = next.last_action_id === actionId && next.revision > revision;
         if (accepted) failure="";
       }
     } catch (_) { /* Keep the submitted draft available when the connection is down. */ }
@@ -533,6 +547,14 @@ function sendInstruction(choice = "automatic") {
   () => photo.active ? photo.focusPhoto() : pairs.open ? el("pair-first").focus() : focusResult());
 }
 el("form").onsubmit = e => { e.preventDefault(); sendInstruction(); };
+for (const [id, answer] of [["answer-yes", "Yes"], ["answer-no", "No"]]) {
+  const button = el(id);
+  button.onclick = () => {
+    if (button.hidden || button.disabled) return;
+    startEditing("reply", answer);
+    sendInstruction();
+  };
+}
 el("show-parking-areas").onclick = () => {
   const button = el("show-parking-areas");
   if (button.hidden || button.disabled || input.value.trim()) return;

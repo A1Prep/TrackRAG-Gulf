@@ -3,6 +3,7 @@ import re
 import unicodedata
 
 from . import passenger_parking as parking
+from . import vehicle_wording
 from .between_road import _between_placement
 from .contracts import validate_request
 from .inputs import _inspect_image
@@ -109,6 +110,27 @@ def references(request):
     hazard = requested_hazard(text)
     if hazard:
         return hazard
+    suggested = vehicle_wording.suggestion(text)
+    if suggested is not None:
+        start, end = suggested.word_span
+        return {"reason":"vehicle_word_check", "literal_references":[{"text":text[start:end],"start":start,"end":end}],
+                "suggested_text":suggested.corrected,"question":suggested.question}
+    response = vehicle_wording.reply(request)
+    if response and response[0] == "replacement_unclear":
+        supplied = response[1]
+        quoted = supplied if len(supplied) <= 180 else supplied[:177].rstrip() + "…"
+        return {"reason":"vehicle_word_replacement_unclear", "literal_references":[],
+                "replacement_words":supplied,
+                "question":f"You said “{quoted}”. Where is that in the photo? You can also mark the exact spot."}
+    if response and response[0] == "unclear":
+        return {"reason":"vehicle_word_undetermined", "literal_references":[],
+                "question":"Which vehicle or place do you mean? Please describe its colour and position on the photo."}
+    if response and response[0] == "declined":
+        literal = response[1]
+        question = (f"You meant the {literal}. Where is it in the photo? You can also mark the spot." if literal else
+                    "Understood. What landmark or place does “card” refer to? You can also mark the spot on the photo.")
+        return {"reason":"vehicle_word_declined", "literal_references":[],
+                "question":question}
     if (parking.parking_instruction(request)
             or not _between_placement(text) or _VETO.search(text) or parking._CANCEL.search(text)
             or any(c.isalpha() and "LATIN" not in unicodedata.name(c, "") for c in text)):
@@ -142,8 +164,9 @@ def clarify(request):
     evidence.update(current_observations_sha256=digest(current_tracks(request)), wording=request["text"])
     provenance = {**parking.input_binding(request), "method":METHOD, "reference_evidence":evidence,
                   "native_model_calls":0, "independent_model_proposal":False}
+    question = evidence["question"] if "question" in evidence else _QUESTIONS[evidence["reason"]]
     return {"ok":True, "request_id":request["request_id"], "provenance":provenance,
-            "result":unresolved(_QUESTIONS[evidence["reason"]])}
+            "result":unresolved(question)}
 
 
 def verify(request, outcome):

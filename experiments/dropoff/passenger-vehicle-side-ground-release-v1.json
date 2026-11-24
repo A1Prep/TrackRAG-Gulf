@@ -1,0 +1,41 @@
+{
+  "recipe": "vehicle_side_ground_two_views_v1",
+  "bank_sha256": "8fae4ba1b746f638f70e903952bdb3b253af4691782e515ca579691d890fc137",
+  "review_artifact": "passenger-vehicle-lateral-independent-photo-labels-20261124.json",
+  "review_sha256": "b8f9eca76c0f1dd86d396830b3680fc9d56fe7d003ac59d835206c4a29ffb6de",
+  "model_observations": "passenger-vehicle-side-ground-observations-20261124.json",
+  "model_observations_sha256": "6db52388bc8cf2ec16a45894c14d85de0997f93168fdbc5e28a2a80b0d01e15c",
+  "reviewer": "Independent AI inspection of the original public photographs. No human annotation.",
+  "release_counts": {
+    "independently_supported_offers": 0,
+    "accepted_negative_controls": 0,
+    "accepted_wrong_places": 2
+  },
+  "by_input_role": {
+    "candidate": {
+      "all_incorrect": 14,
+      "dual_open_incorrect": 8,
+      "source_checked_incorrect": 2,
+      "all_supported": 10,
+      "dual_open_supported": 5,
+      "all_uncertain": 7,
+      "dual_open_uncertain": 2
+    },
+    "wrong_side_control": {
+      "all_incorrect": 13,
+      "dual_open_incorrect": 6,
+      "all_uncertain": 3
+    },
+    "occupied_control": {
+      "all_incorrect": 16,
+      "dual_open_incorrect": 7
+    },
+    "lane_control": {
+      "all_incorrect": 15,
+      "dual_open_incorrect": 4,
+      "all_uncertain": 1
+    }
+  },
+  "enabled": false,
+  "scope": "One global decision. Reviewer judgements never select individual photos or vehicles in the running app."
+}

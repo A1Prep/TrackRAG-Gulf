@@ -357,6 +357,9 @@ class InteractionController:
 
 def signed_place_verifier(method, *, live=False):
     """Replay recorded decisions. A new offer or confirmation must also pass today's model policy."""
+    if method == 'passenger_vehicle_identity_reply_v1':
+        from . import vehicle_identity_reply
+        return vehicle_identity_reply.verify_current if live else vehicle_identity_reply.verify
     if method == 'passenger_vehicle_reading_unavailable_v1':
         from .vehicle_ground_reference import verify_unavailable
         return verify_unavailable
@@ -410,6 +413,8 @@ class PassengerSession:
         self._manual_offer = None
         self._bay_menu = self._bay_selection = None
         self._references_only = False
+        self._vehicle_question = None
+        self._confirmed_vehicle_reply = None
         self._waiting_place = False
         self._requested_area = False
         self._error, self._selected_by, self._request = None, None, None
@@ -442,17 +447,25 @@ class PassengerSession:
             frame = self._scene["frame"]
             receipt = self._manual_offer[1] if self._manual_offer else self._place_offer
             bay = {}
+            if self._state == "needs_clarification":
+                from .vehicle_wording import pending
+                if pending(self._turns, frame):
+                    bay["word_confirmation"] = True
             if self._references_only and self._state=="needs_clarification":
                 bay["references_only"]=True
                 if self._references_only=="vegetation":
                     bay["reference_kind"]="vegetation"
+                elif self._references_only=='possible_vehicle':
+                    bay['reference_kind']='possible_vehicle'
             if receipt is not None and receipt["provenance"].get("bay_outline"):
                 bay["bay_outline"] = receipt["provenance"]["bay_outline"]
             if self._bay_menu is not None:
-                bay["bay_choices"] = self._bay_menu[0]["provenance"]["bay_choices"]
-                if self._bay_menu[0]['provenance'].get('vehicle_ground_policy') and self._result.get('anchor_boxes_xyxy'):
+                source = self._bay_menu[0]['provenance']
+                bay['bay_choices'] = source['bay_choices']
+                vehicle_choice = source.get('vehicle_ground_policy') or source.get('confirmed_vehicle_reply')
+                if vehicle_choice and self._result.get('anchor_boxes_xyxy'):
                     bay['vehicle_ground_choice'] = True
-                if self._bay_menu[0]["provenance"]["reason"] in {"unverified_bay_reference", "passenger_choice_of_observed_alternative", "choose_observed_ground_behind_vehicle"}:
+                if vehicle_choice or source['reason'] in {'unverified_bay_reference', 'passenger_choice_of_observed_alternative'}:
                     bay["bay_reference_uncertain"] = True
             return deepcopy({"state":self._state, "recording_id":frame["recording_id"], "frame_id":frame["frame_id"],
                              "image_sha256":self._scene["provenance"]["image_sha256"],
@@ -470,7 +483,7 @@ class PassengerSession:
 
     def _accept(self, outcome, selected_by):
         from .passenger import digest
-        from . import manual_offlane, whole_bay
+        from . import manual_offlane, vehicle_identity_reply, whole_bay
 
         req = self._request
         if not isinstance(outcome,dict) or outcome.get("request_id") != req["request_id"]:
@@ -496,7 +509,9 @@ class PassengerSession:
                 raise ValueError("This location must come from an explicit mark on the current photo.")
             check = manual_offlane.verify if method == manual_offlane.METHOD else whole_bay.verify_current
             check(req, outcome, requested_box=self._manual_submission_box)
-            if (method == whole_bay.MARK and info.get('vehicle_ground_policy')
+            if info.get('confirmed_vehicle_reply') is not None and info['confirmed_vehicle_reply'] != self._confirmed_vehicle_reply:
+                raise ValueError('The passenger has not confirmed this vehicle in the current request.')
+            if (method == whole_bay.MARK and (info.get('vehicle_ground_policy') or info.get('confirmed_vehicle_reply'))
                     and info.get('reason') == 'vehicle_seen_space_withheld' and result.get('anchor_boxes_xyxy')):
                 self._references_only = True
         if method == whole_bay.CHOICE:
@@ -515,6 +530,12 @@ class PassengerSession:
             verifier(req, outcome)
             self._references_only = (info.get("reason")=="vehicle_seen_space_withheld" and
                                      result["status"]=="needs_clarification" and bool(result.get("anchor_boxes_xyxy")))
+            if vehicle_identity_reply.is_question(req, outcome):
+                self._references_only='possible_vehicle'
+                self._vehicle_question = (deepcopy(req), deepcopy(outcome))
+            elif method == vehicle_identity_reply.METHOD and info['reply'] == 'yes':
+                self._references_only = True
+                self._confirmed_vehicle_reply = deepcopy(outcome)
             if (info.get("reason")=="vegetation_seen_space_withheld" and result["status"]=="needs_clarification"
                     and result.get("anchor_boxes_xyxy")):
                 self._references_only="vegetation"
@@ -541,6 +562,8 @@ class PassengerSession:
 
     def _clear(self):
         self._proposal, self._result, self._error, self._selected_by = None, None, None, None
+        self._vehicle_question = None
+        self._confirmed_vehicle_reply = None
         self._place_offer = None
         self._place_offer_sha256 = None
         self._manual_offer = None
@@ -560,6 +583,12 @@ class PassengerSession:
 
     def _interpret_submission(self, request):
         return self.interpret_automatic(request)
+
+    def is_vehicle_identity_reply(self, text, *, replaces_request_id=None):
+        from .vehicle_identity_reply import reply_to
+        with self._lock:
+            return (self._state == 'needs_clarification' and self._vehicle_question is not None
+                    and replaces_request_id is None and reply_to(text,self._result['clarification_question']) is not None)
 
     def interpret_automatic(self, request):
         """Compute a model decision without mutating the session or holding its UI lock."""
@@ -630,6 +659,7 @@ class PassengerSession:
     def submit(self, text, *, original_transcript=None, speech=None, point_to_vehicles=False,
                mark_on_photo=False, replaces_request_id=None, _completed=None):
         from .passenger import operational_code
+        from . import vehicle_identity_reply
 
         with self._lock:
             request_id = _completed[0]["request_id"] if _completed is not None else uuid4().hex
@@ -640,6 +670,8 @@ class PassengerSession:
                 raise ValueError("The completed check belongs to a different passenger request.")
             if type(mark_on_photo) is not bool or (mark_on_photo and (point_to_vehicles or not self._supports_area())):
                 raise ValueError("Choose one available way to identify your spot.")
+            vehicle_question = (self._vehicle_question if not (mark_on_photo or point_to_vehicles)
+                                and self.is_vehicle_identity_reply(text, replaces_request_id=replaces_request_id) else None)
             self._prepare_vehicle_choice(point_to_vehicles)
             self._requested_area = mark_on_photo
             self._clear()
@@ -653,10 +685,18 @@ class PassengerSession:
                 if mark_on_photo:
                     from .manual_mark import question
                     outcome, selected_by = question(self._request), "passenger"
+                elif vehicle_question is not None:
+                    outcome = vehicle_identity_reply.answer(self._request, *vehicle_question)
+                    if outcome is None or (_completed is not None and _completed[1:] != (outcome, 'model')):
+                        raise ValueError('The vehicle reply no longer matches the question shown on this photo.')
+                    selected_by = 'model'
                 elif _completed is not None:
                     outcome, selected_by = _completed[1:]
                 else:
                     outcome, selected_by = self._interpret_submission(deepcopy(self._request))
+                if ((outcome.get('provenance') or {}).get('method') == vehicle_identity_reply.METHOD
+                        and vehicle_question is None):
+                    raise ValueError('Answer the vehicle question shown on this photo first.')
                 if mark_on_photo or point_to_vehicles:
                     self._accept(outcome, selected_by)
                 else:
@@ -680,16 +720,21 @@ class PassengerSession:
 
     def select_area(self, box):
         from .passenger import operational_code
+        from . import vehicle_identity_reply
 
         with self._lock:
             if not self._can_mark_area():
                 raise ValueError("Give a passenger instruction before marking its destination")
+            confirmed_vehicle = self._confirmed_vehicle_reply
             self._clear()
+            self._confirmed_vehicle_reply = confirmed_vehicle
             self._state = "idle"
             outcome = None
             try:
                 self._manual_submission_box = deepcopy(box)
                 outcome = self.model.passenger_area(deepcopy(self._request),deepcopy(box))
+                if confirmed_vehicle and outcome.get('ok') is True:
+                    outcome = vehicle_identity_reply.marked(self._request, box, confirmed_vehicle, outcome)
                 self._accept(outcome,"passenger")
             except Exception as exc:
                 self._clear()
@@ -710,7 +755,9 @@ class PassengerSession:
             if digest(source) != expected:
                 raise ValueError("The pictured alternatives changed.")
             outcome = whole_bay.choice_outcome(self._request, source, bay_id)
+            confirmed_vehicle = self._confirmed_vehicle_reply
             self._clear()
+            self._confirmed_vehicle_reply = confirmed_vehicle
             self._bay_selection = (expected, bay_id)
             try:
                 self._accept(outcome, "passenger")

@@ -333,7 +333,8 @@ def _previously_observed_rear(request, photo, surface, earlier, specs, answers, 
 
 def outcome(request, photo, surface, packet, mark=None, *, qualifier_packets=None, earlier_vehicle=None, expanded=True,
             observe_sides=True, side_packet=None, load_side_packet=True, side_release=None, measure_rear=False,
-            archived_identity=None, load_archived_identity=False, extended_rear=False, tail_packet=None):
+            archived_identity=None, load_archived_identity=False, extended_rear=False, tail_packet=None,
+            explain_lane_mark=False):
     from . import whole_bay
     ref = direct_reference(request, expanded=expanded)
     if ref is None:
@@ -502,6 +503,11 @@ def outcome(request, photo, surface, packet, mark=None, *, qualifier_packets=Non
         evidence['visible_rear_boxes'] = [s['box'] for s, a in zip(specs, answers, strict=True)
                                           if s['box'] in boxes and a[2] == 'REAR' and
                                           single_vehicle.visible_vehicle_end(s['box'], (frame['width'], frame['height']))]
+        if explain_lane_mark and not options:
+            kind, checked = manual_offlane.surface_check(frame, clean['scene']['tracks'], mark, center, classes)
+            if kind == 'through_lane':
+                question = 'Your mark is on the roadway. I can’t verify a separate pull-in at that point. Could you choose another spot?'
+                evidence['marked_lane_cell'] = checked['center_cell_xy']
     answer = whole_bay._make(clean, portable, options, surface, method=whole_bay.MARK if mark else whole_bay.AUTO,
                              reason=reason, question=question, tap=center, require_choice=measured is None or bool(conditional_shop), **evidence)
     if boxes:
@@ -525,7 +531,8 @@ def available(request, photo=None, surface=None, mark=None, *, earlier_vehicle=N
         photo = Path(request['scene']['frame']['image_path']).read_bytes()
     try:
         return outcome(request, photo, surface, packet, mark, earlier_vehicle=earlier_vehicle, measure_rear=True,
-                       load_archived_identity=True, extended_rear=True, tail_packet=local_vehicle_tail.get_packet(key))
+                       load_archived_identity=True, extended_rear=True, tail_packet=local_vehicle_tail.get_packet(key),
+                       explain_lane_mark=True)
     except (KeyError, TypeError, ValueError, OSError):
         return None
 

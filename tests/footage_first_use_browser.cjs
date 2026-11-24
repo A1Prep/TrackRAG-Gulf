@@ -103,10 +103,24 @@ async function main() {
         await page.waitForFunction(()=>document.querySelector("#clip-name").textContent.includes("054907") &&
           document.querySelectorAll("#examples button:not(:disabled)").length>=2);
         assert.equal(await page.locator(".answer-card").count(),0);
+        const paused = await page.locator("#clip-frame").getAttribute("src");
         await page.locator("#clip-play").click();
-        await page.waitForTimeout(450);
-        await page.locator("#clip-play").click();
-        assert.equal(await page.locator("#clip-play").textContent(),"Play");
+        await page.waitForFunction(old => document.getElementById("clip-frame").getAttribute("src") !== old,paused);
+        const playbackFrame = await page.evaluate(() => {
+          const id = Number(document.getElementById("clip-frame").src.split("/").at(-1));
+          const link = document.getElementById("passenger-link");
+          if (!link.title.includes("frame "+id+" of")) throw Error("Passenger link points to an earlier frame");
+          link.click();
+          return id;
+        });
+        await page.locator("#frame").waitFor();
+        await page.waitForFunction(id => document.getElementById("frame").naturalWidth > 0 &&
+          document.getElementById("scene").selectedOptions[0].textContent.includes("frame "+id+" "),playbackFrame);
+        await page.locator("#footage-link").click();
+        await page.waitForFunction(id => document.getElementById("clip-frame")?.src.endsWith("/"+id) &&
+          !document.getElementById("clip-play").disabled,playbackFrame);
+        assert.equal(new URL(page.url()).searchParams.get("recording"),"video_054907");
+        assert.equal(new URL(page.url()).searchParams.get("frame"),String(playbackFrame));
       }
       reports.push({name,opened,initial,firstRecordedMarker:reachedFirst,highlightedTrack:focusId,answers});
       await page.close();

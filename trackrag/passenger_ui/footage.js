@@ -167,14 +167,16 @@ function updatePlayer(writeAddress = true) {
   get("frame-id").value = String(row.id);
   refreshHints(row);
   syncButtons();
+  const passengerLink = get("passenger-link");
+  const saved = bookmarks.get(rec.recording_id + ":" + row.id);
+  passengerLink.href = saved ? "/?scene="+encodeURIComponent(saved) : "/api/footage-preview/"+scene.value+"/dropoff/"+row.id;
+  passengerLink.title = "Open passenger drop-off on frame " + row.id + " of " + recordingName(rec);
   if (player.playing) return;
   const url = new URL(location.href);
   url.searchParams.set("scene",scene.value);
   url.searchParams.set("recording",rec.recording_id);
   url.searchParams.set("frame",String(row.id));
   if (url.href !== location.href) history.replaceState(null,"",url);
-  const saved = bookmarks.get(rec.recording_id + ":" + row.id);
-  get("passenger-link").href = saved ? "/?scene="+encodeURIComponent(saved) : "/api/footage-preview/"+scene.value+"/dropoff/"+row.id;
 }
 async function selectScene(target = null) {
   const run = ++sequence, anchor = recordings.get(scene.value);
@@ -185,6 +187,8 @@ async function selectScene(target = null) {
   lastHints = ""; subjects = {}; contexts = {};
   submittedHint=null; firstMarker=null; get("clip-first-marker").hidden=true;
   get("ask-time").textContent = "";
+  get("passenger-link").href = "/";
+  get("passenger-link").removeAttribute("title");
   get("clip-name").textContent = "EMT " + recordingName(anchor).toLowerCase();
   get("clip-info").textContent = "";
   get("frame-picker").open = false;

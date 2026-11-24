@@ -859,6 +859,7 @@ def verify(request, outcome, *, requested_box=None):
                                                     archived_identity=source.get('archived_vehicle_identity'),
                                                     extended_rear=source.get('extended_rear_policy')==vehicle_rear_marked_strip.RECIPE,
                                                     tail_packet=source.get('tail_orientation_observation'),
+                                                    explain_lane_mark='marked_lane_cell' in source,
                                                     measure_rear='automatic_rear_ground' in source or 'rear_reference_check' in source)
     elif source.get("divider_policy") is not None:
         from . import parking_divider_choice

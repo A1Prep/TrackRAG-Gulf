@@ -1,0 +1,590 @@
+{
+  "scope": "Image-side position of the physical tail of a vehicle in eight public UAE stills. This field trial grades vehicle orientation only. A destination, available ground and physical clearance require separate evidence.",
+  "reviewer": "Independent AI review of original pixels and detector boxes, using three-way LEFT, RIGHT, UNCLEAR. No model replies or passenger location references entered the visual review.",
+  "independent_reference_sha256": "ea596b3901184fe5cf51f3421e25c2598c793c44591b358cddca445a703d8578",
+  "independent_references_frozen_utc": "2026-11-24T02:54:04.980618+00:00",
+  "verified_predictions_sha256": "9fe4a7655cb541897a293d95060c0c2bb62b21df342069a5d7be2b81fc6c41e4",
+  "tool_source_at_measurement_sha256": "01d2d6fba91e64c5e117588186da44fdc4d5aafa8fa9e60b6a6e2b74e03d9aa8",
+  "reader_source_at_measurement_sha256": "b0e6c3d4777386bd2993684f4527f932b20d42899153df47890a1549ec7bbaed",
+  "counts": {
+    "eligible": {
+      "correct_direction": 9,
+      "correct_withhold": 3
+    },
+    "control": {
+      "correct_withhold": 3
+    }
+  },
+  "single_view_comparison": {
+    "original_view_unsupported_direction": 3,
+    "equal_directions_under_reflection_withheld": 3
+  },
+  "model": "Qwen3-VL-8B NF4 on-device, frozen local adapter",
+  "prompt_sha256": "58016ce3b7e29ec235be512519ed3cb13dadd87ee05e7eab7139a724c3750db3",
+  "guide": "Examine only the vehicle outlined in magenta. Which edge of that vehicle in the displayed image contains its actual boot, tailgate or rear bumper? LEFT means its rear is at the left end of its body. RIGHT means its rear is at the right end. Use visible body, lamp, boot or grille details. If the vehicle is head-on, directly rear-on, hidden, or the end cannot be distinguished, answer UNCLEAR. Return just LEFT, RIGHT or UNCLEAR.",
+  "question": "Which image-side end of this outlined vehicle is its rear? Answer with one word.",
+  "rule": "Every neutral dual-view colour other than unknown, neutral SIDE or REAR, and width / height at least 1.65; at most two FRONT/UNCLEAR narrow controls per four-photo release on different source photos.",
+  "independent_inputs_sha256": "7acc0fc2e4ee48add414ee911554c35990173f6123b755292059045a13445303",
+  "sources": [
+    {
+      "group": "a",
+      "surface_sha256": "6200d8c9e8f02e9ddb8e604b83fb99a4b910be2b32b4f8dd0a7ad3e5d19171b8",
+      "parent_observations_sha256": "73627772dbeb5140c8d27cb8bcf63bb46272e8af8c6114bac77ca2bf063885c7",
+      "tail_observations_sha256": "55a8f952e9d60875bc9887e55e85cac920357efbbdcb2826a711fb40d17a87d8",
+      "replayed_photos": 8,
+      "release_file": "experiments/dropoff/passenger-rear-transfer-a-photos-20261124/vehicle-tail-observations-v1.json"
+    },
+    {
+      "group": "b",
+      "surface_sha256": "2a42b674a5363ebd3ff897e75cd25c7f3988ae29727ee2041ac9174a714ef2a3",
+      "parent_observations_sha256": "8a8b2913cdef791670d965432b36b06f747ed3d5302edbe81dcb583142c1206a",
+      "tail_observations_sha256": "08bfc6f02033f204758e2ddd6b8d871a4a8140a72753c1ff561acdd2105167b4",
+      "replayed_photos": 8,
+      "release_file": "experiments/dropoff/passenger-rear-transfer-b-photos-20261124/vehicle-tail-observations-v1.json"
+    }
+  ],
+  "rows": [
+    {
+      "id": "32e96efbebcb1bdedaf01e6aa3fed56e8e5175be24c7e1f1436d93421d3f4d90",
+      "image_sha256": "36b2dc6179d324ba8290d7916f32bddb0aac599869b2801e702a76057c650dba",
+      "track_id": 1,
+      "box": [
+        2898.139389038086,
+        1741.9872985839843,
+        3727.955401611328,
+        2073.1024017333984
+      ],
+      "role": "eligible",
+      "dual_view_direction": "LEFT",
+      "calls": [
+        {
+          "input_tokens": 309,
+          "output_tokens": 2,
+          "reply": "LEFT",
+          "reply_sha256": "2cba9d25c1eaf7f3ef0e86b1562165b1d66e950ff5155de71b68049916145faf",
+          "seconds": 7.907,
+          "stage": "original",
+          "view_sha256": "c0a02b02af2b8ee9db5947a25ab3d8a68a47a166cb3188f7f6470bc381374449"
+        },
+        {
+          "input_tokens": 309,
+          "output_tokens": 2,
+          "reply": "RIGHT",
+          "reply_sha256": "c4ce3c7ad82c8235da21fae8ea48e071a10e7b1c6df6a9e5b4603852d8b3001c",
+          "seconds": 4.188,
+          "stage": "mirrored",
+          "view_sha256": "3452a0ec0bfee55ae93a8175efcf637ca3eacba2f1d137b6ae014565def3745e"
+        }
+      ],
+      "reference": "LEFT",
+      "independent_visual_reason": "Large white SUV in profile. Rear lamp and vertical hatch at the left. Sloping bonnet at the right.",
+      "grade": "correct_direction"
+    },
+    {
+      "id": "4f3202f9e84244f3462f6a099bd0a045b13614b108e58ae6b3acb99195e61dfb",
+      "image_sha256": "6aadb86a705dea5cbb5ccbe809aeaccffeba034c76d3d1d9e906db5d16bbab3c",
+      "track_id": 1,
+      "box": [
+        0.09647369384765625,
+        1781.8141479492188,
+        976.1852416992188,
+        2157.0031127929688
+      ],
+      "role": "eligible",
+      "dual_view_direction": "RIGHT",
+      "calls": [
+        {
+          "input_tokens": 289,
+          "output_tokens": 2,
+          "reply": "RIGHT",
+          "reply_sha256": "c4ce3c7ad82c8235da21fae8ea48e071a10e7b1c6df6a9e5b4603852d8b3001c",
+          "seconds": 4.078,
+          "stage": "original",
+          "view_sha256": "f13f9e7f88020b8cd5a817bce52ba9163386b22c34ece9d3c2b6cc167b4048e5"
+        },
+        {
+          "input_tokens": 289,
+          "output_tokens": 2,
+          "reply": "LEFT",
+          "reply_sha256": "2cba9d25c1eaf7f3ef0e86b1562165b1d66e950ff5155de71b68049916145faf",
+          "seconds": 4.016,
+          "stage": "mirrored",
+          "view_sha256": "e138b65a14585cb2d4a05c1bd113ff8dfba67884682c6e1d45f2f43239523d10"
+        }
+      ],
+      "reference": "RIGHT",
+      "independent_visual_reason": "White SUV with open door. Rear light cluster and rear hatch at the right, with its front clipped at the left.",
+      "grade": "correct_direction"
+    },
+    {
+      "id": "537ceeece451b8f6a6081cc3160b4c78a8700c1dff2b2604171a0c834c43eb6c",
+      "image_sha256": "cc3d8e1a75dc8602b6daf1c3d2d6537de57a7e5bf384a2eabd1ba5c42281acbd",
+      "track_id": 6,
+      "box": [
+        1936.3538818359375,
+        1631.512939453125,
+        2035.7374877929688,
+        1689.9863891601562
+      ],
+      "role": "eligible",
+      "dual_view_direction": "UNCLEAR",
+      "calls": [
+        {
+          "input_tokens": 199,
+          "output_tokens": 2,
+          "reply": "RIGHT",
+          "reply_sha256": "c4ce3c7ad82c8235da21fae8ea48e071a10e7b1c6df6a9e5b4603852d8b3001c",
+          "seconds": 7.25,
+          "stage": "original",
+          "view_sha256": "9489047fddcfe15774d02edc6899620b9468ea1cc5f329b90fb1c46ed172116a"
+        },
+        {
+          "input_tokens": 199,
+          "output_tokens": 2,
+          "reply": "RIGHT",
+          "reply_sha256": "c4ce3c7ad82c8235da21fae8ea48e071a10e7b1c6df6a9e5b4603852d8b3001c",
+          "seconds": 4.079,
+          "stage": "mirrored",
+          "view_sha256": "cb371294229ecd609116c513f20a295e5565ccf61937e36073a68e765114f556"
+        }
+      ],
+      "reference": "UNCLEAR",
+      "independent_visual_reason": "The small box combines two obscured differently coloured vehicles, a plant and several tail lights. No unique body axis.",
+      "grade": "correct_withhold"
+    },
+    {
+      "id": "555b04195c6a243bcba1ab11a8c179f42c6e12a80b930bd0b4d946fabda3aa28",
+      "image_sha256": "5cc54a2c449055c5703621bb6cef70e9a2592b80576014a14849042752fa68b7",
+      "track_id": 2,
+      "box": [
+        1932.626953125,
+        550.0425567626953,
+        3494.1280517578125,
+        1354.1309509277344
+      ],
+      "role": "eligible",
+      "dual_view_direction": "LEFT",
+      "calls": [
+        {
+          "input_tokens": 349,
+          "output_tokens": 2,
+          "reply": "LEFT",
+          "reply_sha256": "2cba9d25c1eaf7f3ef0e86b1562165b1d66e950ff5155de71b68049916145faf",
+          "seconds": 4.172,
+          "stage": "original",
+          "view_sha256": "f6db726367f6c77a580d0e87b8cc9892ef1e475883880d47b3ad211cbd4399c0"
+        },
+        {
+          "input_tokens": 349,
+          "output_tokens": 2,
+          "reply": "RIGHT",
+          "reply_sha256": "c4ce3c7ad82c8235da21fae8ea48e071a10e7b1c6df6a9e5b4603852d8b3001c",
+          "seconds": 4.25,
+          "stage": "mirrored",
+          "view_sha256": "eb6608d0c9f94985bfd9670448edddcf64b46760d32f43e0454adc143a414af5"
+        }
+      ],
+      "reference": "LEFT",
+      "independent_visual_reason": "Reflective rear bumper and tailgate of the large white flatbed at the left. Its cab is on the right.",
+      "grade": "correct_direction"
+    },
+    {
+      "id": "69d0dd85fed24dac01cf842bc7e9e1e56fba8e0457ecf42eb1efe714a368498d",
+      "image_sha256": "25d11a8764194179f1f2c3b7eff976f412c6f0b96f4ca1d1a4213feb339bf920",
+      "track_id": 1,
+      "box": [
+        1609.9386474609375,
+        1052.7123045526157,
+        2472.8274169921874,
+        1518.028692593232
+      ],
+      "role": "eligible",
+      "dual_view_direction": "RIGHT",
+      "calls": [
+        {
+          "input_tokens": 329,
+          "output_tokens": 2,
+          "reply": "RIGHT",
+          "reply_sha256": "c4ce3c7ad82c8235da21fae8ea48e071a10e7b1c6df6a9e5b4603852d8b3001c",
+          "seconds": 7.672,
+          "stage": "original",
+          "view_sha256": "336b9ed5d8ac57beba26dd385f9cba62eea9c0b175a52d734834e26e25b25082"
+        },
+        {
+          "input_tokens": 329,
+          "output_tokens": 2,
+          "reply": "LEFT",
+          "reply_sha256": "2cba9d25c1eaf7f3ef0e86b1562165b1d66e950ff5155de71b68049916145faf",
+          "seconds": 4.187,
+          "stage": "mirrored",
+          "view_sha256": "8a8f1dc50d9638a562eab0f9b9949c30df356b3d0c2702e7f8ed838085fcd4be"
+        }
+      ],
+      "reference": "RIGHT",
+      "independent_visual_reason": "The dark Toyota presents its trunk, badge and rear lights toward the right. The foreground vehicle partly obscures the bumper.",
+      "grade": "correct_direction"
+    },
+    {
+      "id": "7178ce73afd4b4bb5fe6672c3aa4a90cf9c9332ce97657dae6c70dfab1e1214c",
+      "image_sha256": "c6bbd89ff7d2ece1550434d32a0753b8e7b8ffd34e46d5fe3406ada6e230129c",
+      "track_id": 7,
+      "box": [
+        0.0,
+        1344.3216247558594,
+        159.78284454345703,
+        1720.461181640625
+      ],
+      "role": "control",
+      "dual_view_direction": "UNCLEAR",
+      "calls": [
+        {
+          "input_tokens": 204,
+          "output_tokens": 3,
+          "reply": "UNCLEAR",
+          "reply_sha256": "da22b657b76066ae80c58f1089bb7f0e723ddca24ecd6864d4141d6c5fc86f5d",
+          "seconds": 5.812,
+          "stage": "original",
+          "view_sha256": "fe8879669b26bfef9e1d10f46f4f0860fe01455f0b9292aee7fe40d84b317714"
+        },
+        {
+          "input_tokens": 204,
+          "output_tokens": 2,
+          "reply": "RIGHT",
+          "reply_sha256": "c4ce3c7ad82c8235da21fae8ea48e071a10e7b1c6df6a9e5b4603852d8b3001c",
+          "seconds": 4.14,
+          "stage": "mirrored",
+          "view_sha256": "98dabf6a00ca3128bcb38afbd5a3bd3e215446e4a0dceba95f0ab7aa83d18f9b"
+        }
+      ],
+      "reference": "UNCLEAR",
+      "independent_visual_reason": "At the image border only an isolated fragment of body and bumper is distinguishable.",
+      "grade": "correct_withhold"
+    },
+    {
+      "id": "76656a66e9230c6075ece13d29001e2c3f26cb853a104a9c9aa22ed6b7f3e3f4",
+      "image_sha256": "eba4b922d58a4c378bf9998ba443baf3d82a509840634099cba0c3a3b883b9b6",
+      "track_id": 1,
+      "box": [
+        2494.8650390625003,
+        1043.6576545715332,
+        3012.2373962402344,
+        1243.5429931640626
+      ],
+      "role": "eligible",
+      "dual_view_direction": "RIGHT",
+      "calls": [
+        {
+          "input_tokens": 289,
+          "output_tokens": 2,
+          "reply": "RIGHT",
+          "reply_sha256": "c4ce3c7ad82c8235da21fae8ea48e071a10e7b1c6df6a9e5b4603852d8b3001c",
+          "seconds": 3.969,
+          "stage": "original",
+          "view_sha256": "3ad72e2d313c070544cd6120bc8783baffcabea7b7087ff7e2c49605e5b764ce"
+        },
+        {
+          "input_tokens": 289,
+          "output_tokens": 2,
+          "reply": "LEFT",
+          "reply_sha256": "2cba9d25c1eaf7f3ef0e86b1562165b1d66e950ff5155de71b68049916145faf",
+          "seconds": 3.969,
+          "stage": "mirrored",
+          "view_sha256": "9d40fa64b608f9c0ddd7f559b2deae08b25f35548c78d9e35b99d1b67abd4c9a"
+        }
+      ],
+      "reference": "RIGHT",
+      "independent_visual_reason": "The silver SUV bonnet faces left. The spare wheel and tail lights are attached to its right end, despite the sign in front.",
+      "grade": "correct_direction"
+    },
+    {
+      "id": "7f90cc4c52d8f368a0d622116978773c494ed443aadd4ee9b96731aa99bc4c8d",
+      "image_sha256": "b7e43b4afd14831bb82299245ca1a6e5588183f0f66b57de36042ebbbc3ae9a5",
+      "track_id": 12,
+      "box": [
+        216.7939910888672,
+        1709.19287109375,
+        473.9783020019531,
+        1860.719970703125
+      ],
+      "role": "eligible",
+      "dual_view_direction": "LEFT",
+      "calls": [
+        {
+          "input_tokens": 199,
+          "output_tokens": 2,
+          "reply": "LEFT",
+          "reply_sha256": "2cba9d25c1eaf7f3ef0e86b1562165b1d66e950ff5155de71b68049916145faf",
+          "seconds": 4.015,
+          "stage": "original",
+          "view_sha256": "110d39ddc8916416aef0cd885975e4b2941061d50918897b54795ec4c7830f79"
+        },
+        {
+          "input_tokens": 199,
+          "output_tokens": 2,
+          "reply": "RIGHT",
+          "reply_sha256": "c4ce3c7ad82c8235da21fae8ea48e071a10e7b1c6df6a9e5b4603852d8b3001c",
+          "seconds": 4.016,
+          "stage": "mirrored",
+          "view_sha256": "2da20806517601e968e1e2b34a9b716c223ab3874a98e3693645f89e0778291f"
+        }
+      ],
+      "reference": "LEFT",
+      "independent_visual_reason": "The white bus shows its broad rear window, number plate and tail lights on the left, with its passenger body continuing right.",
+      "grade": "correct_direction"
+    },
+    {
+      "id": "8123a3fe2c04bbfefb3c48be7d5d563ca9ae9220cb1755c23490448d2385e21b",
+      "image_sha256": "5cc54a2c449055c5703621bb6cef70e9a2592b80576014a14849042752fa68b7",
+      "track_id": 5,
+      "box": [
+        1206.5666198730469,
+        925.0045166015625,
+        1873.1220703125,
+        1173.1874084472656
+      ],
+      "role": "eligible",
+      "dual_view_direction": "LEFT",
+      "calls": [
+        {
+          "input_tokens": 289,
+          "output_tokens": 2,
+          "reply": "LEFT",
+          "reply_sha256": "2cba9d25c1eaf7f3ef0e86b1562165b1d66e950ff5155de71b68049916145faf",
+          "seconds": 4.047,
+          "stage": "original",
+          "view_sha256": "a014acc7109519edf3bd6493f745b0240f9aa9bb60cc13c7047739de765af5fd"
+        },
+        {
+          "input_tokens": 289,
+          "output_tokens": 2,
+          "reply": "RIGHT",
+          "reply_sha256": "c4ce3c7ad82c8235da21fae8ea48e071a10e7b1c6df6a9e5b4603852d8b3001c",
+          "seconds": 4.031,
+          "stage": "mirrored",
+          "view_sha256": "46580b109409c6d51677b6c49e61b15c77d7f104d077044b4da375f2a25c782f"
+        }
+      ],
+      "reference": "LEFT",
+      "independent_visual_reason": "The white truck cab extends to the right, while the long flatbed and outer rear edge reach left. Adjacent cars overlap only part of the box.",
+      "grade": "correct_direction"
+    },
+    {
+      "id": "85369461864fa401e28d5d6617f3ff486f8457e9ce6202bdc2acedb643b5a9bb",
+      "image_sha256": "c6bbd89ff7d2ece1550434d32a0753b8e7b8ffd34e46d5fe3406ada6e230129c",
+      "track_id": 6,
+      "box": [
+        2167.67724609375,
+        1216.39453125,
+        2270.3118896484375,
+        1273.1883544921875
+      ],
+      "role": "eligible",
+      "dual_view_direction": "UNCLEAR",
+      "calls": [
+        {
+          "input_tokens": 206,
+          "output_tokens": 2,
+          "reply": "RIGHT",
+          "reply_sha256": "c4ce3c7ad82c8235da21fae8ea48e071a10e7b1c6df6a9e5b4603852d8b3001c",
+          "seconds": 3.937,
+          "stage": "original",
+          "view_sha256": "b5cd3b65284b93cc24234851303c0b7edb16c47d9b4999cf8323e0e541c1e134"
+        },
+        {
+          "input_tokens": 206,
+          "output_tokens": 2,
+          "reply": "RIGHT",
+          "reply_sha256": "c4ce3c7ad82c8235da21fae8ea48e071a10e7b1c6df6a9e5b4603852d8b3001c",
+          "seconds": 3.938,
+          "stage": "mirrored",
+          "view_sha256": "809cc8ed0d80d67b020bb0ac38afcf348f35e7991fde22e7a3884bfb95378a85"
+        }
+      ],
+      "reference": "UNCLEAR",
+      "independent_visual_reason": "The white vehicle is viewed almost directly from behind. Its rear spans both sides, making a lateral direction unreliable.",
+      "grade": "correct_withhold"
+    },
+    {
+      "id": "8a328ce927339a95513e30196151a5bca28c7c05d33f8d4329be0016524d08e5",
+      "image_sha256": "c6bbd89ff7d2ece1550434d32a0753b8e7b8ffd34e46d5fe3406ada6e230129c",
+      "track_id": 1,
+      "box": [
+        1014.0602416992188,
+        1199.9586181640625,
+        1465.9669189453125,
+        1430.296875
+      ],
+      "role": "eligible",
+      "dual_view_direction": "LEFT",
+      "calls": [
+        {
+          "input_tokens": 309,
+          "output_tokens": 2,
+          "reply": "LEFT",
+          "reply_sha256": "2cba9d25c1eaf7f3ef0e86b1562165b1d66e950ff5155de71b68049916145faf",
+          "seconds": 3.984,
+          "stage": "original",
+          "view_sha256": "999bfe1456759e9c49ef5e68d80698b88484c654f316707d65beeb596c8cc188"
+        },
+        {
+          "input_tokens": 309,
+          "output_tokens": 2,
+          "reply": "RIGHT",
+          "reply_sha256": "c4ce3c7ad82c8235da21fae8ea48e071a10e7b1c6df6a9e5b4603852d8b3001c",
+          "seconds": 4.0,
+          "stage": "mirrored",
+          "view_sha256": "235c65b14253413431fec324ecaeaec4899d98aa51083a8a94ffb4811b2afed1"
+        }
+      ],
+      "reference": "LEFT",
+      "independent_visual_reason": "The boot, plate recess and rear lamps of the tan sedan lie left of the front side and mirror.",
+      "grade": "correct_direction"
+    },
+    {
+      "id": "ec46dc20019f4884dfa36f81ceb670fc66f3c88cd6711dde42c3a9d199aa9aee",
+      "image_sha256": "36b2dc6179d324ba8290d7916f32bddb0aac599869b2801e702a76057c650dba",
+      "track_id": 3,
+      "box": [
+        3761.8655822753904,
+        2317.5209838867186,
+        4031.564337158203,
+        3012.852337646484
+      ],
+      "role": "control",
+      "dual_view_direction": "UNCLEAR",
+      "calls": [
+        {
+          "input_tokens": 204,
+          "output_tokens": 3,
+          "reply": "UNCLEAR",
+          "reply_sha256": "da22b657b76066ae80c58f1089bb7f0e723ddca24ecd6864d4141d6c5fc86f5d",
+          "seconds": 5.594,
+          "stage": "original",
+          "view_sha256": "8724c04b31a5d81f34944da01028c6ddbf273a31595b3ff86740323e98ba9982"
+        },
+        {
+          "input_tokens": 204,
+          "output_tokens": 3,
+          "reply": "UNCLEAR",
+          "reply_sha256": "da22b657b76066ae80c58f1089bb7f0e723ddca24ecd6864d4141d6c5fc86f5d",
+          "seconds": 5.625,
+          "stage": "mirrored",
+          "view_sha256": "a5b680a7d1f43013cf9fa18c43c30133378461a49172eebdaf4edaf065b00e56"
+        }
+      ],
+      "reference": "UNCLEAR",
+      "independent_visual_reason": "Only dark ground and a clipped object edge are visible. No identifiable tail.",
+      "grade": "correct_withhold"
+    },
+    {
+      "id": "f49c4cd9c7991876f8bcaf7fdf5009801f09ef1125fb4e36b1ba115517203cbe",
+      "image_sha256": "c6bbd89ff7d2ece1550434d32a0753b8e7b8ffd34e46d5fe3406ada6e230129c",
+      "track_id": 21,
+      "box": [
+        1.5186023712158203,
+        1205.1632995605469,
+        164.8245391845703,
+        1275.5821838378906
+      ],
+      "role": "eligible",
+      "dual_view_direction": "UNCLEAR",
+      "calls": [
+        {
+          "input_tokens": 201,
+          "output_tokens": 3,
+          "reply": "UNCLEAR",
+          "reply_sha256": "da22b657b76066ae80c58f1089bb7f0e723ddca24ecd6864d4141d6c5fc86f5d",
+          "seconds": 5.656,
+          "stage": "original",
+          "view_sha256": "3b52036aded89dff1b420529f63ae871948f2050716c82fe7a44d545b47811ac"
+        },
+        {
+          "input_tokens": 201,
+          "output_tokens": 3,
+          "reply": "UNCLEAR",
+          "reply_sha256": "da22b657b76066ae80c58f1089bb7f0e723ddca24ecd6864d4141d6c5fc86f5d",
+          "seconds": 5.562,
+          "stage": "mirrored",
+          "view_sha256": "6684c3d8fb28885c43ffdd7c6c8da6c48917b8416036e0b5883e9d708e1e8ac1"
+        }
+      ],
+      "reference": "UNCLEAR",
+      "independent_visual_reason": "Overlapping severely blurred distant vehicles with an incomplete truck body. The individual vehicle and its ends are inconclusive.",
+      "grade": "correct_withhold"
+    },
+    {
+      "id": "f7bef9124705642c874b0950c46199db6bed7311e31450a983213b427771a785",
+      "image_sha256": "b7e43b4afd14831bb82299245ca1a6e5588183f0f66b57de36042ebbbc3ae9a5",
+      "track_id": 4,
+      "box": [
+        1189.3706359863281,
+        1762.745361328125,
+        1469.9790344238281,
+        1885.541015625
+      ],
+      "role": "eligible",
+      "dual_view_direction": "RIGHT",
+      "calls": [
+        {
+          "input_tokens": 201,
+          "output_tokens": 2,
+          "reply": "RIGHT",
+          "reply_sha256": "c4ce3c7ad82c8235da21fae8ea48e071a10e7b1c6df6a9e5b4603852d8b3001c",
+          "seconds": 8.64,
+          "stage": "original",
+          "view_sha256": "f93984bf6b386d77356ffc287faff5727cbeec60ec70bc93b1040306e8110902"
+        },
+        {
+          "input_tokens": 201,
+          "output_tokens": 2,
+          "reply": "LEFT",
+          "reply_sha256": "2cba9d25c1eaf7f3ef0e86b1562165b1d66e950ff5155de71b68049916145faf",
+          "seconds": 4.016,
+          "stage": "mirrored",
+          "view_sha256": "bab3cddf2a4a9039671599e640ac45ad4cb652aa1d3164f33d48a033d320fa42"
+        }
+      ],
+      "reference": "RIGHT",
+      "independent_visual_reason": "The white SUV shows a bonnet at the left and well-defined rear lamps and hatch at the right.",
+      "grade": "correct_direction"
+    },
+    {
+      "id": "fc7be6c1f5e14042010feeb83d3e27647b9c078115acff17d6836c1afa94727a",
+      "image_sha256": "25d11a8764194179f1f2c3b7eff976f412c6f0b96f4ca1d1a4213feb339bf920",
+      "track_id": 6,
+      "box": [
+        2178.650537109375,
+        1028.638110081794,
+        2687.8784912109377,
+        1517.0768678781078
+      ],
+      "role": "control",
+      "dual_view_direction": "UNCLEAR",
+      "calls": [
+        {
+          "input_tokens": 354,
+          "output_tokens": 2,
+          "reply": "RIGHT",
+          "reply_sha256": "c4ce3c7ad82c8235da21fae8ea48e071a10e7b1c6df6a9e5b4603852d8b3001c",
+          "seconds": 4.266,
+          "stage": "original",
+          "view_sha256": "e51d6511e2365afb45ae050a86f7a75f5012978d4e5d3f4441c76fce14b848ca"
+        },
+        {
+          "input_tokens": 354,
+          "output_tokens": 2,
+          "reply": "RIGHT",
+          "reply_sha256": "c4ce3c7ad82c8235da21fae8ea48e071a10e7b1c6df6a9e5b4603852d8b3001c",
+          "seconds": 4.203,
+          "stage": "mirrored",
+          "view_sha256": "b39962930ac5f85038071967cf0a442a5d82de04b9321f2badb2f4c35b90b58c"
+        }
+      ],
+      "reference": "UNCLEAR",
+      "independent_visual_reason": "The box includes a partially visible foreground vehicle across the background Toyota's boot. The foreground vehicle's tail cannot be placed.",
+      "grade": "correct_withhold"
+    }
+  ],
+  "total_true_model_calls": 30,
+  "single_view_median_model_seconds": 4.156
+}

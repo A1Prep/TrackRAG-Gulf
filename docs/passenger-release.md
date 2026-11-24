@@ -137,7 +137,15 @@ python -m tools.passenger_local_vehicle_views --crop-version 2 --bank <scene-ban
 
 The working folder contains `detector-inventory.json` with every native RF-DETR detection, the current BoT-SORT tracks and the boxes selected for visual reading. Add `--inventory-only` to produce that file before starting model inference. To expand a version 1 archive, use its original Task 1 preparation folder and add `--reuse-vehicle-observations <old-archive.json> <SHA256>`. The reader verifies the detector files, source pixels, track boxes and model before reusing each pair of crops. Rerunning the same command resumes completed crops. A portable installation can use the finished archives directly. Register both archive hashes at startup to use the expanded coverage and replay older saved decisions.
 
-To replay a saved journal from another local photo release, pass the same `--local-surface-index`, `--local-vehicle-observations` and applicable `--local-observations` file and hash pairs to `python -m tools.dropoff_passenger_handoff session`. The exporter rechecks the original image and recorded responses from those archives.
+The normal launcher also loads the original and mirrored vehicle crops for the two four-photo transfer groups. They record which visible end contains the tailgate. In independent review, all nine returned directions matched the original photograph and all six unclear examples withheld a direction. This checks the appearance of the vehicle. A location behind it also requires visible ground. [Original-image review and all model replies](../experiments/dropoff/passenger-local-vehicle-tail-direction-trial-20261124.json)
+
+For another installed photo bank, generate the same measurements locally and pass the printed file and hash to the launcher with `--local-vehicle-tail-observations`. The command takes the expanded vehicle archive from the preceding step.
+
+```text
+python -m tools.passenger_local_vehicle_tail --bank <scene-bank.jsonl> --surfaces <surface-index.json> <SHA256> --vehicles <vehicle-observations-v2.json> <SHA256> --working <tail-working-folder>
+```
+
+To replay a saved journal from another local photo release, pass the same `--local-surface-index`, `--local-vehicle-observations` and applicable `--local-vehicle-tail-observations` and `--local-observations` file and hash pairs to `python -m tools.dropoff_passenger_handoff session`. The exporter rechecks the original image and recorded responses from those archives.
 
 The laptop made 138 model calls on these six photographs. Across three of the photos, the segmentation check supplied 24 points and the trained 8B model answered “OPEN” for all 24 in both views. It supplied a nearby roadside feature for ten points, a pair of neighbouring vehicles for one, and a point-specific storefront description for zero. One of the 18 wider frontage crops named a place. The other three photos had no point that passed the segmentation check. The median model call took 4.61 seconds. A separate uniform grey control image returned “UNCLEAR.” The six-source experiment measures what the model described; determining whether a passenger meant one of those points requires separate references. The standard application reuses the verified results. [Measured model responses and image bindings](../experiments/dropoff/passenger-local-8b-observations-v1.json)
 

@@ -64,6 +64,8 @@ PHOTO_PACKS = (
           "6200d8c9e8f02e9ddb8e604b83fb99a4b910be2b32b4f8dd0a7ad3e5d19171b8"),
          ("local_vehicle_observations", "vehicle-observations-v2.json",
           "73627772dbeb5140c8d27cb8bcf63bb46272e8af8c6114bac77ca2bf063885c7"),
+         ("local_vehicle_tail_observations", "vehicle-tail-observations-v1.json",
+          "55a8f952e9d60875bc9887e55e85cac920357efbbdcb2826a711fb40d17a87d8"),
      )),
     ("data/uae-parking-local-rear-transfer-b-20261124/passenger-requests.jsonl",
      "experiments/dropoff/passenger-rear-transfer-b-photos-20261124", (
@@ -71,6 +73,8 @@ PHOTO_PACKS = (
           "2a42b674a5363ebd3ff897e75cd25c7f3988ae29727ee2041ac9174a714ef2a3"),
          ("local_vehicle_observations", "vehicle-observations-v2.json",
           "8a8b2913cdef791670d965432b36b06f747ed3d5302edbe81dcb583142c1206a"),
+         ("local_vehicle_tail_observations", "vehicle-tail-observations-v1.json",
+          "08bfc6f02033f204758e2ddd6b8d871a4a8140a72753c1ff561acdd2105167b4"),
      )),
 )
 
@@ -283,7 +287,7 @@ def start(args):
             sources.extend(ROOT / "experiments/dropoff" / name for name in PUBLIC_PHOTO_LISTS)
         for path in dict.fromkeys(Path(source).resolve() for source in sources):
             argv.extend(["--place-public-sources",str(path)])
-        for option in ("local_surface_index", "local_observations", "local_vehicle_observations"):
+        for option in ("local_surface_index", "local_observations", "local_vehicle_observations", "local_vehicle_tail_observations"):
             pairs = [(Path(path).resolve(), expected) for path, expected in getattr(args,option,None) or ()]
             for bank, study, files in PHOTO_PACKS:
                 if ROOT / bank not in banks:
@@ -343,6 +347,8 @@ def main():
                            help="Surface maps prepared offline for an additional photo bank")
             p.add_argument("--local-vehicle-observations",nargs=2,action="append",metavar=("JSON","SHA256"),
                            help="Vehicle crop readings prepared on the original local photos")
+            p.add_argument("--local-vehicle-tail-observations",nargs=2,action="append",metavar=("JSON","SHA256"),
+                           help="Tail directions measured using original and reflected local vehicle crops")
             p.add_argument("--local-observations",nargs=2,action="append",metavar=("JSON","SHA256"),
                            help="Verified offline 8B observations for additional registered surfaces")
             p.add_argument("--base-dir",type=Path,default=ROOT/"models/qwen3-vl-8b-local-nf4")

@@ -724,6 +724,7 @@ def main(argv=None):
     parser.add_argument("--local-surface-index",nargs=2,action="append",default=[],metavar=("JSON","SHA256"))
     parser.add_argument("--local-observations",nargs=2,action="append",default=[],metavar=("JSON","SHA256"))
     parser.add_argument("--local-vehicle-observations",nargs=2,action="append",default=[],metavar=("JSON","SHA256"))
+    parser.add_argument("--local-vehicle-tail-observations",nargs=2,action="append",default=[],metavar=("JSON","SHA256"))
     parser.add_argument("--config", type=Path, required=True)
     parser.add_argument("--geometry", type=Path, required=True)
     parser.add_argument("--referent",type=Path,help="Use the learned candidate ranker for clarification")
@@ -764,6 +765,10 @@ def main(argv=None):
         from trackrag.dropoff.local_vehicle_observations import register as register_vehicles
         for path, expected in args.local_vehicle_observations:
             register_vehicles(path,expected)
+    if getattr(args,"local_vehicle_tail_observations",None):
+        from trackrag.dropoff.local_vehicle_tail import register as register_tail
+        for path, expected in args.local_vehicle_tail_observations:
+            register_tail(path,expected)
     if args.local_observations:
         from trackrag.dropoff.local_8b_observations import register as register_observations
         for path, expected in args.local_observations:

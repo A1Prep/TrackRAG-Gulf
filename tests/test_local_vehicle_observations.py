@@ -24,6 +24,14 @@ assert heavy.isdisjoint(set(sys.modules) - loaded)
     subprocess.run([sys.executable, '-c', script], check=True)
 
 
+@pytest.mark.parametrize(('first','mirror','expected'),[
+    ('LEFT','RIGHT','LEFT'),('RIGHT','LEFT','RIGHT'),('LEFT','LEFT','UNCLEAR'),
+    ('UNCLEAR','RIGHT','UNCLEAR'),('LEFT or RIGHT','RIGHT','UNCLEAR'),('RIGHT','UNCLEAR','UNCLEAR')])
+def test_tail_requires_opposite_single_word_measurements(first,mirror,expected):
+    from trackrag.dropoff import local_vehicle_tail as tail
+    assert tail.consensus([{'reply':first},{'reply':mirror}])==expected
+
+
 @pytest.fixture
 def evidence(tmp_path,monkeypatch):
     im=Image.new('RGB',(100,80),'gray')
@@ -68,6 +76,53 @@ def test_original_crop_both_views_and_current_track_replay(evidence):
     packet['body']['rows'][0]['attributes'][2]='FRONT'
     with pytest.raises(ValueError):local.verify(scene,photo,specs,packet)
     with pytest.raises(ValueError):local.register(*install(body))
+
+
+@pytest.mark.parametrize('role',['eligible','control'])
+def test_tail_registry_binds_both_native_images_and_keeps_controls_out_of_runtime(evidence,tmp_path,monkeypatch,role):
+    import numpy as np
+    from PIL import ImageOps
+    from trackrag.dropoff import local_vehicle_tail as tail
+    body,scene,photo,_,_=evidence
+    key=body['image_sha256']; row=body['rows'][0]
+    box=[4,20,94,60] if role=='eligible' else [15,20,72,64]
+    row['anchor']['box']=box;scene['tracks'][0]['bbox_xyxy']=box
+    body['task1']['current_tracks_sha256']=local.digest(local.tracks(scene))
+    with Image.open(BytesIO(photo)) as native:
+        for call in row['calls']:
+            call['view_sha256']=sha256(local.render(native,box,call['stage'])).hexdigest()
+            if role=='control':
+                call['reply']='white | sedan | FRONT';call['reply_sha256']=sha256(call['reply'].encode()).hexdigest()
+        row['attributes']=local.consensus(row['calls'])
+        calls=[];images=[]
+        for stage,answer in zip(tail.STAGES,('LEFT','RIGHT'),strict=True):
+            view=tail.render(native,box,stage);images.append(Image.open(BytesIO(view)))
+            calls.append({'stage':stage,'reply':answer,'reply_sha256':sha256(answer.encode()).hexdigest(),
+                          'view_sha256':sha256(view).hexdigest(),'input_tokens':50,'output_tokens':2,'seconds':1.2})
+        assert images[1].tobytes()==ImageOps.mirror(images[0]).tobytes()
+    local.register(*expanded_pack(tmp_path,body));parent=local.get_packet(key)
+    monkeypatch.setattr(tail,'_registered',{})
+    monkeypatch.setattr(tail.manual_surfaces,'decode',lambda *args:np.zeros((40,50),dtype=np.uint8))
+    measured={'source_sha256':key,'recording_id':'test','frame_id':7,'size':[100,80],
+              'model':body['model'],'prompt_sha256':tail.PROMPT_SHA,'parent_body_sha256':parent['body_sha256'],
+              'rows':[{'anchor':row['anchor'],'role':role,'calls':calls,'tail_edge':'LEFT'}]}
+    def write_packet():
+        packet={'origin':tail.ORIGIN,'body':measured,'body_sha256':local.digest(measured)}
+        path=tmp_path/'tail.json';path.write_bytes(signed_bytes({'origin':tail.ORIGIN,'version':1,'sources':{key:packet}}))
+        return path,sha256(path.read_bytes()).hexdigest()
+    path,pin=write_packet()
+    with pytest.raises(ValueError):tail.register(path,'0'*64)
+    tail.register(path,pin);packet=tail.get_packet(key)
+    assert tail.verify(scene,photo,packet)==({2:'LEFT'} if role=='eligible' else {})
+    with pytest.raises(ValueError):tail.verify(scene,photo+b'other',packet)
+    monkeypatch.setattr(tail,'_registered',{})
+    measured['rows'][0]['calls'][1]['view_sha256']='c'*64
+    tail.register(*write_packet())
+    with pytest.raises(ValueError,match='reflected vehicle pixels'):
+        tail.verify(scene,photo,tail.get_packet(key))
+    monkeypatch.setattr(tail,'_registered',{})
+    measured['parent_body_sha256']='9'*64
+    with pytest.raises(ValueError,match='base crops'):tail.register(*write_packet())
 
 
 @pytest.mark.parametrize('change',['guide','weights','detector','view','missing_view','source','raw','consensus','stage','count'])
@@ -212,18 +267,18 @@ def test_source_only_inventory_rejects_substituted_detector_and_replaced_raw_box
 
 def test_separate_journal_export_registers_operator_pins_before_source_replay(tmp_path,monkeypatch):
     from tools import dropoff_passenger_handoff as handoff
-    from trackrag.dropoff import local_8b_observations
+    from trackrag.dropoff import local_8b_observations, local_vehicle_tail
     registrations=[]
-    for name,module in [('map',local.local_surfaces),('curb',local_8b_observations),('vehicle',local)]:
+    for name,module in [('map',local.local_surfaces),('curb',local_8b_observations),('vehicle',local),('tail',local_vehicle_tail)]:
         monkeypatch.setattr(module,'register',lambda path,pin,name=name:registrations.append((name,path,pin)))
     def replay(journal,**kwargs):
-        assert registrations==[('map','index','a'*64),('curb','ground','b'*64),('vehicle','cars','c'*64)]
+        assert registrations==[('map','index','a'*64),('curb','ground','b'*64),('vehicle','cars','c'*64),('tail','tails','d'*64)]
         return {'verified':True}
     out=tmp_path/'actual.json'
     monkeypatch.setattr(handoff,'session',replay)
     monkeypatch.setattr(sys,'argv',['handoff','session','--journal','original','--out',str(out),
         '--local-vehicle-observations','cars','c'*64,'--local-surface-index','index','a'*64,
-        '--local-observations','ground','b'*64])
+        '--local-observations','ground','b'*64,'--local-vehicle-tail-observations','tails','d'*64])
     handoff.main()
     assert json.loads(out.read_bytes())=={'verified':True}
 

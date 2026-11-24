@@ -489,11 +489,14 @@ def main():
                          help='Register the local curb and frontage observations used in this interaction')
         sub.add_argument('--local-vehicle-observations',nargs=2,action='append',metavar=('JSON','SHA256'),
                          help='Register the source-bound local vehicle crop readings used in this interaction')
+        sub.add_argument('--local-vehicle-tail-observations',nargs=2,action='append',metavar=('JSON','SHA256'),
+                         help='Register original/reflected vehicle tail readings used in this interaction')
     args = parser.parse_args()
-    from trackrag.dropoff import local_8b_observations, local_surfaces, local_vehicle_observations
+    from trackrag.dropoff import local_8b_observations, local_surfaces, local_vehicle_observations, local_vehicle_tail
     for files,register in ((args.local_surface_index,local_surfaces.register),
                            (args.local_observations,local_8b_observations.register),
-                           (args.local_vehicle_observations,local_vehicle_observations.register)):
+                           (args.local_vehicle_observations,local_vehicle_observations.register),
+                           (getattr(args,'local_vehicle_tail_observations',None),local_vehicle_tail.register)):
         for path,pin in files or []:
             register(path,pin)
     data = (batch(args.run, args.requests, args.replay) if args.mode == "batch" else

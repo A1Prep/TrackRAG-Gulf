@@ -1,0 +1,775 @@
+{
+  "scope": "Development comparison on previously inspected 8+6+8+6 distinct drives. No new model calls or prospective estimate.",
+  "measured": "Pinned local 8B original/close identity, saved detector boxes, original RGB, registered native Mapillary semantic map. The neutral candidate generator received no passenger words, target references or image IDs.",
+  "judgement": "First-turn previous per-vehicle router measured on the original utterances; its selectable alternatives and direct pins are counted separately. Source-generated trial supply is evaluated only at a body with >=0.50 IoU to the separately preregistered reference. Positive ground requires strict containment. A single photo cannot establish real traffic conditions or legal permission.",
+  "source_frozen_sha256": "28db08404ea4b15ff25bdc5e07163eaaba913049791f2728529d5b4ff38e487a",
+  "baseline_sha256": "a5480f8724f840323be630c9727144211dac84bcae9e1659e92a8fb86bfd9e19",
+  "control_sha256": "e7f3a58bc1102d5704df4502b2f7114364d739d8aa03246aa59fa47f06e9e907",
+  "reference_sha256": {
+    "primary": "9caeafeee06ceaa68fcd8f9d5269a1a0bd16f82b369b20640129ea3f68b1624c",
+    "reserve": "53e6dc1dde18d3dc3b01a57e504bcdaeca286f72544c32a77ebca4fb310e0028",
+    "third": "1e2e5563fcd46c5c22115510ec73559936eb74ee1b0fe248ceca375a84f2b97f",
+    "fourth": "42b54ef6bfd0705035c101447532af587af715b5d0a0cdd95cf0ac0ce136d275"
+  },
+  "algorithm_sha256": "88c25682d9ee141700787c0efbabb9dd0c9d348936864790a5dcb7a7ae0202c3",
+  "stricter_veto_sha256": "1bfb1d3bf4bc3d9d85a48b049e0d7313c4e7e795269d32425926fc893ac2fb98",
+  "utc": "2026-11-24T03:33:00.989962+00:00",
+  "total_native_vehicle_observations": 168,
+  "rear_readings": 106,
+  "all_source_points": {
+    "option": 0,
+    "strict_option": 0
+  },
+  "stage_counts_all_vehicles": {
+    "front_side_or_unclear": 62,
+    "oblique_profile": 17,
+    "no_vehicle_width_material_edge_with_clear_entry": 1,
+    "no_two_distinct_same_depth_wheel_contacts": 6,
+    "tyres_not_on_one_accessible_parking_component": 42,
+    "no_bound_open_road_or_body_out_of_scale": 40
+  },
+  "stage_counts_eligible_observed_target_bodies": {
+    "oblique_profile": 3,
+    "tyres_not_on_one_accessible_parking_component": 7,
+    "front_side_or_unclear": 1,
+    "no_bound_open_road_or_body_out_of_scale": 1,
+    "no_two_distinct_same_depth_wheel_contacts": 2
+  },
+  "field_counts": {
+    "clear_reference": 14,
+    "direct_eligible_withheld": 9,
+    "experiment_eligible_withheld": 14,
+    "direct_inside": 5,
+    "direct_inside_and_unique_right_body": 5,
+    "negative_reference": 14,
+    "direct_negative_withheld": 14,
+    "experiment_negative_withheld": 14,
+    "guided_inside": 1
+  },
+  "synthetic": {
+    "baseline_physical": {
+      "accepted_positive": [
+        "level",
+        "mirrored",
+        "worn_material"
+      ],
+      "missed_positive": [],
+      "incorrectly_accepted_control": [
+        "cast_shadow",
+        "open_road_behind_row",
+        "through_row_with_signed_parking"
+      ],
+      "withheld_control": 20
+    },
+    "strict": {
+      "accepted_positive": [
+        "mirrored",
+        "worn_material"
+      ],
+      "missed_positive": [
+        "level"
+      ],
+      "incorrectly_accepted_control": [],
+      "withheld_control": 23
+    }
+  },
+  "decision": "Reject for runtime. Neither version adds real field coverage.",
+  "rows": [
+    {
+      "id": "Y0622eb2",
+      "cohort": "fourth",
+      "eligible": true,
+      "observed_target": [
+        {
+          "track": 13,
+          "facing": "REAR",
+          "status": "oblique_profile"
+        }
+      ],
+      "prior_direct": {
+        "classification": "eligible_withheld",
+        "point": null,
+        "visible_bodies_iou_ge_0.5": [
+          true
+        ]
+      },
+      "prior_guided": {
+        "classification": null,
+        "points": []
+      },
+      "experiment": "eligible_withheld"
+    },
+    {
+      "id": "V01",
+      "cohort": "reserve",
+      "eligible": true,
+      "observed_target": [
+        {
+          "track": 2,
+          "facing": "REAR",
+          "status": "tyres_not_on_one_accessible_parking_component"
+        }
+      ],
+      "prior_direct": {
+        "classification": "inside",
+        "point": [
+          2620.267,
+          1398.771
+        ],
+        "visible_bodies_iou_ge_0.5": [
+          true
+        ]
+      },
+      "prior_guided": {
+        "classification": null,
+        "points": []
+      },
+      "experiment": "eligible_withheld"
+    },
+    {
+      "id": "W25d11a8",
+      "cohort": "third",
+      "eligible": false,
+      "observed_target": [
+        {
+          "track": 1,
+          "facing": "REAR",
+          "status": "oblique_profile"
+        }
+      ],
+      "prior_direct": {
+        "classification": "negative_withheld",
+        "point": null,
+        "visible_bodies_iou_ge_0.5": [
+          true
+        ]
+      },
+      "prior_guided": {
+        "classification": null,
+        "points": []
+      },
+      "experiment": "negative_withheld"
+    },
+    {
+      "id": "Y29977cf",
+      "cohort": "fourth",
+      "eligible": true,
+      "observed_target": [
+        {
+          "track": 1,
+          "facing": "REAR",
+          "status": "tyres_not_on_one_accessible_parking_component"
+        }
+      ],
+      "prior_direct": {
+        "classification": "eligible_withheld",
+        "point": null,
+        "visible_bodies_iou_ge_0.5": [
+          true
+        ]
+      },
+      "prior_guided": {
+        "classification": null,
+        "points": []
+      },
+      "experiment": "eligible_withheld"
+    },
+    {
+      "id": "U01",
+      "cohort": "primary",
+      "eligible": false,
+      "observed_target": [
+        {
+          "track": 2,
+          "facing": "REAR",
+          "status": "no_two_distinct_same_depth_wheel_contacts"
+        }
+      ],
+      "prior_direct": {
+        "classification": "negative_withheld",
+        "point": null,
+        "visible_bodies_iou_ge_0.5": [
+          false,
+          true
+        ]
+      },
+      "prior_guided": {
+        "classification": null,
+        "points": []
+      },
+      "experiment": "negative_withheld"
+    },
+    {
+      "id": "W36b2dc6",
+      "cohort": "third",
+      "eligible": true,
+      "observed_target": [
+        {
+          "track": 1,
+          "facing": "SIDE",
+          "status": "front_side_or_unclear"
+        }
+      ],
+      "prior_direct": {
+        "classification": "inside",
+        "point": [
+          2744.0,
+          2103.36
+        ],
+        "visible_bodies_iou_ge_0.5": [
+          true
+        ]
+      },
+      "prior_guided": {
+        "classification": null,
+        "points": []
+      },
+      "experiment": "eligible_withheld"
+    },
+    {
+      "id": "Y3a87c00",
+      "cohort": "fourth",
+      "eligible": false,
+      "observed_target": [
+        {
+          "track": 1,
+          "facing": "REAR",
+          "status": "oblique_profile"
+        }
+      ],
+      "prior_direct": {
+        "classification": "negative_withheld",
+        "point": null,
+        "visible_bodies_iou_ge_0.5": [
+          true
+        ]
+      },
+      "prior_guided": {
+        "classification": null,
+        "points": []
+      },
+      "experiment": "negative_withheld"
+    },
+    {
+      "id": "U02",
+      "cohort": "primary",
+      "eligible": true,
+      "observed_target": [
+        {
+          "track": 2,
+          "facing": "REAR",
+          "status": "no_bound_open_road_or_body_out_of_scale"
+        }
+      ],
+      "prior_direct": {
+        "classification": "eligible_withheld",
+        "point": null,
+        "visible_bodies_iou_ge_0.5": [
+          true
+        ]
+      },
+      "prior_guided": {
+        "classification": null,
+        "points": []
+      },
+      "experiment": "eligible_withheld"
+    },
+    {
+      "id": "V02",
+      "cohort": "reserve",
+      "eligible": true,
+      "observed_target": [
+        {
+          "track": 3,
+          "facing": "REAR",
+          "status": "tyres_not_on_one_accessible_parking_component"
+        }
+      ],
+      "prior_direct": {
+        "classification": "eligible_withheld",
+        "point": null,
+        "visible_bodies_iou_ge_0.5": []
+      },
+      "prior_guided": {
+        "classification": null,
+        "points": []
+      },
+      "experiment": "eligible_withheld"
+    },
+    {
+      "id": "W5cc54a2",
+      "cohort": "third",
+      "eligible": true,
+      "observed_target": [
+        {
+          "track": 1,
+          "facing": "REAR",
+          "status": "oblique_profile"
+        }
+      ],
+      "prior_direct": {
+        "classification": "eligible_withheld",
+        "point": null,
+        "visible_bodies_iou_ge_0.5": [
+          true
+        ]
+      },
+      "prior_guided": {
+        "classification": null,
+        "points": []
+      },
+      "experiment": "eligible_withheld"
+    },
+    {
+      "id": "U03",
+      "cohort": "primary",
+      "eligible": true,
+      "observed_target": [
+        {
+          "track": 4,
+          "facing": "REAR",
+          "status": "tyres_not_on_one_accessible_parking_component"
+        }
+      ],
+      "prior_direct": {
+        "classification": "inside",
+        "point": [
+          2528.0,
+          2089.565
+        ],
+        "visible_bodies_iou_ge_0.5": [
+          true
+        ]
+      },
+      "prior_guided": {
+        "classification": null,
+        "points": []
+      },
+      "experiment": "eligible_withheld"
+    },
+    {
+      "id": "W6aadb86",
+      "cohort": "third",
+      "eligible": false,
+      "observed_target": [
+        {
+          "track": 1,
+          "facing": "SIDE",
+          "status": "front_side_or_unclear"
+        }
+      ],
+      "prior_direct": {
+        "classification": "negative_withheld",
+        "point": null,
+        "visible_bodies_iou_ge_0.5": [
+          true,
+          false,
+          false,
+          false,
+          false
+        ]
+      },
+      "prior_guided": {
+        "classification": null,
+        "points": []
+      },
+      "experiment": "negative_withheld"
+    },
+    {
+      "id": "Y73d4554",
+      "cohort": "fourth",
+      "eligible": false,
+      "observed_target": [
+        {
+          "track": 1,
+          "facing": "REAR",
+          "status": "oblique_profile"
+        }
+      ],
+      "prior_direct": {
+        "classification": "negative_withheld",
+        "point": null,
+        "visible_bodies_iou_ge_0.5": []
+      },
+      "prior_guided": {
+        "classification": null,
+        "points": []
+      },
+      "experiment": "negative_withheld"
+    },
+    {
+      "id": "U04",
+      "cohort": "primary",
+      "eligible": false,
+      "observed_target": [
+        {
+          "track": 2,
+          "facing": "REAR",
+          "status": "tyres_not_on_one_accessible_parking_component"
+        }
+      ],
+      "prior_direct": {
+        "classification": "negative_withheld",
+        "point": null,
+        "visible_bodies_iou_ge_0.5": [
+          true
+        ]
+      },
+      "prior_guided": {
+        "classification": null,
+        "points": []
+      },
+      "experiment": "negative_withheld"
+    },
+    {
+      "id": "V03",
+      "cohort": "reserve",
+      "eligible": false,
+      "observed_target": [
+        {
+          "track": 6,
+          "facing": "REAR",
+          "status": "tyres_not_on_one_accessible_parking_component"
+        }
+      ],
+      "prior_direct": {
+        "classification": "negative_withheld",
+        "point": null,
+        "visible_bodies_iou_ge_0.5": [
+          true,
+          false,
+          false
+        ]
+      },
+      "prior_guided": {
+        "classification": null,
+        "points": []
+      },
+      "experiment": "negative_withheld"
+    },
+    {
+      "id": "V04",
+      "cohort": "reserve",
+      "eligible": true,
+      "observed_target": [
+        {
+          "track": 2,
+          "facing": "REAR",
+          "status": "no_two_distinct_same_depth_wheel_contacts"
+        }
+      ],
+      "prior_direct": {
+        "classification": "eligible_withheld",
+        "point": null,
+        "visible_bodies_iou_ge_0.5": [
+          true
+        ]
+      },
+      "prior_guided": {
+        "classification": null,
+        "points": []
+      },
+      "experiment": "eligible_withheld"
+    },
+    {
+      "id": "Y8ea55fb",
+      "cohort": "fourth",
+      "eligible": true,
+      "observed_target": [
+        {
+          "track": 1,
+          "facing": "REAR",
+          "status": "tyres_not_on_one_accessible_parking_component"
+        }
+      ],
+      "prior_direct": {
+        "classification": "eligible_withheld",
+        "point": null,
+        "visible_bodies_iou_ge_0.5": [
+          true
+        ]
+      },
+      "prior_guided": {
+        "classification": null,
+        "points": []
+      },
+      "experiment": "eligible_withheld"
+    },
+    {
+      "id": "V05",
+      "cohort": "reserve",
+      "eligible": false,
+      "observed_target": [
+        {
+          "track": 3,
+          "facing": "REAR",
+          "status": "tyres_not_on_one_accessible_parking_component"
+        }
+      ],
+      "prior_direct": {
+        "classification": "negative_withheld",
+        "point": null,
+        "visible_bodies_iou_ge_0.5": [
+          false
+        ]
+      },
+      "prior_guided": {
+        "classification": null,
+        "points": []
+      },
+      "experiment": "negative_withheld"
+    },
+    {
+      "id": "Wb7e43b4",
+      "cohort": "third",
+      "eligible": true,
+      "observed_target": [
+        {
+          "track": 2,
+          "facing": "REAR",
+          "status": "no_two_distinct_same_depth_wheel_contacts"
+        }
+      ],
+      "prior_direct": {
+        "classification": "eligible_withheld",
+        "point": null,
+        "visible_bodies_iou_ge_0.5": [
+          true
+        ]
+      },
+      "prior_guided": {
+        "classification": "inside",
+        "points": [
+          [
+            1973.3333333333333,
+            1961.501976284585
+          ]
+        ]
+      },
+      "experiment": "eligible_withheld"
+    },
+    {
+      "id": "U05",
+      "cohort": "primary",
+      "eligible": true,
+      "observed_target": [
+        {
+          "track": 2,
+          "facing": "REAR",
+          "status": "tyres_not_on_one_accessible_parking_component"
+        }
+      ],
+      "prior_direct": {
+        "classification": "inside",
+        "point": [
+          125.867,
+          2034.071
+        ],
+        "visible_bodies_iou_ge_0.5": [
+          true
+        ]
+      },
+      "prior_guided": {
+        "classification": null,
+        "points": []
+      },
+      "experiment": "eligible_withheld"
+    },
+    {
+      "id": "U06",
+      "cohort": "primary",
+      "eligible": true,
+      "observed_target": [
+        {
+          "track": 1,
+          "facing": "REAR",
+          "status": "oblique_profile"
+        }
+      ],
+      "prior_direct": {
+        "classification": "inside",
+        "point": [
+          453.333,
+          692.609
+        ],
+        "visible_bodies_iou_ge_0.5": [
+          true
+        ]
+      },
+      "prior_guided": {
+        "classification": null,
+        "points": []
+      },
+      "experiment": "eligible_withheld"
+    },
+    {
+      "id": "Wc6bbd89",
+      "cohort": "third",
+      "eligible": false,
+      "observed_target": [
+        {
+          "track": 2,
+          "facing": "REAR",
+          "status": "tyres_not_on_one_accessible_parking_component"
+        }
+      ],
+      "prior_direct": {
+        "classification": "negative_withheld",
+        "point": null,
+        "visible_bodies_iou_ge_0.5": [
+          true,
+          false
+        ]
+      },
+      "prior_guided": {
+        "classification": null,
+        "points": []
+      },
+      "experiment": "negative_withheld"
+    },
+    {
+      "id": "Wcc3d8e1",
+      "cohort": "third",
+      "eligible": true,
+      "observed_target": [
+        {
+          "track": 4,
+          "facing": "REAR",
+          "status": "tyres_not_on_one_accessible_parking_component"
+        }
+      ],
+      "prior_direct": {
+        "classification": "eligible_withheld",
+        "point": null,
+        "visible_bodies_iou_ge_0.5": [
+          true,
+          false,
+          false
+        ]
+      },
+      "prior_guided": {
+        "classification": null,
+        "points": []
+      },
+      "experiment": "eligible_withheld"
+    },
+    {
+      "id": "U07",
+      "cohort": "primary",
+      "eligible": false,
+      "observed_target": [
+        {
+          "track": 2,
+          "facing": "FRONT",
+          "status": "front_side_or_unclear"
+        }
+      ],
+      "prior_direct": {
+        "classification": "negative_withheld",
+        "point": null,
+        "visible_bodies_iou_ge_0.5": []
+      },
+      "prior_guided": {
+        "classification": null,
+        "points": []
+      },
+      "experiment": "negative_withheld"
+    },
+    {
+      "id": "V06",
+      "cohort": "reserve",
+      "eligible": false,
+      "observed_target": [
+        {
+          "track": 2,
+          "facing": "SIDE",
+          "status": "front_side_or_unclear"
+        }
+      ],
+      "prior_direct": {
+        "classification": "negative_withheld",
+        "point": null,
+        "visible_bodies_iou_ge_0.5": []
+      },
+      "prior_guided": {
+        "classification": null,
+        "points": []
+      },
+      "experiment": "negative_withheld"
+    },
+    {
+      "id": "U08",
+      "cohort": "primary",
+      "eligible": false,
+      "observed_target": [
+        {
+          "track": 2,
+          "facing": "REAR",
+          "status": "tyres_not_on_one_accessible_parking_component"
+        }
+      ],
+      "prior_direct": {
+        "classification": "negative_withheld",
+        "point": null,
+        "visible_bodies_iou_ge_0.5": [
+          true
+        ]
+      },
+      "prior_guided": {
+        "classification": null,
+        "points": []
+      },
+      "experiment": "negative_withheld"
+    },
+    {
+      "id": "Ye6333b9",
+      "cohort": "fourth",
+      "eligible": false,
+      "observed_target": [
+        {
+          "track": 1,
+          "facing": "REAR",
+          "status": "oblique_profile"
+        }
+      ],
+      "prior_direct": {
+        "classification": "negative_withheld",
+        "point": null,
+        "visible_bodies_iou_ge_0.5": [
+          true
+        ]
+      },
+      "prior_guided": {
+        "classification": null,
+        "points": []
+      },
+      "experiment": "negative_withheld"
+    },
+    {
+      "id": "Weba4b92",
+      "cohort": "third",
+      "eligible": false,
+      "observed_target": [
+        {
+          "track": 1,
+          "facing": "SIDE",
+          "status": "front_side_or_unclear"
+        }
+      ],
+      "prior_direct": {
+        "classification": "negative_withheld",
+        "point": null,
+        "visible_bodies_iou_ge_0.5": [
+          true,
+          false,
+          false
+        ]
+      },
+      "prior_guided": {
+        "classification": null,
+        "points": []
+      },
+      "experiment": "negative_withheld"
+    }
+  ]
+}

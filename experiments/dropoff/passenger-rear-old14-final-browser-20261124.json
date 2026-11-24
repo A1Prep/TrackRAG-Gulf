@@ -1,0 +1,803 @@
+{
+  "release": "316f5c120c2d24f901323d30a198ee2665f986aa",
+  "port": 8775,
+  "scope": "Post-disclosure development replay on the original eight primary and six reserve sources. Both sets and all reference points were already known during development. The original untouched scores were retained in passenger-rear-field-browser-results-20261124.json.",
+  "procedure": "Fresh normal Edge session on the verified original photo for each first natural request, each marked road control, and each attempted override. Only the first visually returned alternative was selected. Direct or selected locations required a separate Save and the identical original-pixel point afterwards. A superseded proposal token was retried separately. Explicit reference-only clarification earns no destination credit.",
+  "reference": "Independent AI original-pixel reference annotated before the original study. Strict point-in-polygon grades do not establish dimensions, legal permission or physical stopping safety.",
+  "original_study": {
+    "initial_eight_at_82bfb03": "0/4 eligible received a correct point, 4/4 blocked withheld, 8/8 road taps withheld.",
+    "first_six_previously_unseen_at_287db6f": "0/3 eligible received a correct point, 3/3 blocked withheld, 6/6 road taps withheld."
+  },
+  "combined_post_disclosure": {
+    "natural": {
+      "negative_withheld": 7,
+      "opportunity_withheld": 3,
+      "correct_direct": 4
+    },
+    "required_vehicle_on_seven_eligible": {
+      "unique_correct": 5,
+      "none_shown": 2
+    },
+    "required_vehicle_on_all_fourteen": {
+      "correct_among_several": 2,
+      "unique_correct": 7,
+      "none_shown": 4,
+      "wrong_only": 1
+    },
+    "current_vehicle_and_ground_correct_and_saved": 4,
+    "separate_lane_marks": {
+      "lane_withheld": 14
+    },
+    "later_lane_overrides_after_a_real_offer": {
+      "lane_withheld": 4
+    },
+    "all_four_earlier_save_tokens_http_status": [
+      409,
+      409,
+      409,
+      409
+    ],
+    "first_turn_latency_ms_including_clarifications": {
+      "n": 14,
+      "median": 634.0,
+      "min": 590,
+      "max": 1889
+    },
+    "lane_latency_ms": {
+      "n": 14,
+      "median": 1409.5,
+      "min": 991,
+      "max": 2077
+    },
+    "override_latency_ms": {
+      "n": 4,
+      "median": 500.5,
+      "min": 245,
+      "max": 583
+    },
+    "browser_page_errors": 0
+  },
+  "remaining_examples": {
+    "U02": "The car outline matched the requested dark pickup by the bins, but the app withheld the destination.",
+    "V02": "The first turn could not identify the stated dark blue sedan by the wall.",
+    "V04": "The first turn could not identify the stated grey sedan farther up the right-hand side.",
+    "V05": "A negative case withheld ground, yet the car outlined during clarification failed to overlap the requested car."
+  },
+  "browser_evidence": "passenger-rear-old14-final-browser-evidence-20261124.zip",
+  "browser_evidence_sha256": "dee8e63113d7c7196fc922e4d5a7f6afb8beaa4298bd18c4049b009fd147cf4a",
+  "reproduce_scoring": "Extract the evidence archive, then run python field-final-grade.py 316f5c120c2d24f901323d30a198ee2665f986aa --replay. This scores the saved ordinary browser observations and the originally locked reference polygons without access to model services.",
+  "cohorts": [
+    {
+      "cohort": "primary",
+      "original_reference_sha256": "9caeafeee06ceaa68fcd8f9d5269a1a0bd16f82b369b20640129ea3f68b1624c",
+      "raw_browser_output_sha256": "412fdfefc18d49799f2c746ca7336e9e6e24224bcb56698c6201b0e25c654430",
+      "summary": {
+        "natural": {
+          "outcomes": {
+            "negative_withheld": 4,
+            "opportunity_withheld": 1,
+            "correct_direct": 3
+          },
+          "visible_latency_ms": {
+            "n": 8,
+            "median": 877.5,
+            "range": [
+              590,
+              1889
+            ]
+          },
+          "requested_vehicle_among_eligible": {
+            "unique_correct": 4
+          },
+          "requested_vehicle_on_all": {
+            "correct_among_several": 1,
+            "unique_correct": 6,
+            "none_shown": 1
+          },
+          "correct_ground_and_unique_correct_vehicle": 3,
+          "positive_first_requests": 4,
+          "negative_first_requests": 4
+        },
+        "lane": {
+          "outcomes": {
+            "lane_withheld": 8
+          },
+          "visible_latency_ms": {
+            "n": 8,
+            "median": 1492.0,
+            "range": [
+              1271,
+              1666
+            ]
+          }
+        },
+        "override": {
+          "outcomes": {
+            "no_offer_to_override": 5,
+            "lane_withheld": 3
+          },
+          "visible_latency_ms": {
+            "n": 3,
+            "median": 484,
+            "range": [
+              245,
+              517
+            ]
+          },
+          "superseded_proposals_refused": 3
+        }
+      },
+      "rows": [
+        {
+          "id": "U01",
+          "task": "natural",
+          "eligible": false,
+          "grade": "negative_withheld",
+          "ms": 638,
+          "measured_body": "correct_among_several",
+          "point": null,
+          "offered_centres": [],
+          "first_choice_save_verified": false,
+          "separate_offers": 0,
+          "reference_only": null,
+          "page_errors": []
+        },
+        {
+          "id": "U02",
+          "task": "natural",
+          "eligible": true,
+          "grade": "opportunity_withheld",
+          "ms": 629,
+          "measured_body": "unique_correct",
+          "point": null,
+          "offered_centres": [],
+          "first_choice_save_verified": false,
+          "separate_offers": 0,
+          "reference_only": null,
+          "page_errors": []
+        },
+        {
+          "id": "U03",
+          "task": "natural",
+          "eligible": true,
+          "grade": "correct_direct",
+          "ms": 1889,
+          "measured_body": "unique_correct",
+          "point": [
+            2528,
+            2089.565
+          ],
+          "offered_centres": [],
+          "first_choice_save_verified": true,
+          "separate_offers": 0,
+          "reference_only": null,
+          "page_errors": []
+        },
+        {
+          "id": "U04",
+          "task": "natural",
+          "eligible": false,
+          "grade": "negative_withheld",
+          "ms": 1125,
+          "measured_body": "unique_correct",
+          "point": null,
+          "offered_centres": [],
+          "first_choice_save_verified": false,
+          "separate_offers": 0,
+          "reference_only": null,
+          "page_errors": []
+        },
+        {
+          "id": "U05",
+          "task": "natural",
+          "eligible": true,
+          "grade": "correct_direct",
+          "ms": 1345,
+          "measured_body": "unique_correct",
+          "point": [
+            125.867,
+            2034.071
+          ],
+          "offered_centres": [],
+          "first_choice_save_verified": true,
+          "separate_offers": 0,
+          "reference_only": null,
+          "page_errors": []
+        },
+        {
+          "id": "U06",
+          "task": "natural",
+          "eligible": true,
+          "grade": "correct_direct",
+          "ms": 614,
+          "measured_body": "unique_correct",
+          "point": [
+            453.333,
+            692.609
+          ],
+          "offered_centres": [],
+          "first_choice_save_verified": true,
+          "separate_offers": 0,
+          "reference_only": null,
+          "page_errors": []
+        },
+        {
+          "id": "U07",
+          "task": "natural",
+          "eligible": false,
+          "grade": "negative_withheld",
+          "ms": 590,
+          "measured_body": "none_shown",
+          "point": null,
+          "offered_centres": [],
+          "first_choice_save_verified": false,
+          "separate_offers": 0,
+          "reference_only": null,
+          "page_errors": []
+        },
+        {
+          "id": "U08",
+          "task": "natural",
+          "eligible": false,
+          "grade": "negative_withheld",
+          "ms": 1117,
+          "measured_body": "unique_correct",
+          "point": null,
+          "offered_centres": [],
+          "first_choice_save_verified": false,
+          "separate_offers": 0,
+          "reference_only": null,
+          "page_errors": []
+        },
+        {
+          "id": "U01",
+          "task": "lane",
+          "eligible": false,
+          "grade": "lane_withheld",
+          "ms": 1576,
+          "measured_body": "correct_among_several",
+          "point": null,
+          "offered_centres": [],
+          "first_choice_save_verified": false,
+          "separate_offers": 0,
+          "reference_only": null,
+          "page_errors": []
+        },
+        {
+          "id": "U02",
+          "task": "lane",
+          "eligible": true,
+          "grade": "lane_withheld",
+          "ms": 1339,
+          "measured_body": "correct_among_several",
+          "point": null,
+          "offered_centres": [],
+          "first_choice_save_verified": false,
+          "separate_offers": 0,
+          "reference_only": null,
+          "page_errors": []
+        },
+        {
+          "id": "U03",
+          "task": "lane",
+          "eligible": true,
+          "grade": "lane_withheld",
+          "ms": 1666,
+          "measured_body": "unique_correct",
+          "point": null,
+          "offered_centres": [],
+          "first_choice_save_verified": false,
+          "separate_offers": 0,
+          "reference_only": null,
+          "page_errors": []
+        },
+        {
+          "id": "U04",
+          "task": "lane",
+          "eligible": false,
+          "grade": "lane_withheld",
+          "ms": 1516,
+          "measured_body": "unique_correct",
+          "point": null,
+          "offered_centres": [],
+          "first_choice_save_verified": false,
+          "separate_offers": 0,
+          "reference_only": null,
+          "page_errors": []
+        },
+        {
+          "id": "U05",
+          "task": "lane",
+          "eligible": true,
+          "grade": "lane_withheld",
+          "ms": 1333,
+          "measured_body": "unique_correct",
+          "point": null,
+          "offered_centres": [],
+          "first_choice_save_verified": false,
+          "separate_offers": 0,
+          "reference_only": null,
+          "page_errors": []
+        },
+        {
+          "id": "U06",
+          "task": "lane",
+          "eligible": true,
+          "grade": "lane_withheld",
+          "ms": 1271,
+          "measured_body": "unique_correct",
+          "point": null,
+          "offered_centres": [],
+          "first_choice_save_verified": false,
+          "separate_offers": 0,
+          "reference_only": null,
+          "page_errors": []
+        },
+        {
+          "id": "U07",
+          "task": "lane",
+          "eligible": false,
+          "grade": "lane_withheld",
+          "ms": 1468,
+          "measured_body": "none_shown",
+          "point": null,
+          "offered_centres": [],
+          "first_choice_save_verified": false,
+          "separate_offers": 0,
+          "reference_only": null,
+          "page_errors": []
+        },
+        {
+          "id": "U08",
+          "task": "lane",
+          "eligible": false,
+          "grade": "lane_withheld",
+          "ms": 1558,
+          "measured_body": "unique_correct",
+          "point": null,
+          "offered_centres": [],
+          "first_choice_save_verified": false,
+          "separate_offers": 0,
+          "reference_only": null,
+          "page_errors": []
+        },
+        {
+          "id": "U01",
+          "task": "override",
+          "eligible": false,
+          "grade": "no_offer_to_override",
+          "ms": null,
+          "measured_body": "none_shown",
+          "point": null,
+          "offered_centres": [],
+          "first_choice_save_verified": false,
+          "separate_offers": 0,
+          "reference_only": null,
+          "page_errors": []
+        },
+        {
+          "id": "U02",
+          "task": "override",
+          "eligible": true,
+          "grade": "no_offer_to_override",
+          "ms": null,
+          "measured_body": "none_shown",
+          "point": null,
+          "offered_centres": [],
+          "first_choice_save_verified": false,
+          "separate_offers": 0,
+          "reference_only": null,
+          "page_errors": []
+        },
+        {
+          "id": "U03",
+          "task": "override",
+          "eligible": true,
+          "grade": "lane_withheld",
+          "ms": 517,
+          "measured_body": "unique_correct",
+          "point": null,
+          "offered_centres": [],
+          "first_choice_save_verified": false,
+          "separate_offers": 0,
+          "reference_only": null,
+          "page_errors": [],
+          "stale_offer_http_status": 409
+        },
+        {
+          "id": "U04",
+          "task": "override",
+          "eligible": false,
+          "grade": "no_offer_to_override",
+          "ms": null,
+          "measured_body": "none_shown",
+          "point": null,
+          "offered_centres": [],
+          "first_choice_save_verified": false,
+          "separate_offers": 0,
+          "reference_only": null,
+          "page_errors": []
+        },
+        {
+          "id": "U05",
+          "task": "override",
+          "eligible": true,
+          "grade": "lane_withheld",
+          "ms": 484,
+          "measured_body": "unique_correct",
+          "point": null,
+          "offered_centres": [],
+          "first_choice_save_verified": false,
+          "separate_offers": 0,
+          "reference_only": null,
+          "page_errors": [],
+          "stale_offer_http_status": 409
+        },
+        {
+          "id": "U06",
+          "task": "override",
+          "eligible": true,
+          "grade": "lane_withheld",
+          "ms": 245,
+          "measured_body": "unique_correct",
+          "point": null,
+          "offered_centres": [],
+          "first_choice_save_verified": false,
+          "separate_offers": 0,
+          "reference_only": null,
+          "page_errors": [],
+          "stale_offer_http_status": 409
+        },
+        {
+          "id": "U07",
+          "task": "override",
+          "eligible": false,
+          "grade": "no_offer_to_override",
+          "ms": null,
+          "measured_body": "none_shown",
+          "point": null,
+          "offered_centres": [],
+          "first_choice_save_verified": false,
+          "separate_offers": 0,
+          "reference_only": null,
+          "page_errors": []
+        },
+        {
+          "id": "U08",
+          "task": "override",
+          "eligible": false,
+          "grade": "no_offer_to_override",
+          "ms": null,
+          "measured_body": "none_shown",
+          "point": null,
+          "offered_centres": [],
+          "first_choice_save_verified": false,
+          "separate_offers": 0,
+          "reference_only": null,
+          "page_errors": []
+        }
+      ]
+    },
+    {
+      "cohort": "reserve",
+      "original_reference_sha256": "53e6dc1dde18d3dc3b01a57e504bcdaeca286f72544c32a77ebca4fb310e0028",
+      "raw_browser_output_sha256": "2fbde58a87d62dc5fff80053102428994d7681ee5e42f358e7c5adbdc436667b",
+      "summary": {
+        "natural": {
+          "outcomes": {
+            "correct_direct": 1,
+            "opportunity_withheld": 2,
+            "negative_withheld": 3
+          },
+          "visible_latency_ms": {
+            "n": 6,
+            "median": 628.5,
+            "range": [
+              604,
+              1655
+            ]
+          },
+          "requested_vehicle_among_eligible": {
+            "unique_correct": 1,
+            "none_shown": 2
+          },
+          "requested_vehicle_on_all": {
+            "unique_correct": 1,
+            "none_shown": 3,
+            "correct_among_several": 1,
+            "wrong_only": 1
+          },
+          "correct_ground_and_unique_correct_vehicle": 1,
+          "positive_first_requests": 3,
+          "negative_first_requests": 3
+        },
+        "lane": {
+          "outcomes": {
+            "lane_withheld": 6
+          },
+          "visible_latency_ms": {
+            "n": 6,
+            "median": 1372.0,
+            "range": [
+              991,
+              2077
+            ]
+          }
+        },
+        "override": {
+          "outcomes": {
+            "lane_withheld": 1,
+            "no_offer_to_override": 5
+          },
+          "visible_latency_ms": {
+            "n": 1,
+            "median": 583,
+            "range": [
+              583,
+              583
+            ]
+          },
+          "superseded_proposals_refused": 1
+        }
+      },
+      "rows": [
+        {
+          "id": "V01",
+          "task": "natural",
+          "eligible": true,
+          "grade": "correct_direct",
+          "ms": 1655,
+          "measured_body": "unique_correct",
+          "point": [
+            2620.267,
+            1398.771
+          ],
+          "offered_centres": [],
+          "first_choice_save_verified": true,
+          "separate_offers": 0,
+          "reference_only": null,
+          "page_errors": []
+        },
+        {
+          "id": "V02",
+          "task": "natural",
+          "eligible": true,
+          "grade": "opportunity_withheld",
+          "ms": 604,
+          "measured_body": "none_shown",
+          "point": null,
+          "offered_centres": [],
+          "first_choice_save_verified": false,
+          "separate_offers": 0,
+          "reference_only": null,
+          "page_errors": []
+        },
+        {
+          "id": "V03",
+          "task": "natural",
+          "eligible": false,
+          "grade": "negative_withheld",
+          "ms": 627,
+          "measured_body": "correct_among_several",
+          "point": null,
+          "offered_centres": [],
+          "first_choice_save_verified": false,
+          "separate_offers": 0,
+          "reference_only": null,
+          "page_errors": []
+        },
+        {
+          "id": "V04",
+          "task": "natural",
+          "eligible": true,
+          "grade": "opportunity_withheld",
+          "ms": 630,
+          "measured_body": "none_shown",
+          "point": null,
+          "offered_centres": [],
+          "first_choice_save_verified": false,
+          "separate_offers": 0,
+          "reference_only": null,
+          "page_errors": []
+        },
+        {
+          "id": "V05",
+          "task": "natural",
+          "eligible": false,
+          "grade": "negative_withheld",
+          "ms": 611,
+          "measured_body": "wrong_only",
+          "point": null,
+          "offered_centres": [],
+          "first_choice_save_verified": false,
+          "separate_offers": 0,
+          "reference_only": null,
+          "page_errors": []
+        },
+        {
+          "id": "V06",
+          "task": "natural",
+          "eligible": false,
+          "grade": "negative_withheld",
+          "ms": 681,
+          "measured_body": "none_shown",
+          "point": null,
+          "offered_centres": [],
+          "first_choice_save_verified": false,
+          "separate_offers": 0,
+          "reference_only": null,
+          "page_errors": []
+        },
+        {
+          "id": "V01",
+          "task": "lane",
+          "eligible": true,
+          "grade": "lane_withheld",
+          "ms": 1401,
+          "measured_body": "unique_correct",
+          "point": null,
+          "offered_centres": [],
+          "first_choice_save_verified": false,
+          "separate_offers": 0,
+          "reference_only": null,
+          "page_errors": []
+        },
+        {
+          "id": "V02",
+          "task": "lane",
+          "eligible": true,
+          "grade": "lane_withheld",
+          "ms": 1343,
+          "measured_body": "none_shown",
+          "point": null,
+          "offered_centres": [],
+          "first_choice_save_verified": false,
+          "separate_offers": 0,
+          "reference_only": null,
+          "page_errors": []
+        },
+        {
+          "id": "V03",
+          "task": "lane",
+          "eligible": false,
+          "grade": "lane_withheld",
+          "ms": 1086,
+          "measured_body": "correct_among_several",
+          "point": null,
+          "offered_centres": [],
+          "first_choice_save_verified": false,
+          "separate_offers": 0,
+          "reference_only": null,
+          "page_errors": []
+        },
+        {
+          "id": "V04",
+          "task": "lane",
+          "eligible": true,
+          "grade": "lane_withheld",
+          "ms": 1418,
+          "measured_body": "none_shown",
+          "point": null,
+          "offered_centres": [],
+          "first_choice_save_verified": false,
+          "separate_offers": 0,
+          "reference_only": null,
+          "page_errors": []
+        },
+        {
+          "id": "V05",
+          "task": "lane",
+          "eligible": false,
+          "grade": "lane_withheld",
+          "ms": 991,
+          "measured_body": "wrong_only",
+          "point": null,
+          "offered_centres": [],
+          "first_choice_save_verified": false,
+          "separate_offers": 0,
+          "reference_only": null,
+          "page_errors": []
+        },
+        {
+          "id": "V06",
+          "task": "lane",
+          "eligible": false,
+          "grade": "lane_withheld",
+          "ms": 2077,
+          "measured_body": "none_shown",
+          "point": null,
+          "offered_centres": [],
+          "first_choice_save_verified": false,
+          "separate_offers": 0,
+          "reference_only": null,
+          "page_errors": []
+        },
+        {
+          "id": "V01",
+          "task": "override",
+          "eligible": true,
+          "grade": "lane_withheld",
+          "ms": 583,
+          "measured_body": "unique_correct",
+          "point": null,
+          "offered_centres": [],
+          "first_choice_save_verified": false,
+          "separate_offers": 0,
+          "reference_only": null,
+          "page_errors": [],
+          "stale_offer_http_status": 409
+        },
+        {
+          "id": "V02",
+          "task": "override",
+          "eligible": true,
+          "grade": "no_offer_to_override",
+          "ms": null,
+          "measured_body": "none_shown",
+          "point": null,
+          "offered_centres": [],
+          "first_choice_save_verified": false,
+          "separate_offers": 0,
+          "reference_only": null,
+          "page_errors": []
+        },
+        {
+          "id": "V03",
+          "task": "override",
+          "eligible": false,
+          "grade": "no_offer_to_override",
+          "ms": null,
+          "measured_body": "none_shown",
+          "point": null,
+          "offered_centres": [],
+          "first_choice_save_verified": false,
+          "separate_offers": 0,
+          "reference_only": null,
+          "page_errors": []
+        },
+        {
+          "id": "V04",
+          "task": "override",
+          "eligible": true,
+          "grade": "no_offer_to_override",
+          "ms": null,
+          "measured_body": "none_shown",
+          "point": null,
+          "offered_centres": [],
+          "first_choice_save_verified": false,
+          "separate_offers": 0,
+          "reference_only": null,
+          "page_errors": []
+        },
+        {
+          "id": "V05",
+          "task": "override",
+          "eligible": false,
+          "grade": "no_offer_to_override",
+          "ms": null,
+          "measured_body": "none_shown",
+          "point": null,
+          "offered_centres": [],
+          "first_choice_save_verified": false,
+          "separate_offers": 0,
+          "reference_only": null,
+          "page_errors": []
+        },
+        {
+          "id": "V06",
+          "task": "override",
+          "eligible": false,
+          "grade": "no_offer_to_override",
+          "ms": null,
+          "measured_body": "none_shown",
+          "point": null,
+          "offered_centres": [],
+          "first_choice_save_verified": false,
+          "separate_offers": 0,
+          "reference_only": null,
+          "page_errors": []
+        }
+      ]
+    }
+  ]
+}

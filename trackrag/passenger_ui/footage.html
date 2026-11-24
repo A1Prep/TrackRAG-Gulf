@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#10292c">
+  <meta name="theme-color" content="#17253b">
   <title>Search footage · TrackRAG Gulf</title>
   <link rel="stylesheet" href="/app.css"><link rel="stylesheet" href="/footage.css">
   <script type="module" src="/footage.js"></script>
@@ -10,7 +10,7 @@
 <body>
   <header class="top"><div class="nav-inner"><span class="brand"><i aria-hidden="true" class="brand-road"></i>TrackRAG<span>Gulf</span></span><nav aria-label="Project tools"><a id="passenger-link" href="/">Passenger drop-off</a><span aria-current="page">Search footage</span></nav></div></header>
   <main class="footage-workspace">
-    <div class="intro"><h1>Search road footage</h1><p>Play or scrub a recording, then ask about what happened up to that moment.</p></div>
+    <div class="intro"><h1>Search road footage</h1><p>Watch a clip, choose a moment and ask what happened up to that point.</p></div>
     <div class="footage-desk">
       <section class="recording-card" aria-label="Recording and playback">
         <div class="scene-controls">
@@ -41,26 +41,29 @@
             <a id="use-dropoff-frame" hidden>Use this frame for drop-off</a></div>
           </details>
         </div>
+        <div id="clip-moments" class="clip-moments" role="group" aria-label="Jump to a moment in the recording" hidden></div>
       </section>
       <section class="ask-card" aria-labelledby="ask-title">
         <section id="results" aria-label="Answer and evidence" tabindex="-1" hidden></section>
-        <div class="ask-heading"><h2 id="ask-title">Ask about this clip</h2><span id="ask-time" hidden></span></div>
-        <form id="search">
-          <label for="question" class="sr-only">Your question</label>
-          <textarea id="question" rows="2" maxlength="4096" placeholder="Ask about a vehicle, a count or a moment…" required></textarea>
-          <div class="submit-line"><button class="primary" id="go">Find answer</button>
-            <button type="button" id="cancel-search" class="text-btn" hidden>Cancel search</button></div>
-          <p id="progress" role="status" aria-live="polite"></p>
-        </form>
         <div class="question-suggestions" hidden>
           <p id="hint-description">Try a question from this frame</p>
           <div id="examples" class="footage-prompts" aria-labelledby="hint-description"></div>
         </div>
-        <details id="answer-settings" class="answer-settings"><summary id="mode-label">Search settings · Recorded tracks</summary>
-          <label for="answer-mode">Answer source</label><select id="answer-mode">
-            <option value="local">Recorded tracks</option><option value="gemini">Gemini visual review</option>
-          </select><p id="mode-hint">Use recorded tracks for counts, positions and observed movement.</p>
-        </details>
+        <div class="question-panel">
+          <div class="ask-heading"><h2 id="ask-title">Ask about this clip</h2><span id="ask-time" hidden></span></div>
+          <form id="search">
+            <label for="question" class="sr-only">Your question</label>
+            <textarea id="question" rows="2" maxlength="4096" placeholder="Ask about a vehicle, a count or when something appeared…" required></textarea>
+            <div class="submit-line"><button class="primary" id="go">Find answer</button>
+              <button type="button" id="cancel-search" class="text-btn" hidden>Cancel search</button></div>
+            <p id="progress" role="status" aria-live="polite"></p>
+          </form>
+          <details id="answer-settings" class="answer-settings"><summary id="mode-label">Search settings · Recorded tracks</summary>
+            <label for="answer-mode">Answer source</label><select id="answer-mode">
+              <option value="local">Recorded tracks</option><option value="gemini">Gemini visual review</option>
+            </select><p id="mode-hint">Use recorded tracks for counts, positions and observed movement.</p>
+          </details>
+        </div>
       </section>
     </div>
   </main>

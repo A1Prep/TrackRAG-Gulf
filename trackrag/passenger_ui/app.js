@@ -163,7 +163,7 @@ function response(v, stage, bay, choices, offerBaysAfterTimeout) {
   if (photoState === "failed") return ["error", retired ? "Reopen this scene" : "Reload the road photo",
     retired ? "This session ended. Reopen the scene to start a new request." : "Open the photo again to check a location."];
   if (busy && notice) return ["working", notice, ""];
-  if (!session) return ["idle", "Choose a drop-off spot", ""];
+  if (!session) return ["idle", "Where would you like to get out?", ""];
   if (submitting) return ["working", "Sending your request…", ""];
   if (session.pending_grounding) return ["working", "Finding your spot…", v.can_request_area
     ? "You can mark the spot on the photo now or wait for a suggestion." : "You can cancel while we check the photo."];
@@ -177,7 +177,7 @@ function response(v, stage, bay, choices, offerBaysAfterTimeout) {
   if (photo.active) return ["mark", "Choose a spot on the photo", "Tap a spot, then select Check this point below the photo."];
   if (pairs.open) return ["mark", "Which vehicles do you mean?", "Choose two vehicles and a position in the photo controls."];
   if (editing === "reply") return ["clarify", "Tell me more", v.result?.clarification_question || v.turns?.filter(t=>t.role==="assistant").at(-1)?.text || ""];
-  if (editing) return ["idle", editing === "new" ? "Choose a drop-off spot" : "Edit your description", ""];
+  if (editing) return ["idle", editing === "new" ? "Where would you like to get out?" : "Edit your description", ""];
   if (choices.length) {
     if (v.bay_reference_uncertain) return ["clarify", choices.some(c=>c.extent==="interior_point_only") ? (choices.length===1 ? "Is this the spot you meant?" : "Which spot did you mean?") : choices.some(c=>c.extent==="visible_parking_surface") ? "Does a highlighted area match?" : choices.length===1 ? "Is this the bay you meant?" : "Which outlined bay did you mean?",
       v.result.clarification_question];
@@ -217,7 +217,7 @@ function response(v, stage, bay, choices, offerBaysAfterTimeout) {
   }
   if (canMark(v)) return ["clarify", currentMark(v) ? "Choose another location" : "Which spot do you mean?", v.result?.clarification_question ||
     v.turns?.filter(t => t.role === "assistant").at(-1)?.text || "Mark the location on the photo or edit your description."];
-  return ["idle", "Choose a drop-off spot", ""];
+  return ["idle", "Where would you like to get out?", ""];
 }
 function legend(v, offerMark, bay, choices) {
   const node = el("legend");

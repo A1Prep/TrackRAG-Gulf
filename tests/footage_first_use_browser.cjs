@@ -190,6 +190,25 @@ async function main() {
     assert.deepEqual(cited.flatMap(e=>e.images.map(im=>im.frame_id)),[121]);
     await page.locator(".moment-thumb").first().click();
     await page.getByText("Evidence frame · 0:12.0",{exact:true}).waitFor();
+    const draft = "Which road users are in this frame?";
+    await page.getByLabel("Your question").fill(draft);
+    let navigationSearches = 0;
+    page.on("request", req=>{
+      if (req.method()==="POST" && req.url().endsWith("/api/footage")) navigationSearches++;
+    });
+    const clipStart = page.getByRole("button",{name:"Jump to start at 0:00.0",exact:true});
+    await clipStart.click();
+    await page.waitForFunction(()=>new URL(location.href).searchParams.get("frame")==="1");
+    assert.equal(await clipStart.getAttribute("aria-pressed"),"true");
+    assert.equal(await page.locator("#ask-time").innerText(),"Up to 0:00.0");
+    assert.doesNotMatch(await page.locator("#clip-info").innerText(),/^Evidence frame/);
+    assert.equal(await page.locator("#question").inputValue(),draft);
+    assert.equal(navigationSearches,0);
+    const afterJump = answer();
+    await page.locator("#go").click();
+    const startAnswer = await (await afterJump).json();
+    assert.equal(startAnswer.question.query_frame,1);
+    assert.ok(startAnswer.evidence.every(e=>e.images.every(frame=>frame.frame_id===1)));
     await page.close();
     assert.deepEqual(errors,[]);
     if(out) fs.writeFileSync(path.join(out,"browser-observations.json"),JSON.stringify(reports,null,2));

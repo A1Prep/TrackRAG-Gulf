@@ -28,6 +28,7 @@ function formatTime(time) {
   return Math.floor(n / 600) + ":" + String(Math.floor(n / 10) % 60).padStart(2, "0") + "." + n % 10;
 }
 const scene = get("scene"), question = get("question"), mode = get("answer-mode"), results = get("results");
+const moments = get("clip-moments");
 const recordings = new Map(), bookmarks = new Map();
 let busy = true, loading = true, sequence = 0, searchRun = null, contexts = {}, subjects = {};
 let lastHints = "", highlight = null, answerMoment = null, submittedHint = null, firstMarker = null;
@@ -46,6 +47,7 @@ function syncButtons() {
 function editing(enabled) {
   busy = !enabled;
   for (const control of [scene, question, mode, get("frame-id"), get("open-frame")]) control.disabled = !enabled;
+  for (const button of moments.children) button.disabled = !enabled;
   player.setLocked(!enabled);
   syncButtons();
 }
@@ -182,6 +184,35 @@ function representative(frames,rec) {
     return (x1-x0)*(y1-y0) >= rec.width*rec.height*.002;
   }) || frames.find(f=>f.time>=threshold && contexts[f.id]?.current) || frames[0];
 }
+function renderMoments(key, frames) {
+  const last = frames.length - 1;
+  const landmarks = [[0,"Start"]];
+  if (last > 1) landmarks.push([Math.round(last/2),"Middle"]);
+  if (last > 0) landmarks.push([last,"End"]);
+  const buttons = landmarks.map(([index,label]) => {
+    const frame = frames[index], time = formatTime(frame.time);
+    const button = action("", () => {
+      if (busy || loading || scene.value !== key) return;
+      player.pause(false);
+      highlight = null;
+      reviewedFrame = null;
+      get("back-to-answer").hidden = true;
+      void player.display(index);
+    }, "clip-moment");
+    const preview = node("img");
+    preview.alt = "";
+    preview.loading = "lazy";
+    preview.src = "/api/footage-preview/"+key+"/"+frame.id;
+    button.dataset.frame = frame.id;
+    button.setAttribute("aria-label", "Jump to " + label.toLowerCase() + " at " + time);
+    const caption = node("span",undefined,"clip-moment-caption");
+    caption.append(node("span",label),node("span",time));
+    button.append(preview,caption);
+    return button;
+  });
+  moments.replaceChildren(...buttons);
+  moments.hidden = last <= 0;
+}
 function updatePlayer(writeAddress = true) {
   syncButtons();
   const row = player.displayed, rec = recordings.get(scene.value);
@@ -199,6 +230,9 @@ function updatePlayer(writeAddress = true) {
     return;
   }
   if (!writeAddress) return;
+  for (const button of moments.children) {
+    button.setAttribute("aria-pressed",String(Number(button.dataset.frame) === row.id && !player.playing));
+  }
   const visibleTrack = revealBox(row, rec);
   showFirstMarker(row);
   const back = get("return-question-frame");
@@ -231,6 +265,8 @@ async function selectScene(target = null) {
   const run = ++sequence, anchor = recordings.get(scene.value);
   loading = true;
   clearResult();
+  moments.replaceChildren();
+  moments.hidden = true;
   if (submittedHint) question.value = "";
   get("examples").replaceChildren();
   get("examples").parentElement.hidden = true;
@@ -254,7 +290,7 @@ async function selectScene(target = null) {
     const available = target === null || frames.some(row=>row.id===target);
     await player.load(frames, target === null ? featured.id : available ? target : anchor.frame_id);
     if (run !== sequence) return;
-    loading = false; updatePlayer();
+    loading = false; renderMoments(anchor.key,frames); updatePlayer();
     if (!available && player.displayed) get("progress").textContent = "Frame "+target+" is unavailable. Showing frame "+player.displayed.id+".";
   } catch(error) {
     if (run !== sequence) return;

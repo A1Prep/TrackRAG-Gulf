@@ -97,25 +97,25 @@ def _open_point(option, scene, classes, road):
     return reason == "parking"
 
 
-def _adjacent_to_divider(option, anchor, scene, classes):
-    """Require an observed tyre-to-paint contact and unobstructed parking on the other side."""
+def _divider_contacts(option, anchor, scene, classes):
+    """Yield the shared divider and the far divider for each supported tyre contact."""
     evidence = option["evidence"]
     if evidence.get("recipe") == parking_row_bays.RECIPE:
         boundaries = evidence.get("optical_dividers") or evidence.get("stud_boundaries")
     elif evidence.get("recipe") in (painted_bays.RECIPE, painted_bays.ROW_RECIPE):
         boundaries = evidence.get("painted_boundaries")
     else:
-        return False
+        return
     lines = np.asarray(boundaries, dtype=float)
     if lines.shape != (2,2,2) or not np.isfinite(lines).all():
-        return False
+        return
     if not bay_clearance.vehicle_sized(option,scene):
-        return False
+        return
     left,top,right,bottom = anchor
     point = np.asarray(option["point"])
     scale = np.array([classes.shape[1]/scene["frame"]["width"],classes.shape[0]/scene["frame"]["height"]])
     other_vehicles = [t["bbox_xyxy"] for t in scene["tracks"] if t["frame_id"]==scene["frame"]["frame_id"]]
-    for a,b in lines:
+    for index, (a, b) in enumerate(lines):
         axis = b-a
         length = np.linalg.norm(axis)
         if length<1:
@@ -143,8 +143,34 @@ def _adjacent_to_divider(option, anchor, scene, classes):
                 continue
             ground = classes[grid[:,1],grid[:,0]]
             if np.all(np.isin(ground,(10,24))) and np.mean(ground==10)>=.85:
-                return True
-    return False
+                yield lines[index], lines[1 - index]
+                break
+
+
+def _adjacent_to_divider(option, anchor, scene, classes):
+    """Require an observed tyre-to-paint contact and unobstructed parking on the other side."""
+    return next(_divider_contacts(option, anchor, scene, classes), None) is not None
+
+
+def on_requested_side(option, anchor, scene, classes, side, *, measured=False):
+    """An angled bay can project below the vehicle on the same side of the photo."""
+    left, _, right, bottom = anchor
+    x, y = option['point']
+    beyond_edge = x > right if side == 'right' else x < left
+    if beyond_edge:
+        return True
+    direction = 1 if side == 'right' else -1
+    if not measured or y <= bottom or direction * (x - (left + right) / 2) <= 0:
+        return False
+
+    margin = .06 * (right - left)
+    contacts = list(_divider_contacts(option, anchor, scene, classes))
+    for shared, far in contacts:
+        if (shared[1] - shared[0]) @ (far[1] - far[0]) < 0:
+            far = far[::-1]
+        if not np.all(direction * (far[:, 0] - shared[:, 0]) > margin):
+            return False
+    return bool(contacts)
 
 
 def _continuous_parking_to_row(option, anchor, scene, classes):

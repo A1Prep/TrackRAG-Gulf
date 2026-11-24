@@ -1,5 +1,6 @@
 // One decoded original is the authoritative frame for both the timestamp and the question.
 const get = id => document.getElementById(id);
+const leadInSeconds = 2;
 const elapsed = time => {
   const ms = Math.round(time * 1000);
   const fraction = String(ms % 1000).padStart(3,"0").replace(/0+$/,"") || "0";
@@ -20,6 +21,9 @@ export class FootagePlayer {
     document.addEventListener("visibilitychange", () => { if (document.hidden) this.pause(); });
   }
   get displayed() { return this.frames[this.index]; }
+  get canPlayLeadIn() {
+    return this.index>0 && this.displayed.time-this.frames[this.index-1].time<=leadInSeconds+1e-7;
+  }
   controls() {
     const play = get("clip-play");
     play.dataset.action = this.playing ? "pause" : "play";
@@ -103,13 +107,24 @@ export class FootagePlayer {
   }
   play(fromStart = false) {
     if (this.locked || this.pending || !this.frames.length) return;
-    clearTimeout(this.timer);
     const start=fromStart || this.index<0 || this.index===this.frames.length-1 ? 0 : this.index;
+    return this.startPlayback(start,this.frames.length-1);
+  }
+  playLeadIn() {
+    if (this.locked || this.pending || !this.canPlayLeadIn) return;
+    const earliest=this.displayed.time-leadInSeconds;
+    const start=this.frames.findIndex(row=>row.time>=earliest-1e-7);
+    return this.startPlayback(start,this.index);
+  }
+  startPlayback(start, end) {
+    clearTimeout(this.timer);
+    this.stopIndex=end;
     this.playing=true; this.origin=performance.now()-1000*this.frames[start].time; this.controls();
     if (start !== this.index) return this.display(start);
     this.schedule();
   }
   schedule() {
+    if (this.index>=this.stopIndex) { this.pause(); return; }
     const next=this.frames[this.index+1];
     if (!next) { this.pause(); return; }
     const delay=Math.max(0, this.origin+1000*next.time-performance.now());

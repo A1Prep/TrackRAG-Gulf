@@ -306,6 +306,8 @@ def select_mark(request, box):
             from . import vehicle_ground_reference
             vehicle_mark = vehicle_ground_reference.available(clean, data, packet, mark)
             if vehicle_mark is not None:
+                if vehicle_mark['provenance'].get('side_parking_policy') == vehicle_ground_reference.SIDE_PARKING_POLICY:
+                    return vehicle_mark
                 if (vehicle_mark['provenance'].get('explicit_passenger_ground')
                         and vehicle_ground_reference.mark_agrees_with_bay(clean, vehicle_mark, bay)
                         and not vehicle_ground_reference.direct_reference(clean).get('qualified')):
@@ -799,6 +801,7 @@ def choice_outcome(request, offered, bay_id):
     xs, ys = zip(*polygon)
     location = proposed(selected["center_xy"],[min(xs),min(ys),max(xs),max(ys)])
     if (source.get("tree_reference_policy") or source.get("near_vehicle_policy")
+            or source.get("side_parking_policy") == vehicle_ground_reference.SIDE_PARKING_POLICY
             or (source.get("unverified_place_name") and source.get("automatic_rear_ground"))):
         location["anchor_boxes_xyxy"] = deepcopy(offered["result"]["anchor_boxes_xyxy"])
     return {"ok":True,"request_id":request["request_id"],
@@ -857,7 +860,7 @@ def verify(request, outcome, *, requested_box=None):
         if (policy != CLEARANCE_POLICY or language is not None or source['vehicle_ground_policy'] != vehicle_ground_view.RECIPE
                 or source.get('vehicle_relation_policy') not in (None,vehicle_ground_reference.RELATION_POLICY,vehicle_ground_reference.PREVIOUS_RELATION_POLICY)
                 or source.get('local_rear_policy') not in (None, vehicle_ground_reference.LOCAL_REAR_POLICY)
-                or source.get('side_parking_policy') not in (None, vehicle_ground_reference.SIDE_PARKING_POLICY)
+                or source.get('side_parking_policy') not in (None, *vehicle_ground_reference.SIDE_PARKING_POLICIES)
                 or method not in {AUTO, MARK} or (method == MARK) != (requested_box is not None)):
             raise ValueError('The vehicle and ground must match the original request and mark.')
         expected = vehicle_ground_reference.outcome(request, photo, source['surface_evidence'],
@@ -877,7 +880,7 @@ def verify(request, outcome, *, requested_box=None):
                                                                     (near_vehicle.POLICY,near_vehicle.ORIGINAL_POLICY) else False),
                                                     measure_rear='automatic_rear_ground' in source or 'rear_reference_check' in source,
                                                     local_rear=source.get('local_rear_policy') == vehicle_ground_reference.LOCAL_REAR_POLICY,
-                                                    side_parking=source.get('side_parking_policy') == vehicle_ground_reference.SIDE_PARKING_POLICY)
+                                                    side_parking=source.get('side_parking_policy'))
     elif source.get("divider_policy") is not None:
         from . import parking_divider_choice
         if (method!=MARK or requested_box is None or policy!=CLEARANCE_POLICY

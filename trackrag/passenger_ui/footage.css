@@ -185,6 +185,7 @@
 .asked-words { font-size: .9rem; font-weight: 650; margin-top: 9px; }
 .answer-actions { display: flex; align-items: center; flex-wrap: wrap; gap: 6px 14px; }
 .answer-actions .text-btn, .moment-tile > a { font-size: .8rem; color: #086354; }
+.copy-status { font-size: .8rem; color: var(--quiet); }
 .answer-evidence { margin-top: 13px; padding-top: 11px; border-top: 1px solid var(--line); }
 .answer-evidence > h3 { font-size: .99rem; letter-spacing: -.01em; }
 .evidence-note { color: var(--quiet); font-size: .81rem; margin-top: 3px; }

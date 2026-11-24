@@ -277,6 +277,10 @@ function representative(frames,rec) {
 function updatePlayer(writeAddress = true) {
   syncButtons();
   const row = player.displayed, rec = recordings.get(scene.value);
+  const reviewing = !!row && !player.playing && reviewedFrame === row.id;
+  const leadIn = get("clip-lead-in");
+  leadIn.hidden = !reviewing || !player.canPlayLeadIn;
+  leadIn.disabled = busy || loading || player.pending;
   if (chosenVehicle && (row?.id!==answerMoment?.frame || player.playing)) forgetVehicle();
   const atQuestion = row && row.id===answerMoment?.frame && scene.value===answerMoment.key && !player.playing && !player.pending;
   for (const button of results.querySelectorAll(".vehicle-choices button")) button.disabled = busy || !atQuestion;
@@ -296,8 +300,6 @@ function updatePlayer(writeAddress = true) {
   const back = get("return-question-frame");
   if (back) back.hidden = answerMoment?.frame === row.id;
   const ctx = contexts[row.id];
-  if (player.playing || reviewedFrame !== row.id) reviewedFrame = null;
-  const reviewing = reviewedFrame === row.id;
   const info = get("clip-info");
   info.dataset.reviewing = String(reviewing);
   info.textContent = reviewing ? "Evidence frame · " + formatTime(row.time) :
@@ -434,6 +436,16 @@ function showEvidence(card, evidence, citedIds) {
   }
   card.append(frames);
 }
+function citedFrameLinks(evidence, ids, rec, current) {
+  const cited = new Set(ids);
+  const frameIds = new Set(evidence.filter(item => cited.has(item.id)).flatMap(item => item.images.map(im => im.frame_id)));
+  return player.frames.filter(frame => frame.id <= current.id && frameIds.has(frame.id)).map(frame => {
+    const url = new URL("/footage", location.origin);
+    url.searchParams.set("recording", rec.recording_id);
+    url.searchParams.set("frame", String(frame.id));
+    return formatTime(frame.time) + " · Frame " + frame.id + " · " + url.href;
+  });
+}
 function focusAnswer() {
   results.focus({preventScroll:true});
   const bounds = results.getBoundingClientRect();
@@ -469,8 +481,9 @@ function showAnswer(body, current, rec, displayWords) {
   answerMoment = {key:scene.value,frame:current.id};
   const card = node("article",undefined,"answer-card"), header = node("div",undefined,"answer-head");
   const titles = {answered:"Answer",insufficient_evidence:"More evidence needed",error:"Search unavailable"};
+  const source = {local_tracks:"Recorded tracks",gemini:"Gemini visual review",evidence_only:"Frame search"}[body.answer_source];
   header.append(node("h2",body.vehicle_choices ? "Choose a vehicle" : body.image_plane_review && status==="answered" ? "Positions in the image" : status==="answered" ? displayWords : timeOutsideWindow ? "Time outside this search" : titles[status] || (evidence.length ? "Frames found" : "No matching evidence")),
-    node("span", {local_tracks:"Recorded tracks",gemini:"Gemini visual review",evidence_only:"Frame search"}[body.answer_source], "answer-source"));
+    node("span",source,"answer-source"));
   card.append(header, node("p",recordingName(rec)+" · Searched through "+formatTime(current.time),"result-meta"));
   if (status !== "answered" || body.image_plane_review) card.append(node("p",displayWords,"asked-words"));
   if (body.image_plane_review) card.append(node("p","The camera does not measure the physical distance to the landmark.","result-meta"));
@@ -511,6 +524,24 @@ function showAnswer(body, current, rec, displayWords) {
     card.append(node("p","Selected track "+option.track_id+" · "+className(option.class_name)+" · "+option.position,"result-meta"));
   }
   const actions = node("div",undefined,"answer-actions");
+  if (status === "answered") {
+    const links = citedFrameLinks(evidence,answer.cited_evidence_ids || [],rec,current);
+    if (links.length) {
+      const copyStatus = node("span",undefined,"copy-status");
+      copyStatus.setAttribute("role","status");
+      const context = [recordingName(rec),"Searched through "+formatTime(current.time),source].filter(Boolean).join(" · ");
+      const citation = [context,displayWords,text,
+                        "Cited frames",...links].join("\n");
+      actions.append(action("Copy answer with evidence",async ()=>{
+        try {
+          await navigator.clipboard.writeText(citation);
+          copyStatus.textContent = "Copied answer and frame links.";
+        } catch {
+          copyStatus.textContent = "Couldn’t copy. You can open the cited frames below.";
+        }
+      }),copyStatus);
+    }
+  }
   if (canExtend && !body.hosted_requested && !body.vehicle_choices && status !== "answered") {
     const moment = answerMoment;
     actions.append(action("Search to end of clip", () => void searchThroughEnd(moment,words,displayWords), "subtle"));
@@ -583,6 +614,10 @@ get("back-to-answer").onclick=()=>{
     focusAnswer();
   }
 };
+get("clip-lead-in").onclick=()=>{
+  void player.playLeadIn();
+  get("clip-play").focus({preventScroll:true});
+};
 get("review-selected").onclick=()=>{
   if (!chosenVehicle || !canAsk() || player.playing || player.displayed.id!==answerMoment?.frame) return;
   const {words,displayWords,selection,imageRelation}=chosenVehicle;
@@ -597,6 +632,7 @@ get("clip-first-marker").onclick=async ()=>{
   if (!target || busy || loading || player.pending) return;
   player.pause(false);
   highlight = {key:scene.value,frame:target.id,track:target.track,rect:target.rect};
+  reviewedFrame = target.id;
   await player.display(target.index);
   if (player.displayed?.id===target.id) get("clip-play").focus({preventScroll:true});
 };

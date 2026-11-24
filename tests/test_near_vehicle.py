@@ -79,6 +79,31 @@ def test_painted_divider_requires_immediate_opposite_tyre_and_an_unobstructed_pa
     assert not near_vehicle._open_point(bay, scene, classes, np.ones_like(component))
 
 
+@pytest.mark.parametrize('side', ['left', 'right'])
+def test_projected_bay_needs_both_dividers_on_the_requested_side(side):
+    def x(value):
+        return value if side == 'right' else 200 - value
+
+    edges = sorted([x(60), x(110)])
+    anchor = [edges[0], 15, edges[1], 58]
+    scene = {'frame': {'frame_id': 3, 'width': 200, 'height': 140},
+             'tracks': [{'frame_id': 3, 'track_id': 1, 'class_name': 'car', 'bbox_xyxy': anchor}]}
+    classes = np.full((140, 200), 10, np.uint8)
+    bay = painted_stall()
+    bay['point'] = [x(94), 75]
+    bay['polygon'] = [[x(60), 60], [x(140), 60], [x(160), 88], [x(80), 88]]
+    bay['evidence']['painted_boundaries'] = [bay['polygon'][:2], list(reversed(bay['polygon'][2:]))]
+    opposite = 'left' if side == 'right' else 'right'
+    assert not near_vehicle.on_requested_side(bay, anchor, scene, classes, side)
+    assert near_vehicle.on_requested_side(bay, anchor, scene, classes, side, measured=True)
+    assert not near_vehicle.on_requested_side(bay, anchor, scene, classes, opposite, measured=True)
+    blocked = classes.copy()
+    blocked[65:70] = 13
+    assert not near_vehicle.on_requested_side(bay, anchor, scene, blocked, side, measured=True)
+    bay['evidence']['painted_boundaries'][1][0][0] = x(60)
+    assert not near_vehicle.on_requested_side(bay, anchor, scene, classes, side, measured=True)
+
+
 def identity_packet(bank, second=("white","van")):
     specs = vehicle_curb_ground.describe(bank.scene, bank.classes)
     body = {"source":bank.scene["provenance"]["image_sha256"], "recipe":view.RECIPE,
@@ -219,6 +244,32 @@ def test_beside_request_with_only_wrong_side_parking_keeps_the_reference_without
     assert result['result']['anchor_boxes_xyxy'] == [[42.,100.,60.,126.]]
     assert not result['provenance']['bay_choices']
     assert whole_bay.verify_current(request, result)['decision_reproduced']
+
+
+def test_anchored_painted_edge_can_be_selected_but_lane_and_opposite_side_cannot(bank, monkeypatch):
+    packet = identity_packet(bank)
+    right = {**bank.req, 'text': 'Drop me to the right of the black car.'}
+    left = {**right, 'text': 'Drop me to the left of the black car.'}
+    edge = [166.5, 122.5, 168.5, 124.5]
+    lane = [39, 154, 41, 156]
+    monkeypatch.setattr(near_vehicle, 'parking', lambda *args: bank.options[:1])
+    monkeypatch.setattr(reference, 'read_photo_packet', lambda *args: packet)
+    offered = whole_bay.select_mark(right, edge)
+    assert offered['provenance']['reason'] == 'single_visible_bay_at_painted_edge'
+    assert len(offered['provenance']['bay_choices']) == 1
+    assert whole_bay.verify_current(right, offered, requested_box=edge)['decision_reproduced']
+    selected = whole_bay.choice_outcome(right, offered, offered['provenance']['bay_choices'][0]['id'])
+    assert selected['result']['anchor_boxes_xyxy'] == [[42.,100.,60.,126.]]
+    assert selected['result']['destination_point_xy'] == bank.options[0]['point']
+    assert whole_bay.verify_current(right, selected)['decision_reproduced']
+    with pytest.raises(ValueError):
+        whole_bay.verify_current(right, offered, requested_box=lane)
+
+    for request, box in ((left, edge), (right, lane)):
+        withheld = whole_bay.select_mark(request, box)
+        assert withheld['result']['destination_point_xy'] is None
+        assert not withheld['provenance']['bay_choices']
+        assert whole_bay.verify_current(request, withheld, requested_box=box)['decision_reproduced']
 
 
 def test_regular_registered_route_cannot_fall_through_to_slow_language_or_generic_bays(bank, monkeypatch):

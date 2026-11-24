@@ -21,6 +21,7 @@ class FootageReview:
     frame_rate: float | None = None
     _clips: dict = field(default_factory=dict, init=False, repr=False)
     _subjects: dict = field(default_factory=dict, init=False, repr=False)
+    _moments: dict = field(default_factory=dict, init=False, repr=False)
     _clip_lock: Lock = field(default_factory=Lock, init=False, repr=False)
     _images: FootageImages = field(init=False, repr=False)
 
@@ -56,12 +57,23 @@ class FootageReview:
                 self._clips[key] = (clock, paths)
             return self._clips[key]
 
-    def timeline(self, scene):
+    def _available_clock(self, scene):
         clock, paths = self._clip(scene)
-        if scene["frame"]["frame_id"] not in paths:
+        for index, frame in enumerate(clock):
+            try:
+                size = paths[frame["id"]].stat().st_size
+            except FileNotFoundError:
+                size = 0
+            if not 0 < size <= MAX_IMAGE_BYTES:
+                return clock[:index]
+        return clock
+
+    def timeline(self, scene):
+        clock = self._available_clock(scene)
+        if not any(frame["id"] == scene["frame"]["frame_id"] for frame in clock):
             raise ValueError("The selected frame is unavailable for this recording.")
         key = (scene["frame"]["recording_id"], scene["provenance"]["tracks_sha256"],
-               scene["provenance"]["prediction_provenance_sha256"])
+               scene["provenance"]["prediction_provenance_sha256"], clock[-1]["id"])
         with self._clip_lock:
             if key not in self._subjects:
                 _, tracks, _ = self._source(scene, clock[-1]["id"])
@@ -70,6 +82,23 @@ class FootageReview:
             context = self._subjects[key]
         subjects = {fid:{k:c["current"][k] for k in ("id","class_name")} for fid,c in context.items() if c["current"]}
         return {"recording_id":key[0], "frames":clock, "subjects":subjects, "frame_context":context}
+
+    def moments(self, scene):
+        """Index the verified original prefix for browsing independently of per-frame QA."""
+        from trackrag.footage_moments import recording_moments
+
+        clock = self._available_clock(scene)
+        if not clock:
+            raise ValueError("No original frames are available to search.")
+        name = scene["frame"]["recording_id"]
+        stamp = (self.predictions / f"{name}.tracks.jsonl").stat()
+        key = (name, scene["provenance"]["tracks_sha256"], scene["provenance"]["prediction_provenance_sha256"],
+               clock[-1]["id"], stamp.st_mtime_ns, stamp.st_size)
+        with self._clip_lock:
+            if key not in self._moments:
+                _, tracks, _ = self._source(scene, clock[-1]["id"])
+                self._moments[key] = recording_moments(name, clock, tracks)
+            return self._moments[key]
 
     def preview_frame(self, scene, frame_id, if_none_match=None):
         _, paths = self._clip(scene)

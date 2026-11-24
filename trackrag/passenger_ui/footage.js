@@ -33,6 +33,7 @@ let busy = true, loading = true, sequence = 0, searchRun = null, contexts = {}, 
 let lastHints = "", highlight = null, answerMoment = null, submittedHint = null, firstMarker = null;
 let chosenVehicle = null;
 let reviewedFrame = null;
+let momentRequest = null, momentWords = "", nextMomentOffset = null;
 const player = new FootagePlayer(updatePlayer);
 const recordingName = rec => "Recording " + rec.recording_id.replace(/^video_/, "");
 const className = text => (text || "road user").toLowerCase().replace(/_/g, " ");
@@ -75,8 +76,7 @@ function submitWords(words, displayWords = words, selection = null, imageRelatio
   get("search").requestSubmit();
 }
 function examples(row, visibleTrack) {
-  const context = contexts[row.id] || {};
-  const subject = context.current || subjects[row.id];
+  const subject = visibleSubject(row) || subjects[row.id];
   const hints = [];
   if (mode.value === "gemini") {
     hints.push(["Describe the road at this moment", "What can you see on the road at " + formatTime(row.time) + "?"]);
@@ -152,16 +152,21 @@ function revealBox(row, rec) {
   box.classList.toggle("suggested-track",!active);
   box.classList.toggle("near-right",x0/rec.width > .63);
   box.classList.toggle("near-top",y0/rec.height < .10);
-  get("box-label").textContent = active ? "Track " + active.track : className(subject.class_name) + " · " + subject.id;
+  get("box-label").textContent = active && !active.subject ? "Track " + active.track :
+    className((active?.subject || subject).class_name) + " · " + (active?.track ?? subject.id);
   box.hidden = false;
   return active?.track ?? subject.id;
+}
+function visibleSubject(row) {
+  return (highlight?.key === scene.value && highlight.frame === row.id && !player.playing && highlight.subject)
+    || contexts[row.id]?.current;
 }
 function currentObservedSeconds(row,subject,frames=player.frames) {
   const first = frames.find(f=>f.id===subject.first_frame);
   return first ? row.time-first.time : 0;
 }
 function showFirstMarker(row) {
-  const marker = get("clip-first-marker"), subject = contexts[row.id]?.current;
+  const marker = get("clip-first-marker"), subject = visibleSubject(row);
   marker.hidden = true; firstMarker = null;
   if (busy || player.playing || !subject?.first_box || subject.first_frame >= row.id || player.frames.length < 2) return;
   const at = player.frames.findIndex(f=>f.id===subject.first_frame);
@@ -172,6 +177,93 @@ function showFirstMarker(row) {
   marker.style.left = "calc("+100*fraction+"% + "+(8-16*fraction)+"px)";
   firstMarker = {index:at,id:subject.first_frame,track:subject.id,rect:subject.first_box};
   marker.hidden=false;
+}
+
+function toggleMoments(open) {
+  get("moment-search").hidden = !open;
+  get("browse-moments").setAttribute("aria-expanded", String(open));
+  if (open) get("moment-query").focus();
+}
+
+async function openMoment(match, rec) {
+  if (busy || loading) {
+    get("moment-status").textContent = "Wait for the current clip to finish loading or searching.";
+    return;
+  }
+  scene.value = rec.key;
+  const opening = sequence + 1;
+  await selectScene(match.frame_id);
+  if (opening !== sequence) return;
+  if (player.displayed?.id !== match.frame_id) {
+    get("moment-status").textContent = "That frame couldn’t open. Choose another moment.";
+    return;
+  }
+  if (match.track_id !== null) {
+    highlight = {key: rec.key, frame: match.frame_id, track: match.track_id, rect: match.bbox_xyxy,
+                 subject: {id: match.track_id, class_name: match.class_name, first_frame: match.first_frame,
+                           first_box: match.first_box}};
+  }
+  reviewedFrame = match.frame_id;
+  updatePlayer();
+  toggleMoments(false);
+  get("clip-screen").scrollIntoView({block: "nearest"});
+  get("clip-play").focus({preventScroll: true});
+}
+
+function momentCard(match, rec) {
+  const busyFrame = match.track_id === null;
+  const kind = busyFrame ? match.observations + " tracked road users" : className(match.class_name);
+  const title = kind[0].toUpperCase() + kind.slice(1) + " · " + formatTime(match.timestamp_s);
+  const button = action(undefined, () => void openMoment(match, rec), "archive-moment");
+  const preview = node("span", undefined, "moment-image");
+  preview.style.aspectRatio = rec.width + " / " + rec.height;
+  const frame = node("img");
+  frame.src = "/api/footage-preview/" + match.scene + "/" + match.frame_id;
+  frame.loading = "lazy";
+  frame.alt = "";
+  preview.append(frame);
+  if (match.bbox_xyxy) {
+    const box = node("span", undefined, "moment-object");
+    if (positionBox(box, match.bbox_xyxy, rec)) preview.append(box);
+  }
+  const caption = node("span", undefined, "archive-caption");
+  caption.append(node("strong", title), node("span", recordingName(rec) + (busyFrame ? "" : " · Track " + match.track_id)));
+  button.append(preview, caption);
+  const item = node("li");
+  item.append(button);
+  return item;
+}
+
+async function findMoments(words, offset = 0) {
+  momentRequest?.abort();
+  const controller = new AbortController();
+  momentRequest = controller;
+  const status = get("moment-status"), list = get("moment-results"), more = get("more-moments");
+  more.hidden = true;
+  if (!offset) list.replaceChildren();
+  status.textContent = "Checking recorded tracks…";
+  try {
+    const query = new URLSearchParams({q: words, offset: String(offset)});
+    const body = await fetchJson("/api/footage-moments?" + query, {signal: controller.signal});
+    if (momentRequest !== controller) return;
+    const byRecording = new Map([...recordings.values()].map(rec => [rec.recording_id, rec]));
+    for (const match of body.matches) {
+      const rec = byRecording.get(match.recording_id);
+      if (rec) list.append(momentCard(match, rec));
+    }
+    const n = body.recordings_searched;
+    const count = list.children.length;
+    status.textContent = (body.total ? "Showing " + count + " of " + body.total + " matching moments" : "No matching moments")
+      + " across " + n + (n === 1 ? " recording." : " recordings.");
+    if (body.recordings_unavailable) status.textContent += " Some recordings couldn’t be checked.";
+    momentWords = words;
+    nextMomentOffset = body.next_offset;
+    more.hidden = nextMomentOffset === null;
+  } catch (error) {
+    if (momentRequest !== controller || controller.signal.aborted) return;
+    status.textContent = error.message;
+    more.hidden = !offset;
+  }
 }
 function representative(frames,rec) {
   const threshold = frames[0].time + (frames.at(-1).time-frames[0].time)*.35;
@@ -460,6 +552,7 @@ try {
     if(f.recording_id===recordingId) scene.value=f.key;
   }
   if (!scene.value) throw new Error("No original recordings are attached.");
+  get("browse-moments").hidden = !catalog.moments_available;
   const anchor = recordings.get(scene.value), requestedFrame = params.get("frame");
   const initial = requestedFrame!==null && /^\d+$/.test(requestedFrame) ? Number(requestedFrame) :
     requested?.recording_id===anchor.recording_id ? requested.frame_id : null;
@@ -469,6 +562,18 @@ try {
 } catch(error) {
   get("progress").textContent = error.message;
 }
+get("browse-moments").onclick = () => toggleMoments(get("moment-search").hidden);
+get("moment-form").addEventListener("submit", event => {
+  event.preventDefault();
+  void findMoments(get("moment-query").value.trim());
+});
+for (const example of document.querySelectorAll("[data-moment-query]")) {
+  example.onclick = () => {
+    get("moment-query").value = example.dataset.momentQuery;
+    void findMoments(example.dataset.momentQuery);
+  };
+}
+get("more-moments").onclick = () => void findMoments(momentWords, nextMomentOffset);
 scene.addEventListener("change",()=>void selectScene());
 question.addEventListener("input",()=>{submittedHint=null;syncButtons();});
 mode.addEventListener("change",()=>{submittedHint=null;clearResult();updateMode();});

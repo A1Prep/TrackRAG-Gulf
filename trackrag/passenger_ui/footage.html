@@ -10,7 +10,25 @@
 <body>
   <header class="top"><div class="nav-inner"><span class="brand"><i aria-hidden="true" class="brand-road"></i>TrackRAG<span>Gulf</span></span><nav aria-label="Project tools"><a id="passenger-link" href="/">Passenger drop-off</a><span aria-current="page">Search footage</span></nav></div></header>
   <main class="footage-workspace">
-    <div class="intro"><h1>Search road footage</h1><p>Play or scrub a recording, then ask about what happened up to that moment.</p></div>
+    <div class="intro">
+      <h1>Search road footage</h1>
+      <p>Pause to ask about a moment. <button type="button" class="text-btn" id="browse-moments" aria-expanded="false" aria-controls="moment-search" hidden>Find in all clips</button></p>
+    </div>
+    <section class="moment-search" id="moment-search" aria-label="Find across recordings" hidden>
+      <form id="moment-form" class="moment-form">
+        <label for="moment-query">What are you looking for?</label>
+        <div><input id="moment-query" type="search" required maxlength="100" placeholder="Try buses or busy traffic">
+          <button class="primary" type="submit">Find moments</button></div>
+      </form>
+      <div class="moment-examples" aria-label="Example searches">
+        <button class="subtle" type="button" data-moment-query="buses">Buses</button>
+        <button class="subtle" type="button" data-moment-query="cars">Cars</button>
+        <button class="subtle" type="button" data-moment-query="busy traffic">Busy traffic</button>
+      </div>
+      <p id="moment-status" role="status"></p>
+      <ul class="moment-results" id="moment-results" aria-label="Matching moments"></ul>
+      <button class="text-btn" type="button" id="more-moments" hidden>Show more moments</button>
+    </section>
     <div class="footage-desk">
       <section class="recording-card" aria-label="Recording and playback">
         <div class="scene-controls">

@@ -15,7 +15,7 @@ NO = re.compile(rf"(?:no|nope)(?: (?:(?:i (?:meant|mean) )?(?:a different|anothe
                 rf"not (?:that|this) {VEHICLE}))?")
 REPLACEMENT = re.compile(rf"(?:no|nope) (?:i (?:meant|mean) )?the "
                          rf"((?:white|black|red|blue|brown|green|silver|grey|gray|yellow|dark) {VEHICLE})")
-RELATIONS = {'behind':'behind it', 'beside':'beside it', 'front':'in front of it'}
+RELATIONS = {'behind':'behind it', 'beside':'beside it', 'front':'in front of it', 'near':'near it'}
 
 
 def reply_to(text, question):
@@ -131,7 +131,7 @@ def marked(request, box, confirmed, ground):
     if answer['status'] == 'proposed' or source.get('bay_choices'):
         classes = manual_surfaces.decode(surface, clean['scene']['frame'], image)
         option = vehicle_ground_reference._explicit_ground(clean['scene'], classes, tap, center)
-    relation = {'behind':'behind', 'beside':'beside', 'front':'in front of'}[info['requested_relation']]
+    relation = {'behind':'behind', 'beside':'beside', 'front':'in front of', 'near':'near'}[info['requested_relation']]
     if option:
         question = (f'I can see parking pavement at your mark. I couldn’t verify that it is {relation} the outlined vehicle. '
                     'Would you like to use your marked spot anyway?')

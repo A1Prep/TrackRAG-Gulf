@@ -285,8 +285,10 @@ def _wording_mark(clean, original_sha, mark, center):
 
 
 def select_mark(request, box):
-    from . import roadside_context, surface_stalls
+    from . import roadside_context, surface_stalls, tree_landmark
     clean, original_sha, mark, center = manual_offlane.mark_input(request,box)
+    if tree_landmark.requested(clean):
+        return tree_landmark.available(clean, box=mark)
     word_check = _wording_mark(clean, original_sha, mark, center)
     if word_check is not None:
         return word_check
@@ -780,11 +782,11 @@ def explicit_request(request):
 
 
 def choice_outcome(request, offered, bay_id):
-    from . import curb_alternatives, vehicle_ground_reference
+    from . import curb_alternatives, tree_landmark, vehicle_ground_reference
     source = offered["provenance"]
     choices = source.get("bay_choices") or []
     single_choice_reasons = {"single_visible_bay_at_painted_edge", "unverified_bay_reference",
-                             curb_alternatives.REASON, *vehicle_ground_reference.CHOICE_REASONS}
+                             curb_alternatives.REASON, tree_landmark.CHOICE, *vehicle_ground_reference.CHOICE_REASONS}
     if (source.get("method") not in {AUTO,MARK} or offered["result"]["status"] != "needs_clarification"
             or not isinstance(bay_id,str) or not choices or
             (len(choices)==1 and source.get("reason") not in single_choice_reasons)):
@@ -796,7 +798,8 @@ def choice_outcome(request, offered, bay_id):
     polygon = selected["polygon_xy"]
     xs, ys = zip(*polygon)
     location = proposed(selected["center_xy"],[min(xs),min(ys),max(xs),max(ys)])
-    if source.get("unverified_place_name") and source.get("automatic_rear_ground"):
+    if (source.get("tree_reference_policy") or source.get("near_vehicle_policy")
+            or (source.get("unverified_place_name") and source.get("automatic_rear_ground"))):
         location["anchor_boxes_xyxy"] = deepcopy(offered["result"]["anchor_boxes_xyxy"])
     return {"ok":True,"request_id":request["request_id"],
             "result":location,
@@ -837,13 +840,20 @@ def verify(request, outcome, *, requested_box=None):
         if original.get("provenance",{}).get("method") not in {MARK,AUTO}:
             raise ValueError("Only an original set of pictured bays can be selected.")
         expected = choice_outcome(request,original,source["bay_id"])
+    elif "tree_reference_policy" in source:
+        from . import tree_landmark
+        if (source["tree_reference_policy"] != tree_landmark.POLICY or policy != CLEARANCE_POLICY
+                or language is not None or method not in {AUTO, MARK} or (method == MARK) != (requested_box is not None)):
+            raise ValueError("The pictured tree and passenger mark must match their original photo and request.")
+        expected = tree_landmark.build(request, photo, source["surface_evidence"], box=requested_box,
+                                       landmarks=source.get("landmark_evidence"), stall_review=source.get("stall_review"))
     elif 'confirmed_vehicle_reply' in source:
         from . import vehicle_identity_reply
         if method != MARK or requested_box is None or policy != CLEARANCE_POLICY or language is not None:
             raise ValueError('The confirmed vehicle and exact passenger mark must belong to the current request.')
         expected = vehicle_identity_reply.marked(request, requested_box, source['confirmed_vehicle_reply'], source['ground_check'])
     elif source.get('vehicle_ground_policy') is not None:
-        from . import vehicle_ground_reference, vehicle_ground_view, vehicle_rear_marked_strip, vehicle_road_comparison
+        from . import near_vehicle, vehicle_ground_reference, vehicle_ground_view, vehicle_rear_marked_strip, vehicle_road_comparison
         if (policy != CLEARANCE_POLICY or language is not None or source['vehicle_ground_policy'] != vehicle_ground_view.RECIPE
                 or source.get('vehicle_relation_policy') not in (None,vehicle_ground_reference.RELATION_POLICY,vehicle_ground_reference.PREVIOUS_RELATION_POLICY)
                 or method not in {AUTO, MARK} or (method == MARK) != (requested_box is not None)):
@@ -861,6 +871,8 @@ def verify(request, outcome, *, requested_box=None):
                                                     tail_packet=source.get('tail_orientation_observation'),
                                                     explain_lane_mark='marked_lane_cell' in source,
                                                     road_comparisons=source.get('road_comparison_policy')==vehicle_road_comparison.POLICY,
+                                                    nearby_parking=(source['near_vehicle_policy'] if source.get('near_vehicle_policy') in
+                                                                    (near_vehicle.POLICY,near_vehicle.ORIGINAL_POLICY) else False),
                                                     measure_rear='automatic_rear_ground' in source or 'rear_reference_check' in source)
     elif source.get("divider_policy") is not None:
         from . import parking_divider_choice
@@ -991,12 +1003,17 @@ def verify(request, outcome, *, requested_box=None):
 
 
 def verify_current(request, outcome, *, requested_box=None):
-    from . import curb_alternatives, curb_point_language, local_vehicle_observations, vehicle_wording
+    from . import tree_landmark
+    if outcome.get("result", {}).get("status") == "proposed" or outcome["provenance"].get("bay_choices"):
+        tree_landmark.require_current_ground(request, outcome)
+    from . import curb_alternatives, curb_point_language, local_vehicle_observations, near_vehicle, vehicle_wording
     source = outcome["provenance"]
     if source["method"] == CHOICE:
         source = source["choice_source"]["provenance"]
     if source.get("clearance_policy") != CLEARANCE_POLICY:
         raise ValueError("Request a new check on the current photo before saving this location.")
+    if source.get("near_vehicle_policy") not in {None, near_vehicle.POLICY}:
+        raise ValueError("Check this vehicle and its nearby parking again before saving.")
     vehicle_packet = source.get("vehicle_observation")
     if local_vehicle_observations.is_local(vehicle_packet):
         photo_sha = request["scene"]["provenance"]["image_sha256"]

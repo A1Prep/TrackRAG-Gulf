@@ -5,7 +5,7 @@ import re
 import cv2
 import numpy as np
 
-from . import bay_intent, manual_offlane, manual_surfaces, single_vehicle, vehicle_curb_ground
+from . import bay_intent, manual_offlane, manual_surfaces, near_vehicle, single_vehicle, vehicle_curb_ground
 from . import vehicle_ground_view as view, vehicle_reference_qualifiers as qualifiers
 from .bay_packets import read_photo_packet
 from .parking_evidence import _authenticate, source_input
@@ -31,6 +31,9 @@ def direct_reference(request, *, expanded=True):
     if answer and answer[0] == 'accepted':
         # All visual receipts still bind the actual answer and its original same-photo dialogue.
         request = {**request, 'text':answer[1]}
+    nearby = near_vehicle.reference(request['text']) if expanded else None
+    if nearby is not None:
+        return nearby
     qualified = qualifiers.parse(request) if expanded else qualifiers.parse(request, expanded=False)
     if qualified is not None:
         return qualified
@@ -334,7 +337,7 @@ def _previously_observed_rear(request, photo, surface, earlier, specs, answers, 
 def outcome(request, photo, surface, packet, mark=None, *, qualifier_packets=None, earlier_vehicle=None, expanded=True,
             observe_sides=True, side_packet=None, load_side_packet=True, side_release=None, measure_rear=False,
             archived_identity=None, load_archived_identity=False, extended_rear=False, tail_packet=None,
-            explain_lane_mark=False, road_comparisons=False):
+            explain_lane_mark=False, road_comparisons=False, nearby_parking=False):
     from . import whole_bay
     ref = direct_reference(request, expanded=expanded)
     if ref is None:
@@ -366,6 +369,55 @@ def outcome(request, photo, surface, packet, mark=None, *, qualifier_packets=Non
                 'vehicle_observation':packet}
     if expanded:
         evidence['vehicle_relation_policy'] = RELATION_POLICY if observe_sides else PREVIOUS_RELATION_POLICY
+    if ref['relation']=='near':
+        if not nearby_parking or mark is not None:
+            return None
+        current = nearby_parking is True or nearby_parking == near_vehicle.POLICY
+        width = clean['scene']['frame']['width']
+        matches = _matching(specs,answers,ref,width)
+        uncertain = near_vehicle.uncertain_matches(specs,answers,ref,width) if current else []
+        reason = 'vehicle_reference_unmatched'
+        qualification = ''
+        if current and not matches and not uncertain:
+            possible = near_vehicle.conditional_vehicle(specs,answers,ref,width)
+            if possible:
+                spec, reading, qualification = possible
+                matches = [(spec,reading)]
+        options = []
+        if not matches:
+            requested = ' '.join(w for w in (ref['color'],ref['kind']) if w)
+            question = f'I couldn’t match a {requested} in this photo. Could you mark the spot or name another vehicle?'
+        elif len(matches)>1 or uncertain:
+            reason = 'vehicle_seen_space_withheld'
+            if uncertain:
+                matches = matches + uncertain
+                question = ('I couldn’t verify the colour or type of every outlined vehicle. '
+                            'Which one do you mean? You can tell me its side or mark the spot.')
+            else:
+                question = 'More than one outlined vehicle matches. Which one do you mean? You can tell me its side or mark the spot.'
+        else:
+            spec,reading = matches[0]
+            label = ' '.join(w for w in reading[:2] if w!='unknown').replace('suv','SUV')
+            options = near_vehicle.parking(clean,photo,surface,classes,spec)
+            if current and not options:
+                options, alternative = near_vehicle.optical_parking(clean,photo,surface,classes,spec)
+                if alternative:
+                    qualification = (qualification + ' The parking area connects to the vehicle’s row. '
+                                     'I couldn’t verify that it is the immediately adjoining bay.').strip()
+            reason = near_vehicle.REASON if options else 'vehicle_seen_space_withheld'
+            question = (f'Which of the highlighted parking locations near the outlined {label} do you mean?'
+                        if options else f'I found the outlined {label}. I couldn’t verify open parking next to it. Could you mark a different visible spot?')
+            if qualification:
+                question = (qualification+' Does a highlighted parking location by the outlined vehicle match what you meant?'
+                            if options else f'{qualification} Is that the vehicle you meant? I haven’t verified an open place near it.')
+                reason = 'unverified_bay_reference' if options else 'vehicle_side_uncertain'
+        result = whole_bay._make(clean,portable,options,surface,method=whole_bay.AUTO,reason=reason,question=question,
+                                near_vehicle_policy=near_vehicle.POLICY if current else near_vehicle.ORIGINAL_POLICY,
+                                require_choice=bool(qualification),
+                                **({'near_vehicle_detail':qualification} if qualification else {}),**evidence)
+        if matches:
+            result['result']['anchor_boxes_xyxy'] = [m[0]['box'] for m in matches]
+        return result
     observations = []
     if ref.get('qualified'):
         qualifier_packets = qualifier_packets if qualifier_packets is not None else qualifiers.packets_for(photo_sha)
@@ -543,7 +595,7 @@ def available(request, photo=None, surface=None, mark=None, *, earlier_vehicle=N
     try:
         return outcome(request, photo, surface, packet, mark, earlier_vehicle=earlier_vehicle, measure_rear=True,
                        load_archived_identity=True, extended_rear=True, tail_packet=local_vehicle_tail.get_packet(key),
-                       explain_lane_mark=True, road_comparisons=True)
+                       explain_lane_mark=True, road_comparisons=True, nearby_parking=True)
     except (KeyError, TypeError, ValueError, OSError):
         return None
 

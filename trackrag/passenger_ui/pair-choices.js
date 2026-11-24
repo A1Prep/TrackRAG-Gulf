@@ -31,12 +31,12 @@ export function drawVehicleReferences(ctx, boxes, scale, name="Vehicle") {
   }
 }
 
-// Enlarge the existing vehicle outline while keeping the surrounding pavement in view.
-export function drawLandmarkCrop(canvas, image, [left,top,right,bottom]) {
+// Keep the pictured landmark and surrounding pavement together in the driver view.
+export function drawLandmarkCrop(canvas, image, [left,top,right,bottom], label="Vehicle") {
   const width=image.naturalWidth, height=image.naturalHeight;
-  const vehicleWidth=right-left, vehicleHeight=bottom-top;
-  const cropWidth=Math.min(width, Math.max(vehicleWidth*3,vehicleHeight*3.5));
-  const cropHeight=Math.min(height, Math.max(vehicleHeight*2.6,cropWidth/1.7));
+  const boxWidth=right-left, boxHeight=bottom-top;
+  const cropWidth=Math.min(width, Math.max(boxWidth*3,boxHeight*3.5));
+  const cropHeight=Math.min(height, Math.max(boxHeight*2.6,cropWidth/1.7));
   const x=Math.max(0,Math.min(width-cropWidth,(left+right-cropWidth)/2));
   const y=Math.max(0,Math.min(height-cropHeight,bottom-.5*cropHeight));
   const scale=Math.min(1,1080/cropWidth,850/cropHeight);
@@ -46,7 +46,7 @@ export function drawLandmarkCrop(canvas, image, [left,top,right,bottom]) {
   ctx.drawImage(image,x,y,cropWidth,cropHeight,0,0,canvas.width,canvas.height);
   const sx=canvas.width/cropWidth, sy=canvas.height/cropHeight;
   const box=[(left-x)*sx,(top-y)*sy,(right-x)*sx,(bottom-y)*sy];
-  drawVehicleReferences(ctx,[box],canvas.width/Math.max(1,canvas.clientWidth));
+  drawVehicleReferences(ctx,[box],canvas.width/Math.max(1,canvas.clientWidth),label);
 }
 
 export class VehiclePairPicker {

@@ -122,6 +122,10 @@ function canMark(v) {
   return ["proposed","needs_clarification","insufficient_visual_evidence"].includes(v.state)
     || Boolean(v.landmark_error_guidance || v.parking_recovery);
 }
+function hasTreeLandmark(v) {
+  return v.reference_kind === "vegetation" && ["left","right"].includes(v.tree_landmark_side)
+    && v.result?.anchor_boxes_xyxy?.length === 1;
+}
 function suggestion(v, bay) {
   const point = v.result?.destination_point_xy;
   if (!point) return "Choose a location on the photo.";
@@ -130,6 +134,8 @@ function suggestion(v, bay) {
     return "The ring is on the parking pavement you marked. Its position relative to the vehicle is still uncertain. Save this point if it matches your intent.";
   if (v.unverified_place_name && v.rear_vehicle && bay) return "You chose the ground behind the outlined " + v.rear_vehicle + ". The " + v.unverified_place_name + " sign is still unverified. Save this location if the ring is where you meant.";
   if (v.rear_vehicle && bay) return "The gold ring marks the open ground behind the outlined " + v.rear_vehicle + ". Is this where you want to get out?";
+  if (v.near_vehicle_parking && bay) return (v.near_vehicle_detail || "The blue outline shows the vehicle.") + " The gold ring marks the location you can choose. Is this where you want to get out?";
+  if (v.reference_kind === "vegetation" && bay) return "The blue outline shows the greenery you referred to. The gold ring marks a point on the parking surface below it. Is this where you want to get out?";
   if (bay?.extent === "interior_point_only") return (bay.passenger_tap_xy ? "The blue diamond marks your tap. " : "")
     + "The gold ring shows the spot in the " + where + " of the photo. Check that it is where you meant.";
   if (bay?.extent === "visible_parking_surface") return (bay.passenger_tap_xy ? tapName(v) + " is the blue diamond. " : "")
@@ -140,7 +146,7 @@ function suggestion(v, bay) {
   if (v.selected_by === "passenger_landmarks") return "The yellow pin in the " + where + " uses the two vehicles you chose.";
   return "Check the yellow pin in the " + where + " of the photo.";
 }
-function response(v, stage, bay, choices) {
+function response(v, stage, bay, choices, offerBaysAfterTimeout) {
   if (photoState === "failed") return ["error", retired ? "Reopen this scene" : "Reload the road photo",
     retired ? "This session ended. Reopen the scene to start a new request." : "Open the photo again to check a location."];
   if (busy && notice) return ["working", notice, ""];
@@ -173,6 +179,8 @@ function response(v, stage, bay, choices) {
   if (v.state === "proposed") return ["proposed", bay?.extent === "interior_point_only" ? "Is this the spot you meant?" : bay?.extent === "visible_parking_surface" ? "Is this the parking area you meant?" : bay ? "Is this your intended bay?" : "Is this your intended location?", suggestion(v,bay)];
   if (v.state === "confirmed") {
     if (v.passenger_marked_vehicle_location) return ["confirmed","Your marked location was saved","The ring shows the exact point you chose. Its position relative to the vehicle is still uncertain."];
+    if (v.near_vehicle_detail && v.near_vehicle_parking) return ["confirmed", "Location saved", "You chose the location at the gold ring. " + v.near_vehicle_detail];
+    if (v.reference_kind === "vegetation" && bay) return ["confirmed", "Location saved", "You chose the parking location at the gold ring. The greenery you referred to is outlined in blue."];
     if (bay?.extent === "interior_point_only") return ["confirmed","Location saved","You chose the spot at the gold ring as your intended drop-off."];
     if (bay?.extent === "visible_parking_surface") return ["confirmed", "Location saved", "You chose the gold ring inside the outlined parking area as your intended drop-off."];
     if (bay) return ["confirmed", "Location saved", "You chose the outlined parking bay as your intended drop-off. The gold ring marks its centre."];
@@ -181,10 +189,14 @@ function response(v, stage, bay, choices) {
     return ["confirmed", "Location saved", "You chose the " + (v.selected_by === "passenger" ? "blue" : "yellow") + " pin" + location + " as your intended drop-off."];
   }
   if (v.state === "cancelled") return ["idle", "Request cancelled", "You can start again on this photo."];
+  if (offerBaysAfterTimeout) return ["error", "The photo check timed out",
+    "You can review the marked parking bays in this photo and choose one, or mark your own spot."];
   if (v.state === "error") return ["error", "The request couldn’t finish", v.landmark_error_guidance ||
     (v.parking_recovery ? "You can still mark the intended spot on the photo or edit your description." : "Try the description again or choose another scene.")];
   if (v.word_confirmation) return ["clarify", "Check one word", v.result.clarification_question];
+  if (v.tree_side_choices?.length) return ["clarify", "Which tree do you mean?", v.result.clarification_question];
   if (v.references_only && v.result?.anchor_boxes_xyxy?.length) {
+    if (hasTreeLandmark(v)) return ["clarify", "Tree on the " + v.tree_landmark_side, v.result.clarification_question];
     if (v.reference_kind === "vegetation") return ["clarify", "I found the roadside greenery", v.result.clarification_question];
     if (v.reference_kind === "possible_vehicle") return ["clarify", "Is this the vehicle you meant?", v.result.clarification_question];
     const vehicles = v.result.anchor_boxes_xyxy.length === 1 ? "vehicle" : "vehicles";
@@ -207,6 +219,7 @@ function legend(v, offerMark, bay, choices) {
   else if (choices.length) {
     label = choices.map((choice,i) => bayName(i,choice)).join(" / ");
     if (v.vehicle_ground_choice) label += " · Blue outline around the vehicle";
+    if (v.reference_kind === "vegetation") label += " · Roadside greenery in blue";
     if (choices.some(choice => choice.passenger_tap_xy)) label += " · Blue diamond at " + tapName(v).toLowerCase();
   }
   else if (pin) {
@@ -216,15 +229,19 @@ function legend(v, offerMark, bay, choices) {
       if (v.state === "confirmed" && bay.extent === "interior_point_only") label = "Gold ring at your spot";
       if (v.passenger_marked_vehicle_location) label = "Gold ring at your chosen spot";
       if (v.rear_vehicle) label = "Gold ring behind the vehicle · Blue outline around the " + v.rear_vehicle;
+      if (v.near_vehicle_parking) label = "Gold ring at your chosen spot · Blue outline around the vehicle";
+      if (v.reference_kind === "vegetation") label = "Gold ring at your chosen spot · Roadside greenery in blue";
       if (bay.passenger_tap_xy) label += " · Blue diamond at " + tapName(v).toLowerCase();
     } else label = destinationLabel(v);
     if (v.state === "confirmed") label += " · saved location";
     if (!bay && v.result.anchor_boxes_xyxy?.length === 2 && ["parking_model","passenger_landmarks"].includes(v.selected_by)) label += " · A and B mark the vehicles";
   } else if (!editing && !session?.voice_stage && v.area_landmarks) label = "A and B mark the vehicles";
-  if (!choices.length && currentMark(v) && !pin && !photo.active && !editing) label="Cross = your last mark · no destination pin";
+  if (!choices.length && currentMark(v) && !pin && !photo.active && !editing)
+    label=(hasTreeLandmark(v) ? "Tree on the " + v.tree_landmark_side + " in blue · " : "") + "Cross = your last mark · no destination pin";
   else if (v.references_only && v.result?.anchor_boxes_xyxy?.length && !photo.active && !editing && !session?.pending_grounding) {
     const outlines = v.result.anchor_boxes_xyxy.length === 1 ? "Blue outline shows the vehicle" : "Blue outlines show the vehicles";
-    label = v.reference_kind === "vegetation" ? "Roadside greenery in blue · Drop-off point unverified" :
+    label = hasTreeLandmark(v) ? "Tree on the " + v.tree_landmark_side + " in blue · Drop-off point unverified" :
+      v.reference_kind === "vegetation" ? "Roadside greenery in blue · Drop-off point unverified" :
       v.reference_kind === "possible_vehicle" ? "Blue outline shows a possible match · Drop-off point unverified" :
       outlines + " you described · Drop-off point unverified";
   }
@@ -240,7 +257,15 @@ function render() {
   const marking = photo.active || pairs.open, locked = busy || micOn || Boolean(submitting), prior = lastUser(v.turns);
   const formOpen = !pending && !marking && (editing || Boolean(stage) || !v.state || v.state === "idle" || (v.state === "error" && !canMark(v)));
   const decision = opened && !pending && !formOpen && !marking && !terminal(v.state);
-  const [kind, heading, status] = response(v, stage, bay, choices);
+  const yesNo = decision && v.state === "needs_clarification" && (v.word_confirmation || v.reference_kind === "possible_vehicle");
+  const treeSideChoice = decision && v.state === "needs_clarification" && v.tree_side_choices?.length === 2;
+  const verifiedTimeout = v.state === "error" && v.error?.code === "timeout" && Boolean(v.landmark_error_guidance);
+  const showTreeParking = decision && v.tree_parking_available && v.reference_kind === "vegetation" && prior?.text;
+  const showOtherBays = decision && !yesNo && !treeSideChoice && !choices.length && current?.parking_areas_indexed
+    && (verifiedTimeout || ["needs_clarification","insufficient_visual_evidence"].includes(v.state))
+    && prior && prior.text !== "Find the marked parking bays.";
+  const offerBaysAfterTimeout = Boolean(verifiedTimeout && showOtherBays);
+  const [kind, heading, status] = response(v, stage, bay, choices, offerBaysAfterTimeout);
   el("destination-panel").dataset.state = kind;
   text(el("destination-title"), heading); text(el("status"), status);
   const observed=bay?.observed_landmarks || (choices.length===1 ? choices[0].observed_landmarks : null);
@@ -311,31 +336,35 @@ function render() {
   el("confirm").hidden = !(decision && v.state === "proposed" && v.proposal_id);
   el("confirm").disabled = locked || !ready;
   text(el("confirm"),bay && !bay.extent ? "Save this bay" : "Save this location");
-  const yesNo = decision && v.state === "needs_clarification" && (v.word_confirmation || v.reference_kind === "possible_vehicle");
   for (const id of ["answer-yes", "answer-no"]) {
     el(id).hidden = !yesNo;
     el(id).disabled = locked || !ready;
   }
+  for (const side of ["left","right"]) {
+    const button = el("tree-" + side);
+    button.hidden = !treeSideChoice || !v.tree_side_choices.includes(side);
+    button.disabled = locked || !ready;
+  }
   text(el("answer-yes"), v.word_confirmation ? "Yes, I meant a car" : "Yes, that vehicle");
   el("draw").hidden = !(decision && canMark(v));
   el("draw").disabled = locked || !ready;
-  const driverLandmark = decision && v.references_only && !v.reference_kind && !yesNo &&
+  const driverLandmark = decision && v.references_only && (!v.reference_kind || hasTreeLandmark(v)) && !yesNo &&
     v.result?.anchor_boxes_xyxy?.length === 1 && !choices.length && Boolean(firstRequest);
   el("show-driver").hidden = !driverLandmark;
   el("show-driver").disabled = locked || !ready;
+  text(el("show-driver"), hasTreeLandmark(v) ? "Show this tree to the driver" : "Show this vehicle to the driver");
   const driverDialog=el("driver-landmark");
   if (driverDialog.open && (!driverLandmark || !ready || driverDialog.dataset.session !== session?.session ||
       driverDialog.dataset.revision !== String(session?.revision)))
     driverDialog.close();
   el("take-over-area").hidden = !pending;
   el("take-over-area").disabled = locked || !ready || !v.can_request_area;
-  el("draw").className = v.state === "proposed" || choices.length || yesNo ? "subtle" : "primary";
+  el("draw").className = v.state === "proposed" || choices.length || yesNo || treeSideChoice || offerBaysAfterTimeout || showTreeParking ? "subtle" : "primary";
   text(el("draw"), choices.length ? "Mark a different spot" : v.state === "proposed" ? "Change spot on photo" : "Mark my spot on the photo");
-  const showOtherBays = decision && !yesNo && !choices.length && current?.parking_areas_indexed
-    && ["needs_clarification","insufficient_visual_evidence"].includes(v.state)
-    && prior && prior.text !== "Find the marked parking bays.";
-  el("other-bays").hidden = !showOtherBays;
+  el("other-bays").hidden = !(showTreeParking || showOtherBays);
+  text(el("other-bays"), showTreeParking ? "Show parking near this tree" : "See marked bays in this photo");
   el("other-bays").disabled = locked || !ready;
+  el("other-bays").className = offerBaysAfterTimeout || showTreeParking ? "primary" : "subtle";
   el("edit-words").hidden = !decision || !prior;
   el("edit-words").disabled = locked;
   text(el("edit-words"), v.state === "needs_clarification" || v.state === "insufficient_visual_evidence" ? "Answer in words" : "Edit description");
@@ -456,10 +485,12 @@ function paint() {
   if (pairs.open) { pairs.paint(ctx,scale); return; }
   const choices = visibleChoices(v), bay = offeredBay(v,canvas.width,canvas.height);
   if (v.area_landmarks && (photo.active || (!choices.length && !bay))) drawChosenLandmarks(ctx,v.area_landmarks.boxes_xyxy,scale);
-  if ((v.references_only || v.vehicle_ground_choice) && v.state==="needs_clarification" && !bay)
-    drawVehicleReferences(ctx,v.result?.anchor_boxes_xyxy,scale,v.reference_kind==="vegetation" ? "Greenery" : "Vehicle");
-  if (v.rear_vehicle && bay && ["proposed","confirmed"].includes(v.state) && !photo.active)
+  if ((v.references_only || v.vehicle_ground_choice || v.reference_kind === "vegetation") && v.state==="needs_clarification" && !bay)
+    drawVehicleReferences(ctx,v.result?.anchor_boxes_xyxy,scale,hasTreeLandmark(v) ? "Tree" : v.reference_kind==="vegetation" ? "Greenery" : "Vehicle");
+  if ((v.rear_vehicle || v.near_vehicle_parking) && bay && ["proposed","confirmed"].includes(v.state) && !photo.active)
     drawVehicleReferences(ctx,v.result.anchor_boxes_xyxy,scale,"Vehicle");
+  if (v.reference_kind === "vegetation" && bay && ["proposed","confirmed"].includes(v.state) && !photo.active)
+    drawVehicleReferences(ctx,v.result.anchor_boxes_xyxy,scale,hasTreeLandmark(v) ? "Tree" : "Greenery");
   if (photo.active) {
     if (!photo.box) { photo.drawCursor(ctx,scale); return; }
     drawDestination(ctx, boxCentre(photo.box), photo.dragged ? photo.box : null, "mark_preview", scale);
@@ -499,8 +530,11 @@ el("show-driver").onclick = () => {
   if (!el("driver-detail").hidden) text(el("driver-detail"),"Passenger’s clarification · "+last.text);
   dialog.dataset.session=session.session;
   dialog.dataset.revision=String(session.revision);
+  const landmark = hasTreeLandmark(v) ? "tree" : "vehicle";
+  el("driver-photo").setAttribute("aria-label", "Road photo with the " + landmark + " outlined in blue");
+  text(el("driver-note"), "Look for the " + landmark + " outlined in blue. The passenger’s exact drop-off point is still open.");
   dialog.showModal();
-  drawLandmarkCrop(el("driver-photo"),image,v.result.anchor_boxes_xyxy[0]);
+  drawLandmarkCrop(el("driver-photo"),image,v.result.anchor_boxes_xyxy[0],landmark==="tree" ? "Tree" : "Vehicle");
 };
 function selectBay(id) {
   if (busy || !visibleChoices(session?.view || {}).some(bay => bay.id === id)) return;
@@ -621,7 +655,8 @@ el("use-example").onclick = () => {
   input.value = photoExample;
   render(); input.focus();
 };
-for (const [id, answer] of [["answer-yes", "Yes"], ["answer-no", "No"]]) {
+for (const [id, answer] of [["answer-yes", "Yes"], ["answer-no", "No"],
+  ["tree-left", "The tree on the left"], ["tree-right", "The tree on the right"]]) {
   const button = el(id);
   button.onclick = () => {
     if (button.hidden || button.disabled) return;
@@ -638,7 +673,11 @@ el("show-parking-areas").onclick = () => {
 el("other-bays").onclick = () => {
   const button = el("other-bays");
   if (button.hidden || button.disabled) return;
-  startEditing("replace","Find the marked parking bays.");
+  const view = session.view;
+  const words = view.tree_parking_available && view.reference_kind === "vegetation"
+    ? lastUser(view.turns)?.text : "Find the marked parking bays.";
+  if (!words) return;
+  startEditing("replace",words);
   sendInstruction();
 };
 el("submit-pointing").onclick = () => sendInstruction("vehicles");

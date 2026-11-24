@@ -12,6 +12,7 @@ export class FootagePlayer {
     this.frames = []; this.cache = new Map(); this.index = -1; this.ticket = 0;
     this.locked = false; this.playing = false; this.pending = false; this.timer = null;
     get("clip-play").onclick = () => this.playing ? this.pause() : this.play();
+    get("clip-restart").onclick = () => this.play(true);
     get("clip-seek").oninput = () => {
       this.pause(false);
       void this.display(Number(get("clip-seek").value));
@@ -20,8 +21,11 @@ export class FootagePlayer {
   }
   get displayed() { return this.frames[this.index]; }
   controls() {
-    get("clip-play").textContent = this.playing ? "Pause" : this.index === this.frames.length-1 && this.index > 0 ? "Replay" : "Play";
-    get("clip-play").disabled = this.locked || this.frames.length < 2 || (this.pending && !this.playing);
+    const play = get("clip-play");
+    play.dataset.action = this.playing ? "pause" : "play";
+    play.textContent = this.playing ? "Pause" : this.index === this.frames.length-1 && this.index > 0 ? "Replay" : "Play";
+    play.disabled = this.locked || this.frames.length < 2 || (this.pending && !this.playing);
+    get("clip-restart").disabled = this.locked || this.frames.length < 2 || this.pending;
     get("clip-seek").disabled = this.locked || this.frames.length < 2;
   }
   setLocked(value) {
@@ -97,11 +101,13 @@ export class FootagePlayer {
     }
     if (ticket===this.ticket && this.playing) this.schedule();
   }
-  play() {
+  play(fromStart = false) {
     if (this.locked || this.pending || !this.frames.length) return;
-    const start=this.index<0 || this.index===this.frames.length-1 ? 0 : this.index;
+    clearTimeout(this.timer);
+    const start=fromStart || this.index<0 || this.index===this.frames.length-1 ? 0 : this.index;
     this.playing=true; this.origin=performance.now()-1000*this.frames[start].time; this.controls();
-    if (start!==this.index) void this.display(start); else this.schedule();
+    if (start !== this.index) return this.display(start);
+    this.schedule();
   }
   schedule() {
     const next=this.frames[this.index+1];

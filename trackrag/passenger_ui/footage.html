@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#10292c">
   <title>Search footage · TrackRAG Gulf</title>
   <link rel="stylesheet" href="/app.css"><link rel="stylesheet" href="/footage.css">
   <script type="module" src="/footage.js"></script>
@@ -9,11 +10,12 @@
 <body>
   <header class="top"><div class="nav-inner"><span class="brand"><i aria-hidden="true" class="brand-road"></i>TrackRAG<span>Gulf</span></span><nav aria-label="Project tools"><a id="passenger-link" href="/">Passenger drop-off</a><span aria-current="page">Search footage</span></nav></div></header>
   <main class="footage-workspace">
-    <div class="footage-intro"><div><h1>Search road footage</h1><p>Ask about a moment in a drive, then check the frames behind the answer.</p></div>
-      <div class="clip-selector"><label for="scene">Choose a recording</label><select id="scene" required></select></div>
-    </div>
+    <div class="intro"><h1>Search road footage</h1><p>Play or scrub a recording, then ask about what happened up to that moment.</p></div>
     <div class="footage-desk">
       <section class="recording-card" aria-label="Recording and playback">
+        <div class="scene-controls">
+          <label for="scene">Road recording</label><select id="scene" required></select>
+        </div>
         <div class="clip-player" role="group" aria-label="Original recording playback">
           <div id="clip-screen" class="clip-screen"><img id="clip-frame" alt="Original road footage" hidden>
             <div id="evidence-box" hidden><span id="box-label"></span></div>
@@ -30,8 +32,9 @@
           <button type="button" class="subtle" id="review-selected">Ask Gemini about this vehicle</button>
           <button type="button" class="text-btn" id="change-vehicle">Choose another vehicle</button>
         </div>
-        <div class="clip-foot"><div><strong id="clip-name">Original recording</strong><p id="clip-info"></p>
-          <button type="button" id="back-to-answer" class="text-btn" hidden>Back to answer</button></div>
+        <div class="clip-foot"><p id="clip-info"></p>
+          <button type="button" id="back-to-answer" class="subtle" hidden>Back to answer</button>
+          <button type="button" id="clip-restart" class="text-btn" disabled>Play from start</button>
           <details id="frame-picker" class="frame-picker" hidden><summary>Go to frame</summary>
             <div><label for="frame-id">Frame number</label><input id="frame-id" type="number" min="0" step="1">
             <button type="button" id="open-frame" class="subtle">Open frame</button></div>
@@ -39,23 +42,25 @@
         </div>
       </section>
       <section class="ask-card" aria-labelledby="ask-title">
-        <div class="ask-heading"><h2 id="ask-title">Ask about this clip</h2><span id="ask-time"></span></div>
-        <p id="hint-description">Select a question about the displayed moment.</p>
-        <div id="examples" class="footage-prompts" aria-label="Suggested questions"></div>
+        <section id="results" aria-label="Answer and evidence" tabindex="-1" hidden></section>
+        <div class="ask-heading"><h2 id="ask-title">Ask about this clip</h2><span id="ask-time" hidden></span></div>
         <form id="search">
-          <label for="question">Your question</label>
-          <textarea id="question" rows="2" maxlength="4096" placeholder="Ask about a road user or an earlier moment…" required></textarea>
-          <details id="answer-settings" class="answer-settings"><summary id="mode-label">Search settings · Recorded tracks</summary>
-            <label for="answer-mode">Answer source</label><select id="answer-mode">
-              <option value="local">Recorded tracks</option><option value="gemini">Gemini visual review</option>
-            </select><p id="mode-hint">Use recorded tracks for counts, positions and observed movement.</p>
-          </details>
-          <div class="submit-line"><button class="primary" id="go">Search footage</button>
+          <label for="question" class="sr-only">Your question</label>
+          <textarea id="question" rows="2" maxlength="4096" placeholder="Ask about a vehicle, a count or a moment…" required></textarea>
+          <div class="submit-line"><button class="primary" id="go">Find answer</button>
             <button type="button" id="cancel-search" class="text-btn" hidden>Cancel search</button></div>
+          <p id="progress" role="status" aria-live="polite"></p>
         </form>
+        <div class="question-suggestions" hidden>
+          <p id="hint-description">Try a question from this frame</p>
+          <div id="examples" class="footage-prompts" aria-labelledby="hint-description"></div>
+        </div>
+        <details id="answer-settings" class="answer-settings"><summary id="mode-label">Search settings · Recorded tracks</summary>
+          <label for="answer-mode">Answer source</label><select id="answer-mode">
+            <option value="local">Recorded tracks</option><option value="gemini">Gemini visual review</option>
+          </select><p id="mode-hint">Use recorded tracks for counts, positions and observed movement.</p>
+        </details>
       </section>
     </div>
-    <p id="progress" role="status" aria-live="polite"></p>
-    <section id="results" aria-label="Answer and evidence" tabindex="-1"></section>
   </main>
 </body></html>

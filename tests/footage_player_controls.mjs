@@ -4,10 +4,10 @@ import {readFileSync} from "node:fs";
 // Isolate asynchronous image decoding so a late camera frame can be delivered deterministically.
 const nodes=new Map(), deferred=new Map();
 function makeNode(id) {
-  return {id,style:{},hidden:false,removeAttribute(){},setAttribute(name,value){this[name]=value;},
+  return {id,style:{},dataset:{},hidden:false,removeAttribute(){},setAttribute(name,value){this[name]=value;},
     replaceWith(other){nodes.set("clip-frame",other);}};
 }
-for(const id of ["clip-frame","clip-message","clip-position","clip-screen","clip-play","clip-seek"]) nodes.set(id,makeNode(id));
+for(const id of ["clip-frame","clip-message","clip-position","clip-screen","clip-play","clip-restart","clip-seek"]) nodes.set(id,makeNode(id));
 globalThis.document={getElementById:id=>nodes.get(id),addEventListener(){}};
 globalThis.Image=class {
   constructor(){Object.assign(this,makeNode(""));}
@@ -31,6 +31,10 @@ await player.display(1);
 assert.match(nodes.get("clip-position").textContent,/Frame 6 · 0:00\.15/);
 assert.match(nodes.get("clip-seek")["aria-valuetext"],/0.15 seconds/);
 assert.match(nodes.get("clip-frame").src,/\/6$/);
+await nodes.get("clip-restart").onclick();
+assert.equal(player.displayed.id,3);
+assert.equal(player.playing,true);
+player.pause();
 const stale=hold(41);player.reset("first",{width:100,height:50});
 const first=player.load([{id:41,time:0}],41);
 player.reset("second",{width:100,height:50});

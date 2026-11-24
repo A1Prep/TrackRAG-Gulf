@@ -57,6 +57,7 @@ function forgetVehicle() {
 }
 function clearResult() {
   results.replaceChildren();
+  results.hidden = true;
   answerMoment = null;
   highlight = null;
   forgetVehicle();
@@ -109,7 +110,9 @@ function refreshHints(row, visibleTrack) {
     btn.title = words;
     return btn;
   });
-  get("examples").replaceChildren(...buttons);
+  const list = get("examples");
+  list.replaceChildren(...buttons);
+  list.parentElement.hidden = !buttons.length;
 }
 function positionBox(element,rect,rec) {
   if (!Array.isArray(rect) || rect.length!==4 || !rect.every(Number.isFinite)) return false;
@@ -191,9 +194,9 @@ function updatePlayer(writeAddress = true) {
   const back = get("return-question-frame");
   if (back) back.hidden = answerMoment?.frame === row.id;
   const ctx = contexts[row.id];
-  get("clip-info").textContent = (player.frames.length ? formatTime(player.frames.at(-1).time) + " · " + player.frames.length + " frames" : "") +
-    (ctx ? " · " + ctx.count + (ctx.count === 1 ? " road user" : " road users") + " tracked here" : "");
-  get("ask-time").textContent = formatTime(row.time);
+  get("clip-info").textContent = ctx ? ctx.count + (ctx.count === 1 ? " tracked road user" : " tracked road users") : "Original recording";
+  get("ask-time").hidden = false;
+  get("ask-time").textContent = "Up to " + formatTime(row.time);
   get("frame-id").value = String(row.id);
   refreshHints(row, visibleTrack);
   syncButtons();
@@ -214,12 +217,12 @@ async function selectScene(target = null) {
   clearResult();
   if (submittedHint) question.value = "";
   get("examples").replaceChildren();
+  get("examples").parentElement.hidden = true;
   lastHints = ""; subjects = {}; contexts = {};
   submittedHint=null; firstMarker=null; get("clip-first-marker").hidden=true;
-  get("ask-time").textContent = "";
+  get("ask-time").hidden = true;
   get("passenger-link").href = "/";
   get("passenger-link").removeAttribute("title");
-  get("clip-name").textContent = "EMT " + recordingName(anchor).toLowerCase();
   get("clip-info").textContent = "";
   get("frame-picker").open = false;
   player.reset(scene.value,anchor);
@@ -258,7 +261,7 @@ function updateMode() {
   get("mode-label").textContent = "Search settings · " + (hosted ? "Gemini visual review" : "Recorded tracks");
   get("mode-hint").textContent = hosted ? "Gemini receives privacy-processed evidence frames to describe visible details." :
     "Use recorded tracks for counts, positions and observed movement.";
-  get("hint-description").textContent = hosted ? "Choose a question to send for visual review." : "Choose a question to search the frames seen so far.";
+  get("hint-description").textContent = hosted ? "Try a visual question" : "Try a question from this frame";
   if (player.displayed) updatePlayer();
 }
 async function inspect(frame, track = null, rect = null) {
@@ -272,7 +275,7 @@ async function inspect(frame, track = null, rect = null) {
   if (player.displayed?.id === frame) {
     get("back-to-answer").hidden = false;
     const back = get("return-question-frame");
-    if (back) back.hidden = false;
+    if (back) back.hidden = frame === answerMoment?.frame;
     get("clip-screen").scrollIntoView({block:"center"});
     get("clip-play").focus({preventScroll:true});
   }
@@ -282,9 +285,7 @@ function addEvidence(card, item, cited) {
   const interval = item.interval, track = interval.track_id;
   const times = player.frames.filter(f => f.id===interval.start_frame || f.id===interval.end_frame);
   const time = times.map(f => formatTime(f.time)).join(" – ");
-  group.append(node("h3", (track == null ? "Scene evidence" : "Track " + track) + (time ? " · "+time : "")));
-  group.append(node("p", (cited ? "Cited in the answer. " : "Retrieved for comparison. ") +
-    "Select a frame to see that moment in the player.", "evidence-note"));
+  group.append(node("h4", (track == null ? "Road scene" : "Track " + track) + (time ? " · "+time : "")));
   const strip = node("div", undefined, "moment-strip");
   for (const im of item.images) {
     const moment = player.frames.find(f => f.id === im.frame_id);
@@ -300,12 +301,36 @@ function addEvidence(card, item, cited) {
     if (track!=null && positionBox(marker,im.bbox_xyxy,rec)) panel.append(marker);
     thumb.append(panel,node("span",label,"evidence-caption"));
     const tile = node("div",undefined,"moment-tile");
-    const full = node("a","Open evidence image");
+    const full = node("a","Open image");
     full.href = im.url; full.target = "_blank"; full.rel = "noopener";
     full.setAttribute("aria-label","Open evidence image for frame "+im.frame_id+" in a new tab");
     tile.append(thumb,full); strip.append(tile);
   }
   group.append(strip); card.append(group);
+}
+function showEvidence(card, evidence, citedIds) {
+  if (!evidence.length) return;
+  const cited = new Set(citedIds);
+  const primary = evidence.filter(item => cited.has(item.id));
+  const secondary = evidence.filter(item => !cited.has(item.id));
+  const frames = node("section", undefined, "answer-evidence");
+  frames.append(node("h3", primary.length ? "Frames behind the answer" : "Matching frames"),
+    node("p", "Select a frame to open it in the player.", "evidence-note"));
+  for (const item of primary.length ? primary : secondary) addEvidence(frames, item, true);
+  if (primary.length && secondary.length) {
+    const more = node("details", undefined, "other-evidence");
+    more.append(node("summary", "Other matching frames"));
+    for (const item of secondary) addEvidence(more, item, false);
+    frames.append(more);
+  }
+  card.append(frames);
+}
+function focusAnswer() {
+  results.focus({preventScroll:true});
+  const bounds = results.getBoundingClientRect();
+  if (matchMedia("(max-width: 850px)").matches || bounds.top < 12 || bounds.top + Math.min(bounds.height, 128) > innerHeight) {
+    results.scrollIntoView({block:"start"});
+  }
 }
 function showAnswer(body, current, rec, displayWords) {
   const {answer,evidence} = body, status = answer.answer_status;
@@ -364,10 +389,10 @@ function showAnswer(body, current, rec, displayWords) {
     actions.append(back);
   }
   card.append(actions);
-  for (const item of evidence) addEvidence(card,item, (answer.cited_evidence_ids || []).includes(item.id));
+  showEvidence(card,evidence,answer.cited_evidence_ids || []);
   results.replaceChildren(card);
-  results.focus({preventScroll:true});
-  results.scrollIntoView({block:"start"});
+  results.hidden = false;
+  focusAnswer();
 }
 editing(false);
 try {
@@ -398,14 +423,13 @@ try {
   get("progress").textContent = error.message;
 }
 scene.addEventListener("change",()=>void selectScene());
-question.addEventListener("input",()=>{submittedHint=null;clearResult();syncButtons();});
+question.addEventListener("input",()=>{submittedHint=null;syncButtons();});
 mode.addEventListener("change",()=>{submittedHint=null;clearResult();updateMode();});
 get("back-to-answer").onclick=async ()=>{
   if (answerMoment) await inspect(answerMoment.frame,chosenVehicle?.option.track_id,chosenVehicle?.option.bbox_xyxy);
   if (answerMoment) {
     get("back-to-answer").hidden=true;
-    results.focus({preventScroll:true});
-    results.scrollIntoView({block:"start"});
+    focusAnswer();
   }
 };
 get("review-selected").onclick=()=>{

@@ -16,6 +16,7 @@ const pairs = new VehiclePairPicker(render);
 const photo = new PhotoTools(canvas, el("photo-viewport"), render, () => busy || photoState !== "ready", pairs);
 const terminal = state => ["confirmed", "cancelled"].includes(state);
 const lastUser = turns => (turns || []).filter(t => t.role === "user").at(-1);
+const manualMarkRequest = "Check my marked parking spot.";
 function text(node, value = "") {
   if (node.textContent !== value) node.textContent = value;
 }
@@ -150,7 +151,7 @@ function response(v, stage, bay, choices, offerBaysAfterTimeout) {
   if (photoState === "failed") return ["error", retired ? "Reopen this scene" : "Reload the road photo",
     retired ? "This session ended. Reopen the scene to start a new request." : "Open the photo again to check a location."];
   if (busy && notice) return ["working", notice, ""];
-  if (!session) return ["idle", "Where would you like to get out?", ""];
+  if (!session) return ["idle", "Choose a drop-off spot", ""];
   if (submitting) return ["working", "Sending your request…", ""];
   if (session.pending_grounding) return ["working", "Finding your spot…", v.can_request_area
     ? "You can mark the spot on the photo now or wait for a suggestion." : "You can cancel while we check the photo."];
@@ -161,13 +162,13 @@ function response(v, stage, bay, choices, offerBaysAfterTimeout) {
   }
   if (stage === "review") return ["review", "Did I hear you correctly?", "Edit any words below, then send the transcript."];
   if (stage === "failed" || stage === "recording") return ["clarify", "Try voice again or type", "Your description can also be sent as text."];
-  if (photo.active) return ["mark", "Choose a spot on the photo", "Mark where you want to get out. For a painted parking bay, tap inside the bay you mean."];
+  if (photo.active) return ["mark", "Choose a spot on the photo", "Tap a spot, then select Check this point below the photo."];
   if (pairs.open) return ["mark", "Which vehicles do you mean?", "Choose two vehicles and a position in the photo controls."];
   if (editing === "reply") return ["clarify", "Tell me more", v.result?.clarification_question || v.turns?.filter(t=>t.role==="assistant").at(-1)?.text || ""];
-  if (editing) return ["idle", editing === "new" ? "Where would you like to get out?" : "Edit your description", ""];
+  if (editing) return ["idle", editing === "new" ? "Choose a drop-off spot" : "Edit your description", ""];
   if (choices.length) {
     if (v.bay_reference_uncertain) return ["clarify", choices.some(c=>c.extent==="interior_point_only") ? (choices.length===1 ? "Is this the spot you meant?" : "Which spot did you mean?") : choices.some(c=>c.extent==="visible_parking_surface") ? "Does a highlighted area match?" : choices.length===1 ? "Is this the bay you meant?" : "Which outlined bay did you mean?",
-      v.result.clarification_question + " You can also mark another spot."];
+      v.result.clarification_question];
     if (choices.some(c=>c.extent==="interior_point_only")) return ["clarify","Which spot did you mean?",v.result.clarification_question];
     if (choices.some(c=>c.extent==="visible_parking_surface")) return ["clarify","Which highlighted area do you mean?",
       "Choose a label to review its pin, or mark a different spot on the photo."];
@@ -204,7 +205,7 @@ function response(v, stage, bay, choices, offerBaysAfterTimeout) {
   }
   if (canMark(v)) return ["clarify", currentMark(v) ? "Choose another location" : "Which spot do you mean?", v.result?.clarification_question ||
     v.turns?.filter(t => t.role === "assistant").at(-1)?.text || "Mark the location on the photo or edit your description."];
-  return ["idle", "Where would you like to get out?", ""];
+  return ["idle", "Choose a drop-off spot", ""];
 }
 function legend(v, offerMark, bay, choices) {
   const node = el("legend");
@@ -277,9 +278,7 @@ function render() {
   const shownWords = pending?.text ?? prior?.text;
   const firstRequest = v.turns?.find(turn => turn.role === "user");
   const showOriginal = !formOpen && !pending && firstRequest && prior && firstRequest !== prior && firstRequest.text !== shownWords;
-  el("original-request").hidden = !showOriginal;
-  if (showOriginal) text(el("original-request").querySelector("p"), firstRequest.text);
-  el("last-request").hidden = !shownWords || formOpen;
+  el("last-request").hidden = !shownWords || formOpen || shownWords === manualMarkRequest;
   if (shownWords) {
     text(el("last-request").querySelector("span"), pending?.mode === "voice" ? "Your reviewed transcript" : showOriginal ? "Your last reply" : "Your words");
     text(el("last-request").querySelector("p"), shownWords);
@@ -325,7 +324,8 @@ function render() {
   if (!morePhotoOptions.hidden && pairWords && !morePhotoOptions.dataset.pair) morePhotoOptions.open = true;
   if (morePhotoOptions.hidden || (!pairWords && morePhotoOptions.dataset.pair)) morePhotoOptions.open = false;
   morePhotoOptions.dataset.pair = pairWords && !morePhotoOptions.hidden ? "yes" : "";
-  el("submit-area").hidden = !formOpen || !v.can_request_area || !input.value.trim() || Boolean(stage && stage !== "review");
+  const canStartWithMark = !stage && (!editing || editing === "new") && (!v.state || v.state === "idle" || terminal(v.state));
+  el("submit-area").hidden = !formOpen || !v.can_request_area || (!canStartWithMark && !input.value.trim()) || Boolean(stage && stage !== "review");
   el("submit-area").disabled = input.disabled || !ready || staleEdit();
   el("discard-edit").hidden = !formOpen || (!editing && !stage) || micOn;
   el("discard-edit").disabled = locked;
@@ -352,6 +352,7 @@ function render() {
     v.result?.anchor_boxes_xyxy?.length === 1 && !choices.length && Boolean(firstRequest);
   el("show-driver").hidden = !driverLandmark;
   el("show-driver").disabled = locked || !ready;
+  el("show-driver").className = showTreeParking ? "text-btn" : "primary";
   text(el("show-driver"), hasTreeLandmark(v) ? "Show this tree to the driver" : "Show this vehicle to the driver");
   const driverDialog=el("driver-landmark");
   if (driverDialog.open && (!driverLandmark || !ready || driverDialog.dataset.session !== session?.session ||
@@ -359,15 +360,15 @@ function render() {
     driverDialog.close();
   el("take-over-area").hidden = !pending;
   el("take-over-area").disabled = locked || !ready || !v.can_request_area;
-  el("draw").className = v.state === "proposed" || choices.length || yesNo || treeSideChoice || offerBaysAfterTimeout || showTreeParking ? "subtle" : "primary";
-  text(el("draw"), choices.length ? "Mark a different spot" : v.state === "proposed" ? "Change spot on photo" : "Mark my spot on the photo");
+  el("draw").className = v.state === "proposed" || choices.length || yesNo || treeSideChoice || offerBaysAfterTimeout || showTreeParking || driverLandmark ? "subtle" : "primary";
+  text(el("draw"), choices.length ? "Mark a different spot" : v.state === "proposed" ? "Change spot on photo" : "Mark on photo");
   el("other-bays").hidden = !(showTreeParking || showOtherBays);
   text(el("other-bays"), showTreeParking ? "Show parking near this tree" : "See marked bays in this photo");
   el("other-bays").disabled = locked || !ready;
   el("other-bays").className = offerBaysAfterTimeout || showTreeParking ? "primary" : "subtle";
   el("edit-words").hidden = !decision || !prior;
   el("edit-words").disabled = locked;
-  text(el("edit-words"), v.state === "needs_clarification" || v.state === "insufficient_visual_evidence" ? "Answer in words" : "Edit description");
+  text(el("edit-words"), v.state === "needs_clarification" || v.state === "insufficient_visual_evidence" ? "Reply in words" : "Edit description");
   el("choose-pair").hidden = !decision || (v.pair_choices?.length || 0) < 2;
   el("choose-pair").disabled = locked || !ready;
   el("new-request").hidden = !terminal(v.state) || formOpen;
@@ -392,6 +393,10 @@ function render() {
   }
   for (const button of buttons.children) button.disabled = locked;
   el("bay-tools").hidden = !choices.length;
+  const reviewPhoto = el("review-photo");
+  reviewPhoto.hidden = !ready || formOpen || marking || pending || locked ||
+    !(choices.length || v.result?.destination_point_xy || (v.references_only && v.result?.anchor_boxes_xyxy?.length));
+  text(reviewPhoto, choices.length ? "View choices on the photo" : "View the highlight on the photo");
   canvas.classList.toggle("choosing-bay",choices.length > 0);
   paint();
   watchGrounding();
@@ -520,6 +525,7 @@ el("pan").onclick = () => {
   if (!photo.panning) photo.focusPhoto();
 };
 el("draw").onclick = () => photo.begin(session?.view.result?.destination_point_xy);
+el("review-photo").onclick = () => photo.focusPhoto();
 el("show-driver").onclick = () => {
   const dialog=el("driver-landmark"), v=session?.view;
   if (el("show-driver").hidden || el("show-driver").disabled || dialog.open) return;
@@ -636,8 +642,11 @@ async function sendAutomatic(payload) {
   }
 }
 function sendInstruction(choice = "automatic") {
-  if (busy || submitting || session?.pending_grounding || !input.value.trim() || photoState !== "ready" || staleEdit()) return;
-  const payload = {text:input.value.trim(), mode:session.voice_stage === "review" ? "voice" : "typed"};
+  if (busy || submitting || session?.pending_grounding || photoState !== "ready" || staleEdit()) return;
+  const markingFromPhoto = choice === "area" && !el("submit-area").hidden && !el("submit-area").disabled;
+  const words = input.value.trim() || (markingFromPhoto ? manualMarkRequest : "");
+  if (!words) return;
+  const payload = {text:words, mode:session.voice_stage === "review" ? "voice" : "typed"};
   if (editing === "replace") payload.replaces_request_id = editTarget;
   if (choice === "vehicles") payload.point_to_vehicles = true;
   if (choice === "area") payload.mark_on_photo = true;
@@ -653,7 +662,7 @@ el("form").onsubmit = e => { e.preventDefault(); sendInstruction(); };
 el("use-example").onclick = () => {
   if (!photoExample || el("use-example").disabled || input.value.trim()) return;
   input.value = photoExample;
-  render(); input.focus();
+  sendInstruction();
 };
 for (const [id, answer] of [["answer-yes", "Yes"], ["answer-no", "No"],
   ["tree-left", "The tree on the left"], ["tree-right", "The tree on the right"]]) {
@@ -740,7 +749,11 @@ async function stopMic() {
     }
   }, "Transcribing your voice…", () => input.focus());
 }
-el("mic").onclick = () => { if (capture) stopMic(); else perform(startMic,"Opening the microphone…"); };
+el("mic").onclick = async () => {
+  if (capture) return stopMic();
+  await perform(startMic,"Opening the microphone…");
+  if (failure && !el("voice-options").hidden) el("voice-options").open = true;
+};
 navigator.mediaDevices?.addEventListener?.("devicechange", refreshMicrophones);
 window.addEventListener("pagehide", () => {
   stopPolling();

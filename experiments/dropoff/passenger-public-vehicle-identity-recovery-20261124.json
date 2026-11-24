@@ -160,6 +160,17 @@
     "meaning": "A source-specific archival crop may support a single passenger-selectable vehicle identity when stronger routes had no match. A coarse truck reading does not establish a pickup subtype. No point or automatic ground approval is derived from the archive.",
     "new_model_calls": 0
   },
-  "public_local_8b_compatibility": "The wider 8B selector can cover 236 additional boxes. These public scenes omit the required local surface registration, source-wide detector configuration/checkpoint digest and raw prediction file manifest used by the separate local-only reader. Use the existing neutral public or locally re-provenanced releases for any new inference. Each fresh 8B vehicle would need two actual model views; 472 views would cover just the 236 extra boxes if the primary gallery readings are retained. Neither coverage nor model agreement measures true identity accuracy on unfamiliar drives.",
-  "ui_followup": "The old 35B-only branch repeated the supplied vehicle colour. For the pictured black truck the new path names the visible body and asks the passenger to confirm its identity. A Yes retains the outlined track without a point and asks for vehicle-accessible ground; a No clears it."
+  "public_local_8b_compatibility": "The public gallery omits the registered detector/surface provenance required by the separate local-only crop collector. All 81 original RF-DETR native detection sidecars were recovered. All 81 BoT-SORT replays reproduced the released tracks exactly. A separate source-bound public measurement can therefore reuse the detections and existing authenticated surfaces. The 236 extra eligible boxes alone require 472 new 8B crop views if the existing 35B results are retained. These new reads have not been run.",
+  "ui_followup": "The old 35B-only branch repeated the supplied vehicle colour. For the pictured black truck the new path names the visible body and asks the passenger to confirm its identity. A Yes retains the outlined track without a point and asks for vehicle-accessible ground; a No clears it.",
+  "historical_task1_replay": {
+    "originals": 81,
+    "matching_sources": 81,
+    "matching_track_rows": 2349,
+    "raw_native_rows": 13324,
+    "model_config_sha256": "acf21b53525d5729541aaedbf961a9c634399fa881fc7976909d48575c5e870d",
+    "detector_checkpoint_sha256": "9ea96f1050f1d3375c5cf0f25a086cd5bb9c6a290fa5fdc009804d9a31181d95",
+    "tracker": "ultralytics_botsort",
+    "aggregate_source_and_result_sha256": "498acf4272a8262c4a0cd23d2b542fab6d1c10bf2335c9960debade98e0b0648",
+    "procedure": "Each original JPEG and its real saved native detections were checked against the source, dimensions and pinned Task 1 configuration and weights. BoT-SORT ran again on the saved detections and original picture. Every field of every ordered track row, including its coordinates and ID, matched the gallery JSON exactly. No detector or language model inference was needed."
+  }
 }

@@ -1,0 +1,1808 @@
+{
+  "study": "Passenger requests near a vehicle or a tree",
+  "date": "2026-11-24",
+  "base_release": "8059193",
+  "setting": "Prepared Windows presentation application, Microsoft Edge, original UAE driver-view photos, local Whisper for the previously submitted voice example. Timing starts when the user submits and ends when the browser displays the decision. Transcription is timed separately. Native image coordinates are pixels from the top left.",
+  "scope": "The reported cases and their diagnostic comparisons were used in development. The last four requests and their separate road taps came from four other existing gallery drives. An independent AI image reviewer froze their references before the final app run. This study counts on-screen results, not permission to stop or vehicle clearance.",
+  "reference_seals": {
+    "diagnostic_vehicle": {
+      "requests_sha256": "c16f3d3100f60594842d6704ecbeeea133e8b8522d525aea35fc51779f164e5b",
+      "taps_sha256": "191c995aa63644c16136b59a70c69ce8a31d6f16bb0869ab9aca1979ef1a2118",
+      "sources_sha256": "62810412ad1b5518bebd82499e3097d3ef20ba93c3056d0aa9dea549421a5770",
+      "reference_sha256": "35fbb948b0a03825f522035f54ae0eff712681b21f72fca65ec655f89f54077a",
+      "sealed_utc": "2026-11-24T04:22:38.170723+00:00"
+    },
+    "diagnostic_tree": {
+      "frozen_utc": "2026-11-24T04:29:31.476084+00:00",
+      "reference_sha256": "ae1b17c26548cadf8078637ac97b6116ac8554272acb59e632045e63f08453bb",
+      "requests_sha256": "1bce6c80be68af3cb69fd2e51b71b68ad36558bfaddb804b0b2694a76a670a20",
+      "taps_sha256": "82cd2fb65ad76d145eb5eca0437e1be6bb4a72846c04936f53606610a33c811b"
+    },
+    "transfer": {
+      "frozen_utc": "2026-11-24T04:36:01.506590+00:00",
+      "requests_sha256": "a2f07c4bb576b172c33c773dbdf8345e8a571e7a108942df730fe907708e5d07",
+      "taps_sha256": "c83be8753354e2bdb04d4f75678747e9531dcbee3de465e697a74759def801c2",
+      "sources_sha256": "b908360cc77823512ddeaa8ec4f3d1effca33209bcc2ec1fb096960f535f4419",
+      "reference_sha256": "3aedfecf48847915ada5f47c04f61d46fd0d1d271cc7906feb784b66f81cd57a"
+    },
+    "additional_tree": {
+      "frozen_utc": "2026-11-24T04:49:55.907843+00:00",
+      "sha256": {
+        "requests": "554186c20d1acb31f181de76fbe718170a61726fe0009435a655fcdadbb0c746",
+        "taps": "f0fc55aeb5831f961a0972089b76288ab05ce64598a936720bca098d82505fec",
+        "sources": "5943ad7010187666008ea856ed24a3c08a4c5a8fe9bacd961c699b4a26bc81d6",
+        "reference": "aaa6147772c244ccb380c6e037380dd20e4c4607f5b3e11b11b5a2c6ea77342e"
+      }
+    }
+  },
+  "browser_files": {
+    "voice-release": {
+      "observation_sha256": "860c261a1b95cdfa5fcbf56e692eb3e2eb7ab66f7b50097443045ea0c1626e7f",
+      "session_cases": 1
+    },
+    "vehicle-release": {
+      "observation_sha256": "7e5298a8494a539efc27e9e34107323e401eafcc401725bca511de68938d832b",
+      "session_cases": 15
+    },
+    "tree-release": {
+      "observation_sha256": "318dacb66ec6ad89d9a8f59c7d06a7f2c28e1da4ee11622f078374811e214c4d",
+      "session_cases": 13
+    },
+    "transfer-after-guard": {
+      "observation_sha256": "270108a67eaef936d99828b73db5dc311c8d86a057ee4c7184cf47cc8e2d0187",
+      "session_cases": 8
+    },
+    "tree-extra": {
+      "observation_sha256": "8e4dbdef47a50881e9747ffc07431393352e756107811181c049ec08d2ef4f8f",
+      "session_cases": 4
+    }
+  },
+  "previous_version": [
+    {
+      "id": "reported-black-car",
+      "grounding_and_screen_ms": 15556,
+      "state": "error",
+      "offered_locations": 0,
+      "landmark_outlines": 0,
+      "followup_outline": null
+    },
+    {
+      "id": "case-b",
+      "grounding_and_screen_ms": 4791,
+      "state": "needs_clarification",
+      "offered_locations": 5,
+      "landmark_outlines": 0,
+      "followup_outline": null
+    },
+    {
+      "id": "case-c",
+      "grounding_and_screen_ms": 15499,
+      "state": "error",
+      "offered_locations": 0,
+      "landmark_outlines": 0,
+      "followup_outline": null
+    },
+    {
+      "id": "case-d",
+      "grounding_and_screen_ms": 609,
+      "state": "needs_clarification",
+      "offered_locations": 0,
+      "landmark_outlines": 1,
+      "followup_outline": null
+    },
+    {
+      "id": "case-e",
+      "grounding_and_screen_ms": 1623,
+      "state": "needs_clarification",
+      "offered_locations": 0,
+      "landmark_outlines": 4,
+      "followup_outline": null
+    },
+    {
+      "id": "original-tree-conversation",
+      "grounding_and_screen_ms": 682,
+      "state": "needs_clarification",
+      "offered_locations": 0,
+      "landmark_outlines": 1,
+      "followup_outline": 0
+    },
+    {
+      "id": "tree-a2",
+      "grounding_and_screen_ms": 5219,
+      "state": "needs_clarification",
+      "offered_locations": 0,
+      "landmark_outlines": 0,
+      "followup_outline": null
+    },
+    {
+      "id": "tree-b",
+      "grounding_and_screen_ms": 4714,
+      "state": "needs_clarification",
+      "offered_locations": 0,
+      "landmark_outlines": 0,
+      "followup_outline": null
+    },
+    {
+      "id": "tree-c",
+      "grounding_and_screen_ms": 5219,
+      "state": "needs_clarification",
+      "offered_locations": 0,
+      "landmark_outlines": 0,
+      "followup_outline": null
+    }
+  ],
+  "actual_voice": [
+    {
+      "id": "reported-voice",
+      "gallery_key": "d76c4ca006dc9332d37ec750",
+      "original_photo_sha256": "3ed141c2c0b33754e2ee822ec16e1c1ed1c713dbd29b16e94acde77b950c6af8",
+      "request": "Do you drop me off near the black car?",
+      "grounding_and_screen_ms": 1155,
+      "first": {
+        "state": "needs_clarification",
+        "screen_heading": "Which spot did you mean?",
+        "message": "Which of the highlighted parking locations near the outlined black SUV do you mean? You can also mark another spot.",
+        "anchor_boxes_xyxy": [
+          [
+            1674.2913208007812,
+            863.478515625,
+            2214.2156982421875,
+            1221.9521484375
+          ]
+        ],
+        "choices": [
+          {
+            "point_xy": [
+              1507.767,
+              1141.397
+            ],
+            "extent": "interior_point_only"
+          },
+          {
+            "point_xy": [
+              1969.731,
+              1299.478
+            ],
+            "extent": "painted_bay"
+          }
+        ],
+        "save_action_visible": false
+      },
+      "transcription_browser_ms": 2673,
+      "reviewed_transcript": "Do you drop me off near the black car?",
+      "after_selection": {
+        "state": "proposed",
+        "screen_heading": "Is this the spot you meant?",
+        "message": "The blue outline shows the vehicle. The gold ring marks the location you can choose. Is this where you want to get out?",
+        "anchor_boxes_xyxy": [
+          [
+            1674.2913208007812,
+            863.478515625,
+            2214.2156982421875,
+            1221.9521484375
+          ]
+        ],
+        "destination_point_xy": [
+          1507.767,
+          1141.397
+        ],
+        "choices": [],
+        "save_action_visible": true
+      },
+      "after_save": {
+        "state": "confirmed",
+        "screen_heading": "Location saved",
+        "message": "You chose the spot at the gold ring as your intended drop-off.",
+        "anchor_boxes_xyxy": [
+          [
+            1674.2913208007812,
+            863.478515625,
+            2214.2156982421875,
+            1221.9521484375
+          ]
+        ],
+        "destination_point_xy": [
+          1507.767,
+          1141.397
+        ],
+        "choices": [],
+        "save_action_visible": false
+      }
+    }
+  ],
+  "diagnostic_vehicle": [
+    {
+      "id": "case-a",
+      "gallery_key": "d76c4ca006dc9332d37ec750",
+      "original_photo_sha256": "3ed141c2c0b33754e2ee822ec16e1c1ed1c713dbd29b16e94acde77b950c6af8",
+      "request": "Do you drop me off near the black car?",
+      "grounding_and_screen_ms": 674,
+      "first": {
+        "state": "needs_clarification",
+        "screen_heading": "Which spot did you mean?",
+        "message": "Which of the highlighted parking locations near the outlined black SUV do you mean? You can also mark another spot.",
+        "anchor_boxes_xyxy": [
+          [
+            1674.2913208007812,
+            863.478515625,
+            2214.2156982421875,
+            1221.9521484375
+          ]
+        ],
+        "choices": [
+          {
+            "point_xy": [
+              1507.767,
+              1141.397
+            ],
+            "extent": "interior_point_only"
+          },
+          {
+            "point_xy": [
+              1969.731,
+              1299.478
+            ],
+            "extent": "painted_bay"
+          }
+        ],
+        "save_action_visible": false
+      },
+      "after_selection": {
+        "state": "proposed",
+        "screen_heading": "Is this the spot you meant?",
+        "message": "The blue outline shows the vehicle. The gold ring marks the location you can choose. Is this where you want to get out?",
+        "anchor_boxes_xyxy": [
+          [
+            1674.2913208007812,
+            863.478515625,
+            2214.2156982421875,
+            1221.9521484375
+          ]
+        ],
+        "destination_point_xy": [
+          1507.767,
+          1141.397
+        ],
+        "choices": [],
+        "save_action_visible": true
+      },
+      "after_save": {
+        "state": "confirmed",
+        "screen_heading": "Location saved",
+        "message": "You chose the spot at the gold ring as your intended drop-off.",
+        "anchor_boxes_xyxy": [
+          [
+            1674.2913208007812,
+            863.478515625,
+            2214.2156982421875,
+            1221.9521484375
+          ]
+        ],
+        "destination_point_xy": [
+          1507.767,
+          1141.397
+        ],
+        "choices": [],
+        "save_action_visible": false
+      }
+    },
+    {
+      "id": "case-b",
+      "gallery_key": "52f0e45da5785838fa68fdf8",
+      "original_photo_sha256": "df4b13c0f17548cf0a1911efdbe0f94b00c1299c97a07a6c3783beab3ce2b416",
+      "request": "Can I get out near the grey SUV on the right?",
+      "grounding_and_screen_ms": 2161,
+      "first": {
+        "state": "needs_clarification",
+        "screen_heading": "Does a highlighted area match?",
+        "message": "You said grey. The photo check reads this SUV as silver. Does a highlighted parking location by the outlined vehicle match what you meant? You can also mark another spot.",
+        "anchor_boxes_xyxy": [
+          [
+            2182.6519775390625,
+            1325.1101989746094,
+            2817.0084228515625,
+            1719.9248657226562
+          ]
+        ],
+        "choices": [
+          {
+            "point_xy": [
+              2830.712,
+              1849.781
+            ],
+            "extent": "visible_parking_surface"
+          }
+        ],
+        "save_action_visible": false,
+        "vehicle_qualification": "You said grey. The photo check reads this SUV as silver."
+      },
+      "after_selection": {
+        "state": "proposed",
+        "screen_heading": "Is this the parking area you meant?",
+        "message": "You said grey. The photo check reads this SUV as silver. The gold ring marks the location you can choose. Is this where you want to get out?",
+        "anchor_boxes_xyxy": [
+          [
+            2182.6519775390625,
+            1325.1101989746094,
+            2817.0084228515625,
+            1719.9248657226562
+          ]
+        ],
+        "destination_point_xy": [
+          2830.712,
+          1849.781
+        ],
+        "choices": [],
+        "save_action_visible": true,
+        "vehicle_qualification": "You said grey. The photo check reads this SUV as silver."
+      },
+      "after_save": {
+        "state": "confirmed",
+        "screen_heading": "Location saved",
+        "message": "You chose the location at the gold ring. You said grey. The photo check reads this SUV as silver.",
+        "anchor_boxes_xyxy": [
+          [
+            2182.6519775390625,
+            1325.1101989746094,
+            2817.0084228515625,
+            1719.9248657226562
+          ]
+        ],
+        "destination_point_xy": [
+          2830.712,
+          1849.781
+        ],
+        "choices": [],
+        "save_action_visible": false,
+        "vehicle_qualification": "You said grey. The photo check reads this SUV as silver."
+      }
+    },
+    {
+      "id": "case-c",
+      "gallery_key": "1c76dbd43f328dd840ae84fb",
+      "original_photo_sha256": "c4d59cba6fe27a9aa31b27decb3b5c5dd40945ef3e8a89865f325b307e577411",
+      "request": "Could you let me out by the silver sedan parked on the right?",
+      "grounding_and_screen_ms": 1697,
+      "first": {
+        "state": "needs_clarification",
+        "screen_heading": "Is this the bay you meant?",
+        "message": "The silver sedan crosses the image centre. I couldn’t verify your description of the right-hand side. The parking area connects to the vehicle’s row. I couldn’t verify that it is the immediately adjoining bay. Does a highlighted parking location by the outlined vehicle match what you meant? You can also mark another spot.",
+        "anchor_boxes_xyxy": [
+          [
+            1505.7085418701172,
+            1212.2456268310546,
+            1930.207434082031,
+            1353.8622985839843
+          ]
+        ],
+        "choices": [
+          {
+            "point_xy": [
+              2251.986,
+              1443.435
+            ],
+            "extent": "painted_bay"
+          }
+        ],
+        "save_action_visible": false,
+        "vehicle_qualification": "The silver sedan crosses the image centre. I couldn’t verify your description of the right-hand side. The parking area connects to the vehicle’s row. I couldn’t verify that it is the immediately adjoining bay."
+      },
+      "after_selection": {
+        "state": "proposed",
+        "screen_heading": "Is this your intended bay?",
+        "message": "The silver sedan crosses the image centre. I couldn’t verify your description of the right-hand side. The parking area connects to the vehicle’s row. I couldn’t verify that it is the immediately adjoining bay. The gold ring marks the location you can choose. Is this where you want to get out?",
+        "anchor_boxes_xyxy": [
+          [
+            1505.7085418701172,
+            1212.2456268310546,
+            1930.207434082031,
+            1353.8622985839843
+          ]
+        ],
+        "destination_point_xy": [
+          2251.986,
+          1443.435
+        ],
+        "choices": [],
+        "save_action_visible": true,
+        "vehicle_qualification": "The silver sedan crosses the image centre. I couldn’t verify your description of the right-hand side. The parking area connects to the vehicle’s row. I couldn’t verify that it is the immediately adjoining bay."
+      },
+      "after_save": {
+        "state": "confirmed",
+        "screen_heading": "Location saved",
+        "message": "You chose the location at the gold ring. The silver sedan crosses the image centre. I couldn’t verify your description of the right-hand side. The parking area connects to the vehicle’s row. I couldn’t verify that it is the immediately adjoining bay.",
+        "anchor_boxes_xyxy": [
+          [
+            1505.7085418701172,
+            1212.2456268310546,
+            1930.207434082031,
+            1353.8622985839843
+          ]
+        ],
+        "destination_point_xy": [
+          2251.986,
+          1443.435
+        ],
+        "choices": [],
+        "save_action_visible": false,
+        "vehicle_qualification": "The silver sedan crosses the image centre. I couldn’t verify your description of the right-hand side. The parking area connects to the vehicle’s row. I couldn’t verify that it is the immediately adjoining bay."
+      }
+    },
+    {
+      "id": "case-d",
+      "gallery_key": "c672b77a41f8d88b896d6b7c",
+      "original_photo_sha256": "202205cffd48d91136e16515caedfae8af8603875a94a92538ef2fe45b914ee9",
+      "request": "Can you drop me off near the blue car up ahead?",
+      "grounding_and_screen_ms": 1122,
+      "first": {
+        "state": "needs_clarification",
+        "screen_heading": "I found the vehicle you described",
+        "message": "I found the outlined blue SUV. I couldn’t verify open parking next to it. Could you mark a different visible spot?",
+        "anchor_boxes_xyxy": [
+          [
+            2209.169091796875,
+            895.907730102539,
+            3066.8412963867186,
+            1388.6124298095701
+          ]
+        ],
+        "choices": [],
+        "save_action_visible": false
+      }
+    },
+    {
+      "id": "case-e",
+      "gallery_key": "bf40c29e33429535149a53fb",
+      "original_photo_sha256": "b5f7f2a659e8f7815ff0d2ed09969a0908f68d56d2ca942a756b8926357f33a8",
+      "request": "Could you stop near the dark car?",
+      "grounding_and_screen_ms": 1626,
+      "first": {
+        "state": "needs_clarification",
+        "screen_heading": "I found the vehicles you described",
+        "message": "I can outline the vehicles matching the basic description. I couldn’t verify dark. Could you identify it another way or mark the ground beside it?",
+        "anchor_boxes_xyxy": [
+          [
+            352.29103088378906,
+            471.25323486328125,
+            812.4406127929688,
+            731.2079315185547
+          ],
+          [
+            782.1864624023438,
+            489.0417938232422,
+            945.5353088378906,
+            616.5414276123047
+          ],
+          [
+            1252.47216796875,
+            496.0227355957031,
+            1417.4250183105469,
+            609.4870147705078
+          ],
+          [
+            1223.2846069335938,
+            440.74530029296875,
+            1346.6899108886719,
+            573.0502166748047
+          ]
+        ],
+        "choices": [],
+        "save_action_visible": false
+      }
+    }
+  ],
+  "diagnostic_tree": [
+    {
+      "id": "original-tree-conversation",
+      "gallery_key": "756e2ffbeea1089635d61a6c",
+      "original_photo_sha256": "516cafa94d1ec06f646787428396f2e956e6afbb66c7c1fcae61c6951bd2eacf",
+      "request": "could you drop me next to that tree",
+      "grounding_and_screen_ms": 621,
+      "first": {
+        "state": "needs_clarification",
+        "screen_heading": "Which tree do you mean?",
+        "message": "The blue outlines show roadside greenery on both sides of the photo. Which tree did you mean?",
+        "anchor_boxes_xyxy": [
+          [
+            0,
+            1088.54,
+            1254.4,
+            1865.45
+          ],
+          [
+            1838.93,
+            431.15,
+            2538.67,
+            1938.02
+          ]
+        ],
+        "choices": [],
+        "save_action_visible": false,
+        "offered_sides": [
+          "left",
+          "right"
+        ],
+        "reference_kind": "vegetation"
+      },
+      "followup": "could you drop me next to the tree on the right",
+      "quick_button_used": false,
+      "followup_screen_ms": 638,
+      "after_reply": {
+        "state": "needs_clarification",
+        "screen_heading": "Tree on the right",
+        "message": "The blue outline shows the tree-shaped canopy on the right. I couldn’t verify an open pull-in beside it. You can mark an off-lane spot.",
+        "anchor_boxes_xyxy": [
+          [
+            1838.93,
+            431.15,
+            2538.67,
+            1938.02
+          ]
+        ],
+        "choices": [],
+        "save_action_visible": false,
+        "tree_side": "right",
+        "reference_kind": "vegetation"
+      },
+      "subsequent_taps": [
+        {
+          "state": "needs_clarification",
+          "screen_heading": "Tree on the right",
+          "message": "The blue outline shows the tree-shaped canopy on the right. Your mark is on vegetation or a planted area. I can’t verify a place for the car there. You can mark a different off-lane spot.",
+          "anchor_boxes_xyxy": [
+            [
+              1838.93,
+              431.15,
+              2538.67,
+              1938.02
+            ]
+          ],
+          "choices": [],
+          "save_action_visible": false,
+          "tree_side": "right",
+          "reference_kind": "vegetation"
+        },
+        {
+          "state": "needs_clarification",
+          "screen_heading": "Tree on the right",
+          "message": "The blue outline shows the tree-shaped canopy on the right. The surface check reads your mark as pedestrian paving. It may also serve a driveway, but I can’t verify a stopping place at that point. You can mark a different off-lane spot.",
+          "anchor_boxes_xyxy": [
+            [
+              1838.93,
+              431.15,
+              2538.67,
+              1938.02
+            ]
+          ],
+          "choices": [],
+          "save_action_visible": false,
+          "tree_side": "right",
+          "reference_kind": "vegetation"
+        }
+      ]
+    },
+    {
+      "id": "quick-right-tree",
+      "gallery_key": "756e2ffbeea1089635d61a6c",
+      "original_photo_sha256": "516cafa94d1ec06f646787428396f2e956e6afbb66c7c1fcae61c6951bd2eacf",
+      "request": "could you drop me next to that tree",
+      "grounding_and_screen_ms": 599,
+      "first": {
+        "state": "needs_clarification",
+        "screen_heading": "Which tree do you mean?",
+        "message": "The blue outlines show roadside greenery on both sides of the photo. Which tree did you mean?",
+        "anchor_boxes_xyxy": [
+          [
+            0,
+            1088.54,
+            1254.4,
+            1865.45
+          ],
+          [
+            1838.93,
+            431.15,
+            2538.67,
+            1938.02
+          ]
+        ],
+        "choices": [],
+        "save_action_visible": false,
+        "offered_sides": [
+          "left",
+          "right"
+        ],
+        "reference_kind": "vegetation"
+      },
+      "followup": "The tree on the right",
+      "quick_button_used": true,
+      "followup_screen_ms": 579,
+      "after_reply": {
+        "state": "needs_clarification",
+        "screen_heading": "Tree on the right",
+        "message": "The blue outline shows the tree-shaped canopy on the right. I couldn’t verify an open pull-in beside it. You can mark an off-lane spot.",
+        "anchor_boxes_xyxy": [
+          [
+            1838.93,
+            431.15,
+            2538.67,
+            1938.02
+          ]
+        ],
+        "choices": [],
+        "save_action_visible": false,
+        "tree_side": "right",
+        "reference_kind": "vegetation"
+      }
+    },
+    {
+      "id": "tree-a2",
+      "gallery_key": "756e2ffbeea1089635d61a6c",
+      "original_photo_sha256": "516cafa94d1ec06f646787428396f2e956e6afbb66c7c1fcae61c6951bd2eacf",
+      "request": "could you drop me next to the tree on the right",
+      "grounding_and_screen_ms": 620,
+      "first": {
+        "state": "needs_clarification",
+        "screen_heading": "Tree on the right",
+        "message": "The blue outline shows the tree-shaped canopy on the right. I couldn’t verify an open pull-in beside it. You can mark an off-lane spot.",
+        "anchor_boxes_xyxy": [
+          [
+            1838.93,
+            431.15,
+            2538.67,
+            1938.02
+          ]
+        ],
+        "choices": [],
+        "save_action_visible": false,
+        "tree_side": "right",
+        "reference_kind": "vegetation"
+      }
+    },
+    {
+      "id": "tree-b",
+      "gallery_key": "d76c4ca006dc9332d37ec750",
+      "original_photo_sha256": "3ed141c2c0b33754e2ee822ec16e1c1ed1c713dbd29b16e94acde77b950c6af8",
+      "request": "Can you drop me near the big tree outside the shops on the right?",
+      "grounding_and_screen_ms": 1351,
+      "first": {
+        "state": "needs_clarification",
+        "screen_heading": "Is this the spot you meant?",
+        "message": "The photo shows a canopy above the shops on the right. I can’t pinpoint its trunk. The highlighted parking is on the same pictured frontage. Is this where you meant to get out? You can also mark another spot.",
+        "anchor_boxes_xyxy": [
+          [
+            2594.13,
+            0,
+            3840,
+            849.49
+          ]
+        ],
+        "choices": [
+          {
+            "point_xy": [
+              2788.836,
+              1318.474
+            ],
+            "extent": "interior_point_only"
+          }
+        ],
+        "save_action_visible": false,
+        "reference_kind": "vegetation"
+      },
+      "after_selection": {
+        "state": "proposed",
+        "screen_heading": "Is this the spot you meant?",
+        "message": "The blue outline shows the greenery you referred to. The gold ring marks a point on the parking surface below it. Is this where you want to get out?",
+        "anchor_boxes_xyxy": [
+          [
+            2594.13,
+            0,
+            3840,
+            849.49
+          ]
+        ],
+        "destination_point_xy": [
+          2788.836,
+          1318.474
+        ],
+        "choices": [],
+        "save_action_visible": true,
+        "reference_kind": "vegetation"
+      },
+      "after_save": {
+        "state": "confirmed",
+        "screen_heading": "Location saved",
+        "message": "You chose the parking location at the gold ring. The greenery you referred to is outlined in blue.",
+        "anchor_boxes_xyxy": [
+          [
+            2594.13,
+            0,
+            3840,
+            849.49
+          ]
+        ],
+        "destination_point_xy": [
+          2788.836,
+          1318.474
+        ],
+        "choices": [],
+        "save_action_visible": false,
+        "reference_kind": "vegetation"
+      }
+    },
+    {
+      "id": "tree-c",
+      "gallery_key": "19ff155a74b523df2405975c",
+      "original_photo_sha256": "01d73d105e4ea270322f24c01b2199fed8a7cc3346d8957d2278b652849927a9",
+      "request": "Drop me next to the tall palm on the right, please.",
+      "grounding_and_screen_ms": 589,
+      "first": {
+        "state": "needs_clarification",
+        "screen_heading": "I found the roadside greenery",
+        "message": "The blue outline shows tall roadside vegetation on the right. I can’t verify that it is a palm. I couldn’t verify an open pull-in beside it. You can mark an off-lane spot.",
+        "anchor_boxes_xyxy": [
+          [
+            907.06,
+            0,
+            1460.6,
+            575.31
+          ]
+        ],
+        "choices": [],
+        "save_action_visible": false,
+        "reference_kind": "vegetation"
+      }
+    }
+  ],
+  "first_transfer_before_dispatch_guard": [
+    {
+      "id": "N18",
+      "gallery_key": "32545fa0b209e13797187dcc",
+      "original_photo_sha256": "57fe9aef1fc88a095ea2b011467ad575499e44feedbbd8a5e5ca309c2e5c3128",
+      "request": "Could you let me out next to the trees on the right?",
+      "grounding_and_screen_ms": 1153,
+      "first": {
+        "state": "needs_clarification",
+        "screen_heading": "I found the roadside greenery",
+        "message": "I can outline roadside greenery on the right, but can’t distinguish an individual tree with confidence. I couldn’t verify an open pull-in beside it. You can mark an off-lane spot.",
+        "anchor_boxes_xyxy": [
+          [
+            1416.53,
+            0,
+            3840,
+            772.65
+          ]
+        ],
+        "choices": [],
+        "save_action_visible": false,
+        "reference_kind": "vegetation"
+      }
+    },
+    {
+      "id": "N27",
+      "gallery_key": "0c1bfe0440b27b1f451b01a0",
+      "original_photo_sha256": "cb01925b9b3beb0377212524b9c02680e777d1371536dc0c373b0a7809eb533a",
+      "request": "Could you drop me near the silver car with the sunshade?",
+      "grounding_and_screen_ms": 2669,
+      "first": {
+        "state": "needs_clarification",
+        "screen_heading": "I found the vehicles you described",
+        "message": "I can outline the vehicles matching the basic description. I couldn’t verify sunshade. Could you identify it another way or mark the ground beside it?",
+        "anchor_boxes_xyxy": [
+          [
+            2975.580743408203,
+            1010.3127548217773,
+            3263.1134765624997,
+            1591.5603057861326
+          ],
+          [
+            2238.0586120605467,
+            1019.5175170898436,
+            2634.5864135742186,
+            1269.4740921020507
+          ]
+        ],
+        "choices": [],
+        "save_action_visible": false
+      }
+    },
+    {
+      "id": "N42",
+      "gallery_key": "201dda24f90549323a41e675",
+      "original_photo_sha256": "e42cb766f40a42ac9ccd31bb27d446371bf7972f721883fb64c315713baa5f6f",
+      "request": "Can you stop by the tree on the right?",
+      "grounding_and_screen_ms": 1633,
+      "first": {
+        "state": "proposed",
+        "screen_heading": "Is this the parking area you meant?",
+        "message": "The gold ring is inside the visible parking area in the centre. The photo leaves its full edges uncertain.",
+        "anchor_boxes_xyxy": [],
+        "destination_point_xy": [
+          1963.84,
+          1039.5533596837945
+        ],
+        "choices": [],
+        "save_action_visible": true
+      }
+    },
+    {
+      "id": "N56",
+      "gallery_key": "de529771fa219e39545588d2",
+      "original_photo_sha256": "a2f0e3c9a1649193592e0cea6d3107df01599bb7d0aefa5b19a76cc46bff4e55",
+      "request": "Drop me near that red Jeep, please.",
+      "grounding_and_screen_ms": 626,
+      "first": {
+        "state": "needs_clarification",
+        "screen_heading": "I found the vehicle you described",
+        "message": "I can outline the vehicle matching the basic description. I couldn’t verify the Jeep make. Could you identify it another way or mark the ground beside it?",
+        "anchor_boxes_xyxy": [
+          [
+            1817.7139892578125,
+            896.0963745117188,
+            3508.9599609375,
+            1869.9277954101562
+          ]
+        ],
+        "choices": [],
+        "save_action_visible": false
+      }
+    }
+  ],
+  "first_transfer_browser_sha256": "4c96f9663804d765c1a18af8d01e47b02406b21c4302503e6f56d2740c9258f4",
+  "same_transfer_replayed_after_guard": [
+    {
+      "id": "N18",
+      "gallery_key": "32545fa0b209e13797187dcc",
+      "original_photo_sha256": "57fe9aef1fc88a095ea2b011467ad575499e44feedbbd8a5e5ca309c2e5c3128",
+      "request": "Could you let me out next to the trees on the right?",
+      "grounding_and_screen_ms": 669,
+      "first": {
+        "state": "needs_clarification",
+        "screen_heading": "I found the roadside greenery",
+        "message": "I can outline roadside greenery on the right, but can’t distinguish an individual tree with confidence. I couldn’t verify an open pull-in beside it. You can mark an off-lane spot.",
+        "anchor_boxes_xyxy": [
+          [
+            1416.53,
+            0,
+            3840,
+            772.65
+          ]
+        ],
+        "choices": [],
+        "save_action_visible": false,
+        "reference_kind": "vegetation"
+      }
+    },
+    {
+      "id": "N27",
+      "gallery_key": "0c1bfe0440b27b1f451b01a0",
+      "original_photo_sha256": "cb01925b9b3beb0377212524b9c02680e777d1371536dc0c373b0a7809eb533a",
+      "request": "Could you drop me near the silver car with the sunshade?",
+      "grounding_and_screen_ms": 3187,
+      "first": {
+        "state": "needs_clarification",
+        "screen_heading": "I found the vehicles you described",
+        "message": "I can outline the vehicles matching the basic description. I couldn’t verify sunshade. Could you identify it another way or mark the ground beside it?",
+        "anchor_boxes_xyxy": [
+          [
+            2975.580743408203,
+            1010.3127548217773,
+            3263.1134765624997,
+            1591.5603057861326
+          ],
+          [
+            2238.0586120605467,
+            1019.5175170898436,
+            2634.5864135742186,
+            1269.4740921020507
+          ]
+        ],
+        "choices": [],
+        "save_action_visible": false
+      }
+    },
+    {
+      "id": "N42",
+      "gallery_key": "201dda24f90549323a41e675",
+      "original_photo_sha256": "e42cb766f40a42ac9ccd31bb27d446371bf7972f721883fb64c315713baa5f6f",
+      "request": "Can you stop by the tree on the right?",
+      "grounding_and_screen_ms": 612,
+      "first": {
+        "state": "needs_clarification",
+        "screen_heading": "I found the roadside greenery",
+        "message": "I can outline roadside greenery on the right, but can’t distinguish an individual tree with confidence. I couldn’t verify an open pull-in beside it. You can mark an off-lane spot.",
+        "anchor_boxes_xyxy": [
+          [
+            1534.08,
+            595.07,
+            1969.28,
+            925.26
+          ],
+          [
+            2350.08,
+            464.44,
+            2973.87,
+            925.26
+          ]
+        ],
+        "choices": [],
+        "save_action_visible": false,
+        "reference_kind": "vegetation"
+      }
+    },
+    {
+      "id": "N56",
+      "gallery_key": "de529771fa219e39545588d2",
+      "original_photo_sha256": "a2f0e3c9a1649193592e0cea6d3107df01599bb7d0aefa5b19a76cc46bff4e55",
+      "request": "Drop me near that red Jeep, please.",
+      "grounding_and_screen_ms": 606,
+      "first": {
+        "state": "needs_clarification",
+        "screen_heading": "I found the vehicle you described",
+        "message": "I can outline the vehicle matching the basic description. I couldn’t verify the Jeep make. Could you identify it another way or mark the ground beside it?",
+        "anchor_boxes_xyxy": [
+          [
+            1817.7139892578125,
+            896.0963745117188,
+            3508.9599609375,
+            1869.9277954101562
+          ]
+        ],
+        "choices": [],
+        "save_action_visible": false
+      }
+    }
+  ],
+  "manual_checks": [
+    {
+      "id": "case-a-lane",
+      "photo_sha256": "3ed141c2c0b33754e2ee822ec16e1c1ed1c713dbd29b16e94acde77b950c6af8",
+      "tap_xy": [
+        823.273,
+        1368.194
+      ],
+      "state": "needs_clarification",
+      "destination": null,
+      "options": 0,
+      "save_action_visible": false
+    },
+    {
+      "id": "case-a-occupied",
+      "photo_sha256": "3ed141c2c0b33754e2ee822ec16e1c1ed1c713dbd29b16e94acde77b950c6af8",
+      "tap_xy": [
+        1963.636,
+        1056.712
+      ],
+      "state": "needs_clarification",
+      "destination": null,
+      "options": 0,
+      "save_action_visible": false
+    },
+    {
+      "id": "case-b-lane",
+      "photo_sha256": "df4b13c0f17548cf0a1911efdbe0f94b00c1299c97a07a6c3783beab3ce2b416",
+      "tap_xy": [
+        609.322,
+        1874.537
+      ],
+      "state": "needs_clarification",
+      "destination": null,
+      "options": 0,
+      "save_action_visible": false
+    },
+    {
+      "id": "case-b-occupied",
+      "photo_sha256": "df4b13c0f17548cf0a1911efdbe0f94b00c1299c97a07a6c3783beab3ce2b416",
+      "tap_xy": [
+        2494.413,
+        1503.436
+      ],
+      "state": "needs_clarification",
+      "destination": null,
+      "options": 0,
+      "save_action_visible": false
+    },
+    {
+      "id": "case-c-lane",
+      "photo_sha256": "c4d59cba6fe27a9aa31b27decb3b5c5dd40945ef3e8a89865f325b307e577411",
+      "tap_xy": [
+        1364.945,
+        1536.74
+      ],
+      "state": "needs_clarification",
+      "destination": null,
+      "options": 0,
+      "save_action_visible": false
+    },
+    {
+      "id": "case-c-occupied",
+      "photo_sha256": "c4d59cba6fe27a9aa31b27decb3b5c5dd40945ef3e8a89865f325b307e577411",
+      "tap_xy": [
+        1742.598,
+        1283.313
+      ],
+      "state": "needs_clarification",
+      "destination": null,
+      "options": 0,
+      "save_action_visible": false
+    },
+    {
+      "id": "case-d-lane",
+      "photo_sha256": "202205cffd48d91136e16515caedfae8af8603875a94a92538ef2fe45b914ee9",
+      "tap_xy": [
+        1548.377,
+        1310.273
+      ],
+      "state": "needs_clarification",
+      "destination": null,
+      "options": 0,
+      "save_action_visible": false
+    },
+    {
+      "id": "case-d-occupied",
+      "photo_sha256": "202205cffd48d91136e16515caedfae8af8603875a94a92538ef2fe45b914ee9",
+      "tap_xy": [
+        2673.243,
+        1126.943
+      ],
+      "state": "needs_clarification",
+      "destination": null,
+      "options": 0,
+      "save_action_visible": false
+    },
+    {
+      "id": "case-e-lane",
+      "photo_sha256": "b5f7f2a659e8f7815ff0d2ed09969a0908f68d56d2ca942a756b8926357f33a8",
+      "tap_xy": [
+        1048.86,
+        702.555
+      ],
+      "state": "needs_clarification",
+      "destination": null,
+      "options": 0,
+      "save_action_visible": false
+    },
+    {
+      "id": "case-e-occupied",
+      "photo_sha256": "b5f7f2a659e8f7815ff0d2ed09969a0908f68d56d2ca942a756b8926357f33a8",
+      "tap_xy": [
+        550.612,
+        621.674
+      ],
+      "state": "needs_clarification",
+      "destination": null,
+      "options": 0,
+      "save_action_visible": false
+    },
+    {
+      "id": "tree-a2-road",
+      "photo_sha256": "516cafa94d1ec06f646787428396f2e956e6afbb66c7c1fcae61c6951bd2eacf",
+      "tap_xy": [
+        1566,
+        1980
+      ],
+      "state": "needs_clarification",
+      "destination": null,
+      "options": 0,
+      "save_action_visible": false
+    },
+    {
+      "id": "tree-a2-nonground",
+      "photo_sha256": "516cafa94d1ec06f646787428396f2e956e6afbb66c7c1fcae61c6951bd2eacf",
+      "tap_xy": [
+        2148,
+        1890
+      ],
+      "state": "needs_clarification",
+      "destination": null,
+      "options": 0,
+      "save_action_visible": false
+    },
+    {
+      "id": "tree-a2-visible",
+      "photo_sha256": "516cafa94d1ec06f646787428396f2e956e6afbb66c7c1fcae61c6951bd2eacf",
+      "tap_xy": [
+        2463,
+        2016
+      ],
+      "state": "needs_clarification",
+      "destination": null,
+      "options": 0,
+      "save_action_visible": false
+    },
+    {
+      "id": "tree-b-road",
+      "photo_sha256": "3ed141c2c0b33754e2ee822ec16e1c1ed1c713dbd29b16e94acde77b950c6af8",
+      "tap_xy": [
+        826.182,
+        1341.995
+      ],
+      "state": "needs_clarification",
+      "destination": null,
+      "options": 0,
+      "save_action_visible": false
+    },
+    {
+      "id": "tree-b-nonground",
+      "photo_sha256": "3ed141c2c0b33754e2ee822ec16e1c1ed1c713dbd29b16e94acde77b950c6af8",
+      "tap_xy": [
+        3374.545,
+        355.148
+      ],
+      "state": "needs_clarification",
+      "destination": null,
+      "options": 0,
+      "save_action_visible": false
+    },
+    {
+      "id": "tree-b-visible",
+      "photo_sha256": "3ed141c2c0b33754e2ee822ec16e1c1ed1c713dbd29b16e94acde77b950c6af8",
+      "tap_xy": [
+        2542.545,
+        1397.305
+      ],
+      "state": "needs_clarification",
+      "destination": null,
+      "options": 0,
+      "save_action_visible": false,
+      "separate_tree_parking_request": {
+        "state": "needs_clarification",
+        "screen_heading": "Is this the spot you meant?",
+        "message": "The photo shows a canopy above the shops on the right. I can’t pinpoint its trunk. The highlighted parking is on the same pictured frontage. Is this where you meant to get out? You can also mark another spot.",
+        "anchor_boxes_xyxy": [
+          [
+            2594.13,
+            0,
+            3840,
+            849.49
+          ]
+        ],
+        "choices": [
+          {
+            "point_xy": [
+              2788.836,
+              1318.474
+            ],
+            "extent": "interior_point_only"
+          }
+        ],
+        "save_action_visible": false,
+        "reference_kind": "vegetation"
+      }
+    },
+    {
+      "id": "tree-c-road",
+      "photo_sha256": "01d73d105e4ea270322f24c01b2199fed8a7cc3346d8957d2278b652849927a9",
+      "tap_xy": [
+        709.486,
+        630
+      ],
+      "state": "needs_clarification",
+      "destination": null,
+      "options": 0,
+      "save_action_visible": false
+    },
+    {
+      "id": "tree-c-nonground",
+      "photo_sha256": "01d73d105e4ea270322f24c01b2199fed8a7cc3346d8957d2278b652849927a9",
+      "tap_xy": [
+        1194.486,
+        523.385
+      ],
+      "state": "needs_clarification",
+      "destination": null,
+      "options": 0,
+      "save_action_visible": false
+    },
+    {
+      "id": "N18-road",
+      "photo_sha256": "57fe9aef1fc88a095ea2b011467ad575499e44feedbbd8a5e5ca309c2e5c3128",
+      "tap_xy": [
+        1057.745,
+        1256.22
+      ],
+      "state": "needs_clarification",
+      "destination": null,
+      "options": 0,
+      "save_action_visible": false
+    },
+    {
+      "id": "N27-road",
+      "photo_sha256": "cb01925b9b3beb0377212524b9c02680e777d1371536dc0c373b0a7809eb533a",
+      "tap_xy": [
+        1516.276,
+        1426.682
+      ],
+      "state": "needs_clarification",
+      "destination": null,
+      "options": 0,
+      "save_action_visible": false
+    },
+    {
+      "id": "N42-road",
+      "photo_sha256": "e42cb766f40a42ac9ccd31bb27d446371bf7972f721883fb64c315713baa5f6f",
+      "tap_xy": [
+        1062.284,
+        1224.989
+      ],
+      "state": "needs_clarification",
+      "destination": null,
+      "options": 0,
+      "save_action_visible": false
+    },
+    {
+      "id": "N56-road",
+      "photo_sha256": "a2f0e3c9a1649193592e0cea6d3107df01599bb7d0aefa5b19a76cc46bff4e55",
+      "tap_xy": [
+        1274.182,
+        1633.086
+      ],
+      "state": "needs_clarification",
+      "destination": null,
+      "options": 0,
+      "save_action_visible": false
+    }
+  ],
+  "independent_scoring": {
+    "frozen_report_utc": "2026-11-24T04:45:27.972773+00:00",
+    "reviewer": "Independent AI visual reviewer. The reference vehicle/trees, plausible empty-ground polygons and controls were marked using original public UAE driver-view photos before this reviewer opened the corresponding app results. No human adjudication.",
+    "score_criteria": "Native-pixel point in any independently marked eligible polygon. Guided choices earn separate credit, and Save is checked only after explicit selection. Landmark box overlap is IoU, with 0.50 the recognition threshold. No legal access or traffic-safety validation.",
+    "vehicle_opened_development": {
+      "ground_eligible": 3,
+      "correct_direct_first": 0,
+      "correct_guided_choice": 3,
+      "confirmed_chosen_point_unchanged": 3,
+      "correct_negative_first": 2,
+      "negative_denominator": 2,
+      "natural_first_median_ms": 1613,
+      "lane_taps": {
+        "withheld": 5,
+        "n": 5
+      },
+      "occupied_car_taps": {
+        "withheld": 5,
+        "n": 5
+      },
+      "before": "The previous application timed out at 15.556s and 15.499s for case-a and case-c.",
+      "qualifier": "case-a first chosen point lies 0.0047 native pixel inside the conservative polygon by arithmetic. Its second offered point lies clearly inside. Neither option was preselected.",
+      "natural": [
+        {
+          "id": "case-a",
+          "anchor": "unique_correct",
+          "max_anchor_iou": 0.9048,
+          "first_ms": 651,
+          "direct": null,
+          "choices": [
+            {
+              "xy": [
+                1507.767,
+                1141.397
+              ],
+              "signed_polygon_margin_px": 0.0047
+            },
+            {
+              "xy": [
+                1969.731,
+                1299.478
+              ],
+              "signed_polygon_margin_px": 52.2674
+            }
+          ],
+          "first_save_visible": false,
+          "explicit_choice_saved_unchanged": [
+            1507.767,
+            1141.397
+          ],
+          "outcome": "correct_options_selected"
+        },
+        {
+          "id": "case-b",
+          "anchor": "unique_correct",
+          "max_anchor_iou": 0.934,
+          "first_ms": 1650,
+          "direct": null,
+          "choices": [
+            {
+              "xy": [
+                2830.712,
+                1849.781
+              ],
+              "signed_polygon_margin_px": 135.1612
+            }
+          ],
+          "first_save_visible": false,
+          "explicit_choice_saved_unchanged": [
+            2830.712,
+            1849.781
+          ],
+          "outcome": "correct_option_selected_with_colour_caveat"
+        },
+        {
+          "id": "case-c",
+          "anchor": "unique_correct",
+          "max_anchor_iou": 0.9316,
+          "first_ms": 1624,
+          "direct": null,
+          "choices": [
+            {
+              "xy": [
+                2251.986,
+                1443.435
+              ],
+              "signed_polygon_margin_px": 23.1998
+            }
+          ],
+          "first_save_visible": false,
+          "explicit_choice_saved_unchanged": [
+            2251.986,
+            1443.435
+          ],
+          "outcome": "correct_option_selected_with_side_caveat"
+        },
+        {
+          "id": "case-d",
+          "anchor": "unique_correct",
+          "max_anchor_iou": 0.9534,
+          "first_ms": 1114,
+          "direct": null,
+          "choices": [],
+          "first_save_visible": false,
+          "outcome": "sensible_through_road_withhold"
+        },
+        {
+          "id": "case-e",
+          "anchor": "correct_among_several",
+          "max_anchor_iou": 0.9493,
+          "first_ms": 1613,
+          "direct": null,
+          "choices": [],
+          "first_save_visible": false,
+          "outcome": "sensible_ambiguous_reference_withhold"
+        }
+      ]
+    },
+    "tree_opened_development": {
+      "ground_eligible": 1,
+      "correct_direct_first": 0,
+      "correct_guided_choice": 1,
+      "confirmed_chosen_point_unchanged": 1,
+      "blocked_controls_withheld": 1,
+      "blocked_ground_denominator": 1,
+      "private_driveway_access_unknown_withheld": 1,
+      "independent_taps": {
+        "clear_marked_bay_valid_tap_accepted": 0,
+        "clear_marked_bay_valid_tap_denominator": 1,
+        "clear_bay_failure": "The photo shows a canopy above the shops on the right. I can’t pinpoint its trunk. Your mark is in the traffic lane. You can mark a different off-lane spot.",
+        "private_driveway_mark_withheld": 1
+      },
+      "lane_taps": {
+        "withheld": 3,
+        "n": 3
+      },
+      "non_ground_taps": {
+        "withheld": 3,
+        "n": 3
+      },
+      "natural": [
+        {
+          "id": "tree-a2",
+          "anchor": "unique_correct",
+          "max_anchor_iou": 0.942,
+          "first_ms": 624,
+          "direct": null,
+          "choices": [],
+          "first_save_visible": false,
+          "outcome": "correct_tree_and_private_access_withheld"
+        },
+        {
+          "id": "tree-b",
+          "anchor": "unique_correct",
+          "max_anchor_iou": 0.806,
+          "first_ms": 2372,
+          "direct": null,
+          "choices": [
+            {
+              "xy": [
+                2788.836,
+                1318.474
+              ],
+              "signed_polygon_margin_px": 15.7049
+            }
+          ],
+          "first_save_visible": false,
+          "explicit_choice_saved_unchanged": [
+            2788.836,
+            1318.474
+          ],
+          "outcome": "correct_shops_frontage_choice_saved_trunk_uncertain"
+        },
+        {
+          "id": "tree-c",
+          "anchor": "unique_correct",
+          "max_anchor_iou": 0.8142,
+          "first_ms": 600,
+          "direct": null,
+          "choices": [],
+          "first_save_visible": false,
+          "outcome": "correct_vegetation_blocked_ground_withheld"
+        }
+      ],
+      "two_sided_dialogue": {
+        "typed_and_phone_quick_reply": 2,
+        "right_tree_iou": 0.942,
+        "quick_right_clicked": true,
+        "exact_ground_remained_unresolved": true,
+        "limitation": "Right canopy matches closely. Left outline also includes shrubs and is broader than the specific tree. Originally only the left foliage appeared and the right-tree follow-up then lost its outline."
+      },
+      "original_user_marks": [
+        {
+          "native_xy": [
+            2008.962,
+            1917.532
+          ],
+          "review": "Flower bed immediately under the right tree.",
+          "result_caption": "The blue outline shows the tree-shaped canopy on the right. Your mark is on vegetation or a planted area. I can’t verify a place for the car there. You can mark a different off-lane spot.",
+          "save_visible": false
+        },
+        {
+          "native_xy": [
+            2876.423,
+            1979.494
+          ],
+          "review": "Grey interlocking paving in front of bins and bike by the villas. It joins the street but could be private vehicle access or shared pedestrian space; an eligible stopping area cannot be verified.",
+          "result_caption": "The blue outline shows the tree-shaped canopy on the right. The surface check reads your mark as pedestrian paving. It may also serve a driveway, but I can’t verify a stopping place at that point. You can mark a different off-lane spot.",
+          "save_visible": false
+        }
+      ]
+    },
+    "voice_on_opened_car": {
+      "fixture": "WAV upload using the local recognizer; physical microphone untested by this replay.",
+      "sent_mode": "voice",
+      "transcript": "Do you drop me off near the black car?",
+      "asr_ms": 2776,
+      "after_submission_ms": 1147,
+      "guided_choices": 2,
+      "explicit_choice_saved_unchanged": [
+        1507.767,
+        1141.397
+      ]
+    },
+    "initial_transfer": {
+      "registered_utc": "2026-11-24T04:36:01.506590+00:00",
+      "firsts": "Four distinct previously enrolled public gallery drives outside the eight vehicle/tree diagnostic drives. These exact source/instruction pairs were held back. Later changes or replay are post-holdout diagnostics.",
+      "eligible_ground": 2,
+      "correct_direct_or_guided": 0,
+      "genuine_open_location_withheld": 1,
+      "wrong_direct_ground": 1,
+      "negative_firsts_withheld": 2,
+      "negative_denominator": 2,
+      "lane_taps": {
+        "withheld": 4,
+        "n": 4
+      },
+      "natural_first_median_ms": 1393.0,
+      "javascript_or_operational_errors": 0,
+      "natural": [
+        {
+          "id": "N18",
+          "anchor": "unique_correct",
+          "max_anchor_iou": 0.7324,
+          "first_ms": 1153,
+          "direct": null,
+          "choices": [],
+          "first_save_visible": false,
+          "outcome": "barrier_withheld"
+        },
+        {
+          "id": "N27",
+          "anchor": "correct_among_several",
+          "max_anchor_iou": 0.9157,
+          "first_ms": 2669,
+          "direct": null,
+          "choices": [],
+          "first_save_visible": false,
+          "outcome": "clear_reachable_bay_missed_uncertain_sunshade"
+        },
+        {
+          "id": "N42",
+          "anchor": "none_shown",
+          "max_anchor_iou": 0,
+          "first_ms": 1633,
+          "direct": {
+            "xy": [
+              1963.84,
+              1039.5533596837945
+            ],
+            "signed_polygon_margin_px": -55.0343
+          },
+          "choices": [],
+          "first_save_visible": true,
+          "outcome": "wrong_point_on_raised_concrete_kerb_tree_not_shown"
+        },
+        {
+          "id": "N56",
+          "anchor": "unique_correct",
+          "max_anchor_iou": 0.9799,
+          "first_ms": 626,
+          "direct": null,
+          "choices": [],
+          "first_save_visible": false,
+          "outcome": "highway_withheld"
+        }
+      ],
+      "interpretation": "N27 is a false refusal; the intended body was among those outlined. N42 was a clickable direct proposal, 55 px outside the independent area, visibly on a raised concrete kerb. It was never saved in this test. N18 and N56 correctly offered no ground."
+    },
+    "raw_sha256": {
+      "car_reference": "35fbb948b0a03825f522035f54ae0eff712681b21f72fca65ec655f89f54077a",
+      "car_before": "47de8b7b42e503946a5b1526cd17cecf1feb43e7f658a7e48dcad5f358c3f430",
+      "car_before_other": "3d28dd8f790f032df6a1aeec56a26be0af569204a66c09fde78294c29294fb51",
+      "car_final": "650f17de3af9ab9f1949761c4491f8880c088bceb7945000c4269a24117037e3",
+      "tree_reference": "ae1b17c26548cadf8078637ac97b6116ac8554272acb59e632045e63f08453bb",
+      "tree_before": "6728f276368e4cda4cf5e37f064e10825887e87ef33bac5e8bc6484aecec0df7",
+      "tree_final": "a4c8c133578fbfe00c6410b19377a65993e625462a7a193a0eb1e130f5ec3518",
+      "voice_final": "0da28674612018e6a9006e977b28d9210346b4124e762e48966cf811ebcd01c4",
+      "transfer_reference": "3aedfecf48847915ada5f47c04f61d46fd0d1d271cc7906feb784b66f81cd57a",
+      "transfer_prompts": "a2f07c4bb576b172c33c773dbdf8345e8a571e7a108942df730fe907708e5d07",
+      "initial_transfer_raw": "4c96f9663804d765c1a18af8d01e47b02406b21c4302503e6f56d2740c9258f4"
+    },
+    "limits": [
+      "Small, deliberately diverse UAE photo sample, unsuitable for a deployment accuracy estimate.",
+      "Landmark recognition and finding an off-lane destination are separate judgements. Photos cannot establish current legality, moving traffic, available clearance or a passenger-side door clearance.",
+      "Post-fix scores on already opened diagnoses do not replace the untouched transfer scores."
+    ]
+  },
+  "additional_frozen_tree_requests": [
+    {
+      "id": "J12",
+      "gallery_key": "168771678c9a940c342034fd",
+      "original_photo_sha256": "42b05ee428418cbc10827ed4ceaa88b805114bbce662c28f8b2096ca1b3fc538",
+      "request": "Could you drop me next to the big tree on the right?",
+      "grounding_and_screen_ms": 613,
+      "first": {
+        "state": "needs_clarification",
+        "screen_heading": "I found the roadside greenery",
+        "message": "I can outline roadside greenery on the right, but can’t distinguish an individual tree with confidence. I couldn’t verify an open pull-in beside it. You can mark an off-lane spot.",
+        "anchor_boxes_xyxy": [
+          [
+            1164.8,
+            0,
+            2688,
+            1266.17
+          ]
+        ],
+        "choices": [],
+        "save_action_visible": false,
+        "reference_kind": "vegetation"
+      }
+    },
+    {
+      "id": "J71",
+      "gallery_key": "dc106f47935b1ed03abf7824",
+      "original_photo_sha256": "1ce00bae5a7a65d2c2ca1feb6485ce4f6c4fbd0afd18829d3f86cc72d99ed6e6",
+      "request": "Could you drop me by the tree behind the pink wall on the right?",
+      "grounding_and_screen_ms": 3179,
+      "first": {
+        "state": "needs_clarification",
+        "screen_heading": "Which spot do you mean?",
+        "message": "I couldn’t match that description to a visible drop-off area. Tap an off-lane spot to check the surface, or describe another landmark.",
+        "anchor_boxes_xyxy": [],
+        "choices": [],
+        "save_action_visible": false
+      }
+    }
+  ],
+  "additional_frozen_tree_path_checks": [
+    {
+      "id": "J12-road",
+      "photo_sha256": "42b05ee428418cbc10827ed4ceaa88b805114bbce662c28f8b2096ca1b3fc538",
+      "tap_xy": [
+        1205.901,
+        1339.87
+      ],
+      "state": "needs_clarification",
+      "destination": null,
+      "options": 0,
+      "save_action_visible": false
+    },
+    {
+      "id": "J71-road",
+      "photo_sha256": "1ce00bae5a7a65d2c2ca1feb6485ce4f6c4fbd0afd18829d3f86cc72d99ed6e6",
+      "tap_xy": [
+        783.515,
+        1438.707
+      ],
+      "state": "needs_clarification",
+      "destination": null,
+      "options": 0,
+      "save_action_visible": false
+    }
+  ],
+  "additional_tree_scope": "Two additional independent requests on other drives with outcomes sealed after the routing correction. The scenes were new for this tree test. One scene had appeared in a different painted-bay study.",
+  "gallery_tree_coverage": {
+    "meaning": "Source-verified routing on all published original gallery photographs; this is mechanical coverage, not a manual grade of all images.",
+    "n_photos": 81,
+    "n_requested_sides": 162,
+    "n_no_outline": 120,
+    "n_greenery_only": 41,
+    "n_with_choices": 1,
+    "n_direct_pins": 0,
+    "elapsed": 11.0,
+    "exact_run_sha256": "bcd77fb44cfec7f1f2988c4649fee16cbfbfca1edeacd1dba97ef0d3e5d89c4c"
+  },
+  "after_guard_independent_scoring": {
+    "written_utc": "2026-11-24T04:50:48.666942+00:00",
+    "study_type": "Repeated normal Edge requests on already unblinded diagnostic originals after a routing correction. This is a post-holdout safety regression, not a second independent transfer result.",
+    "initial_first_transfer_receipt_sha256": "31d609201404e4a92ce683980807d9f633096d5d486d12c8f5c2d39286e21068",
+    "initial_original_browser_sha256": "4c96f9663804d765c1a18af8d01e47b02406b21c4302503e6f56d2740c9258f4",
+    "original_unchanged": {
+      "correct_ground_on_eligible": 0,
+      "eligible_n": 2,
+      "genuine_wrong_kerb_proposals": 1,
+      "withheld_genuinely_eligible": 1,
+      "correct_negative_withholds": 2,
+      "negative_n": 2,
+      "road_withheld": 4,
+      "road_n": 4
+    },
+    "post_guard": {
+      "correct_ground_on_eligible": 0,
+      "eligible_n": 2,
+      "genuine_wrong_kerb_proposals": 0,
+      "withheld_genuinely_eligible": 2,
+      "correct_negative_withholds": 2,
+      "negative_n": 2,
+      "road_withheld": 4,
+      "road_n": 4,
+      "browser_errors": 0,
+      "natural_first_median_ms": 640.5,
+      "cases": [
+        {
+          "id": "N18",
+          "registered_ground": "barrier",
+          "outcome": "negative_ground_correctly_withheld",
+          "first_ms": 669,
+          "best_anchor_iou": 0.7324,
+          "anchor_box_count": 1,
+          "anchor_classification": "unique_correct",
+          "road_tap_withheld": true
+        },
+        {
+          "id": "N27",
+          "registered_ground": "clear",
+          "outcome": "eligible_ground_missed",
+          "first_ms": 3187,
+          "best_anchor_iou": 0.9157,
+          "anchor_box_count": 2,
+          "anchor_classification": "correct_among_several",
+          "road_tap_withheld": true
+        },
+        {
+          "id": "N42",
+          "registered_ground": "clear",
+          "outcome": "eligible_ground_missed",
+          "first_ms": 612,
+          "best_anchor_iou": 0.7971,
+          "anchor_box_count": 2,
+          "anchor_classification": "correct_among_several",
+          "road_tap_withheld": true
+        },
+        {
+          "id": "N56",
+          "registered_ground": "through_lane",
+          "outcome": "negative_ground_correctly_withheld",
+          "first_ms": 606,
+          "best_anchor_iou": 0.9799,
+          "anchor_box_count": 1,
+          "anchor_classification": "unique_correct",
+          "road_tap_withheld": true
+        }
+      ],
+      "interpretation": "N42 no longer proposes or permits saving the raised kerb; it displays two foliage outlines, asks for more information, and still misses an independently visible parking area. N27 still misses a distinct reachable bay and only partially identifies the car."
+    },
+    "release_regression_on_opened_photos": {
+      "residential_tree": {
+        "typed_followup_ms": 638,
+        "typed_initial_ms": 621,
+        "quick_right_ms": 579,
+        "quick_initial_ms": 599,
+        "right_tree_iou": 0.942,
+        "both_true_user_points_withheld": true,
+        "actual_user_point_messages": [
+          "The blue outline shows the tree-shaped canopy on the right. Your mark is on vegetation or a planted area. I can’t verify a place for the car there. You can mark a different off-lane spot.",
+          "The blue outline shows the tree-shaped canopy on the right. The surface check reads your mark as pedestrian paving. It may also serve a driveway, but I can’t verify a stopping place at that point. You can mark a different off-lane spot."
+        ]
+      },
+      "tree_shop_guided": {
+        "first_ms": 1351,
+        "choice_saved_native_xy": [
+          2788.836,
+          1318.474
+        ],
+        "signed_polygon_margin_px": 15.705,
+        "separate_clear_bay_manual_tap_accepted": 0,
+        "separate_clear_bay_manual_tap_n": 1,
+        "manual_message": "The photo shows a canopy above the shops on the right. I can’t pinpoint its trunk. The surface check reads your mark as road. I couldn’t verify a parking spot there. You can mark a different off-lane spot."
+      },
+      "roads_withheld": "3/3",
+      "nonground_withheld": "3/3",
+      "voice": {
+        "origin": "Prerecorded WAV using the actual local speech model",
+        "transcript": "Do you drop me off near the black car?",
+        "asr_ms": 2673,
+        "after_submission_ms": 1155,
+        "intended_car_guided_choices": 2,
+        "explicitly_saved_unchanged": [
+          1507.767,
+          1141.397
+        ]
+      }
+    },
+    "model_evidence_sha256": {
+      "reference": "3aedfecf48847915ada5f47c04f61d46fd0d1d271cc7906feb784b66f81cd57a",
+      "repeat_browser": "270108a67eaef936d99828b73db5dc311c8d86a057ee4c7184cf47cc8e2d0187",
+      "residential_browser": "318dacb66ec6ad89d9a8f59c7d06a7f2c28e1da4ee11622f078374811e214c4d",
+      "voice_browser": "860c261a1b95cdfa5fcbf56e692eb3e2eb7ab66f7b50097443045ea0c1626e7f"
+    },
+    "reviewer": "Independent AI visual reviewer, no separate human adjudication."
+  },
+  "extra_independent_scoring": {
+    "written_utc": "2026-11-24T04:51:31.773059+00:00",
+    "assessment": "Two ordinary new tree/photo requests reserved and annotated before their first browser answers. Four original-bound real Edge sessions, including separate precisely intended public-road taps.",
+    "reference_frozen_utc": "2026-11-24T04:49:55.907843+00:00",
+    "browser_complete_utc": "2026-11-24T04:50:21.592Z",
+    "source_overlap": "Both previously enrolled public photos were outside the prior 4-drive transfer and near-car/tree diagnostic drives. J71 was used for a different painted-parking-by-a-wall study. Results are independent of the new near-tree wordings, not new photographs to the entire project.",
+    "eligible_visible_ground": 1,
+    "correct_direct_or_guided": 0,
+    "genuine_open_bay_missed": 1,
+    "negative_ground_withheld": 1,
+    "negative_denominator": 1,
+    "road_taps_withheld": 2,
+    "road_tap_denominator": 2,
+    "wrong_first_ground_proposals": 0,
+    "operational_errors": 0,
+    "rows": [
+      {
+        "id": "J12",
+        "words": "Could you drop me next to the big tree on the right?",
+        "truth": "through_lane_or_sidewalk",
+        "result": "unavailable_ground_correctly_withheld",
+        "first_ms": 613,
+        "actual_outline_count": 1,
+        "best_anchor_iou": 0.5282,
+        "first_point_or_choices": false,
+        "reason_shown": "I can outline roadside greenery on the right, but can’t distinguish an individual tree with confidence. I couldn’t verify an open pull-in beside it. You can mark an off-lane spot.",
+        "first_save_visible": false,
+        "road_tap_withheld": true,
+        "road_tap_ms": 375
+      },
+      {
+        "id": "J71",
+        "words": "Could you drop me by the tree behind the pink wall on the right?",
+        "truth": "clear",
+        "result": "eligible_marked_bay_missed",
+        "first_ms": 3179,
+        "actual_outline_count": 0,
+        "best_anchor_iou": 0,
+        "first_point_or_choices": false,
+        "reason_shown": "I couldn’t match that description to a visible drop-off area. Tap an off-lane spot to check the surface, or describe another landmark.",
+        "first_save_visible": false,
+        "road_tap_withheld": true,
+        "road_tap_ms": 783
+      }
+    ],
+    "limitations": "Single eligible plus single negative. Cases chosen visually and annotated by an independent AI reviewer; no human confirmation. A well-identified tree can still be removed from consideration by a compound statement or leave the stopping location unresolved. The response alone cannot identify which internal rule caused the missed positive.",
+    "raw_sha256": {
+      "independent_reference": "aaa6147772c244ccb380c6e037380dd20e4c4607f5b3e11b11b5a2c6ea77342e",
+      "source_and_words": "554186c20d1acb31f181de76fbe718170a61726fe0009435a655fcdadbb0c746",
+      "taps": "f0fc55aeb5831f961a0972089b76288ab05ce64598a936720bca098d82505fec",
+      "initial_observations": "8e4dbdef47a50881e9747ffc07431393352e756107811181c049ec08d2ef4f8f"
+    }
+  },
+  "software_checks": {
+    "repository_tests_passed": 3679,
+    "skips": 43,
+    "additional_subtests_passed": 401,
+    "desktop_browser_scenario_suite": "passed",
+    "local_footage_questions_replayed": 14,
+    "original_emt_recordings": 2
+  }
+}

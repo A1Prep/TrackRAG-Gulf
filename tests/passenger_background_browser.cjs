@@ -200,12 +200,20 @@ async function main() {
       assert.equal(await p.locator("#instruction").inputValue(),words); await heading(p,"Did I hear you correctly?");
       assert.deepEqual(s.errors,[]); await p.close();
     }
-    // Direct area/vehicle requests stay on their immediate server routes.
-    {
+    // A broader search for marked bays always requires the passenger's explicit choice.
+    for (const initial of [
+      {state:"needs_clarification",result:{clarification_question:"Can you name another place?"}},
+      {state:"error",result:null,error:{code:"timeout"},landmark_error_guidance:"The photo check timed out."}
+    ]) {
       const s=await browserCase(browser,url,{indexed:true}), p=s.page;
       await submitTyped(p); await p.locator("#take-over-area").waitFor();
-      s.finish({state:"needs_clarification",request_id:"initial",proposal_id:null,result:{clarification_question:"Can you name another place?"}});
+      s.finish({...initial,request_id:"initial",proposal_id:null});
       await p.locator("#other-bays").waitFor({state:"visible"});
+      if (initial.state==="error") {
+        await heading(p,"The photo check timed out");
+        assert(await p.locator("#confirm").isHidden());
+        assert.equal(await p.locator("#last-request p").textContent(),words);
+      }
       assert.equal(s.requests.filter(r=>r.action==="submit").length,1);
       await p.locator("#other-bays").click();
       await p.locator("#take-over-area").waitFor();
@@ -215,6 +223,16 @@ async function main() {
       await p.waitForFunction(()=>document.querySelector("#destination-panel").dataset.state==="clarify");
       assert(await p.locator("#other-bays").isHidden()); assert.deepEqual(s.errors,[]); await p.close();
     }
+    for (const [indexed,code] of [[false,"timeout"],[true,"input_or_audit_changed"]]) {
+      const s=await browserCase(browser,url,{indexed}), p=s.page;
+      await submitTyped(p); await p.locator("#take-over-area").waitFor();
+      s.finish({state:"error",request_id:"initial",proposal_id:null,result:null,error:{code},
+        landmark_error_guidance:code==="timeout" ? "The photo check timed out." : null});
+      await heading(p,"The request couldn’t finish");
+      assert(await p.locator("#other-bays").isHidden());
+      assert(await p.locator("#confirm").isHidden()); await p.close();
+    }
+    // Direct area/vehicle requests stay on their immediate server routes.
     for (const [button,field] of [["submit-area","mark_on_photo"],["submit-pointing","point_to_vehicles"]]) {
       const s=await browserCase(browser,url),p=s.page; await p.locator("#instruction").fill(words);
       if(button==="submit-pointing") {
@@ -251,6 +269,8 @@ async function main() {
     for (const scenario of [
       {field:{word_confirmation:true},heading:"Check one word",question:"Did you mean the white car?",button:"answer-yes",reply:"Yes"},
       {field:{references_only:true,reference_kind:"possible_vehicle"},heading:"Is this the vehicle you meant?",question:"Is that the silver car you meant?",button:"answer-no",reply:"No"},
+      {field:{reference_kind:"vegetation",tree_side_choices:["left","right"]},heading:"Which tree do you mean?",
+        question:"There are trees on both sides. Which tree do you mean?",button:"tree-right",reply:"The tree on the right"},
     ]) {
       const s=await browserCase(browser,url),p=s.page;
       await submitTyped(p); await p.locator("#take-over-area").waitFor();
@@ -280,6 +300,69 @@ async function main() {
       assert.equal(await p.locator("#status").textContent(),"Please mark the ground you mean.");
       assert(await p.locator("#error").isHidden()); assert(await p.locator("#form").isHidden());
       assert.equal(s.requests.filter(r=>r.body.text==="Yes").length,1); await p.close();
+    }
+    // A single verified tree can be shown to the driver. A general greenery outline cannot.
+    for (const side of [null,"right"]) {
+      const s=await browserCase(browser,url),p=s.page;
+      await p.locator("#instruction").fill("Could you drop me next to the tree on the right?");
+      await p.locator("#submit").click(); await p.locator("#take-over-area").waitFor();
+      s.finish({state:"needs_clarification",proposal_id:null,references_only:true,reference_kind:"vegetation",
+        tree_landmark_side:side,result:{anchor_boxes_xyxy:[[315,35,450,280]],clarification_question:"Where would you like to get out?"}});
+      await heading(p,side ? "Tree on the right" : "I found the roadside greenery");
+      assert(await p.locator("#confirm").isHidden()); assert(await p.locator("#tree-right").isHidden());
+      if (side) {
+        const actions=s.requests.length;
+        await p.getByRole("button",{name:"Show this tree to the driver"}).click();
+        assert.match(await p.locator("#driver-photo").getAttribute("aria-label"),/tree outlined in blue/);
+        assert.match(await p.locator("#driver-note").innerText(),/tree.*exact drop-off point is still open/);
+        await p.keyboard.press("Escape"); assert(await p.getByRole("dialog").isHidden()); assert.equal(s.requests.length,actions);
+      } else assert(await p.locator("#show-driver").isHidden());
+      await p.close();
+    }
+    // A rejected tap can return to a checked parking choice while preserving the original tree request.
+    {
+      const s=await browserCase(browser,url),p=s.page;
+      const treeWords="Near the tree by the shops on the right";
+      await p.locator("#instruction").fill(treeWords); await p.locator("#submit").click();
+      await p.locator("#take-over-area").waitFor();
+      s.finish({state:"needs_clarification",request_id:"tree-original",proposal_id:null,references_only:true,
+        reference_kind:"vegetation",tree_parking_available:true,
+        result:{anchor_boxes_xyxy:[[350,40,540,180]],clarification_question:"I couldn’t verify a parking spot at your mark."}});
+      await p.getByRole("button",{name:"Show parking near this tree"}).waitFor();
+      assert(await p.locator("#confirm").isHidden());
+      await p.getByRole("button",{name:"Show parking near this tree"}).click();
+      await p.locator("#take-over-area").waitFor();
+      assert.equal(s.requests.at(-1).body.text,treeWords);
+      assert.equal(s.requests.at(-1).body.replaces_request_id,"tree-original");
+      assert.deepEqual(s.errors,[]); await p.close();
+    }
+    // A same-row alternative keeps its qualification when the passenger reviews and saves the ring.
+    {
+      const s=await browserCase(browser,url), p=s.page;
+      const detail="The parking is in the same row. I couldn’t verify that it is immediately beside the sedan.";
+      await submitTyped(p); await p.locator("#take-over-area").waitFor();
+      const offered=bayOffer(fixtureBays[0],"model");
+      offered.result.anchor_boxes_xyxy=[[350,100,490,185]];
+      s.finish({...offered,near_vehicle_parking:true,near_vehicle_detail:detail});
+      await heading(p,"Is this your intended bay?");
+      assert((await p.locator("#status").innerText()).includes(detail));
+      assert.match(await p.locator("#legend").innerText(),/Blue outline around the vehicle/);
+      await p.locator("#confirm").click(); await heading(p,"Location saved");
+      assert((await p.locator("#status").innerText()).includes(detail));
+      assert.deepEqual(s.errors,[]); await p.close();
+    }
+    // A foliage outline remains visible when the passenger saves a parking point near it.
+    {
+      const s=await browserCase(browser,url), p=s.page;
+      await p.locator("#instruction").fill("Near the trees"); await p.locator("#submit").click();
+      await p.locator("#take-over-area").waitFor();
+      const offered=bayOffer(fixtureBays[0],"model");
+      offered.result.anchor_boxes_xyxy=[[360,50,530,135]];
+      s.finish({...offered,reference_kind:"vegetation"}); await heading(p,"Is this your intended bay?");
+      assert.match(await p.locator("#status").innerText(),/greenery/); assert(await pixelAlpha(p,[360,90])>0);
+      await p.locator("#confirm").click(); await heading(p,"Location saved");
+      assert.match(await p.locator("#legend").innerText(),/greenery in blue/); assert(await pixelAlpha(p,[360,90])>0);
+      assert.deepEqual(s.errors,[]); await p.close();
     }
     // Inspect a small matched vehicle, pan the zoomed photo, then mark the original image deliberately.
     {

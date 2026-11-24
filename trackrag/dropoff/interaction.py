@@ -413,6 +413,7 @@ class PassengerSession:
         self._manual_offer = None
         self._bay_menu = self._bay_selection = None
         self._references_only = False
+        self._tree_details = {}
         self._vehicle_question = None
         self._confirmed_vehicle_reply = None
         self._waiting_place = False
@@ -455,12 +456,26 @@ class PassengerSession:
                 bay["references_only"]=True
                 if self._references_only=="vegetation":
                     bay["reference_kind"]="vegetation"
+                    bay.update(self._tree_details)
                 elif self._references_only=='possible_vehicle':
                     bay['reference_kind']='possible_vehicle'
             if receipt is not None and receipt["provenance"].get("bay_outline"):
                 bay["bay_outline"] = receipt["provenance"]["bay_outline"]
                 proof = receipt['provenance']
                 chosen_from = proof.get('choice_source',{}).get('provenance',{})
+                tree_proof = chosen_from if chosen_from.get("tree_reference_policy") else proof
+                if tree_proof.get("tree_reference_policy") and self._result.get("anchor_boxes_xyxy"):
+                    bay["reference_kind"] = "vegetation"
+                    if tree_proof.get("tree_landmark_side"):
+                        bay["tree_landmark_side"] = tree_proof["tree_landmark_side"]
+                if len(self._result.get('anchor_boxes_xyxy') or []) == 1:
+                    from . import near_vehicle
+                    matched = next((data for data in (proof,chosen_from) if data.get('near_vehicle_policy') in
+                                    (near_vehicle.POLICY,near_vehicle.ORIGINAL_POLICY)),None)
+                    if matched:
+                        bay['near_vehicle_parking'] = True
+                        if matched.get('near_vehicle_detail'):
+                            bay['near_vehicle_detail'] = matched['near_vehicle_detail']
                 if chosen_from.get('reason') == 'choose_passenger_marked_parking_ground':
                     # The verified choice is the passenger's tap, even after the separate Save action.
                     bay['passenger_marked_vehicle_location'] = True
@@ -473,6 +488,13 @@ class PassengerSession:
             if self._bay_menu is not None:
                 source = self._bay_menu[0]['provenance']
                 bay['bay_choices'] = source['bay_choices']
+                if source.get("tree_reference_policy"):
+                    bay["reference_kind"] = "vegetation"
+                    bay["bay_reference_uncertain"] = True
+                    if source.get("tree_landmark_side"):
+                        bay["tree_landmark_side"] = source["tree_landmark_side"]
+                if source.get('near_vehicle_detail'):
+                    bay['near_vehicle_detail'] = source['near_vehicle_detail']
                 vehicle_choice = source.get('vehicle_ground_policy') or source.get('confirmed_vehicle_reply')
                 if vehicle_choice and self._result.get('anchor_boxes_xyxy'):
                     bay['vehicle_ground_choice'] = True
@@ -510,6 +532,9 @@ class PassengerSession:
             raise ValueError("Invalid grounding outcome")
         info, result = outcome["provenance"], outcome["result"]
         method = info.get("method")
+        if result["status"] == "proposed" or info.get("bay_choices"):
+            from . import tree_landmark
+            tree_landmark.require_current_ground(req, outcome)
         self._waiting_place = method == "public_place_lookup_wait_v1"
         if (self._manual_submission_box is not None or method == "explicit_passenger_region") and getattr(
                 self.model, "requires_verified_manual_surface", False):
@@ -553,6 +578,12 @@ class PassengerSession:
             if result["status"] == "proposed":
                 self._place_offer = deepcopy(outcome)
                 self._place_offer_sha256 = digest(outcome)
+        if (method in {whole_bay.AUTO, whole_bay.MARK} and info.get("tree_reference_policy") and not info.get("bay_choices")
+                and result["status"] == "needs_clarification" and result.get("anchor_boxes_xyxy")):
+            # Both automatic and marked trees have passed the source/decision replay above.
+            self._references_only = "vegetation"
+            self._tree_details = {key: info[key] for key in (
+                "tree_side_choices", "tree_landmark_side", "tree_parking_available") if key in info}
         if method in whole_bay.MANUAL_METHODS and result["status"] == "proposed":
             self._manual_offer = (deepcopy(self._manual_submission_box), deepcopy(outcome), digest(outcome))
         if method in {whole_bay.AUTO, whole_bay.MARK} and result["status"]=="needs_clarification" and info.get("bay_choices"):
@@ -581,6 +612,7 @@ class PassengerSession:
         self._manual_submission_box = None
         self._bay_menu = self._bay_selection = None
         self._references_only = False
+        self._tree_details = {}
         self._waiting_place = False
 
     def _save_turn(self, action, detail):
@@ -794,6 +826,16 @@ class PassengerSession:
                 self._save("confirmation_blocked",{})
                 raise ValueError(self._error["message"])
             detail = {"proposal_id":proposal_id,"selected_by":self._selected_by}
+            from . import tree_landmark
+            try:
+                tree_landmark.require_current_ground(
+                    self._request, self._manual_offer[1] if self._manual_offer else self._place_offer)
+            except ValueError as exc:
+                self._clear()
+                self._state = "error"
+                self._error = {"code":"tree_confirmation_blocked","message":str(exc)}
+                self._save("confirmation_blocked", {})
+                raise
             if self._manual_offer is not None or (self._selected_by == "passenger" and
                     getattr(self.model, "requires_verified_manual_surface", False)):
                 from . import manual_offlane, whole_bay

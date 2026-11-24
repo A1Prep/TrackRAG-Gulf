@@ -296,11 +296,12 @@ class PlaceDialogueGrounder:
 
     def uses_public_service(self, request):
         from . import bay_intent,curb_point_language,local_surfaces,native_destination,roadside_context,visual_space
-        from . import vehicle_ground_reference
+        from . import tree_landmark, vehicle_ground_reference
         if local_surfaces.local_only(request.get("scene",{})):
             return False
         return ((isinstance(self.backend,PublicPlaceBackend) and self.backend.allows_photo(request) and
-                 (vehicle_ground_reference.direct_reference(request) is not None or bay_intent.parse(request["text"]) is not None or
+                 (vehicle_ground_reference.direct_reference(request) is not None or tree_landmark.requested(request) is not None
+                  or bay_intent.parse(request["text"]) is not None or
                   curb_point_language.indexed_reference(request["text"],expanded=True) or
                   (curb_point_language.abbreviated_pair(request["text"]) is not None and
                    roadside_context.get_packet(request["scene"]["provenance"]["image_sha256"]) is not None and
@@ -312,10 +313,14 @@ class PlaceDialogueGrounder:
                 (self.single_vehicle is not None and self.single_vehicle.eligible(request)) or self.backend.eligible(request))
 
     def inspect_requested_bay(self, request):
-        from . import observed_pullin,photo_clarification,whole_bay
+        from . import observed_pullin,photo_clarification,tree_landmark,whole_bay
         from .local_surfaces import matches_scene
         local=matches_scene(request.get("scene",{}))
-        if local or (isinstance(self.backend,PublicPlaceBackend) and self.backend.allows_photo(request)):
+        authorized = local or (isinstance(self.backend,PublicPlaceBackend) and self.backend.allows_photo(request))
+        if tree_landmark.requested(request):
+            # A different free parking bay cannot establish proximity to the requested tree.
+            return tree_landmark.available(request, allow_lookup=authorized)
+        if authorized:
             prior=observed_pullin.supplement(request,whole_bay.explicit_request(request))
             if local or (prior is not None and (photo_clarification.vegetation_reference(request["text"]) or
                           photo_clarification.has_public_alternative(request,prior) or
@@ -329,17 +334,20 @@ class PlaceDialogueGrounder:
         return None
 
     def interpret(self, request):
-        from . import bay_intent, single_vehicle, vehicle_ground_reference, vehicle_wording
+        from . import bay_intent, single_vehicle, tree_landmark, vehicle_ground_reference, vehicle_wording
         from .local_surfaces import local_only
         agreed = vehicle_wording.reply(request)
         if agreed and agreed[0] == "accepted":
             # This is consent to check an explicitly named vehicle. Its ground still needs source evidence.
             result = vehicle_ground_reference.available(request)
             return result if result is not None else vehicle_ground_reference.unavailable(request)
+        if tree_landmark.requested(request):
+            return self.inspect_requested_bay(request)
         if local_only(request.get("scene",{})):
             from . import local_vehicle_observations
             ref = vehicle_ground_reference.direct_reference(request)
-            if ref and ref['relation'] == 'behind' and local_vehicle_observations.get_packet(request['scene']['provenance']['image_sha256']) is not None:
+            if ref and (ref['relation']=='near' or (ref['relation'] == 'behind' and
+                       local_vehicle_observations.get_packet(request['scene']['provenance']['image_sha256']) is not None)):
                 current = vehicle_ground_reference.available(request)
                 return current if current is not None else vehicle_ground_reference.unavailable(request)
             bay = self.inspect_requested_bay(request)
@@ -349,7 +357,7 @@ class PlaceDialogueGrounder:
                 return self.dialogue.interpret(request)
         if isinstance(self.backend, PublicPlaceBackend) and self.backend.allows_photo(request):
             ref = vehicle_ground_reference.direct_reference(request)
-            if ref and (ref.get('qualified') or ref['relation'] == 'beside'):
+            if ref and (ref.get('qualified') or ref['relation'] in {'beside','near'}):
                 pictured = vehicle_ground_reference.available(request)
                 return pictured if pictured is not None else vehicle_ground_reference.unavailable(request)
         # A direct request behind one identified vehicle already has its own signed

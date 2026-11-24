@@ -1,0 +1,299 @@
+{
+  "revision": "ebab861714a1cd25b79423654c363df8ddb2f99d",
+  "scope": "Typed passenger controls in ordinary Microsoft Edge. Ten fresh sessions on two previously examined public KartaView photos. The timings include the web application and browser polling. All coordinates are original-photo pixels.",
+  "baseline": [
+    {
+      "words": "Could you drop me behind the white card?",
+      "time_ms": 600,
+      "question": "I couldn’t verify an open parking area beside the place you described. Could you mark a visible space?",
+      "choices": 0
+    },
+    {
+      "words": "Could you drop me behind the white car?",
+      "time_ms": 592,
+      "question": "I found the white SUV and the curbside strip behind it. Is the highlighted ground where you meant? The photo doesn’t show how much room a vehicle would have. You can also mark another spot.",
+      "choices": 1
+    }
+  ],
+  "sources": {
+    "kartaview_7168793/16": "df3c7569cf08071fe7492af65e599d7132364496766bb9e1e4fa4c3966dccc04",
+    "kartaview_66346/113": "28eb871a346c5792d7f63ad1186edcc967a6f96a2469984ecc86c5df7d177d1c"
+  },
+  "cases": [
+    {
+      "name": "different-colour",
+      "source": "kartaview_7168793/16",
+      "original_words": "Could you let me out behind the red card?",
+      "steps": [
+        {
+          "action": "first",
+          "elapsed_ms": 677,
+          "decision": "vehicle_word_check",
+          "word_confirmation_visible": true,
+          "direct_save_available": false
+        },
+        {
+          "action": "no",
+          "elapsed_ms": 604,
+          "decision": "vehicle_word_declined",
+          "word_confirmation_visible": false,
+          "direct_save_available": false
+        },
+        {
+          "action": "reply:Can you drop me behind the silver car?",
+          "elapsed_ms": 598,
+          "decision": "vehicle_reference_unmatched",
+          "word_confirmation_visible": false,
+          "direct_save_available": false
+        }
+      ]
+    },
+    {
+      "name": "first-mark",
+      "source": "kartaview_66346/113",
+      "original_words": "Could you drop me behind the white card?",
+      "steps": [
+        {
+          "action": "first",
+          "elapsed_ms": 363,
+          "decision": "passenger_requested_area",
+          "word_confirmation_visible": false,
+          "direct_save_available": false
+        },
+        {
+          "action": "tap",
+          "elapsed_ms": 270,
+          "decision": "vehicle_word_check_at_mark",
+          "word_confirmation_visible": true,
+          "direct_save_available": false
+        },
+        {
+          "action": "yes",
+          "elapsed_ms": 627,
+          "decision": "choose_observed_ground_behind_vehicle",
+          "word_confirmation_visible": false,
+          "direct_save_available": false,
+          "selectable_original_xy": [
+            [
+              1980.16,
+              1330.37
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "name": "literal-shop",
+      "source": "kartaview_7168793/16",
+      "original_words": "Could you drop me behind the red card shop?",
+      "steps": [
+        {
+          "action": "first",
+          "elapsed_ms": 5218,
+          "decision": "pending",
+          "word_confirmation_visible": false,
+          "direct_save_available": false,
+          "displayed": "I’m still checking this photo. You can mark your spot now or send the same description again in a moment."
+        }
+      ]
+    },
+    {
+      "name": "new-place",
+      "source": "kartaview_66346/113",
+      "original_words": "Could you drop me behind the white card?",
+      "steps": [
+        {
+          "action": "first",
+          "elapsed_ms": 586,
+          "decision": "vehicle_word_check",
+          "word_confirmation_visible": true,
+          "direct_save_available": false
+        },
+        {
+          "action": "reply:No, behind the blue SUV outside the pharmacy",
+          "elapsed_ms": 588,
+          "decision": "vehicle_reference_unmatched",
+          "word_confirmation_visible": false,
+          "direct_save_available": false,
+          "replacement_checked": {
+            "relation": "behind",
+            "body": "suv",
+            "colour": "blue",
+            "qualifiers": [
+              {
+                "field": "place",
+                "value": "pharmacy",
+                "relation": "outside"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "new-shape",
+      "source": "kartaview_7168793/16",
+      "original_words": "Could you let me out behind the red card?",
+      "steps": [
+        {
+          "action": "first",
+          "elapsed_ms": 608,
+          "decision": "vehicle_word_check",
+          "word_confirmation_visible": true,
+          "direct_save_available": false
+        },
+        {
+          "action": "reply:No, I meant the grey hatchback",
+          "elapsed_ms": 6283,
+          "decision": "vehicle_reference_unmatched",
+          "word_confirmation_visible": false,
+          "direct_save_available": false,
+          "replacement_checked": {
+            "relation": "behind",
+            "body": "car",
+            "colour": "gray",
+            "qualifiers": [
+              {
+                "field": "appearance",
+                "value": "hatchback"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "new-shops",
+      "source": "kartaview_7168793/16",
+      "original_words": "Could you let me out behind the red card?",
+      "steps": [
+        {
+          "action": "first",
+          "elapsed_ms": 594,
+          "decision": "vehicle_word_check",
+          "word_confirmation_visible": true,
+          "direct_save_available": false
+        },
+        {
+          "action": "reply:No, the truck beside the shops",
+          "elapsed_ms": 602,
+          "decision": "vehicle_reference_unmatched",
+          "word_confirmation_visible": false,
+          "direct_save_available": false,
+          "replacement_checked": {
+            "relation": "behind",
+            "body": "truck",
+            "colour": null,
+            "qualifiers": [
+              {
+                "field": "place",
+                "value": "shops",
+                "relation": "beside"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "number-selector",
+      "source": "kartaview_66346/113",
+      "original_words": "Could you drop me behind the white card?",
+      "steps": [
+        {
+          "action": "first",
+          "elapsed_ms": 685,
+          "decision": "vehicle_word_check",
+          "word_confirmation_visible": true,
+          "direct_save_available": false
+        },
+        {
+          "action": "reply:Yes, #2",
+          "elapsed_ms": 585,
+          "decision": "vehicle_word_undetermined",
+          "word_confirmation_visible": false,
+          "direct_save_available": false
+        }
+      ]
+    },
+    {
+      "name": "original-plus-tap",
+      "source": "kartaview_66346/113",
+      "original_words": "Could you drop me behind the white card?",
+      "steps": [
+        {
+          "action": "first",
+          "elapsed_ms": 589,
+          "decision": "vehicle_word_check",
+          "word_confirmation_visible": true,
+          "direct_save_available": false
+        },
+        {
+          "action": "tap",
+          "elapsed_ms": 103,
+          "decision": "vehicle_word_check_at_mark",
+          "word_confirmation_visible": true,
+          "direct_save_available": false
+        },
+        {
+          "action": "yes",
+          "elapsed_ms": 566,
+          "decision": "choose_observed_ground_behind_vehicle",
+          "word_confirmation_visible": false,
+          "direct_save_available": false,
+          "selectable_original_xy": [
+            [
+              1980.16,
+              1330.37
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "name": "question",
+      "source": "kartaview_7168793/16",
+      "original_words": "Could you let me out behind the red card?",
+      "steps": [
+        {
+          "action": "first",
+          "elapsed_ms": 586,
+          "decision": "vehicle_word_check",
+          "word_confirmation_visible": true,
+          "direct_save_available": false
+        },
+        {
+          "action": "reply:The car?",
+          "elapsed_ms": 595,
+          "decision": "vehicle_word_undetermined",
+          "word_confirmation_visible": false,
+          "direct_save_available": false
+        }
+      ]
+    },
+    {
+      "name": "unknown-compound",
+      "source": "kartaview_66346/113",
+      "original_words": "Could you drop me behind the white card?",
+      "steps": [
+        {
+          "action": "first",
+          "elapsed_ms": 619,
+          "decision": "vehicle_word_check",
+          "word_confirmation_visible": true,
+          "direct_save_available": false
+        },
+        {
+          "action": "reply:No, the truck near the shops with the purple crate.",
+          "elapsed_ms": 576,
+          "decision": "vehicle_word_replacement_unclear",
+          "word_confirmation_visible": false,
+          "direct_save_available": false,
+          "displayed": "You said “the truck near the shops with the purple crate”. Where is that in the photo? You can also mark the exact spot."
+        }
+      ]
+    }
+  ],
+  "interpretation": "Confirmed wording reopened the original behind-car check after either marking path and yielded the same one selectable point, requiring a subsequent selection and Save. Decline, uncertain yes, numbered selector and new qualifiers created no false white-car selection. The literal card shop went through the ordinary place lookup and returned a waiting response. These checks measure dialogue and source binding on two previously examined photographs; broader parking generalisation and speech recognition are separate.",
+  "privacy": "No recordings or session identifiers are included."
+}

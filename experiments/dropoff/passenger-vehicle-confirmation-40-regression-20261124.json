@@ -1,0 +1,487 @@
+{
+  "scope": "Post-change regression of the four previously frozen protocols. First responses were preserved before the existing scorer used the unchanged photo references. Each observation came from a fresh normal Edge session. The underlying 40 cases have been exposed and do not constitute a new blind sample.",
+  "previous_runtime_git": "c5314233bf45aea8a8f60bfea47986d28d663a17",
+  "runtime_git": "ebab861714a1cd25b79423654c363df8ddb2f99d",
+  "earlier_report_sha256": "4b47eb24afb1b082e9d681a5687d546bc2f0295afb0c16985ccd64cc1560a2d2",
+  "lateral_automatic_bank": "disabled on both runs after its independent source check",
+  "groups": {
+    "gallery": {
+      "cases": 26,
+      "input_plan_sha256": "e207d1a9ea4eb994d4e720c99fa156690aa3338f5fe8087eec3afc921c5b5b66",
+      "old_browser_sha256": "5976f27437987ab3ad59113a7bb97a1c6193e3723f81e743a95bb9fe9afd63ce",
+      "new_browser_sha256": "3b78927d2e8a689ae70c6128835e99bf3d830068213be34cb2c539bd7d8a4feb",
+      "old_scored_sha256": "b92b1cbcd19fd08a32988dbb4eea313bf3282e9a71348ec6720be5c1d58c4a29",
+      "new_scored_sha256": "023ed9e6fa82940532c9df5b805af7598e561e8bfdad4ba353ed0395ab06979a",
+      "grades_before": {
+        "positive_natural": {
+          "correct_selectable": 3,
+          "withheld": 2
+        },
+        "expected_no_natural_ground": {
+          "withheld": 9
+        },
+        "intended_marks": {
+          "correct_selectable": 2,
+          "correct_direct": 1,
+          "withheld": 1
+        },
+        "dedicated_lane_or_aisle": {
+          "withheld": 6
+        }
+      },
+      "grades_after": {
+        "positive_natural": {
+          "correct_selectable": 3,
+          "withheld": 2
+        },
+        "expected_no_natural_ground": {
+          "withheld": 9
+        },
+        "intended_marks": {
+          "correct_selectable": 2,
+          "correct_direct": 1,
+          "withheld": 1
+        },
+        "dedicated_lane_or_aisle": {
+          "withheld": 6
+        }
+      },
+      "content_changes": [],
+      "natural_ms_before": {
+        "min": 581,
+        "median": 594,
+        "max": 2669
+      },
+      "natural_ms_after": {
+        "min": 576,
+        "median": 609,
+        "max": 2777
+      },
+      "raw_operational_errors_after": 0,
+      "unexpected_automatic_saves_after": 0,
+      "per_case_time_and_grade": [
+        {
+          "case_id": "V01",
+          "task": "natural",
+          "first_visible_ms_before": 584,
+          "first_visible_ms_after": 629,
+          "grade": "correct_selectable"
+        },
+        {
+          "case_id": "V02",
+          "task": "natural",
+          "first_visible_ms_before": 598,
+          "first_visible_ms_after": 704,
+          "grade": "withheld"
+        },
+        {
+          "case_id": "V03",
+          "task": "natural",
+          "first_visible_ms_before": 586,
+          "first_visible_ms_after": 662,
+          "grade": "correct_selectable"
+        },
+        {
+          "case_id": "V04",
+          "task": "natural",
+          "first_visible_ms_before": 1631,
+          "first_visible_ms_after": 2777,
+          "grade": "correct_selectable"
+        },
+        {
+          "case_id": "V05",
+          "task": "natural",
+          "first_visible_ms_before": 594,
+          "first_visible_ms_after": 604,
+          "grade": "withheld"
+        },
+        {
+          "case_id": "V06",
+          "task": "natural",
+          "first_visible_ms_before": 581,
+          "first_visible_ms_after": 596,
+          "grade": "withheld"
+        },
+        {
+          "case_id": "V07",
+          "task": "natural",
+          "first_visible_ms_before": 611,
+          "first_visible_ms_after": 615,
+          "grade": "withheld"
+        },
+        {
+          "case_id": "V08",
+          "task": "natural",
+          "first_visible_ms_before": 2669,
+          "first_visible_ms_after": 2666,
+          "grade": "withheld"
+        },
+        {
+          "case_id": "V09",
+          "task": "natural",
+          "first_visible_ms_before": 581,
+          "first_visible_ms_after": 609,
+          "grade": "withheld"
+        },
+        {
+          "case_id": "V10",
+          "task": "natural",
+          "first_visible_ms_before": 606,
+          "first_visible_ms_after": 614,
+          "grade": "withheld"
+        },
+        {
+          "case_id": "V11",
+          "task": "natural",
+          "first_visible_ms_before": 612,
+          "first_visible_ms_after": 608,
+          "grade": "withheld"
+        },
+        {
+          "case_id": "V12",
+          "task": "natural",
+          "first_visible_ms_before": 589,
+          "first_visible_ms_after": 592,
+          "grade": "withheld"
+        },
+        {
+          "case_id": "V13",
+          "task": "natural",
+          "first_visible_ms_before": 616,
+          "first_visible_ms_after": 585,
+          "grade": "withheld"
+        },
+        {
+          "case_id": "V14",
+          "task": "natural",
+          "first_visible_ms_before": 586,
+          "first_visible_ms_after": 607,
+          "grade": "withheld"
+        },
+        {
+          "case_id": "V15",
+          "task": "natural",
+          "first_visible_ms_before": 585,
+          "first_visible_ms_after": 576,
+          "grade": "withheld"
+        },
+        {
+          "case_id": "M13-reported",
+          "task": "mark",
+          "first_visible_ms_before": 1331,
+          "first_visible_ms_after": 1579,
+          "grade": "correct_selectable"
+        },
+        {
+          "case_id": "M13-travel_lane",
+          "task": "mark",
+          "first_visible_ms_before": 220,
+          "first_visible_ms_after": 239,
+          "grade": "withheld"
+        },
+        {
+          "case_id": "M31-interior",
+          "task": "mark",
+          "first_visible_ms_before": 859,
+          "first_visible_ms_after": 983,
+          "grade": "correct_direct"
+        },
+        {
+          "case_id": "M31-travel_lane",
+          "task": "mark",
+          "first_visible_ms_before": 222,
+          "first_visible_ms_after": 270,
+          "grade": "withheld"
+        },
+        {
+          "case_id": "M2-interior",
+          "task": "mark",
+          "first_visible_ms_before": 1310,
+          "first_visible_ms_after": 1414,
+          "grade": "withheld"
+        },
+        {
+          "case_id": "M2-travel_lane",
+          "task": "mark",
+          "first_visible_ms_before": 285,
+          "first_visible_ms_after": 301,
+          "grade": "withheld"
+        },
+        {
+          "case_id": "M29-interior",
+          "task": "mark",
+          "first_visible_ms_before": 329,
+          "first_visible_ms_after": 357,
+          "grade": "correct_selectable"
+        },
+        {
+          "case_id": "M29-travel_lane",
+          "task": "mark",
+          "first_visible_ms_before": 324,
+          "first_visible_ms_after": 366,
+          "grade": "withheld"
+        },
+        {
+          "case_id": "M35-visible_gravel",
+          "task": "mark",
+          "first_visible_ms_before": 1107,
+          "first_visible_ms_after": 1235,
+          "grade": "withheld"
+        },
+        {
+          "case_id": "M54-travel_lane",
+          "task": "mark",
+          "first_visible_ms_before": 918,
+          "first_visible_ms_after": 986,
+          "grade": "withheld"
+        },
+        {
+          "case_id": "M77-parking_aisle",
+          "task": "mark",
+          "first_visible_ms_before": 2060,
+          "first_visible_ms_after": 2053,
+          "grade": "withheld"
+        }
+      ]
+    },
+    "three_photo_transfer": {
+      "cases": 8,
+      "input_plan_sha256": "c4117ded347fb0b2db0ec87a324fd37f40562c99b6098c9e251412c069b6231b",
+      "old_browser_sha256": "37badcd8f541464e5d4e41b5b7da36275a02c9eb279a73e5271b8d701fbf11f3",
+      "new_browser_sha256": "3f0932c0fef11991733a2fc1e731a7f89a25641ce2dc81e357c60021f4aaca02",
+      "old_scored_sha256": "7d3da7667d3bb357e64679ad4990fe47c3872401f6a0db8bf560e0561d2e1f08",
+      "new_scored_sha256": "b240632ee080e29dd52898887cd6000e2ec33c4d33039e602499329b04e23c4a",
+      "grades_before": {
+        "positive_natural": {
+          "withheld": 2
+        },
+        "expected_no_natural_ground": {
+          "withheld": 1
+        },
+        "intended_marks": {
+          "correct_selectable": 2
+        },
+        "dedicated_lane_or_aisle": {
+          "withheld": 3
+        }
+      },
+      "grades_after": {
+        "positive_natural": {
+          "withheld": 2
+        },
+        "expected_no_natural_ground": {
+          "withheld": 1
+        },
+        "intended_marks": {
+          "correct_selectable": 2
+        },
+        "dedicated_lane_or_aisle": {
+          "withheld": 3
+        }
+      },
+      "content_changes": [],
+      "natural_ms_before": {
+        "min": 603,
+        "median": 611,
+        "max": 632
+      },
+      "natural_ms_after": {
+        "min": 600,
+        "median": 617,
+        "max": 643
+      },
+      "raw_operational_errors_after": 0,
+      "unexpected_automatic_saves_after": 0,
+      "per_case_time_and_grade": [
+        {
+          "case_id": "TCR01",
+          "task": "natural",
+          "first_visible_ms_before": 632,
+          "first_visible_ms_after": 643,
+          "grade": "withheld"
+        },
+        {
+          "case_id": "TCR02",
+          "task": "natural",
+          "first_visible_ms_before": 611,
+          "first_visible_ms_after": 617,
+          "grade": "withheld"
+        },
+        {
+          "case_id": "TCR03",
+          "task": "natural",
+          "first_visible_ms_before": 603,
+          "first_visible_ms_after": 600,
+          "grade": "withheld"
+        },
+        {
+          "case_id": "M15-interior",
+          "task": "mark",
+          "first_visible_ms_before": 1840,
+          "first_visible_ms_after": 2044,
+          "grade": "correct_selectable"
+        },
+        {
+          "case_id": "M15-travel_lane",
+          "task": "mark",
+          "first_visible_ms_before": 251,
+          "first_visible_ms_after": 295,
+          "grade": "withheld"
+        },
+        {
+          "case_id": "M74-interior",
+          "task": "mark",
+          "first_visible_ms_before": 336,
+          "first_visible_ms_after": 317,
+          "grade": "correct_selectable"
+        },
+        {
+          "case_id": "M74-travel_lane",
+          "task": "mark",
+          "first_visible_ms_before": 325,
+          "first_visible_ms_after": 284,
+          "grade": "withheld"
+        },
+        {
+          "case_id": "M25-travel_lane",
+          "task": "mark",
+          "first_visible_ms_before": 1028,
+          "first_visible_ms_after": 952,
+          "grade": "withheld"
+        }
+      ]
+    },
+    "two_independent_natural": {
+      "cases": 2,
+      "input_plan_sha256": "339b535891d6d1d8e2b2af3e3582f34f02d42f006e2f212f4b3eed3d5063b887",
+      "old_browser_sha256": "ec338f7ab9cf77eb0d4266410f8e3f01bc7025d7bac0d902dbe23af16bf0778b",
+      "new_browser_sha256": "f7ecfdb16215b98f96b8e13fa7de92ad0486cbc5a7dc7935e722b61ef1694ee2",
+      "old_scored_sha256": "7cf786a3d9e760794fa6ffe9c02ad9aefc165fc26455644845d20b7318bd9995",
+      "new_scored_sha256": "5a0f64581aed7dd3713a2702d2ac2d8601a29d5cfaf3c405c49ef264c9d54a79",
+      "grades_before": {
+        "positive_natural": {
+          "withheld": 1
+        },
+        "expected_no_natural_ground": {
+          "withheld": 1
+        },
+        "intended_marks": {},
+        "dedicated_lane_or_aisle": {}
+      },
+      "grades_after": {
+        "positive_natural": {
+          "withheld": 1
+        },
+        "expected_no_natural_ground": {
+          "withheld": 1
+        },
+        "intended_marks": {},
+        "dedicated_lane_or_aisle": {}
+      },
+      "content_changes": [],
+      "natural_ms_before": {
+        "min": 598,
+        "median": 2144.0,
+        "max": 3690
+      },
+      "natural_ms_after": {
+        "min": 578,
+        "median": 1889.5,
+        "max": 3201
+      },
+      "raw_operational_errors_after": 0,
+      "unexpected_automatic_saves_after": 0,
+      "per_case_time_and_grade": [
+        {
+          "case_id": "LXT01",
+          "task": "natural",
+          "first_visible_ms_before": 3690,
+          "first_visible_ms_after": 3201,
+          "grade": "withheld"
+        },
+        {
+          "case_id": "LXT02",
+          "task": "natural",
+          "first_visible_ms_before": 598,
+          "first_visible_ms_after": 578,
+          "grade": "withheld"
+        }
+      ]
+    },
+    "four_candidate_selected_natural": {
+      "cases": 4,
+      "input_plan_sha256": "41f479d8acc5711d2cb9336953ba657313ee62750961a683fc766647ca5ff15b",
+      "old_browser_sha256": "0437e83f8da268574a84d062b67f07e6d950491623100a14d238e4b8c45f290d",
+      "new_browser_sha256": "b47e331b73eef72366d66c38d0d729268efb4066b21532812bc825f08418c585",
+      "old_scored_sha256": "09ddd29daf31c6b8440a12c212a419e6d9a6d452677b1db475a9ac2f81b8c4a2",
+      "new_scored_sha256": "ee64c87d9272f69c4e37d45f22dd26bb19fc8e4ef823282f779e0bcfa9c659fb",
+      "grades_before": {
+        "positive_natural": {
+          "withheld": 4
+        },
+        "expected_no_natural_ground": {},
+        "intended_marks": {},
+        "dedicated_lane_or_aisle": {}
+      },
+      "grades_after": {
+        "positive_natural": {
+          "withheld": 4
+        },
+        "expected_no_natural_ground": {},
+        "intended_marks": {},
+        "dedicated_lane_or_aisle": {}
+      },
+      "content_changes": [],
+      "natural_ms_before": {
+        "min": 578,
+        "median": 602.0,
+        "max": 2183
+      },
+      "natural_ms_after": {
+        "min": 601,
+        "median": 640.0,
+        "max": 1784
+      },
+      "raw_operational_errors_after": 0,
+      "unexpected_automatic_saves_after": 0,
+      "per_case_time_and_grade": [
+        {
+          "case_id": "LS01",
+          "task": "natural",
+          "first_visible_ms_before": 610,
+          "first_visible_ms_after": 678,
+          "grade": "withheld"
+        },
+        {
+          "case_id": "LS02",
+          "task": "natural",
+          "first_visible_ms_before": 578,
+          "first_visible_ms_after": 601,
+          "grade": "withheld"
+        },
+        {
+          "case_id": "LS03",
+          "task": "natural",
+          "first_visible_ms_before": 594,
+          "first_visible_ms_after": 602,
+          "grade": "withheld"
+        },
+        {
+          "case_id": "LS04",
+          "task": "natural",
+          "first_visible_ms_before": 2183,
+          "first_visible_ms_after": 1784,
+          "grade": "withheld"
+        }
+      ]
+    }
+  },
+  "first_response_median_ms_all_40": {
+    "before": 600.5,
+    "after": 611.5
+  },
+  "first_response_maximum_ms_all_40": {
+    "before": 3690,
+    "after": 3201
+  }
+}

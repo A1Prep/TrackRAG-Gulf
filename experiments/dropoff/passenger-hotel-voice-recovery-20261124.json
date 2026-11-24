@@ -1,0 +1,138 @@
+{
+  "recording": "kartaview_66346",
+  "frame": 113,
+  "runtime_commit": "ebab861714a1cd25b79423654c363df8ddb2f99d",
+  "protocol": "Local Microsoft Edge, original prepared public photo. Replayed the same previously recorded WAV through the laptop’s local English Whisper. Accepted its unedited transcript, answered the word question, then selected the displayed candidate and saved. Three separate ordinary sessions checked typed input, the reported tap and a travel-lane tap. All described timings start after sending the corresponding reviewed text or mark. Other tests were running on the same laptop.",
+  "original_failure": {
+    "initial_reason": "parking_fragments_at_vehicles",
+    "manual_reason": "parking_fragment_at_vehicle",
+    "evidence": "Same-photo original passenger journal and local speech receipt. The stored voice clip duration is 3.61 seconds. Audio and session identities are excluded from the repository."
+  },
+  "before_word_repair": {
+    "recognition_engine": "local Whisper Small English",
+    "audio_published": false,
+    "recognized": "Could you drop me behind the white card?",
+    "first": {
+      "state": "needs_clarification",
+      "message": "I couldn’t verify an open parking area beside the place you described. Could you mark a visible space?",
+      "offers": [],
+      "initial_point": null,
+      "duration_ms": 621
+    }
+  },
+  "after_word_repair": {
+    "recognition_engine": "local Whisper Small English",
+    "audio_published": false,
+    "recognized": "Could you drop me behind the white card?",
+    "first": {
+      "state": "needs_clarification",
+      "message": "Your request says “the white card”. Did you mean “behind the white car”? Reply yes to check that car, or tell me what you meant.",
+      "offers": [],
+      "initial_point": null,
+      "duration_ms": 697
+    },
+    "after_word_confirmation": {
+      "state": "needs_clarification",
+      "message": "I found the white SUV and the curbside strip behind it. Is the highlighted ground where you meant? The photo doesn’t show how much room a vehicle would have. You can also mark another spot.",
+      "offers": [
+        [
+          1980.16,
+          1330.37
+        ]
+      ],
+      "initial_point": null,
+      "duration_ms": 656
+    },
+    "passenger_history_before_choice": [
+      "Could you drop me behind the white card?",
+      "Yes"
+    ],
+    "saved_point": [
+      1980.16,
+      1330.37
+    ]
+  },
+  "typed_and_manual_controls": [
+    {
+      "case": "V01",
+      "wording": "Could you drop me behind the white car?",
+      "interaction": "natural",
+      "first_message": "I found the white SUV and the curbside strip behind it. Is the highlighted ground where you meant? The photo doesn’t show how much room a vehicle would have. You can also mark another spot.",
+      "first_visible_ms": 1376,
+      "first_state": "needs_clarification",
+      "actual_tap_xy": null,
+      "selectable_points_xy": [
+        [
+          1980.16,
+          1330.37
+        ]
+      ],
+      "save_visible_before_choice": false,
+      "saved_after_explicit_actions_xy": [
+        1980.16,
+        1330.37
+      ],
+      "browser_errors": []
+    },
+    {
+      "case": "M13-reported",
+      "wording": "Could you drop me behind the white car?",
+      "interaction": "mark",
+      "first_message": "Your mark is at the curbside strip behind the white SUV. Is the highlighted ground where you meant? The photo doesn’t show how much room a vehicle would have. You can also mark another spot.",
+      "first_visible_ms": 2910,
+      "first_state": "needs_clarification",
+      "actual_tap_xy": [
+        2050.931501718939,
+        1355.8118504177705
+      ],
+      "selectable_points_xy": [
+        [
+          1980.16,
+          1330.37
+        ]
+      ],
+      "save_visible_before_choice": false,
+      "saved_after_explicit_actions_xy": [
+        1980.16,
+        1330.37
+      ],
+      "browser_errors": []
+    },
+    {
+      "case": "M13-travel_lane",
+      "wording": "Could you drop me behind the white car?",
+      "interaction": "mark",
+      "first_message": "Your mark falls outside the curbside area I can see behind the outlined vehicle. Could you tap inside that area or choose another spot?",
+      "first_visible_ms": 412,
+      "first_state": "needs_clarification",
+      "actual_tap_xy": [
+        1531.1713177252386,
+        1368.698012193465
+      ],
+      "selectable_points_xy": [],
+      "save_visible_before_choice": false,
+      "saved_after_explicit_actions_xy": null,
+      "browser_errors": []
+    }
+  ],
+  "scope": "A repeated audio sample and development photo establish this interaction only. They do not estimate speech error rate, parking availability, legal permission or physical clearance.",
+  "narrow_screen_replay": {
+    "viewport_width_css_px": 390,
+    "recognized_same_wording": true,
+    "word_question_ms": 596,
+    "after_yes_ms": 592,
+    "saved_after_selection_xy": [
+      1980.16,
+      1330.37
+    ],
+    "horizontal_overflow": false,
+    "browser": "Microsoft Edge with a narrow viewport"
+  },
+  "travel_lane_mark_after_confirming_word_in_same_voice_conversation": {
+    "state": "needs_clarification",
+    "message": "Your mark falls outside the curbside area I can see behind the outlined vehicle. Could you tap inside that area or choose another spot?",
+    "choices": [],
+    "point": null,
+    "has_proposal": false
+  }
+}

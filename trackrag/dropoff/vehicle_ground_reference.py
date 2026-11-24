@@ -25,6 +25,11 @@ NO_READING = 'passenger_vehicle_reading_unavailable_v1'
 
 
 def direct_reference(request, *, expanded=True):
+    from . import vehicle_wording
+    answer = vehicle_wording.reply(request) if expanded else None
+    if answer and answer[0] == 'accepted':
+        # All visual receipts still bind the actual answer and its original same-photo dialogue.
+        request = {**request, 'text':answer[1]}
     qualified = qualifiers.parse(request) if expanded else qualifiers.parse(request, expanded=False)
     if qualified is not None:
         return qualified

@@ -329,8 +329,13 @@ class PlaceDialogueGrounder:
         return None
 
     def interpret(self, request):
-        from . import bay_intent, single_vehicle, vehicle_ground_reference
+        from . import bay_intent, single_vehicle, vehicle_ground_reference, vehicle_wording
         from .local_surfaces import local_only
+        agreed = vehicle_wording.reply(request)
+        if agreed and agreed[0] == "accepted":
+            # This is consent to check an explicitly named vehicle. Its ground still needs source evidence.
+            result = vehicle_ground_reference.available(request) if not local_only(request["scene"]) else None
+            return result if result is not None else vehicle_ground_reference.unavailable(request)
         if local_only(request.get("scene",{})):
             bay = self.inspect_requested_bay(request)
             if bay is not None:

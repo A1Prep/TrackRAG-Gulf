@@ -7,6 +7,7 @@ from .passenger import digest, proposed, supported_region, unresolved
 from .road_cache import ROAD_RECIPE_SHA256, mask_sha256, mask_shape, read_mask
 
 REQUEST_METHOD = "passenger_requested_area"
+MARK_PROMPT = "Which spot do you mean? Mark it on the photo and I’ll check the visible road."
 
 
 def question(request):
@@ -19,7 +20,7 @@ def question(request):
     if image_sha != scene["provenance"].get("image_sha256"):
         raise ValueError("The original photograph changed before marking.")
     return {"ok": True, "request_id": request["request_id"],
-            "result": unresolved("Which spot do you mean? Mark it on the photo and I’ll check the visible road."),
+            "result": unresolved(MARK_PROMPT),
             "provenance": {"method": REQUEST_METHOD, "independent_model_proposal": False, "native_model_calls": 0,
                            "image": {"sha256": image_sha}, "request_sha256": digest(request),
                            "inference_input_sha256": inference_input_sha256(request, image_sha)}}

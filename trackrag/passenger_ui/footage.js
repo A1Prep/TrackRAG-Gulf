@@ -62,7 +62,7 @@ function submitWords(words, displayWords = words) {
   syncButtons();
   get("search").requestSubmit();
 }
-function examples(row) {
+function examples(row, visibleTrack) {
   const context = contexts[row.id] || {};
   const subject = context.current || subjects[row.id];
   const hints = [];
@@ -79,25 +79,24 @@ function examples(row) {
     } else {
       hints.push(["Where is the " + name + " in the frame?", "Which side of the frame is " + track + " on?"]);
     }
-    const lost = context.recent;
-    const last = lost && player.frames.find(f => f.id === lost.last_frame);
-    if (subject.first_frame > player.frames[0].id && currentObservedSeconds(row,subject) <= 2) {
-      hints.push(["When did the " + name + " first appear?", "When was " + track + " first detected?"]);
-    } else if (last && row.time - last.time <= 2) {
-      hints.push(["When was the " + className(lost.class_name) + " last seen?", "When was track " + lost.id + " last seen?"]);
-    } else if (subject.first_frame !== undefined) {
-      hints.push(["When did the " + name + " first appear?", "When was " + track + " first detected?"]);
+    if (subject.first_frame !== undefined) {
+      const outlined = visibleTrack === subject.id;
+      const target = outlined ? "the highlighted " + name : name + " " + subject.id;
+      const recent = subject.first_frame > player.frames[0].id && currentObservedSeconds(row,subject) <= 2;
+      const label = outlined && recent ? "When did the " + name + " first appear?" : "When was " + target + " first detected?";
+      hints.push([label, "When was " + track + " first detected?"]);
     }
   } else hints.push(["How many vehicles are visible?", "How many vehicles are detected in this frame?"]);
   return hints;
 }
-function refreshHints(row) {
-  const hints = examples(row);
+function refreshHints(row, visibleTrack) {
+  const hints = examples(row, visibleTrack);
   const key = JSON.stringify(hints);
   if (lastHints === key) return;
   lastHints = key;
   const buttons = hints.map(([label, words]) => {
     const btn = action(label, () => submitWords(words,label), "footage-question");
+    btn.setAttribute("aria-label", label);
     btn.title = words;
     return btn;
   });
@@ -124,6 +123,7 @@ function revealBox(row, rec) {
   box.classList.toggle("near-top",y0/rec.height < .10);
   get("box-label").textContent = active ? "Track " + active.track : className(subject.class_name) + " · " + subject.id;
   box.hidden = false;
+  return active?.track ?? subject.id;
 }
 function currentObservedSeconds(row,subject,frames=player.frames) {
   const first = frames.find(f=>f.id===subject.first_frame);
@@ -156,7 +156,7 @@ function updatePlayer(writeAddress = true) {
   const row = player.displayed, rec = recordings.get(scene.value);
   if (!row || !rec) { get("evidence-box").hidden = true; return; }
   if (!writeAddress) return;
-  revealBox(row, rec);
+  const visibleTrack = revealBox(row, rec);
   showFirstMarker(row);
   const back = get("return-question-frame");
   if (back) back.hidden = answerMoment?.frame === row.id;
@@ -165,7 +165,7 @@ function updatePlayer(writeAddress = true) {
     (ctx ? " · " + ctx.count + (ctx.count === 1 ? " road user" : " road users") + " tracked here" : "");
   get("ask-time").textContent = formatTime(row.time);
   get("frame-id").value = String(row.id);
-  refreshHints(row);
+  refreshHints(row, visibleTrack);
   syncButtons();
   const passengerLink = get("passenger-link");
   const saved = bookmarks.get(rec.recording_id + ":" + row.id);

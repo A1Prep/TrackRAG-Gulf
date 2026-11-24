@@ -857,6 +857,7 @@ def verify(request, outcome, *, requested_box=None):
         if (policy != CLEARANCE_POLICY or language is not None or source['vehicle_ground_policy'] != vehicle_ground_view.RECIPE
                 or source.get('vehicle_relation_policy') not in (None,vehicle_ground_reference.RELATION_POLICY,vehicle_ground_reference.PREVIOUS_RELATION_POLICY)
                 or source.get('local_rear_policy') not in (None, vehicle_ground_reference.LOCAL_REAR_POLICY)
+                or source.get('side_parking_policy') not in (None, vehicle_ground_reference.SIDE_PARKING_POLICY)
                 or method not in {AUTO, MARK} or (method == MARK) != (requested_box is not None)):
             raise ValueError('The vehicle and ground must match the original request and mark.')
         expected = vehicle_ground_reference.outcome(request, photo, source['surface_evidence'],
@@ -875,7 +876,8 @@ def verify(request, outcome, *, requested_box=None):
                                                     nearby_parking=(source['near_vehicle_policy'] if source.get('near_vehicle_policy') in
                                                                     (near_vehicle.POLICY,near_vehicle.ORIGINAL_POLICY) else False),
                                                     measure_rear='automatic_rear_ground' in source or 'rear_reference_check' in source,
-                                                    local_rear=source.get('local_rear_policy') == vehicle_ground_reference.LOCAL_REAR_POLICY)
+                                                    local_rear=source.get('local_rear_policy') == vehicle_ground_reference.LOCAL_REAR_POLICY,
+                                                    side_parking=source.get('side_parking_policy') == vehicle_ground_reference.SIDE_PARKING_POLICY)
     elif source.get("divider_policy") is not None:
         from . import parking_divider_choice
         if (method!=MARK or requested_box is None or policy!=CLEARANCE_POLICY

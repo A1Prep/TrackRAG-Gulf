@@ -157,6 +157,70 @@ def test_replay_binds_explicitly_selected_parking_and_vehicle_to_original_words_
             whole_bay.verify_current(changed,selected)
 
 
+SIDE_WORDS = 'To the right side of it, please.'
+
+
+def test_beside_reply_keeps_the_same_car_and_checks_only_the_requested_side(bank, tmp_path, monkeypatch):
+    packet = identity_packet(bank)
+    photo = bank.photo.read_bytes()
+    left = {'point': [28, 131], 'box': [23, 128, 33, 134],
+            'polygon': [[23, 128], [33, 128], [33, 134], [23, 134]],
+            'evidence': {'recipe': painted_bays.RECIPE, 'coverage': 'interior_point_only'}}
+    right = bank.options[0]
+    assert right['point'][0] > 60
+    captured = {}
+
+    def parking(request, photo, surface, classes, spec):
+        assert spec['track_id'] == 4
+        return [left, right]
+
+    def interpret(request):
+        outcome = reference.outcome(request, photo, bank.surface, packet, side_parking=True)
+        captured[request['text']] = (request, outcome)
+        return outcome
+
+    monkeypatch.setattr(near_vehicle, 'parking', parking)
+    session = PassengerSession(bank.scene, SimpleNamespace(interpret=interpret), audit_dir=tmp_path/'side')
+    initial = session.submit('Can you drop me next to the black car?')
+    assert initial['state'] == 'needs_clarification'
+    assert reference.SIDE_QUESTION in initial['result']['clarification_question']
+
+    offered = session.submit(SIDE_WORDS)
+    assert offered['state'] == 'proposed' and offered['near_vehicle_parking']
+    assert offered['result']['anchor_boxes_xyxy'] == initial['result']['anchor_boxes_xyxy']
+    assert offered['result']['destination_point_xy'] == right['point']
+    assert session.confirm(offered['proposal_id'])['state'] == 'confirmed'
+
+    request, outcome = captured[SIDE_WORDS]
+    assert whole_bay.verify_current(request, outcome)['decision_reproduced']
+    for change in ('direction', 'earlier_frame', 'other_prompt', 'condition', 'other_car'):
+        edited = deepcopy(request)
+        if change == 'direction':
+            edited['text'] = 'To the left side of it, please.'
+        elif change == 'earlier_frame':
+            edited['dialogue'][-2]['frame_id'] -= 1
+        elif change == 'other_prompt':
+            edited['dialogue'][-1]['text'] = 'Is that the vehicle you meant?'
+        elif change == 'condition':
+            edited['dialogue'][-2]['text'] += ' Only if parking is free.'
+        else:
+            edited['dialogue'][-2]['text'] = 'Can you drop me next to the red car?'
+        with pytest.raises(ValueError):
+            whole_bay.verify_current(edited, outcome)
+
+
+def test_beside_request_with_only_wrong_side_parking_keeps_the_reference_without_a_point(bank, monkeypatch):
+    packet = identity_packet(bank)
+    request = {**bank.req, 'text': 'Drop me to the right of the black car.'}
+    monkeypatch.setattr(near_vehicle, 'parking', lambda *args: [{'point': [21, 130]}])
+    result = reference.outcome(request, bank.photo.read_bytes(), bank.surface, packet, side_parking=True)
+    assert result['result']['status'] == 'needs_clarification'
+    assert result['result']['destination_point_xy'] is None
+    assert result['result']['anchor_boxes_xyxy'] == [[42.,100.,60.,126.]]
+    assert not result['provenance']['bay_choices']
+    assert whole_bay.verify_current(request, result)['decision_reproduced']
+
+
 def test_regular_registered_route_cannot_fall_through_to_slow_language_or_generic_bays(bank, monkeypatch):
     backend = object.__new__(place_evidence.PublicPlaceBackend)
     monkeypatch.setattr(backend,"allows_photo",lambda request: True)

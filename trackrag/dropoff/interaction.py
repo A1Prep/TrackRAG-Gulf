@@ -469,9 +469,10 @@ class PassengerSession:
                     if tree_proof.get("tree_landmark_side"):
                         bay["tree_landmark_side"] = tree_proof["tree_landmark_side"]
                 if len(self._result.get('anchor_boxes_xyxy') or []) == 1:
-                    from . import near_vehicle
+                    from . import near_vehicle, vehicle_ground_reference
                     matched = next((data for data in (proof,chosen_from) if data.get('near_vehicle_policy') in
-                                    (near_vehicle.POLICY,near_vehicle.ORIGINAL_POLICY)),None)
+                                    (near_vehicle.POLICY,near_vehicle.ORIGINAL_POLICY) or
+                                    data.get('side_parking_policy') == vehicle_ground_reference.SIDE_PARKING_POLICY),None)
                     if matched:
                         bay['near_vehicle_parking'] = True
                         if matched.get('near_vehicle_detail'):

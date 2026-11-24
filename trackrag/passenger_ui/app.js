@@ -9,6 +9,7 @@ const sceneSelect = el("scene"), image = el("frame"), canvas = el("overlay"), in
 let catalog, session, busy = false, capture = null, editing = false, previousDraft = null;
 let editTarget = null, retired = false;
 let photoState = "loading", retry = 0, notice = "", failure = "", historyRevision = "";
+let photoExample = null;
 let submitting = null, groundingPoll = null;
 let checkedMark = null, bayLabelBoxes = [];
 const pairs = new VehiclePairPicker(render);
@@ -35,7 +36,11 @@ function endpoint(action) {
 async function postAction(name, body, signal, actionId=crypto.randomUUID()) {
   const sid=session.session, revision=session.revision;
   try {
-    return await post(endpoint(name),body,{"X-Session-Revision":String(revision),"X-Action-ID":actionId},signal);
+    const headers={"X-Session-Revision":String(revision),"X-Action-ID":actionId};
+    if(name==="audio") {
+      return await api(endpoint(name),{method:"POST",headers:{...headers,"Content-Type":"audio/wav"},body,signal});
+    }
+    return await post(endpoint(name),body,headers,signal);
   } catch(error) {
     if(signal?.aborted || (error.status && error.status<500)) throw error;
     // A reply can be lost after the server applied the tap or confirmation. Read the
@@ -260,7 +265,12 @@ function render() {
   el("retry-photo").disabled = locked;
   text(el("retry-photo"), retired ? "Reopen scene" : "Reload photo");
   el("form").hidden = !formOpen;
+  const canTryExample = Boolean(photoExample && formOpen && ready && !editing && !stage && !micOn && !input.value.trim());
+  el("request-suggestion").hidden = !canTryExample;
+  el("use-example").disabled = locked || !canTryExample;
+  if (canTryExample) text(el("use-example"),photoExample);
   el("speech-controls").hidden = !catalog?.speech_available;
+  el("voice-options").hidden = !catalog?.speech_available || micOn;
   el("mic-choice").hidden = !catalog?.speech_available || el("mic-input").options.length < 2;
   el("mic-input").disabled = locked || !opened;
   el("mic-monitor").hidden = !micOn;
@@ -282,7 +292,9 @@ function render() {
   el("submit-area").disabled = input.disabled || !ready || staleEdit();
   el("discard-edit").hidden = !formOpen || (!editing && !stage) || micOn;
   el("discard-edit").disabled = locked;
-  text(el("discard-edit"), staleEdit() ? "Back to current request" : stage ? "Discard recording" : "Back without changing");
+  let backLabel = "Back without changing";
+  if (stage) backLabel = previousDraft?.text?.trim() ? "Return to my typed draft" : "Discard recording";
+  text(el("discard-edit"), staleEdit() ? "Back to current request" : backLabel);
 
   el("confirm").hidden = !(decision && v.state === "proposed" && v.proposal_id);
   el("confirm").disabled = locked || !ready;
@@ -340,7 +352,14 @@ async function perform(work, message = "", after) {
   catch (error) {
     failure = error.message || "The action could not be completed.";
     if (session) {
-      try { session = await api(endpoint()); sceneSelect.value = session.scene; }
+      try {
+        const prior = session;
+        session = await api(endpoint()); sceneSelect.value = session.scene;
+        if (session.session === prior.session && prior.voice_stage === "recording" && session.voice_stage === "review") {
+          input.value = session.transcript;
+          if (error.voiceActionId && session.last_action_id === error.voiceActionId) { success = true; failure = ""; }
+        }
+      }
       catch (syncError) { if (syncError.status === 404) { retired=true; photoState="failed"; resetSelection(); } }
     }
   } finally { busy = false; notice = ""; render(); }
@@ -352,6 +371,8 @@ function loadPhoto() {
 async function chooseScene() {
   const newSession = await post("/api/sessions", {scene:sceneSelect.value, previous:retired ? undefined : session?.session});
   session = newSession; input.value = ""; editing = false; previousDraft = editTarget = null; retired = false; retry = 0;
+  photoExample = newSession.example_request || null;
+  el("voice-options").open = false;
   resetSelection(); photo.fit(); el("frame-picker").open = el("history").open = false;
   const f = activeScene();
   el("footage-link").href = catalog.searchableScenes.has(f.key) ? "/footage?scene=" + encodeURIComponent(f.key) : "/footage";
@@ -551,6 +572,11 @@ function sendInstruction(choice = "automatic") {
   () => photo.active ? photo.focusPhoto() : pairs.open ? el("pair-first").focus() : focusResult());
 }
 el("form").onsubmit = e => { e.preventDefault(); sendInstruction(); };
+el("use-example").onclick = () => {
+  if (!photoExample || el("use-example").disabled || input.value.trim()) return;
+  input.value = photoExample;
+  render(); input.focus();
+};
 for (const [id, answer] of [["answer-yes", "Yes"], ["answer-no", "No"]]) {
   const button = el(id);
   button.onclick = () => {
@@ -579,8 +605,9 @@ async function beginAudio() {
 }
 async function sendAudio(blob) {
   checkAudio(blob);
-  session = await api(endpoint("audio"), {method:"POST", headers:{"Content-Type":"audio/wav",
-    "X-Session-Revision":String(session.revision)}, body:blob});
+  const actionId = crypto.randomUUID();
+  try { session = await postAction("audio",blob,undefined,actionId); }
+  catch (error) { error.voiceActionId = actionId; throw error; }
   input.value = session.voice_stage === "review" ? session.transcript : (previousDraft?.text || "");
 }
 el("upload").onclick = () => el("file").click();

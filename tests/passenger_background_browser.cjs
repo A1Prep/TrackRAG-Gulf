@@ -53,7 +53,16 @@ async function browserCase(browser,url) {
     requests.push({action,body,session:id});
     s.revision++;
     if (action==="begin-audio") s.voice_stage="recording";
-    if (action==="audio") { s.voice_stage="review"; s.transcript="Just behind the last car"; }
+    if (action==="audio") {
+      s.voice_stage="review"; s.transcript="Just behind the last car";
+      if(mock.loseAudioReply) {
+        assert.equal(req.headers()["content-type"],"audio/wav");
+        s.last_action_id=req.headers()["x-action-id"];
+        assert.match(s.last_action_id,/^[a-f0-9-]{36}$/);
+        mock.failReadbacks=mock.loseAudioReadbacks || 0;
+        return route.abort("connectionreset");
+      }
+    }
     if (action==="submit") {
       s.voice_stage=null;
       if (mock.loseImmediateReply && body.text === "Yes") {
@@ -195,6 +204,16 @@ async function main() {
       const s=await browserCase(browser,url),p=s.page; await p.locator("#instruction").fill(words);
       await p.locator("#"+button).click(); await p.waitForFunction(()=>document.querySelector('#form').hidden);
       assert.deepEqual(s.requests[0].body,{text:words,mode:"typed",[field]:true}); assert.deepEqual(s.errors,[]); await p.close();
+    }
+    // Whisper completed, but Edge lost the HTTP reply. A previous unrelated typing draft must never become the transcript.
+    for(const loseAudioReadbacks of [0,3]) {
+      const s=await browserCase(browser,url),p=s.page;
+      await p.locator("#instruction").fill("A different typed destination");
+      s.loseAudioReply=true; s.loseAudioReadbacks=loseAudioReadbacks;
+      await reviewVoice(p);
+      assert.equal(s.requests.filter(r=>r.action==="audio").length,1);
+      assert.equal(s.requests.filter(r=>r.action==="submit").length,0);
+      assert(await p.locator("#error").isHidden()); await p.close();
     }
     for (const boxes of [[[44,80,125,146]], [[44,80,125,146],[331,93,412,163]]]) {
       const s=await browserCase(browser,url),p=s.page;

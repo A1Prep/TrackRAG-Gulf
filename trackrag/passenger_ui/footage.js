@@ -135,7 +135,7 @@ function showFirstMarker(row) {
   if (busy || player.playing || !subject?.first_box || subject.first_frame >= row.id || player.frames.length < 2) return;
   const at = player.frames.findIndex(f=>f.id===subject.first_frame);
   if (at < 0) return;
-  const label = "Go to the first sighting of the "+className(subject.class_name)+" at "+formatTime(player.frames[at].time);
+  const label = "Go to the first detection of the highlighted track ("+subject.id+") at "+formatTime(player.frames[at].time);
   marker.title = label; marker.setAttribute("aria-label",label);
   const fraction = at/(player.frames.length-1);
   marker.style.left = "calc("+100*fraction+"% + "+(8-16*fraction)+"px)";

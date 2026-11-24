@@ -1,0 +1,190 @@
+{
+  "scope": "Normal Microsoft Edge on previously prepared KartaView photos. The four-second 48 kHz local source was uploaded as an original WAV and played through a browser test microphone with the same mono PCM duplicated into a stereo stream. Whisper ran on CPU. The engineering test did not recruit a passenger. No raw audio, session tokens or camera coordinates are in this record.",
+  "normal_build": {
+    "port": 8812,
+    "cases": [
+      {
+        "case": "real device capture, reviewed then sent",
+        "raw": "Could you drop me behind the black card?",
+        "review_ms": 2781,
+        "button_to_review_ms": 8701,
+        "positive_level": true,
+        "raw_exact": false,
+        "approved": "Could you drop me behind the white car?",
+        "mode": "voice",
+        "first_pending": true,
+        "ack_ms": 65,
+        "done_ms": 597,
+        "state": "proposed",
+        "heading": "Is this the spot you meant?",
+        "status": "The gold ring marks the open ground behind the outlined white SUV. Is this where you want to get out?",
+        "saved": false,
+        "point": [
+          2229.547,
+          1443.851
+        ],
+        "journal_verified": [
+          {
+            "mode": "voice",
+            "sent_words": "Could you drop me behind the white car?",
+            "original_words": "Could you drop me behind the black card?",
+            "sample_rate_hz": 48000,
+            "device": "cpu",
+            "asr_model": "Systran/faster-whisper-small.en",
+            "model_sha256": "bab18bb764bed442791b59bf681c5aed8b9c27808ca487399cd5ac79d02a6efd"
+          }
+        ]
+      },
+      {
+        "case": "mobile visible WAV upload, discard, retry, edit",
+        "raw": "Could you drop me behind the black car?",
+        "unchanged_audio_hash_both": true,
+        "discard_restored_original": "I would like the spot on the right, please.",
+        "discarded": null,
+        "review1_ms": 2798,
+        "review2_ms": 2975,
+        "mobile": {
+          "horizontal_overflow": false,
+          "mic_top": 656,
+          "viewport_height": 844,
+          "wav_under_voice_options": true,
+          "voice_options_label": "Voice options"
+        },
+        "approved": "Can you drop me next to the parking spot on the right?",
+        "mode": "voice",
+        "first_pending": true,
+        "ack_ms": 57,
+        "done_ms": 1622,
+        "state": "proposed",
+        "heading": "Is this your intended bay?",
+        "status": "The gold ring marks the centre of the outlined parking bay in the lower right of the photo.",
+        "saved": false,
+        "point": [
+          2058.119,
+          1327.806
+        ],
+        "journal_verified": [
+          {
+            "mode": "voice",
+            "sent_words": "Can you drop me next to the parking spot on the right?",
+            "original_words": "Could you drop me behind the black car?",
+            "sample_rate_hz": 48000,
+            "device": "cpu",
+            "asr_model": "Systran/faster-whisper-small.en",
+            "model_sha256": "bab18bb764bed442791b59bf681c5aed8b9c27808ca487399cd5ac79d02a6efd"
+          }
+        ]
+      },
+      {
+        "case": "silent WAV and fallback typing",
+        "asr_code": "no_speech",
+        "prior_draft_preserved": true,
+        "ms": 48,
+        "visible": {
+          "title": "Try voice again or type",
+          "error": "No words were recognized. Record again or type the instruction."
+        },
+        "mode": "typed",
+        "first_pending": true,
+        "ack_ms": 52,
+        "done_ms": 570,
+        "state": "proposed",
+        "heading": "Is this your intended bay?",
+        "status": "The gold ring marks the centre of the outlined parking bay in the lower right of the photo.",
+        "saved": false,
+        "point": [
+          2058.119,
+          1327.806
+        ],
+        "journal_verified": [
+          {
+            "mode": "typed",
+            "sent_words": "Can you drop me next to the parking spot on the right?"
+          }
+        ]
+      },
+      {
+        "case": "slow/readback after reviewed voice, explicit cancel and fresh typed retry",
+        "controls": {
+          "cancel": true,
+          "mark": true,
+          "switch_scene": true
+        },
+        "held_server_reads": 1,
+        "cancelled_state": "cancelled",
+        "late_reply_ignored": true,
+        "repeated": {
+          "mode": "typed",
+          "first_pending": true,
+          "ack_ms": 53,
+          "done_ms": 585,
+          "state": "proposed",
+          "heading": "Is this your intended bay?",
+          "status": "The gold ring marks the centre of the outlined parking bay in the lower right of the photo.",
+          "saved": false,
+          "point": [
+            2058.119,
+            1327.806
+          ]
+        },
+        "journal_verified": [
+          {
+            "mode": "voice",
+            "sent_words": "Can you drop me next to the parking spot on the right?",
+            "original_words": "Could you drop me behind the black car?",
+            "sample_rate_hz": 48000,
+            "device": "cpu",
+            "asr_model": "Systran/faster-whisper-small.en",
+            "model_sha256": "bab18bb764bed442791b59bf681c5aed8b9c27808ca487399cd5ac79d02a6efd"
+          },
+          {
+            "mode": "typed",
+            "sent_words": "Can you drop me next to the parking spot on the right?"
+          }
+        ]
+      }
+    ],
+    "page_errors": []
+  },
+  "lost_response_trials": [
+    {
+      "version": "original",
+      "lost_readbacks_after_audio_reply": 0,
+      "whisper_calls": 1,
+      "stage": "review",
+      "displayed_exact_transcription": false,
+      "ms": 3394
+    },
+    {
+      "version": "first repair",
+      "lost_readbacks_after_audio_reply": 0,
+      "whisper_calls": 1,
+      "stage": "review",
+      "displayed_exact_transcription": true,
+      "ms": 2991
+    },
+    {
+      "version": "first repair",
+      "lost_readbacks_after_audio_reply": 3,
+      "whisper_calls": 1,
+      "stage": "review",
+      "displayed_exact_transcription": false,
+      "ms": 4313
+    },
+    {
+      "version": "final repair",
+      "lost_readbacks_after_audio_reply": 3,
+      "whisper_calls": 1,
+      "stage": "review",
+      "displayed_exact_transcription": true,
+      "ms": 6206
+    }
+  ],
+  "additional_configuration": {
+    "outcome": "A separate stage launched without the public prepared-photo flags fell through to the local model on the first free-form request and timed out. The documented timing below was retained separately from the normal configured site.",
+    "response_ms": 15564,
+    "state": "error",
+    "proposal": null
+  },
+  "mobile_observation": "At 390 by 844 pixels the main microphone button was visible, the upload was in Voice options and the page fit horizontally. During initial transcript review both Discard recording and Cancel request were offered. Only the first restored the prior typed words; the similar purposes could be clearer to a new passenger."
+}

@@ -8,6 +8,7 @@ import pytest
 from test_passenger_bay_evidence import bank, seal
 from test_passenger_manual_offlane import provide_map
 from test_vehicle_rear_ground import parked_row
+from trackrag.dropoff import local_vehicle_observations
 from trackrag.dropoff import vehicle_curb_ground, vehicle_ground_reference, vehicle_ground_view
 from trackrag.dropoff import vehicle_rear_ground, whole_bay
 from trackrag.dropoff.interaction import PassengerSession
@@ -86,6 +87,39 @@ def test_registered_first_request_reaches_the_actual_pavement_measurement(bank, 
     assert y > anchor['box'][3] and classes[round(y),round(x)] == 13
     assert view['result']['anchor_boxes_xyxy'] == [anchor['box']]
     assert session.confirm(view['proposal_id'])['state'] == 'confirmed'
+
+
+@pytest.mark.parametrize('other_colour', ['black', 'unknown'])
+def test_current_local_car_family_result_replays_and_withholds_for_a_plausible_rival(bank, monkeypatch, other_colour):
+    rival = bank.scene['tracks'][0]
+    rival['frame_id'] = bank.scene['frame']['frame_id']
+    by_track = {
+        4: ('white | sedan | REAR', 'white | car | REAR'),
+        rival['track_id']: (f'{other_colour} | sedan | REAR',) * 2,
+        7: ('black | van | SIDE',) * 2,
+    }
+    packet = {'origin': local_vehicle_observations.ORIGIN}
+    specs = local_vehicle_observations.specs_for(packet, bank.scene, bank.classes)
+    rows = [{'calls': [{'reply': reply} for reply in by_track[spec['track_id']]]} for spec in specs]
+    packet['body'] = {'rows': rows, 'count': len(rows)}
+    monkeypatch.setattr(local_vehicle_observations, 'verify', lambda *args: [
+        local_vehicle_observations.consensus(row['calls']) for row in rows
+    ])
+    monkeypatch.setattr(vehicle_rear_ground, 'candidates', lambda *args, **kwargs: [measured_patch()])
+    req = {**bank.req, 'text': QUESTION}
+    photo = bank.photo.read_bytes()
+
+    legacy = vehicle_ground_reference.outcome(req, photo, bank.surface, packet, measure_rear=True)
+    assert legacy['result']['destination_point_xy'] is None
+    assert whole_bay.verify(req, legacy)['decision_reproduced']
+
+    current = vehicle_ground_reference.outcome(req, photo, bank.surface, packet, measure_rear=True, local_rear=True)
+    if other_colour == 'black':
+        assert current['result']['destination_point_xy'] == measured_patch()['point']
+        assert current['provenance']['automatic_rear_ground']['track_id'] == 4
+    else:
+        assert current['result']['destination_point_xy'] is None
+    assert whole_bay.verify(req, current)['decision_reproduced']
 
 
 @pytest.mark.parametrize('colour,facing,words', [('black', 'REAR', QUESTION), ('white', 'FRONT', QUESTION),

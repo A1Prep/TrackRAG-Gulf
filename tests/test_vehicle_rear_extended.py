@@ -81,6 +81,21 @@ def test_vehicle_shade_and_landmark_clarifications_keep_the_requested_detail():
     assert reference._unread_shop({**shop,'qualifiers':[{'field':'ground','value':'driveway'}]}) is None
 
 
+@pytest.mark.parametrize(('coarse_class', 'first', 'second', 'expected'), [
+    ('car', 'white | sedan | REAR', 'white | car | REAR', ['white', 'car', 'REAR', 'NONE']),
+    ('car', 'white | sedan | REAR', 'silver | car | REAR', ['unknown', 'car', 'REAR', 'NONE']),
+    ('car', 'white | sedan | REAR', 'white | pickup | REAR', ['white', 'unknown', 'REAR', 'NONE']),
+    ('car', 'white | sedan | REAR', 'white | car | FRONT', ['white', 'unknown', 'UNCLEAR', 'NONE']),
+    ('large_vehicle', 'white | sedan | REAR', 'white | car | REAR', ['white', 'unknown', 'REAR', 'NONE']),
+])
+def test_rear_reference_keeps_only_the_body_category_supported_by_both_crops(coarse_class, first, second, expected):
+    from trackrag.dropoff import local_vehicle_observations
+
+    crops = [{'reply': first}, {'reply': second}]
+    reading = local_vehicle_observations.consensus(crops)
+    assert reference._generic_car_reading({'class': coarse_class}, reading, {'calls': crops}) == expected
+
+
 @pytest.mark.parametrize(('obstruction','accepted'), [(None,True),('cross_fence',False),('walking_gap',False)])
 def test_marked_row_requires_continuous_bumper_ground_and_an_open_street_edge(obstruction,accepted):
     labels = np.full((240,400),13,np.uint8)

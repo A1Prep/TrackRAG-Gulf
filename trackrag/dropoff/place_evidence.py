@@ -346,7 +346,7 @@ class PlaceDialogueGrounder:
         if local_only(request.get("scene",{})):
             from . import local_vehicle_observations
             ref = vehicle_ground_reference.direct_reference(request)
-            if ref and (ref['relation']=='near' or (ref['relation'] == 'behind' and
+            if ref and (ref['relation']=='near' or vehicle_ground_reference.plain_ground_side(ref) or (ref['relation'] == 'behind' and
                        local_vehicle_observations.get_packet(request['scene']['provenance']['image_sha256']) is not None)):
                 current = vehicle_ground_reference.available(request)
                 return current if current is not None else vehicle_ground_reference.unavailable(request)

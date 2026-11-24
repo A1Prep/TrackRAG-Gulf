@@ -22,8 +22,38 @@ CHOICE_REASONS = {CHOICE_REASON, SIDE_CHOICE_REASON, EXPLICIT_GROUND_REASON}
 PREVIOUS_RELATION_POLICY = 'separate_vehicle_and_measured_destination_v2'
 RELATION_POLICY = 'separate_rear_lateral_and_marked_ground_v3'
 LOCAL_REAR_POLICY = 'local_car_family_and_curb_strip_v1'
+SIDE_PARKING_POLICY = 'adjacent_parking_on_requested_side_v1'
+SIDE_QUESTION = 'Which side of it do you mean? Please mark the open ground beside it.'
 NO_READING = 'passenger_vehicle_reading_unavailable_v1'
 LIGHT_PAINT = re.compile(r"\b(?:beige|tan|champagne|ivory|cream|off[ -]white)\b",re.I)
+_SIDE_REPLY = re.compile(
+    r'(?:(?:to|on) )?(?:the )?(left|right)(?:[ -]hand)?(?: side)?'
+    r'(?: of (?:it|that car|that vehicle))?(?:,? please)?[.!?]*', re.I,
+)
+
+
+def _ground_side_reply(request):
+    """Carry forward the vehicle only when answering its immediate question on this photo."""
+    answer = _SIDE_REPLY.fullmatch(' '.join(request['text'].split()))
+    turns = request.get('dialogue') or []
+    if not answer or len(turns) < 2:
+        return None
+    original, prompt = turns[-2:]
+    frame = request['scene']['frame']
+    if (original['role'], prompt['role']) != ('user', 'assistant') or any(
+        (turn.get('recording_id'), turn.get('frame_id')) != (frame['recording_id'], frame['frame_id'])
+        for turn in (original, prompt)
+    ):
+        return None
+    if not prompt['text'].startswith('I found the outlined ') or not prompt['text'].endswith(SIDE_QUESTION):
+        return None
+    from .vehicle_relative_bays import restricted_instruction
+
+    previous = direct_reference({'text': original['text']})
+    if (not previous or previous['relation'] != 'beside' or previous.get('ground_side')
+            or previous.get('qualifiers') or restricted_instruction(original['text'])):
+        return None
+    return {**previous, 'qualified': True, 'qualifiers': [], 'ground_side': answer[1].lower()}
 
 
 def direct_reference(request, *, expanded=True):
@@ -35,6 +65,9 @@ def direct_reference(request, *, expanded=True):
     nearby = near_vehicle.reference(request['text']) if expanded else None
     if nearby is not None:
         return nearby
+    side_reply = _ground_side_reply(request) if expanded else None
+    if side_reply is not None:
+        return side_reply
     qualified = qualifiers.parse(request) if expanded else qualifiers.parse(request, expanded=False)
     if qualified is not None:
         return qualified
@@ -61,6 +94,48 @@ def _matching(specs, answers, ref, width):
             if row[1] != 'unknown' and single_vehicle._compatible(ref['kind'], row[1])
             and (not ref['color'] or ref['color'] == row[0])
             and single_vehicle._side(spec['box'], width, ref['side'])]
+
+
+def plain_ground_side(ref):
+    return bool(ref and ref['relation'] == 'beside' and ref.get('ground_side') and not ref.get('qualifiers'))
+
+
+def _side_parking(request, photo, surface, classes, ref, specs, answers, portable, evidence):
+    from . import vehicle_side_ground, whole_bay
+
+    scene = request['scene']
+    frame = scene['frame']
+    width = frame['width']
+    matches = _matching(specs, answers, ref, width)
+    possible = near_vehicle.uncertain_matches(specs, answers, ref, width)
+    options = []
+    question = 'Which vehicle do you mean? You can add a visible detail or mark the parking area.'
+    if len(matches) == 1 and not possible:
+        spec, reading = matches[0]
+        label = ' '.join(reading[:2]).replace('suv', 'SUV')
+        consistent, side = vehicle_side_ground.requested_image_side(
+            request['text'], ref['ground_side'], reading[2], spec['box'], (width, frame['height'])
+        )
+        if consistent:
+            left, _, right, _ = spec['box']
+            options = [option for option in near_vehicle.parking(request, photo, surface, classes, spec)
+                       if (option['point'][0] > right if side == 'right' else option['point'][0] < left)]
+            if options:
+                question = f'Which parking location to the {side} of the outlined {label} did you mean?'
+                evidence['near_vehicle_detail'] = f'The spot is to the {side} of the outlined {label} in the photo.'
+            else:
+                question = (f'I found the outlined {label}. I couldn’t verify open parking to its {side}. '
+                            'Could you mark another visible parking spot?')
+        else:
+            question = 'I found the outlined vehicle. Which side of it in the photo do you mean?'
+    result = whole_bay._make(
+        request, portable, options, surface, method=whole_bay.AUTO,
+        reason=near_vehicle.REASON if options else 'vehicle_seen_space_withheld', question=question,
+        side_parking_policy=SIDE_PARKING_POLICY, **evidence,
+    )
+    if matches or possible:
+        result['result']['anchor_boxes_xyxy'] = [spec['box'] for spec, _ in matches + possible]
+    return result
 
 
 def _generic_car_reading(spec, reading, observations):
@@ -282,7 +357,7 @@ def decision(request, ref, specs, answers, classes, mark=None, *, observations=(
         if cell in (2,15):
             return boxes, [], no_ground, 'Your mark is on the curb or footpath. Could you tap the vehicle-accessible ground you mean?'
     if relation == 'beside':
-        return boxes, [], no_ground, f'I found the outlined {label}. Which side of it do you mean? Please mark the open ground beside it.'
+        return boxes, [], no_ground, f'I found the outlined {label}. {SIDE_QUESTION}'
     if row[2] != 'REAR' or not single_vehicle.visible_vehicle_end(spec['box'], size):
         return boxes, [], no_ground, f'I found the outlined {label}. Its rear is hard to place from this angle. Could you mark the ground you mean?'
     ground = spec['ground']
@@ -353,7 +428,7 @@ def _previously_observed_rear(request, photo, surface, earlier, specs, answers, 
 def outcome(request, photo, surface, packet, mark=None, *, qualifier_packets=None, earlier_vehicle=None, expanded=True,
             observe_sides=True, side_packet=None, load_side_packet=True, side_release=None, measure_rear=False,
             archived_identity=None, load_archived_identity=False, extended_rear=False, tail_packet=None,
-            explain_lane_mark=False, road_comparisons=False, nearby_parking=False, local_rear=False):
+            explain_lane_mark=False, road_comparisons=False, nearby_parking=False, local_rear=False, side_parking=False):
     from . import whole_bay
     ref = direct_reference(request, expanded=expanded)
     if ref is None:
@@ -394,6 +469,11 @@ def outcome(request, photo, surface, packet, mark=None, *, qualifier_packets=Non
                 answers = broader
     if expanded:
         evidence['vehicle_relation_policy'] = RELATION_POLICY if observe_sides else PREVIOUS_RELATION_POLICY
+    if side_parking and mark is None and plain_ground_side(ref):
+        from .vehicle_relative_bays import restricted_instruction
+
+        if not restricted_instruction(clean['text']):
+            return _side_parking(clean, photo, surface, classes, ref, specs, answers, portable, evidence)
     if ref['relation']=='near':
         if not nearby_parking or mark is not None:
             return None
@@ -624,7 +704,7 @@ def available(request, photo=None, surface=None, mark=None, *, earlier_vehicle=N
     try:
         return outcome(request, photo, surface, packet, mark, earlier_vehicle=earlier_vehicle, measure_rear=True,
                        load_archived_identity=True, extended_rear=True, tail_packet=local_vehicle_tail.get_packet(key),
-                       explain_lane_mark=True, road_comparisons=True, nearby_parking=True, local_rear=True)
+                       explain_lane_mark=True, road_comparisons=True, nearby_parking=True, local_rear=True, side_parking=True)
     except (KeyError, TypeError, ValueError, OSError):
         return None
 

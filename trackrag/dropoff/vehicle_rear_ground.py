@@ -228,6 +228,9 @@ def candidates(original, classes, scene, anchor, *, facing):
     if not found or len({direction for direction,_,_ in found}) != 1:
         return []
     direction,partner,sections = max(found,key=lambda result:len(result[2]))
+    from . import traffic_arrow
+    if traffic_arrow.in_measured_strip(rgb, classes, sections, anchor['box'], size, direction):
+        return []
     middle = min(sections,key=lambda s:abs(s.y - (bottom+.54*bh)))
     x,y = int(round(.5*(middle.lane+middle.curb))),middle.y
     radius = max(2, round(.07*min(bw,bh)))

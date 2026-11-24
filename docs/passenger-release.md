@@ -14,9 +14,11 @@ From the prepared laptop checkout, run the following command and open the local 
 
 On the prepared Windows laptop, double-click **Start TrackRAG.cmd** in the project folder. It opens the application after verifying that the two footage recordings are available.
 
-1. Open **Search footage**. The first recording opens at 11.7 seconds with a box around the bus. Choose **When did the bus first appear?** The answer places its first detection at 10.8 seconds. Select the frame 109 thumbnail to see exactly what the detector saw. Choose **Return to the question frame** to return to 11.7 seconds. [Open the bus recording](http://127.0.0.1:8775/footage?recording=video_054604&frame=118)
+1. Open **Search footage**. The first recording opens at 11.7 seconds with a box around the bus. Choose **When did the bus first appear?** The answer places its first detection at 10.8 seconds. Select the frame 109 thumbnail, then choose **Play lead-in** to see the preceding two seconds. **Return to search point** goes back to 11.7 seconds. **Copy answer with evidence** includes links that open in the running local app. [Open the bus recording](http://127.0.0.1:8775/footage?recording=video_054604&frame=118)
 2. Open the hotel street photo and type **Could you drop me behind the white car?** Inspect the blue vehicle outline and the gold ring on the ground behind the SUV. **Save this location** records the passenger’s choice. For the voice route, use **Record voice**, stop, review the transcript and send it. The driver assesses the actual stopping conditions. [Open the hotel photo](http://127.0.0.1:8775/?scene=b478c884c0832f9ea6d0fc05)
 3. To show ambiguity, ask **Could you drop me next to the restaurant?** on the restaurant photo. Select one of the two outlined bays. You can also mark their shared dividing line and choose the bay you mean. Moving the mark to the traffic lane removes the offer. These are rehearsed examples. The separately selected photos measure how the passenger feature transfers to new drives. [Open the restaurant photo](http://127.0.0.1:8775/?scene=4edc9abbff73676b9a63bc1d)
+
+To show a spoken or typed follow-up, open the silver-car photo. Ask **Can you drop me next to the silver car?** and reply **To the right side, please.** The app keeps the same vehicle outlined and highlights the adjoining painted bay. A tap on its painted edge offers the bay for review. [Open the silver-car photo](http://127.0.0.1:8775/?scene=7520651abea7382db45fcc04)
 
 A different presentation example shows the practical limit. Open the warehouse photo and ask **Could I get out behind the blue truck on the right?** The app outlines the truck and leaves the ground unresolved. Choose **Show this vehicle to the driver** to enlarge that truck beside the passenger’s actual words. **Back to the photo** returns to the same request. [Open the warehouse photo](http://127.0.0.1:8775/?scene=f95dfa2542b4daec69177308) · [Verified on three additional UAE scenes](../experiments/dropoff/passenger-driver-landmark-browser-20261124.json)
 
@@ -100,6 +102,18 @@ python -m tools.passenger_release start --qa-data-root "$emtImages" --qa-predict
 With the default directories shown above, subsequent launches can use `python -m tools.passenger_release start --require-footage 2 --low-memory --port 8775`. Run `python -m tools.passenger_parking_photos` once to install the 81 public UAE photos used for parking and landmark review. Add `--parking-backend modal --public-places` to the launch command for the public parking and place checks. Keep the files in `images` alongside the prepared EMT `requests.jsonl` if moving that bank. The separate UAE photo bank stores SHA-256-named JPEGs alongside `passenger-requests.jsonl`. A custom EMT subset must include the recording prefix through the requested frame. A fresh download and the released track files reproduced all ten original demonstration inputs. [Image and scene verification](../experiments/dropoff/passenger-demo-image-verification-20261122.json) · [Private release files](https://github.com/A1Prep/TrackRAG-Gulf/releases/tag/passenger-feature-20261122)
 
 A fresh GitHub clone on the project laptop generated a proposal behind the white SUV and accepted confirmation of that precise proposal. A second install in that checkout downloaded both model and detector archives from the private release. All 300 original photographs passed validation and all ten prepared inputs matched the originals byte for byte. Both rehearsals shared the laptop’s installed Python environment and pinned base model. [Fresh-checkout evidence](../experiments/dropoff/passenger-fresh-checkout-20261122.json)
+
+### Install the eight additional test photos
+
+These KartaView stills include the checked white-SUV scene 6179929, frame 28. The three installs preserve the exact saved Task 1 detections used in each trial. The launcher loads each installed group, checks its surface maps and makes the locally fine-tuned 8B crop readings available on the two photos that have them. These are development examples. [Source, licence and archive metadata](../experiments/dropoff/passenger-field-photos-20261124)
+
+```powershell
+python -m tools.passenger_local_photos install --out data/uae-parking-local-field-visible-20261124 --published-manifest experiments/dropoff/passenger-field-photos-20261124/visible/sources.json a732a618d903a440f30159c1c0448944769db889fd5a54480e6c8b5426e4b0e3
+python -m tools.passenger_local_photos install --out data/uae-parking-local-field-occluded-20261124 --published-manifest experiments/dropoff/passenger-field-photos-20261124/occluded/sources.json 8b0ca69ce2c78b698ecc675802579395e93989276d924eac0acbd1b844f5198d
+python -m tools.passenger_local_photos install --out data/uae-parking-local-field-other-20261124 --published-manifest experiments/dropoff/passenger-field-photos-20261124/other/sources.json 4bda8e26cc70bc97a8ddda3dc4076ed3aa6ac9c87606e1cfb13b8ee39ab11ea4
+```
+
+Restart the server after installing. Add `--offline --originals <jpeg-directory>` to read existing originals named by their SHA-256 hashes. [White-SUV test scene](http://127.0.0.1:8775/?scene=7389ea40f17366ac88ca2958)
 
 ### Six UAE photographs processed locally
 

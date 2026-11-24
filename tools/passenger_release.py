@@ -54,6 +54,11 @@ RESERVE_MODEL_FILES = (
     ('local_vehicle_observations', 'vehicle-observations-v2.json',
      '704197c9c1ab8a9ca108b8cf93bbc8db107ad6b80e4e75ffd00536af256f0ff5'),
 )
+FIELD_PHOTO_RESULTS = "experiments/dropoff/passenger-field-photos-20261124"
+FIELD_SURFACE_FILES = (
+    ("local_surface_index", "passenger-local-image-surfaces-v1.json",
+     "bff2a0b90ca5b15c2d374f9b79f302d6e6d96aeeadb26ea6f23efb4fbef9315b"),
+)
 PHOTO_PACKS = (
     (EXTRA_PHOTO_BANK, EXTRA_PHOTO_RESULTS, tuple((kind, *pin) for kind, pin in EXTRA_MODEL_FILES.items())),
     (REAR_PHOTO_BANK, REAR_PHOTO_RESULTS, REAR_MODEL_FILES),
@@ -85,6 +90,13 @@ PHOTO_PACKS = (
          ("local_vehicle_tail_observations", "vehicle-tail-observations-v1.json",
           "05068433e911cd0e8b76e3331d27e247e00ad738a2de64e7ce1f49ac4396a4f8"),
      )),
+    ("data/uae-parking-local-field-visible-20261124/passenger-requests.jsonl", FIELD_PHOTO_RESULTS, (
+        *FIELD_SURFACE_FILES,
+        ("local_vehicle_observations", "vehicle-observations.json",
+         "2b164f50eed7d6b61d9359bfd6d0bb45ff5ee90c7a6c083cc7f7f9439191f4fd"),
+    )),
+    ("data/uae-parking-local-field-occluded-20261124/passenger-requests.jsonl", FIELD_PHOTO_RESULTS, FIELD_SURFACE_FILES),
+    ("data/uae-parking-local-field-other-20261124/passenger-requests.jsonl", FIELD_PHOTO_RESULTS, FIELD_SURFACE_FILES),
 )
 
 

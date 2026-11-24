@@ -288,6 +288,12 @@ function render() {
   el("edit-original").disabled = locked;
   el("submit-pointing").hidden = !formOpen || !v.can_request_pointing || !input.value.trim() || Boolean(stage && stage !== "review");
   el("submit-pointing").disabled = input.disabled || !ready || staleEdit();
+  const morePhotoOptions = el("other-photo-options");
+  morePhotoOptions.hidden = el("submit-pointing").hidden;
+  const pairWords = /\b(between|pair|both|two|2)\b/i.test(input.value);
+  if (!morePhotoOptions.hidden && pairWords && !morePhotoOptions.dataset.pair) morePhotoOptions.open = true;
+  if (morePhotoOptions.hidden || (!pairWords && morePhotoOptions.dataset.pair)) morePhotoOptions.open = false;
+  morePhotoOptions.dataset.pair = pairWords && !morePhotoOptions.hidden ? "yes" : "";
   el("submit-area").hidden = !formOpen || !v.can_request_area || !input.value.trim() || Boolean(stage && stage !== "review");
   el("submit-area").disabled = input.disabled || !ready || staleEdit();
   el("discard-edit").hidden = !formOpen || (!editing && !stage) || micOn;

@@ -1,0 +1,54 @@
+{
+  "application": "Local TrackRAG-Gulf on port 8775, desktop Edge, 24 November 2026",
+  "release_policy": "7187f6e715ab88183d29d2936bb71c0a9a710c2e",
+  "mode": "Existing Gemini visual review with privacy-processed evidence from two original EMT recordings. Each submission used the normal Search footage form.",
+  "scope": "The last request sought a moment after the playhead and was withheld locally. Durations are submission to browser reply.",
+  "observations": [
+    {
+      "clip": "video_054907",
+      "frame": 150,
+      "question": "At 0:07, what structure stretches across the road above the traffic?",
+      "answer": {
+        "answer_status": "answered",
+        "answer": "An overpass bridge stretches across the road above the traffic.",
+        "cited_evidence_ids": [
+          "E1"
+        ]
+      },
+      "citedFrames": [
+        71
+      ],
+      "seconds": 7.065
+    },
+    {
+      "clip": "video_054604",
+      "frame": 150,
+      "question": "Is the yellow bus visible on the left at both 0:03 and 0:12.5?",
+      "answer": {
+        "answer_status": "answered",
+        "answer": "No, the yellow bus is not visible on the left at 0:03 (frame 31), where only a silver car and other scenery appear, but it is visible on the left at 12.5 seconds (frame 126).",
+        "cited_evidence_ids": [
+          "E2",
+          "E3"
+        ]
+      },
+      "citedFrames": [
+        31,
+        126
+      ],
+      "seconds": 11.538
+    },
+    {
+      "clip": "video_054907",
+      "frame": 71,
+      "question": "What colour is the truck at 0:13?",
+      "answer": {
+        "answer_status": "insufficient_evidence",
+        "answer": "That time is outside the footage available from the start through the paused frame.",
+        "cited_evidence_ids": []
+      },
+      "citedFrames": [],
+      "seconds": 0.273
+    }
+  ]
+}

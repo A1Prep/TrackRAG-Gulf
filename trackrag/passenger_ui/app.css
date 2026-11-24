@@ -115,6 +115,7 @@ summary {cursor:pointer;font-weight:580}
 .request-suggestion button:hover {background:#e2eddc}
 #voice-options {width:100%;color:var(--quiet);font-size:.84rem;margin:2px 0}
 .voice-options-body {display:flex;align-items:center;flex-wrap:wrap;gap:5px 14px;padding:4px 0}
+#other-photo-options {color:var(--quiet);font-size:.85rem;margin:4px 0}
 #mic::before {content:"";display:inline-block;width:6px;height:10px;margin:0 7px 0 0;border:2px solid currentColor;border-radius:5px;vertical-align:-1px}
 [data-state="listening"] #mic::before {background:#a43e27;color:#a43e27}
 .history {margin-top:16px;padding:10px 0 0}

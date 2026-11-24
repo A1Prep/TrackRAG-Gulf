@@ -202,6 +202,10 @@ async function main() {
     // Direct area/vehicle requests stay on their immediate server routes.
     for (const [button,field] of [["submit-area","mark_on_photo"],["submit-pointing","point_to_vehicles"]]) {
       const s=await browserCase(browser,url),p=s.page; await p.locator("#instruction").fill(words);
+      if(button==="submit-pointing") {
+        assert(await p.locator("#submit-pointing").isHidden());
+        await p.locator("#other-photo-options summary").click();
+      }
       await p.locator("#"+button).click(); await p.waitForFunction(()=>document.querySelector('#form').hidden);
       assert.deepEqual(s.requests[0].body,{text:words,mode:"typed",[field]:true}); assert.deepEqual(s.errors,[]); await p.close();
     }

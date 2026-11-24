@@ -28,12 +28,12 @@ PUBLIC_PHOTO_LISTS = ("passenger-uae-parking-photos-20261123.json", "passenger-p
                       "passenger-frontage-photos-20261123.json", "passenger-frontage-extended-photos-20261123.json")
 EXTRA_PHOTO_BANK = "data/uae-parking-local-extra/passenger-requests.jsonl"
 EXTRA_PHOTO_RESULTS = "experiments/dropoff/passenger-additional-local-photos-20261124"
-EXTRA_MODEL_FILES = (
-    ("local_surface_index", "passenger-local-image-surfaces-v1.json",
-     "41a0c2e929523fb2220e04027203c2f863b8e9653a3ba7c1d21e675f92b8e4e8"),
-    ("local_observations", "observations.json",
-     "3c11f54f49eb0f5db47e8715e252e8b091b20830930d75e61eb1fb6eb0f75e6f"),
-)
+EXTRA_MODEL_FILES = {
+    "local_surface_index": ("passenger-local-image-surfaces-v1.json",
+                            "41a0c2e929523fb2220e04027203c2f863b8e9653a3ba7c1d21e675f92b8e4e8"),
+    "local_observations": ("observations.json",
+                           "3c11f54f49eb0f5db47e8715e252e8b091b20830930d75e61eb1fb6eb0f75e6f"),
+}
 REAR_PHOTO_BANK = 'data/uae-parking-local-rear-20261124/passenger-requests.jsonl'
 REAR_PHOTO_RESULTS = 'experiments/dropoff/passenger-rear-local-photos-20261124'
 REAR_MODEL_FILES = (
@@ -51,7 +51,7 @@ RESERVE_MODEL_FILES = (
      'b03aa392eb8631683ff58cfa9d4cc69a63c5e2997515a6a7bd94a56d4e2e1828'),
 )
 PHOTO_PACKS = (
-    (EXTRA_PHOTO_BANK, EXTRA_PHOTO_RESULTS, EXTRA_MODEL_FILES),
+    (EXTRA_PHOTO_BANK, EXTRA_PHOTO_RESULTS, tuple((kind, *pin) for kind, pin in EXTRA_MODEL_FILES.items())),
     (REAR_PHOTO_BANK, REAR_PHOTO_RESULTS, REAR_MODEL_FILES),
     (RESERVE_PHOTO_BANK, RESERVE_PHOTO_RESULTS, RESERVE_MODEL_FILES),
 )

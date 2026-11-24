@@ -2,13 +2,19 @@
 
 The public-photo option adds a parking-surface check for named places and visible bays. Its evaluation includes automatic pins, missed locations, passenger corrections and measured start-up time. [Setup and results](passenger-places-and-gaps.md)
 
-From the prepared laptop checkout, run the following command and open the local page. Each of the two attached recordings has 150 frames. Ten scenes are bookmarked in both sections. The passenger view also opens the optional two-car photograph when installed. Select **Open another frame in this recording** to choose a different recorded frame. The first request that needs Qwen loads the 8B model.
+From the prepared laptop checkout, run the following command and open the local page. Search footage plays two 150-frame EMT excerpts. You can play, pause, select a point on the timeline, or choose **Go to frame**. Passenger drop-off opens the installed UAE street photographs and the bookmarked EMT scenes. The first request that needs fresh Qwen inference loads the 8B model.
 
 ```powershell
 .\.venv-grounding-local\Scripts\python.exe -m tools.passenger_release start --require-footage 2 --low-memory --parking-backend modal --public-places --port 8775 --vision-cache runs/model-cache/airport-segformer-b0
 ```
 
 [Open the local application](http://127.0.0.1:8775/)
+
+## One-minute presentation rehearsal
+
+1. Open **Search footage**. The first recording opens at 11.7 seconds with a box around the bus. Choose **When did the bus first appear?** The answer places its first detection at 10.8 seconds. Select the frame 109 thumbnail to see exactly what the detector saw. Choose **Return to the question frame** to return to 11.7 seconds. [Open the bus recording](http://127.0.0.1:8775/footage?recording=video_054604&frame=118)
+2. Open the hotel street photo and type **Could you drop me behind the white car?** Inspect the blue vehicle outline and the gold ring on the ground behind the SUV. **Save this location** records the passenger’s choice. For the voice route, use **Record voice**, stop, review the transcript and send it. The driver assesses the actual stopping conditions. [Open the hotel photo](http://127.0.0.1:8775/?scene=b478c884c0832f9ea6d0fc05)
+3. To show ambiguity, ask **Could you drop me next to the restaurant?** on the restaurant photo. Select one of the two outlined bays. You can also mark their shared dividing line and choose the bay you mean. Moving the mark to the traffic lane removes the offer. These are rehearsed examples. The separately selected photos measure how the passenger feature transfers to new drives. [Open the restaurant photo](http://127.0.0.1:8775/?scene=4edc9abbff73676b9a63bc1d)
 
 The prepared laptop opens the installed UAE photo bank automatically. The release command checks two distinct searchable recordings before starting. On the 4 GB laptop, run one server. The low-memory option releases the 8B worker after each passenger inference and preserves the dialogue and proposal.
 
@@ -107,7 +113,7 @@ python -m tools.passenger_local_photos install --published-manifest experiments/
 
 To use another locally prepared KartaView drive, record the source metadata in the same format as the photo manifest. Run `tools.passenger_local_photos` in the Task 1 vision environment to create `passenger-requests.jsonl`. Run `tools.passenger_local_surfaces` with `--sources`, `--checkpoint` and `--out` in the segmentation environment. It prints the surface index hash. Add `--additional-requests <scene-bank.jsonl> --local-surface-index <surface-index.json> <SHA256>` to the normal start command. To include the trained model’s observations, run `tools.passenger_local_8b_views` in the grounding environment with `--bank`, a new `--working` folder and the same `--local-surface-index` pair. Repeat that command with `--release --output <observations.json>`, then pass `--local-observations <observations.json> <SHA256>` at startup. The app checks these files against the original frame and trained model before using them. New photos prepared through this route stay on the local machine during inference.
 
-For requests about a particular vehicle, run the separate local crop reader in the grounding environment. It checks a close crop and a second crop showing the tracked vehicle in context. It records the original model replies and keeps a paint colour, vehicle type or viewing direction only when the two readings agree. Each source can contribute up to four sufficiently large current vehicles. Add `--local-vehicle-observations <working-folder>/vehicle-observations.json <printed-SHA256>` to the normal start command to enable these readings. Original pixels, Task 1 detections and model processing stay on the laptop.
+For requests about a particular vehicle, run the local crop reader in the grounding environment. It checks a close crop and a second crop showing the same tracked vehicle in context. It records both model replies and keeps a paint colour, vehicle type or viewing direction when the replies agree. The original reader measured up to four vehicles per photo. Version 2 selects up to eight current vehicles, spreading the additional crops across the width of the image and nearer and farther rows. Eligible boxes must cover at least 48 by 32 original pixels and 2.5% of each image dimension. Add `--local-vehicle-observations <working-folder>/vehicle-observations.json <printed-SHA256>` to the normal start command. Original pixels, Task 1 detections and model processing stay on the laptop.
 
 To add the 14 public UAE street photographs used for the rear-vehicle trial, run these two commands in the checkout. The installer verifies the provider-blurred originals and restores the project’s detector predictions. The normal launcher then discovers the images, surface maps and locally measured Qwen vehicle observations. The setup for these photos is independent of the two EMT recordings used in footage search.
 
@@ -117,10 +123,10 @@ python -m tools.passenger_local_photos install --out data/uae-parking-local-rear
 ```
 
 ```text
-python -m tools.passenger_local_vehicle_views --bank <scene-bank.jsonl> --local-surface-index <surface-index.json> <SHA256> --working <working-folder>
+python -m tools.passenger_local_vehicle_views --crop-version 2 --bank <scene-bank.jsonl> --local-surface-index <surface-index.json> <SHA256> --working <new-working-folder>
 ```
 
-The working folder contains `detector-inventory.json` with every native RF-DETR detection, the current BoT-SORT tracks and the boxes selected for visual reading. Add `--inventory-only` to produce that file before starting model inference. A completed crop is saved individually, so rerunning the same command resumes from the matching original, box, prompt and model. Until a complete archive is registered, a new photograph can still be opened and marked using its installed surface map.
+The working folder contains `detector-inventory.json` with every native RF-DETR detection, the current BoT-SORT tracks and the boxes selected for visual reading. Add `--inventory-only` to produce that file before starting model inference. To expand a version 1 archive, use its original Task 1 preparation folder and add `--reuse-vehicle-observations <old-archive.json> <SHA256>`. The reader verifies the detector files, source pixels, track boxes and model before reusing each pair of crops. Rerunning the same command resumes completed crops. A portable installation can use the finished archives directly. Register both archive hashes at startup to use the expanded coverage and replay older saved decisions.
 
 To replay a saved journal from another local photo release, pass the same `--local-surface-index`, `--local-vehicle-observations` and applicable `--local-observations` file and hash pairs to `python -m tools.dropoff_passenger_handoff session`. The exporter rechecks the original image and recorded responses from those archives.
 

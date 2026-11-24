@@ -22,7 +22,9 @@ CHOICE_REASONS = {CHOICE_REASON, SIDE_CHOICE_REASON, EXPLICIT_GROUND_REASON}
 PREVIOUS_RELATION_POLICY = 'separate_vehicle_and_measured_destination_v2'
 RELATION_POLICY = 'separate_rear_lateral_and_marked_ground_v3'
 LOCAL_REAR_POLICY = 'local_car_family_and_curb_strip_v1'
-SIDE_PARKING_POLICY = 'adjacent_parking_on_requested_side_v1'
+LEGACY_SIDE_PARKING_POLICY = 'adjacent_parking_on_requested_side_v1'
+SIDE_PARKING_POLICY = 'adjacent_parking_on_requested_side_v2'
+SIDE_PARKING_POLICIES = (LEGACY_SIDE_PARKING_POLICY, SIDE_PARKING_POLICY)
 SIDE_QUESTION = 'Which side of it do you mean? Please mark the open ground beside it.'
 NO_READING = 'passenger_vehicle_reading_unavailable_v1'
 LIGHT_PAINT = re.compile(r"\b(?:beige|tan|champagne|ivory|cream|off[ -]white)\b",re.I)
@@ -100,8 +102,8 @@ def plain_ground_side(ref):
     return bool(ref and ref['relation'] == 'beside' and ref.get('ground_side') and not ref.get('qualifiers'))
 
 
-def _side_parking(request, photo, surface, classes, ref, specs, answers, portable, evidence):
-    from . import vehicle_side_ground, whole_bay
+def _side_parking(request, photo, surface, classes, ref, specs, answers, portable, evidence, policy):
+    from . import painted_bays, vehicle_side_ground, whole_bay
 
     scene = request['scene']
     frame = scene['frame']
@@ -117,25 +119,95 @@ def _side_parking(request, photo, surface, classes, ref, specs, answers, portabl
             request['text'], ref['ground_side'], reading[2], spec['box'], (width, frame['height'])
         )
         if consistent:
-            left, _, right, _ = spec['box']
+            measured = policy == SIDE_PARKING_POLICY
             options = [option for option in near_vehicle.parking(request, photo, surface, classes, spec)
-                       if (option['point'][0] > right if side == 'right' else option['point'][0] < left)]
+                       if near_vehicle.on_requested_side(option, spec['box'], scene, classes, side, measured=measured)]
             if options:
                 question = f'Which parking location to the {side} of the outlined {label} did you mean?'
-                evidence['near_vehicle_detail'] = f'The spot is to the {side} of the outlined {label} in the photo.'
+                painted = all(o['evidence']['recipe'] in (painted_bays.RECIPE, painted_bays.ROW_RECIPE) for o in options)
+                kind = 'marked bay' if measured and painted else 'spot'
+                evidence['near_vehicle_detail'] = f'The {kind} is to the {side} of the outlined {label} in the photo.'
             else:
-                question = (f'I found the outlined {label}. I couldn’t verify open parking to its {side}. '
-                            'Could you mark another visible parking spot?')
+                next_step = ('Could you mark a visible bay on that side or change your description?' if measured
+                             else 'Could you mark another visible parking spot?')
+                question = f'I found the outlined {label}. I couldn’t verify open parking to its {side}. {next_step}'
         else:
             question = 'I found the outlined vehicle. Which side of it in the photo do you mean?'
     result = whole_bay._make(
         request, portable, options, surface, method=whole_bay.AUTO,
         reason=near_vehicle.REASON if options else 'vehicle_seen_space_withheld', question=question,
-        side_parking_policy=SIDE_PARKING_POLICY, **evidence,
+        side_parking_policy=policy, **evidence,
     )
     if matches or possible:
         result['result']['anchor_boxes_xyxy'] = [spec['box'] for spec, _ in matches + possible]
     return result
+
+
+def _marked_side_parking(request, photo, surface, classes, ref, specs, answers, portable, evidence, box):
+    from . import painted_bays, paver_pullin, vehicle_side_ground, whole_bay
+
+    scene = request['scene']
+    frame = scene['frame']
+    _, _, mark, center = manual_offlane.mark_input(request, box)
+    vehicles = _matching(specs, answers, ref, frame['width'])
+    possible = near_vehicle.uncertain_matches(specs, answers, ref, frame['width'])
+
+    def outcome_at_mark(options, reason, question, *, require_choice=False):
+        result = whole_bay._make(
+            request, portable, options, surface, method=whole_bay.MARK, reason=reason, question=question,
+            tap=center, selected_box=mark, require_choice=require_choice,
+            side_parking_policy=SIDE_PARKING_POLICY, **evidence,
+        )
+        if vehicles or possible:
+            result['result']['anchor_boxes_xyxy'] = [spec['box'] for spec, _ in vehicles + possible]
+        return result
+
+    def withheld(question):
+        # A tap that contradicts an explicit side needs a new description or a new mark.
+        if ref.get('ground_side'):
+            return outcome_at_mark([], 'vehicle_seen_space_withheld', question)
+        return None
+
+    reason, checked = manual_offlane.surface_check(frame, scene['tracks'], mark, center, classes)
+    cell = checked.get('center_class_id')
+    if reason in {'observed_object', 'broad_area', 'through_lane'}:
+        return withheld(manual_offlane.QUESTIONS[reason])
+    no_match = 'This mark doesn’t match a verified bay on the side you asked for. Could you tap that side or change your description?'
+    if cell not in (manual_offlane.PARKING, painted_bays.LINE):
+        return withheld(manual_offlane.QUESTIONS['pedestrian_crossing'] if cell in {8, 23} else no_match)
+    if len(vehicles) != 1 or possible:
+        return withheld('Which vehicle did you mean? Add a visible detail so I can match the mark to it.')
+    spec, reading = vehicles[0]
+    options = near_vehicle.parking(request, photo, surface, classes, spec)
+    if ref.get('ground_side'):
+        consistent, side = vehicle_side_ground.requested_image_side(
+            request['text'], ref['ground_side'], reading[2], spec['box'], (frame['width'], frame['height'])
+        )
+        if not consistent:
+            return withheld('Which side of the outlined vehicle in the photo do you mean?')
+        options = [option for option in options
+                   if near_vehicle.on_requested_side(option, spec['box'], scene, classes, side, measured=True)]
+    painted = [option for option in options if option['evidence']['recipe'] in (painted_bays.RECIPE, painted_bays.ROW_RECIPE)]
+    matches = painted_bays.matching_options(painted, mark, center, frame, classes)
+    edge_offer = len(matches) == 1 and cell == painted_bays.LINE
+    if not matches:
+        matches = painted_bays.matching_options(painted, mark, center, frame, classes, offer_visible_side=True)
+        edge_offer = len(matches) == 1
+    if not matches:
+        if reason == 'parking':
+            for option in options:
+                if option['evidence']['recipe'] != paver_pullin.RECIPE:
+                    continue
+                left, top, right, bottom = option['box']
+                if left <= mark[0] and top <= mark[1] and mark[2] <= right and mark[3] <= bottom:
+                    return outcome_at_mark([option], 'passenger_mark_in_observed_pullin', '')
+        return withheld(no_match)
+
+    return outcome_at_mark(
+        matches, 'single_visible_bay_at_painted_edge' if edge_offer else 'passenger_mark_on_painted_bay',
+        'I found marked parking beside the outlined vehicle. Which highlighted bay did you mean?',
+        require_choice=edge_offer,
+    )
 
 
 def _generic_car_reading(spec, reading, observations):
@@ -469,11 +541,17 @@ def outcome(request, photo, surface, packet, mark=None, *, qualifier_packets=Non
                 answers = broader
     if expanded:
         evidence['vehicle_relation_policy'] = RELATION_POLICY if observe_sides else PREVIOUS_RELATION_POLICY
-    if side_parking and mark is None and plain_ground_side(ref):
+    if side_parking and ref['relation'] == 'beside' and not ref.get('qualifiers'):
         from .vehicle_relative_bays import restricted_instruction
 
         if not restricted_instruction(clean['text']):
-            return _side_parking(clean, photo, surface, classes, ref, specs, answers, portable, evidence)
+            policy = SIDE_PARKING_POLICY if side_parking is True else side_parking
+            if mark is None and plain_ground_side(ref):
+                return _side_parking(clean, photo, surface, classes, ref, specs, answers, portable, evidence, policy)
+            if mark is not None and policy == SIDE_PARKING_POLICY:
+                marked = _marked_side_parking(clean, photo, surface, classes, ref, specs, answers, portable, evidence, mark)
+                if marked is not None:
+                    return marked
     if ref['relation']=='near':
         if not nearby_parking or mark is not None:
             return None

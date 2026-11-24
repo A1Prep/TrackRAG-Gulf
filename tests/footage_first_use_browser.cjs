@@ -17,7 +17,7 @@ async function main() {
   try {
     for (const [name, viewport, subject] of [["desktop",desktop,bus],["phone",phone,largeVehicle],
       ["desktop-054907",desktop,largeVehicle],["phone-054604",phone,bus]]) {
-      const page = await browser.newPage({viewport,deviceScaleFactor:1});
+      const page = await browser.newPage({viewport,deviceScaleFactor:1,permissions:["clipboard-read","clipboard-write"]});
       page.on("pageerror",error=>errors.push(error.message));
       const url = new URL("/footage",base);
       if (name!=="desktop") url.searchParams.set("recording",subject.recording);
@@ -77,13 +77,20 @@ async function main() {
           answer:data.answer.answer,frames:data.evidence.flatMap(e=>e.images.map(im=>im.frame_id))});
         return data;
       }
-      await doSearch(()=>shortcut.click(), data=>{
+      await doSearch(()=>shortcut.click(), async data=>{
         assert.equal(data.question.recording_id,subject.recording);
         assert.equal(data.question.question,"When was track "+focusId+" first detected?");
         assert.equal(data.answer.answer_status,"answered");
         const cited = data.evidence.filter(item=>data.answer.cited_evidence_ids.includes(item.id));
         assert.deepEqual(cited.map(item=>item.interval.track_id),[subject.track]);
         assert.deepEqual(cited[0].images.map(image=>image.frame_id),[subject.first]);
+        await page.getByRole("button",{name:"Copy answer with evidence"}).click();
+        await page.getByText("Copied answer and frame links.",{exact:true}).waitFor();
+        const copied = await page.evaluate(()=>navigator.clipboard.readText());
+        assert.ok(copied.includes(subject.hint) && copied.includes(data.answer.answer));
+        const link = new URL(copied.match(/https?:\/\/[^\s]+/g).at(0));
+        assert.equal(link.searchParams.get("recording"),subject.recording);
+        assert.equal(Number(link.searchParams.get("frame")),subject.first);
       });
       assert.equal(await page.locator(".answer-head h2").innerText(),subject.hint);
       assert.equal(await page.locator(".ask-card #results .answer-card").count(),1);
@@ -190,6 +197,19 @@ async function main() {
     assert.deepEqual(cited.flatMap(e=>e.images.map(im=>im.frame_id)),[121]);
     await page.locator(".moment-thumb").first().click();
     await page.getByText("Evidence frame · 0:12.0",{exact:true}).waitFor();
+    const leadIn = page.getByRole("button",{name:"Play lead-in",exact:true});
+    await page.evaluate(()=>{
+      window.leadInFrames = [];
+      new MutationObserver(()=>{
+        window.leadInFrames.push(Number(document.querySelector("#clip-frame").src.split("/").at(-1)));
+      }).observe(document.querySelector("#clip-screen"),{childList:true});
+    });
+    await leadIn.click();
+    await page.waitForFunction(()=>window.leadInFrames.some(id=>id<121));
+    await leadIn.waitFor({state:"visible"});
+    assert.equal(await page.locator("#clip-play").innerText(),"Play");
+    assert.equal(new URL(page.url()).searchParams.get("frame"),"121");
+    assert.ok(await page.evaluate(()=>window.leadInFrames.every(id=>id<=121)));
     await page.close();
     assert.deepEqual(errors,[]);
     if(out) fs.writeFileSync(path.join(out,"browser-observations.json"),JSON.stringify(reports,null,2));

@@ -472,7 +472,7 @@ class PassengerSession:
                     from . import near_vehicle, vehicle_ground_reference
                     matched = next((data for data in (proof,chosen_from) if data.get('near_vehicle_policy') in
                                     (near_vehicle.POLICY,near_vehicle.ORIGINAL_POLICY) or
-                                    data.get('side_parking_policy') == vehicle_ground_reference.SIDE_PARKING_POLICY),None)
+                                    data.get('side_parking_policy') in vehicle_ground_reference.SIDE_PARKING_POLICIES),None)
                     if matched:
                         bay['near_vehicle_parking'] = True
                         if matched.get('near_vehicle_detail'):

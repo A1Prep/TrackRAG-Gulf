@@ -1,0 +1,174 @@
+{
+  "method": "visible_marked_compartment_behind_rear_vehicle_v1",
+  "functional_freeze_uae": "2026-11-24T06:07:02+04:00",
+  "scope": "Physical candidate study on the 31 older development drives and the 14 already scored and disclosed study drives. The first primary and reserve attempts both predate at least one component of this repair. These are development results; eligible refers to the independently marked visible ground, not legal stopping or whole-car clearance.",
+  "original_firsts": {
+    "primary": {
+      "eligible": 4,
+      "destinations": 0,
+      "blocked_withheld": 4,
+      "lane_taps_withheld": 8
+    },
+    "reserve": {
+      "eligible": 3,
+      "destinations": 0,
+      "blocked_withheld": 3,
+      "lane_taps_withheld": 6
+    }
+  },
+  "selection": "All source-bound verified vehicle identities were considered once. The physical method sees the current source image, Task 1 tracks, measured source mask and model facing only. Original passenger wording, source IDs, source-specific rules, past taps and independent target shapes are not geometry inputs. Test callbacks independently compare the produced points with the frozen reference polygons.",
+  "physical_coverage": {
+    "previous": {
+      "drives": 31,
+      "vehicle_readings": 109,
+      "rear_readings": 73,
+      "newly_supplied_physical_points": 0
+    },
+    "primary": {
+      "drives": 8,
+      "vehicle_readings": 27,
+      "rear_readings": 16,
+      "newly_supplied_physical_points": 0
+    },
+    "reserve": {
+      "drives": 6,
+      "vehicle_readings": 18,
+      "rear_readings": 10,
+      "newly_supplied_physical_points": 2
+    }
+  },
+  "new_offers": [
+    {
+      "case": "V01",
+      "source": [
+        "kartaview_5258953",
+        64
+      ],
+      "image_sha256": "254fd6a2b46879f2470f43e0e7c6fe90c54f4128e9890a57aa02834d6473ed4d",
+      "native_map_sha256": "b29f5517f21dfd30caee06bed263e9dd90945fcb154f7bfb6f03fbbaa11353f2",
+      "track": 2,
+      "point": [
+        2620.267,
+        1398.771
+      ],
+      "inside_previously_frozen_target": true,
+      "physical_boundary": "three_optical_parking_end_marks_and_observed_kerb_before_bonnet",
+      "source_point_class": 13,
+      "curb_side": "right",
+      "neutral_paint_checked": true,
+      "physical_observations": {
+        "source_end_marks_xy": [
+          [
+            1742.613,
+            1101.237
+          ],
+          [
+            1811.52,
+            1141.15
+          ],
+          [
+            1945.707,
+            1217.348
+          ]
+        ],
+        "ground_rows": 17,
+        "registered_kerb_contacts": 37,
+        "aisle_edge_dx_per_y": 1.75158,
+        "kerb_dx_per_y": 3.52845,
+        "observed_ground_run_y": [
+          377,
+          393
+        ]
+      }
+    },
+    {
+      "case": "V04",
+      "source": [
+        "kartaview_7422361",
+        0
+      ],
+      "image_sha256": "88ff343532dfbd0d2e073497008bb98607e604c680a378b44d593ef3842556db",
+      "native_map_sha256": "8bf54ab5b83715ac105d41ba9d3a3d45611f0c5ea87c555d8d1f893aeedd7346",
+      "track": 2,
+      "point": [
+        1256.533,
+        1517.549
+      ],
+      "inside_previously_frozen_target": true,
+      "physical_boundary": "two_measured_transverse_aisle_to_kerb_dividers",
+      "source_point_class": 10,
+      "curb_side": "right",
+      "neutral_paint_checked": true,
+      "physical_observations": {
+        "measured_interior_parking_fraction": 1.0,
+        "source_dividers_xy": [
+          [
+            [
+              885.956,
+              1467.725
+            ],
+            [
+              1349.756,
+              1454.08
+            ]
+          ],
+          [
+            [
+              1037.616,
+              1587.97
+            ],
+            [
+              1751.56,
+              1555.83
+            ]
+          ]
+        ]
+      }
+    }
+  ],
+  "lane_location_overlap": {
+    "recorded_lane_points": 14,
+    "newly_measured_patches_containing_a_recorded_lane_point": 0,
+    "matched_cases": []
+  },
+  "aggregate_after_post_disclosure_geometry": {
+    "positive_sources_in_the_two_studies": 7,
+    "correct_geometry_sources": 5,
+    "unresolved_positive_sources": 2,
+    "blocked_sources_with_new_geometry": 0,
+    "scope": "The first three geometry supplies belong to the separately documented optical lane-boundary / parking apron change on U03/U05/U06. The current new marked-bays treatment adds V01/V04 only. These figures are development opportunity coverage; first-turn app delivery has a distinct independently recorded score."
+  },
+  "misses": {
+    "U02": "Its verified black pickup has adjacent asphalt. The photographed dashed stripe is between carriageway lanes and the outside sidewalk kerb alone does not establish off-lane parking.",
+    "V02": "The first crop bank excluded true tracked vehicle 3 (body IoU 0.959). New source observations identified it twice as black sedan/REAR, while the passenger requested dark blue. The independent target point has class 26 (Sand) and the new measured-parking routines supply no parking surface. A disambiguation is warranted."
+  },
+  "optical_and_model_limits": "V04 has independently traced bright transverse dividers, current clear ground classes and an independently verified car rear. V01 is class 13 road at the destination. Three white parking-end junctions and the separately photographed kerb constrain the one visible part of the row before the bonnet. Their coordinates come from the original. This method does not claim a learned model independently confirms the V01 ground. Glare, unfamiliar marking styles, unlabelled hazards and temporal traffic cannot be resolved by these sparse single-frame tests.",
+  "detected_counterexample_and_control": "The pre-veto grayscale junction matcher marked an artificial yellow T row as parking. Both physical branches now independently check the original stroke pigment. White hard cases remain available; yellow transverse bars, yellow T glyphs, and red T glyphs are withheld in direct tests.",
+  "physical_validation": "An independent AI reviewer drew original-photo reference polygons before the original runs and checked visible pixels. No human safety certification. The new development ground was evaluated against those frozen polygons. All unrelated previously released vehicles remained unchanged for this added method.",
+  "independent_original_pixel_review": {
+    "reviewer": "Independent AI visual inspection of the two previously released original photographs, with the exact proposed pixels checked at multiple scales.",
+    "V01": "Clear asphalt in shadow immediately behind the black SUV, on the carriageway side of the kerb and immediately above the camera vehicle bonnet. The limited view does not establish whole-car fit.",
+    "V04": "Empty block-paver parking behind the grey sedan between the two white divider lines, separate from the asphalt travel lane."
+  },
+  "code": {
+    "trackrag/dropoff/vehicle_rear_stall.py": "46e02d8875115bc6a8675a88a56994c33f335dfc2d1ea10ac1601f3297ba6b06",
+    "trackrag/dropoff/vehicle_rear_end_marks.py": "723e47ee5a281855325a95a5b885dbecc089c0a2b508273695eed232edea2c3d",
+    "tests/test_vehicle_rear_stall.py": "f694328a686b9246f548eb2046b985e8971e05337f38df7189fcec62794b3447",
+    "tests/test_vehicle_rear_end_marks.py": "bffd631408c894323a6e701c8681764291cac0e4aed085358dba6ce513fbaffa"
+  },
+  "reference_digest": {
+    "primary": "ca1fd6c636fb5d9808387940d5ad8a82b75ba6cd8cebca11534073bd7820e3e2",
+    "reserve": "ff661ece3759b62ad94031e82c1b443abf9e1361b6b072a281a85b770f19151a"
+  },
+  "opencv_replay": {
+    "4.11.0": {
+      "original_vehicle_checks": 154,
+      "source_report_sha256": "f1fb1362632a3cbf65ef11239e0a18d1cb84e548170b40662815da7a6a9d41e0"
+    },
+    "5.0.0": {
+      "original_vehicle_checks": 154,
+      "source_report_sha256": "f1fb1362632a3cbf65ef11239e0a18d1cb84e548170b40662815da7a6a9d41e0"
+    }
+  },
+  "checks_per_opencv_environment": 125
+}

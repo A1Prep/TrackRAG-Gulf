@@ -55,6 +55,18 @@ def test_uses_exact_original_timestamps_and_declines_a_missing_sample():
     assert playback_scope("At 0:00.4 (frame 39), is it visible?", source, 62)["status"] == "conflicting_frame_and_time"
 
 
+def test_later_search_hint_only_identifies_absolute_timestamps():
+    original = OriginalFrames()
+    absolute = playback_scope("How many buses were there at 12 seconds?", original, 62)
+    assert absolute["status"] == "outside_review_window"
+    assert absolute["later_absolute_seconds"] == 12
+    assert absolute["moments"] == []
+    for words in ("How many cars were there 12 seconds ago?", "How many cars are there 12 seconds from now?"):
+        result = playback_scope(words, original, 62)
+        assert result["status"] == "outside_review_window"
+        assert "later_absolute_seconds" not in result
+
+
 def test_clock_comparison_supplies_both_originals_and_future_request_cannot_use_past_frames():
     source = OriginalFrames()
     observations = [{"recording_id": "uneven", "track_id": 7, "frame_id": f, "source":"predicted",

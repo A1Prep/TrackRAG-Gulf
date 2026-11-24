@@ -6,6 +6,13 @@ import {PhotoTools, bayAtPoint, bayChoices, bayName, boxCentre, destinationLabel
 
 const el = id => document.getElementById(id);
 const sceneSelect = el("scene"), image = el("frame"), canvas = el("overlay"), input = el("instruction");
+const streetExamples = [
+  {recording: "kartaview_7130313", frame: 1395, name: "Shops and parking", task: "Find a spot near the black SUV",
+    words: "Could you let me out near the black SUV?"},
+  {recording: "kartaview_7199241", frame: 48, name: "Restaurant parking", task: "Check one of the marked bays"},
+  {recording: "kartaview_976109", frame: 11, name: "Villa street", task: "Clarify which tree you mean",
+    words: "Could you drop me next to that tree?"},
+];
 let catalog, session, busy = false, capture = null, editing = false, previousDraft = null;
 let editTarget = null, retired = false;
 let photoState = "loading", retry = 0, notice = "", failure = "", historyRevision = "";
@@ -13,10 +20,11 @@ let photoExample = null;
 let submitting = null, groundingPoll = null;
 let checkedMark = null, bayLabelBoxes = [];
 const pairs = new VehiclePairPicker(render);
-const photo = new PhotoTools(canvas, el("photo-viewport"), render, () => busy || photoState !== "ready", pairs);
+const photo = new PhotoTools(canvas, el("photo-viewport"), render, () => busy || photoState !== "ready", pairs, startPhotoMark);
 const terminal = state => ["confirmed", "cancelled"].includes(state);
 const lastUser = turns => (turns || []).filter(t => t.role === "user").at(-1);
 const manualMarkRequest = "Check my marked parking spot.";
+const markedBaysRequest = "Find the marked parking bays.";
 function text(node, value = "") {
   if (node.textContent !== value) node.textContent = value;
 }
@@ -87,6 +95,10 @@ function watchGrounding() {
   watch.timer = setTimeout(refresh,500);
 }
 function activeScene() { return catalog?.scenes.find(s => s.key === session?.scene); }
+function startPhotoMark(point, placeMark) {
+  if (session?.view.state === "idle") sendInstruction("area", point, placeMark);
+  else photo.begin(point, placeMark);
+}
 function resetSelection() { photo.reset(); pairs.reset(); checkedMark=null; }
 function currentMark(v) {
   return checkedMark?.session===session?.session && checkedMark?.request===v.request_id && v.selected_by==="passenger" ? checkedMark : null;
@@ -201,7 +213,7 @@ function response(v, stage, bay, choices, offerBaysAfterTimeout) {
     if (v.reference_kind === "vegetation") return ["clarify", "I found the roadside greenery", v.result.clarification_question];
     if (v.reference_kind === "possible_vehicle") return ["clarify", "Is this the vehicle you meant?", v.result.clarification_question];
     const vehicles = v.result.anchor_boxes_xyxy.length === 1 ? "vehicle" : "vehicles";
-    return ["clarify", "I found the " + vehicles + " you described", v.result.clarification_question];
+    return ["clarify", "Check the outlined " + vehicles, v.result.clarification_question];
   }
   if (canMark(v)) return ["clarify", currentMark(v) ? "Choose another location" : "Which spot do you mean?", v.result?.clarification_question ||
     v.turns?.filter(t => t.role === "assistant").at(-1)?.text || "Mark the location on the photo or edit your description."];
@@ -240,11 +252,11 @@ function legend(v, offerMark, bay, choices) {
   if (!choices.length && currentMark(v) && !pin && !photo.active && !editing)
     label=(hasTreeLandmark(v) ? "Tree on the " + v.tree_landmark_side + " in blue · " : "") + "Cross = your last mark · no destination pin";
   else if (v.references_only && v.result?.anchor_boxes_xyxy?.length && !photo.active && !editing && !session?.pending_grounding) {
-    const outlines = v.result.anchor_boxes_xyxy.length === 1 ? "Blue outline shows the vehicle" : "Blue outlines show the vehicles";
+    const outlines = v.result.anchor_boxes_xyxy.length === 1 ? "Vehicle outlined in blue" : "Vehicles outlined in blue";
     label = hasTreeLandmark(v) ? "Tree on the " + v.tree_landmark_side + " in blue · Drop-off point unverified" :
       v.reference_kind === "vegetation" ? "Roadside greenery in blue · Drop-off point unverified" :
       v.reference_kind === "possible_vehicle" ? "Blue outline shows a possible match · Drop-off point unverified" :
-      outlines + " you described · Drop-off point unverified";
+      outlines + " · Drop-off point unverified";
   }
   else if (offerMark) label = v.area_landmarks ? "A and B mark the vehicles · Tap the photo to mark your spot" : "Tap the photo to mark your spot";
   text(node, label);
@@ -264,8 +276,9 @@ function render() {
   const showTreeParking = decision && v.tree_parking_available && v.reference_kind === "vegetation" && prior?.text;
   const showOtherBays = decision && !yesNo && !treeSideChoice && !choices.length && current?.parking_areas_indexed
     && (verifiedTimeout || ["needs_clarification","insufficient_visual_evidence"].includes(v.state))
-    && prior && prior.text !== "Find the marked parking bays.";
+    && prior && prior.text !== markedBaysRequest;
   const offerBaysAfterTimeout = Boolean(verifiedTimeout && showOtherBays);
+  const offerMarkedBays = offerBaysAfterTimeout || showTreeParking || (v.references_only && showOtherBays);
   const [kind, heading, status] = response(v, stage, bay, choices, offerBaysAfterTimeout);
   el("destination-panel").dataset.state = kind;
   text(el("destination-title"), heading); text(el("status"), status);
@@ -278,7 +291,7 @@ function render() {
   const shownWords = pending?.text ?? prior?.text;
   const firstRequest = v.turns?.find(turn => turn.role === "user");
   const showOriginal = !formOpen && !pending && firstRequest && prior && firstRequest !== prior && firstRequest.text !== shownWords;
-  el("last-request").hidden = !shownWords || formOpen || shownWords === manualMarkRequest;
+  el("last-request").hidden = !shownWords || formOpen || [manualMarkRequest, markedBaysRequest].includes(shownWords);
   if (shownWords) {
     text(el("last-request").querySelector("span"), pending?.mode === "voice" ? "Your reviewed transcript" : showOriginal ? "Your last reply" : "Your words");
     text(el("last-request").querySelector("p"), shownWords);
@@ -286,6 +299,12 @@ function render() {
   history(v);
 
   sceneSelect.disabled = busy || micOn || !opened;
+  el("footage-origin").hidden = !current || !catalog.footageRecordings.has(current.recording_id) || !catalog.streetStart;
+  el("open-street-photo").disabled = sceneSelect.disabled;
+  for (const button of el("scene-guide-options").children) {
+    button.disabled = sceneSelect.disabled;
+    button.setAttribute("aria-pressed", String(button.dataset.scene === current?.key));
+  }
   el("prev-scene").disabled = sceneSelect.disabled || sceneSelect.selectedIndex <= 0;
   el("next-scene").disabled = sceneSelect.disabled || sceneSelect.selectedIndex >= sceneSelect.options.length-1;
   el("next-outlined").disabled=sceneSelect.disabled;
@@ -352,7 +371,8 @@ function render() {
     v.result?.anchor_boxes_xyxy?.length === 1 && !choices.length && Boolean(firstRequest);
   el("show-driver").hidden = !driverLandmark;
   el("show-driver").disabled = locked || !ready;
-  el("show-driver").className = showTreeParking ? "text-btn" : "primary";
+  const leadWithDriver = driverLandmark && hasTreeLandmark(v) && !offerMarkedBays;
+  el("show-driver").className = leadWithDriver ? "primary" : "text-btn";
   text(el("show-driver"), hasTreeLandmark(v) ? "Show this tree to the driver" : "Show this vehicle to the driver");
   const driverDialog=el("driver-landmark");
   if (driverDialog.open && (!driverLandmark || !ready || driverDialog.dataset.session !== session?.session ||
@@ -360,12 +380,12 @@ function render() {
     driverDialog.close();
   el("take-over-area").hidden = !pending;
   el("take-over-area").disabled = locked || !ready || !v.can_request_area;
-  el("draw").className = v.state === "proposed" || choices.length || yesNo || treeSideChoice || offerBaysAfterTimeout || showTreeParking || driverLandmark ? "subtle" : "primary";
+  el("draw").className = v.state === "proposed" || choices.length || yesNo || treeSideChoice || offerMarkedBays || leadWithDriver ? "subtle" : "primary";
   text(el("draw"), choices.length ? "Mark a different spot" : v.state === "proposed" ? "Change spot on photo" : "Mark on photo");
   el("other-bays").hidden = !(showTreeParking || showOtherBays);
   text(el("other-bays"), showTreeParking ? "Show parking near this tree" : "See marked bays in this photo");
   el("other-bays").disabled = locked || !ready;
-  el("other-bays").className = offerBaysAfterTimeout || showTreeParking ? "primary" : "subtle";
+  el("other-bays").className = offerMarkedBays ? "primary" : "subtle";
   el("edit-words").hidden = !decision || !prior;
   el("edit-words").disabled = locked;
   text(el("edit-words"), v.state === "needs_clarification" || v.state === "insufficient_visual_evidence" ? "Reply in words" : "Edit description");
@@ -376,7 +396,9 @@ function render() {
   el("cancel").hidden = !opened || (!pending && !stage && (!v.state || v.state === "idle" || terminal(v.state))) || marking;
   el("cancel").disabled = locked;
   pairs.controls(locked || !ready);
-  const offerMark = decision && ready && !locked && !choices.length && ["needs_clarification","insufficient_visual_evidence"].includes(v.state);
+  const firstTap = v.state === "idle" && !editing && !input.value.trim() && !stage && !micOn && v.can_request_area;
+  const retryTap = decision && !choices.length && ["needs_clarification","insufficient_visual_evidence"].includes(v.state);
+  const offerMark = ready && !locked && (firstTap || retryTap);
   photo.controls(ready, locked, legend(v, offerMark, bay, choices), offerMark);
   const buttons = el("bay-buttons");
   const choiceKey = JSON.stringify(choices.map(({id,center_xy}) => [id,center_xy]));
@@ -430,11 +452,15 @@ function loadPhoto() {
 async function chooseScene() {
   const newSession = await post("/api/sessions", {scene:sceneSelect.value, previous:retired ? undefined : session?.session});
   session = newSession; input.value = ""; editing = false; previousDraft = editTarget = null; retired = false; retry = 0;
-  photoExample = newSession.example_request || null;
   el("voice-options").open = false;
+  el("scene-guide").open = false;
   resetSelection(); photo.fit(); el("frame-picker").open = el("history").open = false;
   const f = activeScene();
-  el("footage-link").href = catalog.searchableScenes.has(f.key) ? "/footage?scene=" + encodeURIComponent(f.key) : "/footage";
+  photoExample = f.example_words ?? newSession.example_request ?? null;
+  const recording = el("watch-recording");
+  recording.hidden = !catalog.searchableScenes.has(f.key);
+  if (!recording.hidden) recording.href = "/footage?scene=" + encodeURIComponent(f.key);
+  text(el("scene-label"), catalog.footageRecordings.has(f.recording_id) ? "Footage still" : "Road photo");
   canvas.width = f.width; canvas.height = f.height;
   image.parentElement.style.aspectRatio = el("photo-viewport").style.aspectRatio = f.width + " / " + f.height;
   image.alt = "Road scene from " + sceneSelect.selectedOptions[0].textContent;
@@ -445,6 +471,48 @@ function stepScene(amount) {
   if (sceneSelect.disabled) return;
   sceneSelect.selectedIndex += amount; perform(chooseScene, "Opening the photo…");
 }
+function openScene(key) {
+  if (sceneSelect.disabled || !key) return;
+  if (sceneSelect.value === key) { el("scene-guide").open = false; return; }
+  sceneSelect.value = key;
+  perform(chooseScene, "Opening the photo…", () => {
+    focus("scene");
+    photo.viewport.scrollIntoView({block:"nearest"});
+  });
+}
+function addStreetExamples() {
+  const options = el("scene-guide-options");
+  for (const example of streetExamples) {
+    const scene = catalog.scenes.find(f => f.recording_id === example.recording && f.frame_id === example.frame);
+    if (!scene) continue;
+    scene.display_name = example.name;
+    scene.example_words = example.words || "";
+    catalog.streetStart ||= scene.key;
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "subtle";
+    button.dataset.scene = scene.key;
+    const name = document.createElement("strong"), task = document.createElement("span");
+    name.textContent = example.name;
+    task.textContent = example.task;
+    button.append(name, task);
+    button.onclick = () => openScene(scene.key);
+    options.append(button);
+  }
+  el("scene-guide").hidden = !options.children.length;
+  catalog.streetStart ||= catalog.scenes.find(f => /^kartaview_/.test(f.recording_id))?.key;
+}
+el("open-street-photo").onclick = () => openScene(catalog?.streetStart);
+const sceneGuide = el("scene-guide");
+sceneGuide.addEventListener("keydown", event => {
+  if (event.key === "Escape" && sceneGuide.open) {
+    sceneGuide.open = false;
+    sceneGuide.querySelector("summary").focus();
+  }
+});
+document.addEventListener("pointerdown", event => {
+  if (sceneGuide.open && !sceneGuide.contains(event.target)) sceneGuide.open = false;
+});
 el("prev-scene").onclick = () => stepScene(-1);
 el("next-scene").onclick = () => stepScene(1);
 el("next-outlined").onclick=()=>{
@@ -538,7 +606,8 @@ el("show-driver").onclick = () => {
   dialog.dataset.revision=String(session.revision);
   const landmark = hasTreeLandmark(v) ? "tree" : "vehicle";
   el("driver-photo").setAttribute("aria-label", "Road photo with the " + landmark + " outlined in blue");
-  text(el("driver-note"), "Look for the " + landmark + " outlined in blue. The passenger’s exact drop-off point is still open.");
+  const check = landmark === "tree" ? "Look for the tree outlined in blue." : "Check the outlined vehicle against the passenger’s words.";
+  text(el("driver-note"), check + " The passenger’s exact drop-off point is still open.");
   dialog.showModal();
   drawLandmarkCrop(el("driver-photo"),image,v.result.anchor_boxes_xyxy[0],landmark==="tree" ? "Tree" : "Vehicle");
 };
@@ -641,7 +710,7 @@ async function sendAutomatic(payload) {
     }
   }
 }
-function sendInstruction(choice = "automatic") {
+function sendInstruction(choice = "automatic", point, placeMark = false) {
   if (busy || submitting || session?.pending_grounding || photoState !== "ready" || staleEdit()) return;
   const markingFromPhoto = choice === "area" && !el("submit-area").hidden && !el("submit-area").disabled;
   const words = input.value.trim() || (markingFromPhoto ? manualMarkRequest : "");
@@ -654,7 +723,7 @@ function sendInstruction(choice = "automatic") {
   perform(async () => {
     await action("submit",payload); input.value=""; editing=false; previousDraft=null; resetSelection();
     if (choice === "vehicles" && session.view.pair_choices?.length >= 2) pairs.begin(session.view.pair_choices);
-    if (choice === "area" && session.view.state === "needs_clarification" && session.view.selected_by === "passenger") photo.begin();
+    if (choice === "area" && session.view.state === "needs_clarification" && session.view.selected_by === "passenger") photo.begin(point, placeMark);
   }, choice === "area" ? "Opening the photo to mark…" : "Opening the vehicle choices…",
   () => photo.active ? photo.focusPhoto() : pairs.open ? el("pair-first").focus() : focusResult());
 }
@@ -676,7 +745,7 @@ for (const [id, answer] of [["answer-yes", "Yes"], ["answer-no", "No"],
 el("show-parking-areas").onclick = () => {
   const button = el("show-parking-areas");
   if (button.hidden || button.disabled || input.value.trim()) return;
-  input.value = "Find the marked parking bays.";
+  input.value = markedBaysRequest;
   sendInstruction();
 };
 el("other-bays").onclick = () => {
@@ -684,7 +753,7 @@ el("other-bays").onclick = () => {
   if (button.hidden || button.disabled) return;
   const view = session.view;
   const words = view.tree_parking_available && view.reference_kind === "vegetation"
-    ? lastUser(view.turns)?.text : "Find the marked parking bays.";
+    ? lastUser(view.turns)?.text : markedBaysRequest;
   if (!words) return;
   startEditing("replace",words);
   sendInstruction();
@@ -767,9 +836,11 @@ perform(async () => {
   catalog.searchableScenes = covered;
   catalog.footageRecordings = new Set(catalog.scenes.filter(f => covered.has(f.key)).map(f => f.recording_id));
   el("footage-link").hidden=!catalog.footage_available;
+  addStreetExamples();
   for (const f of catalog.scenes) addFrame(sceneSelect,f);
   const requested = new URLSearchParams(window.location.search).get("scene");
   if (catalog.scenes.some(f => f.key === requested)) sceneSelect.value = requested;
+  else if (catalog.streetStart) sceneSelect.value = catalog.streetStart;
   await chooseScene();
   // The original gallery can be used while individual parking outlines are verified.
   void api("/api/scenes").then(full=>{

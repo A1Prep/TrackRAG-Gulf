@@ -78,6 +78,12 @@ def test_presence_includes_cyclists_but_never_guesses_an_occupant_or_an_unseen_p
 
 def test_clock_and_opening_phrases_are_bound_to_the_actual_requested_source_frame():
     assert "2 cars" in ask("At seven seconds, how many cars are here?", scope=SCOPE)["answer"]
+    for words in ("How many buses were there at 7 seconds?", "Were there any buses at 7 seconds?"):
+        assert supports_track_question(words)
+        result = ask(words, scope=SCOPE)
+        assert "0 buses in frame 71" in result["answer"]
+        assert result["cited_evidence_ids"] == ["E1"]
+        assert ask(words, scope={**SCOPE, "status": "outside_review_window"}) is None
     assert ask("At seven seconds, how many cars are here right now?", scope=SCOPE) is None
     assert ask("Are there any people at seven seconds?", scope={**SCOPE, "status": "outside_review_window"}) is None
     words = "What can you see at the start of the clip?"

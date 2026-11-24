@@ -93,7 +93,8 @@ async function main() {
       await page.locator(".moment-thumb").first().click();
       await page.waitForFunction(fid=>new URL(location.href).searchParams.get("frame")===String(fid),subject.first);
       assert.equal(await page.locator("#box-label").innerText(),"Track "+focusId);
-      await page.getByRole("button",{name:"Return to the question frame"}).click();
+      assert.match(await page.locator("#clip-info").innerText(),/^Evidence frame/);
+      await page.getByRole("button",{name:"Return to search point"}).click();
       await page.waitForFunction(fid=>new URL(location.href).searchParams.get("frame")===String(fid),start);
       const report = {name,recording:subject.recording,opened,initial,firstRecordedMarker:reachedFirst,highlightedTrack:focusId,answers};
       reports.push(report);
@@ -123,9 +124,9 @@ async function main() {
       if (name==="phone") {
         await page.getByRole("button",{name:"Back to answer"}).click();
         assert.equal(await page.locator("#back-to-answer").isVisible(),false);
-      } else {
-        await page.getByRole("button",{name:"Return to the question frame"}).click();
+        assert.equal(new URL(page.url()).searchParams.get("frame"),String(im.frame_id));
       }
+      await page.getByRole("button",{name:"Return to search point"}).click();
       await page.waitForFunction(fid=>new URL(location.href).searchParams.get("frame")===String(fid),start);
       if (name==="desktop") {
         for (const words of ["Who won the football world cup?","How many vehicles can you see at 25 seconds?"]) {
@@ -142,20 +143,23 @@ async function main() {
         await page.waitForFunction(()=>document.querySelector("#scene").selectedOptions[0].textContent.includes("054907") &&
           document.querySelectorAll("#examples button:not(:disabled)").length>=2);
         assert.equal(await page.locator(".answer-card").count(),0);
+        assert.equal(await page.locator("#passenger-link").getAttribute("href"),"/");
+        await page.locator("#frame-picker summary").click();
         const paused = await page.locator("#clip-frame").getAttribute("src");
         await page.locator("#clip-play").click();
         await page.waitForFunction(old => document.getElementById("clip-frame").getAttribute("src") !== old,paused);
         const playbackFrame = await page.evaluate(() => {
           const id = Number(document.getElementById("clip-frame").src.split("/").at(-1));
-          const link = document.getElementById("passenger-link");
-          if (!link.title.includes("frame "+id+" of")) throw Error("Passenger link points to an earlier frame");
+          const link = document.getElementById("use-dropoff-frame");
+          if (!link.title.includes("frame "+id+" of")) throw Error("The explicit frame link points to an earlier frame");
           link.click();
           return id;
         });
         await page.locator("#frame").waitFor();
         await page.waitForFunction(id => document.getElementById("frame").naturalWidth > 0 &&
           document.getElementById("scene").selectedOptions[0].textContent.includes("frame "+id+" "),playbackFrame);
-        await page.locator("#footage-link").click();
+        assert.equal(await page.locator("#footage-link").getAttribute("href"),"/footage");
+        await page.locator("#watch-recording").click();
         await page.waitForFunction(id => document.getElementById("clip-frame")?.src.endsWith("/"+id) &&
           !document.getElementById("clip-play").disabled,playbackFrame);
         assert.equal(new URL(page.url()).searchParams.get("recording"),"video_054907");
@@ -163,6 +167,30 @@ async function main() {
       }
       await page.close();
     }
+    const page = await browser.newPage({viewport:desktop});
+    page.on("pageerror",error=>errors.push(error.message));
+    const early = new URL("/footage?recording=video_054604&frame=100",base);
+    await page.goto(early.href);
+    await page.locator("#examples button").first().waitFor();
+    const words = "How many buses were there at 12 seconds?";
+    const answer = () => page.waitForResponse(r=>r.url().endsWith("/api/footage") && r.request().method()==="POST");
+    await page.getByLabel("Your question").fill(words);
+    const initial = answer();
+    await page.locator("#go").click();
+    const limited = await (await initial).json();
+    assert.equal(limited.question.query_frame,100);
+    assert.deepEqual(limited.answer.cited_evidence_ids,[]);
+    const extended = answer();
+    await page.getByRole("button",{name:"Search to end of clip",exact:true}).click();
+    const counted = await (await extended).json();
+    assert.equal(counted.question.query_frame,150);
+    assert.equal(counted.original_question,words);
+    assert.match(counted.answer.answer,/1 bus in frame 121/);
+    const cited = counted.evidence.filter(e=>counted.answer.cited_evidence_ids.includes(e.id));
+    assert.deepEqual(cited.flatMap(e=>e.images.map(im=>im.frame_id)),[121]);
+    await page.locator(".moment-thumb").first().click();
+    await page.getByText("Evidence frame · 0:12.0",{exact:true}).waitFor();
+    await page.close();
     assert.deepEqual(errors,[]);
     if(out) fs.writeFileSync(path.join(out,"browser-observations.json"),JSON.stringify(reports,null,2));
     console.log(JSON.stringify(reports));

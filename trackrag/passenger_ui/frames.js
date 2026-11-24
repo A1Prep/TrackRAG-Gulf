@@ -3,9 +3,9 @@ export function addFrame(select, frame) {
   const option = existing || document.createElement("option");
   option.value = frame.key;
   const drive = frame.recording_id.match(/^kartaview_(\d+)$/);
-  option.textContent = drive ? "Street photo " + drive[1] + " · " + frame.frame_id :
-    frame.recording_id.replace(/^video_/, "Recording ") + " · frame " + frame.frame_id + " · " + frame.timestamp_s.toFixed(1) + " s";
-  if (frame.parking_areas_indexed) option.textContent += " · Parking outlines";
+  option.textContent = frame.display_name || (drive ? "Street photo " + drive[1] + " · " + frame.frame_id :
+    frame.recording_id.replace(/^video_/, "Recording ") + " · frame " + frame.frame_id + " · " + frame.timestamp_s.toFixed(1) + " s");
+  if (frame.parking_areas_indexed) option.textContent += " · Marked bays";
   if (!existing) select.append(option);
 }
 

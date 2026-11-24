@@ -235,6 +235,21 @@ async function main() {
     // A first-time passenger can mark without typing, or run the photo example with one click.
     {
       const s=await browserCase(browser,url),p=s.page;
+      await clickPhoto(p,[480,282]);
+      await heading(p,"Choose a spot on the photo");
+      assert.deepEqual(s.requests[0].body,{text:"Check my marked parking spot.",mode:"typed",mark_on_photo:true});
+      assert(await p.locator("#use-box").isEnabled());
+      assert(await p.locator("#confirm").isHidden());
+      assert(!s.requests.some(r=>r.action==="area"));
+      await p.locator("#use-box").click();
+      await heading(p,"Is this your intended location?");
+      const mark=s.requests.find(r=>r.action==="area").body.box;
+      assert(Math.abs((mark[0]+mark[2])/2-480)<2);
+      assert(Math.abs((mark[1]+mark[3])/2-282)<2);
+      assert.deepEqual(s.errors,[]); await p.close();
+    }
+    {
+      const s=await browserCase(browser,url),p=s.page;
       await p.setViewportSize({width:320,height:780});
       assert(await p.evaluate(()=>document.documentElement.scrollWidth <= innerWidth));
       await p.getByRole("button",{name:"Mark on photo",exact:true}).click();
@@ -276,9 +291,9 @@ async function main() {
       s.finish({state:"needs_clarification",references_only:true,proposal_id:null,
         result:{anchor_boxes_xyxy:boxes,clarification_question:"Could you mark another visible spot?"}});
       const name=boxes.length===1 ? "vehicle" : "vehicles";
-      await heading(p,"I found the "+name+" you described");
-      assert.equal(await p.locator("#legend").textContent(), (boxes.length===1 ? "Blue outline shows" : "Blue outlines show")
-        +" the "+name+" you described · Drop-off point unverified");
+      await heading(p,"Check the outlined "+name);
+      assert.equal(await p.locator("#legend").textContent(), (boxes.length===1 ? "Vehicle" : "Vehicles")
+        +" outlined in blue · Drop-off point unverified");
       for (const [x1,y1,,y2] of boxes) assert(await pixelAlpha(p,[x1,Math.floor((y1+y2)/2)])>0);
       assert(await p.locator("#confirm").isHidden()); assert.equal(await pixelAlpha(p,[260,250]),0);
       assert.deepEqual(s.errors,[]); await p.close();
@@ -389,7 +404,7 @@ async function main() {
       await submitTyped(p); await p.locator("#take-over-area").waitFor();
       s.finish({state:"needs_clarification",proposal_id:null,references_only:true,
         result:{anchor_boxes_xyxy:[[482,112,540,160]],clarification_question:"I found the vehicle. Can you mark the ground?"}});
-      await heading(p,"I found the vehicle you described");
+      await heading(p,"Check the outlined vehicle");
       const actions=s.requests.length;
       await p.locator("#show-driver").click(); await p.getByRole("dialog").waitFor();
       assert.equal(await p.locator("#driver-words").innerText(),words);

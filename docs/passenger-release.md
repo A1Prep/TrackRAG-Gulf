@@ -131,6 +131,12 @@ python -m tools.passenger_local_photos install --out data/uae-parking-local-rear
 python -m tools.passenger_local_photos install --out data/uae-parking-local-rear-transfer-b-20261124 --published-manifest experiments/dropoff/passenger-rear-transfer-b-photos-20261124/sources.json 72d1aa495746eda661425875b69b2bcf40281edd79bb7193298a29bdaf71ab91
 ```
 
+The following six-drive release has a separate source manifest and locally prepared detector outputs. The installer retrieves and checks the provider-blurred original for each drive. Add `--offline --originals <folder>` to install from existing JPEGs named by their SHA-256 hashes.
+
+```powershell
+python -m tools.passenger_local_photos install --out data/uae-parking-local-rear-fourth-20261124 --published-manifest experiments/dropoff/passenger-rear-fourth-photos-20261124/sources.json 67fb07c4306a2c43e70e0238d9750b390a625bfd1e1b4acbe5b3df662b7565db
+```
+
 ```text
 python -m tools.passenger_local_vehicle_views --crop-version 2 --bank <scene-bank.jsonl> --local-surface-index <surface-index.json> <SHA256> --working <new-working-folder>
 ```

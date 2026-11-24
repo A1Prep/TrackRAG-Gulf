@@ -1,0 +1,48 @@
+{
+  "scope": "Neutral on-device measurements for six provider-blurred UAE source photographs. No passenger requests, reference areas or placement outcomes were used. Reflection agreement measures consistency of direction only.",
+  "original_source_manifest_sha256": "8a041b0d79b13f3e1c27dc86043be7c0fc24913668d9d8ce7f3b6b04b64dde76",
+  "portable_source_manifest_sha256": "67fb07c4306a2c43e70e0238d9750b390a625bfd1e1b4acbe5b3df662b7565db",
+  "native_detector": {
+    "scope": "Local inputs and native measurements only. No passenger text, target locations, placement outcomes or model-accuracy labels were used.",
+    "scene_bank_sha256": "a19846a5a3c8d95c7d902c56896f6094d661d127a65a10873b97cf058953bcb4",
+    "surface_index_sha256": "e7e492591b3ce4721d18f42e5943f95f6b4b207a6685719a230f2691ddeb2a00",
+    "vehicle_observations_sha256": "05d2472aafc3728ef63946f239df4cef2416fce674a6a8ccd57b7bc11a5340a9",
+    "native_detector_inventory_sha256": "d2ede41780646dcb918f0d46f13a0070a8c8648910d5dec477582b8588ffb010",
+    "coverage": {
+      "source_photos": 6,
+      "native_detections": 1331,
+      "current_tracks": 240,
+      "measured_vehicles": 29,
+      "source_photos_without_eligible_vehicles": 0,
+      "actual_model_views": 58,
+      "portable_source_photos_and_crops_reverified": 6
+    },
+    "cross_view_non_unknown_fields": {
+      "colour": 26,
+      "body": 25,
+      "orientation": 27
+    },
+    "malformed_individual_raw_replies": 0,
+    "total_generated_model_seconds": 716.266,
+    "per_view_median_seconds": 12.343,
+    "all_original_photos_model_boxes_and_crop_hashes_replayed": true,
+    "offline_install_reproduced_exact_scene_bank": true,
+    "crop_coverage": {
+      "crop_policy": "eight_legible_tracks_across_image_thirds_and_depth_v2",
+      "expanded_views": 58,
+      "previously_measured_views_verified": 0,
+      "raw_views": 58,
+      "two_view_vehicles": 29
+    }
+  },
+  "tail_observations_sha256": "05068433e911cd0e8b76e3331d27e247e00ad738a2de64e7ce1f49ac4396a4f8",
+  "tail_prompt_sha256": "58016ce3b7e29ec235be512519ed3cb13dadd87ee05e7eab7139a724c3750db3",
+  "tail_coverage": {
+    "source_replays": 12,
+    "eligible_vehicles": 17,
+    "actual_tail_model_views": 38,
+    "eligible_opposing_mirror_readings": 11,
+    "control_vehicles": 2
+  },
+  "median_tail_view_model_seconds": 4.516
+}

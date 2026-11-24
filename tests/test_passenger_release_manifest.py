@@ -206,7 +206,8 @@ def test_photo_pack_model_pins_resolve_to_the_released_bytes():
             assert sha256(raw).hexdigest() == expected, (directory, name)
 
 
-def test_serving_process_loads_real_tail_pack_before_local_grounding_threads(monkeypatch,tmp_path):
+@pytest.mark.parametrize('study',['rear-transfer-a','rear-fourth'])
+def test_serving_process_loads_real_tail_pack_before_local_grounding_threads(monkeypatch,tmp_path,study):
     from concurrent.futures import ThreadPoolExecutor
     from trackrag import passenger_app
     from trackrag.dropoff import local_surfaces, local_vehicle_observations, local_vehicle_tail
@@ -214,7 +215,7 @@ def test_serving_process_loads_real_tail_pack_before_local_grounding_threads(mon
     monkeypatch.setattr(local_surfaces,'_extra_sources',{})
     monkeypatch.setattr(local_vehicle_observations,'_registered',{})
     monkeypatch.setattr(local_vehicle_tail,'_registered',{})
-    bank, folder, parts=next(entry for entry in release.PHOTO_PACKS if 'rear-transfer-a' in entry[0])
+    bank, folder, parts=next(entry for entry in release.PHOTO_PACKS if study in entry[0])
     argv=['--config','model','--geometry','geometry','--vision-cache','cache','--out',str(tmp_path),'--requests',bank]
     for kind, name, pin in reversed(parts):
         argv.extend(['--'+kind.replace('_','-'),str(release.ROOT/folder/name),pin])

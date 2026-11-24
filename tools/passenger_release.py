@@ -76,6 +76,15 @@ PHOTO_PACKS = (
          ("local_vehicle_tail_observations", "vehicle-tail-observations-v1.json",
           "08bfc6f02033f204758e2ddd6b8d871a4a8140a72753c1ff561acdd2105167b4"),
      )),
+    ("data/uae-parking-local-rear-fourth-20261124/passenger-requests.jsonl",
+     "experiments/dropoff/passenger-rear-fourth-photos-20261124", (
+         ("local_surface_index", "passenger-local-image-surfaces-v1.json",
+          "e7e492591b3ce4721d18f42e5943f95f6b4b207a6685719a230f2691ddeb2a00"),
+         ("local_vehicle_observations", "vehicle-observations-v2.json",
+          "05d2472aafc3728ef63946f239df4cef2416fce674a6a8ccd57b7bc11a5340a9"),
+         ("local_vehicle_tail_observations", "vehicle-tail-observations-v1.json",
+          "05068433e911cd0e8b76e3331d27e247e00ad738a2de64e7ce1f49ac4396a4f8"),
+     )),
 )
 
 

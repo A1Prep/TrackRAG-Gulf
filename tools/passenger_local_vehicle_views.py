@@ -12,12 +12,9 @@ from time import monotonic
 
 from PIL import Image
 
-from trackrag.dropoff import bay_landmarks, local_surfaces, local_vehicle_observations as local, manual_surfaces
-from trackrag.dropoff.parking_evidence import signed_bytes
-from trackrag.passenger_app import load_scenes
-
-
 def write(path,value):
+    from trackrag.dropoff.parking_evidence import signed_bytes
+
     with NamedTemporaryFile(dir=path.parent,delete=False) as stream:
         temporary=Path(stream.name)
         stream.write(signed_bytes(value)+b'\n')
@@ -28,6 +25,8 @@ def write(path,value):
 
 
 def task1(bank,scene,info):
+    from trackrag.dropoff import local_surfaces, local_vehicle_observations as local
+
     frame=scene['frame']
     key=scene['provenance']['image_sha256']
     if (scene['source']!='predicted' or scene['provenance'].get('network_policy')!='local_only'
@@ -63,6 +62,9 @@ def task1(bank,scene,info):
 
 def inventory(bank,working,first=None,*,version=1):
     """Save full pre-VLM detections and tracker outputs, including sources/vehicles without a usable crop."""
+    from trackrag.dropoff import local_surfaces, local_vehicle_observations as local, manual_surfaces
+    from trackrag.passenger_app import load_scenes
+
     source=json.loads((bank.parent/'sources.json').read_bytes())
     if sha256(bank.read_bytes()).hexdigest()!=source['scene_bank_sha256']:
         raise ValueError('Scene bank differs from the source-only Task 1 intake.')
@@ -94,28 +96,40 @@ def inventory(bank,working,first=None,*,version=1):
 
 
 def model_id(config,runtime):
+    from tools.passenger_release import file_hash
+    from trackrag.dropoff import bay_landmarks
+
     if not runtime.identity['verified_weights'] or not runtime.identity['verified_metadata']:
         raise ValueError('Vehicle preparation requires a verified local checkpoint.')
     return {'model_id':runtime.identity['model_id'],'revision':runtime.identity['revision'],
-            'adapter':sha256((Path(config.adapter_dir)/'adapter_model.safetensors').read_bytes()).hexdigest(),
+            'adapter':file_hash(Path(config.adapter_dir)/'adapter_model.safetensors'),
             'processor':bay_landmarks.MODELS['processor'],'quantization':config.quantization,'runtime':'local_streamed',
             'weights':{k:v['sha256'] for k,v in runtime.identity['files'].items()},
             'min_pixels':config.min_pixels,'max_pixels':config.max_pixels,'inference_resident_layers':config.inference_resident_layers}
 
 
 def reusable_rows(scene, photo, classes, model, detection):
+    from trackrag.dropoff import local_vehicle_observations as local
+
     packet=local.get_packet(scene['provenance']['image_sha256'],origin=local.ORIGIN)
     if packet is None:
         return {}
     if packet['body']['model']!=model:
         raise ValueError('The old vehicle crops used a different model.')
-    if packet['body']['task1']!=detection:
+    original_detection=packet['body']['task1']
+    if original_detection!=detection:
+        with_current_provenance={**original_detection,'vision_provenance_sha256':detection.get('vision_provenance_sha256')}
+        if with_current_provenance==detection:
+            raise ValueError('The native detector provenance file differs. Reuse requires the original Task 1 '
+                             'preparation folder. Portable installations can still replay the published crop archive.')
         raise ValueError('The old vehicle crops used different native detector evidence.')
     local.verify(scene,photo,local.specs_for(packet,scene,classes),packet)
     return {row['anchor']['track_id']:row for row in packet['body']['rows']}
 
 
 def collect(bank,working,config,runtime,*,first=None,max_new_calls=None,output=None,version=1):
+    from trackrag.dropoff import local_vehicle_observations as local, manual_surfaces
+
     bank=Path(bank).resolve();working=Path(working)
     calls=working/'calls';calls.mkdir(exist_ok=True,parents=True)
     inputs=inventory(bank,working,first,version=version)
@@ -207,6 +221,7 @@ def main():
     if a.reuse_vehicle_observations and a.crop_version!=2:
         p.error('An expanded crop inventory is required to reuse earlier vehicle observations.')
     if a.inventory_only:
+        from trackrag.dropoff import local_surfaces
         for index,pin in a.local_surface_index or []:
             local_surfaces.register(index,pin)
         inventory(a.bank.resolve(),a.working,version=a.crop_version)
@@ -225,6 +240,7 @@ def main():
         if event=='socket.connect':
             raise RuntimeError('Local vehicle measurement cannot connect to a network.')
     sys.addaudithook(offline)
+    from trackrag.dropoff import local_surfaces, local_vehicle_observations as local
     from trackrag.dropoff.model import GroundingConfig
     from trackrag.dropoff.streamed import StreamedRuntime
     import torch
@@ -245,7 +261,9 @@ def main():
             raise SystemExit(75)
     except torch.OutOfMemoryError as error:
         print(f'Incomplete local vehicle observations after GPU memory exhaustion: {error}',file=sys.stderr,flush=True)
-        raise SystemExit(76)
+        # Moving layers back to RAM can hang after Windows has exhausted committed memory.
+        # This is a dedicated worker. Every completed call has already been closed and renamed.
+        os._exit(76)
     finally:
         runtime.close()
 

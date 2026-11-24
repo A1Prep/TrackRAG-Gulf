@@ -282,7 +282,8 @@ def _previously_observed_rear(request, photo, surface, earlier, specs, answers, 
 
 
 def outcome(request, photo, surface, packet, mark=None, *, qualifier_packets=None, earlier_vehicle=None, expanded=True,
-            observe_sides=True, side_packet=None, load_side_packet=True, side_release=None, measure_rear=False):
+            observe_sides=True, side_packet=None, load_side_packet=True, side_release=None, measure_rear=False,
+            archived_identity=None, load_archived_identity=False):
     from . import whole_bay
     ref = direct_reference(request, expanded=expanded)
     if ref is None:
@@ -394,6 +395,22 @@ def outcome(request, photo, surface, packet, mark=None, *, qualifier_packets=Non
                 question = (f'I found the {label}. I can’t distinguish a separate open spot behind it from this view. '
                             'Can you describe another nearby spot?')
                 evidence['rear_reference_check'] = {'track_id':spec['track_id'], 'vehicle':label}
+    if (not local_packet and expanded and observe_sides and mark is None and not boxes and not options
+            and reason == 'vehicle_reference_unmatched' and (archived_identity is not None or load_archived_identity)):
+        from . import archived_vehicle_reference
+        if archived_vehicle_reference.eligible(ref):
+            cached = archived_identity if archived_identity is not None else archived_vehicle_reference.get_packet(photo_sha)
+            if cached is not None:
+                try:
+                    possible = archived_vehicle_reference.clarify(clean, photo, ref, specs, answers, cached)
+                except (KeyError, TypeError, ValueError, OSError):
+                    if archived_identity is not None:
+                        raise
+                    possible = None
+                if possible is not None:
+                    box, question = possible
+                    boxes, reason = [box], 'vehicle_side_uncertain'
+                    evidence['archived_vehicle_identity'] = cached
     if expanded and mark is not None and not options:
         from . import vehicle_relative_bays
         marked = _explicit_ground(clean['scene'], classes, mark, center)
@@ -430,7 +447,8 @@ def available(request, photo=None, surface=None, mark=None, *, earlier_vehicle=N
     if photo is None:
         photo = Path(request['scene']['frame']['image_path']).read_bytes()
     try:
-        return outcome(request, photo, surface, packet, mark, earlier_vehicle=earlier_vehicle, measure_rear=True)
+        return outcome(request, photo, surface, packet, mark, earlier_vehicle=earlier_vehicle, measure_rear=True,
+                       load_archived_identity=True)
     except (KeyError, TypeError, ValueError, OSError):
         return None
 

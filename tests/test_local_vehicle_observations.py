@@ -3,6 +3,7 @@ from hashlib import sha256
 from io import BytesIO
 from copy import deepcopy
 import json
+import subprocess
 import sys
 
 from PIL import Image, ImageDraw
@@ -10,6 +11,17 @@ import pytest
 
 from trackrag.dropoff import local_vehicle_observations as local
 from trackrag.dropoff.parking_evidence import signed_bytes
+
+
+def test_idle_crop_supervisor_leaves_image_and_model_libraries_for_child():
+    script = """
+import sys
+loaded = set(sys.modules)
+from tools import passenger_local_vehicle_views
+heavy = {'torch', 'numpy', 'scipy', 'trackrag.passenger_app'}
+assert heavy.isdisjoint(set(sys.modules) - loaded)
+"""
+    subprocess.run([sys.executable, '-c', script], check=True)
 
 
 @pytest.fixture
@@ -142,6 +154,8 @@ def test_both_policies_verify_their_own_original_journal_after_restart(evidence,
         reusable_rows(scene,photo,classes,{**body['model'],'adapter':'different'},body['task1'])
     with pytest.raises(ValueError,match='native detector evidence'):
         reusable_rows(scene,photo,classes,body['model'],{**body['task1'],'native_frame_sha256':'0'*64})
+    with pytest.raises(ValueError,match='original Task 1 preparation folder'):
+        reusable_rows(scene,photo,classes,body['model'],{**body['task1'],'vision_provenance_sha256':'0'*64})
     with pytest.raises(ValueError):
         local.specs_for({'origin':'unknown'},scene,classes)
 

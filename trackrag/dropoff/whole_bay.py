@@ -853,6 +853,7 @@ def verify(request, outcome, *, requested_box=None):
                                                     observe_sides=source.get('vehicle_relation_policy')==vehicle_ground_reference.RELATION_POLICY,
                                                     side_packet=source.get('side_ground_observation'),load_side_packet=False,
                                                     side_release=source.get('side_ground_release'),
+                                                    archived_identity=source.get('archived_vehicle_identity'),
                                                     measure_rear='automatic_rear_ground' in source or 'rear_reference_check' in source)
     elif source.get("divider_policy") is not None:
         from . import parking_divider_choice
@@ -960,6 +961,8 @@ def verify(request, outcome, *, requested_box=None):
         result["archived_stall_language_calls"] = sum(len(row["reviews"]) for row in source["stall_review"]["body"]["options"])
     if original.get('vehicle_observation'):
         result['archived_vehicle_readings'] = original['vehicle_observation']['body']['count']
+    if original.get('archived_vehicle_identity'):
+        result['archived_identity_crop_calls'] = len(original['archived_vehicle_identity']['body']['calls'])
     if source.get("bay_anchor_evidence"):
         body=source["bay_anchor_evidence"]["body"]
         result["archived_bay_context_records"]=len(body["rows"])

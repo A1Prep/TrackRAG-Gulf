@@ -66,7 +66,7 @@ def pack_release(source_manifest, folder, destination):
     archive = destination.parent / ARCHIVE_NAME
     sources = []
     for row in sorted(raw["sources"], key=lambda r: (r["recording_id"], r["frame_id"])):
-        source = {key: row[key] for key in SOURCE_FIELDS}
+        source = {key: row[key] for key in SOURCE_FIELDS if key != "title" or key in row}
         source["original_path"] = "images/" + row["sha256"] + ".jpg"
         sources.append(source)
     identity = json.loads(files["sources.json"])

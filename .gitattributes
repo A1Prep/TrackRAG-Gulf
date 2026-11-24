@@ -107,3 +107,4 @@ experiments/dropoff/passenger-whole-bay-*-20261123.json text eol=lf
 experiments/dropoff/passenger-*-20261124.json -text whitespace=cr-at-eol
 experiments/dropoff/passenger-additional-local-photos-20261124/*.json text eol=lf
 experiments/dropoff/passenger-rear-*-photos-20261124/*.json text eol=lf
+experiments/dropoff/passenger-field-photos-20261124/**/*.json text eol=lf

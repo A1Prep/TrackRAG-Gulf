@@ -1,6 +1,7 @@
 """Release fixtures exercise labels, byte bindings and loading on a fresh checkout."""
 from dataclasses import asdict
 import json
+from pathlib import Path
 
 import pytest
 
@@ -176,6 +177,19 @@ def test_standard_launch_adds_installed_still_and_honors_explicit_banks(bundle, 
     path,pin=args.local_vehicle_tail_observations[0]
     index=argv.index('--local-vehicle-tail-observations')
     assert argv[index+1:index+3] == [str(path), pin]
+
+    field = [tmp_path / bank for bank, study, _ in release.PHOTO_PACKS if study == release.FIELD_PHOTO_RESULTS]
+    assert len(field) == 3
+    for requested in field:
+        requested.parent.mkdir(parents=True)
+        requested.touch()
+    args.requests, args.local_vehicle_tail_observations = None, []
+    argv = release.start(args)
+    assert all(argv.count(str(path)) == 1 for path in field)
+    added = [(path, pin) for name, path, pin in zip(argv, argv[1:], argv[2:])
+             if name in {"--local-surface-index", "--local-vehicle-observations"}
+             and Path(path).parent == tmp_path / release.FIELD_PHOTO_RESULTS]
+    assert [Path(path).name for path, _ in added] == ["passenger-local-image-surfaces-v1.json", "vehicle-observations.json"]
 
 
 def test_portable_installer_binds_all_public_photos_to_their_original_frames(tmp_path):

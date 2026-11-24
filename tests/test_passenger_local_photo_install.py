@@ -53,7 +53,8 @@ def test_install_rejects_altered_archive_before_fetch(tmp_path, monkeypatch):
     assert not (tmp_path / "new").exists()
 
 
-def test_offline_scene_installs_and_revalidates_with_actual_app_reader(tmp_path, monkeypatch):
+@pytest.mark.parametrize("title", ["Sample licensed photo", None])
+def test_offline_scene_installs_and_revalidates_with_actual_app_reader(tmp_path, monkeypatch, title):
     run = tmp_path / "original-machine"
     photos = run / "images"
     outputs = run / "predictions"
@@ -66,11 +67,13 @@ def test_offline_scene_installs_and_revalidates_with_actual_app_reader(tmp_path,
     recording = "kartaview_123"
     identity = "1"*64
     checkpoint = "2"*64
-    source = dict(recording_id=recording, frame_id=8, photo_id=19, title="Sample licensed photo", width=128,
+    source = dict(recording_id=recording, frame_id=8, photo_id=19, width=128,
                   height=72, sha256=sha, source_url="https://kartaview.org/details/123/8/",
                   processed_original_url="https://cdn.kartaview.org/pr:sharp/sample", original_blur_status="BLURRED",
                   attribution="Sample contributor", license="CC BY-SA 4.0", license_url="https://creativecommons.org/licenses/by-sa/4.0/",
                   source_terms="https://kartaview.org/terms")
+    if title is not None:
+        source["title"] = title
     inputs = tmp_path / "input.json"
     inputs.write_bytes(release.json_bytes({"sources": [source]}))
     scene = {"frame": {"recording_id": recording, "frame_id": 8, "timestamp_s": 0., "width": 128, "height": 72,
@@ -93,6 +96,7 @@ def test_offline_scene_installs_and_revalidates_with_actual_app_reader(tmp_path,
                          detections_sha256=release.file_hash(detections), vision_provenance_sha256=release.file_hash(provenance))]}))
     public = tmp_path / "published.json"
     digest = release.pack_release(inputs, run, public)
+    assert json.loads(public.read_bytes())["sources"][0].get("title") == title
     archive_digest = release.file_hash(public.with_name(release.ARCHIVE_NAME))
     assert release.pack_release(inputs, run, public) == digest
     assert release.file_hash(public.with_name(release.ARCHIVE_NAME)) == archive_digest

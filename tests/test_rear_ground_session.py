@@ -111,3 +111,11 @@ def test_a_passenger_lane_tap_cannot_trigger_the_automatic_rear_fallback(bank, m
         [178, 200, 182, 204], measure_rear=True)
     assert response['result']['destination_point_xy'] is None
     assert not response['provenance']['bay_choices']
+
+
+def test_optional_editable_example_comes_from_a_rear_read_on_the_current_photo(bank, monkeypatch):
+    packet=neutral_readings(bank)
+    monkeypatch.setattr(vehicle_ground_reference,'read_photo_packet',lambda *args:packet)
+    assert vehicle_ground_reference.example_request(bank.scene)=='Could you drop me behind the white sedan?'
+    other=deepcopy(bank.scene); other['provenance']['image_sha256']='1'*64
+    assert vehicle_ground_reference.example_request(other) is None

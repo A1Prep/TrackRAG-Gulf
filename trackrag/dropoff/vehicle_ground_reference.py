@@ -80,15 +80,21 @@ def _option(spec):
 
 def _measured_rear(request, ref, specs, answers, observations, photo, classes):
     """Pair a single verified referent with visibly separated pavement behind its own bumper."""
-    from . import vehicle_rear_ground, vehicle_relative_bays
+    from . import vehicle_rear_apron, vehicle_rear_boundaries, vehicle_rear_ground, vehicle_relative_bays, vehicle_scene_details
 
     if ref['relation'] != 'behind' or ref.get('ground_side') or vehicle_relative_bays.restricted_instruction(request['text']):
         return None
     frame = request['scene']['frame']
+    required = set()
     if ref.get('qualified'):
         matches, _, question = qualifiers.resolve(request, ref, specs, answers, observations=observations)
         if question:
             matches = []
+        if not matches:
+            local_matches = vehicle_scene_details.matching(request,ref,specs,answers,classes,original=photo)
+            if len(local_matches) == 1:
+                spec, row, required = local_matches[0]
+                matches = [(spec,row)]
     else:
         matches = _matching(specs, answers, ref, frame['width'])
 
@@ -105,10 +111,16 @@ def _measured_rear(request, ref, specs, answers, observations, photo, classes):
     if row[2] != 'REAR' or not single_vehicle.visible_vehicle_end(spec['box'], (frame['width'], frame['height'])):
         return None
     options = vehicle_rear_ground.candidates(photo, classes, request['scene'], spec, facing=row[2])
+    if not options and row[3] == 'NONE':
+        options = vehicle_rear_apron.candidates(photo, classes, request['scene'], spec, facing=row[2])
+    if not options:
+        options = vehicle_rear_boundaries.candidates(photo, classes, request['scene'], spec, facing=row[2])
     if len(options) != 1:
         return None
     option = options[0]
-    if needs_kerb_side and option['evidence']['curb_side'] != ref['side']:
+    if needs_kerb_side and option['evidence'].get('curb_side') != ref['side']:
+        return None
+    if not vehicle_scene_details.ground_confirms(option['evidence'], required):
         return None
     # A signed negative on an older point still applies if that point is inside the proposed patch.
     if spec['ground'] and row[3] in {'LANE', 'BLOCKED'} and cv2.pointPolygonTest(
@@ -409,6 +421,41 @@ def available(request, photo=None, surface=None, mark=None, *, earlier_vehicle=N
         return outcome(request, photo, surface, packet, mark, earlier_vehicle=earlier_vehicle, measure_rear=True)
     except (KeyError, TypeError, ValueError, OSError):
         return None
+
+
+def example_request(scene):
+    """Offer an editable example about a vehicle actually observed on this photo."""
+    from . import local_surfaces, local_vehicle_observations as local
+    key = scene.get('provenance',{}).get('image_sha256')
+    if scene.get('source') != 'predicted' or not key:
+        return None
+    if local_surfaces.local_only(scene):
+        packet = local.get_packet(key)
+        if packet is None or not local_surfaces.matches_scene(scene):
+            return None
+        body = packet['body']
+        if body['task1']['current_tracks_sha256'] != local.digest(local.tracks(scene)):
+            return None
+        rows = [r['attributes'] for r in body['rows']]
+    else:
+        packet = read_photo_packet(BANK,key,8192)
+        if not packet:
+            return None
+        try:
+            _authenticate(packet)
+            body = packet['body']
+            if (body['source'], body['model'], body['revision']) != (key, MODEL, REVISION):
+                return None
+            rows = body['answers']
+        except (KeyError,TypeError,ValueError):
+            return None
+    subjects = [tuple(row[:2]) for row in rows if len(row)==4]
+    for colour,kind,end,_ in rows:
+        if (end=='REAR' and colour in view.COLORS-{'unknown'} and kind in view.TYPES-{'unknown'}
+                and subjects.count((colour,kind))==1):
+            name = 'SUV' if kind=='suv' else kind
+            return f'Could you drop me behind the {colour} {name}?'
+    return None
 
 
 def unavailable(request):

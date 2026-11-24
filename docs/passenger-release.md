@@ -109,6 +109,13 @@ To use another locally prepared KartaView drive, record the source metadata in t
 
 For requests about a particular vehicle, run the separate local crop reader in the grounding environment. It checks a close crop and a second crop showing the tracked vehicle in context. It records the original model replies and keeps a paint colour, vehicle type or viewing direction only when the two readings agree. Each source can contribute up to four sufficiently large current vehicles. Add `--local-vehicle-observations <working-folder>/vehicle-observations.json <printed-SHA256>` to the normal start command to enable these readings. Original pixels, Task 1 detections and model processing stay on the laptop.
 
+To add the 14 public UAE street photographs used for the rear-vehicle trial, run these two commands in the checkout. The installer verifies the provider-blurred originals and restores the project’s detector predictions. The normal launcher then discovers the images, surface maps and locally measured Qwen vehicle observations. The setup for these photos is independent of the two EMT recordings used in footage search.
+
+```powershell
+python -m tools.passenger_local_photos install --out data/uae-parking-local-rear-20261124 --published-manifest experiments/dropoff/passenger-rear-local-photos-20261124/sources.json 487d6aca29eb1aca3e204943d26f39825d004a3780dbc2ea95dc8210b56f5109
+python -m tools.passenger_local_photos install --out data/uae-parking-local-rear-reserve-20261124 --published-manifest experiments/dropoff/passenger-rear-reserve-photos-20261124/sources.json 8d7acc46e319f50ca51d1945df89aeb3735006bb65e515b4426d21b83a3fb7bf
+```
+
 ```text
 python -m tools.passenger_local_vehicle_views --bank <scene-bank.jsonl> --local-surface-index <surface-index.json> <SHA256> --working <working-folder>
 ```

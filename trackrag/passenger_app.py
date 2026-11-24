@@ -33,6 +33,7 @@ INTERACTIVE_DEADLINE_SECONDS = 15
 STATIC = {"/": ("index.html", "text/html; charset=utf-8"),
           "/favicon.ico": ("favicon.ico", "image/x-icon"),
           "/footage": ("footage.html", "text/html; charset=utf-8"),
+          "/footage.css": ("footage.css", "text/css; charset=utf-8"),
           "/footage.js": ("footage.js", "text/javascript"),
           "/footage-player.js": ("footage-player.js", "text/javascript"),
           "/frames.js": ("frames.js", "text/javascript"),
@@ -340,7 +341,12 @@ class PassengerSite:
                         old.pending = None
                     self.sessions.pop(old.identity, None)
                 self.sessions[sid] = session
-        return session.snapshot()
+        response = session.snapshot()
+        from trackrag.dropoff.vehicle_ground_reference import example_request
+        example = example_request(self.scenes[scene_key])
+        if example:
+            response['example_request'] = example
+        return response
 
     def lookup(self, sid):
         if not isinstance(sid, str):

@@ -34,6 +34,22 @@ EXTRA_MODEL_FILES = {
     "local_observations": ("observations.json",
                            "3c11f54f49eb0f5db47e8715e252e8b091b20830930d75e61eb1fb6eb0f75e6f"),
 }
+REAR_PHOTO_BANK = 'data/uae-parking-local-rear-20261124/passenger-requests.jsonl'
+REAR_PHOTO_RESULTS = 'experiments/dropoff/passenger-rear-local-photos-20261124'
+REAR_MODEL_FILES = {
+    'local_surface_index': ('passenger-local-image-surfaces-v1.json',
+                            'c9ead6f19929510cf46b9645166ca064e0cbe887158ff17e4e95f3806a7722bf'),
+    'local_vehicle_observations': ('vehicle-observations.json',
+                                  '7b12523b429e064d2b650e4e3fa6958c2a865e4e659e6959adf756ef124a19d1'),
+}
+RESERVE_PHOTO_BANK = 'data/uae-parking-local-rear-reserve-20261124/passenger-requests.jsonl'
+RESERVE_PHOTO_RESULTS = 'experiments/dropoff/passenger-rear-reserve-photos-20261124'
+RESERVE_MODEL_FILES = {
+    'local_surface_index': ('passenger-local-image-surfaces-v1.json',
+                            '9dd806e609645fe51e49ead8c1d35db908fdf98217dbb43f4e620f9e3662d452'),
+    'local_vehicle_observations': ('vehicle-observations.json',
+                                  'b03aa392eb8631683ff58cfa9d4cc69a63c5e2997515a6a7bd94a56d4e2e1828'),
+}
 
 
 def file_hash(path):
@@ -222,7 +238,7 @@ def start(args):
     banks = args.requests or [ROOT/"runs/passenger-inputs/requests.jsonl"]
     if args.requests is None:
         for extra in ("runs/passenger-pair-scene/requests.jsonl", "data/uae-parking-study/passenger-requests.jsonl",
-                      "data/uae-parking-local/passenger-requests.jsonl", EXTRA_PHOTO_BANK):
+                      "data/uae-parking-local/passenger-requests.jsonl", EXTRA_PHOTO_BANK, REAR_PHOTO_BANK, RESERVE_PHOTO_BANK):
             if (ROOT/extra).is_file():
                 banks.append(ROOT/extra)
     banks = list(dict.fromkeys(Path(p).resolve() for p in [*banks, *(getattr(args,"additional_requests",None) or ())]))
@@ -246,9 +262,13 @@ def start(args):
             argv.extend(["--place-public-sources",str(path)])
         for option in ("local_surface_index", "local_observations", "local_vehicle_observations"):
             pairs = [(Path(path).resolve(), expected) for path, expected in getattr(args,option,None) or ()]
-            if ROOT / EXTRA_PHOTO_BANK in banks and option in EXTRA_MODEL_FILES:
-                name, digest = EXTRA_MODEL_FILES[option]
-                pairs.insert(0, (ROOT / EXTRA_PHOTO_RESULTS / name, digest))
+            for bank, study, files in ((EXTRA_PHOTO_BANK, EXTRA_PHOTO_RESULTS, EXTRA_MODEL_FILES),
+                                       (REAR_PHOTO_BANK, REAR_PHOTO_RESULTS, REAR_MODEL_FILES),
+                                       (RESERVE_PHOTO_BANK, RESERVE_PHOTO_RESULTS, RESERVE_MODEL_FILES)):
+                if ROOT / bank in banks and option in files:
+                    name, digest = files[option]
+                    if all(expected != digest for _,expected in pairs):
+                        pairs.append((ROOT / study / name, digest))
             for path, expected in dict.fromkeys(pairs):
                 argv.extend(["--"+option.replace("_","-"),str(path),expected])
         if getattr(args, "low_memory", False):

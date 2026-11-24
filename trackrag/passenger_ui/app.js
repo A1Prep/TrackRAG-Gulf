@@ -32,8 +32,8 @@ function post(path, body, extra = {}, signal) {
 function endpoint(action) {
   return "/api/sessions/" + session.session + (action ? "/" + action : "");
 }
-async function postAction(name, body, signal) {
-  const sid=session.session, revision=session.revision, actionId=crypto.randomUUID();
+async function postAction(name, body, signal, actionId=crypto.randomUUID()) {
+  const sid=session.session, revision=session.revision;
   try {
     return await post(endpoint(name),body,{"X-Session-Revision":String(revision),"X-Action-ID":actionId},signal);
   } catch(error) {
@@ -505,10 +505,11 @@ el("discard-edit").onclick = () => {
 };
 async function sendAutomatic(payload) {
   const controller = new AbortController(), sid = session.session;
+  const actionId = crypto.randomUUID(), revision = session.revision;
   submitting = controller; failure=""; render();
   let accepted = false;
   try {
-    const next = await postAction("submit",{...payload,background:true},controller.signal);
+    const next = await postAction("submit",{...payload,background:true},controller.signal,actionId);
     if (submitting !== controller || next.session !== sid) return;
     session = next; accepted = true;
   } catch (error) {
@@ -518,7 +519,7 @@ async function sendAutomatic(payload) {
       const next = await api("/api/sessions/"+sid,{signal:controller.signal});
       if (submitting === controller && next.session === sid) {
         session = next;
-        accepted = Boolean(next.pending_grounding && next.pending_grounding.text === payload.text && next.pending_grounding.mode === payload.mode);
+        accepted = next.last_action_id === actionId && next.revision > revision;
         if (accepted) failure="";
       }
     } catch (_) { /* Keep the submitted draft available when the connection is down. */ }

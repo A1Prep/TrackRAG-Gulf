@@ -44,6 +44,7 @@ async function browserCase(browser,url) {
     const [, , , id, action] = pathname.split("/"), s=sessions.get(id);
     if (action==="image") return route.fulfill({contentType:"image/svg+xml",body:'<svg xmlns="http://www.w3.org/2000/svg" width="640" height="360"><rect width="640" height="360" fill="gray"/></svg>'});
     if (!action) {
+      if (mock.failReadbacks > 0) { mock.failReadbacks--; return route.abort("failed"); }
       mock.polls.push(Date.now()); const snapshot=clone(s), gate=mock.holdPoll;
       if (gate) { mock.holdPoll=null; gate.notify(); await gate.hold; }
       return json(gate?.response ?? snapshot);
@@ -55,6 +56,14 @@ async function browserCase(browser,url) {
     if (action==="audio") { s.voice_stage="review"; s.transcript="Just behind the last car"; }
     if (action==="submit") {
       s.voice_stage=null;
+      if (mock.loseImmediateReply && body.text === "Yes") {
+        s.last_action_id=req.headers()["x-action-id"];
+        s.pending_grounding=null;
+        s.view=view("needs_clarification",{turns:[...s.view.turns,{role:"user",text:body.text}],
+          result:{clarification_question:"Please mark the ground you mean."}});
+        mock.failReadbacks=3;
+        return route.abort("failed");
+      }
       const turns=[{role:"user",text:body.text}];
       if (body.background) {
         s.pending_grounding={request_id:id+"-request",text:body.text,mode:body.mode,elapsed_s:0};
@@ -220,6 +229,18 @@ async function main() {
       assert.equal(await p.locator("#last-request p").textContent(),scenario.reply);
       assert(await p.locator("#answer-yes").isHidden()); assert(await p.locator("#answer-no").isHidden());
       assert(!s.requests.some(r=>r.action==="confirm")); assert.deepEqual(s.errors,[]); await p.close();
+    }
+    // A completed rapid reply with a lost acknowledgement is recognized by its action ID.
+    {
+      const s=await browserCase(browser,url),p=s.page; await submitTyped(p); await p.locator("#take-over-area").waitFor();
+      s.finish({state:"needs_clarification",word_confirmation:true,proposal_id:null,
+        result:{clarification_question:"Did you mean the white car?"}});
+      await heading(p,"Check one word"); s.loseImmediateReply=true; await p.locator("#answer-yes").click();
+      await p.locator("#original-request").waitFor();
+      assert.equal(await p.locator("#last-request p").textContent(),"Yes");
+      assert.equal(await p.locator("#status").textContent(),"Please mark the ground you mean.");
+      assert(await p.locator("#error").isHidden()); assert(await p.locator("#form").isHidden());
+      assert.equal(s.requests.filter(r=>r.body.text==="Yes").length,1); await p.close();
     }
     // Single automatic bay displays its perspective polygon and centre only; new input clears both.
     {

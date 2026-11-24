@@ -18,6 +18,8 @@ For automatic two-vehicle drop-off proposals, start with `--parking-backend moda
 
 For a request about one parked car, the blue outline identifies a visible vehicle. A gold ring identifies a possible destination for passenger confirmation. A blue diamond records the passenger’s own tap. An outlined vehicle alone means the passenger still needs to identify a spot. The app can ask for confirmation of the vehicle when its position on the road and its position in the photo differ. On the prepared public gallery, 72 of the 81 photographs have stored neutral vehicle readings. The separately tested model for ground beside vehicles remains disabled after it repeatedly accepted occupied points and traffic lanes. [Project results and limits](project-release.md)
 
+When speech recognition writes a phrase such as “behind the white card,” the app asks whether you meant the car. Choose **Yes, I meant a car**, correct the words, or choose **No, something else**. When a vehicle's position in the photo is ambiguous, choose **Yes, that vehicle** or describe a different one. Both interactions keep your original request visible. A suggested destination has its own selection and save steps.
+
 ## Try the passenger interaction
 
 1. Select recording **054907**, frame **1**. Choose **Record voice** and say “Drop me here.” Check the recognized words and send them. The assistant should ask for a landmark.

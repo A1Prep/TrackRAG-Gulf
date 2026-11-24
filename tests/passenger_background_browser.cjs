@@ -25,7 +25,7 @@ const latch = () => {
     release:() => release(),notify:() => notify()};
 };
 
-async function browserCase(browser,url) {
+async function browserCase(browser,url,{indexed=false}={}) {
   const page = await browser.newPage();
   const requests = [], sessions = new Map(), errors = [];
   const mock = {page,requests,errors,holdAck:null,holdPoll:null,polls:[],current:null};
@@ -35,7 +35,8 @@ async function browserCase(browser,url) {
     const json = obj => route.fulfill({json:obj}).catch(error => {
       if (!/closed|abort|invalid interception/i.test(String(error))) throw error;
     });
-    if (pathname==="/api/scenes") return json({scenes,footage_scenes:[],speech_available:true});
+    if (pathname==="/api/scenes") return json({scenes:indexed ? scenes.map(s=>({...s,parking_areas_indexed:true})) : scenes,
+      footage_scenes:[],speech_available:true});
     if (pathname==="/api/sessions") {
       const {scene} = req.postDataJSON(), id="s"+(sessions.size+1);
       const s={session:id,scene,revision:0,view:view(),voice_stage:null,pending_grounding:null};
@@ -200,6 +201,20 @@ async function main() {
       assert.deepEqual(s.errors,[]); await p.close();
     }
     // Direct area/vehicle requests stay on their immediate server routes.
+    {
+      const s=await browserCase(browser,url,{indexed:true}), p=s.page;
+      await submitTyped(p); await p.locator("#take-over-area").waitFor();
+      s.finish({state:"needs_clarification",request_id:"initial",proposal_id:null,result:{clarification_question:"Can you name another place?"}});
+      await p.locator("#other-bays").waitFor({state:"visible"});
+      assert.equal(s.requests.filter(r=>r.action==="submit").length,1);
+      await p.locator("#other-bays").click();
+      await p.locator("#take-over-area").waitFor();
+      const submitted=s.requests.filter(r=>r.action==="submit");
+      assert.deepEqual(submitted.at(-1).body,{text:"Find the marked parking bays.",mode:"typed",replaces_request_id:"initial",background:true});
+      s.finish({state:"needs_clarification",request_id:"alternative",proposal_id:null,result:{clarification_question:"No marked bays."}});
+      await p.waitForFunction(()=>document.querySelector("#destination-panel").dataset.state==="clarify");
+      assert(await p.locator("#other-bays").isHidden()); assert.deepEqual(s.errors,[]); await p.close();
+    }
     for (const [button,field] of [["submit-area","mark_on_photo"],["submit-pointing","point_to_vehicles"]]) {
       const s=await browserCase(browser,url),p=s.page; await p.locator("#instruction").fill(words);
       if(button==="submit-pointing") {

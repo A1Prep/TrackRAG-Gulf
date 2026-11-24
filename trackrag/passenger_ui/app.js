@@ -318,6 +318,11 @@ function render() {
   el("take-over-area").disabled = locked || !ready || !v.can_request_area;
   el("draw").className = v.state === "proposed" || choices.length || yesNo ? "subtle" : "primary";
   text(el("draw"), choices.length ? "Mark a different spot" : v.state === "proposed" ? "Change spot on photo" : "Mark my spot on the photo");
+  const showOtherBays = decision && !yesNo && !choices.length && current?.parking_areas_indexed
+    && ["needs_clarification","insufficient_visual_evidence"].includes(v.state)
+    && prior && prior.text !== "Find the marked parking bays.";
+  el("other-bays").hidden = !showOtherBays;
+  el("other-bays").disabled = locked || !ready;
   el("edit-words").hidden = !decision || !prior;
   el("edit-words").disabled = locked;
   text(el("edit-words"), v.state === "needs_clarification" || v.state === "insufficient_visual_evidence" ? "Answer in words" : "Edit description");
@@ -596,6 +601,12 @@ el("show-parking-areas").onclick = () => {
   const button = el("show-parking-areas");
   if (button.hidden || button.disabled || input.value.trim()) return;
   input.value = "Find the marked parking bays.";
+  sendInstruction();
+};
+el("other-bays").onclick = () => {
+  const button = el("other-bays");
+  if (button.hidden || button.disabled) return;
+  startEditing("replace","Find the marked parking bays.");
   sendInstruction();
 };
 el("submit-pointing").onclick = () => sendInstruction("vehicles");

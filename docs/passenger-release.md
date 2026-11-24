@@ -12,6 +12,8 @@ From the prepared laptop checkout, run the following command and open the local 
 
 ## One-minute presentation rehearsal
 
+On the prepared Windows laptop, double-click **Start TrackRAG.cmd** in the project folder. It opens the application after verifying that the two footage recordings are available.
+
 1. Open **Search footage**. The first recording opens at 11.7 seconds with a box around the bus. Choose **When did the bus first appear?** The answer places its first detection at 10.8 seconds. Select the frame 109 thumbnail to see exactly what the detector saw. Choose **Return to the question frame** to return to 11.7 seconds. [Open the bus recording](http://127.0.0.1:8775/footage?recording=video_054604&frame=118)
 2. Open the hotel street photo and type **Could you drop me behind the white car?** Inspect the blue vehicle outline and the gold ring on the ground behind the SUV. **Save this location** records the passenger’s choice. For the voice route, use **Record voice**, stop, review the transcript and send it. The driver assesses the actual stopping conditions. [Open the hotel photo](http://127.0.0.1:8775/?scene=b478c884c0832f9ea6d0fc05)
 3. To show ambiguity, ask **Could you drop me next to the restaurant?** on the restaurant photo. Select one of the two outlined bays. You can also mark their shared dividing line and choose the bay you mean. Moving the mark to the traffic lane removes the offer. These are rehearsed examples. The separately selected photos measure how the passenger feature transfers to new drives. [Open the restaurant photo](http://127.0.0.1:8775/?scene=4edc9abbff73676b9a63bc1d)
@@ -120,6 +122,13 @@ To add the 14 public UAE street photographs used for the rear-vehicle trial, run
 ```powershell
 python -m tools.passenger_local_photos install --out data/uae-parking-local-rear-20261124 --published-manifest experiments/dropoff/passenger-rear-local-photos-20261124/sources.json 487d6aca29eb1aca3e204943d26f39825d004a3780dbc2ea95dc8210b56f5109
 python -m tools.passenger_local_photos install --out data/uae-parking-local-rear-reserve-20261124 --published-manifest experiments/dropoff/passenger-rear-reserve-photos-20261124/sources.json 8d7acc46e319f50ca51d1945df89aeb3735006bb65e515b4426d21b83a3fb7bf
+```
+
+Eight further UAE drives were selected independently for the final test. Install them in two groups of four. Each group has its own source-verified images, Task 1 tracks, parking-surface maps and locally measured vehicle observations.
+
+```powershell
+python -m tools.passenger_local_photos install --out data/uae-parking-local-rear-transfer-a-20261124 --published-manifest experiments/dropoff/passenger-rear-transfer-a-photos-20261124/sources.json 28bfe2dbd22231586cded60db536a49f12b4344653316a6b78d52998d5c9eed0
+python -m tools.passenger_local_photos install --out data/uae-parking-local-rear-transfer-b-20261124 --published-manifest experiments/dropoff/passenger-rear-transfer-b-photos-20261124/sources.json 72d1aa495746eda661425875b69b2bcf40281edd79bb7193298a29bdaf71ab91
 ```
 
 ```text

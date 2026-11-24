@@ -190,3 +190,34 @@ def test_photo_pack_model_pins_resolve_to_the_released_bytes():
         for _, name, expected in files:
             raw = (release.ROOT / directory / name).read_bytes().replace(b'\r\n',b'\n')
             assert sha256(raw).hexdigest() == expected, (directory, name)
+
+
+def test_presentation_launcher_reuses_only_a_healthy_footage_server(monkeypatch):
+    from io import BytesIO
+    from tools import presentation_start as presentation
+    monkeypatch.setattr(presentation.subprocess,"Popen",lambda *args,**kwargs:pytest.fail("Started a second server"))
+    def serve(value):
+        monkeypatch.setattr(presentation,"urlopen",lambda *args,**kwargs:BytesIO(json.dumps(value).encode()))
+    serve({"footage_available":True,"scenes":[{"recording_id":"one"},{"recording_id":"two"}]})
+    assert presentation.open_presentation(8775,open_browser=False) == "http://127.0.0.1:8775/footage"
+    serve({"footage_available":True,"scenes":[{"recording_id":"one"},{"recording_id":"one"}]})
+    with pytest.raises(RuntimeError,match="two searchable recordings"):
+        presentation.open_presentation(8775,open_browser=False)
+
+
+def test_presentation_launcher_starts_regular_release_before_opening_the_browser(tmp_path,monkeypatch):
+    from types import SimpleNamespace
+    from tools import presentation_start as presentation
+    readiness = iter([False,False,True])
+    calls = []
+    monkeypatch.setattr(presentation,"ROOT",tmp_path)
+    monkeypatch.setattr(presentation,"ready",lambda port:next(readiness))
+    monkeypatch.setattr(presentation.subprocess,"Popen",lambda args,**opts:
+                        calls.append((args,opts)) or SimpleNamespace(poll=lambda:None))
+    monkeypatch.setattr(presentation.time,"sleep",lambda _:None)
+    monkeypatch.setattr(presentation.webbrowser,"open",lambda url:calls.append(url))
+    presentation.open_presentation(8775)
+    command,opts = calls[0]
+    assert command[1:4] == ["-m","tools.passenger_release","start"]
+    assert command[command.index("--require-footage")+1] == "2" and "--low-memory" in command
+    assert opts["cwd"]==tmp_path and calls[1]=="http://127.0.0.1:8775/footage"

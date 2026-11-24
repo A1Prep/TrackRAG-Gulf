@@ -1,0 +1,840 @@
+{
+  "purpose": "A post-repair check on eight previously opened UAE driving photos. The blind third test remains a distinct result. This check does not measure new-drive performance.",
+  "release": "316f5c120c2d24f901323d30a198ee2665f986aa",
+  "earlier_decision_release": "7187f6e715ab88183d29d2936bb71c0a9a710c2e",
+  "after_repair_browser_finished_utc": "2026-11-24T03:09:31.288Z",
+  "original_raw_sha256": "b55b1cd388e2aee13e28a0c2949836047b5f9f3ff65934ea6033b2a4c5edc168",
+  "post_repair_raw_sha256": "3243702169cf0a6be33dab61c2d7986fca7a1cc2a0f6a7fab23fe94ce38a7571",
+  "gold_sha256": "1e2e5563fcd46c5c22115510ec73559936eb74ee1b0fe248ceca375a84f2b97f",
+  "earlier_evidence": "passenger-rear-third-holdout-20261124.json",
+  "adjudication": "A separate AI reviewer viewed the original images, sealed vehicle boxes and permissible ground polygons before the original blind requests. There were no human judges.",
+  "measurement": "Vehicle matches require native image box intersection-over-union of at least 0.50. A direct hit additionally requires the native point strictly inside a target polygon and an explicit save at that same place. One good choice earns a separate guided result. Eight fresh sessions tested originally labelled through roads. Two further live sessions replaced genuine offers and tried their old save tokens. Timings are browser-visible on this laptop with prepared source evidence.",
+  "summary": {
+    "original_unseen": {
+      "natural": {
+        "counts": {
+          "clear_withheld": 4,
+          "negative_withheld": 4
+        },
+        "visible_ms": {
+          "n": 8,
+          "min": 578,
+          "median": 620.5,
+          "max": 1116
+        },
+        "visible_bodies": {
+          "unique_correct": 3,
+          "correct_among_several": 4,
+          "none_shown": 1
+        },
+        "alternatives": 0,
+        "explicitly_saved": 0,
+        "console_errors": 0
+      },
+      "lane": {
+        "counts": {
+          "road_tap_withheld": 8
+        },
+        "visible_ms": {
+          "n": 8,
+          "min": 366,
+          "median": 1243.5,
+          "max": 1924
+        },
+        "visible_bodies": {
+          "unique_correct": 2,
+          "correct_among_several": 5,
+          "none_shown": 1
+        },
+        "alternatives": 0,
+        "explicitly_saved": 0,
+        "console_errors": 0
+      }
+    },
+    "after_repair_on_seen_photos": {
+      "natural": {
+        "counts": {
+          "negative_withheld": 4,
+          "direct_correct": 1,
+          "clear_withheld": 2,
+          "alternative_available": 1
+        },
+        "visible_ms": {
+          "n": 8,
+          "min": 600,
+          "median": 669.5,
+          "max": 3524
+        },
+        "visible_bodies": {
+          "unique_correct": 4,
+          "correct_among_several": 4
+        },
+        "alternatives": 1,
+        "explicitly_saved": 2,
+        "console_errors": 0
+      },
+      "lane": {
+        "counts": {
+          "road_tap_withheld": 8
+        },
+        "visible_ms": {
+          "n": 8,
+          "min": 456,
+          "median": 1362.5,
+          "max": 1700
+        },
+        "visible_bodies": {
+          "correct_among_several": 5,
+          "unique_correct": 2,
+          "none_shown": 1
+        },
+        "alternatives": 0,
+        "explicitly_saved": 0,
+        "console_errors": 0
+      }
+    }
+  },
+  "after_repair_rows": [
+    {
+      "id": "W25d11a8",
+      "task": "natural",
+      "eligible": false,
+      "outcome": "negative_withheld",
+      "anchor": {
+        "classification": "unique_correct",
+        "offered": 1,
+        "max_iou": 0.965,
+        "each_best_iou": [
+          0.965
+        ]
+      },
+      "point": null,
+      "signed_ground_margin_px": null,
+      "alternatives": [],
+      "explicit_save": false,
+      "visible_ms": 1144,
+      "actual_tap": null,
+      "error": null,
+      "browser_errors": [],
+      "original_unseen_outcome": "negative_withheld"
+    },
+    {
+      "id": "W36b2dc6",
+      "task": "natural",
+      "eligible": true,
+      "outcome": "direct_correct",
+      "anchor": {
+        "classification": "unique_correct",
+        "offered": 1,
+        "max_iou": 0.9352,
+        "each_best_iou": [
+          0.9352
+        ]
+      },
+      "point": [
+        2744,
+        2103.36
+      ],
+      "signed_ground_margin_px": 65.99,
+      "alternatives": [],
+      "explicit_save": true,
+      "visible_ms": 1343,
+      "actual_tap": null,
+      "error": null,
+      "browser_errors": [],
+      "original_unseen_outcome": "clear_withheld"
+    },
+    {
+      "id": "W5cc54a2",
+      "task": "natural",
+      "eligible": true,
+      "outcome": "clear_withheld",
+      "anchor": {
+        "classification": "unique_correct",
+        "offered": 1,
+        "max_iou": 0.9248,
+        "each_best_iou": [
+          0.9248
+        ]
+      },
+      "point": null,
+      "signed_ground_margin_px": null,
+      "alternatives": [],
+      "explicit_save": false,
+      "visible_ms": 677,
+      "actual_tap": null,
+      "error": null,
+      "browser_errors": [],
+      "original_unseen_outcome": "clear_withheld"
+    },
+    {
+      "id": "W6aadb86",
+      "task": "natural",
+      "eligible": false,
+      "outcome": "negative_withheld",
+      "anchor": {
+        "classification": "correct_among_several",
+        "offered": 5,
+        "max_iou": 0.9891,
+        "each_best_iou": [
+          0.9891,
+          0.0323,
+          0.0,
+          0.0304,
+          0.0
+        ]
+      },
+      "point": null,
+      "signed_ground_margin_px": null,
+      "alternatives": [],
+      "explicit_save": false,
+      "visible_ms": 600,
+      "actual_tap": null,
+      "error": null,
+      "browser_errors": [],
+      "original_unseen_outcome": "negative_withheld"
+    },
+    {
+      "id": "Wb7e43b4",
+      "task": "natural",
+      "eligible": true,
+      "outcome": "alternative_available",
+      "anchor": {
+        "classification": "unique_correct",
+        "offered": 1,
+        "max_iou": 0.8968,
+        "each_best_iou": [
+          0.8968
+        ]
+      },
+      "point": null,
+      "signed_ground_margin_px": null,
+      "alternatives": [
+        {
+          "id": "bay-1",
+          "center": [
+            1973.3333333333333,
+            1961.501976284585
+          ],
+          "strictly_inside": true,
+          "signed_margin_px": 16.06,
+          "extent": "interior_point_only"
+        }
+      ],
+      "explicit_save": true,
+      "visible_ms": 3524,
+      "actual_tap": null,
+      "error": null,
+      "browser_errors": [],
+      "original_unseen_outcome": "clear_withheld"
+    },
+    {
+      "id": "Wc6bbd89",
+      "task": "natural",
+      "eligible": false,
+      "outcome": "negative_withheld",
+      "anchor": {
+        "classification": "correct_among_several",
+        "offered": 2,
+        "max_iou": 0.9553,
+        "each_best_iou": [
+          0.9553,
+          0.0
+        ]
+      },
+      "point": null,
+      "signed_ground_margin_px": null,
+      "alternatives": [],
+      "explicit_save": false,
+      "visible_ms": 647,
+      "actual_tap": null,
+      "error": null,
+      "browser_errors": [],
+      "original_unseen_outcome": "negative_withheld"
+    },
+    {
+      "id": "Wcc3d8e1",
+      "task": "natural",
+      "eligible": true,
+      "outcome": "clear_withheld",
+      "anchor": {
+        "classification": "correct_among_several",
+        "offered": 3,
+        "max_iou": 0.8506,
+        "each_best_iou": [
+          0.8506,
+          0.0,
+          0.0
+        ]
+      },
+      "point": null,
+      "signed_ground_margin_px": null,
+      "alternatives": [],
+      "explicit_save": false,
+      "visible_ms": 604,
+      "actual_tap": null,
+      "error": null,
+      "browser_errors": [],
+      "original_unseen_outcome": "clear_withheld"
+    },
+    {
+      "id": "Weba4b92",
+      "task": "natural",
+      "eligible": false,
+      "outcome": "negative_withheld",
+      "anchor": {
+        "classification": "correct_among_several",
+        "offered": 3,
+        "max_iou": 0.938,
+        "each_best_iou": [
+          0.938,
+          0.3018,
+          0.1378
+        ]
+      },
+      "point": null,
+      "signed_ground_margin_px": null,
+      "alternatives": [],
+      "explicit_save": false,
+      "visible_ms": 662,
+      "actual_tap": null,
+      "error": null,
+      "browser_errors": [],
+      "original_unseen_outcome": "negative_withheld"
+    },
+    {
+      "id": "W25d11a8",
+      "task": "lane",
+      "eligible": false,
+      "outcome": "road_tap_withheld",
+      "anchor": {
+        "classification": "correct_among_several",
+        "offered": 2,
+        "max_iou": 0.965,
+        "each_best_iou": [
+          0.965,
+          0.068
+        ]
+      },
+      "point": null,
+      "signed_ground_margin_px": null,
+      "alternatives": [],
+      "explicit_save": false,
+      "visible_ms": 1231,
+      "actual_tap": [
+        1209.5748736771857,
+        1432.174612641624
+      ],
+      "error": null,
+      "browser_errors": []
+    },
+    {
+      "id": "W36b2dc6",
+      "task": "lane",
+      "eligible": true,
+      "outcome": "road_tap_withheld",
+      "anchor": {
+        "classification": "unique_correct",
+        "offered": 1,
+        "max_iou": 0.9352,
+        "each_best_iou": [
+          0.9352
+        ]
+      },
+      "point": null,
+      "signed_ground_margin_px": null,
+      "alternatives": [],
+      "explicit_save": false,
+      "visible_ms": 573,
+      "actual_tap": [
+        1814.3623105157785,
+        2338.547650827549
+      ],
+      "error": null,
+      "browser_errors": []
+    },
+    {
+      "id": "W5cc54a2",
+      "task": "lane",
+      "eligible": true,
+      "outcome": "road_tap_withheld",
+      "anchor": {
+        "classification": "none_shown",
+        "offered": 0,
+        "max_iou": 0,
+        "each_best_iou": []
+      },
+      "point": null,
+      "signed_ground_margin_px": null,
+      "alternatives": [],
+      "explicit_save": false,
+      "visible_ms": 1700,
+      "actual_tap": [
+        979.5547716655544,
+        1497.449745762712
+      ],
+      "error": null,
+      "browser_errors": []
+    },
+    {
+      "id": "W6aadb86",
+      "task": "lane",
+      "eligible": false,
+      "outcome": "road_tap_withheld",
+      "anchor": {
+        "classification": "correct_among_several",
+        "offered": 5,
+        "max_iou": 0.9891,
+        "each_best_iou": [
+          0.9891,
+          0.0323,
+          0.0,
+          0.0304,
+          0.0
+        ]
+      },
+      "point": null,
+      "signed_ground_margin_px": null,
+      "alternatives": [],
+      "explicit_save": false,
+      "visible_ms": 1570,
+      "actual_tap": [
+        1610.437982648489,
+        2093.334311440678
+      ],
+      "error": null,
+      "browser_errors": []
+    },
+    {
+      "id": "Wb7e43b4",
+      "task": "lane",
+      "eligible": true,
+      "outcome": "road_tap_withheld",
+      "anchor": {
+        "classification": "unique_correct",
+        "offered": 1,
+        "max_iou": 0.8968,
+        "each_best_iou": [
+          0.8968
+        ]
+      },
+      "point": null,
+      "signed_ground_margin_px": null,
+      "alternatives": [],
+      "explicit_save": false,
+      "visible_ms": 456,
+      "actual_tap": [
+        1543.8023167127467,
+        2030.634247881356
+      ],
+      "error": null,
+      "browser_errors": []
+    },
+    {
+      "id": "Wc6bbd89",
+      "task": "lane",
+      "eligible": false,
+      "outcome": "road_tap_withheld",
+      "anchor": {
+        "classification": "correct_among_several",
+        "offered": 2,
+        "max_iou": 0.9553,
+        "each_best_iou": [
+          0.9553,
+          0.0
+        ]
+      },
+      "point": null,
+      "signed_ground_margin_px": null,
+      "alternatives": [],
+      "explicit_save": false,
+      "visible_ms": 1657,
+      "actual_tap": [
+        1222.526599294499,
+        1517.0845233050848
+      ],
+      "error": null,
+      "browser_errors": []
+    },
+    {
+      "id": "Wcc3d8e1",
+      "task": "lane",
+      "eligible": true,
+      "outcome": "road_tap_withheld",
+      "anchor": {
+        "classification": "correct_among_several",
+        "offered": 3,
+        "max_iou": 0.8506,
+        "each_best_iou": [
+          0.8506,
+          0.0,
+          0.0
+        ]
+      },
+      "point": null,
+      "signed_ground_margin_px": null,
+      "alternatives": [],
+      "explicit_save": false,
+      "visible_ms": 1266,
+      "actual_tap": [
+        1535.9765468586138,
+        2010.999470338983
+      ],
+      "error": null,
+      "browser_errors": []
+    },
+    {
+      "id": "Weba4b92",
+      "task": "lane",
+      "eligible": false,
+      "outcome": "road_tap_withheld",
+      "anchor": {
+        "classification": "correct_among_several",
+        "offered": 3,
+        "max_iou": 0.938,
+        "each_best_iou": [
+          0.938,
+          0.3018,
+          0.1378
+        ]
+      },
+      "point": null,
+      "signed_ground_margin_px": null,
+      "alternatives": [],
+      "explicit_save": false,
+      "visible_ms": 1459,
+      "actual_tap": [
+        2005.0091572123176,
+        1719.3758167372882
+      ],
+      "error": null,
+      "browser_errors": []
+    }
+  ],
+  "replaced_proposals": [
+    {
+      "id": "W36b2dc6",
+      "replaced_point": [
+        2744,
+        2103.36
+      ],
+      "road_tap": [
+        1814.3623105157785,
+        2338.547650827549
+      ],
+      "obsolete_save_http": 409
+    },
+    {
+      "id": "Wb7e43b4",
+      "replaced_point": [
+        1973.3333333333333,
+        1961.501976284585
+      ],
+      "road_tap": [
+        1543.8023167127467,
+        2030.634247881356
+      ],
+      "obsolete_save_http": 409
+    }
+  ],
+  "separate_focused_browser_sessions": [
+    {
+      "id": "Wb7e43b4",
+      "scenario": "conditional-shop",
+      "image_sha256": "b7e43b4afd14831bb82299245ca1a6e5588183f0f66b57de36042ebbbc3ae9a5",
+      "elapsed_ms": 3651,
+      "confirmation_posts": 1,
+      "tested_tap": null,
+      "stages": {
+        "first": {
+          "display_message": "I found a space behind the outlined red SUV. I couldn’t verify the furniture shop sign. Is this the spot you meant? You can also mark another spot.",
+          "state": "needs_clarification",
+          "save_visible": false,
+          "native_point": null,
+          "body_boxes": [
+            [
+              1763.9694213867188,
+              1769.6830444335938,
+              1920.556640625,
+              1902.6981811523438
+            ]
+          ],
+          "actor": "model",
+          "conditional_place": null,
+          "choices": [
+            {
+              "id": "bay-1",
+              "polygon_xy": [
+                [
+                  1964.8,
+                  1952.964
+                ],
+                [
+                  1981.867,
+                  1952.964
+                ],
+                [
+                  1981.867,
+                  1970.04
+                ],
+                [
+                  1964.8,
+                  1970.04
+                ]
+              ],
+              "center_xy": [
+                1973.3333333333333,
+                1961.501976284585
+              ],
+              "passenger_tap_xy": null,
+              "extent": "interior_point_only"
+            }
+          ]
+        },
+        "chosen": {
+          "display_message": "You chose the ground behind the outlined red SUV. The furniture shop sign is still unverified. Save this location if the ring is where you meant.",
+          "state": "proposed",
+          "save_visible": true,
+          "native_point": [
+            1973.3333333333333,
+            1961.501976284585
+          ],
+          "body_boxes": [
+            [
+              1763.9694213867188,
+              1769.6830444335938,
+              1920.556640625,
+              1902.6981811523438
+            ]
+          ],
+          "actor": "passenger",
+          "conditional_place": "furniture shop",
+          "choices": []
+        },
+        "saved": {
+          "display_message": "You chose the spot at the gold ring as your intended drop-off.",
+          "state": "confirmed",
+          "save_visible": false,
+          "native_point": [
+            1973.3333333333333,
+            1961.501976284585
+          ],
+          "body_boxes": [
+            [
+              1763.9694213867188,
+              1769.6830444335938,
+              1920.556640625,
+              1902.6981811523438
+            ]
+          ],
+          "actor": "passenger",
+          "conditional_place": "furniture shop",
+          "choices": []
+        }
+      }
+    },
+    {
+      "id": "W36b2dc6",
+      "scenario": "direct-profile",
+      "image_sha256": "36b2dc6179d324ba8290d7916f32bddb0aac599869b2801e702a76057c650dba",
+      "elapsed_ms": 1248,
+      "confirmation_posts": 1,
+      "tested_tap": null,
+      "stages": {
+        "first": {
+          "display_message": "The gold ring marks the open ground behind the outlined white SUV. Is this where you want to get out?",
+          "state": "proposed",
+          "save_visible": true,
+          "native_point": [
+            2744,
+            2103.36
+          ],
+          "body_boxes": [
+            [
+              2898.139389038086,
+              1741.9872985839843,
+              3727.955401611328,
+              2073.1024017333984
+            ]
+          ],
+          "actor": "model",
+          "conditional_place": null,
+          "choices": []
+        },
+        "saved": {
+          "display_message": "You chose the spot at the gold ring as your intended drop-off.",
+          "state": "confirmed",
+          "save_visible": false,
+          "native_point": [
+            2744,
+            2103.36
+          ],
+          "body_boxes": [
+            [
+              2898.139389038086,
+              1741.9872985839843,
+              3727.955401611328,
+              2073.1024017333984
+            ]
+          ],
+          "actor": "model",
+          "conditional_place": null,
+          "choices": []
+        }
+      }
+    },
+    {
+      "id": "W5cc54a2",
+      "scenario": "shade",
+      "image_sha256": "5cc54a2c449055c5703621bb6cef70e9a2592b80576014a14849042752fa68b7",
+      "elapsed_ms": 776,
+      "confirmation_posts": 0,
+      "tested_tap": null,
+      "stages": {
+        "first": {
+          "display_message": "The outlined sedan looks light-coloured. I can’t verify the beige paint in this light. Is this the vehicle you mean?",
+          "state": "needs_clarification",
+          "save_visible": false,
+          "native_point": null,
+          "body_boxes": [
+            [
+              2717.7744140625,
+              865.4191589355469,
+              3840,
+              1476.916259765625
+            ]
+          ],
+          "actor": "model",
+          "conditional_place": null,
+          "choices": []
+        }
+      }
+    },
+    {
+      "id": "Wb7e43b4",
+      "scenario": "road",
+      "image_sha256": "b7e43b4afd14831bb82299245ca1a6e5588183f0f66b57de36042ebbbc3ae9a5",
+      "elapsed_ms": 1703,
+      "confirmation_posts": 0,
+      "tested_tap": [
+        1543.8217192059512,
+        2030.611436869794
+      ],
+      "stages": {
+        "readback": {
+          "display_message": "I checked the spot you marked. I can’t verify a separate open parking area there. Could you choose another visible area?",
+          "state": "needs_clarification",
+          "save_visible": false,
+          "native_point": null,
+          "body_boxes": [
+            [
+              1763.9694213867188,
+              1769.6830444335938,
+              1920.556640625,
+              1902.6981811523438
+            ]
+          ],
+          "actor": "passenger",
+          "conditional_place": null,
+          "choices": []
+        }
+      }
+    },
+    {
+      "id": "W36b2dc6",
+      "scenario": "road",
+      "image_sha256": "36b2dc6179d324ba8290d7916f32bddb0aac599869b2801e702a76057c650dba",
+      "elapsed_ms": 2764,
+      "confirmation_posts": 0,
+      "tested_tap": [
+        1814.3552052936584,
+        2338.5322381219858
+      ],
+      "stages": {
+        "readback": {
+          "display_message": "I found the outlined white SUV. Its rear is hard to place from this angle. Could you mark the ground you mean?",
+          "state": "needs_clarification",
+          "save_visible": false,
+          "native_point": null,
+          "body_boxes": [
+            [
+              2898.139389038086,
+              1741.9872985839843,
+              3727.955401611328,
+              2073.1024017333984
+            ]
+          ],
+          "actor": "passenger",
+          "conditional_place": null,
+          "choices": []
+        }
+      }
+    }
+  ],
+  "adverse_physical_controls": {
+    "side_view_profile": {
+      "scene": "600 by 400 source and map. The near vehicle is 140 by 65 pixels. The companion has a separate visible body and ground contact.",
+      "before_repair_false_offers": [
+        "A solid kerb passing under the row companion wheel contact",
+        "A fence restricting a contiguous access opening to 17 map rows"
+      ],
+      "after_held": [
+        "Road class everywhere",
+        "Occupied point",
+        "Continuous kerb below companion",
+        "Continuous kerb below both vehicles",
+        "Closed kerb",
+        "17-row pedestrian opening"
+      ],
+      "after_offered": {
+        "Clear adjacent parking": [
+          343.5,
+          201.5
+        ],
+        "75-row access opening": [
+          343.5,
+          201.5
+        ]
+      }
+    },
+    "measured_marked_row": {
+      "scene": "In-memory interventions in the already opened red-car original and the aligned 900 by 506 raster. Paint and parked vehicle are unchanged. Barrier pixels and semantic labels change together.",
+      "before_repair_false_offers": [
+        "Transverse fence thickness 2, 3, and 5 map rows between the rear and putative point",
+        "A frontage fence with a 10- or 18-row slit"
+      ],
+      "after_held": {
+        "transverse_barrier_map_rows": [
+          2,
+          3,
+          5,
+          7,
+          9
+        ],
+        "lateral_opening_map_rows": [
+          0,
+          4,
+          7,
+          10,
+          18
+        ]
+      },
+      "after_offered": {
+        "Original": [
+          1973.3333333333333,
+          1961.501976284585
+        ],
+        "35-row access opening": [
+          1973.3333333333333,
+          1961.501976284585
+        ]
+      }
+    },
+    "scope": "Synthetic and altered-pixel obstruction controls complement the unchanged photographic replay. They establish specific failure checks and cannot establish all weather, access or safety conditions."
+  },
+  "observed_limitation": "A fresh manual through-road tap in the side-view white SUV scene was withheld with no relocation, although its explanation discussed the car angle. The separate automatic offer on the same photograph correctly identified the ground behind the SUV.",
+  "screenshots_local": "runs/passenger-rear-20261124/development/rear-canonical-evidence-8775/",
+  "archive": "passenger-rear-third-development-replay-evidence-20261124.zip",
+  "archive_sha256": "e768202a2cca9737e56adcbff0293bfee55d020e6d7675311a5307c866b66d02",
+  "replay": "Extract methods/grade_live.py, methods/grade_browser.py and methods/review_third_open.py into the same directory, then run python review_third_open.py --replay <archive.zip>. Public source identifiers and attribution are in the earlier blind-evidence archive."
+}

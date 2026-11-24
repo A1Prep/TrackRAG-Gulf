@@ -717,6 +717,7 @@ def main(argv=None):
     parser.add_argument("--requests", action="append", type=Path, required=True, help="Prepared JSONL scene bank; repeat for additional banks")
     parser.add_argument("--local-surface-index",nargs=2,action="append",default=[],metavar=("JSON","SHA256"))
     parser.add_argument("--local-observations",nargs=2,action="append",default=[],metavar=("JSON","SHA256"))
+    parser.add_argument("--local-vehicle-observations",nargs=2,action="append",default=[],metavar=("JSON","SHA256"))
     parser.add_argument("--config", type=Path, required=True)
     parser.add_argument("--geometry", type=Path, required=True)
     parser.add_argument("--referent",type=Path,help="Use the learned candidate ranker for clarification")
@@ -753,6 +754,10 @@ def main(argv=None):
     from trackrag.dropoff.local_surfaces import matches_scene, register as register_surfaces
     for path, expected in args.local_surface_index:
         register_surfaces(path,expected)
+    if args.local_vehicle_observations:
+        from trackrag.dropoff.local_vehicle_observations import register as register_vehicles
+        for path, expected in args.local_vehicle_observations:
+            register_vehicles(path,expected)
     if args.local_observations:
         from trackrag.dropoff.local_8b_observations import register as register_observations
         for path, expected in args.local_observations:

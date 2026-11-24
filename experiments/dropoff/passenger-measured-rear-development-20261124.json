@@ -1,0 +1,194 @@
+{
+  "recipe": "rear_point_in_bounded_parked_row_v1",
+  "geometry_sha256": "53cef4ecadf4ecd8b23ff8c5591efcb8148b79cd47a4263dbf0f15d0d76562ff",
+  "focused_tests_sha256": "2ae685fc7d8ed363cc69fbb980fdb67e511ffc7abfbcd4afde2638f829734033",
+  "scope": "Source-only development recheck. The first 27 publicly processed UAE KartaView drives had already been inspected in earlier passenger studies. Four disjoint, previously published development drives were run only after this geometry was frozen. The prospective field evaluation is separate.",
+  "selection": "All numbered vehicles in these pictures with a verifiable historical source-bound 35B identity board. The generator received the original RGB, semantic map, that frame's RF-DETR tracks, identified vehicle box and archived orientation. It received no passenger tap, reference polygon or study answer.",
+  "counts": {
+    "development": {
+      "source_drives": 27,
+      "signed_vehicle_readings": 93,
+      "rear_readings": 64,
+      "options": 3,
+      "sources_with_options": 3
+    },
+    "supplement_after_freeze": {
+      "source_drives": 4,
+      "signed_vehicle_readings": 16,
+      "rear_readings": 9,
+      "options": 0,
+      "sources_with_options": 0
+    }
+  },
+  "options": [
+    {
+      "source": [
+        "kartaview_976103",
+        139
+      ],
+      "track_id": 1,
+      "archived_identity_and_facing": [
+        "white",
+        "sedan",
+        "REAR"
+      ],
+      "old_geometry": null,
+      "point": [
+        2212.267,
+        2016.996
+      ],
+      "evidence": {
+        "recipe": "rear_point_in_bounded_parked_row_v1",
+        "coverage": "interior_point_only",
+        "curb_side": "right",
+        "anchor_id": 1,
+        "aligned_neighbour_id": 3,
+        "verified_facing": "REAR",
+        "section_count": 45,
+        "bounds_native": [
+          [
+            446,
+            429,
+            523
+          ],
+          [
+            472,
+            461,
+            575
+          ],
+          [
+            491,
+            487,
+            632
+          ]
+        ],
+        "divider_observations": {
+          "paint": 42,
+          "parking_material": 0
+        },
+        "point_surface_class": 13,
+        "source_sha256": "bae3d01037cdc79d690fe49f11cf8603abec303643967805ffdbb72abff23b36",
+        "registered_rgb_sha256": "518976afbaf279e45ad2b413ba9dcaec5d087ced3b354ea2e848c6e09caf953b",
+        "map_sha256": "6d73fd9ea1a265d7044017ee027f431033dc8bdd3bd687c5f6c9a6a4aabf7db5"
+      }
+    },
+    {
+      "source": [
+        "kartaview_66346",
+        113
+      ],
+      "track_id": 2,
+      "archived_identity_and_facing": [
+        "white",
+        "suv",
+        "REAR"
+      ],
+      "old_geometry": "curb_and_lane_divider",
+      "point": [
+        2229.547,
+        1443.851
+      ],
+      "evidence": {
+        "recipe": "rear_point_in_bounded_parked_row_v1",
+        "coverage": "interior_point_only",
+        "curb_side": "right",
+        "anchor_id": 2,
+        "aligned_neighbour_id": 4,
+        "verified_facing": "REAR",
+        "section_count": 38,
+        "bounds_native": [
+          [
+            437,
+            560,
+            730
+          ],
+          [
+            483,
+            615,
+            878
+          ],
+          [
+            483,
+            615,
+            878
+          ]
+        ],
+        "divider_observations": {
+          "paint": 20,
+          "parking_material": 0
+        },
+        "point_surface_class": 13,
+        "source_sha256": "28eb871a346c5792d7f63ad1186edcc967a6f96a2469984ecc86c5df7d177d1c",
+        "registered_rgb_sha256": "3478b81852f08be7bf3e25dc0312c4484a9aecbd390e284e5fac3d54e7231b0a",
+        "map_sha256": "1bf43f4c1f24d7f4fef628790a985c1f4e8fa67515f60cbfa789cc8869986c35"
+      }
+    },
+    {
+      "source": [
+        "kartaview_7165449",
+        33
+      ],
+      "track_id": 2,
+      "archived_identity_and_facing": [
+        "black",
+        "sedan",
+        "REAR"
+      ],
+      "old_geometry": "parking",
+      "point": [
+        2246.4,
+        1470.593
+      ],
+      "evidence": {
+        "recipe": "rear_point_in_bounded_parked_row_v1",
+        "coverage": "interior_point_only",
+        "curb_side": "right",
+        "anchor_id": 2,
+        "aligned_neighbour_id": 3,
+        "verified_facing": "REAR",
+        "section_count": 47,
+        "bounds_native": [
+          [
+            310,
+            329,
+            469
+          ],
+          [
+            344,
+            420,
+            633
+          ],
+          [
+            357,
+            452,
+            696
+          ]
+        ],
+        "divider_observations": {
+          "paint": 0,
+          "parking_material": 44
+        },
+        "point_surface_class": 10,
+        "source_sha256": "e121d0e57b8fbcba436e01a11989063a027652e2c80fcc5c9b4b89ad4cd673cc",
+        "registered_rgb_sha256": "f9213e4214a648697d41fa39e4d3061f8e350f4c62e2fb8cfd703c3b6db35e20",
+        "map_sha256": "fb0d4a78b859fabd75e2902861c68d2a5b0ef9ad162fbadf4b8462cd3e2562cf"
+      }
+    }
+  ],
+  "observed_examples": [
+    {
+      "source": "976103/139",
+      "finding": "The earlier geometry supplied no ring for the right white sedan. Two independent AI visual inspections of the original confirmed the new point is on the paved strip behind it, between the white road-edge line and outer curb, clear of the bins. The earlier board emitted LANE even though it had no ring. Sun flare and the lower photograph edge limit any estimate of clearance."
+    },
+    {
+      "source": "7165449/33",
+      "finding": "The proposed point is on the visibly distinct apron between the black sedan and nearer red vehicle. The older reader returned UNCLEAR for its earlier provisional parking point. The new geometry measured a separate point, using the road/paving seam and outside kerb."
+    },
+    {
+      "source": "66346/113",
+      "finding": "The geometry independently found the separated strip behind the white SUV. The existing accepted proposal already covers the same setting and remains preferred."
+    }
+  ],
+  "controls": "No option in the inspected highway, gated approach, forecourt aisle or gravel/sidewalk originals. Twenty synthetic tests include mirrored rows, separate surfaces, lane and sidewalk cases, native labels without optical support, coloured paint, occupied ground, stale/altered boxes and front/side/unknown orientations.",
+  "limitations": "Counts measure geometry supply in previously examined sources. They do not estimate overall end-to-end accuracy. The four supplemental drives produced no options. A point shows visible ground only; legal access, vehicle length, traffic motion and passenger-door clearance require separate information."
+}

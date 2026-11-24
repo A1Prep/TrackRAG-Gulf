@@ -244,7 +244,7 @@ def start(args):
             sources.extend(ROOT / "experiments/dropoff" / name for name in PUBLIC_PHOTO_LISTS)
         for path in dict.fromkeys(Path(source).resolve() for source in sources):
             argv.extend(["--place-public-sources",str(path)])
-        for option in ("local_surface_index", "local_observations"):
+        for option in ("local_surface_index", "local_observations", "local_vehicle_observations"):
             pairs = [(Path(path).resolve(), expected) for path, expected in getattr(args,option,None) or ()]
             if ROOT / EXTRA_PHOTO_BANK in banks and option in EXTRA_MODEL_FILES:
                 name, digest = EXTRA_MODEL_FILES[option]
@@ -299,6 +299,8 @@ def main():
                            help="Add a prepared scene bank while keeping the normal gallery and recordings")
             p.add_argument("--local-surface-index",nargs=2,action="append",metavar=("JSON","SHA256"),
                            help="Surface maps prepared offline for an additional photo bank")
+            p.add_argument("--local-vehicle-observations",nargs=2,action="append",metavar=("JSON","SHA256"),
+                           help="Vehicle crop readings prepared on the original local photos")
             p.add_argument("--local-observations",nargs=2,action="append",metavar=("JSON","SHA256"),
                            help="Verified offline 8B observations for additional registered surfaces")
             p.add_argument("--base-dir",type=Path,default=ROOT/"models/qwen3-vl-8b-local-nf4")

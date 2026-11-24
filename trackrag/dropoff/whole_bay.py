@@ -852,7 +852,8 @@ def verify(request, outcome, *, requested_box=None):
                                                     expanded=source.get('vehicle_relation_policy') is not None,
                                                     observe_sides=source.get('vehicle_relation_policy')==vehicle_ground_reference.RELATION_POLICY,
                                                     side_packet=source.get('side_ground_observation'),load_side_packet=False,
-                                                    side_release=source.get('side_ground_release'))
+                                                    side_release=source.get('side_ground_release'),
+                                                    measure_rear='automatic_rear_ground' in source)
     elif source.get("divider_policy") is not None:
         from . import parking_divider_choice
         if (method!=MARK or requested_box is None or policy!=CLEARANCE_POLICY

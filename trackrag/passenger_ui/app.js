@@ -121,6 +121,7 @@ function suggestion(v, bay) {
   const point = v.result?.destination_point_xy;
   if (!point) return "Choose a location on the photo.";
   const where = positionWords(point, canvas.width, canvas.height);
+  if (v.rear_vehicle && bay) return "The gold ring marks the open ground behind the outlined " + v.rear_vehicle + ". Is this where you want to get out?";
   if (bay?.extent === "interior_point_only") return (bay.passenger_tap_xy ? "The blue diamond marks your tap. " : "")
     + "The gold ring shows the spot in the " + where + " of the photo. Check that it is where you meant.";
   if (bay?.extent === "visible_parking_surface") return (bay.passenger_tap_xy ? tapName(v) + " is the blue diamond. " : "")
@@ -203,6 +204,7 @@ function legend(v, offerMark, bay, choices) {
     if (bay) {
       node.dataset.kind = "bay";
       label = bay.extent === "interior_point_only" ? "Gold ring at the selected spot" : bay.extent === "visible_parking_surface" ? "Visible parking area · Gold ring at selected location" : "Gold ring at bay centre";
+      if (v.rear_vehicle) label = "Gold ring behind the vehicle · Blue outline around the " + v.rear_vehicle;
       if (bay.passenger_tap_xy) label += " · Blue diamond at " + tapName(v).toLowerCase();
     } else label = destinationLabel(v);
     if (v.state === "confirmed") label += " · saved location";
@@ -410,6 +412,8 @@ function paint() {
   if (v.area_landmarks && (photo.active || (!choices.length && !bay))) drawChosenLandmarks(ctx,v.area_landmarks.boxes_xyxy,scale);
   if ((v.references_only || v.vehicle_ground_choice) && v.state==="needs_clarification" && !bay)
     drawVehicleReferences(ctx,v.result?.anchor_boxes_xyxy,scale,v.reference_kind==="vegetation" ? "Greenery" : "Vehicle");
+  if (v.rear_vehicle && bay && ["proposed","confirmed"].includes(v.state) && !photo.active)
+    drawVehicleReferences(ctx,v.result.anchor_boxes_xyxy,scale,"Vehicle");
   if (photo.active) {
     if (!photo.box) { photo.drawCursor(ctx,scale); return; }
     drawDestination(ctx, boxCentre(photo.box), photo.dragged ? photo.box : null, "mark_preview", scale);

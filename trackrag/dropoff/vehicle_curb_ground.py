@@ -128,16 +128,17 @@ def _ground_in_run(run, map_shape, size, occupied):
     return {"point": center, "polygon": polygon, "basis": "curb_and_lane_divider"}
 
 
-def describe(scene, classes):
+def describe(scene, classes, *, vehicles=None):
     """Order visible road users independently of whether any ground can be measured."""
     frame = scene["frame"]
     size = (frame["width"], frame["height"])
     context = single_vehicle.context({"scene": scene})
     road = bay_clearance.visible_road_component(classes)
-    vehicles = [
-        (track_id, kind, box) for track_id, kind, box in single_vehicle.motor_rows(context)
-        if box[2] - box[0] >= 0.047 * size[0] and box[3] - box[1] >= 0.055 * size[1]
-    ][:4]
+    if vehicles is None:
+        vehicles = [
+            (track_id, kind, box) for track_id, kind, box in single_vehicle.motor_rows(context)
+            if box[2] - box[0] >= 0.047 * size[0] and box[3] - box[1] >= 0.055 * size[1]
+        ][:4]
     occupied_boxes = [track[2] for track in context["tracks"]]
 
     specs = []

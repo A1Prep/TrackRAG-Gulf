@@ -122,3 +122,29 @@ def test_continuous_white_line_is_insufficient_to_claim_dashed_parking():
     assert all(
         o["evidence"]["physical_boundary"] != "repeated_white_paint_and_observed_kerb" for o in result
     )
+
+
+@pytest.mark.parametrize("flat_segments", [False, True])
+def test_both_opencv_line_segment_shapes_replay_identical_ground(monkeypatch, flat_segments):
+    import cv2
+
+    photo, labels, scene, spec = scene_with_edge(kind="paving")
+    expected = geometry.candidates(photo, labels, scene, spec, facing="REAR")
+    assert (
+        expected and expected[0]["evidence"]["physical_boundary"] == "optical_paving_seam_and_observed_kerb"
+    )
+    factory = cv2.createLineSegmentDetector
+
+    class Detector:
+        def __init__(self, *args):
+            self.native = factory(*args)
+
+        def detect(self, gray):
+            lines, *others = self.native.detect(gray)
+            if lines is not None:
+                shape = (-1, 4) if flat_segments else (-1, 1, 4)
+                lines = np.asarray(lines).reshape(shape)
+            return (lines, *others)
+
+    monkeypatch.setattr(cv2, "createLineSegmentDetector", Detector)
+    assert geometry.candidates(photo, labels, scene, spec, facing="REAR") == expected

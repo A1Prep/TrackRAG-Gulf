@@ -57,3 +57,38 @@ def test_kerb_and_row_require_measured_ground_details():
     [[_,_,row]]=match('Let me out behind the black pickup in the row on the right.')
     assert not details.ground_confirms({'curb_side':'right'},row)
     assert details.ground_confirms({'aligned_neighbour_id':3},row)
+
+
+def test_wall_at_car_depth_and_on_named_side_is_required():
+    car = [119,55,155,89]
+    frame = {'width':200,'height':110}
+    mask = np.full((110,200),13,np.uint8)
+    mask[65:88,:31] = 6
+    mask[2:18,141:] = 6
+    assert not details._near_landmark(mask,'wall',car,frame,'right',None)
+    mask[62:90,154:178] = 6
+    assert details._near_landmark(mask,'wall',car,frame,'right',None)
+    assert not details._near_landmark(mask,'wall',car,frame,'left',None)
+
+
+@pytest.mark.parametrize('rgb,surface,nearer,expected', [
+    ((22,43,87),55,[158,65,191,102],True),
+    ((135,169,242),55,[158,65,191,102],False),
+    ((42,42,44),55,[158,65,191,102],False),
+    ((22,43,87),13,[158,65,191,102],False),
+    ((22,43,87),55,[28,65,61,102],False),
+    ((22,43,87),55,[158,46,191,64],False),
+])
+def test_dark_blue_vehicle_farther_up_needs_body_paint_and_a_nearer_same_side_vehicle(rgb,surface,nearer,expected):
+    mask = np.full((110,200),13,np.uint8)
+    mask[52:78,118:152] = surface
+    image = Image.new('RGB',(200,110),rgb)
+    stream = BytesIO()
+    image.save(stream,format='PNG')
+    specs = [{'track_id':3,'box':[118,52,152,78]}, {'track_id':5,'box':nearer}]
+    scene = {'provenance':{'network_policy':'local_only'},'frame':{'width':200,'height':110}}
+    request = {'text':'Drop me behind the dark blue sedan further up the right-hand side.','scene':scene,'dialogue':[]}
+    rows = details.matching(request,vehicles.direct_reference(request),specs,
+                            [['blue','sedan','REAR','NONE'],['white','suv','REAR','NONE']],
+                            mask,original=stream.getvalue())
+    assert [s['track_id'] for s,_,_ in rows] == ([3] if expected else [])

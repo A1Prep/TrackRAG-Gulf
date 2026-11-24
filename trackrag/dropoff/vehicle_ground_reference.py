@@ -78,9 +78,10 @@ def _option(spec):
             'evidence': {'recipe': view.RECIPE, 'coverage':'interior_point_only'}}
 
 
-def _measured_rear(request, ref, specs, answers, observations, photo, classes):
+def _measured_rear(request, ref, specs, answers, observations, photo, classes, local_matches=()):
     """Pair a single verified referent with visibly separated pavement behind its own bumper."""
-    from . import vehicle_rear_apron, vehicle_rear_boundaries, vehicle_rear_ground, vehicle_relative_bays, vehicle_scene_details
+    from . import vehicle_rear_apron, vehicle_rear_boundaries, vehicle_rear_ground, vehicle_rear_stall
+    from . import vehicle_relative_bays, vehicle_scene_details
 
     if ref['relation'] != 'behind' or ref.get('ground_side') or vehicle_relative_bays.restricted_instruction(request['text']):
         return None
@@ -90,11 +91,9 @@ def _measured_rear(request, ref, specs, answers, observations, photo, classes):
         matches, _, question = qualifiers.resolve(request, ref, specs, answers, observations=observations)
         if question:
             matches = []
-        if not matches:
-            local_matches = vehicle_scene_details.matching(request,ref,specs,answers,classes,original=photo)
-            if len(local_matches) == 1:
-                spec, row, required = local_matches[0]
-                matches = [(spec,row)]
+        if not matches and len(local_matches) == 1:
+            spec, row, required = local_matches[0]
+            matches = [(spec,row)]
     else:
         matches = _matching(specs, answers, ref, frame['width'])
 
@@ -115,6 +114,8 @@ def _measured_rear(request, ref, specs, answers, observations, photo, classes):
         options = vehicle_rear_apron.candidates(photo, classes, request['scene'], spec, facing=row[2])
     if not options:
         options = vehicle_rear_boundaries.candidates(photo, classes, request['scene'], spec, facing=row[2])
+    if not options:
+        options = vehicle_rear_stall.candidates(photo, classes, request['scene'], spec, facing=row[2])
     if len(options) != 1:
         return None
     option = options[0]
@@ -288,11 +289,12 @@ def outcome(request, photo, surface, packet, mark=None, *, qualifier_packets=Non
         return None
     clean, photo_sha, portable = source_input(request, photo)
     from . import local_vehicle_observations
-    local_packet = packet.get('origin') == local_vehicle_observations.ORIGIN
+    local_packet = local_vehicle_observations.is_local(packet)
     if not local_packet and clean['scene'].get('provenance',{}).get('network_policy') == 'local_only':
         return None
     classes = manual_surfaces.decode(surface, clean['scene']['frame'], photo_sha)
-    specs = vehicle_curb_ground.describe(clean['scene'], classes)
+    specs = (local_vehicle_observations.specs_for(packet, clean['scene'], classes) if local_packet
+             else vehicle_curb_ground.describe(clean['scene'], classes))
     if local_packet:
         answers = local_vehicle_observations.verify(clean['scene'], photo, specs, packet)
     else:
@@ -366,7 +368,9 @@ def outcome(request, photo, surface, packet, mark=None, *, qualifier_packets=Non
             evidence['earlier_vehicle_observation'] = earlier_vehicle
     measured = None
     if measure_rear and mark is None and ref['relation'] == 'behind':
-        measured = _measured_rear(clean, ref, specs, answers, observations, photo, classes)
+        from . import vehicle_scene_details, vehicle_relative_bays
+        local_matches = vehicle_scene_details.matching(clean,ref,specs,answers,classes,original=photo) if local_packet else []
+        measured = _measured_rear(clean, ref, specs, answers, observations, photo, classes,local_matches)
         if measured and options:
             from . import vehicle_rear_ground
             # Two observations behind the same bumper can sample different depths in its parking strip.
@@ -382,6 +386,14 @@ def outcome(request, photo, surface, packet, mark=None, *, qualifier_packets=Non
             reason = 'measured_ground_behind_vehicle'
             question = f'Is the highlighted ground behind the {label} where you want to get out?'
             evidence['automatic_rear_ground'] = {'track_id':spec['track_id'], 'vehicle':label, 'measurement':option['evidence']}
+        elif len(local_matches) == 1 and not options and not vehicle_relative_bays.restricted_instruction(clean['text']):
+            spec, row, ground_conditions = local_matches[0]
+            if not ground_conditions and row[2]=='REAR':
+                label = ' '.join(x for x in row[:2] if x!='unknown').replace('suv','SUV')
+                boxes, reason = [spec['box']], 'vehicle_seen_space_withheld'
+                question = (f'I found the {label}. I can’t distinguish a separate open spot behind it from this view. '
+                            'Can you describe another nearby spot?')
+                evidence['rear_reference_check'] = {'track_id':spec['track_id'], 'vehicle':label}
     if expanded and mark is not None and not options:
         from . import vehicle_relative_bays
         marked = _explicit_ground(clean['scene'], classes, mark, center)

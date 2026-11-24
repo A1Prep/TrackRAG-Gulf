@@ -1,0 +1,1710 @@
+{
+  "reviewer": "Independent AI visual reviewer. Publisher-blurred original images were inspected and annotated before any model predictions. No human performance or driving-safety claim is measured.",
+  "population": "Fourteen UAE driver-view images on fourteen distinct previously unevaluated recording sequences. The primary eight were used to improve the revised method after the baseline. Only the untouched six evaluate transfer of that revision. These are purposively balanced small samples.",
+  "measurement": {
+    "direct": "A native destination pin strictly inside any separately frozen polygon, with a visible Save control and the same two-dimensional point after explicit browser confirmation. A wrong-location pin on a positive is measured separately. A lack of an offer on a negative is appropriate only when completed without operational failure.",
+    "alternatives": "Separately selectable alternate areas would be distinguished from an automatic destination. No first turn rendered an alternative list in these five arms.",
+    "vehicle": "Diagnostic body matching uses native box intersection-over-union >= 0.50. A unique correct outline, the intended body among extra outlines, a wrong-only outline, and no outline are separate. This diagnostic threshold was set for scoring; polygon-inclusion was preregistered before model outputs.",
+    "road": "The browser submitted one preregistered through-road point from a clean session, using the visible real-image marking controls. Each actual source point was checked within 0.4% of the native image diagonal of its intended tap. A withheld road test supplies zero automatic parking positives.",
+    "time": "Wall-clock milliseconds from submit to visible terminal response; timing excludes loading the photo, preparing sources, and the human action to save. Median and range are supplied because cohorts are small.",
+    "short": "The same eight photos and physical references were tested with shorter questions fixed before the original runs. Two questions lose a positional disambiguator; offering their intended location by coincidence does not prove resolution of the shorter ambiguous language."
+  },
+  "evidence_archive": "passenger-rear-field-browser-evidence-20261124.zip",
+  "evidence_archive_sha256": "4b39b01dcbf4648e1e394936e932dc3c02a9f8abb9ea2e4000fe84627c7a9f13",
+  "arms": {
+    "browser-primary": {
+      "commit": "82bfb03414953f2b08cea3589b20046a97430e94",
+      "completed_utc": "2026-11-24T01:25:57.719Z",
+      "browser_output_sha256": "341d6cfc4b856beba68a5cf15c90197bf29ab219a37c9461899c1fafd144de6a",
+      "question_input_sha256": "9bea6f3440a5f88f490995a60635cb43fdc77e8cd288088f8629dc952ca1c085",
+      "tap_input_sha256": "c2028bc59d34b038532be4eba9db966c0cb2c9176163f5a34fa54ee26ed35973",
+      "prelabelled_reference_sha256": "9caeafeee06ceaa68fcd8f9d5269a1a0bd16f82b369b20640129ea3f68b1624c",
+      "summary": {
+        "natural_eligible": 4,
+        "natural_ineligible": 4,
+        "natural_outcomes": {
+          "negative_withheld": 4,
+          "clear_withheld": 4
+        },
+        "natural_vehicle_outlines": {
+          "correct_among_several": 2,
+          "unique_correct": 5,
+          "none_shown": 1
+        },
+        "natural_vehicle_outlines_on_eligible": {
+          "correct_among_several": 1,
+          "unique_correct": 3
+        },
+        "natural_suggested_alternatives": 0,
+        "correct_direct_and_unique_correct_vehicle": 0,
+        "explicit_saves": 0,
+        "natural_browser_ms": {
+          "n": 8,
+          "min": 585,
+          "median": 624.0,
+          "max": 2149
+        },
+        "lane_outcomes": {
+          "road_tap_withheld": 8
+        },
+        "lane_browser_ms": {
+          "n": 8,
+          "min": 1301,
+          "median": 1617.5,
+          "max": 2311
+        },
+        "browser_error_events": 0
+      },
+      "rows": [
+        {
+          "id": "U01",
+          "task": "natural",
+          "eligible": false,
+          "shortened_ambiguous": null,
+          "outcome": "negative_withheld",
+          "anchor": {
+            "classification": "correct_among_several",
+            "offered": 2,
+            "max_iou": 0.946,
+            "each_best_iou": [
+              0.0392,
+              0.946
+            ]
+          },
+          "point": null,
+          "signed_distance_to_nearest_valid_polygon_px": null,
+          "separately_selectable_alternatives": 0,
+          "explicit_save_replayed": false,
+          "observed_tap": null,
+          "browser_ms": 885,
+          "recovery_error": null,
+          "browser_errors": []
+        },
+        {
+          "id": "U02",
+          "task": "natural",
+          "eligible": true,
+          "shortened_ambiguous": null,
+          "outcome": "clear_withheld",
+          "anchor": {
+            "classification": "correct_among_several",
+            "offered": 2,
+            "max_iou": 0.9566,
+            "each_best_iou": [
+              0.9566,
+              0.0
+            ]
+          },
+          "point": null,
+          "signed_distance_to_nearest_valid_polygon_px": null,
+          "separately_selectable_alternatives": 0,
+          "explicit_save_replayed": false,
+          "observed_tap": null,
+          "browser_ms": 634,
+          "recovery_error": null,
+          "browser_errors": []
+        },
+        {
+          "id": "U03",
+          "task": "natural",
+          "eligible": true,
+          "shortened_ambiguous": null,
+          "outcome": "clear_withheld",
+          "anchor": {
+            "classification": "unique_correct",
+            "offered": 1,
+            "max_iou": 0.814,
+            "each_best_iou": [
+              0.814
+            ]
+          },
+          "point": null,
+          "signed_distance_to_nearest_valid_polygon_px": null,
+          "separately_selectable_alternatives": 0,
+          "explicit_save_replayed": false,
+          "observed_tap": null,
+          "browser_ms": 2149,
+          "recovery_error": null,
+          "browser_errors": []
+        },
+        {
+          "id": "U04",
+          "task": "natural",
+          "eligible": false,
+          "shortened_ambiguous": null,
+          "outcome": "negative_withheld",
+          "anchor": {
+            "classification": "unique_correct",
+            "offered": 1,
+            "max_iou": 0.92,
+            "each_best_iou": [
+              0.92
+            ]
+          },
+          "point": null,
+          "signed_distance_to_nearest_valid_polygon_px": null,
+          "separately_selectable_alternatives": 0,
+          "explicit_save_replayed": false,
+          "observed_tap": null,
+          "browser_ms": 692,
+          "recovery_error": null,
+          "browser_errors": []
+        },
+        {
+          "id": "U05",
+          "task": "natural",
+          "eligible": true,
+          "shortened_ambiguous": null,
+          "outcome": "clear_withheld",
+          "anchor": {
+            "classification": "unique_correct",
+            "offered": 1,
+            "max_iou": 0.9323,
+            "each_best_iou": [
+              0.9323
+            ]
+          },
+          "point": null,
+          "signed_distance_to_nearest_valid_polygon_px": null,
+          "separately_selectable_alternatives": 0,
+          "explicit_save_replayed": false,
+          "observed_tap": null,
+          "browser_ms": 604,
+          "recovery_error": null,
+          "browser_errors": []
+        },
+        {
+          "id": "U06",
+          "task": "natural",
+          "eligible": true,
+          "shortened_ambiguous": null,
+          "outcome": "clear_withheld",
+          "anchor": {
+            "classification": "unique_correct",
+            "offered": 1,
+            "max_iou": 0.9776,
+            "each_best_iou": [
+              0.9776
+            ]
+          },
+          "point": null,
+          "signed_distance_to_nearest_valid_polygon_px": null,
+          "separately_selectable_alternatives": 0,
+          "explicit_save_replayed": false,
+          "observed_tap": null,
+          "browser_ms": 585,
+          "recovery_error": null,
+          "browser_errors": []
+        },
+        {
+          "id": "U07",
+          "task": "natural",
+          "eligible": false,
+          "shortened_ambiguous": null,
+          "outcome": "negative_withheld",
+          "anchor": {
+            "classification": "none_shown",
+            "offered": 0,
+            "max_iou": 0,
+            "each_best_iou": []
+          },
+          "point": null,
+          "signed_distance_to_nearest_valid_polygon_px": null,
+          "separately_selectable_alternatives": 0,
+          "explicit_save_replayed": false,
+          "observed_tap": null,
+          "browser_ms": 596,
+          "recovery_error": null,
+          "browser_errors": []
+        },
+        {
+          "id": "U08",
+          "task": "natural",
+          "eligible": false,
+          "shortened_ambiguous": null,
+          "outcome": "negative_withheld",
+          "anchor": {
+            "classification": "unique_correct",
+            "offered": 1,
+            "max_iou": 0.8574,
+            "each_best_iou": [
+              0.8574
+            ]
+          },
+          "point": null,
+          "signed_distance_to_nearest_valid_polygon_px": null,
+          "separately_selectable_alternatives": 0,
+          "explicit_save_replayed": false,
+          "observed_tap": null,
+          "browser_ms": 614,
+          "recovery_error": null,
+          "browser_errors": []
+        },
+        {
+          "id": "U01",
+          "task": "lane",
+          "eligible": false,
+          "shortened_ambiguous": null,
+          "outcome": "road_tap_withheld",
+          "anchor": {
+            "classification": "correct_among_several",
+            "offered": 2,
+            "max_iou": 0.946,
+            "each_best_iou": [
+              0.0392,
+              0.946
+            ]
+          },
+          "point": null,
+          "signed_distance_to_nearest_valid_polygon_px": null,
+          "separately_selectable_alternatives": 0,
+          "explicit_save_replayed": false,
+          "observed_tap": [
+            1306.5,
+            1710.15
+          ],
+          "browser_ms": 1585,
+          "recovery_error": null,
+          "browser_errors": []
+        },
+        {
+          "id": "U02",
+          "task": "lane",
+          "eligible": true,
+          "shortened_ambiguous": null,
+          "outcome": "road_tap_withheld",
+          "anchor": {
+            "classification": "correct_among_several",
+            "offered": 2,
+            "max_iou": 0.9566,
+            "each_best_iou": [
+              0.9566,
+              0.0
+            ]
+          },
+          "point": null,
+          "signed_distance_to_nearest_valid_polygon_px": null,
+          "separately_selectable_alternatives": 0,
+          "explicit_save_replayed": false,
+          "observed_tap": [
+            1255.0,
+            1504.01
+          ],
+          "browser_ms": 1301,
+          "recovery_error": null,
+          "browser_errors": []
+        },
+        {
+          "id": "U03",
+          "task": "lane",
+          "eligible": true,
+          "shortened_ambiguous": null,
+          "outcome": "road_tap_withheld",
+          "anchor": {
+            "classification": "unique_correct",
+            "offered": 1,
+            "max_iou": 0.814,
+            "each_best_iou": [
+              0.814
+            ]
+          },
+          "point": null,
+          "signed_distance_to_nearest_valid_polygon_px": null,
+          "separately_selectable_alternatives": 0,
+          "explicit_save_replayed": false,
+          "observed_tap": [
+            1236.26,
+            2033.45
+          ],
+          "browser_ms": 1603,
+          "recovery_error": null,
+          "browser_errors": []
+        },
+        {
+          "id": "U04",
+          "task": "lane",
+          "eligible": false,
+          "shortened_ambiguous": null,
+          "outcome": "road_tap_withheld",
+          "anchor": {
+            "classification": "unique_correct",
+            "offered": 1,
+            "max_iou": 0.92,
+            "each_best_iou": [
+              0.92
+            ]
+          },
+          "point": null,
+          "signed_distance_to_nearest_valid_polygon_px": null,
+          "separately_selectable_alternatives": 0,
+          "explicit_save_replayed": false,
+          "observed_tap": [
+            2074.5,
+            1733.58
+          ],
+          "browser_ms": 1839,
+          "recovery_error": null,
+          "browser_errors": []
+        },
+        {
+          "id": "U05",
+          "task": "lane",
+          "eligible": true,
+          "shortened_ambiguous": null,
+          "outcome": "road_tap_withheld",
+          "anchor": {
+            "classification": "unique_correct",
+            "offered": 1,
+            "max_iou": 0.9323,
+            "each_best_iou": [
+              0.9323
+            ]
+          },
+          "point": null,
+          "signed_distance_to_nearest_valid_polygon_px": null,
+          "separately_selectable_alternatives": 0,
+          "explicit_save_replayed": false,
+          "observed_tap": [
+            1737.34,
+            1977.26
+          ],
+          "browser_ms": 1868,
+          "recovery_error": null,
+          "browser_errors": []
+        },
+        {
+          "id": "U06",
+          "task": "lane",
+          "eligible": true,
+          "shortened_ambiguous": null,
+          "outcome": "road_tap_withheld",
+          "anchor": {
+            "classification": "unique_correct",
+            "offered": 1,
+            "max_iou": 0.9776,
+            "each_best_iou": [
+              0.9776
+            ]
+          },
+          "point": null,
+          "signed_distance_to_nearest_valid_polygon_px": null,
+          "separately_selectable_alternatives": 0,
+          "explicit_save_replayed": false,
+          "observed_tap": [
+            1231.6,
+            789.49
+          ],
+          "browser_ms": 1632,
+          "recovery_error": null,
+          "browser_errors": []
+        },
+        {
+          "id": "U07",
+          "task": "lane",
+          "eligible": false,
+          "shortened_ambiguous": null,
+          "outcome": "road_tap_withheld",
+          "anchor": {
+            "classification": "none_shown",
+            "offered": 0,
+            "max_iou": 0,
+            "each_best_iou": []
+          },
+          "point": null,
+          "signed_distance_to_nearest_valid_polygon_px": null,
+          "separately_selectable_alternatives": 0,
+          "explicit_save_replayed": false,
+          "observed_tap": [
+            927.21,
+            1471.21
+          ],
+          "browser_ms": 1508,
+          "recovery_error": null,
+          "browser_errors": []
+        },
+        {
+          "id": "U08",
+          "task": "lane",
+          "eligible": false,
+          "shortened_ambiguous": null,
+          "outcome": "road_tap_withheld",
+          "anchor": {
+            "classification": "unique_correct",
+            "offered": 1,
+            "max_iou": 0.8574,
+            "each_best_iou": [
+              0.8574
+            ]
+          },
+          "point": null,
+          "signed_distance_to_nearest_valid_polygon_px": null,
+          "separately_selectable_alternatives": 0,
+          "explicit_save_replayed": false,
+          "observed_tap": [
+            1938.7,
+            1569.62
+          ],
+          "browser_ms": 2311,
+          "recovery_error": null,
+          "browser_errors": []
+        }
+      ]
+    },
+    "browser-revised-primary": {
+      "commit": "287db6f2d5285d37e64f94b13fb272c43a9d8847",
+      "completed_utc": "2026-11-24T01:46:56.974Z",
+      "browser_output_sha256": "ba42ab0d6788d3c324daf7ae57c864aa45c15c119aa2d59630f2694714a0ad3f",
+      "question_input_sha256": "9bea6f3440a5f88f490995a60635cb43fdc77e8cd288088f8629dc952ca1c085",
+      "tap_input_sha256": "c2028bc59d34b038532be4eba9db966c0cb2c9176163f5a34fa54ee26ed35973",
+      "prelabelled_reference_sha256": "9caeafeee06ceaa68fcd8f9d5269a1a0bd16f82b369b20640129ea3f68b1624c",
+      "summary": {
+        "natural_eligible": 4,
+        "natural_ineligible": 4,
+        "natural_outcomes": {
+          "negative_withheld": 4,
+          "clear_withheld": 1,
+          "direct_inside": 3
+        },
+        "natural_vehicle_outlines": {
+          "correct_among_several": 2,
+          "unique_correct": 5,
+          "none_shown": 1
+        },
+        "natural_vehicle_outlines_on_eligible": {
+          "correct_among_several": 1,
+          "unique_correct": 3
+        },
+        "natural_suggested_alternatives": 0,
+        "correct_direct_and_unique_correct_vehicle": 3,
+        "explicit_saves": 3,
+        "natural_browser_ms": {
+          "n": 8,
+          "min": 613,
+          "median": 881.0,
+          "max": 1401
+        },
+        "lane_outcomes": {
+          "road_tap_withheld": 8
+        },
+        "lane_browser_ms": {
+          "n": 8,
+          "min": 1149,
+          "median": 1295.5,
+          "max": 1493
+        },
+        "browser_error_events": 0
+      },
+      "rows": [
+        {
+          "id": "U01",
+          "task": "natural",
+          "eligible": false,
+          "shortened_ambiguous": null,
+          "outcome": "negative_withheld",
+          "anchor": {
+            "classification": "correct_among_several",
+            "offered": 2,
+            "max_iou": 0.946,
+            "each_best_iou": [
+              0.0392,
+              0.946
+            ]
+          },
+          "point": null,
+          "signed_distance_to_nearest_valid_polygon_px": null,
+          "separately_selectable_alternatives": 0,
+          "explicit_save_replayed": false,
+          "observed_tap": null,
+          "browser_ms": 640,
+          "recovery_error": null,
+          "browser_errors": []
+        },
+        {
+          "id": "U02",
+          "task": "natural",
+          "eligible": true,
+          "shortened_ambiguous": null,
+          "outcome": "clear_withheld",
+          "anchor": {
+            "classification": "correct_among_several",
+            "offered": 2,
+            "max_iou": 0.9566,
+            "each_best_iou": [
+              0.9566,
+              0.0
+            ]
+          },
+          "point": null,
+          "signed_distance_to_nearest_valid_polygon_px": null,
+          "separately_selectable_alternatives": 0,
+          "explicit_save_replayed": false,
+          "observed_tap": null,
+          "browser_ms": 613,
+          "recovery_error": null,
+          "browser_errors": []
+        },
+        {
+          "id": "U03",
+          "task": "natural",
+          "eligible": true,
+          "shortened_ambiguous": null,
+          "outcome": "direct_inside",
+          "anchor": {
+            "classification": "unique_correct",
+            "offered": 1,
+            "max_iou": 0.814,
+            "each_best_iou": [
+              0.814
+            ]
+          },
+          "point": [
+            2528,
+            2089.565
+          ],
+          "signed_distance_to_nearest_valid_polygon_px": 19.48,
+          "separately_selectable_alternatives": 0,
+          "explicit_save_replayed": true,
+          "observed_tap": null,
+          "browser_ms": 1401,
+          "recovery_error": null,
+          "browser_errors": []
+        },
+        {
+          "id": "U04",
+          "task": "natural",
+          "eligible": false,
+          "shortened_ambiguous": null,
+          "outcome": "negative_withheld",
+          "anchor": {
+            "classification": "unique_correct",
+            "offered": 1,
+            "max_iou": 0.92,
+            "each_best_iou": [
+              0.92
+            ]
+          },
+          "point": null,
+          "signed_distance_to_nearest_valid_polygon_px": null,
+          "separately_selectable_alternatives": 0,
+          "explicit_save_replayed": false,
+          "observed_tap": null,
+          "browser_ms": 683,
+          "recovery_error": null,
+          "browser_errors": []
+        },
+        {
+          "id": "U05",
+          "task": "natural",
+          "eligible": true,
+          "shortened_ambiguous": null,
+          "outcome": "direct_inside",
+          "anchor": {
+            "classification": "unique_correct",
+            "offered": 1,
+            "max_iou": 0.9323,
+            "each_best_iou": [
+              0.9323
+            ]
+          },
+          "point": [
+            125.867,
+            2034.071
+          ],
+          "signed_distance_to_nearest_valid_polygon_px": 55.66,
+          "separately_selectable_alternatives": 0,
+          "explicit_save_replayed": true,
+          "observed_tap": null,
+          "browser_ms": 901,
+          "recovery_error": null,
+          "browser_errors": []
+        },
+        {
+          "id": "U06",
+          "task": "natural",
+          "eligible": true,
+          "shortened_ambiguous": null,
+          "outcome": "direct_inside",
+          "anchor": {
+            "classification": "unique_correct",
+            "offered": 1,
+            "max_iou": 0.9776,
+            "each_best_iou": [
+              0.9776
+            ]
+          },
+          "point": [
+            453.333,
+            692.609
+          ],
+          "signed_distance_to_nearest_valid_polygon_px": 28.01,
+          "separately_selectable_alternatives": 0,
+          "explicit_save_replayed": true,
+          "observed_tap": null,
+          "browser_ms": 932,
+          "recovery_error": null,
+          "browser_errors": []
+        },
+        {
+          "id": "U07",
+          "task": "natural",
+          "eligible": false,
+          "shortened_ambiguous": null,
+          "outcome": "negative_withheld",
+          "anchor": {
+            "classification": "none_shown",
+            "offered": 0,
+            "max_iou": 0,
+            "each_best_iou": []
+          },
+          "point": null,
+          "signed_distance_to_nearest_valid_polygon_px": null,
+          "separately_selectable_alternatives": 0,
+          "explicit_save_replayed": false,
+          "observed_tap": null,
+          "browser_ms": 861,
+          "recovery_error": null,
+          "browser_errors": []
+        },
+        {
+          "id": "U08",
+          "task": "natural",
+          "eligible": false,
+          "shortened_ambiguous": null,
+          "outcome": "negative_withheld",
+          "anchor": {
+            "classification": "unique_correct",
+            "offered": 1,
+            "max_iou": 0.8574,
+            "each_best_iou": [
+              0.8574
+            ]
+          },
+          "point": null,
+          "signed_distance_to_nearest_valid_polygon_px": null,
+          "separately_selectable_alternatives": 0,
+          "explicit_save_replayed": false,
+          "observed_tap": null,
+          "browser_ms": 1119,
+          "recovery_error": null,
+          "browser_errors": []
+        },
+        {
+          "id": "U01",
+          "task": "lane",
+          "eligible": false,
+          "shortened_ambiguous": null,
+          "outcome": "road_tap_withheld",
+          "anchor": {
+            "classification": "correct_among_several",
+            "offered": 2,
+            "max_iou": 0.946,
+            "each_best_iou": [
+              0.0392,
+              0.946
+            ]
+          },
+          "point": null,
+          "signed_distance_to_nearest_valid_polygon_px": null,
+          "separately_selectable_alternatives": 0,
+          "explicit_save_replayed": false,
+          "observed_tap": [
+            1306.5,
+            1710.15
+          ],
+          "browser_ms": 1493,
+          "recovery_error": null,
+          "browser_errors": []
+        },
+        {
+          "id": "U02",
+          "task": "lane",
+          "eligible": true,
+          "shortened_ambiguous": null,
+          "outcome": "road_tap_withheld",
+          "anchor": {
+            "classification": "correct_among_several",
+            "offered": 2,
+            "max_iou": 0.9566,
+            "each_best_iou": [
+              0.9566,
+              0.0
+            ]
+          },
+          "point": null,
+          "signed_distance_to_nearest_valid_polygon_px": null,
+          "separately_selectable_alternatives": 0,
+          "explicit_save_replayed": false,
+          "observed_tap": [
+            1255.0,
+            1504.01
+          ],
+          "browser_ms": 1174,
+          "recovery_error": null,
+          "browser_errors": []
+        },
+        {
+          "id": "U03",
+          "task": "lane",
+          "eligible": true,
+          "shortened_ambiguous": null,
+          "outcome": "road_tap_withheld",
+          "anchor": {
+            "classification": "unique_correct",
+            "offered": 1,
+            "max_iou": 0.814,
+            "each_best_iou": [
+              0.814
+            ]
+          },
+          "point": null,
+          "signed_distance_to_nearest_valid_polygon_px": null,
+          "separately_selectable_alternatives": 0,
+          "explicit_save_replayed": false,
+          "observed_tap": [
+            1236.26,
+            2033.45
+          ],
+          "browser_ms": 1485,
+          "recovery_error": null,
+          "browser_errors": []
+        },
+        {
+          "id": "U04",
+          "task": "lane",
+          "eligible": false,
+          "shortened_ambiguous": null,
+          "outcome": "road_tap_withheld",
+          "anchor": {
+            "classification": "unique_correct",
+            "offered": 1,
+            "max_iou": 0.92,
+            "each_best_iou": [
+              0.92
+            ]
+          },
+          "point": null,
+          "signed_distance_to_nearest_valid_polygon_px": null,
+          "separately_selectable_alternatives": 0,
+          "explicit_save_replayed": false,
+          "observed_tap": [
+            2074.5,
+            1733.58
+          ],
+          "browser_ms": 1364,
+          "recovery_error": null,
+          "browser_errors": []
+        },
+        {
+          "id": "U05",
+          "task": "lane",
+          "eligible": true,
+          "shortened_ambiguous": null,
+          "outcome": "road_tap_withheld",
+          "anchor": {
+            "classification": "unique_correct",
+            "offered": 1,
+            "max_iou": 0.9323,
+            "each_best_iou": [
+              0.9323
+            ]
+          },
+          "point": null,
+          "signed_distance_to_nearest_valid_polygon_px": null,
+          "separately_selectable_alternatives": 0,
+          "explicit_save_replayed": false,
+          "observed_tap": [
+            1737.34,
+            1977.26
+          ],
+          "browser_ms": 1208,
+          "recovery_error": null,
+          "browser_errors": []
+        },
+        {
+          "id": "U06",
+          "task": "lane",
+          "eligible": true,
+          "shortened_ambiguous": null,
+          "outcome": "road_tap_withheld",
+          "anchor": {
+            "classification": "unique_correct",
+            "offered": 1,
+            "max_iou": 0.9776,
+            "each_best_iou": [
+              0.9776
+            ]
+          },
+          "point": null,
+          "signed_distance_to_nearest_valid_polygon_px": null,
+          "separately_selectable_alternatives": 0,
+          "explicit_save_replayed": false,
+          "observed_tap": [
+            1231.6,
+            789.49
+          ],
+          "browser_ms": 1149,
+          "recovery_error": null,
+          "browser_errors": []
+        },
+        {
+          "id": "U07",
+          "task": "lane",
+          "eligible": false,
+          "shortened_ambiguous": null,
+          "outcome": "road_tap_withheld",
+          "anchor": {
+            "classification": "none_shown",
+            "offered": 0,
+            "max_iou": 0,
+            "each_best_iou": []
+          },
+          "point": null,
+          "signed_distance_to_nearest_valid_polygon_px": null,
+          "separately_selectable_alternatives": 0,
+          "explicit_save_replayed": false,
+          "observed_tap": [
+            927.21,
+            1471.21
+          ],
+          "browser_ms": 1302,
+          "recovery_error": null,
+          "browser_errors": []
+        },
+        {
+          "id": "U08",
+          "task": "lane",
+          "eligible": false,
+          "shortened_ambiguous": null,
+          "outcome": "road_tap_withheld",
+          "anchor": {
+            "classification": "unique_correct",
+            "offered": 1,
+            "max_iou": 0.8574,
+            "each_best_iou": [
+              0.8574
+            ]
+          },
+          "point": null,
+          "signed_distance_to_nearest_valid_polygon_px": null,
+          "separately_selectable_alternatives": 0,
+          "explicit_save_replayed": false,
+          "observed_tap": [
+            1938.7,
+            1569.62
+          ],
+          "browser_ms": 1289,
+          "recovery_error": null,
+          "browser_errors": []
+        }
+      ]
+    },
+    "browser-reserve": {
+      "commit": "287db6f2d5285d37e64f94b13fb272c43a9d8847",
+      "completed_utc": "2026-11-24T01:47:16.941Z",
+      "browser_output_sha256": "58098997377a31fbc03da5be99472ded0f77964585712dfdb488376f2c4c2fe3",
+      "question_input_sha256": "4464a97f23a4764b2f3c1b946357ebf6d1c7fe7f11738fbf5e9ffc54557faf69",
+      "tap_input_sha256": "bbf2da2dd60423ced84af38f8b1092521a2d49ba7b5aff10f75eb7659d69834d",
+      "prelabelled_reference_sha256": "53e6dc1dde18d3dc3b01a57e504bcdaeca286f72544c32a77ebca4fb310e0028",
+      "summary": {
+        "natural_eligible": 3,
+        "natural_ineligible": 3,
+        "natural_outcomes": {
+          "clear_withheld": 3,
+          "negative_withheld": 3
+        },
+        "natural_vehicle_outlines": {
+          "unique_correct": 2,
+          "none_shown": 4
+        },
+        "natural_vehicle_outlines_on_eligible": {
+          "unique_correct": 1,
+          "none_shown": 2
+        },
+        "natural_suggested_alternatives": 0,
+        "correct_direct_and_unique_correct_vehicle": 0,
+        "explicit_saves": 0,
+        "natural_browser_ms": {
+          "n": 6,
+          "min": 575,
+          "median": 595.5,
+          "max": 608
+        },
+        "lane_outcomes": {
+          "road_tap_withheld": 6
+        },
+        "lane_browser_ms": {
+          "n": 6,
+          "min": 1014,
+          "median": 1174.5,
+          "max": 1646
+        },
+        "browser_error_events": 0
+      },
+      "rows": [
+        {
+          "id": "V01",
+          "task": "natural",
+          "eligible": true,
+          "shortened_ambiguous": null,
+          "outcome": "clear_withheld",
+          "anchor": {
+            "classification": "unique_correct",
+            "offered": 1,
+            "max_iou": 0.9941,
+            "each_best_iou": [
+              0.9941
+            ]
+          },
+          "point": null,
+          "signed_distance_to_nearest_valid_polygon_px": null,
+          "separately_selectable_alternatives": 0,
+          "explicit_save_replayed": false,
+          "observed_tap": null,
+          "browser_ms": 593,
+          "recovery_error": null,
+          "browser_errors": []
+        },
+        {
+          "id": "V02",
+          "task": "natural",
+          "eligible": true,
+          "shortened_ambiguous": null,
+          "outcome": "clear_withheld",
+          "anchor": {
+            "classification": "none_shown",
+            "offered": 0,
+            "max_iou": 0,
+            "each_best_iou": []
+          },
+          "point": null,
+          "signed_distance_to_nearest_valid_polygon_px": null,
+          "separately_selectable_alternatives": 0,
+          "explicit_save_replayed": false,
+          "observed_tap": null,
+          "browser_ms": 586,
+          "recovery_error": null,
+          "browser_errors": []
+        },
+        {
+          "id": "V03",
+          "task": "natural",
+          "eligible": false,
+          "shortened_ambiguous": null,
+          "outcome": "negative_withheld",
+          "anchor": {
+            "classification": "unique_correct",
+            "offered": 1,
+            "max_iou": 0.8999,
+            "each_best_iou": [
+              0.8999
+            ]
+          },
+          "point": null,
+          "signed_distance_to_nearest_valid_polygon_px": null,
+          "separately_selectable_alternatives": 0,
+          "explicit_save_replayed": false,
+          "observed_tap": null,
+          "browser_ms": 608,
+          "recovery_error": null,
+          "browser_errors": []
+        },
+        {
+          "id": "V04",
+          "task": "natural",
+          "eligible": true,
+          "shortened_ambiguous": null,
+          "outcome": "clear_withheld",
+          "anchor": {
+            "classification": "none_shown",
+            "offered": 0,
+            "max_iou": 0,
+            "each_best_iou": []
+          },
+          "point": null,
+          "signed_distance_to_nearest_valid_polygon_px": null,
+          "separately_selectable_alternatives": 0,
+          "explicit_save_replayed": false,
+          "observed_tap": null,
+          "browser_ms": 598,
+          "recovery_error": null,
+          "browser_errors": []
+        },
+        {
+          "id": "V05",
+          "task": "natural",
+          "eligible": false,
+          "shortened_ambiguous": null,
+          "outcome": "negative_withheld",
+          "anchor": {
+            "classification": "none_shown",
+            "offered": 0,
+            "max_iou": 0,
+            "each_best_iou": []
+          },
+          "point": null,
+          "signed_distance_to_nearest_valid_polygon_px": null,
+          "separately_selectable_alternatives": 0,
+          "explicit_save_replayed": false,
+          "observed_tap": null,
+          "browser_ms": 575,
+          "recovery_error": null,
+          "browser_errors": []
+        },
+        {
+          "id": "V06",
+          "task": "natural",
+          "eligible": false,
+          "shortened_ambiguous": null,
+          "outcome": "negative_withheld",
+          "anchor": {
+            "classification": "none_shown",
+            "offered": 0,
+            "max_iou": 0,
+            "each_best_iou": []
+          },
+          "point": null,
+          "signed_distance_to_nearest_valid_polygon_px": null,
+          "separately_selectable_alternatives": 0,
+          "explicit_save_replayed": false,
+          "observed_tap": null,
+          "browser_ms": 602,
+          "recovery_error": null,
+          "browser_errors": []
+        },
+        {
+          "id": "V01",
+          "task": "lane",
+          "eligible": true,
+          "shortened_ambiguous": null,
+          "outcome": "road_tap_withheld",
+          "anchor": {
+            "classification": "unique_correct",
+            "offered": 1,
+            "max_iou": 0.9941,
+            "each_best_iou": [
+              0.9941
+            ]
+          },
+          "point": null,
+          "signed_distance_to_nearest_valid_polygon_px": null,
+          "separately_selectable_alternatives": 0,
+          "explicit_save_replayed": false,
+          "observed_tap": [
+            1492.67,
+            1314.26
+          ],
+          "browser_ms": 1150,
+          "recovery_error": null,
+          "browser_errors": []
+        },
+        {
+          "id": "V02",
+          "task": "lane",
+          "eligible": true,
+          "shortened_ambiguous": null,
+          "outcome": "road_tap_withheld",
+          "anchor": {
+            "classification": "none_shown",
+            "offered": 0,
+            "max_iou": 0,
+            "each_best_iou": []
+          },
+          "point": null,
+          "signed_distance_to_nearest_valid_polygon_px": null,
+          "separately_selectable_alternatives": 0,
+          "explicit_save_replayed": false,
+          "observed_tap": [
+            2243.1,
+            2075.62
+          ],
+          "browser_ms": 1199,
+          "recovery_error": null,
+          "browser_errors": []
+        },
+        {
+          "id": "V03",
+          "task": "lane",
+          "eligible": false,
+          "shortened_ambiguous": null,
+          "outcome": "road_tap_withheld",
+          "anchor": {
+            "classification": "unique_correct",
+            "offered": 1,
+            "max_iou": 0.8999,
+            "each_best_iou": [
+              0.8999
+            ]
+          },
+          "point": null,
+          "signed_distance_to_nearest_valid_polygon_px": null,
+          "separately_selectable_alternatives": 0,
+          "explicit_save_replayed": false,
+          "observed_tap": [
+            571.31,
+            1836.68
+          ],
+          "browser_ms": 1051,
+          "recovery_error": null,
+          "browser_errors": []
+        },
+        {
+          "id": "V04",
+          "task": "lane",
+          "eligible": true,
+          "shortened_ambiguous": null,
+          "outcome": "road_tap_withheld",
+          "anchor": {
+            "classification": "none_shown",
+            "offered": 0,
+            "max_iou": 0,
+            "each_best_iou": []
+          },
+          "point": null,
+          "signed_distance_to_nearest_valid_polygon_px": null,
+          "separately_selectable_alternatives": 0,
+          "explicit_save_replayed": false,
+          "observed_tap": [
+            580.68,
+            1682.04
+          ],
+          "browser_ms": 1294,
+          "recovery_error": null,
+          "browser_errors": []
+        },
+        {
+          "id": "V05",
+          "task": "lane",
+          "eligible": false,
+          "shortened_ambiguous": null,
+          "outcome": "road_tap_withheld",
+          "anchor": {
+            "classification": "none_shown",
+            "offered": 0,
+            "max_iou": 0,
+            "each_best_iou": []
+          },
+          "point": null,
+          "signed_distance_to_nearest_valid_polygon_px": null,
+          "separately_selectable_alternatives": 0,
+          "explicit_save_replayed": false,
+          "observed_tap": [
+            1006.83,
+            1616.48
+          ],
+          "browser_ms": 1014,
+          "recovery_error": null,
+          "browser_errors": []
+        },
+        {
+          "id": "V06",
+          "task": "lane",
+          "eligible": false,
+          "shortened_ambiguous": null,
+          "outcome": "road_tap_withheld",
+          "anchor": {
+            "classification": "none_shown",
+            "offered": 0,
+            "max_iou": 0,
+            "each_best_iou": []
+          },
+          "point": null,
+          "signed_distance_to_nearest_valid_polygon_px": null,
+          "separately_selectable_alternatives": 0,
+          "explicit_save_replayed": false,
+          "observed_tap": [
+            538.5,
+            1504.01
+          ],
+          "browser_ms": 1646,
+          "recovery_error": null,
+          "browser_errors": []
+        }
+      ]
+    },
+    "browser-primary-simple": {
+      "commit": "82bfb03414953f2b08cea3589b20046a97430e94",
+      "completed_utc": "2026-11-24T01:26:12.786Z",
+      "browser_output_sha256": "1b3c277230f8da5afdc92448076d0b4203219deedf958d81d6c41fd8d37c41ee",
+      "question_input_sha256": "c81c8b0af6003232a512ac701eea286df9de44f49d514c3879048b0a9be204dc",
+      "tap_input_sha256": "c2028bc59d34b038532be4eba9db966c0cb2c9176163f5a34fa54ee26ed35973",
+      "prelabelled_reference_sha256": "9caeafeee06ceaa68fcd8f9d5269a1a0bd16f82b369b20640129ea3f68b1624c",
+      "summary": {
+        "natural_eligible": 4,
+        "natural_ineligible": 4,
+        "natural_outcomes": {
+          "negative_withheld": 4,
+          "clear_withheld": 4
+        },
+        "natural_vehicle_outlines": {
+          "correct_among_several": 2,
+          "unique_correct": 5,
+          "none_shown": 1
+        },
+        "natural_vehicle_outlines_on_eligible": {
+          "correct_among_several": 1,
+          "unique_correct": 3
+        },
+        "natural_suggested_alternatives": 0,
+        "correct_direct_and_unique_correct_vehicle": 0,
+        "explicit_saves": 0,
+        "natural_browser_ms": {
+          "n": 8,
+          "min": 583,
+          "median": 640.0,
+          "max": 1334
+        },
+        "lane_outcomes": {},
+        "lane_browser_ms": {
+          "n": 0
+        },
+        "browser_error_events": 0,
+        "genuinely_ambiguous_when_shortened": [
+          "U03",
+          "U07"
+        ],
+        "ambiguous_outcomes": {
+          "clear_withheld": 1,
+          "negative_withheld": 1
+        },
+        "unambiguous_outcomes": {
+          "negative_withheld": 3,
+          "clear_withheld": 3
+        }
+      },
+      "rows": [
+        {
+          "id": "U01",
+          "task": "natural",
+          "eligible": false,
+          "shortened_ambiguous": false,
+          "outcome": "negative_withheld",
+          "anchor": {
+            "classification": "correct_among_several",
+            "offered": 2,
+            "max_iou": 0.946,
+            "each_best_iou": [
+              0.0392,
+              0.946
+            ]
+          },
+          "point": null,
+          "signed_distance_to_nearest_valid_polygon_px": null,
+          "separately_selectable_alternatives": 0,
+          "explicit_save_replayed": false,
+          "observed_tap": null,
+          "browser_ms": 854,
+          "recovery_error": null,
+          "browser_errors": []
+        },
+        {
+          "id": "U02",
+          "task": "natural",
+          "eligible": true,
+          "shortened_ambiguous": false,
+          "outcome": "clear_withheld",
+          "anchor": {
+            "classification": "correct_among_several",
+            "offered": 2,
+            "max_iou": 0.9566,
+            "each_best_iou": [
+              0.9566,
+              0.0
+            ]
+          },
+          "point": null,
+          "signed_distance_to_nearest_valid_polygon_px": null,
+          "separately_selectable_alternatives": 0,
+          "explicit_save_replayed": false,
+          "observed_tap": null,
+          "browser_ms": 1334,
+          "recovery_error": null,
+          "browser_errors": []
+        },
+        {
+          "id": "U03",
+          "task": "natural",
+          "eligible": true,
+          "shortened_ambiguous": true,
+          "outcome": "clear_withheld",
+          "anchor": {
+            "classification": "unique_correct",
+            "offered": 1,
+            "max_iou": 0.814,
+            "each_best_iou": [
+              0.814
+            ]
+          },
+          "point": null,
+          "signed_distance_to_nearest_valid_polygon_px": null,
+          "separately_selectable_alternatives": 0,
+          "explicit_save_replayed": false,
+          "observed_tap": null,
+          "browser_ms": 641,
+          "recovery_error": null,
+          "browser_errors": []
+        },
+        {
+          "id": "U04",
+          "task": "natural",
+          "eligible": false,
+          "shortened_ambiguous": false,
+          "outcome": "negative_withheld",
+          "anchor": {
+            "classification": "unique_correct",
+            "offered": 1,
+            "max_iou": 0.92,
+            "each_best_iou": [
+              0.92
+            ]
+          },
+          "point": null,
+          "signed_distance_to_nearest_valid_polygon_px": null,
+          "separately_selectable_alternatives": 0,
+          "explicit_save_replayed": false,
+          "observed_tap": null,
+          "browser_ms": 639,
+          "recovery_error": null,
+          "browser_errors": []
+        },
+        {
+          "id": "U05",
+          "task": "natural",
+          "eligible": true,
+          "shortened_ambiguous": false,
+          "outcome": "clear_withheld",
+          "anchor": {
+            "classification": "unique_correct",
+            "offered": 1,
+            "max_iou": 0.9323,
+            "each_best_iou": [
+              0.9323
+            ]
+          },
+          "point": null,
+          "signed_distance_to_nearest_valid_polygon_px": null,
+          "separately_selectable_alternatives": 0,
+          "explicit_save_replayed": false,
+          "observed_tap": null,
+          "browser_ms": 588,
+          "recovery_error": null,
+          "browser_errors": []
+        },
+        {
+          "id": "U06",
+          "task": "natural",
+          "eligible": true,
+          "shortened_ambiguous": false,
+          "outcome": "clear_withheld",
+          "anchor": {
+            "classification": "unique_correct",
+            "offered": 1,
+            "max_iou": 0.9776,
+            "each_best_iou": [
+              0.9776
+            ]
+          },
+          "point": null,
+          "signed_distance_to_nearest_valid_polygon_px": null,
+          "separately_selectable_alternatives": 0,
+          "explicit_save_replayed": false,
+          "observed_tap": null,
+          "browser_ms": 583,
+          "recovery_error": null,
+          "browser_errors": []
+        },
+        {
+          "id": "U07",
+          "task": "natural",
+          "eligible": false,
+          "shortened_ambiguous": true,
+          "outcome": "negative_withheld",
+          "anchor": {
+            "classification": "none_shown",
+            "offered": 0,
+            "max_iou": 0,
+            "each_best_iou": []
+          },
+          "point": null,
+          "signed_distance_to_nearest_valid_polygon_px": null,
+          "separately_selectable_alternatives": 0,
+          "explicit_save_replayed": false,
+          "observed_tap": null,
+          "browser_ms": 707,
+          "recovery_error": null,
+          "browser_errors": []
+        },
+        {
+          "id": "U08",
+          "task": "natural",
+          "eligible": false,
+          "shortened_ambiguous": false,
+          "outcome": "negative_withheld",
+          "anchor": {
+            "classification": "unique_correct",
+            "offered": 1,
+            "max_iou": 0.8574,
+            "each_best_iou": [
+              0.8574
+            ]
+          },
+          "point": null,
+          "signed_distance_to_nearest_valid_polygon_px": null,
+          "separately_selectable_alternatives": 0,
+          "explicit_save_replayed": false,
+          "observed_tap": null,
+          "browser_ms": 618,
+          "recovery_error": null,
+          "browser_errors": []
+        }
+      ]
+    },
+    "browser-revised-simple": {
+      "commit": "287db6f2d5285d37e64f94b13fb272c43a9d8847",
+      "completed_utc": "2026-11-24T01:47:29.912Z",
+      "browser_output_sha256": "667e185f561f69addc0ce3174d9753554acbd57e1cdc3a592238afb3f6a28764",
+      "question_input_sha256": "c81c8b0af6003232a512ac701eea286df9de44f49d514c3879048b0a9be204dc",
+      "tap_input_sha256": "c2028bc59d34b038532be4eba9db966c0cb2c9176163f5a34fa54ee26ed35973",
+      "prelabelled_reference_sha256": "9caeafeee06ceaa68fcd8f9d5269a1a0bd16f82b369b20640129ea3f68b1624c",
+      "summary": {
+        "natural_eligible": 4,
+        "natural_ineligible": 4,
+        "natural_outcomes": {
+          "negative_withheld": 4,
+          "clear_withheld": 1,
+          "direct_inside": 3
+        },
+        "natural_vehicle_outlines": {
+          "correct_among_several": 2,
+          "unique_correct": 5,
+          "none_shown": 1
+        },
+        "natural_vehicle_outlines_on_eligible": {
+          "correct_among_several": 1,
+          "unique_correct": 3
+        },
+        "natural_suggested_alternatives": 0,
+        "correct_direct_and_unique_correct_vehicle": 3,
+        "explicit_saves": 3,
+        "natural_browser_ms": {
+          "n": 8,
+          "min": 577,
+          "median": 612.5,
+          "max": 1368
+        },
+        "lane_outcomes": {},
+        "lane_browser_ms": {
+          "n": 0
+        },
+        "browser_error_events": 0,
+        "genuinely_ambiguous_when_shortened": [
+          "U03",
+          "U07"
+        ],
+        "ambiguous_outcomes": {
+          "direct_inside": 1,
+          "negative_withheld": 1
+        },
+        "unambiguous_outcomes": {
+          "negative_withheld": 3,
+          "clear_withheld": 1,
+          "direct_inside": 2
+        }
+      },
+      "rows": [
+        {
+          "id": "U01",
+          "task": "natural",
+          "eligible": false,
+          "shortened_ambiguous": false,
+          "outcome": "negative_withheld",
+          "anchor": {
+            "classification": "correct_among_several",
+            "offered": 2,
+            "max_iou": 0.946,
+            "each_best_iou": [
+              0.0392,
+              0.946
+            ]
+          },
+          "point": null,
+          "signed_distance_to_nearest_valid_polygon_px": null,
+          "separately_selectable_alternatives": 0,
+          "explicit_save_replayed": false,
+          "observed_tap": null,
+          "browser_ms": 612,
+          "recovery_error": null,
+          "browser_errors": []
+        },
+        {
+          "id": "U02",
+          "task": "natural",
+          "eligible": true,
+          "shortened_ambiguous": false,
+          "outcome": "clear_withheld",
+          "anchor": {
+            "classification": "correct_among_several",
+            "offered": 2,
+            "max_iou": 0.9566,
+            "each_best_iou": [
+              0.9566,
+              0.0
+            ]
+          },
+          "point": null,
+          "signed_distance_to_nearest_valid_polygon_px": null,
+          "separately_selectable_alternatives": 0,
+          "explicit_save_replayed": false,
+          "observed_tap": null,
+          "browser_ms": 613,
+          "recovery_error": null,
+          "browser_errors": []
+        },
+        {
+          "id": "U03",
+          "task": "natural",
+          "eligible": true,
+          "shortened_ambiguous": true,
+          "outcome": "direct_inside",
+          "anchor": {
+            "classification": "unique_correct",
+            "offered": 1,
+            "max_iou": 0.814,
+            "each_best_iou": [
+              0.814
+            ]
+          },
+          "point": [
+            2528,
+            2089.565
+          ],
+          "signed_distance_to_nearest_valid_polygon_px": 19.48,
+          "separately_selectable_alternatives": 0,
+          "explicit_save_replayed": true,
+          "observed_tap": null,
+          "browser_ms": 1368,
+          "recovery_error": null,
+          "browser_errors": []
+        },
+        {
+          "id": "U04",
+          "task": "natural",
+          "eligible": false,
+          "shortened_ambiguous": false,
+          "outcome": "negative_withheld",
+          "anchor": {
+            "classification": "unique_correct",
+            "offered": 1,
+            "max_iou": 0.92,
+            "each_best_iou": [
+              0.92
+            ]
+          },
+          "point": null,
+          "signed_distance_to_nearest_valid_polygon_px": null,
+          "separately_selectable_alternatives": 0,
+          "explicit_save_replayed": false,
+          "observed_tap": null,
+          "browser_ms": 672,
+          "recovery_error": null,
+          "browser_errors": []
+        },
+        {
+          "id": "U05",
+          "task": "natural",
+          "eligible": true,
+          "shortened_ambiguous": false,
+          "outcome": "direct_inside",
+          "anchor": {
+            "classification": "unique_correct",
+            "offered": 1,
+            "max_iou": 0.9323,
+            "each_best_iou": [
+              0.9323
+            ]
+          },
+          "point": [
+            125.867,
+            2034.071
+          ],
+          "signed_distance_to_nearest_valid_polygon_px": 55.66,
+          "separately_selectable_alternatives": 0,
+          "explicit_save_replayed": true,
+          "observed_tap": null,
+          "browser_ms": 717,
+          "recovery_error": null,
+          "browser_errors": []
+        },
+        {
+          "id": "U06",
+          "task": "natural",
+          "eligible": true,
+          "shortened_ambiguous": false,
+          "outcome": "direct_inside",
+          "anchor": {
+            "classification": "unique_correct",
+            "offered": 1,
+            "max_iou": 0.9776,
+            "each_best_iou": [
+              0.9776
+            ]
+          },
+          "point": [
+            453.333,
+            692.609
+          ],
+          "signed_distance_to_nearest_valid_polygon_px": 28.01,
+          "separately_selectable_alternatives": 0,
+          "explicit_save_replayed": true,
+          "observed_tap": null,
+          "browser_ms": 577,
+          "recovery_error": null,
+          "browser_errors": []
+        },
+        {
+          "id": "U07",
+          "task": "natural",
+          "eligible": false,
+          "shortened_ambiguous": true,
+          "outcome": "negative_withheld",
+          "anchor": {
+            "classification": "none_shown",
+            "offered": 0,
+            "max_iou": 0,
+            "each_best_iou": []
+          },
+          "point": null,
+          "signed_distance_to_nearest_valid_polygon_px": null,
+          "separately_selectable_alternatives": 0,
+          "explicit_save_replayed": false,
+          "observed_tap": null,
+          "browser_ms": 594,
+          "recovery_error": null,
+          "browser_errors": []
+        },
+        {
+          "id": "U08",
+          "task": "natural",
+          "eligible": false,
+          "shortened_ambiguous": false,
+          "outcome": "negative_withheld",
+          "anchor": {
+            "classification": "unique_correct",
+            "offered": 1,
+            "max_iou": 0.8574,
+            "each_best_iou": [
+              0.8574
+            ]
+          },
+          "point": null,
+          "signed_distance_to_nearest_valid_polygon_px": null,
+          "separately_selectable_alternatives": 0,
+          "explicit_save_replayed": false,
+          "observed_tap": null,
+          "browser_ms": 608,
+          "recovery_error": null,
+          "browser_errors": []
+        }
+      ]
+    }
+  }
+}

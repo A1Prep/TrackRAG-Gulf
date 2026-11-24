@@ -1,4 +1,5 @@
 """Replay neutral, on-device vehicle crops against their exact photo and current Task 1 tracks."""
+from collections import Counter
 from copy import deepcopy
 from hashlib import sha256
 from io import BytesIO
@@ -6,6 +7,7 @@ import json
 import math
 from pathlib import Path
 import re
+from statistics import median
 
 from PIL import Image, ImageDraw
 
@@ -15,6 +17,9 @@ from .streamed import METADATA_SHA256, STREAMED_MODEL_ID, WEIGHT_SHA256
 
 
 ORIGIN = 'local_vehicle_observations_v1'
+ORIGIN_V2 = 'local_vehicle_observations_v2'
+VERSIONS = {ORIGIN:1, ORIGIN_V2:2}
+CROP_POLICY = 'eight_legible_tracks_across_image_thirds_and_depth_v2'
 GUIDE = ('Identify only the pictured target vehicle. Give its body PAINT, TYPE and the END visible to the camera. '
          'Paint: white, cream, black, silver, gray, red, blue, green, yellow, orange, brown, unknown. '
          'Type: sedan, suv, pickup, van, truck, bus, car, unknown. End: REAR, FRONT, SIDE, UNCLEAR. '
@@ -40,6 +45,48 @@ def tracks(scene):
 
 def anchor(spec):
     return {k:spec[k] for k in ('track_id','class','box')}
+
+
+def expanded_vehicles(scene):
+    """Preserve legible legacy anchors and spread the remaining crops across the visible traffic."""
+    from . import single_vehicle
+    context = single_vehicle.context({'scene':scene})
+    width, height = context['size']
+    def area(row):
+        left, top, right, bottom = row[2]
+        return (right-left)*(bottom-top)
+    rows = sorted(single_vehicle.motor_rows(context), key=lambda row:(-area(row),row[0]))
+    legible = [row for row in rows if row[2][2]-row[2][0] >= max(48,.025*width)
+               and row[2][3]-row[2][1] >= max(32,.025*height)]
+    legacy = [row for row in rows if row[2][2]-row[2][0] >= .047*width and row[2][3]-row[2][1] >= .055*height][:4]
+    selected = [row for row in legacy if row in legible]
+    remaining = [row for row in legible if row not in selected]
+    if len(legible) <= 8:
+        return selected + remaining
+    depth = median(row[2][3] for row in legible)
+    def region(row):
+        left, _, right, bottom = row[2]
+        return min(2,int(3*(left+right)/(2*width))), bottom > depth
+    represented = Counter(region(row) for row in selected)
+    while len(selected) < 8:
+        choice = min(remaining, key=lambda row:(represented[region(row)],-area(row),row[0]))
+        selected.append(choice)
+        remaining.remove(choice)
+        represented[region(choice)] += 1
+    return selected
+
+
+def is_local(packet):
+    return isinstance(packet,dict) and packet.get('origin') in VERSIONS
+
+
+def specs_for(packet, scene, classes):
+    """Rebuild the exact crop order for either frozen local policy."""
+    from . import vehicle_curb_ground
+    if not is_local(packet):
+        raise ValueError('Unknown local vehicle crop policy.')
+    vehicles = expanded_vehicles(scene) if packet['origin']==ORIGIN_V2 else None
+    return vehicle_curb_ground.describe(scene,classes,vehicles=vehicles)
 
 
 def render(original, box, kind):
@@ -87,24 +134,38 @@ def register(path, expected_sha):
     if sha256(raw).hexdigest()!=expected_sha.lower():
         raise ValueError('The local vehicle observation archive has changed.')
     package=json.loads(raw)
-    if set(package)!={'origin','version','sources'} or package['origin']!=ORIGIN or package['version']!=1:
+    origin = package.get('origin')
+    if (set(package)!={'origin','version','sources'} or origin not in VERSIONS
+            or type(package['version']) is not int or package['version']!=VERSIONS[origin]):
         raise ValueError('Unsupported local vehicle archive.')
     entries=package['sources']
-    if not isinstance(entries,dict) or not entries or entries.keys() & _registered.keys():
+    if not isinstance(entries,dict) or not entries or any(origin in _registered.get(key,{}) for key in entries):
         raise ValueError('A local vehicle archive must contain distinct source photos.')
     for key,packet in entries.items():
+        if packet.get('origin')!=origin:
+            raise ValueError('The registered pack and its vehicle crop policy differ.')
         _check_packet(key,packet)
-    _registered.update(entries)
+        for earlier in _registered.get(key,{}).values():
+            old, new = earlier['body'], packet['body']
+            if any(old[k]!=new[k] for k in ('recording_id','frame_id','size','surface_sha256','task1','model','prompt_sha256')):
+                raise ValueError('Vehicle archives disagree about the underlying source or model.')
+            old_rows = {r['anchor']['track_id']:r for r in old['rows']}
+            if any(r!=old_rows[r['anchor']['track_id']] for r in new['rows'] if r['anchor']['track_id'] in old_rows):
+                raise ValueError('Vehicle archives disagree about an existing measured crop.')
+    for key,packet in entries.items():
+        _registered.setdefault(key,{})[origin]=packet
 
 
-def get_packet(photo_sha):
-    return deepcopy(_registered.get(photo_sha))
+def get_packet(photo_sha, *, origin=None):
+    versions = _registered.get(photo_sha,{})
+    return deepcopy(versions.get(origin) if origin is not None else (versions.get(ORIGIN_V2) or versions.get(ORIGIN)))
 
 
 def _check_packet(key,packet):
     body=packet['body']
-    if (set(packet)!={'origin','body_sha256','body'} or packet['origin']!=ORIGIN or packet['body_sha256']!=digest(body)
-            or body['image_sha256']!=key or body['recipe']!=ORIGIN or body['prompt_sha256']!=digest([GUIDE,VIEWS,MAX_TOKENS])):
+    if (set(packet)!={'origin','body_sha256','body'} or not is_local(packet) or packet['body_sha256']!=digest(body)
+            or body['image_sha256']!=key or body['recipe']!=packet['origin'] or body['prompt_sha256']!=digest([GUIDE,VIEWS,MAX_TOKENS])
+            or (packet['origin']==ORIGIN_V2 and body.get('crop_policy')!=CROP_POLICY)):
         raise ValueError('The vehicle archive differs from its recorded source, guide or body.')
     scene={'source':'predicted','frame':{'recording_id':body['recording_id'],'frame_id':body['frame_id'],
            'width':body['size'][0],'height':body['size'][1]},'provenance':{'image_sha256':key,'network_policy':'local_only'}}
@@ -127,7 +188,8 @@ def _check_packet(key,packet):
         raise ValueError('The local vehicle reader differs from the verified model.')
     rows=body['rows']
     if (not isinstance(rows,list) or type(body['count']) is not int or body['count']!=len(rows)
-            or len(rows)>min(4,t['current_track_count']) or len(set(row['anchor']['track_id'] for row in rows))!=len(rows)):
+            or len(rows)>min(8 if packet['origin']==ORIGIN_V2 else 4,t['current_track_count'])
+            or len(set(row['anchor']['track_id'] for row in rows))!=len(rows)):
         raise ValueError('Repeated or unsupported local vehicle rows.')
     if body['status']!=('complete' if rows else 'no_eligible_current_vehicles'):
         raise ValueError('Local coverage differs from the actual vehicle rows.')
@@ -147,7 +209,7 @@ def _check_packet(key,packet):
 
 def verify(scene, original_bytes, specs, packet):
     key=sha256(original_bytes).hexdigest()
-    official=_registered.get(key)
+    official=_registered.get(key,{}).get(packet.get('origin')) if isinstance(packet,dict) else None
     if not isinstance(packet,dict) or not official or packet!=official:
         raise ValueError('This source has no matching registered vehicle observation.')
     _check_packet(key,packet)

@@ -17,10 +17,12 @@ LANDMARKS = {
     'mailbox': (40,), 'traffic light': (48,), 'traffic lights': (48,),
     'traffic sign': (49,50), 'road sign': (49,50), 'triangular road sign': (49,50),
     'triangular traffic sign': (49,50), 'triangular sign': (49,50), 'street light': (44,),
+    'wall': (6,), 'fence': (3,), 'guard rail': (4,), 'guardrail': (4,),
 }
 SIDE = re.compile(r'\b(left|right)(?:[- ]hand)?(?: side)?\b',re.I)
 ROW = re.compile(r'^(?:parked )?(?:in|along) (?:parking |parked )?row$')
 KERB = re.compile(r'^(?:parked )?(?:along|at|on|near|by) (?:curb|kerb)(?:side)?$')
+FARTHER = re.compile(r'^(?:(?:little|bit) )?(?:further|farther) (?:up|ahead)(?: (?:road|hand side|side))?$')
 
 
 def _triangle(contour):
@@ -62,6 +64,17 @@ def _near_landmark(classes, name, box, frame, side, original):
     h,w = mask.shape
     scale = np.array([w/frame['width'], h/frame['height']])
     l,t,r,b = np.asarray(box) * np.tile(scale,2)
+    if name in {'wall', 'fence', 'guard rail', 'guardrail'}:
+        # A long wall can cross half the frame. Inspect its portion beside the vehicle.
+        extent = np.zeros_like(mask)
+        x0, x1 = max(0, int(l - .75*(r-l))), min(w, int(r + .75*(r-l)))
+        y0, y1 = max(0, int(t + .22*(b-t))), min(h, int(b + .25*(b-t)))
+        extent[y0:y1, x0:x1] = 1
+        if side == 'left':
+            extent[:, w//2:] = 0
+        if side == 'right':
+            extent[:, :w//2] = 0
+        return np.count_nonzero(mask & extent) >= max(12, .075*(r-l)*(b-t))
     contours,_ = cv2.findContours(mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
     for contour in contours:
         x,y,cw,ch = cv2.boundingRect(contour)
@@ -78,6 +91,46 @@ def _near_landmark(classes, name, box, frame, side, original):
             if not name.startswith('triangular') or _triangle(contour) or _triangular_panel(original,contour,(w,h)):
                 return True
     return False
+
+
+def _dark_paint(original, classes, spec, colour):
+    """Check a passenger's shade adjective against body pixels in the observed vehicle."""
+    if colour == 'black':
+        return True
+    if original is None or colour not in {'blue', 'green', 'gray', 'brown'}:
+        return False
+    with Image.open(BytesIO(original)) as image:
+        width, height = image.size
+        l, t, r, b = spec['box']
+        bw, bh = r-l, b-t
+        region = (int(l+.08*bw), int(t+.36*bh), int(r-.08*bw), int(b-.13*bh))
+        if region[2]-region[0] < 5 or region[3]-region[1] < 5:
+            return False
+        body = image.crop(region).convert('RGB')
+        body.thumbnail((120, 90), Image.Resampling.BOX)
+        hsv = cv2.cvtColor(np.asarray(body), cv2.COLOR_RGB2HSV)
+    mh, mw = classes.shape
+    x0, y0, x1, y1 = region
+    cells = classes[int(y0*mh/height):int(np.ceil(y1*mh/height)),
+                    int(x0*mw/width):int(np.ceil(x1*mw/width))]
+    if not cells.size:
+        return False
+    vehicle = cv2.resize(np.isin(cells, (54,55,59,61)).astype('uint8'), body.size,
+                         interpolation=cv2.INTER_NEAREST).astype(bool)
+    hue, saturation, value = cv2.split(hsv)
+    if colour == 'gray':
+        painted = vehicle & (saturation < 48) & (value > 38)
+    else:
+        low, high = {'blue':(91,132), 'green':(35,92), 'brown':(3,26)}[colour]
+        painted = vehicle & (saturation > 45) & (hue >= low) & (hue <= high) & (value > 30)
+    return np.count_nonzero(painted) >= max(18, .12*vehicle.size) and np.median(value[painted]) < 116
+
+
+def _nearer_vehicle(spec, specs, side, frame):
+    _, top, _, bottom = spec['box']
+    nearer = bottom + max(.16*(bottom-top), .022*frame['height'])
+    return any(other['track_id'] != spec['track_id'] and other['box'][3] > nearer
+               and single_vehicle._side(other['box'], frame['width'], side) for other in specs)
 
 
 def matching(request, ref, specs, readings, classes, *, original=None):
@@ -106,7 +159,7 @@ def matching(request, ref, specs, readings, classes, *, original=None):
                 continue
             if field == 'appearance' and q.get('source') == 'body_identity':
                 words = value.split()
-                if 'dark' in words and colour == 'black':
+                if 'dark' in words and _dark_paint(original,classes,spec,colour):
                     words.remove('dark')
                 if not words:
                     continue
@@ -116,6 +169,8 @@ def matching(request, ref, specs, readings, classes, *, original=None):
                     continue
                 if KERB.fullmatch(detail):
                     ground.add('kerb')
+                    continue
+                if FARTHER.fullmatch(detail) and named_side and _nearer_vehicle(spec,specs,named_side,frame):
                     continue
             if (field == 'place' and q.get('relation') in {'near','by','beside','alongside','next to'}
                     and value in LANDMARKS and _near_landmark(classes,value,spec['box'],frame,named_side,original)):

@@ -12,7 +12,7 @@ from time import monotonic
 
 from PIL import Image
 
-from trackrag.dropoff import bay_landmarks, local_surfaces, local_vehicle_observations as local, manual_surfaces, vehicle_curb_ground
+from trackrag.dropoff import bay_landmarks, local_surfaces, local_vehicle_observations as local, manual_surfaces
 from trackrag.dropoff.parking_evidence import signed_bytes
 from trackrag.passenger_app import load_scenes
 
@@ -61,7 +61,7 @@ def task1(bank,scene,info):
     return evidence,detected[0]
 
 
-def inventory(bank,working,first=None):
+def inventory(bank,working,first=None,*,version=1):
     """Save full pre-VLM detections and tracker outputs, including sources/vehicles without a usable crop."""
     source=json.loads((bank.parent/'sources.json').read_bytes())
     if sha256(bank.read_bytes()).hexdigest()!=source['scene_bank_sha256']:
@@ -75,7 +75,8 @@ def inventory(bank,working,first=None):
         evidence,raw=task1(bank,scene,source)
         surface=local_surfaces.get_packet(key)
         classes=manual_surfaces.decode(surface,frame,key)
-        specs=vehicle_curb_ground.describe(scene,classes)
+        origin = {1:local.ORIGIN,2:local.ORIGIN_V2}[version]
+        specs=local.specs_for({'origin':origin},scene,classes)
         results.append((scene,evidence,surface,specs))
         report[key]={'recording_id':frame['recording_id'],'frame_id':frame['frame_id'],'size':[frame['width'],frame['height']],
                      'task1':evidence,'raw_detection_frame':raw,'current_tracks':local.tracks(scene),
@@ -83,6 +84,8 @@ def inventory(bank,working,first=None):
     working.mkdir(parents=True,exist_ok=True)
     path=working/'detector-inventory.json'
     report={'scene_bank_sha256':source['scene_bank_sha256'],'sources':report}
+    if version==2:
+        report['crop_policy']=local.CROP_POLICY
     if path.exists() and json.loads(path.read_bytes())!=report:
         raise ValueError('The working folder is already bound to another original, detector or surface inventory.')
     write(path,report)
@@ -100,22 +103,44 @@ def model_id(config,runtime):
             'min_pixels':config.min_pixels,'max_pixels':config.max_pixels,'inference_resident_layers':config.inference_resident_layers}
 
 
-def collect(bank,working,config,runtime,*,first=None,max_new_calls=None,output=None):
+def reusable_rows(scene, photo, classes, model, detection):
+    packet=local.get_packet(scene['provenance']['image_sha256'],origin=local.ORIGIN)
+    if packet is None:
+        return {}
+    if packet['body']['model']!=model:
+        raise ValueError('The old vehicle crops used a different model.')
+    if packet['body']['task1']!=detection:
+        raise ValueError('The old vehicle crops used different native detector evidence.')
+    local.verify(scene,photo,local.specs_for(packet,scene,classes),packet)
+    return {row['anchor']['track_id']:row for row in packet['body']['rows']}
+
+
+def collect(bank,working,config,runtime,*,first=None,max_new_calls=None,output=None,version=1):
     bank=Path(bank).resolve();working=Path(working)
     calls=working/'calls';calls.mkdir(exist_ok=True,parents=True)
-    inputs=inventory(bank,working,first)
+    inputs=inventory(bank,working,first,version=version)
     model=model_id(config,runtime)
-    package={'version':1,'origin':local.ORIGIN,'sources':{}}
-    new=0
+    origin = {1:local.ORIGIN,2:local.ORIGIN_V2}[version]
+    package={'version':version,'origin':origin,'sources':{}}
+    new=reused=0
     for scene,detection,surface,specs in inputs:
         frame=scene['frame'];key=scene['provenance']['image_sha256']
         rows=[]
         photo=Path(frame['image_path']).read_bytes()
         if sha256(photo).hexdigest()!=key:
             raise ValueError('The local original changed after detection.')
+        earlier = (reusable_rows(scene,photo,manual_surfaces.decode(surface,frame,key),model,detection)
+                   if version==2 else {})
         with Image.open(BytesIO(photo)) as im:
             for spec in specs:
                 anchor=local.anchor(spec); measured=[]
+                if anchor['track_id'] in earlier:
+                    archived=earlier[anchor['track_id']]
+                    if archived['anchor']!=anchor:
+                        raise ValueError('The previous crop and its current detector box differ.')
+                    rows.append(archived)
+                    reused+=len(archived['calls'])
+                    continue
                 for stage,word in local.VIEWS.items():
                     pixels=local.render(im,anchor['box'],stage);viewsha=sha256(pixels).hexdigest()
                     identity={'source':key,'anchor':anchor,'input':viewsha,'stage':stage,'guide':local.GUIDE,
@@ -145,16 +170,22 @@ def collect(bank,working,config,runtime,*,first=None,max_new_calls=None,output=N
                         print(f'{key[:10]} track {anchor["track_id"]} {stage} measured in {result["seconds"]} s',flush=True)
                     measured.append(result)
                 rows.append({'anchor':anchor,'calls':measured,'attributes':local.consensus(measured)})
-        body={'recipe':local.ORIGIN,'image_sha256':key,'recording_id':frame['recording_id'],'frame_id':frame['frame_id'],
+        body={'recipe':origin,'image_sha256':key,'recording_id':frame['recording_id'],'frame_id':frame['frame_id'],
               'size':[frame['width'],frame['height']],'task1':detection,'surface_sha256':surface['signature'],
               'prompt_sha256':local.digest([local.GUIDE,local.VIEWS,local.MAX_TOKENS]),'model':model,'count':len(rows),'rows':rows,
               'status':'complete' if rows else 'no_eligible_current_vehicles'}
-        packet={'origin':local.ORIGIN,'body':body,'body_sha256':local.digest(body)}
+        if version==2:
+            body['crop_policy']=local.CROP_POLICY
+        packet={'origin':origin,'body':body,'body_sha256':local.digest(body)}
         local._check_packet(key,packet)
         write(working/(key+'.json'),packet)
         package['sources'][key]=packet
     destination=Path(output) if output else working/'vehicle-observations.json'
     write(destination,package)
+    if version==2:
+        total=sum(p['body']['count']*2 for p in package['sources'].values())
+        write(working/'crop-coverage.json',{'crop_policy':local.CROP_POLICY,'two_view_vehicles':total//2,
+              'raw_views':total,'previously_measured_views_verified':reused,'expanded_views':total-reused})
     print(f'{len(inputs)} sources. Vehicle archive SHA-256 {sha256(destination.read_bytes()).hexdigest()}',flush=True)
     return True
 
@@ -166,13 +197,19 @@ def main():
     p.add_argument('--working',required=True,type=Path)
     p.add_argument('--local-surface-index',nargs=2,action='append',metavar=('JSON','SHA256'))
     p.add_argument('--output',type=Path)
+    p.add_argument('--crop-version',type=int,choices=[1,2],default=1,
+                   help='Use 2 to inspect up to eight legible source vehicles across position and depth.')
+    p.add_argument('--reuse-vehicle-observations',nargs=2,action='append',metavar=('JSON','SHA256'),
+                   help='Reuse exact raw views from an earlier trusted local vehicle archive.')
     p.add_argument('--inventory-only',action='store_true',help='Save native RF-DETR outputs, BoT-SORT tracks and eligible crops before VLM inference.')
     p.add_argument('--worker',action='store_true',help=argparse.SUPPRESS)
     a=p.parse_args()
+    if a.reuse_vehicle_observations and a.crop_version!=2:
+        p.error('An expanded crop inventory is required to reuse earlier vehicle observations.')
     if a.inventory_only:
         for index,pin in a.local_surface_index or []:
             local_surfaces.register(index,pin)
-        inventory(a.bank.resolve(),a.working)
+        inventory(a.bank.resolve(),a.working,version=a.crop_version)
         return
     if not a.worker:
         while True:
@@ -194,6 +231,8 @@ def main():
     torch.set_num_threads(2)
     for index,pin in a.local_surface_index or []:
         local_surfaces.register(index,pin)
+    for archive,pin in a.reuse_vehicle_observations or []:
+        local.register(archive,pin)
     root=Path(__file__).resolve().parents[1]
     config=GroundingConfig.from_mapping(json.loads((root/'models/passenger-feature/grounding.json').read_bytes()))
     config=replace(config,adapter_dir=str(root/'models/passenger-feature/adapter'),model_dir=str(root/config.model_dir),
@@ -202,7 +241,7 @@ def main():
     runtime=StreamedRuntime(config,verify_weights=True)
     print(f'Verified offline 8B weights loaded in {monotonic()-start:.2f}s.',flush=True)
     try:
-        if not collect(a.bank,a.working,config,runtime,max_new_calls=12,output=a.output):
+        if not collect(a.bank,a.working,config,runtime,max_new_calls=12,output=a.output,version=a.crop_version):
             raise SystemExit(75)
     except torch.OutOfMemoryError as error:
         print(f'Incomplete local vehicle observations after GPU memory exhaustion: {error}',file=sys.stderr,flush=True)

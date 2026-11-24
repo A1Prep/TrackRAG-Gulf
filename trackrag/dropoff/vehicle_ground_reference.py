@@ -359,11 +359,12 @@ def outcome(request, photo, surface, packet, mark=None, *, qualifier_packets=Non
     if ref is None:
         return None
     clean, photo_sha, portable = source_input(request, photo)
+    frame = clean['scene']['frame']
     from . import local_vehicle_observations
     local_packet = local_vehicle_observations.is_local(packet)
     if not local_packet and clean['scene'].get('provenance',{}).get('network_policy') == 'local_only':
         return None
-    classes = manual_surfaces.decode(surface, clean['scene']['frame'], photo_sha)
+    classes = manual_surfaces.decode(surface, frame, photo_sha)
     specs = (local_vehicle_observations.specs_for(packet, clean['scene'], classes) if local_packet
              else vehicle_curb_ground.describe(clean['scene'], classes))
     if local_packet:
@@ -397,7 +398,7 @@ def outcome(request, photo, surface, packet, mark=None, *, qualifier_packets=Non
         if not nearby_parking or mark is not None:
             return None
         current = nearby_parking is True or nearby_parking == near_vehicle.POLICY
-        width = clean['scene']['frame']['width']
+        width = frame['width']
         matches = _matching(specs,answers,ref,width)
         uncertain = near_vehicle.uncertain_matches(specs,answers,ref,width) if current else []
         reason = 'vehicle_reference_unmatched'

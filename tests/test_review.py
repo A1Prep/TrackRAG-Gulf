@@ -103,6 +103,39 @@ class ReviewTests(unittest.TestCase):
         pause.assert_called_once_with(0.05)
         self.assertEqual(self.read_result(result)['question'],self.question)
 
+    def test_repeated_footage_questions_share_only_identical_original_and_box(self):
+        from trackrag.footage_images import FootageImages
+        store = FootageImages(self.root / ".frames")
+        one = self.run_review(image_store=store).parent
+        two = self.run_review(image_store=store, output_dir=self.root/"repeat").parent
+        relative = Path("evidence/track-7/1.png")
+        self.assertTrue((one / relative).samefile(two / relative))
+        with Image.open(one / relative) as marked:
+            self.assertEqual(marked.getpixel((4,5)), (255,0,0))
+        self.observations[0]["bbox_xyxy"] = (1,1,3,3)
+        three = self.run_review(image_store=store, output_dir=self.root/"changed-box").parent
+        self.assertFalse((one / relative).samefile(three / relative))
+        Image.new("RGB",(32,24),(11,22,33)).save(self.recording.frames[1]["image_path"])
+        four = self.run_review(image_store=store, output_dir=self.root/"changed-source").parent
+        with Image.open(four / relative) as marked:
+            self.assertEqual(marked.getpixel((0,0)), (11,22,33))
+        self.assertFalse((three / relative).samefile(four / relative))
+        (one / relative).unlink()
+        self.assertTrue((two / relative).is_file())
+
+    def test_footage_storage_falls_back_to_ordinary_evidence_and_rechecks_cached_bytes(self):
+        from trackrag.footage_images import FootageImages
+        store = FootageImages(self.root / ".frames")
+        with patch.object(Path,"hardlink_to",side_effect=OSError("filesystem does not support links")):
+            first = self.run_review(image_store=store).parent
+        normal = self.run_review(image_store=store,output_dir=self.root/"normal").parent
+        relative = Path("evidence/track-7/1.png")
+        expected = (first/relative).read_bytes()
+        self.assertEqual(expected, (normal/relative).read_bytes())
+        (normal/relative).write_bytes(b"changed outside the application")
+        after = self.run_review(image_store=store,output_dir=self.root/"after").parent
+        self.assertEqual(expected, (after/relative).read_bytes())
+
     def test_publish_does_not_replace_destination_created_during_retry(self):
         error=PermissionError('simulated Windows sharing lock')
         error.winerror=32

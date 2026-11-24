@@ -9,6 +9,7 @@ import secrets
 from threading import Lock
 
 from trackrag.dropoff.inputs import MAX_IMAGE_BYTES, _inspect_image
+from trackrag.footage_images import FootageImages
 
 
 @dataclass
@@ -21,6 +22,10 @@ class FootageReview:
     _clips: dict = field(default_factory=dict, init=False, repr=False)
     _subjects: dict = field(default_factory=dict, init=False, repr=False)
     _clip_lock: Lock = field(default_factory=Lock, init=False, repr=False)
+    _images: FootageImages = field(init=False, repr=False)
+
+    def __post_init__(self):
+        self._images = FootageImages(self.out / ".frames")
 
     def _clip(self, scene):
         """Cache original file locations and the release clock, never labels or generated frames."""
@@ -182,7 +187,7 @@ class FootageReview:
         result = review_recording(prefix,[question],source="predicted",load_tracks=lambda _: tracks,
                                   build_index=build_index,rank_evidence=footage_history.intervals if local_history else rank_evidence,
                                   answer_question=answer_question if hosted else local_answer if local else None,output_dir=folder,
-                                  image_guard=image_guard,
+                                  image_guard=image_guard, image_store=self._images,
                                   run_metadata={"vision":"validated_saved_predictions","prediction_receipt":receipt,
                                                 "retrieval":"trackrag.footage_history" if local_history else "trackrag.retrieval_temporal","boundary_answer":"visual-candidate-v1",
                                                 "answerer":answerer})

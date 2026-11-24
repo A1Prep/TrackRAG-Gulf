@@ -843,7 +843,7 @@ def verify(request, outcome, *, requested_box=None):
             raise ValueError('The confirmed vehicle and exact passenger mark must belong to the current request.')
         expected = vehicle_identity_reply.marked(request, requested_box, source['confirmed_vehicle_reply'], source['ground_check'])
     elif source.get('vehicle_ground_policy') is not None:
-        from . import vehicle_ground_reference, vehicle_ground_view, vehicle_rear_marked_strip
+        from . import vehicle_ground_reference, vehicle_ground_view, vehicle_rear_marked_strip, vehicle_road_comparison
         if (policy != CLEARANCE_POLICY or language is not None or source['vehicle_ground_policy'] != vehicle_ground_view.RECIPE
                 or source.get('vehicle_relation_policy') not in (None,vehicle_ground_reference.RELATION_POLICY,vehicle_ground_reference.PREVIOUS_RELATION_POLICY)
                 or method not in {AUTO, MARK} or (method == MARK) != (requested_box is not None)):
@@ -860,6 +860,7 @@ def verify(request, outcome, *, requested_box=None):
                                                     extended_rear=source.get('extended_rear_policy')==vehicle_rear_marked_strip.RECIPE,
                                                     tail_packet=source.get('tail_orientation_observation'),
                                                     explain_lane_mark='marked_lane_cell' in source,
+                                                    road_comparisons=source.get('road_comparison_policy')==vehicle_road_comparison.POLICY,
                                                     measure_rear='automatic_rear_ground' in source or 'rear_reference_check' in source)
     elif source.get("divider_policy") is not None:
         from . import parking_divider_choice

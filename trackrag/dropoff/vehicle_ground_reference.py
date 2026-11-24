@@ -334,7 +334,7 @@ def _previously_observed_rear(request, photo, surface, earlier, specs, answers, 
 def outcome(request, photo, surface, packet, mark=None, *, qualifier_packets=None, earlier_vehicle=None, expanded=True,
             observe_sides=True, side_packet=None, load_side_packet=True, side_release=None, measure_rear=False,
             archived_identity=None, load_archived_identity=False, extended_rear=False, tail_packet=None,
-            explain_lane_mark=False):
+            explain_lane_mark=False, road_comparisons=False):
     from . import whole_bay
     ref = direct_reference(request, expanded=expanded)
     if ref is None:
@@ -371,6 +371,17 @@ def outcome(request, photo, surface, packet, mark=None, *, qualifier_packets=Non
         qualifier_packets = qualifier_packets if qualifier_packets is not None else qualifiers.packets_for(photo_sha)
         observations = qualifiers.read_observations(clean, photo, surface, packets=qualifier_packets)
         evidence['vehicle_qualifier_evidence'] = qualifier_packets
+    if road_comparisons and expanded and mark is None:
+        from . import vehicle_road_comparison
+        position = vehicle_road_comparison.clarification(clean, specs, answers, observations)
+        if position is not None:
+            boxes, reason, question = position
+            answer = whole_bay._make(clean, portable, [], surface, method=whole_bay.AUTO,
+                                     reason=reason, question=question,
+                                     road_comparison_policy=vehicle_road_comparison.POLICY, **evidence)
+            if boxes:
+                answer['result']['anchor_boxes_xyxy'] = boxes
+            return answer
     if mark is not None:
         clean, _, mark, center = manual_offlane.mark_input(clean, mark)
         evidence['selected_box'] = mark
@@ -532,7 +543,7 @@ def available(request, photo=None, surface=None, mark=None, *, earlier_vehicle=N
     try:
         return outcome(request, photo, surface, packet, mark, earlier_vehicle=earlier_vehicle, measure_rear=True,
                        load_archived_identity=True, extended_rear=True, tail_packet=local_vehicle_tail.get_packet(key),
-                       explain_lane_mark=True)
+                       explain_lane_mark=True, road_comparisons=True)
     except (KeyError, TypeError, ValueError, OSError):
         return None
 

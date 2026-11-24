@@ -1,0 +1,261 @@
+{
+  "scope": "Read-only post-disclosure diagnosis on the same genuine previously reviewed reserve photograph. The original 14-drive and earlier blind results remain unchanged. Counterfactual phrases were exercised in the ordinary vehicle-grounder backend with live local v2 source/crop verification, without new model calls.",
+  "release": "316f5c120c2d24f901323d30a198ee2665f986aa",
+  "source": {
+    "study_id": "V04",
+    "recording_id": "kartaview_7422361",
+    "frame_id": 0,
+    "image_sha256": "88ff343532dfbd0d2e073497008bb98607e604c680a378b44d593ef3842556db",
+    "size": [
+      3840,
+      2160
+    ]
+  },
+  "independent_reference": "The visually indicated rear silver-grey sedan is along the right side of the physical road, at horizontal fraction 0.278 of the whole photo. The independent reference box and actual detection overlap at IoU 0.941. The measured point for the unqualified wording lies 49.1 native pixels inside its locked parking-ground polygon.",
+  "source_measured_vehicles": [
+    {
+      "archive": "vehicle-observations.json",
+      "normalized_sha256": "b03aa392eb8631683ff58cfa9d4cc69a63c5e2997515a6a7bd94a56d4e2e1828",
+      "rows": [
+        {
+          "track": 1,
+          "box": [
+            1988.62,
+            1102.54,
+            3840.0,
+            1991.01
+          ],
+          "body_attributes": [
+            "black",
+            "sedan",
+            "SIDE"
+          ]
+        },
+        {
+          "track": 2,
+          "box": [
+            879.64,
+            1183.43,
+            1256.63,
+            1452.28
+          ],
+          "body_attributes": [
+            "gray",
+            "sedan",
+            "REAR"
+          ]
+        },
+        {
+          "track": 3,
+          "box": [
+            759.57,
+            1156.87,
+            998.74,
+            1358.68
+          ],
+          "body_attributes": [
+            "silver",
+            "unknown",
+            "REAR"
+          ]
+        }
+      ]
+    },
+    {
+      "archive": "vehicle-observations-v2.json",
+      "normalized_sha256": "704197c9c1ab8a9ca108b8cf93bbc8db107ad6b80e4e75ffd00536af256f0ff5",
+      "rows": [
+        {
+          "track": 1,
+          "box": [
+            1988.62,
+            1102.54,
+            3840.0,
+            1991.01
+          ],
+          "body_attributes": [
+            "black",
+            "sedan",
+            "SIDE"
+          ]
+        },
+        {
+          "track": 2,
+          "box": [
+            879.64,
+            1183.43,
+            1256.63,
+            1452.28
+          ],
+          "body_attributes": [
+            "gray",
+            "sedan",
+            "REAR"
+          ]
+        },
+        {
+          "track": 3,
+          "box": [
+            759.57,
+            1156.87,
+            998.74,
+            1358.68
+          ],
+          "body_attributes": [
+            "silver",
+            "unknown",
+            "REAR"
+          ]
+        },
+        {
+          "track": 4,
+          "box": [
+            1243.71,
+            1218.25,
+            1371.98,
+            1289.33
+          ],
+          "body_attributes": [
+            "white",
+            "van",
+            "REAR"
+          ]
+        }
+      ]
+    }
+  ],
+  "grammatical_diagnosis": "The v2 parser treats “further up hand side” as an appearance modifier to the body and “right” as an image-half constraint. Only the black broadside car falls on the image right. The distinct raw 8B views already agree on the actual target’s grey paint, sedan body and rear. The app receives an empty anchor list on the original full wording and renders that result correctly. A physical bay check on an independently chosen current track cannot resolve the intended identity for a passenger by itself.",
+  "comparison": [
+    {
+      "text": "Please let me out behind the grey sedan further up the right-hand side.",
+      "result": "vehicle_reference_unmatched",
+      "outlined_bodies": 0,
+      "point_xy": null,
+      "selectable_areas": 0
+    },
+    {
+      "text": "Drop me behind the grey sedan.",
+      "result": "measured_ground_behind_vehicle",
+      "outlined_bodies": 1,
+      "point_xy": [
+        1107.2,
+        1526.087
+      ],
+      "selectable_areas": 0
+    },
+    {
+      "text": "Drop me behind the grey sedan further up.",
+      "result": "vehicle_seen_space_withheld",
+      "outlined_bodies": 1,
+      "point_xy": null,
+      "selectable_areas": 0
+    },
+    {
+      "text": "Drop me behind the grey sedan on the right.",
+      "result": "vehicle_side_uncertain",
+      "outlined_bodies": 1,
+      "point_xy": null,
+      "selectable_areas": 0
+    },
+    {
+      "text": "Drop me behind the grey sedan on the left.",
+      "result": "measured_ground_behind_vehicle",
+      "outlined_bodies": 1,
+      "point_xy": [
+        1107.2,
+        1526.087
+      ],
+      "selectable_areas": 0
+    },
+    {
+      "text": "Drop me behind the red sedan further up the right-hand side.",
+      "result": "vehicle_reference_unmatched",
+      "outlined_bodies": 0,
+      "point_xy": null,
+      "selectable_areas": 0
+    },
+    {
+      "text": "Drop me behind the grey sedan on the right of the picture.",
+      "result": "vehicle_reference_unmatched",
+      "outlined_bodies": 0,
+      "point_xy": null,
+      "selectable_areas": 0
+    }
+  ],
+  "controls": "The explicit red-paint and explicit image-right variants supplied neither an outline nor a destination. No image/source-specific exception or newly certified driving clearance was introduced in this diagnostic.",
+  "post_diagnostic_repair": {
+    "method": "road_relative_position_identity_only_v1",
+    "scope": "The following are development reruns. A unique observed vehicle prompts for confirmation of that identity only. Neither the longitudinal distance nor the passenger’s stated roadway side is asserted, and there are no proposed destinations or selectable ground areas.",
+    "backend_source_verified_cases": [
+      {
+        "case": "V04",
+        "condition": "original",
+        "words": "Please let me out behind the grey sedan further up the right-hand side.",
+        "reason": "vehicle_side_uncertain",
+        "boxes": [
+          [
+            879.6353759765625,
+            1183.43408203125,
+            1256.6275634765625,
+            1452.2771301269531
+          ]
+        ],
+        "point_xy": null,
+        "question": "I can see a gray sedan left of centre in the photo. I can’t verify that it is further up the right-hand side of the road. Is this the vehicle you mean? I haven’t verified a drop-off point behind it.",
+        "replay_verified": true,
+        "show_vehicle_confirmation": true
+      },
+      {
+        "case": "V04",
+        "condition": "wrong_colour",
+        "words": "Please let me out behind the red sedan further up the right-hand side.",
+        "reason": "vehicle_reference_unmatched",
+        "boxes": [],
+        "point_xy": null,
+        "question": "I couldn’t verify a red sedan further up the right-hand side of the road. Could you describe another detail or mark the area you mean?",
+        "replay_verified": true,
+        "show_vehicle_confirmation": false
+      },
+      {
+        "case": "V04",
+        "condition": "explicit_image",
+        "words": "Drop me behind the grey sedan further up the right-hand side of the picture.",
+        "reason": "vehicle_reference_unmatched",
+        "boxes": [],
+        "point_xy": null,
+        "question": "I couldn’t verify the described vehicle in this photo. Could you give another visible detail or mark where you mean?",
+        "replay_verified": true,
+        "show_vehicle_confirmation": false
+      },
+      {
+        "case": "U05",
+        "condition": "mirrored",
+        "words": "Could you drop me behind the silver SUV farther down the street on our left?",
+        "reason": "vehicle_side_uncertain",
+        "boxes": [
+          [
+            110.45791625976562,
+            1497.73095703125,
+            837.7567749023438,
+            1943.314453125
+          ]
+        ],
+        "point_xy": null,
+        "question": "I can see a silver SUV left of centre in the photo. I can’t verify that it is farther down the left-hand side of the road. Is this the vehicle you mean? I haven’t verified a drop-off point behind it.",
+        "replay_verified": true,
+        "show_vehicle_confirmation": true
+      },
+      {
+        "case": "U05",
+        "condition": "wrong_colour",
+        "words": "Could you drop me behind the blue SUV farther down the street on our left?",
+        "reason": "vehicle_reference_unmatched",
+        "boxes": [],
+        "point_xy": null,
+        "question": "I couldn’t verify a blue SUV farther down the left-hand side of the road. Could you describe another detail or mark the area you mean?",
+        "replay_verified": true,
+        "show_vehicle_confirmation": false
+      }
+    ]
+  }
+}

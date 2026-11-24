@@ -108,7 +108,10 @@ def playback_scope(text, recording, cutoff):
     for relative, seconds in requested:
         at = paused + seconds if relative else seconds
         if at < -1e-7 or at > paused + 1e-7:
-            return {"status": "outside_review_window", "paused_seconds": round(paused, 6), "moments": []}
+            outside = {"status": "outside_review_window", "paused_seconds": round(paused, 6), "moments": []}
+            if at > paused and all(not from_pause and time >= 0 for from_pause, time in requested):
+                outside["later_absolute_seconds"] = max(time for _, time in requested)
+            return outside
         index = bisect_right(ids, opening + at + 1e-7, key=stamp) - 1
         fid = ids[max(index, 0)]
         if not math.isclose(stamp(fid) - opening, at, rel_tol=0, abs_tol=1e-7):

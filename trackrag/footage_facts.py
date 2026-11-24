@@ -29,9 +29,10 @@ _CLASS = r"(?:road users?|(?:motor |small motorised |medium |large |emergency )?
 _PERSON = r"(?:people|persons?|anyone|anybody)(?: on foot)?"
 _SUBJECT = rf"(?:{_CLASS}|{_PERSON})"
 _TRACK = r"(?:track(?:ed object)?(?: id| number)?\s*#?\s*(\d+))"
-_COUNT = re.compile(rf"how many (?:tracked |detected )?({_SUBJECT})(?: (?:are there|are here|are visible|are present|"
-                    r"are detected|are tracked|can you (?:see|count)|do you (?:see|count)|does the tracker (?:show|detect)))?(?: here)?")
-_PRESENT = re.compile(rf"(?:are there|is there|(?:can|do) you (?:see|spot)) (?:any |an? )?({_SUBJECT})(?: (?:here|visible))?")
+_COUNT = re.compile(rf"how many (?:tracked |detected )?({_SUBJECT})(?: (?:"
+                    r"(?:are|were) (?:there|here|visible|present|detected|tracked)|"
+                    r"can you (?:see|count)|do you (?:see|count)|does the tracker (?:show|detect)))?(?: here)?")
+_PRESENT = re.compile(rf"(?:(?:are|is|were|was) there|(?:can|do) you (?:see|spot)) (?:any |an? )?({_SUBJECT})(?: (?:here|visible))?")
 _OVERVIEW = re.compile(r"(?:what(?:'s| is) (?:happening|going on)|what (?:can|do) you see|"
                        r"what(?:'s| is) in the (?:frame|image|scene))(?: here| in the (?:frame|image|scene))?")
 _CLASSES = re.compile(r"(?:what|which) (?:types?|classes|kinds?)(?: of (?:tracked )?(?:road users|vehicles|objects))? "

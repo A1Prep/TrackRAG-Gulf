@@ -32,6 +32,7 @@ const recordings = new Map(), bookmarks = new Map();
 let busy = true, loading = true, sequence = 0, searchRun = null, contexts = {}, subjects = {};
 let lastHints = "", highlight = null, answerMoment = null, submittedHint = null, firstMarker = null;
 let chosenVehicle = null;
+let reviewedFrame = null;
 const player = new FootagePlayer(updatePlayer);
 const recordingName = rec => "Recording " + rec.recording_id.replace(/^video_/, "");
 const className = text => (text || "road user").toLowerCase().replace(/_/g, " ");
@@ -60,6 +61,7 @@ function clearResult() {
   results.hidden = true;
   answerMoment = null;
   highlight = null;
+  reviewedFrame = null;
   forgetVehicle();
   get("evidence-box").hidden = true;
   get("back-to-answer").hidden = true;
@@ -187,23 +189,37 @@ function updatePlayer(writeAddress = true) {
   const atQuestion = row && row.id===answerMoment?.frame && scene.value===answerMoment.key && !player.playing && !player.pending;
   for (const button of results.querySelectorAll(".vehicle-choices button")) button.disabled = busy || !atQuestion;
   get("vehicle-focus").hidden = !atQuestion || !chosenVehicle || busy;
-  if (!row || !rec) { get("evidence-box").hidden = true; return; }
+  if (!row || !rec) {
+    get("evidence-box").hidden = true;
+    get("clip-first-marker").hidden = true;
+    firstMarker = null;
+    get("use-dropoff-frame").hidden = true;
+    get("ask-time").hidden = true;
+    get("clip-info").textContent = "";
+    return;
+  }
   if (!writeAddress) return;
   const visibleTrack = revealBox(row, rec);
   showFirstMarker(row);
   const back = get("return-question-frame");
   if (back) back.hidden = answerMoment?.frame === row.id;
   const ctx = contexts[row.id];
-  get("clip-info").textContent = ctx ? ctx.count + (ctx.count === 1 ? " tracked road user" : " tracked road users") : "Original recording";
+  if (player.playing || reviewedFrame !== row.id) reviewedFrame = null;
+  const reviewing = reviewedFrame === row.id;
+  const info = get("clip-info");
+  info.dataset.reviewing = String(reviewing);
+  info.textContent = reviewing ? "Evidence frame · " + formatTime(row.time) :
+    ctx ? ctx.count + (ctx.count === 1 ? " tracked road user" : " tracked road users") : "Original recording";
   get("ask-time").hidden = false;
   get("ask-time").textContent = "Up to " + formatTime(row.time);
   get("frame-id").value = String(row.id);
   refreshHints(row, visibleTrack);
   syncButtons();
-  const passengerLink = get("passenger-link");
+  const passengerLink = get("use-dropoff-frame");
   const saved = bookmarks.get(rec.recording_id + ":" + row.id);
   passengerLink.href = saved ? "/?scene="+encodeURIComponent(saved) : "/api/footage-preview/"+scene.value+"/dropoff/"+row.id;
   passengerLink.title = "Open passenger drop-off on frame " + row.id + " of " + recordingName(rec);
+  passengerLink.hidden = false;
   if (player.playing) return;
   const url = new URL(location.href);
   url.searchParams.set("scene",scene.value);
@@ -221,8 +237,7 @@ async function selectScene(target = null) {
   lastHints = ""; subjects = {}; contexts = {};
   submittedHint=null; firstMarker=null; get("clip-first-marker").hidden=true;
   get("ask-time").hidden = true;
-  get("passenger-link").href = "/";
-  get("passenger-link").removeAttribute("title");
+  get("use-dropoff-frame").hidden = true;
   get("clip-info").textContent = "";
   get("frame-picker").open = false;
   player.reset(scene.value,anchor);
@@ -264,18 +279,20 @@ function updateMode() {
   get("hint-description").textContent = hosted ? "Try a visual question" : "Try a question from this frame";
   if (player.displayed) updatePlayer();
 }
-async function inspect(frame, track = null, rect = null) {
-  if (busy || loading || !answerMoment || answerMoment.key !== scene.value || frame > answerMoment.frame) return;
+async function inspect(frame, track = null, rect = null, asEvidence = false) {
+  const moment = answerMoment;
+  if (busy || loading || !moment || moment.key !== scene.value || frame > moment.frame) return;
   const index = player.frames.findIndex(f => f.id === frame);
   if (index < 0) return;
   player.pause(false);
   if (chosenVehicle && (frame!==answerMoment.frame || track!==chosenVehicle.option.track_id)) forgetVehicle();
   highlight = rect && track !== null ? {key:scene.value,frame,track,rect} : null;
+  reviewedFrame = asEvidence ? frame : null;
   await player.display(index);
-  if (player.displayed?.id === frame) {
+  if (answerMoment === moment && player.displayed?.id === frame) {
     get("back-to-answer").hidden = false;
     const back = get("return-question-frame");
-    if (back) back.hidden = frame === answerMoment?.frame;
+    if (back) back.hidden = frame === moment.frame;
     get("clip-screen").scrollIntoView({block:"center"});
     get("clip-play").focus({preventScroll:true});
   }
@@ -291,7 +308,7 @@ function addEvidence(card, item, cited) {
     const moment = player.frames.find(f => f.id === im.frame_id);
     if (!moment) continue;
     const label = formatTime(moment.time) + " · Frame " + im.frame_id;
-    const thumb = action("", () => void inspect(im.frame_id,track,im.bbox_xyxy), "moment-thumb");
+    const thumb = action("", () => void inspect(im.frame_id,track,im.bbox_xyxy,true), "moment-thumb");
     thumb.setAttribute("aria-label","View "+(track==null ? "scene" : "track "+track)+" at "+label+" in player");
     const rec = recordings.get(scene.value);
     const panel = node("span",undefined,"moment-image"); panel.style.aspectRatio=rec.width+"/"+rec.height;
@@ -332,19 +349,45 @@ function focusAnswer() {
     results.scrollIntoView({block:"start"});
   }
 }
+async function searchThroughEnd(moment, words, displayWords) {
+  if (answerMoment !== moment || moment.key !== scene.value || !canAsk() || mode.value !== "local") return;
+  const draft = question.value;
+  if (draft.trim() !== displayWords) {
+    get("progress").textContent = "Your question has changed. Use Find answer to search your draft.";
+    return;
+  }
+  const end = player.frames.at(-1);
+  player.pause(false);
+  await player.display(player.frames.length - 1);
+  if (answerMoment !== moment || player.displayed !== end || mode.value !== "local") return;
+  if (question.value !== draft) {
+    get("progress").textContent = "The playhead is at the end. Use Find answer to search your edited question.";
+    return;
+  }
+  submitWords(words,displayWords);
+}
 function showAnswer(body, current, rec, displayWords) {
   const {answer,evidence} = body, status = answer.answer_status;
   const words = body.original_question || body.question.question;
+  const endTime = player.frames.at(-1)?.time;
+  const requestedTime = body.playback_scope?.later_absolute_seconds;
+  const canExtend = Number.isFinite(requestedTime) && requestedTime > current.time && requestedTime <= endTime + 1e-7;
+  const timeOutsideWindow = body.playback_scope?.status === "outside_review_window"
+    && Number.isFinite(body.playback_scope.paused_seconds);
   answerMoment = {key:scene.value,frame:current.id};
   const card = node("article",undefined,"answer-card"), header = node("div",undefined,"answer-head");
   const titles = {answered:"Answer",insufficient_evidence:"More evidence needed",error:"Search unavailable"};
-  header.append(node("h2",body.vehicle_choices ? "Choose a vehicle" : body.image_plane_review && status==="answered" ? "Positions in the image" : status==="answered" ? displayWords : titles[status] || (evidence.length ? "Frames found" : "No matching evidence")),
+  header.append(node("h2",body.vehicle_choices ? "Choose a vehicle" : body.image_plane_review && status==="answered" ? "Positions in the image" : status==="answered" ? displayWords : timeOutsideWindow ? "Time outside this search" : titles[status] || (evidence.length ? "Frames found" : "No matching evidence")),
     node("span", {local_tracks:"Recorded tracks",gemini:"Gemini visual review",evidence_only:"Frame search"}[body.answer_source], "answer-source"));
-  card.append(header, node("p",recordingName(rec)+" · Asked at "+formatTime(current.time)+" · Frame "+current.id,"result-meta"));
+  card.append(header, node("p",recordingName(rec)+" · Searched through "+formatTime(current.time),"result-meta"));
   if (status !== "answered" || body.image_plane_review) card.append(node("p",displayWords,"asked-words"));
   if (body.image_plane_review) card.append(node("p","The camera does not measure the physical distance to the landmark.","result-meta"));
   let text = answer.answer || (evidence.length ? "The search found the frames below. They do not establish an answer to this question." :
     "No frames support that question. Try a visible road user, a track number or an earlier time in this clip.");
+  if (timeOutsideWindow && Number.isFinite(requestedTime)) {
+    text = canExtend ? "This search stopped at " + formatTime(current.time) + ". Include later footage to check the time you asked for." :
+      "This recording ends at " + formatTime(endTime) + ". Choose a time shown on the player.";
+  }
   if (status === "error") text = evidence.length ? "The answer service could not finish. You can inspect the available frames or retry." : "The answer service could not finish. You can retry this question.";
   card.append(node("p",text,"answer-text"));
   if (body.vehicle_choices) {
@@ -376,6 +419,10 @@ function showAnswer(body, current, rec, displayWords) {
     card.append(node("p","Selected track "+option.track_id+" · "+className(option.class_name)+" · "+option.position,"result-meta"));
   }
   const actions = node("div",undefined,"answer-actions");
+  if (canExtend && !body.hosted_requested && !body.vehicle_choices && status !== "answered") {
+    const moment = answerMoment;
+    actions.append(action("Search to end of clip", () => void searchThroughEnd(moment,words,displayWords), "subtle"));
+  }
   if (status === "error") actions.append(action("Retry this search",()=>submitWords(words,displayWords,body.selection,body.image_plane_review)));
   if (body.image_relation_available && !body.vehicle_choices && !body.image_plane_review)
     actions.append(action("Compare image positions with Gemini",()=>{mode.value="gemini";updateMode();submitWords(words,displayWords,body.selection,true);}));
@@ -384,7 +431,7 @@ function showAnswer(body, current, rec, displayWords) {
     actions.append(action("Ask Gemini about these frames",()=>{mode.value="gemini";updateMode();submitWords(body.question.question,displayWords);}));
   }
   if (evidence.length) {
-    const back = action("Return to the question frame",()=>void inspect(current.id));
+    const back = action("Return to search point",()=>void inspect(current.id));
     back.id = "return-question-frame"; back.hidden = true;
     actions.append(back);
   }
@@ -425,8 +472,7 @@ try {
 scene.addEventListener("change",()=>void selectScene());
 question.addEventListener("input",()=>{submittedHint=null;syncButtons();});
 mode.addEventListener("change",()=>{submittedHint=null;clearResult();updateMode();});
-get("back-to-answer").onclick=async ()=>{
-  if (answerMoment) await inspect(answerMoment.frame,chosenVehicle?.option.track_id,chosenVehicle?.option.bbox_xyxy);
+get("back-to-answer").onclick=()=>{
   if (answerMoment) {
     get("back-to-answer").hidden=true;
     focusAnswer();

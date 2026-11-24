@@ -157,15 +157,16 @@ export function drawDestination(ctx, point, box, source, scale) {
 }
 
 export class PhotoTools {
-  constructor(canvas, viewport, refresh, locked, pairPicker) {
+  constructor(canvas, viewport, refresh, locked, pairPicker, startQuickMark = null) {
     this.canvas = canvas; this.viewport = viewport; this.refresh = refresh;
     this.locked = locked; this.pairs = pairPicker;
+    this.startQuickMark = startQuickMark ?? ((...args) => this.begin(...args));
     this.zoom = 0; this.reset();
     canvas.addEventListener("pointerdown", e => this.pointerDown(e));
     canvas.addEventListener("click", e => {
       if (!this.quickMark || e.button !== 0 || this.locked()) return;
-      if (e.detail > 0) this.begin(this.point(e), true);
-      else this.begin();
+      if (e.detail > 0) this.startQuickMark(this.point(e), true);
+      else this.startQuickMark();
     });
     canvas.addEventListener("pointermove", e => {
       if (this.start && e.isPrimary && !this.locked()) this.updateBox(this.point(e), false);
@@ -195,7 +196,7 @@ export class PhotoTools {
     viewport.addEventListener("pointerup", e => {
       const pressed = this.drag; this.drag = null;
       if (pressed?.markOnTap && !pressed.moved && this.quickMark && !this.locked() &&
-          Math.hypot(e.clientX-pressed.x,e.clientY-pressed.y) <= 5) this.begin(this.point(e), true);
+          Math.hypot(e.clientX-pressed.x,e.clientY-pressed.y) <= 5) this.startQuickMark(this.point(e), true);
     });
     for (const name of ["pointercancel", "lostpointercapture"])
       viewport.addEventListener(name, () => { this.drag = null; });
@@ -271,7 +272,7 @@ export class PhotoTools {
   key(e) {
     if (this.locked() || e.ctrlKey || e.metaKey || e.altKey) return;
     if (this.quickMark && (e.key === "Enter" || e.key === " ")) {
-      e.preventDefault(); this.begin(); return;
+      e.preventDefault(); this.startQuickMark(); return;
     }
     if (!this.active) return;
     if (e.key === "Escape") { e.preventDefault(); document.getElementById("discard-box").click(); return; }
